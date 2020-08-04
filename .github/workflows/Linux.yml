@@ -54,7 +54,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }}
+          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}
 
       - name: Build Debug
         run: |
