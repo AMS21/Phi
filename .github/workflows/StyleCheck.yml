@@ -78,7 +78,7 @@ jobs:
       - name: Run misspell with reviewdog
         uses: reviewdog/action-misspell@v1
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.github_token }}
           # -locale flag of misspell. (US/UK)
           locale: US
           # Report level for reviewdog [info,warning,error]
