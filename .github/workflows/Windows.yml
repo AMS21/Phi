@@ -1,0 +1,76 @@
+name: Windows
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    runs-on: windows-latest
+
+    env:
+      CTEST_OUTPUT_ON_FAILURE: ON
+      CTEST_PARALLEL_LEVEL: 2
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+          - { compiler: cl }
+          - { compiler: g++ }
+          - { compiler: clang++ }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install
+        shell: powershell
+        run: |
+          # Install scoop
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+
+          # Install required compilers
+          if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
+            # Clang
+            scoop install llvm --global
+            echo "::set-env name=CMAKE_CXX_COMPILER::${{ matrix.cfg.compiler }}"
+          }
+          elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
+            # GCC
+            scoop install gcc --global
+            echo "::set-env name=CMAKE_CXX_COMPILER::g++"
+          }
+
+          # Scoop modifies the PATH so we make the modified PATH global.
+          echo "::set-env name=PATH::$env:PATH"
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Configure build directory
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }}
+
+      - name: Build Debug
+        run: |
+          cd build
+          cmake --build . --config "Debug" --clean-first
+          ctest .
+
+      - name: Build RelWithDebInfo
+        run: |
+          cd build
+          cmake --build . --config "RelWithDebInfo" --clean-first
+          ctest .
+
+      - name: Build Release
+        run: |
+          cd build
+          cmake --build . --config "Release" --clean-first
+          ctest .

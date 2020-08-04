@@ -1,0 +1,62 @@
+name: MacOS
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    runs-on: macos-latest
+
+    env:
+      CTEST_OUTPUT_ON_FAILURE: ON
+      CTEST_PARALLEL_LEVEL: 2
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+          - { compiler: g++, compiler_version: "10" }
+          - { compiler: clang++, compiler_version: "11.4.1" }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install
+        run: |
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            brew install gcc@${{ matrix.cfg.compiler_version }}
+            echo "::set-env name=CXX::g++-${{ matrix.cfg.compiler_version }}"
+          else
+            ls -ls /Applications/
+            sudo xcode-select -switch /Applications/Xcode_${{ matrix.cfg.compiler_version }}.app
+            echo "::set-env name=CXX::clang++"
+          fi
+
+      - name: Configure build directory
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }}
+
+      - name: Build Debug
+        run: |
+          cd build
+          cmake --build . --config "Debug" --clean-first
+          ctest .
+
+      - name: Build RelWithDebInfo
+        run: |
+          cd build
+          cmake --build . --config "RelWithDebInfo" --clean-first
+          ctest .
+
+      - name: Build Release
+        run: |
+          cd build
+          cmake --build . --config "Release" --clean-first
+          ctest .
