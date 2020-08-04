@@ -16,7 +16,11 @@ set(PHI_VERSION_MINOR 1)
 set(PHI_VERSION_PATCH 0)
 
 # Project
-project(Phi LANGUAGES CXX VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}" DESCRIPTION "High performance, modular, modern, cross-platform Game Engine library")
+project(
+  Phi
+  LANGUAGES CXX
+  VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}"
+  DESCRIPTION "High performance, modular, modern, cross-platform Game Engine library")
 
 # Check if Phi is being used directly or via add_subdirectory, but allow overriding
 if(NOT DEFINED PHI_MASTER_PROJECT)
@@ -74,10 +78,10 @@ if(${PHI_BUILD_TESTS})
 endif()
 
 # Documentation
-if (${PHI_BUILD_DOCS})
+if(${PHI_BUILD_DOCS})
   add_subdirectory(docs)
 endif()
 
-if (${PHI_USE_UNITY_BUILD})
+if(${PHI_USE_UNITY_BUILD})
   set_target_properties(Phi::Engine PROPERTIES UNITY_BUILD ON)
 endif()

@@ -1,14 +1,14 @@
 project("PhiEngine_Tests" CXX)
 
-file(GLOB TEST_HEADERS
-)
+file(GLOB TEST_HEADERS)
 
-file(GLOB TEST_SOURCES
-# Main
-"src/main.cpp"
-# Config
-"src/PhiConfig.test.cpp"
-)
+file(
+  GLOB
+  TEST_SOURCES
+  # Main
+  "src/main.cpp"
+  # Config
+  "src/PhiConfig.test.cpp")
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 

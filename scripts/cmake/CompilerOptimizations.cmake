@@ -2,7 +2,7 @@
 
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
-  if (PHI_DISABLE_OPTIMIZATIONS)
+  if(PHI_DISABLE_OPTIMIZATIONS)
     return()
   endif()
 
@@ -11,12 +11,23 @@ function(set_project_optimizations project)
   set(phi_msvc_linker_opt /OPT:REF)
 
   # Clang
-  set(phi_clang_release_opt -fno-math-errno -ffinite-math-only -fno-signed-zeros -fno-trapping-math -fstrict-enums -fomit-frame-pointer -fwhole-program-vtables -fforce-emit-vtables -fstrict-vtable-pointers -fstrict-return)
+  set(phi_clang_release_opt
+      -fno-math-errno
+      -ffinite-math-only
+      -fno-signed-zeros
+      -fno-trapping-math
+      -fstrict-enums
+      -fomit-frame-pointer
+      -fwhole-program-vtables
+      -fforce-emit-vtables
+      -fstrict-vtable-pointers
+      -fstrict-return)
 
   set(phi_clang_opt $<$<CONFIG:RELEASE>:${phi_clang_release_opt}>)
 
   # GCC
-  set(phi_gcc_release_opt -fno-math-errno -ffinite-math-only -fno-signed-zeros -fno-trapping-math -fstrict-enums -fomit-frame-pointer)
+  set(phi_gcc_release_opt -fno-math-errno -ffinite-math-only -fno-signed-zeros -fno-trapping-math
+                          -fstrict-enums -fomit-frame-pointer)
 
   set(phi_gcc_opt $<$<CONFIG:RELEASE>:${phi_gcc_release_opt}>)
 

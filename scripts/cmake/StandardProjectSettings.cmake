@@ -22,6 +22,8 @@ if(ENABLE_IPO)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
   else()
     message(WARNING "IPO is not supported: ${ipo_output}")
-    set(ENABLE_IPO OFF CACHE BOOL "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" FORCE)
+    set(ENABLE_IPO
+        OFF
+        CACHE BOOL "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" FORCE)
   endif()
 endif()
