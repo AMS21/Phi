@@ -14,6 +14,9 @@ jobs:
     name: Analyse
     runs-on: ubuntu-latest
 
+    env:
+      GCC_VERSION: "10"
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -21,7 +24,7 @@ jobs:
         # We must fetch at least the immediate parents so that if this is
         # a pull request then we can checkout the head.
         fetch-depth: 2
-        submodules: true  
+        submodules: true
 
     # If this run was triggered by a pull request event, then checkout
     # the head of the pull request instead of the merge commit.
@@ -34,6 +37,17 @@ jobs:
       # Override language selection by uncommenting this and choosing your languages
       with:
         languages: cpp
+
+    - name: Install
+      run: |
+        # Update repo list
+        sudo apt-get update -m
+
+        # Install g++
+        sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
+
+        # export compiler
+        echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
