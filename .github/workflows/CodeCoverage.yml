@@ -1,0 +1,63 @@
+name: CodeCoverage
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    env:
+      LCOV_VERSION: "1.14"
+      GCC_VERSION: "8"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: get-cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install tools
+        run: |
+          # Install lcov
+          mkdir lcov
+          wget --no-check-certificate -O - "https://github.com/linux-test-project/lcov/releases/download/v${{ env.LCOV_VERSION }}/lcov-${{ env.LCOV_VERSION }}.tar.gz" | tar --strip-components=1 -xz -C lcov
+          cd lcov
+          sudo make install
+
+          echo "::set-env name=PATH::$(pwd)/lcov/bin:${PATH}"
+
+          # Install g++
+          sudo apt-get install g++-${{ env.GCC_VERSION }}
+
+      - name: Build coverage data
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" -DCMAKE_CXX_FLAGS="--coverage -g -O0" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest .
+
+      - name: Process coverage data
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+          lcov --remove coverage.info "$(readlink -f test/include)/*" --output-file coverage.info # filter out doctest
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: unittests
+          name: ${{ runner.os }}.g++-${{ env.GCC_VERSION }}
+          fail_ci_if_error: true
