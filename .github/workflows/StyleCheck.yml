@@ -1,0 +1,85 @@
+name: StyleCheck
+
+on:
+  pull_request:
+  push:
+    branches: [master, develop]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    env:
+      llvm_version: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Run clang-format
+        run: |
+          # Install clang-format
+          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.llvm_version }} main"
+          sudo apt-get update -m
+          sudo apt-get install clang-format-${{ env.llvm_version }}
+
+          clang-format-${{ env.llvm_version }} -i $(find -iname "*.[hc]pp" -type f)
+
+      - name: Run cmake-format
+        run: |
+          # Install cmake-format
+          sudo apt-get install python3
+          sudo -H pip3 install --upgrade pip
+          sudo -H pip3 install cmake-format
+
+          cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
+
+      - name: Fix spacing
+        run: |
+          # Install moreutils
+          sudo apt-get install moreutils
+
+          # Fix mixed tabs and spaces
+          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
+          # Fix trailing white spaces
+          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'sed -i 's/[[:space:]]*$//' "$0" | sponge "$0"' {} \;
+
+      - name: Clang-tidy naming
+        run: |
+          # Install clang-tidy
+          sudo apt-get install clang-tidy-${{ env.llvm_version }}
+
+          # Pull submodules
+          git submodule update --init --recursive
+
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+          # Run clang-tidy
+          run-clang-tidy-${{ env.llvm_version }} -checks="-*,readability-identifier-naming" -fix
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Applied automatic formatting
+          branch: ${{ github.head_ref }}
+          commit_options: '--no-verify --signoff'
+          commit_user_name: Phi Formatting Bot
+          file_pattern: docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* CMakeLists.txt
+
+      - name: Run misspell with reviewdog
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ github.token }}
+          # -locale flag of misspell. (US/UK)
+          locale: US
+          # Report level for reviewdog [info,warning,error]
+          level: error
