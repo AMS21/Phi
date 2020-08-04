@@ -74,12 +74,3 @@ jobs:
           commit_options: '--no-verify --signoff'
           commit_user_name: Phi Formatting Bot
           file_pattern: docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* CMakeLists.txt
-
-      - name: Run misspell with reviewdog
-        uses: reviewdog/action-misspell@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          # -locale flag of misspell. (US/UK)
-          locale: US
-          # Report level for reviewdog [info,warning,error]
-          level: error
