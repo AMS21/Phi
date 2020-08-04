@@ -51,7 +51,7 @@ jobs:
       - name: Clang-tidy naming
         run: |
           # Install clang-tidy
-          sudo apt-get install clang-tidy-${{ env.llvm_version }}
+          sudo apt-get install clang-tidy-${{ env.llvm_version }} clang++-${{ env.llvm_version }}
 
           # Pull submodules
           git submodule update --init --recursive
@@ -61,7 +61,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.llvm_version }} -DCMAKE_CXX_COMPILER=/usr/bin/clang++-${{ env.llvm_version }}
 
           # Run clang-tidy
           run-clang-tidy-${{ env.llvm_version }} -checks="-*,readability-identifier-naming" -fix
