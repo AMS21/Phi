@@ -1,0 +1,98 @@
+# http://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+DisableFormat: false
+Language: Cpp
+Standard: Cpp11
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+ReflowComments: false
+SortIncludes: true
+
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines: Right
+AlignOperands: true
+AlignTrailingComments: true
+AlignAfterOpenBracket: true
+DerivePointerAlignment: false
+PointerAlignment: Left
+IndentCaseLabels: true
+ContinuationIndentWidth: 8
+NamespaceIndentation: All
+CompactNamespaces: false
+FixNamespaceComments: true
+AccessModifierOffset: -4
+AlwaysBreakBeforeMultilineStrings: false
+IndentPPDirectives: AfterHash
+
+SpaceAfterControlStatementKeyword: false
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: Never
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Cpp11BracedListStyle: true
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+BinPackArguments: true
+BinPackParameters: true
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakTemplateDeclarations: true
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+ConstructorInitializerIndentWidth: 4
+
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: false
+SpaceBeforeParens: ControlStatements
+#SpaceBeforeCpp11BracedList: true
+
+BreakBeforeBinaryOperators: false
+BreakBeforeTernaryOperators: false
+BreakStringLiterals: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterClass: true
+    AfterEnum: true
+    AfterNamespace: true
+    AfterStruct: true
+    AfterUnion: true
+    AfterExternBlock: true
+    SplitEmptyFunction: false
+    SplitEmptyRecord: false
+    SplitEmptyNamespace: false
+
+    BeforeCatch: true
+    BeforeElse: true
+    IndentBraces: false
+    AfterFunction: true
+    AfterControlStatement: true
+
+# penalties not thought of yet
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 60
+PenaltyBreakString: 1000
+PenaltyBreakFirstLessLess: 120
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 1000
+
+IncludeCategories:
+  - Regex:           '".+"' # Local includes
+    Priority:        1
+  - Regex:           '<.+\..+>' # Third Party includes
+    Priority:        2
+  - Regex:           '<[^./]+>' # C++ standard library includes
+    Priority:        3
