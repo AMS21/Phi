@@ -200,4 +200,4 @@ jobs:
 
       - name: Run cmake-lint
         run: |
-          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml"
+          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --log-level warning
