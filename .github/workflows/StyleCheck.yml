@@ -51,7 +51,7 @@ jobs:
       - name: Clang-tidy naming
         run: |
           # Install clang-tidy
-          sudo apt-get install clang-tidy-${{ env.llvm_version }} clang++-${{ env.llvm_version }}
+          sudo apt-get install clang-tidy-${{ env.llvm_version }} clang-${{ env.llvm_version }}
 
           # Pull submodules
           git submodule update --init --recursive
