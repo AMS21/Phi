@@ -20,7 +20,7 @@ target_include_directories(
   PUBLIC "include"
   PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions)
+target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions CppBase::CppBase)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "NOMINMAX")

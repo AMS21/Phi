@@ -1,6 +1,6 @@
 project("PhiEngine_Tests" CXX)
 
-file(GLOB TEST_HEADERS)
+file(GLOB TEST_HEADERS "include/StringHelper.hpp")
 
 file(
   GLOB
