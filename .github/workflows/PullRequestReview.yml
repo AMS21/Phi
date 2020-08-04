@@ -1,17 +1,31 @@
 name: PullRequestReview
 
-on: pull_request
+on: [pull_request]
 
 jobs:
   spelling:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Run misspell with reviewdog
         uses: reviewdog/action-misspell@v1
         with:
           github_token: ${{ secrets.github_token }}
-          # -locale flag of misspell. (US/UK)
           locale: US
-          # Report level for reviewdog [info,warning,error]
-          level: error
+          reporter: github-pr-review
+
+  yamllint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: yamllint
+        uses: reviewdog/action-yamllint@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
