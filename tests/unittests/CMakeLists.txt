@@ -1,12 +1,14 @@
 project("PhiEngine_Tests" CXX)
 
-file(GLOB TEST_HEADERS)
+file(GLOB TEST_HEADERS "include/StringHelper.hpp")
 
 file(
   GLOB
   TEST_SOURCES
   # Main
   "src/main.cpp"
+  # Selftest
+  "src/Selftest/StringHelper.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 
