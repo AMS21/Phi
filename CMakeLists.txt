@@ -61,6 +61,11 @@ add_subdirectory(external)
 # Load libs
 add_subdirectory(libs)
 
+# Examples
+if(${PHI_BUILD_EXAMPLES})
+  add_subdirectory(examples)
+endif()
+
 # Tests
 if(${PHI_BUILD_TESTS})
   enable_testing()
