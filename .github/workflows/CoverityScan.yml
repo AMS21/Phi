@@ -1,0 +1,49 @@
+name: CoverityScan
+on:
+  schedule:
+    - cron: '0 9 * * *' # Daily at 9:00 UTC
+
+jobs:
+  trunk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+
+      - name: get-cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Download Coverity Build Tool
+        run: |
+          wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=$TOKEN&project=AMS21%2FCppBase" -O cov-analysis-linux64.tar.gz
+          mkdir cov-analysis-linux64
+          tar xzf cov-analysis-linux64.tar.gz --strip 1 -C cov-analysis-linux64
+        env:
+          TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
+
+      - name: Configure
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+
+      - name: Build with cov-build
+        run: |
+          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
+          cd build
+          cov-build --dir ../cov-int make
+
+      - name: Submit the result to Coverity Scan
+        run: |
+          tar czvf phi.tgz cov-int
+          curl --form token=$TOKEN \
+               --form email=hansfritzenmeister@protonmail.com \
+               --form file=@phi.tgz \
+               --form version="trunk" \
+               --form description="Automatic submission" \
+               https://scan.coverity.com/builds?project=AMS21%2FPhi
+        env:
+          TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
