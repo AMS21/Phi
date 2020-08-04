@@ -199,5 +199,6 @@ jobs:
           sudo -H pip3 install cmake-format
 
       - name: Run cmake-lint
+        continue-on-error: true
         run: |
-          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --log-level warning
+          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations
