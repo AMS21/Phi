@@ -7,6 +7,8 @@ file(
   TEST_SOURCES
   # Main
   "src/main.cpp"
+  # Selftest
+  "src/Selftest/StringHelper.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 
