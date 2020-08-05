@@ -6,6 +6,7 @@ file(GLOB PHI_ENGINE_HEADERS
      "include/Phi/PhiConfig.hpp"
      # Utility
      "include/Phi/Utility/Boolean.hpp"
+     "include/Phi/Utility/FloatingPoint.hpp"
      )
 
 file(GLOB PHI_ENGINE_SOURCES "src/main.cpp")

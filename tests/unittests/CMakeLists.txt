@@ -11,6 +11,7 @@ file(
   "src/Selftest/StringHelper.test.cpp"
   # Utility
   "src/Utility/Boolean.test.cpp"
+  "src/Utility/FloatingPoint.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 

@@ -1,6 +1,3 @@
-#ifndef INCG_PHI_UTILITY_BOOLEAN_HPP
-#define INCG_PHI_UTILITY_BOOLEAN_HPP
-
 // This file is heavily inspired by Jonathan Müllers <jonathanmueller.dev@gmail.com> type_safe library https://github.com/foonathan/type_safe
 // licensed under the MIT license https://github.com/foonathan/type_safe/blob/master/LICENSE
 // Original file at https://github.com/foonathan/type_safe/blob/master/include/type_safe/boolean.hpp
@@ -27,8 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#ifndef INCG_PHI_UTILITY_BOOLEAN_HPP
+#define INCG_PHI_UTILITY_BOOLEAN_HPP
+
 #include "Phi/PhiConfig.hpp"
-#include "cpp/Inline.hpp"
+#include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
 #include <type_traits>
@@ -86,6 +86,11 @@ public:
     CPP_ALWAYS_INLINE constexpr Boolean operator!() const noexcept
     {
         return Boolean(!m_Value);
+    }
+
+    CPP_ALWAYS_INLINE constexpr bool get() const noexcept
+    {
+        return m_Value;
     }
 
 private:

@@ -36,6 +36,7 @@ TEST_CASE("Boolean layout", "[Utility][Types][Boolean]")
     STATIC_REQUIRE(sizeof(phi::Boolean) == sizeof(bool));
     STATIC_REQUIRE(std::is_trivially_copyable_v<phi::Boolean>);
     STATIC_REQUIRE(std::is_standard_layout_v<phi::Boolean>);
+    STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::Boolean>);
 
     // conversion checks
     STATIC_REQUIRE(std::is_constructible_v<phi::Boolean, bool>);
@@ -122,5 +123,11 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 
         in >> b;
         CHECK_FALSE(static_cast<bool>(b));
+    }
+
+    SECTION("get")
+    {
+        CONSTEXPR_RUNTIME phi::Boolean b(true);
+        STATIC_REQUIRE(b.get());
     }
 }
