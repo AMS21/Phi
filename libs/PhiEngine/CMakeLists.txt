@@ -3,7 +3,10 @@ project(PhiEngine LANGUAGES CXX)
 
 file(GLOB PHI_ENGINE_HEADERS
      # Phi
-     "include/Phi/PhiConfig.hpp")
+     "include/Phi/PhiConfig.hpp"
+     # Utility
+     "include/Phi/Utility/Boolean.hpp"
+     )
 
 file(GLOB PHI_ENGINE_SOURCES "src/main.cpp")
 

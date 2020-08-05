@@ -9,6 +9,8 @@ file(
   "src/main.cpp"
   # Selftest
   "src/Selftest/StringHelper.test.cpp"
+  # Utility
+  "src/Utility/Boolean.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 
