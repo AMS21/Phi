@@ -51,7 +51,7 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
     STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::FloatingPoint<float>, long double>);
     STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, float>);
     STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, double>);
-#if (DBL_DECIMAL_DIG < LDBL_DECIMAL_DIG)
+#if (DBL_DIG < LDBL_DIG)
     STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::FloatingPoint<double>, long double>);
 #else
     STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, long double>);
@@ -67,7 +67,7 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
             std::is_constructible_v<phi::FloatingPoint<float>, phi::FloatingPoint<long double>>);
     STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<float>>);
     STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<double>>);
-#if (DBL_DECIMAL_DIG < LDBL_DECIMAL_DIG)
+#if (DBL_DIG < LDBL_DIG)
     STATIC_REQUIRE_FALSE(
             std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<long double>>);
 #else
@@ -87,7 +87,7 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
     STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::FloatingPoint<float>, long double>);
     STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, float>);
     STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, double>);
-#if (DBL_DECIMAL_DIG < LDBL_DECIMAL_DIG)
+#if (DBL_DIG < LDBL_DIG)
     STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::FloatingPoint<double>, long double>);
 #else
     STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, long double>);
@@ -103,7 +103,7 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
             std::is_assignable_v<phi::FloatingPoint<float>, phi::FloatingPoint<long double>>);
     STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<float>>);
     STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<double>>);
-#if (DBL_DECIMAL_DIG < LDBL_DECIMAL_DIG)
+#if (DBL_DIG < LDBL_DIG)
     STATIC_REQUIRE_FALSE(
             std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<long double>>);
 #else
