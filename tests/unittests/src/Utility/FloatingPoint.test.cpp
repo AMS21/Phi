@@ -27,9 +27,16 @@ SOFTWARE.
 #include "ConstexprHelper.hpp"
 #include <Phi/Utility/FloatingPoint.hpp>
 #include <catch2/catch.hpp>
+#include <cpp/Warning.hpp>
 #include <cfloat>
 #include <sstream>
 #include <type_traits>
+
+CPP_CLANG_SUPPRESS_WARNING_PUSH
+CPP_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+
+CPP_GCC_SUPPRESS_WARNING_PUSH
+CPP_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
 {
@@ -238,56 +245,56 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FlooatingType]")
     SECTION("comparison")
     {
         // <
-        STATIC_REQUIRE(bool(FloatT(4.0) < FloatT(5.0)));
+        STATIC_REQUIRE(FloatT(4.0) < FloatT(5.0));
         STATIC_REQUIRE(!(FloatT(5.0) < FloatT(4.0)));
         STATIC_REQUIRE(!(FloatT(4.0) < FloatT(4.0)));
 
-        STATIC_REQUIRE(bool(4.0 < FloatT(5.0)));
+        STATIC_REQUIRE(4.0 < FloatT(5.0));
         STATIC_REQUIRE(!(5.0 < FloatT(4.0)));
         STATIC_REQUIRE(!(4.0 < FloatT(4.0)));
 
-        STATIC_REQUIRE(bool(FloatT(4.0) < 5.0));
+        STATIC_REQUIRE(FloatT(4.0) < 5.0);
         STATIC_REQUIRE(!(FloatT(5.0) < 4.0));
         STATIC_REQUIRE(!(FloatT(4.0) < 4.0));
 
         // <=
-        STATIC_REQUIRE(bool(FloatT(4.0) <= FloatT(5.0)));
+        STATIC_REQUIRE(FloatT(4.0) <= FloatT(5.0));
         STATIC_REQUIRE(!(FloatT(5.0) <= FloatT(4.0)));
-        STATIC_REQUIRE(bool(FloatT(4.0) <= FloatT(4.0)));
+        STATIC_REQUIRE(FloatT(4.0) <= FloatT(4.0));
 
-        STATIC_REQUIRE(bool(4.0 <= FloatT(5.0)));
+        STATIC_REQUIRE(4.0 <= FloatT(5.0));
         STATIC_REQUIRE(!(5.0 <= FloatT(4.0)));
-        STATIC_REQUIRE(bool(4.0 <= FloatT(4.0)));
+        STATIC_REQUIRE(4.0 <= FloatT(4.0));
 
-        STATIC_REQUIRE(bool(FloatT(4.0) <= 5.0));
+        STATIC_REQUIRE(FloatT(4.0) <= 5.0);
         STATIC_REQUIRE(!(FloatT(5.0) <= 4.0));
-        STATIC_REQUIRE(bool(FloatT(4.0) <= 4.0));
+        STATIC_REQUIRE(FloatT(4.0) <= 4.0);
 
         // >
-        STATIC_REQUIRE(bool(FloatT(5.0) > FloatT(4.0)));
+        STATIC_REQUIRE(FloatT(5.0) > FloatT(4.0));
         STATIC_REQUIRE(!(FloatT(4.0) > FloatT(5.0)));
         STATIC_REQUIRE(!(FloatT(5.0) > FloatT(5.0)));
 
-        STATIC_REQUIRE(bool(5.0 > FloatT(4.0)));
+        STATIC_REQUIRE(5.0 > FloatT(4.0));
         STATIC_REQUIRE(!(4.0 > FloatT(5.0)));
         STATIC_REQUIRE(!(5.0 > FloatT(5.0)));
 
-        STATIC_REQUIRE(bool(FloatT(5.0) > 4.0));
+        STATIC_REQUIRE(FloatT(5.0) > 4.0);
         STATIC_REQUIRE(!(FloatT(4.0) > 5.0));
         STATIC_REQUIRE(!(FloatT(5.0) > 5.0));
 
         // >=
-        STATIC_REQUIRE(bool(FloatT(5.0) >= FloatT(4.0)));
+        STATIC_REQUIRE(FloatT(5.0) >= FloatT(4.0));
         STATIC_REQUIRE(!(FloatT(4.0) >= FloatT(5.0)));
-        STATIC_REQUIRE(bool(FloatT(5.0) >= FloatT(5.0)));
+        STATIC_REQUIRE(FloatT(5.0) >= FloatT(5.0));
 
-        STATIC_REQUIRE(bool(5.0 >= FloatT(4.0)));
+        STATIC_REQUIRE(5.0 >= FloatT(4.0));
         STATIC_REQUIRE(!(4.0 >= FloatT(5.0)));
-        STATIC_REQUIRE(bool(5.0 >= FloatT(5.0)));
+        STATIC_REQUIRE(5.0 >= FloatT(5.0));
 
-        STATIC_REQUIRE(bool(FloatT(5.0) >= 4.0));
+        STATIC_REQUIRE(FloatT(5.0) >= 4.0);
         STATIC_REQUIRE(!(FloatT(4.0) >= 5.0));
-        STATIC_REQUIRE(bool(FloatT(5.0) >= 5.0));
+        STATIC_REQUIRE(FloatT(5.0) >= 5.0);
     }
 
     SECTION("i/o")
@@ -309,3 +316,6 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FlooatingType]")
         STATIC_REQUIRE(f.get() == 0.0);
     }
 }
+
+CPP_GCC_SUPPRESS_WARNING_POP
+CPP_CLANG_SUPPRESS_WARNING_POP
