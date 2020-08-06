@@ -6,7 +6,7 @@ on:
 jobs:
   trunk:
     runs-on: ubuntu-latest
-    
+
     env:
       GCC_VERSION: "10"
 
