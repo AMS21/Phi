@@ -37,6 +37,7 @@ CPP_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
 CPP_GCC_SUPPRESS_WARNING_PUSH
 CPP_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+CPP_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
 {
@@ -118,7 +119,7 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
             std::is_assignable_v<phi::FloatingPoint<long double>, phi::FloatingPoint<long double>>);
 }
 
-TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FlooatingType]")
+TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 {
     using FloatT = phi::FloatingPoint<double>;
 
@@ -245,56 +246,56 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FlooatingType]")
     SECTION("comparison")
     {
         // <
-        STATIC_REQUIRE(FloatT(4.0) < FloatT(5.0));
-        STATIC_REQUIRE(!(FloatT(5.0) < FloatT(4.0)));
-        STATIC_REQUIRE(!(FloatT(4.0) < FloatT(4.0)));
+        STATIC_REQUIRE(bool(FloatT(4.0) < FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) < FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) < FloatT(4.0)));
 
-        STATIC_REQUIRE(4.0 < FloatT(5.0));
-        STATIC_REQUIRE(!(5.0 < FloatT(4.0)));
-        STATIC_REQUIRE(!(4.0 < FloatT(4.0)));
+        STATIC_REQUIRE(bool(4.0 < FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(5.0 < FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(4.0 < FloatT(4.0)));
 
-        STATIC_REQUIRE(FloatT(4.0) < 5.0);
-        STATIC_REQUIRE(!(FloatT(5.0) < 4.0));
-        STATIC_REQUIRE(!(FloatT(4.0) < 4.0));
+        STATIC_REQUIRE(bool(FloatT(4.0) < 5.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) < 4.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) < 4.0));
 
         // <=
-        STATIC_REQUIRE(FloatT(4.0) <= FloatT(5.0));
-        STATIC_REQUIRE(!(FloatT(5.0) <= FloatT(4.0)));
-        STATIC_REQUIRE(FloatT(4.0) <= FloatT(4.0));
+        STATIC_REQUIRE(bool(FloatT(4.0) <= FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) <= FloatT(4.0)));
+        STATIC_REQUIRE(bool(FloatT(4.0) <= FloatT(4.0)));
 
-        STATIC_REQUIRE(4.0 <= FloatT(5.0));
-        STATIC_REQUIRE(!(5.0 <= FloatT(4.0)));
-        STATIC_REQUIRE(4.0 <= FloatT(4.0));
+        STATIC_REQUIRE(bool(4.0 <= FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(5.0 <= FloatT(4.0)));
+        STATIC_REQUIRE(bool(4.0 <= FloatT(4.0)));
 
-        STATIC_REQUIRE(FloatT(4.0) <= 5.0);
-        STATIC_REQUIRE(!(FloatT(5.0) <= 4.0));
-        STATIC_REQUIRE(FloatT(4.0) <= 4.0);
+        STATIC_REQUIRE(bool(FloatT(4.0) <= 5.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) <= 4.0));
+        STATIC_REQUIRE(bool(FloatT(4.0) <= 4.0));
 
         // >
-        STATIC_REQUIRE(FloatT(5.0) > FloatT(4.0));
-        STATIC_REQUIRE(!(FloatT(4.0) > FloatT(5.0)));
-        STATIC_REQUIRE(!(FloatT(5.0) > FloatT(5.0)));
+        STATIC_REQUIRE(bool(FloatT(5.0) > FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) > FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) > FloatT(5.0)));
 
-        STATIC_REQUIRE(5.0 > FloatT(4.0));
-        STATIC_REQUIRE(!(4.0 > FloatT(5.0)));
-        STATIC_REQUIRE(!(5.0 > FloatT(5.0)));
+        STATIC_REQUIRE(bool(5.0 > FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(4.0 > FloatT(5.0)));
+        STATIC_REQUIRE_FALSE(bool(5.0 > FloatT(5.0)));
 
-        STATIC_REQUIRE(FloatT(5.0) > 4.0);
-        STATIC_REQUIRE(!(FloatT(4.0) > 5.0));
-        STATIC_REQUIRE(!(FloatT(5.0) > 5.0));
+        STATIC_REQUIRE(bool(FloatT(5.0) > 4.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) > 5.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(5.0) > 5.0));
 
         // >=
-        STATIC_REQUIRE(FloatT(5.0) >= FloatT(4.0));
-        STATIC_REQUIRE(!(FloatT(4.0) >= FloatT(5.0)));
-        STATIC_REQUIRE(FloatT(5.0) >= FloatT(5.0));
+        STATIC_REQUIRE(bool(FloatT(5.0) >= FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) >= FloatT(5.0)));
+        STATIC_REQUIRE(bool(FloatT(5.0) >= FloatT(5.0)));
 
-        STATIC_REQUIRE(5.0 >= FloatT(4.0));
-        STATIC_REQUIRE(!(4.0 >= FloatT(5.0)));
-        STATIC_REQUIRE(5.0 >= FloatT(5.0));
+        STATIC_REQUIRE(bool(5.0 >= FloatT(4.0)));
+        STATIC_REQUIRE_FALSE(bool(4.0 >= FloatT(5.0)));
+        STATIC_REQUIRE(bool(5.0 >= FloatT(5.0)));
 
-        STATIC_REQUIRE(FloatT(5.0) >= 4.0);
-        STATIC_REQUIRE(!(FloatT(4.0) >= 5.0));
-        STATIC_REQUIRE(FloatT(5.0) >= 5.0);
+        STATIC_REQUIRE(bool(FloatT(5.0) >= 4.0));
+        STATIC_REQUIRE_FALSE(bool(FloatT(4.0) >= 5.0));
+        STATIC_REQUIRE(bool(FloatT(5.0) >= 5.0));
     }
 
     SECTION("i/o")
