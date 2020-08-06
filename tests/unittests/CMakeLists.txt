@@ -12,6 +12,7 @@ file(
   # Utility
   "src/Utility/Boolean.test.cpp"
   "src/Utility/FloatingPoint.test.cpp"
+  "src/Utility/Integer.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 

@@ -7,7 +7,8 @@ file(GLOB PHI_ENGINE_HEADERS
      # Utility
      "include/Phi/Utility/Boolean.hpp"
      "include/Phi/Utility/FloatingPoint.hpp"
-     )
+     "include/Phi/Utility/Integer.hpp"
+)
 
 file(GLOB PHI_ENGINE_SOURCES "src/main.cpp")
 
