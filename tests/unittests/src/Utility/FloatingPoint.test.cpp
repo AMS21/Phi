@@ -125,14 +125,14 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 
     SECTION("constructor")
     {
-        CONSTEXPR_RUNTIME FloatT a(0.0);
-        STATIC_REQUIRE(static_cast<double>(a) == 0.0);
+        CONSTEXPR_RUNTIME FloatT A(0.0);
+        STATIC_REQUIRE(static_cast<double>(A) == 0.0);
 
-        CONSTEXPR_RUNTIME FloatT b(3.14);
-        STATIC_REQUIRE(static_cast<double>(b) == 3.14);
+        CONSTEXPR_RUNTIME FloatT B(3.14);
+        STATIC_REQUIRE(static_cast<double>(B) == 3.14);
 
-        CONSTEXPR_RUNTIME FloatT c(-42.5);
-        STATIC_REQUIRE(static_cast<double>(c) == -42.5);
+        CONSTEXPR_RUNTIME FloatT C(-42.5);
+        STATIC_REQUIRE(static_cast<double>(C) == -42.5);
     }
 
     SECTION("assignment")
@@ -146,9 +146,9 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 
     SECTION("unary")
     {
-        CONSTEXPR_RUNTIME FloatT a(13.255);
-        STATIC_REQUIRE(static_cast<double>(+a) == static_cast<double>(a));
-        STATIC_REQUIRE(static_cast<double>(-a) == -static_cast<double>(a));
+        CONSTEXPR_RUNTIME FloatT A(13.255);
+        STATIC_REQUIRE(static_cast<double>(+A) == static_cast<double>(A));
+        STATIC_REQUIRE(static_cast<double>(-A) == -static_cast<double>(A));
     }
 
     SECTION("addition")
@@ -313,8 +313,8 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 
     SECTION("get")
     {
-        CONSTEXPR_RUNTIME FloatT f(0.0);
-        STATIC_REQUIRE(f.get() == 0.0);
+        CONSTEXPR_RUNTIME FloatT F(0.0);
+        STATIC_REQUIRE(F.get() == 0.0);
     }
 }
 

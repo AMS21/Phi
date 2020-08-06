@@ -71,12 +71,12 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
 
     SECTION("constructor")
     {
-        CONSTEXPR_RUNTIME int_t a(0);
-        STATIC_REQUIRE(static_cast<std::int32_t>(a) == 0);
-        CONSTEXPR_RUNTIME int_t b(32);
-        STATIC_REQUIRE(static_cast<std::int32_t>(b) == 32);
-        CONSTEXPR_RUNTIME int_t c(-25);
-        STATIC_REQUIRE(static_cast<std::int32_t>(c) == -25);
+        CONSTEXPR_RUNTIME int_t A(0);
+        STATIC_REQUIRE(static_cast<std::int32_t>(A) == 0);
+        CONSTEXPR_RUNTIME int_t B(32);
+        STATIC_REQUIRE(static_cast<std::int32_t>(B) == 32);
+        CONSTEXPR_RUNTIME int_t C(-25);
+        STATIC_REQUIRE(static_cast<std::int32_t>(C) == -25);
     }
 
     SECTION("assignment")
@@ -90,9 +90,9 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
 
     SECTION("unary")
     {
-        CONSTEXPR_RUNTIME int_t a(13);
-        STATIC_REQUIRE(static_cast<std::int32_t>(+a) == static_cast<std::int32_t>(a));
-        STATIC_REQUIRE(static_cast<std::int32_t>(-a) == -static_cast<std::int32_t>(a));
+        CONSTEXPR_RUNTIME int_t A(13);
+        STATIC_REQUIRE(static_cast<std::int32_t>(+A) == static_cast<std::int32_t>(A));
+        STATIC_REQUIRE(static_cast<std::int32_t>(-A) == -static_cast<std::int32_t>(A));
     }
 
     SECTION("increment")
