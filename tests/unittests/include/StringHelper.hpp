@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INCG_PHI_UNITTEST_STRINGHELPER_HPP
+#define INCG_PHI_UNITTEST_STRINGHELPER_HPP
 
 #include <cstddef>
 
@@ -46,3 +47,5 @@ template <typename CharT>
 
     return *lhs == *rhs;
 }
+
+#endif // INCG_PHI_UNITTEST_STRINGHELPER_HPP
