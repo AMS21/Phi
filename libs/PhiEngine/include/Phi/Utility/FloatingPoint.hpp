@@ -1,6 +1,6 @@
 // This file is heavily inspired by Jonathan Müllers <jonathanmueller.dev@gmail.com> type_safe library https://github.com/foonathan/type_safe
 // licensed under the MIT license https://github.com/foonathan/type_safe/blob/master/LICENSE
-// Original file at https://github.com/foonathan/type_safe/blob/master/include/type_safe/FloatingPoint.hpp
+// Original file at https://github.com/foonathan/type_safe/blob/master/include/type_safe/floating_point.hpp
 /* MIT License
 
 Copyright (c) 2016-2020 Jonathan Müller
