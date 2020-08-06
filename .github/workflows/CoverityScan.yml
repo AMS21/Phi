@@ -1,11 +1,14 @@
 name: CoverityScan
 on:
   schedule:
-    - cron: '0 9 * * *' # Daily at 9:00 UTC
+    - cron: '0 4 * * *' # Daily at 4:00 UTC
 
 jobs:
   trunk:
     runs-on: ubuntu-latest
+
+    env:
+      GCC_VERSION: "10"
 
     steps:
       - name: Checkout
@@ -16,6 +19,15 @@ jobs:
 
       - name: get-cmake
         uses: lukka/get-cmake@latest
+
+      - name: Install
+        run: |
+          # Update repo list
+          sudo apt-get update -m
+          # Install g++
+          sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
+          # export compiler
+          echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
 
       - name: Download Coverity Build Tool
         run: |
