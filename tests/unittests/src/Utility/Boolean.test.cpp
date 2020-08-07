@@ -54,17 +54,17 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 {
     SECTION("constructor")
     {
-        CONSTEXPR_RUNTIME phi::Boolean B1(true);
-        STATIC_REQUIRE(static_cast<bool>(B1));
+        CONSTEXPR_RUNTIME phi::Boolean b1(true);
+        STATIC_REQUIRE(static_cast<bool>(b1));
 
-        CONSTEXPR_RUNTIME phi::Boolean B2(false);
-        STATIC_REQUIRE_FALSE(static_cast<bool>(B2));
+        CONSTEXPR_RUNTIME phi::Boolean b2(false);
+        STATIC_REQUIRE_FALSE(static_cast<bool>(b2));
 
-        CONSTEXPR_RUNTIME phi::Boolean B3(B1);
-        STATIC_REQUIRE(static_cast<bool>(B3));
+        CONSTEXPR_RUNTIME phi::Boolean b3(b1);
+        STATIC_REQUIRE(static_cast<bool>(b3));
 
-        CONSTEXPR_RUNTIME phi::Boolean B4(std::move(B2));
-        STATIC_REQUIRE_FALSE(static_cast<bool>(B4));
+        CONSTEXPR_RUNTIME phi::Boolean b4(std::move(b2));
+        STATIC_REQUIRE_FALSE(static_cast<bool>(b4));
     }
 
     SECTION("assignment")
@@ -86,30 +86,30 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 
     SECTION("negate")
     {
-        CONSTEXPR_RUNTIME phi::Boolean B1(true);
-        STATIC_REQUIRE_FALSE(!B1);
+        CONSTEXPR_RUNTIME phi::Boolean b1(true);
+        STATIC_REQUIRE_FALSE(!b1);
 
-        CONSTEXPR_RUNTIME phi::Boolean B2(false);
-        STATIC_REQUIRE(!B2);
+        CONSTEXPR_RUNTIME phi::Boolean b2(false);
+        STATIC_REQUIRE(!b2);
     }
 
     SECTION("comparison")
     {
-        CONSTEXPR_RUNTIME phi::Boolean B1(true);
-        STATIC_REQUIRE(B1 == true);
-        STATIC_REQUIRE(true == B1);
-        STATIC_REQUIRE(B1 != false);
-        STATIC_REQUIRE(false != B1);
-        STATIC_REQUIRE(B1 == phi::Boolean(true));
-        STATIC_REQUIRE(B1 != phi::Boolean(false));
+        CONSTEXPR_RUNTIME phi::Boolean b1(true);
+        STATIC_REQUIRE(b1 == true);
+        STATIC_REQUIRE(true == b1);
+        STATIC_REQUIRE(b1 != false);
+        STATIC_REQUIRE(false != b1);
+        STATIC_REQUIRE(b1 == phi::Boolean(true));
+        STATIC_REQUIRE(b1 != phi::Boolean(false));
 
-        CONSTEXPR_RUNTIME phi::Boolean B2(false);
-        STATIC_REQUIRE(B2 == false);
-        STATIC_REQUIRE(false == B2);
-        STATIC_REQUIRE(B2 != true);
-        STATIC_REQUIRE(true != B2);
-        STATIC_REQUIRE(B2 == phi::Boolean(false));
-        STATIC_REQUIRE(B2 != phi::Boolean(true));
+        CONSTEXPR_RUNTIME phi::Boolean b2(false);
+        STATIC_REQUIRE(b2 == false);
+        STATIC_REQUIRE(false == b2);
+        STATIC_REQUIRE(b2 != true);
+        STATIC_REQUIRE(true != b2);
+        STATIC_REQUIRE(b2 == phi::Boolean(false));
+        STATIC_REQUIRE(b2 != phi::Boolean(true));
     }
 
     SECTION("i/o")
@@ -127,7 +127,7 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 
     SECTION("get")
     {
-        CONSTEXPR_RUNTIME phi::Boolean B(true);
-        STATIC_REQUIRE(B.get());
+        CONSTEXPR_RUNTIME phi::Boolean b(true);
+        STATIC_REQUIRE(b.get());
     }
 }
