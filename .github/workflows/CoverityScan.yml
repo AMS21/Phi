@@ -42,7 +42,7 @@ jobs:
           mkdir build
           cd build
           cmake ..
-          
+
           # Configure cov-build
           cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
 
