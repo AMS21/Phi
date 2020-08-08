@@ -28,8 +28,12 @@ SOFTWARE.
 #include "ConstexprHelper.hpp"
 #include <Phi/Utility/Integer.hpp>
 #include <catch2/catch.hpp>
+#include <cpp/Warning.hpp>
 #include <cstdint>
 #include <sstream>
+
+CPP_GCC_SUPPRESS_WARNING_PUSH
+CPP_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEST_CASE("Integer layout", "[Utility][Types][Integer]")
 {
@@ -464,3 +468,5 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         STATIC_REQUIRE(std::is_convertible_v<phi::Integer<uint64_t>, phi::Integer<uint64_t>>);
     }
 }
+
+CPP_GCC_SUPPRESS_WARNING_POP
