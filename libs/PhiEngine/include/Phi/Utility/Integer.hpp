@@ -41,65 +41,63 @@ class Integer;
 /// \cond detail
 namespace detail
 {
-    template <typename T>
-    struct is_integer : std::bool_constant<std::is_integral_v<T> && !std::is_same_v<T, bool> &&
-                                           !std::is_same_v<T, char>>
+    template <typename TypeT>
+    struct is_integer
+        : std::bool_constant<std::is_integral_v<TypeT> && !std::is_same_v<TypeT, bool> &&
+                             !std::is_same_v<TypeT, char>>
     {};
 
-    template <typename T>
-    constexpr inline bool is_integer_v = is_integer<T>::value;
+    template <typename TypeT>
+    constexpr inline bool IsIntegerV = is_integer<TypeT>::value;
 
-    template <typename From, typename To>
+    template <typename FromT, typename ToT>
     struct is_safe_integer_conversion
-        : std::bool_constant<
-                  detail::is_integer_v<From> && detail::is_integer_v<To> &&
-                  ((sizeof(From) <= sizeof(To) && std::is_signed_v<From> == std::is_signed_v<To>) ||
-                   (sizeof(From) < sizeof(To) && std::is_unsigned_v<From> && std::is_signed_v<To>))>
+        : std::bool_constant<detail::IsIntegerV<FromT> && detail::IsIntegerV<ToT> &&
+                             ((sizeof(FromT) <= sizeof(ToT) &&
+                               std::is_signed_v<FromT> == std::is_signed_v<ToT>) ||
+                              (sizeof(FromT) < sizeof(ToT) && std::is_unsigned_v<FromT> &&
+                               std::is_signed_v<ToT>))>
     {};
 
-    template <typename From, typename To>
-    constexpr inline bool is_safe_integer_conversion_v =
-            is_safe_integer_conversion<From, To>::value;
+    template <typename FromT, typename ToT>
+    constexpr inline bool IsSafeIntegerConversionV = is_safe_integer_conversion<FromT, ToT>::value;
 
-    template <typename From, typename To>
+    template <typename FromT, typename ToT>
     using enable_safe_integer_conversion =
-            typename std::enable_if_t<is_safe_integer_conversion_v<From, To>>;
+            typename std::enable_if_t<IsSafeIntegerConversionV<FromT, ToT>>;
 
-    template <typename From, typename To>
+    template <typename FromT, typename ToT>
     using fallback_safe_integer_conversion =
-            typename std::enable_if_t<!is_safe_integer_conversion_v<From, To>>;
+            typename std::enable_if_t<!IsSafeIntegerConversionV<FromT, ToT>>;
 
     template <typename LhsT, typename RhsT>
-    struct is_safe_integer_comparison
-        : std::bool_constant<is_safe_integer_conversion_v<LhsT, RhsT> ||
-                             is_safe_integer_conversion_v<RhsT, LhsT>>
+    struct is_safe_integer_comparison : std::bool_constant<IsSafeIntegerConversionV<LhsT, RhsT> ||
+                                                           IsSafeIntegerConversionV<RhsT, LhsT>>
     {};
 
     template <typename LhsT, typename RhsT>
-    constexpr inline bool is_safe_integer_comparison_v =
-            is_safe_integer_comparison<LhsT, RhsT>::value;
+    constexpr inline bool IsSafeIntegerComparisonV = is_safe_integer_comparison<LhsT, RhsT>::value;
 
     template <typename LhsT, typename RhsT>
     using enable_safe_integer_comparison =
-            typename std::enable_if_t<is_safe_integer_comparison_v<LhsT, RhsT>>;
+            typename std::enable_if_t<IsSafeIntegerComparisonV<LhsT, RhsT>>;
 
     template <typename LhsT, typename RhsT>
     using fallback_safe_integer_comparison =
-            typename std::enable_if_t<!is_safe_integer_comparison_v<LhsT, RhsT>>;
+            typename std::enable_if_t<!IsSafeIntegerComparisonV<LhsT, RhsT>>;
 
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : std::bool_constant<detail::is_integer_v<LhsT> && detail::is_integer_v<RhsT> &&
+        : std::bool_constant<detail::IsIntegerV<LhsT> && detail::IsIntegerV<RhsT> &&
                              std::is_signed_v<LhsT> == std::is_signed_v<RhsT>>
     {};
 
     template <typename LhsT, typename RhsT>
-    constexpr inline bool is_safe_integer_operation_v =
-            is_safe_integer_operation<LhsT, RhsT>::value;
+    constexpr inline bool IsSafeIntegerOperationV = is_safe_integer_operation<LhsT, RhsT>::value;
 
     template <typename LhsT, typename RhsT>
     struct integer_result_type
-        : std::enable_if<is_safe_integer_operation_v<LhsT, RhsT>,
+        : std::enable_if<IsSafeIntegerOperationV<LhsT, RhsT>,
                          typename std::conditional_t<sizeof(LhsT) < sizeof(RhsT), RhsT, LhsT>>
     {};
 
@@ -107,8 +105,7 @@ namespace detail
     using integer_result_t = typename integer_result_type<LhsT, RhsT>::type;
 
     template <typename LhsT, typename RhsT>
-    using fallback_integer_result =
-            typename std::enable_if_t<!is_safe_integer_operation_v<LhsT, RhsT>>;
+    using fallback_integer_result = typename std::enable_if_t<!IsSafeIntegerOperationV<LhsT, RhsT>>;
 } // namespace detail
 /// \endcond
 
@@ -128,7 +125,7 @@ namespace detail
 template <typename IntegerT>
 class Integer
 {
-    static_assert(detail::is_integer_v<IntegerT>, "Must be a real integer type");
+    static_assert(detail::IsIntegerV<IntegerT>, "Must be a real integer type");
 
 public:
     using value_type  = IntegerT;
@@ -138,31 +135,31 @@ public:
     //=== constructors ===//
     Integer() = delete;
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE constexpr Integer(const T& val) noexcept
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE constexpr Integer(const Integer<T>& val) noexcept
-        : m_Value(static_cast<T>(val))
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE constexpr Integer(const Integer<TypeT>& val) noexcept
+        : m_Value(static_cast<TypeT>(val))
     {}
 
-    template <typename T, typename = detail::fallback_safe_integer_conversion<T, IntegerT>>
-    constexpr Integer(T) = delete;
+    template <typename TypeT, typename = detail::fallback_safe_integer_conversion<TypeT, IntegerT>>
+    constexpr Integer(TypeT) = delete;
 
     //=== assignment ===//
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator=(const T& val) noexcept
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator=(const TypeT& val) noexcept
     {
         m_Value = val;
         return *this;
     }
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator=(const Integer<T>& val) noexcept
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator=(const Integer<TypeT>& val) noexcept
     {
-        m_Value = static_cast<T>(val);
+        m_Value = static_cast<TypeT>(val);
         return *this;
     }
 
@@ -241,40 +238,40 @@ public:
     template <typename T, typename = detail::fallback_safe_integer_conversion<T, IntegerT>>        \
     Integer& operator Op(T) = delete;
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator+=(const Integer<T>& other)
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator+=(const Integer<TypeT>& other)
     {
         m_Value += other.get();
         return *this;
     }
     DETAIL_PHI_MAKE_OP(+=)
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator-=(const Integer<T>& other)
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator-=(const Integer<TypeT>& other)
     {
         m_Value -= other.get();
         return *this;
     }
     DETAIL_PHI_MAKE_OP(-=)
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator*=(const Integer<T>& other)
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator*=(const Integer<TypeT>& other)
     {
         m_Value *= other.get();
         return *this;
     }
     DETAIL_PHI_MAKE_OP(*=)
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator/=(const Integer<T>& other)
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator/=(const Integer<TypeT>& other)
     {
         m_Value /= other.get();
         return *this;
     }
     DETAIL_PHI_MAKE_OP(/=)
 
-    template <typename T, typename = detail::enable_safe_integer_conversion<T, IntegerT>>
-    CPP_ALWAYS_INLINE Integer& operator%=(const Integer<T>& other)
+    template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    CPP_ALWAYS_INLINE Integer& operator%=(const Integer<TypeT>& other)
     {
         m_Value %= other.get();
         return *this;
@@ -291,42 +288,42 @@ private:
 /// \cond detail
 namespace detail
 {
-    template <typename T>
+    template <typename TypeT>
     struct make_signed
     {
-        using type = typename std::make_signed_t<T>;
+        using type = typename std::make_signed_t<TypeT>;
     };
 
-    template <typename T>
-    struct make_signed<Integer<T>>
+    template <typename TypeT>
+    struct make_signed<Integer<TypeT>>
     {
-        using type = Integer<typename std::make_signed_t<T>>;
+        using type = Integer<typename std::make_signed_t<TypeT>>;
     };
 
-    template <typename T>
-    using make_signed_t = typename make_signed<T>::type;
+    template <typename TypeT>
+    using make_signed_t = typename make_signed<TypeT>::type;
 
-    template <typename T>
+    template <typename TypeT>
     struct make_unsigned
     {
-        using type = typename std::make_unsigned_t<T>;
+        using type = typename std::make_unsigned_t<TypeT>;
     };
 
-    template <typename T>
-    struct make_unsigned<Integer<T>>
+    template <typename TypeT>
+    struct make_unsigned<Integer<TypeT>>
     {
-        using type = Integer<typename std::make_unsigned_t<T>>;
+        using type = Integer<typename std::make_unsigned_t<TypeT>>;
     };
 
-    template <typename T>
-    using make_unsigned_t = typename make_unsigned<T>::type;
+    template <typename TypeT>
+    using make_unsigned_t = typename make_unsigned<TypeT>::type;
 } // namespace detail
 /// \endcond
 
 template <typename IntegerT>
 using make_signed_t = typename detail::make_signed_t<IntegerT>;
 
-template <typename IntegerT, typename = typename std::enable_if_t<detail::is_integer_v<IntegerT>>>
+template <typename IntegerT, typename = typename std::enable_if_t<detail::IsIntegerV<IntegerT>>>
 CPP_ALWAYS_INLINE constexpr make_signed_t<IntegerT> make_signed(const IntegerT& val)
 {
     using result_type = make_signed_t<IntegerT>;
@@ -343,7 +340,7 @@ CPP_ALWAYS_INLINE constexpr make_signed_t<Integer<IntegerT>> make_signed(
 template <typename IntegerT>
 using make_unsigned_t = typename detail::make_unsigned_t<IntegerT>;
 
-template <typename IntegerT, typename = typename std::enable_if_t<detail::is_integer_v<IntegerT>>>
+template <typename IntegerT, typename = typename std::enable_if_t<detail::IsIntegerV<IntegerT>>>
 CPP_ALWAYS_INLINE constexpr make_unsigned_t<IntegerT> make_unsigned(const IntegerT& val)
 {
     using result_type = make_unsigned_t<IntegerT>;
@@ -372,16 +369,16 @@ CPP_ALWAYS_INLINE constexpr make_unsigned_t<Integer<SignedIntegerT>> abs(
     return make_unsigned(val > 0 ? val : -val);
 }
 
-template <typename UnsignedInteger,
-          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedInteger>>>
-CPP_ALWAYS_INLINE constexpr UnsignedInteger abs(const UnsignedInteger& val)
+template <typename UnsignedIntegerT,
+          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedIntegerT>>>
+CPP_ALWAYS_INLINE constexpr UnsignedIntegerT abs(const UnsignedIntegerT& val)
 {
     return val;
 }
 
-template <typename UnsignedInteger,
-          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedInteger>>>
-CPP_ALWAYS_INLINE constexpr Integer<UnsignedInteger> abs(const Integer<UnsignedInteger>& val)
+template <typename UnsignedIntegerT,
+          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedIntegerT>>>
+CPP_ALWAYS_INLINE constexpr Integer<UnsignedIntegerT> abs(const Integer<UnsignedIntegerT>& val)
 {
     return val;
 }
