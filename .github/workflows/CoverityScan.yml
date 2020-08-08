@@ -5,7 +5,7 @@ on:
     - cron: '0 4 * * *' # Daily at 4:00 UTC
   push:
     branches:
-    - 'coverity/**'
+      - 'coverity/**'
 
 jobs:
   trunk:
