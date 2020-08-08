@@ -81,6 +81,7 @@ jobs:
           ctest .
 
       - name: Generate warnings
+        shell: bash
         run: |
           touch build.log
           # Build
@@ -92,15 +93,17 @@ jobs:
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
 
           # Print logs
-          cat build_filtered.log
+          type build_filtered.log
 
       - name: ReviewDog check
+        shell: bash
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
 
       - name: ReviewDog Review
+        shell: bash
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
