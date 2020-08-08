@@ -44,7 +44,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 constexpr const static std::uint32_t VersionMajor{PHI_VERSION_MAJOR()};
 constexpr const static std::uint32_t VersionMinor{PHI_VERSION_MINOR()};
 constexpr const static std::uint32_t VersionPatch{PHI_VERSION_PATCH()};
-constexpr const static std::uint32_t Version{PHI_VERSION()};
+constexpr const static std::uint32_t Version{PHI_VERSION()}; // NOLINT(hicpp-signed-bitwise)
 constexpr const static char          VersionString[]{PHI_VERSION_STR()};
 
 DETAIL_PHI_END_NAMESPACE()
