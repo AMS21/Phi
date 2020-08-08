@@ -82,10 +82,12 @@ jobs:
 
       - name: Generate warnings
         run: |
+          touch build.log
           # Build
           cd build
           cmake --build .  --config "Debug" --clean-first 2> build.log
 
+          touch build_filtered.log
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
 
