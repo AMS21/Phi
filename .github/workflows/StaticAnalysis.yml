@@ -268,9 +268,16 @@ jobs:
           cd build
 
           # Configure
-          cmake -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
 
-          iwyu_tool.py -p .
+          # Run include-what-you-use
+          iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns > iwyu.log
+
+          # Filter out correct includes
+          cat iwyu.log | grep -Ev "#includes/fwd-decls are correct" > iwyu_filtered.log
+
+          # Print result
+          cat iwyu_filtered.log
 
   cmake-lint:
     runs-on: ubuntu-latest
