@@ -14,15 +14,19 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-          - { compiler: cl }
-          - { compiler: g++ }
-          - { compiler: clang++ }
+          - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
+          - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
+          - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
 
       - name: Install cmake
         uses: lukka/get-cmake@latest
@@ -74,3 +78,25 @@ jobs:
           cd build
           cmake --build . --config "Release" --clean-first
           ctest .
+
+      - name: Generate warnings
+        run: |
+          # Build
+          cd build
+          cmake --build .  --config "Debug" --clean-first 2> build.log
+
+          # Filter out warnings for external dependencies
+          cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matric.cfg.compiler }} warnings"
+
+      - name: ReviewDog Review
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matric.cfg.compiler }} warnings"
