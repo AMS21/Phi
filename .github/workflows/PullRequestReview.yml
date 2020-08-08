@@ -1,6 +1,6 @@
 name: PullRequestReview
 
-on: [pull_request]
+on: pull_request
 
 jobs:
   spelling:
