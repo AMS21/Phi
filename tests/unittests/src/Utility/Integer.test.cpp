@@ -23,7 +23,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
 #include <Phi/Utility/Integer.hpp>
@@ -31,6 +30,7 @@ SOFTWARE.
 #include <cpp/Warning.hpp>
 #include <cstdint>
 #include <sstream>
+#include <type_traits>
 
 CPP_GCC_SUPPRESS_WARNING_PUSH
 CPP_GCC_SUPPRESS_WARNING("-Wuseless-cast")

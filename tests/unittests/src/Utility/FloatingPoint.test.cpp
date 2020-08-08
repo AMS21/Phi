@@ -30,6 +30,7 @@ SOFTWARE.
 #include <cpp/Warning.hpp>
 #include <cfloat>
 #include <sstream>
+#include <string>
 #include <type_traits>
 
 CPP_CLANG_SUPPRESS_WARNING_PUSH
