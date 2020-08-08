@@ -43,12 +43,14 @@ jobs:
           cd build
           cmake ..
 
-          # Configure cov-build
+      - name: Configure cov-build
+        run: |
+          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
+
           cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
 
       - name: Build with cov-build
         run: |
-          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
           cd build
           cov-build --dir ../cov-int make
 
