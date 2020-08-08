@@ -136,7 +136,9 @@ public:
     Integer() = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    // cppcheck-suppress noExplicitConstructor
     CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
+
         : m_Value(val)
     {}
 
@@ -203,6 +205,7 @@ public:
         return *this;
     }
 
+    // cppcheck-suppress functionConst
     CPP_ALWAYS_INLINE Integer operator++(int) noexcept
     {
         auto res = *this;
@@ -216,7 +219,7 @@ public:
         return *this;
     }
 
-    /// \group decrement
+    // cppcheck-suppress functionConst
     CPP_ALWAYS_INLINE Integer operator--(int) noexcept
     {
         auto res = *this;

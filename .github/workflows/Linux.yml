@@ -23,6 +23,10 @@ jobs:
         with:
           submodules: true
 
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
@@ -73,3 +77,25 @@ jobs:
           cd build
           cmake --build . --config "Release" --clean-first
           ctest .
+
+      - name: Generate warnings
+        run: |
+          # Build
+          cd build
+          cmake --build .  --config "Debug" --clean-first 2> build.log
+
+          # Filter out warnings for external dependencies
+          cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning
+
+      - name: ReviewDog Review
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning

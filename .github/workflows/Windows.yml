@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
+    name: "Build (${{ matrix.cfg.compiler }})"
     runs-on: windows-latest
 
     env:
@@ -14,15 +15,19 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-          - { compiler: cl }
-          - { compiler: g++ }
-          - { compiler: clang++ }
+          - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
+          - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
+          - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: true
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
 
       - name: Install cmake
         uses: lukka/get-cmake@latest
@@ -74,3 +79,31 @@ jobs:
           cd build
           cmake --build . --config "Release" --clean-first
           ctest .
+
+      - name: Generate warnings
+        shell: bash
+        run: |
+          # Build
+          cd build
+          cmake --build .  --config "Debug" --clean-first 2> build.log
+
+          # Filter out warnings for external dependencies
+          cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
+
+          # Print logs
+          cat build_filtered.log
+
+      - name: ReviewDog check
+        shell: bash
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
+
+      - name: ReviewDog Review
+        shell: bash
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning

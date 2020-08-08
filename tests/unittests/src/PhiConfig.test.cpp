@@ -2,7 +2,7 @@
 
 #include "StringHelper.hpp"
 #include <Phi/PhiConfig.hpp>
-#include <cstring>
+#include <cpp/Stringify.hpp>
 
 TEST_CASE("PhiConfig.hpp macros", "[Config]")
 {
