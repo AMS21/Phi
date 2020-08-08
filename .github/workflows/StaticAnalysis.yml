@@ -89,6 +89,10 @@ jobs:
         with:
           submodules: true
 
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
@@ -105,10 +109,32 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
 
           # Run clang-tidy
-          run-clang-tidy-${{ env.LLVM_VERSION }}
+          run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" > clang_tidy.log
+
+          # Filter out external libraries and test code
+          cat clang_tidy.log | grep -Ev "Phi/external|Phi/tests" > clang_tidy_filtered.log
+
+          # Remove duplicate entries
+          sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
+
+          # Print log
+          cat clang_tidy_output.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check
+
+      - name: ReviewDog Review
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy
 
   flawfinder:
     runs-on: ubuntu-latest
