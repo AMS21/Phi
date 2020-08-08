@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
+    name: "Build (${{ matrix.cfg.compiler }})"
     runs-on: windows-latest
 
     env:
