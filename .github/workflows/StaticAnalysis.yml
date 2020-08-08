@@ -69,7 +69,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
@@ -127,7 +127,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check
+          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
@@ -213,7 +213,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check
+          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
@@ -308,7 +308,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
