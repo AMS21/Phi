@@ -76,7 +76,7 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.llvm_version }} -DCMAKE_CXX_COMPILER=/usr/bin/clang++-${{ env.llvm_version }}
 
           # Run clang-tidy
-          run-clang-tidy-${{ env.llvm_version }} -checks="-*,readability-identifier-naming" -fix -header-filter "include/"
+          run-clang-tidy-${{ env.llvm_version }} -checks="-*,readability-identifier-naming" -fix -header-filter ".*"
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
