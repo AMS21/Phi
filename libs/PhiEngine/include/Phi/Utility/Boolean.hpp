@@ -41,7 +41,7 @@ class Boolean;
 /// \cond detail
 namespace detail
 {
-    template <typename T>
+    template <typename TypeT>
     struct is_boolean : std::false_type
     {};
 
@@ -53,11 +53,11 @@ namespace detail
     struct is_boolean<Boolean> : std::true_type
     {};
 
-    template <typename T>
-    constexpr inline bool is_boolean_v = is_boolean<T>::value;
+    template <typename TypeT>
+    constexpr inline bool IsBooleanV = is_boolean<TypeT>::value;
 
-    template <typename T>
-    using enable_if_boolean_t = typename std::enable_if_t<is_boolean_v<T>>;
+    template <typename TypeT>
+    using enable_if_boolean_t = typename std::enable_if_t<IsBooleanV<TypeT>>;
 } // namespace detail
 /// \endcond
 
@@ -66,13 +66,13 @@ class Boolean
 public:
     Boolean() = delete;
 
-    template <typename T, typename = detail::enable_if_boolean_t<T>>
-    CPP_ALWAYS_INLINE constexpr Boolean(T value) noexcept
+    template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+    CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
         : m_Value(value)
     {}
 
-    template <typename T, typename = detail::enable_if_boolean_t<T>>
-    CPP_ALWAYS_INLINE Boolean& operator=(T value) noexcept
+    template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+    CPP_ALWAYS_INLINE Boolean& operator=(TypeT value) noexcept
     {
         m_Value = value;
         return *this;
@@ -88,7 +88,7 @@ public:
         return Boolean(!m_Value);
     }
 
-    CPP_ALWAYS_INLINE constexpr bool get() const noexcept
+    [[nodiscard]] CPP_ALWAYS_INLINE constexpr bool get() const noexcept
     {
         return m_Value;
     }
@@ -102,14 +102,14 @@ CPP_ALWAYS_INLINE constexpr bool operator==(const Boolean& lhs, const Boolean& r
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
 
-template <typename T, typename = detail::enable_if_boolean_t<T>>
-CPP_ALWAYS_INLINE constexpr bool operator==(const Boolean& lhs, T rhs) noexcept
+template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+CPP_ALWAYS_INLINE constexpr bool operator==(const Boolean& lhs, TypeT rhs) noexcept
 {
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
 
-template <typename T, typename = detail::enable_if_boolean_t<T>>
-CPP_ALWAYS_INLINE constexpr bool operator==(T lhs, const Boolean& rhs) noexcept
+template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+CPP_ALWAYS_INLINE constexpr bool operator==(TypeT lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
@@ -119,14 +119,14 @@ CPP_ALWAYS_INLINE constexpr bool operator!=(const Boolean& lhs, const Boolean& r
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }
 
-template <typename T, typename = detail::enable_if_boolean_t<T>>
-CPP_ALWAYS_INLINE constexpr bool operator!=(const Boolean& lhs, T rhs) noexcept
+template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+CPP_ALWAYS_INLINE constexpr bool operator!=(const Boolean& lhs, TypeT rhs) noexcept
 {
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }
 
-template <typename T, typename = detail::enable_if_boolean_t<T>>
-CPP_ALWAYS_INLINE constexpr bool operator!=(T lhs, const Boolean& rhs) noexcept
+template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
+CPP_ALWAYS_INLINE constexpr bool operator!=(TypeT lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }

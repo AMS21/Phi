@@ -32,13 +32,15 @@ enable_static_analyzers(${UnittestName})
 add_test(Unittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${UnittestName})
 
 # Constexpr unittests
-set(ConstexprTestName "PhiEngine_ConstexprUnittests")
+if(${PHI_ENABLE_CONSTEXPRTESTS})
+  set(ConstexprTestName "PhiEngine_ConstexprUnittests")
 
-add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
+  add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-target_link_libraries(${ConstexprTestName} PRIVATE Phi::ProjectOptions Phi::Engine Catch2::Catch2)
-target_include_directories(${ConstexprTestName} PRIVATE "include")
+  target_link_libraries(${ConstexprTestName} PRIVATE Phi::ProjectOptions Phi::Engine Catch2::Catch2)
+  target_include_directories(${ConstexprTestName} PRIVATE "include")
 
-enable_static_analyzers(${ConstexprTestName})
+  enable_static_analyzers(${ConstexprTestName})
 
-add_test(ConstexprUnittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ConstexprTestName})
+  add_test(ConstexprUnittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ConstexprTestName})
+endif()
