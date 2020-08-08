@@ -78,11 +78,11 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name "MacOS ${{ matric.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings"
+          cat build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name "MacOS ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings"
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name "MacOS ${{ matric.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings"
+          cat build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name "MacOS ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings"
