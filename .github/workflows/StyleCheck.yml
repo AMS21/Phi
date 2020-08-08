@@ -1,9 +1,6 @@
 name: StyleCheck
 
-on:
-  pull_request:
-  push:
-    branches: [master, develop]
+on: [pull_request]
 
 jobs:
   format:
