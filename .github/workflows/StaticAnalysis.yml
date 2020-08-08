@@ -69,14 +69,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name CppCheck
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-latest
@@ -127,14 +127,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy
+          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy
+          cat clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
 
   flawfinder:
     runs-on: ubuntu-latest
@@ -213,14 +213,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio
+          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name PVS-Studio
+          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name PVS-Studio -level warning
 
   include-what-you-use:
     runs-on: ubuntu-latest
@@ -287,14 +287,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-check -name include-what-you-use
+          cat iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-check -name include-what-you-use -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-pr-review -name include-what-you-use
+          cat iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-pr-review -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-latest
@@ -325,11 +325,11 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-pr-review -name cmake-lint
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-pr-review -name cmake-lint -level warning
