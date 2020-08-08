@@ -60,7 +60,7 @@ jobs:
           # Ensure that files have LF line endings and do not contain a BOM.
           find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
 
-      - name: Clang-tidy naming
+      - name: Clang-tidy fixes
         run: |
           # Install clang-tidy
           sudo apt-get install clang-tidy-${{ env.llvm_version }} clang-${{ env.llvm_version }}
@@ -76,14 +76,21 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.llvm_version }} -DCMAKE_CXX_COMPILER=/usr/bin/clang++-${{ env.llvm_version }}
 
           # Run clang-tidy
-          run-clang-tidy-${{ env.llvm_version }} -checks="-*,readability-identifier-naming" -fix -header-filter ".*"
+          run-clang-tidy-${{ env.llvm_version }} -fix -header-filter ".*" -checks="-*,bugprone-argument-comment,bugprone-reserved-identifier,cppcoreguidelines-pro-type-cstyle-cast,modernize-deprecated-headers,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-nullptr,modernize-use-override,modernize-use-using,readability-braces-around-statements,readability-container-size-empty,readability-identifier-naming,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-make-member-function-const,readability-qualified-auto,readability-redundant-control-flow,readability-simplify-boolean-expr"
+
+      - name: Build
+        run: |
+          # The applied fixes might break the code so make sure it still compiled
+          cd build
+          cmake --build . --config "Debug" --clean-first
+          ctest .
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
-        continue-on-error: true
+        continue-on-error: true  # Ignore errors
         with:
-          commit_message: Applied automatic formatting
+          commit_message: Applied automatic formatting and fixes
           branch: ${{ github.head_ref }}
           commit_options: '--no-verify --signoff'
-          commit_user_name: Phi Formatting Bot
+          commit_user_name: Phi Code Quality Bot
           file_pattern: docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* CMakeLists.txt
