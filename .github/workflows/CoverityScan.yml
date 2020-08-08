@@ -55,6 +55,8 @@ jobs:
 
       - name: Build with cov-build
         run: |
+          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
+          
           cd build
           cov-build --dir ../cov-int make
 
