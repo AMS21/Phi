@@ -32,7 +32,7 @@ enable_static_analyzers(${UnittestName})
 add_test(Unittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${UnittestName})
 
 # Constexpr unittests
-if (${PHI_ENABLE_CONSTEXPRTESTS})
+if(${PHI_ENABLE_CONSTEXPRTESTS})
   set(ConstexprTestName "PhiEngine_ConstexprUnittests")
 
   add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")

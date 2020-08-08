@@ -150,7 +150,7 @@ public:
         return m_Value;
     }
 
-    CPP_ALWAYS_INLINE constexpr FloatT get() const noexcept
+    [[nodiscard]] CPP_ALWAYS_INLINE constexpr FloatT get() const noexcept
     {
         return m_Value;
     }

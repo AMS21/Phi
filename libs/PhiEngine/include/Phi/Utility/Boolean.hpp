@@ -88,7 +88,7 @@ public:
         return Boolean(!m_Value);
     }
 
-    CPP_ALWAYS_INLINE constexpr bool get() const noexcept
+    [[nodiscard]] CPP_ALWAYS_INLINE constexpr bool get() const noexcept
     {
         return m_Value;
     }

@@ -169,7 +169,7 @@ public:
         return m_Value;
     }
 
-    CPP_ALWAYS_INLINE constexpr IntegerT get() const noexcept
+    [[nodiscard]] CPP_ALWAYS_INLINE constexpr IntegerT get() const noexcept
     {
         return m_Value;
     }

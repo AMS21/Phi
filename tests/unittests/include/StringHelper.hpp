@@ -26,12 +26,7 @@ template <typename CharT>
 {
     if ((lhs == nullptr || rhs == nullptr))
     {
-        if (lhs == rhs)
-        {
-            return true;
-        }
-
-        return false;
+        return static_cast<bool>(lhs == rhs);
     }
 
     while (*lhs != CharT('\0'))
