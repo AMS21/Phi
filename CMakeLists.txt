@@ -39,6 +39,7 @@ option(PHI_BUILD_DOCS "Generate the source code documentaion" OFF)
 option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_DISABLE_OPTIMIZATIONS "Disable all the special optimization flags of Phi" OFF)
+option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 
 include(PhiConfiguration)
 
