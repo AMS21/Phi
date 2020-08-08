@@ -29,6 +29,7 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
+          yamllint_flags: '-d "{extends: relaxed, rules: {line-length: {max: 100}}}"'
 
   markdownlint:
     runs-on: ubuntu-latest
