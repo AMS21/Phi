@@ -30,6 +30,7 @@ SOFTWARE.
 #include <cpp/Warning.hpp>
 #include <cstdint>
 #include <sstream>
+#include <string>
 #include <type_traits>
 
 CPP_GCC_SUPPRESS_WARNING_PUSH
