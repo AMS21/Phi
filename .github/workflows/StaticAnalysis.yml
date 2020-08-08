@@ -164,6 +164,10 @@ jobs:
         with:
           submodules: true
 
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
@@ -188,7 +192,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
 
           # Create License
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
@@ -199,8 +203,24 @@ jobs:
           # Convert to readable format
           plog-converter --renderTypes errorfile PVS-Studio.log --output PVS-Studio.err
 
+          # Filter out external libraries and test code
+          cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests" > PVS-Studio_filtered.err
+
           # Display warnings
-          cat PVS-Studio.err
+          cat PVS-Studio_filtered.err
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check
+
+      - name: ReviewDog Review
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name PVS-Studio
 
   include-what-you-use:
     runs-on: ubuntu-latest
