@@ -127,14 +127,14 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
 
   flawfinder:
     runs-on: ubuntu-latest
