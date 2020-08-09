@@ -51,9 +51,11 @@ jobs:
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
-          cov-configure -co /usr/bin/g++-${{ env.GCC_VERSION }} -- -std=gnu++2a
+          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }} --template -- -std=gnu++2a
 
       - name: Build with cov-build
+        env:
+          COVERITY_UNSUPPORTED_COMPILER_INVOCATION: 1
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
