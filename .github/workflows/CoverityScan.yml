@@ -68,7 +68,8 @@ jobs:
 
       - name: Submit the result to Coverity Scan
         run: |
-          tar czvf phi.tgz build/cov-int
+          cd build
+          tar czvf phi.tgz cov-int
           curl --form token=$TOKEN \
                --form email=hansfritzenmeister@protonmail.com \
                --form file=@phi.tgz \
