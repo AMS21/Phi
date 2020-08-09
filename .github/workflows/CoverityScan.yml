@@ -51,7 +51,7 @@ jobs:
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
-          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
+          cov-configure -co /usr/bin/g++-${{ env.GCC_VERSION }} -- -std=gnu++2a
 
       - name: Build with cov-build
         run: |
