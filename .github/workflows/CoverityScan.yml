@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GCC_VERSION: "9"
+      GCC_VERSION: "8"
 
     steps:
       - name: Checkout
