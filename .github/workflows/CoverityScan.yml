@@ -60,15 +60,15 @@ jobs:
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
           cd build
-          cov-build --dir ../cov-int make
+          cov-build --dir cov-int make
 
       - name: Print build log
         run: |
-          cat cov-int/build-log.txt
+          cat build/cov-int/build-log.txt
 
       - name: Submit the result to Coverity Scan
         run: |
-          tar czvf phi.tgz cov-int
+          tar czvf phi.tgz build/cov-int
           curl --form token=$TOKEN \
                --form email=hansfritzenmeister@protonmail.com \
                --form file=@phi.tgz \
