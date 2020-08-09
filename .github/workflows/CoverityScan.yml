@@ -2,7 +2,7 @@ name: CoverityScan
 
 on:
   schedule:
-    - cron: '0 4 * * *' # Daily at 4:00 UTC
+    - cron: '0 4 * * 1' # Every monday at 4:00 UTC
   push:
     branches:
       - 'coverity/**'
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GCC_VERSION: "10"
+      GCC_VERSION: "8"
 
     steps:
       - name: Checkout
@@ -51,12 +51,16 @@ jobs:
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
-          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
+          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }} -- -std=gnu++2a
 
       - name: Build with cov-build
+        env:
+          COVERITY_UNSUPPORTED_COMPILER_INVOCATION: 1
         run: |
+          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
+
           cd build
-          cov-build --dir ../cov-int make
+          cov-build --dir cov-int make
 
       - name: Print build log
         run: |
@@ -64,6 +68,7 @@ jobs:
 
       - name: Submit the result to Coverity Scan
         run: |
+          cd build
           tar czvf phi.tgz cov-int
           curl --form token=$TOKEN \
                --form email=hansfritzenmeister@protonmail.com \
