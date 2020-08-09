@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GCC_VERSION: "10"
+      GCC_VERSION: "9"
 
     steps:
       - name: Checkout
@@ -51,7 +51,7 @@ jobs:
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
-          cov-configure --gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
+          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }}
 
       - name: Build with cov-build
         run: |
