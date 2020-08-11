@@ -54,9 +54,9 @@ jobs:
           sudo apt-get install dos2unix recode
 
           # Ensure that files are UTF-8 formatted
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\)' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
           # Ensure that files have LF line endings and do not contain a BOM.
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
 
       - name: Clang-tidy fixes
         run: |
