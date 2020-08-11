@@ -15,7 +15,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: g++, compiler_version: "10" }
-          - { compiler: clang++, compiler_version: "11.4.1" }
+          - { compiler: clang++, compiler_version: "11.6" }
 
     steps:
       - name: Checkout
