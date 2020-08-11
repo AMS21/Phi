@@ -18,6 +18,7 @@ jobs:
           - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
           - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
           - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
+          - { compiler: clang-cl, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
       - name: Checkout
@@ -46,16 +47,17 @@ jobs:
           if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
             # Clang
             scoop install llvm --global
+            echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
           }
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
+            echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
           }
 
           scoop install ninja
 
           # Scoop modifies the PATH so we make the modified PATH global.
-          echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
           echo "::set-env name=PATH::$env:PATH"
 
       - name: Configure build directory
