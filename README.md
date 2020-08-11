@@ -8,4 +8,5 @@
 ![Coverity Scan](https://img.shields.io/coverity/scan/ams21-phi)
 [![deepcode](https://www.deepcode.ai/api/gh/badge?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybTEiOiJnaCIsIm93bmVyMSI6IkFNUzIxIiwicmVwbzEiOiJQaGkiLCJpbmNsdWRlTGludCI6ZmFsc2UsImF1dGhvcklkIjoxNjg4MSwiaWF0IjoxNTk2NTU0Mzc1fQ.zxM87yHoiFZmvvNMPXRmbOS7T74jlP746b523X3TmPI)](https://www.deepcode.ai/app/gh/AMS21/Phi/_/dashboard?utm_content=gh%2FAMS21%2FPhi)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/CodeQL?label=CodeQL)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/AMS21/Phi.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AMS21/Phi/context:cpp)
 [![codecov](https://codecov.io/gh/AMS21/Phi/branch/develop/graph/badge.svg)](https://codecov.io/gh/AMS21/Phi)
