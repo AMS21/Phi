@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: get-cmake
+      - name: Install cmake
         uses: lukka/get-cmake@latest
 
       - name: Install tools
@@ -71,7 +71,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: get-cmake
+      - name: Install cmake
         uses: lukka/get-cmake@latest
 
       - name: Install tools
