@@ -56,8 +56,9 @@ jobs:
           # Scoop modifies the PATH so we make the modified PATH global.
           echo "::set-env name=PATH::$env:PATH"
 
-      - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v1
+      - name: Setup msvc dev
+        if: ${{ matrix.cfg.compiler }} == 'cl' || ${{ matrix.cfg.compiler }} == 'clang-cl'
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure build directory
         run: |
