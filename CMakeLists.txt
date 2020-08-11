@@ -1,5 +1,5 @@
 # Phi top level cmake file
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.12)
 
 # Policy
 if(${CMAKE_VERSION} VERSION_LESS 3.18)
