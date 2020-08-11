@@ -82,12 +82,24 @@ jobs:
           cmake --build . --config "Debug" --clean-first
           ctest .
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v2
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.BOT_KEY_PASSPHRASE }}
+        with:
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_push_gpgsign: true
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         continue-on-error: true  # Ignore errors
         with:
           commit_message: Applied automatic formatting and fixes
           branch: ${{ github.head_ref }}
-          commit_options: '--no-verify --signoff'
+          commit_options: '-S --no-verify --signoff'
           commit_user_name: Phi Code Quality Bot
+          commit_user_email: AMS21Bot.github@gmail.com
+          commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
           file_pattern: docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* CMakeLists.txt
