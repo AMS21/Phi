@@ -42,25 +42,25 @@ jobs:
           if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
             # Clang
             scoop install llvm --global
-            echo "::set-env name=CMAKE_CXX_COMPILER::${{ matrix.cfg.compiler }}"
           }
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "::set-env name=CMAKE_CXX_COMPILER::g++"
           }
 
           # Scoop modifies the PATH so we make the modified PATH global.
+          echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
           echo "::set-env name=PATH::$env:PATH"
 
       - name: Setup msbuild
+        if: ${{ matrix.cfg.compiler == "cl" }}
         uses: microsoft/setup-msbuild@v1
 
       - name: Configure build directory
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.cfg.compiler }}
+          cmake ..
 
       - name: Build Debug
         run: |
@@ -85,7 +85,7 @@ jobs:
         run: |
           # Build
           cd build
-          cmake --build .  --config "Debug" --clean-first 2> build.log
+          cmake --build . --config "Debug" --clean-first 2> build.log
 
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
