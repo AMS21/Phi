@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT }}
 
       - name: Install cmake
         uses: lukka/get-cmake@latest
@@ -41,11 +42,11 @@ jobs:
           sudo apt-get install moreutils
 
           # Fix mixed tabs and spaces
-          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
           # Fix trailing white spaces
-          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'sed -i 's/[[:space:]]*$//' "$0" | sponge "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'sed -i '' -e's/[[:space:]]*$//' "$0"' {} \;
           # Ensure files end with new line
-          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
 
       - name: Fix encoding
         run: |
@@ -53,9 +54,9 @@ jobs:
           sudo apt-get install dos2unix recode
 
           # Ensure that files are UTF-8 formatted
-          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
           # Ensure that files have LF line endings and do not contain a BOM.
-          find ./ -iname '*.[hc]pp]' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
 
       - name: Clang-tidy fixes
         run: |
@@ -82,12 +83,107 @@ jobs:
           cmake --build . --config "Debug" --clean-first
           ctest .
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v2
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.BOT_KEY_PASSPHRASE }}
+        with:
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         continue-on-error: true  # Ignore errors
         with:
           commit_message: Applied automatic formatting and fixes
           branch: ${{ github.head_ref }}
-          commit_options: '--no-verify --signoff'
+          commit_options: '-S --no-verify --signoff'
           commit_user_name: Phi Code Quality Bot
-          file_pattern: docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* CMakeLists.txt
+          commit_user_email: AMS21Bot.github@gmail.com
+          commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
+          file_pattern: .github/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* .cmake-format.yaml CMakeLists.txt README.md
+
+  misspell:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run misspell with reviewdog
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          locale: US
+          reporter: github-pr-review
+          level: warning
+
+  yamllint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: yamllint
+        uses: reviewdog/action-yamllint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          yamllint_flags: '-d "{extends: relaxed, rules: {line-length: {max: 100}}}"'
+          level: warning
+
+  markdownlint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: markdownlint
+        uses: prologic/action-markdownlint@v0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check # Change reporter. (Only `github-pr-check` is supported at the moment).
+          level: warning
+
+  remark-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: remark-lint
+        uses: prologic/action-remark-lint@v0.0.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check # Change reporter. (Only `github-pr-check` is supported at the moment).
+          level: warning
+
+  languagetool:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: reviewdog/action-languagetool@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: warning
+
+  alex:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: reviewdog/action-alex@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: warning

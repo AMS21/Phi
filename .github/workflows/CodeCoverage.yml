@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          submodules: true
+          submodules: recursive
 
-      - name: get-cmake
+      - name: Install cmake
         uses: lukka/get-cmake@latest
 
       - name: Install tools
@@ -58,6 +58,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: unittests
-          name: ${{ runner.os }}.g++-${{ env.GCC_VERSION }}
+          flags: unittests,linux
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
           fail_ci_if_error: true
