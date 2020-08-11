@@ -32,6 +32,10 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
+      - name: Setup msbuild
+        if: ${{ matrix.cfg.compiler }} == cl
+        uses: microsoft/setup-msbuild@v1
+
       - name: Install
         shell: powershell
         run: |
@@ -51,10 +55,6 @@ jobs:
           # Scoop modifies the PATH so we make the modified PATH global.
           echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
           echo "::set-env name=PATH::$env:PATH"
-
-      - name: Setup msbuild
-        if: ${{ matrix.cfg.compiler }} == "cl"
-        uses: microsoft/setup-msbuild@v1
 
       - name: Configure build directory
         run: |
