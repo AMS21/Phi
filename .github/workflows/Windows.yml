@@ -15,9 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-          - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
-          - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
-          - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
+          - { compiler: cl, generator: Visual Studio 16 2019, error_format: "%f(%l,%c): warning %m" }
+          - { compiler: g++, generator: MinGW Makefiles, error_format: "%f:%l:%c: warning: %m" }
+          - { compiler: clang++, generator: MinGW Makefiles, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
       - name: Checkout
@@ -33,7 +33,7 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: Setup msbuild
-        if: ${{ matrix.cfg.compiler }} == cl
+        if: matrix.cfg.compiler == 'cl'
         uses: microsoft/setup-msbuild@v1
 
       - name: Install
@@ -60,7 +60,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake .. -G ${{ matrix.cfg.generator }}
 
       - name: Build Debug
         run: |
