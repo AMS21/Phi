@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          submodules: true
+          submodules: recursive
 
       - uses: reviewdog/action-setup@v1
         with:
