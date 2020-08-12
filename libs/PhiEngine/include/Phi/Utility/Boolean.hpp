@@ -138,7 +138,7 @@ template <typename CharT, typename CharTraitsT>
 std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& stream,
                                                    Boolean&                                rhs)
 {
-    bool val;
+    bool val{false};
     stream >> val;
     rhs = val;
 
