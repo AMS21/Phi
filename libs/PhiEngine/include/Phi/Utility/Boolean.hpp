@@ -28,6 +28,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_BOOLEAN_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
@@ -68,7 +69,7 @@ public:
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
     // cppcheck-suppress noExplicitConstructor
-    CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
 
         : m_Value(value)
     {}

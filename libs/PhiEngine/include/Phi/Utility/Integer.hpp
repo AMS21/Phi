@@ -27,6 +27,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
@@ -137,7 +138,7 @@ public:
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     // cppcheck-suppress noExplicitConstructor
-    CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
 
         : m_Value(val)
     {}

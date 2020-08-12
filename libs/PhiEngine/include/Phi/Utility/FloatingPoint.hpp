@@ -28,6 +28,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_FLOATINGPOINT_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
@@ -110,7 +111,7 @@ public:
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
     // cppcheck-suppress noExplicitConstructor
-    CPP_ALWAYS_INLINE constexpr FloatingPoint(const TypeT& val) noexcept
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr FloatingPoint(const TypeT& val) noexcept
 
         : m_Value(val)
     {}
