@@ -8,6 +8,7 @@ jobs:
     env:
       LCOV_VERSION: "1.14"
       GCC_VERSION: "8"
+      LLVM_VERSION: "10"
 
     steps:
       - name: Checkout
@@ -28,24 +29,32 @@ jobs:
 
           echo "::set-env name=PATH::$(pwd)/lcov/bin:${PATH}"
 
+          # Add clang repo
+          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+
+          # Update repo list
+          sudo apt-get update -m
+
           # Install g++
           sudo apt-get install g++-${{ env.GCC_VERSION }}
-          echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
 
-      - name: Build coverage data
+          # Install clang/LLVM
+          sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
+
+      - name: Build coverage data (GCC)
         run: |
           # Create build directory
           mkdir build
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
           ctest .
 
-      - name: Process coverage data
+      - name: Process coverage data (GCC)
         run: |
           lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
           lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
@@ -54,13 +63,46 @@ jobs:
           # List debug info
           lcov --list coverage.info # debug info
 
-      - name: Upload coverage data
+      - name: Upload coverage data (GCC)
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
           flags: unittests,linux
           name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
+          fail_ci_if_error: true
+
+      - name: Build coverage data (Clang)
+        run: |
+          # Create build directory
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
+          ctest .
+
+      - name: Process coverage data (Clang)
+        run: |
+          cd build
+
+          llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
+
+          # List coverage data
+          llvm-cov report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
+          cat coverage.info
+
+      - name: Upload coverage data (Clang)
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build/coverage.info
+          flags: unittests,linux
+          name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}
           fail_ci_if_error: true
 
   windows:
@@ -107,11 +149,10 @@ jobs:
           cd build
 
           llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
-
           llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
 
+          # List coverage data
           llvm-cov report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
-
           cat coverage.info
 
       - name: Upload coverage data
