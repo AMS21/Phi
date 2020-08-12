@@ -132,17 +132,17 @@ public:
     using value_type  = IntegerT;
     using limits_type = std::numeric_limits<IntegerT>;
 
-public:
     //=== constructors ===//
     Integer() = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINT(hicpp-explicit-conversions)
+    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     CPP_ALWAYS_INLINE constexpr Integer(const Integer<TypeT>& val) noexcept
         : m_Value(static_cast<TypeT>(val))
     {}
