@@ -89,11 +89,11 @@ jobs:
         run: |
           cd build
 
-          llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
-          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
+          llvm-profdata-${{ env.LLVM_VERSION }} merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          llvm-cov-${{ env.LLVM_VERSION }} show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
 
           # List coverage data
-          llvm-cov report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
+          llvm-cov-${{ env.LLVM_VERSION }} report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
           cat coverage.info
 
       - name: Upload coverage data (Clang)
