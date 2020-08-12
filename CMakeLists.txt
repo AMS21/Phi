@@ -40,6 +40,7 @@ option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_DISABLE_OPTIMIZATIONS "Disable all the special optimization flags of Phi" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
+option(PHI_COVERAGE_BUILD "Enable special flags for creating coverage data" OFF)
 
 include(PhiConfiguration)
 
@@ -85,4 +86,9 @@ endif()
 
 if(${PHI_USE_UNITY_BUILD})
   set_target_properties(Phi::Engine PROPERTIES UNITY_BUILD ON)
+endif()
+
+# Code coverage
+if(${PHI_COVERAGE_BUILD})
+  target_compile_definitions(Phi::ProjectOptions INTERFACE CPP_CONFIG_ALWAYS_ )
 endif()
