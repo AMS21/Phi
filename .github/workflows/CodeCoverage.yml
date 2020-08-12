@@ -30,6 +30,7 @@ jobs:
 
           # Install g++
           sudo apt-get install g++-${{ env.GCC_VERSION }}
+          echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
 
       - name: Build coverage data
         run: |
