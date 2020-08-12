@@ -91,10 +91,10 @@ jobs:
           cd build-clang
 
           llvm-profdata-${{ env.LLVM_VERSION }} merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
-          llvm-cov-${{ env.LLVM_VERSION }} show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
+          find bin -type f -exec bash -c 'llvm-cov-${{ env.LLVM_VERSION }} show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
 
           # List coverage data
-          llvm-cov-${{ env.LLVM_VERSION }} report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
+          find bin -type f -exec bash -c 'echo ${0}; llvm-cov-${{ env.LLVM_VERSION }} report ${0} -instr-profile=coverage.profdata' {} \;
           cat coverage.info
 
       - name: Upload coverage data (Clang)
@@ -150,10 +150,10 @@ jobs:
           cd build
 
           llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
-          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
+          find bin -type f -exec bash -c 'llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
 
           # List coverage data
-          llvm-cov report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
+          find bin -type f -exec bash -c 'echo ${0}; llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
           cat coverage.info
 
       - name: Upload coverage data
