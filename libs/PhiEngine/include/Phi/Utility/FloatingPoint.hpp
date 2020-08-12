@@ -111,8 +111,8 @@ public:
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
     // cppcheck-suppress noExplicitConstructor
-    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr FloatingPoint(const TypeT& val) noexcept
-
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr FloatingPoint(
+            const TypeT& val) noexcept // NOLINT(hicpp-explicit-conversions)
         : m_Value(val)
     {}
 
