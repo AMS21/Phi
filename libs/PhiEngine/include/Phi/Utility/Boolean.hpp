@@ -68,9 +68,8 @@ public:
     Boolean() = delete;
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    // cppcheck-suppress noExplicitConstructor
-    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Boolean(
-            TypeT value) noexcept // NOLINT(hicpp-explicit-conversions)
+    // cppcheck-suppress noExplicitConstructor; NOLINT(hicpp-explicit-conversions)
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
         : m_Value(value)
     {}
 
