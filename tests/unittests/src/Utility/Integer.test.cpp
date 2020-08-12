@@ -468,6 +468,14 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         STATIC_REQUIRE(!std::is_convertible_v<phi::Integer<uint64_t>, phi::Integer<uint32_t>>);
         STATIC_REQUIRE(std::is_convertible_v<phi::Integer<uint64_t>, phi::Integer<uint64_t>>);
     }
+
+    SECTION("std::hash")
+    {
+        std::size_t zero_hash = std::hash<phi::Integer<int>>{}(0);
+        std::size_t one_hash  = std::hash<phi::Integer<int>>{}(1);
+
+        CHECK(zero_hash != one_hash);
+    }
 }
 
 CPP_GCC_SUPPRESS_WARNING_POP

@@ -131,4 +131,12 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
         CONSTEXPR_RUNTIME phi::Boolean b(true);
         STATIC_REQUIRE(b.get());
     }
+
+    SECTION("std::hash")
+    {
+        std::size_t true_hash  = std::hash<phi::Boolean>{}(true);
+        std::size_t false_hash = std::hash<phi::Boolean>{}(false);
+
+        CHECK(true_hash != false_hash);
+    }
 }
