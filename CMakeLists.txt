@@ -61,6 +61,8 @@ if(EXISTS "${LOC_PATH}")
       "Please consider makeing a build subdirectory.")
 endif()
 
+set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 # Load extternal dependencies
 add_subdirectory(external)
 
