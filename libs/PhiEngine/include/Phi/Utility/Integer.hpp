@@ -206,7 +206,7 @@ public:
     }
 
     // cppcheck-suppress functionConst
-    CPP_ALWAYS_INLINE Integer operator++(int) noexcept
+    CPP_ALWAYS_INLINE const Integer operator++(int) noexcept
     {
         auto res = *this;
         ++*this;
@@ -220,7 +220,7 @@ public:
     }
 
     // cppcheck-suppress functionConst
-    CPP_ALWAYS_INLINE Integer operator--(int) noexcept
+    CPP_ALWAYS_INLINE const Integer operator--(int) noexcept
     {
         auto res = *this;
         --*this;
