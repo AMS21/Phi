@@ -13,7 +13,7 @@ endforeach()
 string(APPEND FILE_CONTENT "\nint main() {}\n")
 
 # Generate File
-file(GENERATE OUTPUT ${ALL_INCLUDE_FILE} CONTENT ${FILE_CONTENT})
+file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_FILE}" CONTENT ${FILE_CONTENT})
 
 # Add test
 set(ALL_INCLUDE_NAME "PhiEngine_AllIncludes")
