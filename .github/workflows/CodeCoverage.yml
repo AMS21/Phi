@@ -61,3 +61,61 @@ jobs:
           flags: unittests,linux
           name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
           fail_ci_if_error: true
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install tools
+        run: |
+          # Install scoop
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+
+          scoop install llvm ninja --global
+
+          echo "::set-env name=CXX::clang++"
+
+          # Scoop modifies the PATH so we make the modified PATH global.
+          echo "::set-env name=PATH::$env:PATH"
+
+      - name: Build coverage data
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping -g -O0" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
+          ctest .
+
+      - name: Process coverage data
+        shell: bash
+        run: |
+          cd build
+
+          llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+
+          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata > coverage.info
+
+          cat coverage.info
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build/coverage.info
+          flags: unittests,windows
+          name: ${{ runner.os }}-clang
+          fail_ci_if_error: true
