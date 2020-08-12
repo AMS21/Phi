@@ -6,8 +6,8 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     env:
-      LCOV_VERSION: "1.14"
-      GCC_VERSION: "8"
+      LCOV_VERSION: "1.15"
+      GCC_VERSION: "10"
       LLVM_VERSION: "10"
 
     steps:
