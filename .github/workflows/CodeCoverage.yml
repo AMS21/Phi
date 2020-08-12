@@ -75,7 +75,8 @@ jobs:
       - name: Build coverage data (Clang)
         run: |
           # Create build directory
-          cd build
+          mkdir build-clang
+          cd build-clang
 
           # Build it
           cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
@@ -87,7 +88,7 @@ jobs:
 
       - name: Process coverage data (Clang)
         run: |
-          cd build
+          cd build-clang
 
           llvm-profdata-${{ env.LLVM_VERSION }} merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
           llvm-cov-${{ env.LLVM_VERSION }} show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
@@ -100,7 +101,7 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./build/coverage.info
+          file: ./build-clang/coverage.info
           flags: unittests,linux
           name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}
           fail_ci_if_error: true
