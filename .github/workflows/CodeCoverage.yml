@@ -38,7 +38,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" -DCMAKE_CXX_FLAGS="--coverage -g -O0" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -93,7 +93,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping -g -O0" ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -107,7 +107,9 @@ jobs:
 
           llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
 
-          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata > coverage.info
+          llvm-cov show $(find bin/ lib/ -type f) -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false > coverage.info
+
+          llvm-cov report $(find bin/ lib/ -type f) -instr-profile=coverage.profdata
 
           cat coverage.info
 

@@ -90,5 +90,14 @@ endif()
 
 # Code coverage
 if(${PHI_COVERAGE_BUILD})
-  target_compile_definitions(Phi::ProjectOptions INTERFACE CPP_CONFIG_ALWAYS_ )
+  # Replace always inline with never inline
+  target_compile_definitions(project_options INTERFACE CPP_CONFIG_ALWAYS_INLINE_OVERWRITE=CPP_NEVER_INLINE)
+
+  # Disable compiler inlining and disable optimizations
+  if(NOT MSVC)
+    target_compile_options(project_options INTERFACE -fno-inline -g -O0)
+  endif()
+
+  # Set build type to debug
+  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
 endif()
