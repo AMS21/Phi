@@ -27,6 +27,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
@@ -131,18 +132,17 @@ public:
     using value_type  = IntegerT;
     using limits_type = std::numeric_limits<IntegerT>;
 
-public:
     //=== constructors ===//
     Integer() = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    // cppcheck-suppress noExplicitConstructor
-    CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
-
+    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
+    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     CPP_ALWAYS_INLINE constexpr Integer(const Integer<TypeT>& val) noexcept
         : m_Value(static_cast<TypeT>(val))
     {}
@@ -206,7 +206,7 @@ public:
     }
 
     // cppcheck-suppress functionConst
-    CPP_ALWAYS_INLINE Integer operator++(int) noexcept
+    CPP_ALWAYS_INLINE const Integer operator++(int) noexcept
     {
         auto res = *this;
         ++*this;
@@ -220,7 +220,7 @@ public:
     }
 
     // cppcheck-suppress functionConst
-    CPP_ALWAYS_INLINE Integer operator--(int) noexcept
+    CPP_ALWAYS_INLINE const Integer operator--(int) noexcept
     {
         auto res = *this;
         --*this;

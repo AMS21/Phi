@@ -38,8 +38,9 @@ option(PHI_BUILD_SANDBOX "Build sandbox application" ${PHI_MASTER_PROJECT})
 option(PHI_BUILD_DOCS "Generate the source code documentaion" OFF)
 option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
-option(PHI_DISABLE_OPTIMIZATIONS "Disable all the special optimization flags of Phi" OFF)
+option(PHI_DISABLE_OPTIMIZATIONS "Disable all the optimization flags from Phi" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
+option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
 
 include(PhiConfiguration)
 
@@ -59,6 +60,8 @@ if(EXISTS "${LOC_PATH}")
       "[Phi] You shoudnt build in a source directory (or any directory with a CMakeLists.txt file)."
       "Please consider makeing a build subdirectory.")
 endif()
+
+set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Load extternal dependencies
 add_subdirectory(external)
@@ -85,4 +88,21 @@ endif()
 
 if(${PHI_USE_UNITY_BUILD})
   set_target_properties(Phi::Engine PROPERTIES UNITY_BUILD ON)
+endif()
+
+# Code coverage
+if(${PHI_COVERAGE_BUILD})
+  # Replace always inline with never inline
+  target_compile_definitions(project_options
+                             INTERFACE CPP_CONFIG_ALWAYS_INLINE_OVERWRITE=CPP_NEVER_INLINE)
+
+  # Disable compiler inlining and disable optimizations
+  if(NOT MSVC)
+    target_compile_options(project_options INTERFACE -fno-inline -g -O0)
+  endif()
+
+  # Set build type to debug
+  set(CMAKE_BUILD_TYPE
+      "Debug"
+      CACHE STRING "" FORCE)
 endif()

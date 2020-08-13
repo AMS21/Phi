@@ -317,6 +317,14 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
         CONSTEXPR_RUNTIME FloatT f(0.0);
         STATIC_REQUIRE(f.get() == 0.0);
     }
+
+    SECTION("std::hash")
+    {
+        std::size_t zero_hash = std::hash<phi::FloatingPoint<float>>{}(0.0f);
+        std::size_t one_hash  = std::hash<phi::FloatingPoint<float>>{}(1.0f);
+
+        CHECK(zero_hash != one_hash);
+    }
 }
 
 CPP_GCC_SUPPRESS_WARNING_POP

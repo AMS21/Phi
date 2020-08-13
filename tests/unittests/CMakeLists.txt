@@ -9,6 +9,7 @@ file(
   "src/main.cpp"
   # Selftest
   "src/Selftest/StringHelper.test.cpp"
+  "src/Selftest/ConstexprHelper.test.cpp"
   # Utility
   "src/Utility/Boolean.test.cpp"
   "src/Utility/FloatingPoint.test.cpp"

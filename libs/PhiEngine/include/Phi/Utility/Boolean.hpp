@@ -28,6 +28,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_BOOLEAN_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
@@ -67,9 +68,8 @@ public:
     Boolean() = delete;
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    // cppcheck-suppress noExplicitConstructor
-    CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
-
+    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
+    CPP_IMPLICIT CPP_ALWAYS_INLINE constexpr Boolean(TypeT value) noexcept
         : m_Value(value)
     {}
 
@@ -137,7 +137,7 @@ template <typename CharT, typename CharTraitsT>
 std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& stream,
                                                    Boolean&                                rhs)
 {
-    bool val;
+    bool val{false};
     stream >> val;
     rhs = val;
 
