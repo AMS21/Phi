@@ -18,10 +18,13 @@ function(set_project_optimizations project)
       -fno-trapping-math
       -fstrict-enums
       -fomit-frame-pointer
-      -fwhole-program-vtables
       -fforce-emit-vtables
       -fstrict-vtable-pointers
       -fstrict-return)
+
+  if(ENABLE_IPO)
+    string(APPEND phi_clang_release_opt -fwhole-program-vtables)
+  endif()
 
   set(phi_clang_opt $<$<CONFIG:RELEASE>:${phi_clang_release_opt}>)
 
