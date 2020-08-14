@@ -56,7 +56,7 @@ jobs:
           echo "::set-env name=PATH::$env:PATH"
 
       - name: Setup msvc dev
-        if: ${{ matrix.cfg.compiler }} == 'cl'
+        if: matrix.cfg.compiler == 'cl'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure build directory
@@ -89,7 +89,7 @@ jobs:
       - name: Build & Test with Address Sanitizer
         env:
           ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
-        if: ${{ matrix.cfg.compiler }} != 'cl'
+        if: matrix.cfg.compiler != 'cl'
         run: |
           # Create directory
           mkdir build-asan
@@ -114,7 +114,7 @@ jobs:
           ctest .
 
       - name: Build & Test with Leak Sanitizer
-        if: ${{ matrix.cfg.compiler }} != 'cl'
+        if: matrix.cfg.compiler != 'cl'
         run: |
           # Create directory
           mkdir build-lsan
@@ -167,7 +167,7 @@ jobs:
       - name: Build & Test with Thread Sanitizer
         env:
           TSAN_OPTIONS: "force_seq_cst_atomics=1"
-        if: ${{ matrix.cfg.compiler }} != 'cl'
+        if: matrix.cfg.compiler != 'cl'
         run: |
           # Create directory
           mkdir build-tsan
@@ -194,7 +194,7 @@ jobs:
       - name: Build & Test with Undefined Behaviour Sanitizer
         env:
           UBSAN_OPTIONS: "print_stacktrace=1"
-        if: ${{ matrix.cfg.compiler }} != 'cl'
+        if: matrix.cfg.compiler != 'cl'
         run: |
           # Create directory
           mkdir build-ubsan
