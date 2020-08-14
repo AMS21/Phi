@@ -132,6 +132,7 @@ jobs:
           ctest .
 
       - name: Build & Test with Memory Sanitizer
+        continue-on-error: true
         if: matrix.cfg.compiler == 'clang++'
         run: |
           # Create directory
