@@ -205,7 +205,7 @@ public:
         return *this;
     }
 
-    // cppcheck-suppress functionConst
+    // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
     CPP_ALWAYS_INLINE const Integer operator++(int) noexcept
     {
         auto res = *this;
@@ -219,7 +219,7 @@ public:
         return *this;
     }
 
-    // cppcheck-suppress functionConst
+    // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
     CPP_ALWAYS_INLINE const Integer operator--(int) noexcept
     {
         auto res = *this;
