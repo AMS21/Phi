@@ -145,6 +145,7 @@ jobs:
           ctest .
 
       - name: Build & Test with Thread Sanitizer
+        if: matrix.cfg.compiler == 'clang++'
         env:
           TSAN_OPTIONS: "force_seq_cst_atomics=1"
         run: |
