@@ -10,6 +10,7 @@ jobs:
     env:
       CTEST_OUTPUT_ON_FAILURE: ON
       CTEST_PARALLEL_LEVEL: 2
+      CMAKE_GENERATOR: 'Ninja'
 
     strategy:
       fail-fast: false
@@ -63,7 +64,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -G Ninja
+          cmake ..
 
       - name: Build Debug
         run: |
