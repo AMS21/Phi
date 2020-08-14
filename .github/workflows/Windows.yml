@@ -224,6 +224,7 @@ jobs:
           # Build
           mkdir build-warnings
           cd build-warnings
+          cmake .. -DCMAKE_BUILD_TYPE=Debug
           cmake --build . --config "Debug" --clean-first 2> build.log
 
           # Filter out warnings for external dependencies
