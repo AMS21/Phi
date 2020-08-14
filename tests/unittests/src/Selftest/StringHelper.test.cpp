@@ -3,17 +3,17 @@
 #include "StringHelper.hpp"
 
 TEMPLATE_TEST_CASE("string_length selftest", "[selftest][StringHelper]", char, unsigned char,
-                   signed char, char16_t, char32_t)
+                   signed char)
 {
     const TestType* null_str{nullptr};
     CHECK(string_length(null_str) == 0);
 
-    const TestType* str{reinterpret_cast<const TestType*>("test\0\0\0\0")};
-    CHECK(string_length(str) == (4 / sizeof(TestType)));
+    const TestType* str{reinterpret_cast<const TestType*>("test")};
+    CHECK(string_length(str) == 4);
 }
 
 TEMPLATE_TEST_CASE("string_equals selftest", "[selftest][StringHelper]", char, unsigned char,
-                   signed char, char16_t, char32_t)
+                   signed char)
 {
     const TestType* null_str{nullptr};
     const TestType* str{reinterpret_cast<const TestType*>("test")};
