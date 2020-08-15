@@ -28,6 +28,8 @@ target_link_libraries(${UnittestName} PRIVATE Phi::ProjectOptions Phi::Engine Ca
 target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 target_include_directories(${UnittestName} PRIVATE "include")
 
+set_target_properties(${UnittestName} PROPERTIES FOLDER "Tests/Unittest")
+
 enable_static_analyzers(${UnittestName})
 
 add_test(Unittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${UnittestName})
@@ -40,6 +42,8 @@ if(${PHI_ENABLE_CONSTEXPRTESTS})
 
   target_link_libraries(${ConstexprTestName} PRIVATE Phi::ProjectOptions Phi::Engine Catch2::Catch2)
   target_include_directories(${ConstexprTestName} PRIVATE "include")
+
+  set_target_properties(${ConstexprTestName} PROPERTIES FOLDER "Tests/Unittest")
 
   enable_static_analyzers(${ConstexprTestName})
 

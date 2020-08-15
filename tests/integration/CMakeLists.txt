@@ -25,6 +25,7 @@ set(ALL_INCLUDE_NAME "PhiEngine_AllIncludes")
 add_executable(${ALL_INCLUDE_NAME} "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_FILE}")
 
 target_link_libraries(${ALL_INCLUDE_NAME} PRIVATE Phi::ProjectOptions Phi::Engine)
+set_target_properties(${ALL_INCLUDE_NAME} PROPERTIES FOLDER "Tests/Integration")
 enable_static_analyzers(${ALL_INCLUDE_NAME})
 
 add_test(IncludeAll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ALL_INCLUDE_NAME})
