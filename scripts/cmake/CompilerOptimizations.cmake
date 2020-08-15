@@ -23,7 +23,7 @@ function(set_project_optimizations project)
       -fstrict-return)
 
   if(ENABLE_IPO)
-    string(APPEND phi_clang_release_opt -fwhole-program-vtables)
+    list(APPEND phi_clang_release_opt -fwhole-program-vtables)
   endif()
 
   set(phi_clang_opt $<$<CONFIG:RELEASE>:${phi_clang_release_opt}>)
