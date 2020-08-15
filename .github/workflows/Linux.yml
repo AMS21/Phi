@@ -35,6 +35,7 @@ jobs:
           # Adding repositories
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
+            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
             sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ matrix.cfg.compiler_version }} main"
           fi
 
