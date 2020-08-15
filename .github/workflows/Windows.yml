@@ -151,7 +151,7 @@ jobs:
           mkdir build-warnings
           cd build-warnings
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --config "Debug" --clean-first 2> build.log
+          cmake --build . --config "RelWithDebInfo" --clean-first 2> build.log
 
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
