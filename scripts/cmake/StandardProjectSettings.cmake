@@ -29,7 +29,8 @@ if(ENABLE_IPO)
 endif()
 
 # Setting the runtime library on windows platforms
-option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms" "Dynamic")
+option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
+       "Dynamic")
 set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
 
 if(WIN32)
