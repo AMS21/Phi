@@ -109,7 +109,7 @@ jobs:
           cd build-asan
 
           # Configure
-          cmake .. -DENABLE_SANITIZER_ADDRESS=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g" -DMSVC_RUNTIME_LIBRARY="MultiThreaded"
+          cmake .. -DENABLE_SANITIZER_ADDRESS=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
 
           # RelWithDebInfo
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
