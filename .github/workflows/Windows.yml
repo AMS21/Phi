@@ -100,6 +100,7 @@ jobs:
           ctest .
 
       - name: Build & Test with Address Sanitizer
+        continue-on-error: true
         env:
           ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
         if: matrix.cfg.compiler == 'clang++'
