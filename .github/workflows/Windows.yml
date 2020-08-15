@@ -78,7 +78,7 @@ jobs:
             cmake .. -DCMAKE_BUILD_TYPE=Debug
           fi
           cmake --build . --config "Debug" --clean-first
-          ctest .
+          ctest . -C Debug
 
           # Reenable IPO for gcc
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
@@ -90,14 +90,14 @@ jobs:
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --config "RelWithDebInfo" --clean-first
-          ctest .
+          ctest . -C RelWithDebInfo
 
       - name: Build Release
         run: |
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config "Release" --clean-first
-          ctest .
+          ctest . -C Release
 
       - name: Build & Test with Address Sanitizer
         continue-on-error: true
@@ -115,12 +115,12 @@ jobs:
           # RelWithDebInfo
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
-          ctest .
+          ctest . -C RelWithDebInfo
 
           # Release
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --clean-first
-          ctest .
+          ctest . -C Release
 
       - name: Build & Test with Undefined Behavior Sanitizer
         env:
@@ -137,12 +137,12 @@ jobs:
           # RelWithDebInfo
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
-          ctest .
+          ctest . -C RelWithDebInfo
 
           # Release
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --clean-first
-          ctest .
+          ctest . -C Release
 
       - name: Generate warnings
         shell: bash

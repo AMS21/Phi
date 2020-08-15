@@ -1,2 +1,4 @@
+add_subdirectory(compile_failure)
+add_subdirectory(runtime_failure)
 add_subdirectory(integration)
 add_subdirectory(unittests)
