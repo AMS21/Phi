@@ -56,8 +56,9 @@ function(compile_failure_test)
 
   # Add executable
   add_executable(${TEST_NAME} "${ctf_SOURCE}")
-  set_target_properties(${TEST_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE EXCLUDE_FROM_DEFAULT_BUILD
-                                                                     TRUE FOLDER "Tests/CompileTimeFailure")
+  set_target_properties(
+    ${TEST_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE EXCLUDE_FROM_DEFAULT_BUILD TRUE
+                            FOLDER "Tests/CompileTimeFailure")
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::ProjectOptions Phi::Engine)
 
@@ -65,12 +66,12 @@ function(compile_failure_test)
   if(DEFINED rtf_CONFIGURATIONS)
     add_test(
       NAME ${TEST_NAME}
-      COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target ${TEST_NAME} --config $<CONFIGURATION>
+      COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target ${TEST_NAME} --config
+              $<CONFIGURATION>
       CONFIGURATIONS ${rtf_CONFIGURATIONS})
   else()
-      add_test(
-      NAME ${TEST_NAME}
-      COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target ${TEST_NAME} --config $<CONFIGURATION>)
+    add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target
+                                       ${TEST_NAME} --config $<CONFIGURATION>)
   endif()
 
   set_tests_properties(${TEST_NAME} PROPERTIES WILL_FAIL true)
