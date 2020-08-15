@@ -134,11 +134,6 @@ jobs:
           # Configure
           cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
           # RelWithDebInfo
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
