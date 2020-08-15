@@ -122,7 +122,7 @@ jobs:
           ctest .
 
       - name: Build & Test with Leak Sanitizer
-        if: matrix.cfg.compiler != 'cl'
+        if: matrix.cfg.compiler == 'clang++'
         run: |
           # Create directory
           mkdir build-lsan
