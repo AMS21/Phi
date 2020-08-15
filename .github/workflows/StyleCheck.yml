@@ -63,7 +63,7 @@ jobs:
         run: |
           # Install clang-tidy
           sudo apt-get install clang-tidy-${{ env.LLVM_VERSION }} clang-${{ env.LLVM_VERSION }}
-          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+          export CXX="clang++-${{ env.LLVM_VERSION }}"
 
           # Pull submodules
           git submodule update --init --recursive
