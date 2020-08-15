@@ -175,7 +175,7 @@ jobs:
       - name: Build & Test with Thread Sanitizer
         env:
           TSAN_OPTIONS: "force_seq_cst_atomics=1"
-        if: matrix.cfg.compiler != 'cl'
+        if: matrix.cfg.compiler == 'clang++'
         run: |
           # Create directory
           mkdir build-tsan
