@@ -31,6 +31,8 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }}
 
+          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+
       - name: Install cppcheck
         env:
           CPPCHECK_VERSION: "2.1"
@@ -57,7 +59,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER=/usr/bin/clang++-${{ env.LLVM_VERSION }}
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off
 
       - name: Run cppcheck
         run: |
@@ -107,6 +109,8 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
+          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+
       - name: Run clang-tidy
         run: |
           # Create build directory
@@ -114,7 +118,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
 
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" > clang_tidy.log
@@ -183,6 +187,8 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
+          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+
       - name: Install PVS-Studio
         run: |
           wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
@@ -198,7 +204,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
 
           # Create License
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
@@ -253,6 +259,9 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
 
+          echo "::set-env name=CC::clang-${{ env.LLVM_VERSION }}"
+          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+
       - name: Install Include-What-You-Use
         run: |
           # Download Include-what-you-use
@@ -266,7 +275,7 @@ jobs:
           mkdir build
           cd build
 
-          cmake .. -G "Unix Makefiles" -DCMAKE_C_COMPILER="/usr/bin/clang-${{ env.LLVM_VERSION }}" -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${{ env.LLVM_VERSION }} -DCMAKE_BUILD_TYPE=Release
+          cmake .. -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${{ env.LLVM_VERSION }} -DCMAKE_BUILD_TYPE=Release
           cmake --build .
 
           # Install Include-what-you-use
@@ -279,7 +288,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_C_COMPILER=/usr/bin/clang-${{ env.LLVM_VERSION }} -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}"
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
 
           # Run include-what-you-use
           iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns > iwyu.log
