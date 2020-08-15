@@ -122,59 +122,6 @@ jobs:
           cmake --build . --clean-first
           ctest .
 
-      - name: Build & Test with Memory Sanitizer
-        continue-on-error: true
-        if: matrix.cfg.compiler == 'clang++'
-        run: |
-          # Create directory
-          mkdir build-msan
-          cd build-msan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_MEMORY=ON -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Thread Sanitizer
-        env:
-          TSAN_OPTIONS: "force_seq_cst_atomics=1"
-        if: matrix.cfg.compiler == 'clang++'
-        run: |
-          # Create directory
-          mkdir build-tsan
-          cd build-tsan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_THREAD=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
       - name: Build & Test with Undefined Behaviour Sanitizer
         env:
           UBSAN_OPTIONS: "print_stacktrace=1"
