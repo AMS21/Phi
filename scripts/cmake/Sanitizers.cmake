@@ -35,6 +35,11 @@ function(enable_sanitizers project)
       list(APPEND sanitizers "leak")
     endif()
 
+    option(ENABLE_FUZZING "Enable fuzzing flags" FALSE)
+    if(ENABLE_FUZIING)
+      list(APPEND sanitizers "fuzzer")
+    endif()
+
     list(JOIN sanitizers "," list_of_sanitizers)
 
   endif()

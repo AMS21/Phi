@@ -10,6 +10,7 @@ jobs:
     env:
       CTEST_OUTPUT_ON_FAILURE: ON
       CTEST_PARALLEL_LEVEL: 2
+      CMAKE_GENERATOR: 'Ninja'
 
     strategy:
       fail-fast: false
@@ -56,39 +57,101 @@ jobs:
           echo "::set-env name=PATH::$env:PATH"
 
       - name: Setup msvc dev
-        if: ${{ matrix.cfg.compiler }} == 'cl'
+        if: matrix.cfg.compiler == 'cl'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure build directory
         run: |
           mkdir build
           cd build
-          cmake .. -G Ninja
+          cmake ..
 
       - name: Build Debug
+        shell: bash
         run: |
           cd build
+
+          # Workaround for gcc-8.3 being broken on windows when using IPO on debug builds
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=Off -DENABLE_IPO=Off
+          else
+            cmake .. -DCMAKE_BUILD_TYPE=Debug
+          fi
           cmake --build . --config "Debug" --clean-first
           ctest .
+
+          # Reenable IPO for gcc
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            cmake .. -DENABLE_IPO=ON
+          fi
 
       - name: Build RelWithDebInfo
         run: |
           cd build
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --config "RelWithDebInfo" --clean-first
           ctest .
 
       - name: Build Release
         run: |
           cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config "Release" --clean-first
+          ctest .
+
+      - name: Build & Test with Address Sanitizer
+        continue-on-error: true
+        env:
+          ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
+        if: matrix.cfg.compiler == 'clang++'
+        run: |
+          # Create directory
+          mkdir build-asan
+          cd build-asan
+
+          # Configure
+          cmake .. -DENABLE_SANITIZER_ADDRESS=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
+
+          # RelWithDebInfo
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --clean-first
+          ctest .
+
+          # Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --clean-first
+          ctest .
+
+      - name: Build & Test with Undefined Behavior Sanitizer
+        env:
+          UBSAN_OPTIONS: "print_stacktrace=1"
+        if: matrix.cfg.compiler == 'clang++'
+        run: |
+          # Create directory
+          mkdir build-ubsan
+          cd build-ubsan
+
+          # Configure
+          cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # RelWithDebInfo
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --clean-first
+          ctest .
+
+          # Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --clean-first
           ctest .
 
       - name: Generate warnings
         shell: bash
         run: |
           # Build
-          cd build
-          cmake --build . --config "Debug" --clean-first 2> build.log
+          mkdir build-warnings
+          cd build-warnings
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --config "RelWithDebInfo" --clean-first 2> build.log
 
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
@@ -101,7 +164,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
+          cat build-warnings/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
 
       - name: ReviewDog Review
         shell: bash
@@ -109,4 +172,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
+          cat build-warnings/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning

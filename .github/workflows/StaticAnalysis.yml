@@ -23,7 +23,11 @@ jobs:
 
       - name: Install clang
         run: |
+          # Add repository
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+
+          # Install
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }}
 
@@ -98,6 +102,7 @@ jobs:
 
       - name: Install clang tidy
         run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
@@ -173,6 +178,7 @@ jobs:
 
       - name: Install clang
         run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
@@ -242,6 +248,7 @@ jobs:
 
       - name: Install llvm
         run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
@@ -298,7 +305,6 @@ jobs:
 
   cmake-lint:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - name: Checkout

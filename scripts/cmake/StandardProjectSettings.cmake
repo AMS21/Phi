@@ -27,3 +27,20 @@ if(ENABLE_IPO)
         CACHE BOOL "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" FORCE)
   endif()
 endif()
+
+# Setting the runtime library on windows platforms
+option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
+       "Dynamic")
+set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
+
+if(WIN32)
+  if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.15.0")
+    if(${PHI_STANDARD_RUNTIME} STREQUAL "Static")
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    else()
+      set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    endif()
+  else()
+    # TODO: Needs workaround
+  endif()
+endif()

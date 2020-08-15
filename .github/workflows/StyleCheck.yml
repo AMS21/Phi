@@ -21,6 +21,7 @@ jobs:
       - name: Run clang-format
         run: |
           # Install clang-format
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-format-${{ env.LLVM_VERSION }}
@@ -78,9 +79,10 @@ jobs:
 
       - name: Build
         run: |
-          # The applied fixes might break the code so make sure it still compiled
+          # The applied fixes might break the code so make sure it still compiles
           cd build
-          cmake --build . --config "Debug" --clean-first
+          cmake .. -DCMAKE_BUILD_TYPE=Debug
+          cmake --build . --clean-first
           ctest .
 
       - name: Import GPG key
