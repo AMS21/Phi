@@ -202,7 +202,7 @@ jobs:
       - name: Build & Test with Undefined Behaviour Sanitizer
         env:
           UBSAN_OPTIONS: "print_stacktrace=1"
-        if: matrix.cfg.compiler != 'cl'
+        if: matrix.cfg.compiler == 'clang++'
         run: |
           # Create directory
           mkdir build-ubsan
