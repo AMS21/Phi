@@ -40,6 +40,7 @@ option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_DISABLE_OPTIMIZATIONS "Disable all the optimization flags from Phi" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
+option(PHI_ENABLE_FAILURE_TESTS "Build the failure tests" ON)
 option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
 
 include(PhiConfiguration)
