@@ -57,8 +57,10 @@ function(compile_failure_test)
   # Add executable
   add_executable(${TEST_NAME} "${ctf_SOURCE}")
   set_target_properties(
-    ${TEST_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE EXCLUDE_FROM_DEFAULT_BUILD TRUE
-                            FOLDER "Tests/CompileTimeFailure")
+    ${TEST_NAME}
+    PROPERTIES EXCLUDE_FROM_ALL TRUE
+               EXCLUDE_FROM_DEFAULT_BUILD TRUE
+               FOLDER "Tests/CompileTimeFailure")
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::ProjectOptions Phi::Engine)
 
