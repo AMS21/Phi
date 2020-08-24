@@ -35,6 +35,8 @@ endif()
 # Enable static analysis on a specific project
 function(enable_static_analyzers project)
   set_target_properties(
-    ${project} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY}" CXX_CPPCHECK "${CPPCHECK}"
-                          CXX_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
+    ${project}
+    PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY}"
+               CXX_CPPCHECK "${CPPCHECK}"
+               CXX_INCLUDE_WHAT_YOU_USE "${INCLUDE_WHAT_YOU_USE}")
 endfunction()
