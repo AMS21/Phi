@@ -22,7 +22,7 @@ jobs:
           - { compiler: cl }
           - { compiler: g++ }
           - { compiler: clang++ }
-          - { compiler: clang++, ubsan: "yes" }
+          - { compiler: clang++, sanitizer: "ubsan" }
 
     steps:
       - name: Checkout
@@ -72,23 +72,23 @@ jobs:
           cd build
 
           # Address Sanitizer
-          if [ "${{ matrix.cfg.asan }}" = "yes" ]; then
+          if [ "${{ matrix.cfg.sanitizer }}" = "asan" ]; then
             cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
 
           # Leak Sanitizer
-          elif [ "${{ matrix.cfg.lsan }}" = "yes" ]; then
+          elif [ "${{ matrix.cfg.sanitizer }}" = "lsan" ]; then
             cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Memory Sanitizer
-          elif [ "${{ matrix.cfg.msan }}" = "yes" ]; then
+          elif [ "${{ matrix.cfg.sanitizer }}" = "msan" ]; then
             cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
 
           # Thread Sanitizer
-          elif [ "${{ matrix.cfg.tsan }}" = "yes" ]; then
+          elif [ "${{ matrix.cfg.sanitizer }}" = "tsan" ]; then
             cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Undefined Behavior Sanitizer
-          elif [ "{{ matrix.cfg.ubsan }}" = "yes" ]; then
+          elif [ "{{ matrix.cfg.sanitizer }}" = "ubsan" ]; then
             cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
           fi
 
