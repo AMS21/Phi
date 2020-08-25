@@ -90,6 +90,10 @@ jobs:
           # Undefined Behavior Sanitizer
           elif [ "${{ matrix.cfg.sanitizer }}" = "ubsan" ]; then
             cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # No Sanitizer
+          else
+            echo Running without sanitizer
           fi
 
       - name: Build Debug
