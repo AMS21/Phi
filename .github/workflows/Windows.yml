@@ -97,6 +97,7 @@ jobs:
           fi
 
       - name: Build Debug
+        if: matrix.cfg.sanitizer == ""
         shell: bash
         run: |
           cd build
