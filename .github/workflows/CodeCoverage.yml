@@ -69,7 +69,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: unittests,linux,gcc
+          flags: linux,gcc
           name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
           fail_ci_if_error: true
 
@@ -103,7 +103,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
-          flags: unittests,linux,clang
+          flags: linux,clang
           name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}
           fail_ci_if_error: true
 
@@ -158,7 +158,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: unittests,macos,gcc
+          flags: macos,gcc
           name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
           fail_ci_if_error: true
 
@@ -192,7 +192,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
-          flags: unittests,macos,clang
+          flags: macos,clang
           name: ${{ runner.os }}-clang++-${{ env.XCODE_VERSION }}
           fail_ci_if_error: true
 
@@ -251,6 +251,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/coverage.info
-          flags: unittests,windows,clang
+          flags: windows,clang
           name: ${{ runner.os }}-clang
           fail_ci_if_error: true
