@@ -4,12 +4,132 @@ on: [push, pull_request]
 
 jobs:
   Build:
-    name: "Build (${{ matrix.cfg.compiler }})"
     runs-on: windows-latest
 
     env:
       CTEST_OUTPUT_ON_FAILURE: ON
       CTEST_PARALLEL_LEVEL: 2
+      CMAKE_GENERATOR: 'Ninja'
+      # Sanitizers
+      ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
+      TSAN_OPTIONS: "force_seq_cst_atomics=1"
+      UBSAN_OPTIONS: "print_stacktrace=1"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+          - { compiler: cl }
+          - { compiler: g++ }
+          - { compiler: clang++ }
+          - { compiler: clang++, ubsan: "yes" }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install
+        shell: powershell
+        run: |
+          # Install scoop
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+
+          # Install required compilers
+          if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
+            # Clang
+            scoop install llvm --global
+            echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
+          }
+          elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
+            # GCC
+            scoop install gcc --global
+            echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
+          }
+
+          scoop install ninja --global
+
+          # Scoop modifies the PATH so we make the modified PATH global.
+          echo "::set-env name=PATH::$env:PATH"
+
+      - name: Setup msvc dev
+        if: matrix.cfg.compiler == 'cl'
+        uses: ilammy/msvc-dev-cmd@v1.3.0
+
+      - name: Configure build directory
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+
+      - name: Configure Sanitizers
+        shell: bash
+        run: |
+          cd build
+
+          # Address Sanitizer
+          if [ "${{ matrix.cfg.asan }}" = "yes" ]; then
+            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
+
+          # Leak Sanitizer
+          elif [ "${{ matrix.cfg.lsan }}" = "yes" ]; then
+            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # Memory Sanitizer
+          elif [ "${{ matrix.cfg.msan }}" = "yes" ]; then
+            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
+
+          # Thread Sanitizer
+          elif [ "${{ matrix.cfg.tsan }}" = "yes" ]; then
+            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # Undefined Behavior Sanitizer
+          elif [ "{{ matrix.cfg.ubsan }}" = "yes" ]; then
+            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+          fi
+
+      - name: Build Debug
+        shell: bash
+        run: |
+          cd build
+
+          # Workaround for gcc-8.3 being broken on windows when using IPO on debug builds
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=Off -DENABLE_IPO=Off
+          else
+            cmake .. -DCMAKE_BUILD_TYPE=Debug
+          fi
+          cmake --build . --config "Debug" --clean-first
+          ctest . -C Debug
+
+          # Reenable IPO for gcc
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            cmake .. -DENABLE_IPO=ON
+          fi
+
+      - name: Build RelWithDebInfo
+        run: |
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --config "RelWithDebInfo" --clean-first
+          ctest . -C RelWithDebInfo
+
+      - name: Build Release
+        run: |
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --config "Release" --clean-first
+          ctest . -C Release
+
+  Warnings:
+    name: "Warnings ${{ matrix.cfg.compiler }}"
+    runs-on: windows-latest
+
+    env:
       CMAKE_GENERATOR: 'Ninja'
 
     strategy:
@@ -60,96 +180,12 @@ jobs:
         if: matrix.cfg.compiler == 'cl'
         uses: ilammy/msvc-dev-cmd@v1.3.0
 
-      - name: Configure build directory
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-
-      - name: Build Debug
-        shell: bash
-        run: |
-          cd build
-
-          # Workaround for gcc-8.3 being broken on windows when using IPO on debug builds
-          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
-            cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=Off -DENABLE_IPO=Off
-          else
-            cmake .. -DCMAKE_BUILD_TYPE=Debug
-          fi
-          cmake --build . --config "Debug" --clean-first
-          ctest . -C Debug
-
-          # Reenable IPO for gcc
-          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
-            cmake .. -DENABLE_IPO=ON
-          fi
-
-      - name: Build RelWithDebInfo
-        run: |
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --config "RelWithDebInfo" --clean-first
-          ctest . -C RelWithDebInfo
-
-      - name: Build Release
-        run: |
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --config "Release" --clean-first
-          ctest . -C Release
-
-      - name: Build & Test with Address Sanitizer
-        continue-on-error: true
-        env:
-          ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
-        if: matrix.cfg.compiler == 'clang++'
-        run: |
-          # Create directory
-          mkdir build-asan
-          cd build-asan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_ADDRESS=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest . -C RelWithDebInfo
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest . -C Release
-
-      - name: Build & Test with Undefined Behavior Sanitizer
-        env:
-          UBSAN_OPTIONS: "print_stacktrace=1"
-        if: matrix.cfg.compiler == 'clang++'
-        run: |
-          # Create directory
-          mkdir build-ubsan
-          cd build-ubsan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest . -C RelWithDebInfo
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest . -C Release
-
       - name: Generate warnings
         shell: bash
         run: |
           # Build
-          mkdir build-warnings
-          cd build-warnings
+          mkdir build
+          cd build
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --config "RelWithDebInfo" --clean-first 2> build.log
 
@@ -164,7 +200,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build-warnings/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
+          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-check -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
 
       - name: ReviewDog Review
         shell: bash
@@ -172,4 +208,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build-warnings/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
+          cat build/build_filtered.log | reviewdog -efm="${{ matrix.cfg.error_format }}" -diff="git diff" -reporter=github-pr-review -name "Windows ${{ matrix.cfg.compiler }} warnings" -level warning
