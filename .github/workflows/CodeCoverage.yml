@@ -181,11 +181,11 @@ jobs:
         run: |
           cd build-clang
 
-          llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
-          find bin -type f -exec bash -c 'llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
+          xcrun llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          find bin -type f -exec bash -c 'xcrun llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
 
           # List coverage data
-          find bin -type f -exec bash -c 'echo ${0}; llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
+          find bin -type f -exec bash -c 'echo ${0}; xcrun llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
           cat coverage.info
 
       - name: Upload coverage data (Clang)
