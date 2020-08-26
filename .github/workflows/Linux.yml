@@ -9,6 +9,119 @@ jobs:
     env:
       CTEST_OUTPUT_ON_FAILURE: ON
       CTEST_PARALLEL_LEVEL: 2
+      # Sanitizers
+      ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
+      TSAN_OPTIONS: "force_seq_cst_atomics=1"
+      UBSAN_OPTIONS: "print_stacktrace=1"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cfg:
+          - { compiler: g++, compiler_version: "10" }
+          - { compiler: g++, compiler_version: "10", sanitizer: "asan" }
+          - { compiler: g++, compiler_version: "10", sanitizer: "lsan" }
+          - { compiler: g++, compiler_version: "10", sanitizer: "tsan" }
+          - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
+          - { compiler: clang++, compiler_version: "10" }
+          - { compiler: clang++, compiler_version: "10", sanitizer: "asan" }
+          - { compiler: clang++, compiler_version: "10", sanitizer: "lsan" }
+          #- { compiler: clang++, compiler_version: "10", sanitizer: "msan" }
+          - { compiler: clang++, compiler_version: "10", sanitizer: "tsan" }
+          - { compiler: clang++, compiler_version: "10", sanitizer: "ubsan" }
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install
+        run: |
+          # Adding repositories
+          # Add clang repo
+          if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
+            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+            sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ matrix.cfg.compiler_version }} main"
+          fi
+
+          # Update repo list
+          sudo apt-get update -m
+
+          # Install clang++
+          if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
+            sudo apt-get install "clang-${{ matrix.cfg.compiler_version }}" g++-multilib -y
+          fi
+
+          # Install g++
+          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
+            sudo apt-get install "g++-${{ matrix.cfg.compiler_version }}" "g++-${{ matrix.cfg.compiler_version }}-multilib" -y
+          fi
+
+          # export compiler
+          echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
+
+      - name: Configure build directory
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+
+      - name: Configure Sanitizers
+        run: |
+          cd build
+
+          # Address Sanitizer
+          if [ "${{ matrix.cfg.sanitizer }}" = "asan" ]; then
+            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
+
+          # Leak Sanitizer
+          elif [ "${{ matrix.cfg.sanitizer }}" = "lsan" ]; then
+            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # Memory Sanitizer
+          elif [ "${{ matrix.cfg.sanitizer }}" = "msan" ]; then
+            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
+
+          # Thread Sanitizer
+          elif [ "${{ matrix.cfg.sanitizer }}" = "tsan" ]; then
+            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # Undefined Behavior Sanitizer
+          elif [ "${{ matrix.cfg.sanitizer }}" = "ubsan" ]; then
+            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+
+          # No Sanitizer
+          else
+            echo Running without sanitizer
+          fi
+
+      - name: Build Debug
+        run: |
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Debug
+          cmake --build . --clean-first
+          ctest .
+
+      - name: Build RelWithDebInfo
+        run: |
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build . --clean-first
+          ctest .
+
+      - name: Build Release
+        run: |
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake --build . --clean-first
+          ctest .
+
+  Warnings:
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -55,166 +168,11 @@ jobs:
           # export compiler
           echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
 
-      - name: Configure build directory
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-
-      - name: Build Debug
-        run: |
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build RelWithDebInfo
-        run: |
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build Release
-        run: |
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Address Sanitizer
-        env:
-          ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
-        run: |
-          # Create directory
-          mkdir build-asan
-          cd build-asan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_ADDRESS=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Leak Sanitizer
-        run: |
-          # Create directory
-          mkdir build-lsan
-          cd build-lsan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_LEAK=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Memory Sanitizer
-        continue-on-error: true
-        if: matrix.cfg.compiler == 'clang++'
-        run: |
-          # Create directory
-          mkdir build-msan
-          cd build-msan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_MEMORY=ON -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Thread Sanitizer
-        env:
-          TSAN_OPTIONS: "force_seq_cst_atomics=1"
-        run: |
-          # Create directory
-          mkdir build-tsan
-          cd build-tsan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_THREAD=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
-      - name: Build & Test with Undefined Behavior Sanitizer
-        env:
-          UBSAN_OPTIONS: "print_stacktrace=1"
-        run: |
-          # Create directory
-          mkdir build-ubsan
-          cd build-ubsan
-
-          # Configure
-          cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
-
-          # Debug
-          cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build . --clean-first
-          ctest .
-
-          # RelWithDebInfo
-          cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          cmake --build . --clean-first
-          ctest .
-
-          # Release
-          cmake .. -DCMAKE_BUILD_TYPE=Release
-          cmake --build . --clean-first
-          ctest .
-
       - name: Generate warnings
         run: |
           # Build
-          mkdir build-warnings
-          cd build-warnings
+          mkdir build
+          cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
           cmake --build . --clean-first 2> build.log
 
@@ -225,11 +183,11 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build-warnings/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning
+          cat build/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning
 
       - name: ReviewDog Review
         if: ${{ github.event_name == 'pull_request' }}
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build-warnings/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning
+          cat build/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name "Linux ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} warnings" -level warning

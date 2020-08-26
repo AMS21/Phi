@@ -145,23 +145,6 @@ jobs:
         run: |
           cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
 
-  flawfinder:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install flawfinder
-        run: |
-          sudo apt-get install python3
-          sudo -H pip3 install --upgrade pip
-          sudo -H pip3 install flawfinder
-
-      - name: Run flawfinder
-        run: |
-          flawfinder examples libs tests
-
   pvs-studio:
     runs-on: ubuntu-latest
     env:

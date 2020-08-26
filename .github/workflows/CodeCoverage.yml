@@ -69,7 +69,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: unittests,linux,gcc
+          flags: linux,gcc
           name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
           fail_ci_if_error: true
 
@@ -103,8 +103,98 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
-          flags: unittests,linux,clang
+          flags: linux,clang
           name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}
+          fail_ci_if_error: true
+
+  macos:
+    runs-on: macos-latest
+    env:
+      GCC_VERSION: "10"
+      XCODE_VERSION: "11.6"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install tools
+        run: |
+          # GCC
+          brew install gcc@${{ env.GCC_VERSION }} lcov
+
+          # XCode
+          ls -ls /Applications/
+          sudo xcode-select -switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+
+      - name: Build coverage data (GCC)
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest .
+
+      - name: Process coverage data (GCC)
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+          lcov --remove coverage.info "/Applications/*" --output-file coverage.info # filter out XCode headers
+          lcov --remove coverage.info "*/Phi/external/*" --output-file coverage.info # filter out third party libraries
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (GCC)
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: macos,gcc
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
+          fail_ci_if_error: true
+
+      - name: Build coverage data (Clang)
+        run: |
+          # Create build directory
+          mkdir build-clang
+          cd build-clang
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" -DCMAKE_CXX_COMPILER="clang++" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
+          ctest .
+
+      - name: Process coverage data (Clang)
+        run: |
+          cd build-clang
+
+          xcrun llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          find bin -type f -exec bash -c 'xcrun llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
+
+          # List coverage data
+          find bin -type f -exec bash -c 'echo ${0}; xcrun llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
+          cat coverage.info
+
+      - name: Upload coverage data (Clang)
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build-clang/coverage.info
+          flags: macos,clang
+          name: ${{ runner.os }}-clang++-${{ env.XCODE_VERSION }}
           fail_ci_if_error: true
 
   windows:
@@ -162,6 +252,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/coverage.info
-          flags: unittests,windows,clang
+          flags: windows,clang
           name: ${{ runner.os }}-clang
           fail_ci_if_error: true
