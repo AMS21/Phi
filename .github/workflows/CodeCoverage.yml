@@ -148,7 +148,7 @@ jobs:
         run: |
           lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
           lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
-          lcov --remove coverage.info "$(readlink -f external)/*" --output-file coverage.info # filter out third party libraries
+          lcov --remove coverage.info "$(readlink external)/*" --output-file coverage.info # filter out third party libraries
 
           # List debug info
           lcov --list coverage.info # debug info
