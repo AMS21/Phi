@@ -73,23 +73,23 @@ jobs:
 
           # Address Sanitizer
           if [ "${{ matrix.cfg.sanitizer }}" = "asan" ]; then
-            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
+            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
 
           # Leak Sanitizer
           elif [ "${{ matrix.cfg.sanitizer }}" = "lsan" ]; then
-            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Memory Sanitizer
           elif [ "${{ matrix.cfg.sanitizer }}" = "msan" ]; then
-            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
 
           # Thread Sanitizer
           elif [ "${{ matrix.cfg.sanitizer }}" = "tsan" ]; then
-            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Undefined Behavior Sanitizer
           elif [ "${{ matrix.cfg.sanitizer }}" = "ubsan" ]; then
-            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DPHI_STANDARD_RUNTIME="Static" -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # No Sanitizer
           else
