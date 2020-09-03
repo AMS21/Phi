@@ -2,7 +2,7 @@
 
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
-  if(PHI_DISABLE_OPTIMIZATIONS)
+  if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)
     return()
   endif()
 
@@ -42,7 +42,7 @@ function(set_project_optimizations project)
   elseif(PHI_COMPILER_GCC)
     set(project_opt ${phi_gcc_opt})
   else()
-    message(AUTHOR_WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    message(WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   target_compile_options(${project} INTERFACE ${project_opt})

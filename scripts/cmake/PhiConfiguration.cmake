@@ -19,6 +19,9 @@ endif()
 # Standard project settings
 include(StandardProjectSettings)
 
+# Include coverage settings
+include(Coverage)
+
 # enable cache system
 include(Cache)
 
