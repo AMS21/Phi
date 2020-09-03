@@ -41,6 +41,22 @@ if(WIN32)
       set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
     endif()
   else()
-    # TODO: Needs workaround
+    foreach(flag CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+                CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+      if(${flag} MATCHES "/MD")
+        string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+      endif()
+    endforeach()
+  endif()
+endif()
+
+# Standard library
+option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" "Default")
+set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  if(${PHI_STANDARD_LIBRARY} STREQUAL "libc++")
+    target_compile_options(project_options INTERFACE -stdlib=libc++)
+    target_link_libraries(project_options INTERFACE -stdlib=libc++)
   endif()
 endif()
