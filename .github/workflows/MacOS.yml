@@ -101,7 +101,7 @@ jobs:
       - name: Build Release
         run: |
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF
           cmake --build . --clean-first
           ctest .
 
