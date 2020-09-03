@@ -15,6 +15,10 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
+      - uses: actions/setup-python@v2.1.2
+        with:
+          python-version: '3.x'
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
@@ -31,7 +35,6 @@ jobs:
       - name: Run cmake-format
         run: |
           # Install cmake-format
-          sudo apt-get install python3
           sudo -H pip3 install --upgrade pip
           sudo -H pip3 install cmake-format
 

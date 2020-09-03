@@ -99,6 +99,10 @@ jobs:
         with:
           reviewdog_version: latest
 
+      - uses: actions/setup-python@v2.1.2
+        with:
+          python-version: '3.x'
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
@@ -228,6 +232,10 @@ jobs:
         with:
           submodules: recursive
 
+      - uses: actions/setup-python@v2.1.2
+        with:
+          python-version: '3.x'
+
       - uses: reviewdog/action-setup@v1
         with:
           reviewdog_version: latest
@@ -306,9 +314,12 @@ jobs:
         with:
           reviewdog_version: latest
 
+      - uses: actions/setup-python@v2.1.2
+        with:
+          python-version: '3.x'
+
       - name: Install cmake-lint
         run: |
-          sudo apt-get install python3
           sudo -H pip3 install --upgrade pip
           sudo -H pip3 install cmake-format
 
