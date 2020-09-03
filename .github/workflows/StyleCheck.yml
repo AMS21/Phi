@@ -10,31 +10,39 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
+      - uses: actions/setup-python@v2.1.2
+        with:
+          python-version: '3.x'
+
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
-      - name: Run clang-format
+      - name: Install clang-format
         run: |
           # Install clang-format
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+
           sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-format-${{ env.LLVM_VERSION }}
 
+      - name: Run clang-format
+        run: |
           clang-format-${{ env.LLVM_VERSION }} -i $(find -iname "*.[hc]pp" -type f)
 
-      - name: Run cmake-format
+      - name: Install cmake-format
         run: |
           # Install cmake-format
-          sudo apt-get install python3
           sudo -H pip3 install --upgrade pip
           sudo -H pip3 install cmake-format
 
+      - name: Run cmake-format
+        run: |
           cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
 
       - name: Fix spacing
@@ -87,7 +95,7 @@ jobs:
           ctest .
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v2
+        uses: crazy-max/ghaction-import-gpg@v2.2.0
         env:
           GPG_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
           PASSPHRASE: ${{ secrets.BOT_KEY_PASSPHRASE }}
@@ -96,7 +104,7 @@ jobs:
           git_commit_gpgsign: true
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v4.4.1
         continue-on-error: true  # Ignore errors
         with:
           commit_message: Applied automatic formatting and fixes
@@ -112,10 +120,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
       - name: Run misspell with reviewdog
-        uses: reviewdog/action-misspell@v1
+        uses: reviewdog/action-misspell@v1.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: US
@@ -127,10 +135,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
       - name: yamllint
-        uses: reviewdog/action-yamllint@v1
+        uses: reviewdog/action-yamllint@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
@@ -142,7 +150,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
       - name: markdownlint
         uses: prologic/action-markdownlint@v0.1
@@ -156,7 +164,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
       - name: remark-lint
         uses: prologic/action-remark-lint@v0.0.5
@@ -170,9 +178,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
-      - uses: reviewdog/action-languagetool@v1
+      - uses: reviewdog/action-languagetool@v1.0.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
@@ -183,9 +191,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.2
 
-      - uses: reviewdog/action-alex@v1
+      - uses: reviewdog/action-alex@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
