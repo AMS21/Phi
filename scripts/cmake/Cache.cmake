@@ -24,8 +24,8 @@ if(${CACHE_OPTION} STREQUAL "auto")
       if(CACHE_BINARY)
         message(STATUS "Testing cache compiler ${option} - works")
         set(CACHE_OPTION
-          ${option}
-          CACHE STRING "Compiler cache to be used" FORCE)
+            ${option}
+            CACHE STRING "Compiler cache to be used" FORCE)
         set(CMAKE_CXX_COMPILER_LAUNCHER ${CACHE_BINARY})
         break()
       else()
@@ -38,8 +38,8 @@ if(${CACHE_OPTION} STREQUAL "auto")
   if(${CACHE_OPTION} STREQUAL "auto")
     message(STATUS "No suitable compiler cache was found. Disabling caching")
     set(ENABLE_CACHE
-      OFF
-      CACHE BOOL "Enable cache if available" FORCE)
+        OFF
+        CACHE BOOL "Enable cache if available" FORCE)
   endif()
 else()
   find_program(CACHE_BINARY ${CACHE_OPTION})
@@ -49,7 +49,7 @@ else()
   else()
     message(WARNING "${CACHE_OPTION} is enabled but was not found. Disabling it.")
     set(ENABLE_CACHE
-      OFF
-      CACHE BOOL "Enable cache if available" FORCE)
+        OFF
+        CACHE BOOL "Enable cache if available" FORCE)
   endif()
 endif()

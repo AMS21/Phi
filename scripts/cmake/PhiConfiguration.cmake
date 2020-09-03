@@ -6,7 +6,8 @@ include(Environment)
 add_library(project_options INTERFACE)
 add_library(Phi::ProjectOptions ALIAS project_options)
 # Require C++20 and disable extensions
-set_target_properties(project_options PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_20 INTERFACE_CXX_EXTENSIONS OFF)
+set_target_properties(project_options PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_20
+                                                 INTERFACE_CXX_EXTENSIONS OFF)
 
 if(PHI_COMPILER_CLANG)
   option(PHI_BUILD_WITH_TIME_TRACE

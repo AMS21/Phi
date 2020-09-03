@@ -1,11 +1,11 @@
-
 if(PHI_COVERAGE_BUILD)
   # Enable coverage flags
   if(PHI_COMPILER_GCC)
     target_compile_options(project_options INTERFACE --coverage -O0 -g -fno-inline)
     target_link_libraries(project_options INTERFACE --coverage)
   elseif(PHI_COMPILER_CLANG)
-    target_compile_options(project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping -O0 -g -fno-inline)
+    target_compile_options(project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping
+                                                     -O0 -g -fno-inline)
     target_link_libraries(project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping)
   else()
     message(WARNING "[Phi] No coverage flags set for '${CMAKE_CXX_COMPILER_ID}' compiler.")

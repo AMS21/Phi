@@ -5,7 +5,7 @@
 # Enable warnings for project
 function(set_project_warnings project)
   option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" FALSE)
-  option(PHI_PEDANTIC_WARNINGS "Eanble pedantic mode" TRUE )
+  option(PHI_PEDANTIC_WARNINGS "Eanble pedantic mode" TRUE)
 
   set(phi_msvc_warnings
       /Wall # Baseline reasonable warnings
@@ -54,8 +54,7 @@ function(set_project_warnings project)
   )
 
   # standards conformance mode for MSVC compiler.
-  set(phi_msvc_pedantic_flags
-        /permissive-)
+  set(phi_msvc_pedantic_flags /permissive-)
 
   # Clang
   set(phi_clang_warnings
@@ -82,9 +81,7 @@ function(set_project_warnings project)
 
   set(phi_clang_disabled_warnings)
 
-  set(phi_clang_pedantic_flags
-      -pedantic
-      -pedantic-errors)
+  set(phi_clang_pedantic_flags -pedantic -pedantic-errors)
 
   set(phi_gcc_warnings
       ${phi_clang_warnings}
@@ -114,9 +111,9 @@ function(set_project_warnings project)
 
   # Pedantic flags
   if(PHI_PEDANTIC_WARNINGS)
-     set(phi_clang_warnings ${phi_clang_warnings} ${phi_clang_pedantic_flags})
-     set(phi_gcc_warnings ${phi_gcc_warnings} ${phi_clang_pedantic_flags})
-     set(phi_msvc_warnings ${phi_msvc_warnings} ${phi_msvc_pedantic_flags})
+    set(phi_clang_warnings ${phi_clang_warnings} ${phi_clang_pedantic_flags})
+    set(phi_gcc_warnings ${phi_gcc_warnings} ${phi_clang_pedantic_flags})
+    set(phi_msvc_warnings ${phi_msvc_warnings} ${phi_msvc_pedantic_flags})
   endif()
 
   # Check for correct compiler
