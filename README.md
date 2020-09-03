@@ -1,4 +1,4 @@
-# Phi ![GitHub](https://img.shields.io/github/license/AMS21/Phi) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AMS21/Phi) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/AMS21/Phi)
+# Phi ![GitHub](https://img.shields.io/github/license/AMS21/Phi) [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AMS21/Phi) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/AMS21/Phi)
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/Linux?label=Linux%20Build)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/MacOS?label=MacOS%20Build)
