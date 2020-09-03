@@ -1,13 +1,13 @@
 # Enable sanitizers for a specific project
 function(enable_sanitizers project)
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  if(PHI_COMPILER_GCC OR PHI_COMPILER_CLANG)
     option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
 
     if(ENABLE_COVERAGE)
       target_compile_options(project_options INTERFACE --coverage -O0 -g)
       target_link_libraries(project_options INTERFACE --coverage)
 
-      if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+      if(PHI_COMPILER_CLANG)
         target_compile_options(project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping)
         target_link_libraries(project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping)
       endif()

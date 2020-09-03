@@ -22,7 +22,7 @@ function(set_project_optimizations project)
       -fstrict-vtable-pointers
       -fstrict-return)
 
-  if(ENABLE_IPO)
+  if(PHI_ENABLE_IPO)
     list(APPEND phi_clang_release_opt -fwhole-program-vtables)
   endif()
 
@@ -34,13 +34,15 @@ function(set_project_optimizations project)
 
   set(phi_gcc_opt $<$<CONFIG:RELEASE>:${phi_gcc_release_opt}>)
 
-  if(MSVC)
+  if(PHI_COMPILER_MSVC)
     set(project_opt ${phi_msvc_opt})
     set(project_linker_opt ${phi_msvc_linker_opt})
-  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  elseif(PHI_COMPILER_CLANG)
     set(project_opt ${phi_clang_opt})
-  else()
+  elseif(PHI_COMPILER_GCC)
     set(project_opt ${phi_gcc_opt})
+  else()
+    message(AUTHOR_WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   target_compile_options(${project} INTERFACE ${project_opt})
