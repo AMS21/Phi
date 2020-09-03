@@ -5,6 +5,7 @@
 # Enable warnings for project
 function(set_project_warnings project)
   option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" FALSE)
+  option(PHI_PEDANTIC_WARNINGS "Eanble pedantic mode" TRUE )
 
   set(phi_msvc_warnings
       /Wall # Baseline reasonable warnings
@@ -32,7 +33,6 @@ function(set_project_warnings project)
       /w14906 # string literal cast to 'LPWSTR'
       /w14928 # illegal copy-initialization; more than one user-defined conversion has been
               # implicitly applied
-      /permissive- # standards conformance mode for MSVC compiler.
   )
 
   set(phi_msvc_disabled_warnings
@@ -53,6 +53,11 @@ function(set_project_warnings project)
               # specified
   )
 
+  # standards conformance mode for MSVC compiler.
+  set(phi_msvc_pedantic_flags
+        /permissive-)
+
+  # Clang
   set(phi_clang_warnings
       -Wall
       -Wextra # reasonable and standard
@@ -77,10 +82,9 @@ function(set_project_warnings project)
 
   set(phi_clang_disabled_warnings)
 
-  if(WARNINGS_AS_ERRORS)
-    set(phi_clang_warnings ${phi_clang_warnings} -Werror)
-    set(phi_msvc_warnings ${phi_msvc_warnings} /WX)
-  endif()
+  set(phi_clang_pedantic_flags
+      -pedantic
+      -pedantic-errors)
 
   set(phi_gcc_warnings
       ${phi_clang_warnings}
@@ -101,6 +105,21 @@ function(set_project_warnings project)
       -Walloc-zero
       -Wrestrict)
 
+  # Warnings as errors
+  if(PHI_WARNINGS_AS_ERRORS)
+    set(phi_clang_warnings ${phi_clang_warnings} -Werror)
+    set(phi_gcc_warnings ${phi_gcc_warnings} -Werror)
+    set(phi_msvc_warnings ${phi_msvc_warnings} /WX)
+  endif()
+
+  # Pedantic flags
+  if(PHI_PEDANTIC_WARNINGS)
+     set(phi_clang_warnings ${phi_clang_warnings} ${phi_clang_pedantic_flags})
+     set(phi_gcc_warnings ${phi_gcc_warnings} ${phi_clang_pedantic_flags})
+     set(phi_msvc_warnings ${phi_msvc_warnings} ${phi_msvc_pedantic_flags})
+  endif()
+
+  # Check for correct compiler
   if(MSVC)
     set(project_warnings ${phi_msvc_warnings} ${phi_msvc_disabled_warnings})
   elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
