@@ -21,7 +21,7 @@ jobs:
           ref: 'develop'
           submodules: recursive
 
-      - name: get-cmake
+      - name: Install cmake
         uses: lukka/get-cmake@latest
 
       - name: Install
