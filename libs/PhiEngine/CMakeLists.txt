@@ -26,7 +26,7 @@ target_include_directories(
   PUBLIC "include"
   PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions CppBase::CppBase)
+target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions CppBase::CppBase spdlog::spdlog)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "NOMINMAX")

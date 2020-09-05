@@ -4,3 +4,6 @@
 [submodule "external/CppBase"]
 	path = external/CppBase
 	url = https://github.com/AMS21/CppBase.git
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git
