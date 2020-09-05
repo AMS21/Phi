@@ -200,7 +200,7 @@ jobs:
           pvs-studio-analyzer analyze --threads 2 --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external
 
           # Convert to readable format
-          plog-converter --renderTypes errorfile PVS-Studio.log --output PVS-Studio.err
+          plog-converter --renderTypes errorfile PVS-Studio.log --analyzer "GA:1,2,3;OP:1,2,3;64:1,2,3;CS:1,2,3" --output PVS-Studio.err
 
           # Filter out external libraries, test code and help message
           cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests|https://www.viva64.com/en/w/" > PVS-Studio_filtered.err || true
