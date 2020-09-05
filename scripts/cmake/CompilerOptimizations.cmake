@@ -22,7 +22,8 @@ function(set_project_optimizations project)
       -fstrict-vtable-pointers
       -fstrict-return)
 
-  if(PHI_ENABLE_IPO)
+  # The -fwhole-program-vtables optimization for some reasons crashes the AppleClang compiler
+  if(PHI_ENABLE_IPO AND NOT PHI_COMPILER_APPLECLANG)
     list(APPEND phi_clang_release_opt -fwhole-program-vtables)
   endif()
 
