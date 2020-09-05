@@ -48,6 +48,11 @@ if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Cl
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
   string(REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" PHI_CLANG_VERSION
                        "${CLANG_VERSION_OUTPUT}")
+
+  # Test for AppleClang
+  if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    set(PHI_COMPILER_APPLECLANG 1)
+  endif()
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   set(PHI_COMPILER_GCC 1)
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion" OUTPUT_VARIABLE GCC_VERSION_OUTPUT)
