@@ -1,7 +1,7 @@
 include(TestFail)
 
 # Selftest
-compile_failure_test(NAME Selftest_CompileFail SOURCE "src/Selftest/Compile.fail.cpp")
+compile_failure_test(NAME Selftest_StaticAssert SOURCE "src/Selftest/StaticAssert.fail.cpp")
 
 # Phi/Utility
 compile_failure_test(NAME FloatingPoint_ConstructFromInt SOURCE
