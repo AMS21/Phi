@@ -64,6 +64,9 @@ endif()
 
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+# Load tools
+add_subdirectory(tools)
+
 # Load extternal dependencies
 add_subdirectory(external)
 
