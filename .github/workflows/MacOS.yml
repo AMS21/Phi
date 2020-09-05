@@ -24,7 +24,6 @@ jobs:
           - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
           - { compiler: clang++, compiler_version: "11.6" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "asan" }
-          - { compiler: clang++, compiler_version: "11.6", sanitizer: "lsan" }
           #- { compiler: clang++, compiler_version: "11.6", sanitizer: "msan" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "tsan" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "ubsan" }
@@ -101,7 +100,7 @@ jobs:
       - name: Build Release
         run: |
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF -DCMAKE_VERBOSE_MAKEFILE=ON
           cmake --build . --clean-first
           ctest .
 

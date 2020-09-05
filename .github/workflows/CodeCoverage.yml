@@ -49,7 +49,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -80,7 +80,7 @@ jobs:
           cd build-clang
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -138,7 +138,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -170,7 +170,7 @@ jobs:
           cd build-clang
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" -DCMAKE_CXX_COMPILER="clang++" ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="clang++" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -228,7 +228,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON ..
           cmake --build . --clean-first
 
           # Generate coverage data

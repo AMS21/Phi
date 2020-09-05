@@ -2,7 +2,7 @@
 
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
-  if(PHI_DISABLE_OPTIMIZATIONS)
+  if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)
     return()
   endif()
 
@@ -22,7 +22,8 @@ function(set_project_optimizations project)
       -fstrict-vtable-pointers
       -fstrict-return)
 
-  if(ENABLE_IPO)
+  # The -fwhole-program-vtables optimization for some reasons crashes the AppleClang compiler
+  if(PHI_ENABLE_IPO AND NOT PHI_COMPILER_APPLECLANG)
     list(APPEND phi_clang_release_opt -fwhole-program-vtables)
   endif()
 
@@ -34,13 +35,15 @@ function(set_project_optimizations project)
 
   set(phi_gcc_opt $<$<CONFIG:RELEASE>:${phi_gcc_release_opt}>)
 
-  if(MSVC)
+  if(PHI_COMPILER_MSVC)
     set(project_opt ${phi_msvc_opt})
     set(project_linker_opt ${phi_msvc_linker_opt})
-  elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  elseif(PHI_COMPILER_CLANG)
     set(project_opt ${phi_clang_opt})
-  else()
+  elseif(PHI_COMPILER_GCC)
     set(project_opt ${phi_gcc_opt})
+  else()
+    message(WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   target_compile_options(${project} INTERFACE ${project_opt})

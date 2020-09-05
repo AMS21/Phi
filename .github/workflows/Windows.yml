@@ -104,7 +104,7 @@ jobs:
 
           # Workaround for gcc-8.3 being broken on windows when using IPO on debug builds
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
-            cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=Off -DENABLE_IPO=Off
+            cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=Off -DPHI_ENABLE_IPO=Off
           else
             cmake .. -DCMAKE_BUILD_TYPE=Debug
           fi
@@ -113,7 +113,7 @@ jobs:
 
           # Reenable IPO for gcc
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
-            cmake .. -DENABLE_IPO=ON
+            cmake .. -DPHI_ENABLE_IPO=ON
           fi
 
       - name: Build RelWithDebInfo
