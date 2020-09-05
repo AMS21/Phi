@@ -24,7 +24,6 @@ jobs:
           - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
           - { compiler: clang++, compiler_version: "11.6" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "asan" }
-          - { compiler: clang++, compiler_version: "11.6", sanitizer: "lsan" }
           #- { compiler: clang++, compiler_version: "11.6", sanitizer: "msan" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "tsan" }
           - { compiler: clang++, compiler_version: "11.6", sanitizer: "ubsan" }
