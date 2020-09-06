@@ -20,13 +20,14 @@ function(runtime_failure_test)
   set_target_properties(${TEST_NAME} PROPERTIES FOLDER "Tests/RuntimeFailure")
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::ProjectOptions Phi::Engine)
+  target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/runtime_failure/include")
   add_dependencies(${TEST_NAME} RuntimeFailureRunner)
 
   # Add test
   if(DEFINED rtf_CONFIGURATIONS)
     add_test(
       NAME ${TEST_NAME}
-      COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME} && exit 1
+      COMMAND $<TARGET_FILE:RuntimeFailureRunner> $<TARGET_FILE:${TEST_NAME}>
       CONFIGURATIONS ${rtf_CONFIGURATIONS})
   else()
     add_test(NAME ${TEST_NAME} COMMAND $<TARGET_FILE:RuntimeFailureRunner> $<TARGET_FILE:${TEST_NAME}>)
