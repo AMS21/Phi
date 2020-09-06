@@ -9,8 +9,13 @@
 void SetupDebugReportMode()
 {
 #if defined(_WIN32)
-    _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
-    _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
+    // Crt errors
+    _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
+    _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+
+    // Crt asserts
+    _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
+    _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
 #endif
 }
 
