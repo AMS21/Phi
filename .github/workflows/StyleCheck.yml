@@ -98,7 +98,7 @@ jobs:
         uses: crazy-max/ghaction-import-gpg@v3
         with:
           gpg-private-key: ${{ secrets.BOT_PRIVATE_KEY }}
-          passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}  
+          passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}
           git-user-signingkey: true
           git-commit-gpgsign: true
 
