@@ -33,6 +33,9 @@ SOFTWARE.
 #include <string>
 #include <type_traits>
 
+#define TEST_CONVERSION(lhs, rhs)                                                                  \
+    (std::is_nothrow_constructible_v<lhs, rhs> && std::is_nothrow_assignable_v<lhs, rhs>)
+
 CPP_CLANG_SUPPRESS_WARNING_PUSH
 CPP_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
@@ -43,84 +46,66 @@ CPP_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
 {
     STATIC_REQUIRE(sizeof(float) == sizeof(phi::FloatingPoint<float>));
+    STATIC_REQUIRE(sizeof(double) == sizeof(phi::FloatingPoint<double>));
+    STATIC_REQUIRE(sizeof(long double) == sizeof(phi::FloatingPoint<long double>));
     STATIC_REQUIRE(std::is_trivially_copyable_v<phi::FloatingPoint<float>>);
     STATIC_REQUIRE(std::is_standard_layout_v<phi::FloatingPoint<float>>);
     STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::FloatingPoint<float>>);
 
     // conversion checks
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<float>, float>);
-    STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::FloatingPoint<float>, double>);
-    STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::FloatingPoint<float>, long double>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, float>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, double>);
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<float>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::FloatingPoint<float>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::FloatingPoint<float>, long double));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, float));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, double));
 #if (DBL_DIG < LDBL_DIG)
-    STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::FloatingPoint<double>, long double>);
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::FloatingPoint<double>, long double));
 #else
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, long double>);
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, long double));
 #endif
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<long double>, float>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<long double>, double>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<long double>, long double>);
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<long double>, float));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<long double>, double));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<long double>, long double));
 
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<float>, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<float>, phi::FloatingPoint<float>));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::FloatingPoint<float>, phi::FloatingPoint<double>));
     STATIC_REQUIRE_FALSE(
-            std::is_constructible_v<phi::FloatingPoint<float>, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(
-            std::is_constructible_v<phi::FloatingPoint<float>, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<double>>);
+            TEST_CONVERSION(phi::FloatingPoint<float>, phi::FloatingPoint<long double>));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, phi::FloatingPoint<float>));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, phi::FloatingPoint<double>));
 #if (DBL_DIG < LDBL_DIG)
     STATIC_REQUIRE_FALSE(
-            std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<long double>>);
+            TEST_CONVERSION(phi::FloatingPoint<double>, phi::FloatingPoint<long double>));
 #else
-    STATIC_REQUIRE(
-            std::is_constructible_v<phi::FloatingPoint<double>, phi::FloatingPoint<double long>>);
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<double>, phi::FloatingPoint<double long>));
 #endif
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<long double>, phi::FloatingPoint<float>));
+    STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<long double>, phi::FloatingPoint<double>));
     STATIC_REQUIRE(
-            std::is_constructible_v<phi::FloatingPoint<long double>, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(
-            std::is_constructible_v<phi::FloatingPoint<long double>, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::FloatingPoint<long double>,
-                                           phi::FloatingPoint<long double>>);
+            TEST_CONVERSION(phi::FloatingPoint<long double>, phi::FloatingPoint<long double>));
 
-    // assignment
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<float>, float>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::FloatingPoint<float>, double>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::FloatingPoint<float>, long double>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, float>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, double>);
-#if (DBL_DIG < LDBL_DIG)
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::FloatingPoint<double>, long double>);
-#else
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, long double>);
-#endif
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<long double>, float>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<long double>, double>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<long double>, long double>);
+    STATIC_REQUIRE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<long double>>);
 
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<float>, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(
-            std::is_assignable_v<phi::FloatingPoint<float>, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(
-            std::is_assignable_v<phi::FloatingPoint<float>, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<double>>);
-#if (DBL_DIG < LDBL_DIG)
-    STATIC_REQUIRE_FALSE(
-            std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<long double>>);
-#else
-    STATIC_REQUIRE(
-            std::is_assignable_v<phi::FloatingPoint<double>, phi::FloatingPoint<long double>>);
-#endif
-    STATIC_REQUIRE(
-            std::is_assignable_v<phi::FloatingPoint<long double>, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(
-            std::is_assignable_v<phi::FloatingPoint<long double>, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(
-            std::is_assignable_v<phi::FloatingPoint<long double>, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<float>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<long double>>);
 }
 
-TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
+TEST_CASE("phi::FloatingPoint", "[Utility][Types][FloatingPoint]")
 {
     using FloatT = phi::FloatingPoint<double>;
 
@@ -200,8 +185,8 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 
     SECTION("multiplication")
     {
-        FloatT wrapper(1.);
-        double normal(1.);
+        FloatT wrapper(1.0);
+        double normal(1.0);
         CHECK(static_cast<double>(wrapper) == normal);
 
         wrapper *= 4.5;
@@ -223,8 +208,8 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
 
     SECTION("division")
     {
-        FloatT wrapper(10.);
-        double normal(10.);
+        FloatT wrapper(10.0);
+        double normal(10.0);
         CHECK(static_cast<double>(wrapper) == normal);
 
         wrapper /= 4.5;
@@ -242,6 +227,33 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
         wrapper = FloatT(-11.0) / wrapper;
         normal  = -11.0 / normal;
         CHECK(static_cast<double>(wrapper) == normal);
+    }
+
+    SECTION("Module")
+    {
+        FloatT wrapper(24.0 * 6.0);
+        double normal(24.0 * 6.0);
+        CHECK(wrapper.get() == normal);
+
+        wrapper %= 5.0;
+        normal = std::fmod(normal, 5.0);
+        CHECK(wrapper.get() == normal);
+
+        wrapper %= float(5.0);
+        normal = std::fmod(normal, float(5.0));
+        CHECK(wrapper.get() == normal);
+
+        wrapper = wrapper % (-23.0);
+        normal  = std::fmod(normal, (-23.0));
+        CHECK(wrapper.get() == normal);
+
+        wrapper = 22.0 % wrapper;
+        normal  = std::fmod(22.0, normal);
+        CHECK(wrapper.get() == normal);
+
+        wrapper = FloatT(-4.0) % wrapper;
+        normal  = std::fmod(-4.0, normal);
+        CHECK(wrapper.get() == normal);
     }
 
     SECTION("comparison")
@@ -324,6 +336,8 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Typs][FloatingPoint]")
         std::size_t one_hash  = std::hash<phi::FloatingPoint<float>>{}(1.0f);
 
         CHECK(zero_hash != one_hash);
+        CHECK(zero_hash == std::hash<float>{}(0.0f));
+        CHECK(one_hash == std::hash<float>{}(1.0f));
     }
 }
 

@@ -44,15 +44,23 @@ TEST_CASE("Boolean layout", "[Utility][Types][Boolean]")
     STATIC_REQUIRE(std::is_constructible_v<phi::Boolean, phi::Boolean>);
     STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::Boolean, int>);
     STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::Boolean, float>);
+    STATIC_REQUIRE(std::is_constructible_v<bool, phi::Boolean>);
 
     STATIC_REQUIRE(std::is_assignable_v<phi::Boolean, bool>);
     STATIC_REQUIRE(std::is_assignable_v<phi::Boolean, phi::Boolean>);
     STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::Boolean, int>);
     STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::Boolean, float>);
+    STATIC_REQUIRE_FALSE(std::is_assignable_v<bool, phi::Boolean>);
 }
 
 TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 {
+    SECTION("Type traits")
+    {
+        STATIC_REQUIRE(std::is_same_v<phi::Boolean::this_type, phi::Boolean>);
+        STATIC_REQUIRE(std::is_same_v<phi::Boolean::limits_type, std::numeric_limits<bool>>);
+    }
+
     SECTION("constructor")
     {
         CONSTEXPR_RUNTIME phi::Boolean b1(true);
@@ -138,5 +146,7 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
         std::size_t false_hash = std::hash<phi::Boolean>{}(false);
 
         CHECK(true_hash != false_hash);
+        CHECK(true_hash == std::hash<bool>{}(true));
+        CHECK(false_hash == std::hash<bool>{}(false));
     }
 }

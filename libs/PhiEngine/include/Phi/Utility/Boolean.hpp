@@ -32,6 +32,7 @@ SOFTWARE.
 #include <cpp/Inline.hpp>
 #include <functional>
 #include <iosfwd>
+#include <limits>
 #include <type_traits>
 #include <utility>
 
@@ -55,16 +56,16 @@ namespace detail
     {};
 
     template <typename TypeT>
-    constexpr inline bool IsBooleanV = is_boolean<TypeT>::value;
-
-    template <typename TypeT>
-    using enable_if_boolean_t = typename std::enable_if_t<IsBooleanV<TypeT>>;
+    using enable_if_boolean_t = typename std::enable_if_t<is_boolean<TypeT>::value>;
 } // namespace detail
 /// \endcond
 
 class Boolean
 {
 public:
+    using this_type   = Boolean;
+    using limits_type = std::numeric_limits<bool>;
+
     Boolean() = delete;
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
@@ -99,36 +100,36 @@ private:
     bool m_Value; /// The Wrapped bool value
 };
 
-CPP_ALWAYS_INLINE constexpr bool operator==(const Boolean& lhs, const Boolean& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator==(const Boolean& lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-CPP_ALWAYS_INLINE constexpr bool operator==(const Boolean& lhs, TypeT rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator==(const Boolean& lhs, TypeT rhs) noexcept
 {
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-CPP_ALWAYS_INLINE constexpr bool operator==(TypeT lhs, const Boolean& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator==(TypeT lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) == static_cast<bool>(rhs);
 }
 
-CPP_ALWAYS_INLINE constexpr bool operator!=(const Boolean& lhs, const Boolean& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator!=(const Boolean& lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-CPP_ALWAYS_INLINE constexpr bool operator!=(const Boolean& lhs, TypeT rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator!=(const Boolean& lhs, TypeT rhs) noexcept
 {
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-CPP_ALWAYS_INLINE constexpr bool operator!=(TypeT lhs, const Boolean& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator!=(TypeT lhs, const Boolean& rhs) noexcept
 {
     return static_cast<bool>(lhs) != static_cast<bool>(rhs);
 }
@@ -164,6 +165,10 @@ namespace std
             return std::hash<bool>()(static_cast<bool>(value));
         }
     };
+
+    template <>
+    struct numeric_limits<phi::Boolean> : std::numeric_limits<bool>
+    {};
 } // namespace std
 
 #endif // INCG_PHI_UTILITY_BOOLEAN_HPP

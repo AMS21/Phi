@@ -28,10 +28,13 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_FLOATINGPOINT_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include "Phi/Utility/Boolean.hpp"
 #include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
+#include <cmath>
 #include <functional>
 #include <iosfwd>
+#include <limits>
 #include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -42,6 +45,7 @@ class FloatingPoint;
 /// \cond detail
 namespace detail
 {
+    // Floating point conversion
     template <typename FromT, typename ToT>
     struct is_safe_floating_point_conversion
         : std::bool_constant<std::is_floating_point_v<FromT> && std::is_floating_point_v<ToT> &&
@@ -49,62 +53,55 @@ namespace detail
     {};
 
     template <typename FromT, typename ToT>
-    constexpr inline bool IsSafeFloatingPointConversionV =
-            is_safe_floating_point_conversion<FromT, ToT>::value;
-
-    template <typename FromT, typename ToT>
     using enable_safe_floating_point_conversion =
-            typename std::enable_if_t<IsSafeFloatingPointConversionV<FromT, ToT>>;
+            typename std::enable_if_t<is_safe_floating_point_conversion<FromT, ToT>::value>;
 
     template <typename FromT, typename ToT>
     using fallback_safe_floating_point_conversion =
-            typename std::enable_if_t<!IsSafeFloatingPointConversionV<FromT, ToT>>;
+            typename std::enable_if_t<!is_safe_floating_point_conversion<FromT, ToT>::value>;
 
+    // Floating point comparision
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_comparison
-        : std::bool_constant<IsSafeFloatingPointConversionV<LhsT, RhsT> ||
-                             IsSafeFloatingPointConversionV<RhsT, LhsT>>
+        : std::bool_constant<is_safe_floating_point_conversion<LhsT, RhsT>::value ||
+                             is_safe_floating_point_conversion<RhsT, LhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
-    constexpr inline bool IsSafeFloatingPointComparisonV =
-            is_safe_floating_point_comparison<LhsT, RhsT>::value;
-
-    template <typename LhsT, typename RhsT>
     using enable_safe_floating_point_comparison =
-            typename std::enable_if_t<IsSafeFloatingPointComparisonV<LhsT, RhsT>>;
+            typename std::enable_if_t<is_safe_floating_point_comparison<LhsT, RhsT>::value>;
 
     template <typename LhsT, typename RhsT>
     using fallback_safe_floating_point_comparison =
-            typename std::enable_if_t<!IsSafeFloatingPointComparisonV<LhsT, RhsT>>;
+            typename std::enable_if_t<!is_safe_floating_point_comparison<LhsT, RhsT>::value>;
 
+    // Floating point operation
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_operation
         : std::bool_constant<std::is_floating_point_v<LhsT> && std::is_floating_point_v<RhsT>>
     {};
 
     template <typename LhsT, typename RhsT>
-    constexpr inline bool IsSafeFloatingPointOperationV =
-            is_safe_floating_point_operation<LhsT, RhsT>::value;
-
-    template <typename LhsT, typename RhsT>
     using floating_point_result_t = FloatingPoint<typename std::enable_if_t<
-            IsSafeFloatingPointOperationV<LhsT, RhsT>,
+            is_safe_floating_point_operation<LhsT, RhsT>::value,
             typename std::conditional_t<sizeof(LhsT) < sizeof(RhsT), RhsT, LhsT>>>;
 
     template <typename LhsT, typename RhsT>
     using fallback_floating_point_result =
-            typename std::enable_if_t<!IsSafeFloatingPointOperationV<LhsT, RhsT>>;
+            typename std::enable_if_t<!is_safe_floating_point_operation<LhsT, RhsT>::value>;
 } // namespace detail
 /// \endcond
 
 template <typename FloatT>
 class FloatingPoint
 {
-    static_assert(std::is_floating_point_v<FloatT>, "must be a floating point type");
+    static_assert(std::is_floating_point_v<FloatT>,
+                  "[phi::FloatingPoint] must be a floating point type");
 
 public:
-    using value_type = FloatT;
+    using this_type   = FloatingPoint<FloatT>;
+    using value_type  = FloatT;
+    using limits_type = std::numeric_limits<FloatT>;
 
     FloatingPoint() = delete;
 
@@ -127,6 +124,7 @@ public:
     constexpr FloatingPoint(TypeT) = delete;
 
     //=== assignment ===//
+
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
     CPP_ALWAYS_INLINE FloatingPoint& operator=(const TypeT& val) noexcept
@@ -148,6 +146,7 @@ public:
     FloatingPoint& operator=(TypeT) = delete;
 
     //=== conversion back ===//
+
     CPP_ALWAYS_INLINE explicit constexpr operator FloatT() const noexcept
     {
         return m_Value;
@@ -159,6 +158,7 @@ public:
     }
 
     //=== unary operators ===//
+
     CPP_ALWAYS_INLINE constexpr FloatingPoint operator+() const noexcept
     {
         return *this;
@@ -169,20 +169,7 @@ public:
         return -m_Value;
     }
 
-//=== compound assignment ====//
-#define DETAIL_PHI_MAKE_OP(Op)                                                                     \
-                                                                                                   \
-    template <typename T, typename = detail::enable_safe_floating_point_conversion<T, FloatT>>     \
-    CPP_ALWAYS_INLINE FloatingPoint& operator Op(const T& other) noexcept                          \
-    {                                                                                              \
-        return *this Op FloatingPoint<T>(other);                                                   \
-    }                                                                                              \
-                                                                                                   \
-    template <typename T, typename = detail::fallback_safe_floating_point_conversion<T, FloatT>>   \
-    FloatingPoint& operator Op(FloatingPoint<T>) = delete;                                         \
-                                                                                                   \
-    template <typename T, typename = detail::fallback_safe_floating_point_conversion<T, FloatT>>   \
-    FloatingPoint& operator Op(T) = delete;
+    //=== compound assignment ====//
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
@@ -191,7 +178,21 @@ public:
         m_Value += static_cast<TypeT>(other);
         return *this;
     }
-    DETAIL_PHI_MAKE_OP(+=)
+
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator+=(const TypeT& other) noexcept
+    {
+        return *this += FloatingPoint<TypeT>(other);
+    }
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator+=(FloatingPoint<TypeT>) = delete;
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator+=(TypeT) = delete;
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
@@ -200,7 +201,21 @@ public:
         m_Value -= static_cast<TypeT>(other);
         return *this;
     }
-    DETAIL_PHI_MAKE_OP(-=)
+
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator-=(const TypeT& other) noexcept
+    {
+        return *this -= FloatingPoint<TypeT>(other);
+    }
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator-=(FloatingPoint<TypeT>) = delete;
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator-=(TypeT) = delete;
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
@@ -209,7 +224,21 @@ public:
         m_Value *= static_cast<TypeT>(other);
         return *this;
     }
-    DETAIL_PHI_MAKE_OP(*=)
+
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator*=(const TypeT& other) noexcept
+    {
+        return *this *= FloatingPoint<TypeT>(other);
+    }
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator*=(FloatingPoint<TypeT>) = delete;
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator*=(TypeT) = delete;
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
@@ -218,110 +247,196 @@ public:
         m_Value /= static_cast<TypeT>(other);
         return *this;
     }
-    DETAIL_PHI_MAKE_OP(/=)
 
-#undef DETAIL_PHI_MAKE_OP
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator/=(const TypeT& other) noexcept
+    {
+        return *this /= FloatingPoint<TypeT>(other);
+    }
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator/=(FloatingPoint<TypeT>) = delete;
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator/=(TypeT) = delete;
+
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator%=(const FloatingPoint<TypeT>& other) noexcept
+    {
+        m_Value = std::fmod(m_Value, static_cast<TypeT>(other));
+        return *this;
+    }
+
+    template <typename TypeT,
+              typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
+    CPP_ALWAYS_INLINE FloatingPoint& operator%=(const TypeT& other) noexcept
+    {
+        return *this %= FloatingPoint<TypeT>(other);
+    }
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator%=(FloatingPoint<TypeT>) = delete;
+
+    template <typename TypeT,
+              typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
+    FloatingPoint& operator%=(TypeT) = delete;
 
 private:
     FloatT m_Value; /// Wraped float value
 };
 
 //=== comparison ===//
-#define DETAIL_PHI_MAKE_OP(Op)                                                                     \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>                \
-    CPP_ALWAYS_INLINE constexpr bool operator Op(const LhsT& lhs, const FloatingPoint<RhsT>& rhs)  \
-    {                                                                                              \
-        return FloatingPoint<LhsT>(lhs) Op rhs;                                                    \
-    }                                                                                              \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>                \
-    CPP_ALWAYS_INLINE constexpr bool operator Op(const FloatingPoint<LhsT>& lhs, const RhsT& rhs)  \
-    {                                                                                              \
-        return lhs Op FloatingPoint<RhsT>(rhs);                                                    \
-    }                                                                                              \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>              \
-    constexpr bool operator Op(FloatingPoint<LhsT>, FloatingPoint<RhsT>) = delete;                 \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>              \
-    constexpr bool operator Op(LhsT, FloatingPoint<RhsT>) = delete;                                \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>              \
-    constexpr bool operator Op(FloatingPoint<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-CPP_ALWAYS_INLINE constexpr bool operator<(const FloatingPoint<LhsT>& lhs,
-                                           const FloatingPoint<RhsT>& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator<(const FloatingPoint<LhsT>& lhs,
+                                              const FloatingPoint<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) < static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(<)
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator<(const LhsT&                lhs,
+                                              const FloatingPoint<RhsT>& rhs) noexcept
+{
+    return FloatingPoint<LhsT>(lhs) < rhs;
+}
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-CPP_ALWAYS_INLINE constexpr bool operator<=(const FloatingPoint<LhsT>& lhs,
-                                            const FloatingPoint<RhsT>& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator<(const FloatingPoint<LhsT>& lhs,
+                                              const RhsT&                rhs) noexcept
+{
+    return lhs < FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<(FloatingPoint<LhsT>, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<(LhsT, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<(FloatingPoint<LhsT>, RhsT) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator<=(const FloatingPoint<LhsT>& lhs,
+                                               const FloatingPoint<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) <= static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(<=)
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator<=(const LhsT&                lhs,
+                                               const FloatingPoint<RhsT>& rhs) noexcept
+{
+    return FloatingPoint<LhsT>(lhs) <= rhs;
+}
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-CPP_ALWAYS_INLINE constexpr bool operator>(const FloatingPoint<LhsT>& lhs,
-                                           const FloatingPoint<RhsT>& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator<=(const FloatingPoint<LhsT>& lhs,
+                                               const RhsT&                rhs) noexcept
+{
+    return lhs <= FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<=(FloatingPoint<LhsT>, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<=(LhsT, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator<=(FloatingPoint<LhsT>, RhsT) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator>(const FloatingPoint<LhsT>& lhs,
+                                              const FloatingPoint<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) > static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(>)
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator>(const LhsT&                lhs,
+                                              const FloatingPoint<RhsT>& rhs) noexcept
+{
+    return FloatingPoint<LhsT>(lhs) > rhs;
+}
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-CPP_ALWAYS_INLINE constexpr bool operator>=(const FloatingPoint<LhsT>& lhs,
-                                            const FloatingPoint<RhsT>& rhs) noexcept
+CPP_ALWAYS_INLINE constexpr Boolean operator>(const FloatingPoint<LhsT>& lhs,
+                                              const RhsT&                rhs) noexcept
+{
+    return lhs > FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>(FloatingPoint<LhsT>, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>(LhsT, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>(FloatingPoint<LhsT>, RhsT) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator>=(const FloatingPoint<LhsT>& lhs,
+                                               const FloatingPoint<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) >= static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(>=)
 
-#undef DETAIL_PHI_MAKE_OP
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator>=(const LhsT&                lhs,
+                                               const FloatingPoint<RhsT>& rhs) noexcept
+{
+    return FloatingPoint<LhsT>(lhs) >= rhs;
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
+CPP_ALWAYS_INLINE constexpr Boolean operator>=(const FloatingPoint<LhsT>& lhs,
+                                               const RhsT&                rhs) noexcept
+{
+    return lhs >= FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>=(FloatingPoint<LhsT>, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>=(LhsT, FloatingPoint<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
+constexpr Boolean operator>=(FloatingPoint<LhsT>, RhsT) = delete;
 
 //=== binary operations ===//
-#define DETAIL_PHI_MAKE_OP(Op)                                                                     \
-    template <typename LhsT, typename RhsT>                                                        \
-    CPP_ALWAYS_INLINE constexpr auto operator Op(                                                  \
-            const LhsT&                lhs,                                                        \
-            const FloatingPoint<RhsT>& rhs) noexcept->detail::floating_point_result_t<LhsT, RhsT>  \
-    {                                                                                              \
-        return FloatingPoint<LhsT>(lhs) Op rhs;                                                    \
-    }                                                                                              \
-                                                                                                   \
-    template <typename LhsT, typename RhsT>                                                        \
-    CPP_ALWAYS_INLINE constexpr auto operator Op(                                                  \
-            const FloatingPoint<LhsT>& lhs,                                                        \
-            const RhsT&                rhs) noexcept->detail::floating_point_result_t<LhsT, RhsT>                 \
-    {                                                                                              \
-        return lhs Op FloatingPoint<RhsT>(rhs);                                                    \
-    }                                                                                              \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_floating_point_result<LhsT, RhsT>>                       \
-    constexpr int operator Op(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;         \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_floating_point_result<LhsT, RhsT>>                       \
-    constexpr int operator Op(LhsT, FloatingPoint<RhsT>) noexcept = delete;                        \
-                                                                                                   \
-    template <typename LhsT, typename RhsT,                                                        \
-              typename = detail::fallback_floating_point_result<LhsT, RhsT>>                       \
-    constexpr int operator Op(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 template <typename LhsT, typename RhsT>
 CPP_ALWAYS_INLINE constexpr auto operator+(const FloatingPoint<LhsT>& lhs,
@@ -330,7 +445,32 @@ CPP_ALWAYS_INLINE constexpr auto operator+(const FloatingPoint<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(+)
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator+(const LhsT& lhs, const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return FloatingPoint<LhsT>(lhs) + rhs;
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator+(const FloatingPoint<LhsT>& lhs, const RhsT& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return lhs + FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator+(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator+(LhsT, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator+(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 template <typename LhsT, typename RhsT>
 CPP_ALWAYS_INLINE constexpr auto operator-(const FloatingPoint<LhsT>& lhs,
@@ -339,7 +479,32 @@ CPP_ALWAYS_INLINE constexpr auto operator-(const FloatingPoint<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(-)
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator-(const LhsT& lhs, const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return FloatingPoint<LhsT>(lhs) - rhs;
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator-(const FloatingPoint<LhsT>& lhs, const RhsT& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return lhs - FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator-(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator-(LhsT, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator-(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 template <typename LhsT, typename RhsT>
 CPP_ALWAYS_INLINE constexpr auto operator*(const FloatingPoint<LhsT>& lhs,
@@ -348,7 +513,32 @@ CPP_ALWAYS_INLINE constexpr auto operator*(const FloatingPoint<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(*)
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator*(const LhsT& lhs, const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return FloatingPoint<LhsT>(lhs) * rhs;
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator*(const FloatingPoint<LhsT>& lhs, const RhsT& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return lhs * FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator*(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator*(LhsT, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator*(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 template <typename LhsT, typename RhsT>
 CPP_ALWAYS_INLINE constexpr auto operator/(const FloatingPoint<LhsT>& lhs,
@@ -357,16 +547,74 @@ CPP_ALWAYS_INLINE constexpr auto operator/(const FloatingPoint<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs);
 }
-DETAIL_PHI_MAKE_OP(/)
 
-#undef DETAIL_PHI_MAKE_OP
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator/(const LhsT& lhs, const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return FloatingPoint<LhsT>(lhs) / rhs;
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator/(const FloatingPoint<LhsT>& lhs, const RhsT& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return lhs / FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator/(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator/(LhsT, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator/(FloatingPoint<LhsT>, RhsT) noexcept = delete;
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator%(const FloatingPoint<LhsT>& lhs,
+                                           const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return std::fmod(static_cast<LhsT>(lhs), static_cast<RhsT>(rhs));
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator%(const LhsT& lhs, const FloatingPoint<RhsT>& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return FloatingPoint<LhsT>(lhs) % rhs;
+}
+
+template <typename LhsT, typename RhsT>
+CPP_ALWAYS_INLINE constexpr auto operator%(const FloatingPoint<LhsT>& lhs, const RhsT& rhs) noexcept
+        -> detail::floating_point_result_t<LhsT, RhsT>
+{
+    return lhs % FloatingPoint<RhsT>(rhs);
+}
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator%(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator%(LhsT, FloatingPoint<RhsT>) noexcept = delete;
+
+template <typename LhsT, typename RhsT,
+          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
+constexpr int operator%(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 //=== input/output ===/
+
 template <typename CharT, class CharTraitsT, typename FloatT>
 std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& in,
                                                    FloatingPoint<FloatT>&                  f)
 {
-    FloatT val;
+    FloatT val{FloatT(0.0)};
     in >> val;
     f = val;
     return in;
@@ -391,6 +639,10 @@ namespace std
             return std::hash<FloatT>()(static_cast<FloatT>(value));
         }
     };
+
+    template <typename FloatT>
+    struct numeric_limits<phi::FloatingPoint<FloatT>> : std::numeric_limits<FloatT>
+    {};
 } // namespace std
 
 #endif // INCG_PHI_UTILITY_FLOATINGPOINT_HPP
