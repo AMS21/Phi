@@ -105,20 +105,20 @@ TEST_CASE("Boolean", "[Utility][Types][Boolean]")
     SECTION("comparison")
     {
         CONSTEXPR_RUNTIME phi::Boolean b1(true);
-        STATIC_REQUIRE(b1 == true);
-        STATIC_REQUIRE(true == b1);
-        STATIC_REQUIRE(b1 != false);
-        STATIC_REQUIRE(false != b1);
-        STATIC_REQUIRE(b1 == phi::Boolean(true));
-        STATIC_REQUIRE(b1 != phi::Boolean(false));
+        STATIC_REQUIRE(bool(b1 == true));
+        STATIC_REQUIRE(bool(true == b1));
+        STATIC_REQUIRE(bool(b1 != false));
+        STATIC_REQUIRE(bool(false != b1));
+        STATIC_REQUIRE(bool(b1 == phi::Boolean(true)));
+        STATIC_REQUIRE(bool(b1 != phi::Boolean(false)));
 
         CONSTEXPR_RUNTIME phi::Boolean b2(false);
-        STATIC_REQUIRE(b2 == false);
-        STATIC_REQUIRE(false == b2);
-        STATIC_REQUIRE(b2 != true);
-        STATIC_REQUIRE(true != b2);
-        STATIC_REQUIRE(b2 == phi::Boolean(false));
-        STATIC_REQUIRE(b2 != phi::Boolean(true));
+        STATIC_REQUIRE(bool(b2 == false));
+        STATIC_REQUIRE(bool(false == b2));
+        STATIC_REQUIRE(bool(b2 != true));
+        STATIC_REQUIRE(bool(true != b2));
+        STATIC_REQUIRE(bool(b2 == phi::Boolean(false)));
+        STATIC_REQUIRE(bool(b2 != phi::Boolean(true)));
     }
 
     SECTION("i/o")
