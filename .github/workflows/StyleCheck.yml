@@ -22,6 +22,10 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
+      - name: Install System libraries
+        run: |
+          sudo apt-get install libpthread-stubs0-dev
+
       - name: Install clang-format
         run: |
           # Install clang-format

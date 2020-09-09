@@ -19,7 +19,7 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
-      - name: Install tools
+      - name: Install
         run: |
           # Install lcov
           mkdir lcov
@@ -41,6 +41,9 @@ jobs:
 
           # Install clang/LLVM
           sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
+
+          # Install required system libraries
+          sudo apt-get install libpthread-stubs0-dev
 
       - name: Build coverage data (GCC)
         run: |
