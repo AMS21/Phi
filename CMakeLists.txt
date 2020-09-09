@@ -65,7 +65,7 @@ endif()
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Find required system libs
-find_package(Threads)
+find_package(Threads REQUIRED)
 
 # Load tools
 add_subdirectory(tools)
