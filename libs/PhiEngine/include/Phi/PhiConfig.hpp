@@ -9,7 +9,7 @@
 
 #define PHI_VERSION_MAJOR() 0
 #define PHI_VERSION_MINOR() 1
-#define PHI_VERSION_PATCH() 0
+#define PHI_VERSION_PATCH() 1
 
 #define PHI_VERSION()                                                                              \
     CPP_VERSION_CREATE(PHI_VERSION_MAJOR(), PHI_VERSION_MINOR(), PHI_VERSION_PATCH())
@@ -37,6 +37,15 @@
 #    define PHI_DEBUG 1
 #else
 #    define PHI_DEBUG 0
+#endif
+
+// Logging
+#ifndef PHI_CONFIG_NO_LOG
+#    define PHI_CONFIG_ENABLE_LOGGING
+#    define PHI_CONFIG_ENABLE_INTERNAL_LOGGING
+#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+#else
+#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 #endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()

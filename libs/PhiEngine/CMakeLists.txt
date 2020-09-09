@@ -9,9 +9,10 @@ file(
   # Utility
   "include/Phi/Utility/Boolean.hpp"
   "include/Phi/Utility/FloatingPoint.hpp"
-  "include/Phi/Utility/Integer.hpp")
+  "include/Phi/Utility/Integer.hpp"
+  "include/Phi/Utility/Log.hpp")
 
-file(GLOB PHI_ENGINE_SOURCES "src/main.cpp")
+file(GLOB PHI_ENGINE_SOURCES "src/Utility/Log.cpp")
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${PHI_ENGINE_HEADERS} ${PHI_ENGINE_SOURCES})
 
