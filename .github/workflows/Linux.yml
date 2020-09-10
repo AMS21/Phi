@@ -64,9 +64,6 @@ jobs:
           # export compiler
           echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
 
-          # Install required system libraries
-          sudo apt-get install libpthread-stubs0-dev
-
       - name: Configure build directory
         run: |
           mkdir build
@@ -170,9 +167,6 @@ jobs:
 
           # export compiler
           echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
-
-          # Install required system libraries
-          sudo apt-get install libpthread-stubs0-dev
 
       - name: Generate warnings
         run: |

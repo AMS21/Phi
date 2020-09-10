@@ -32,8 +32,6 @@ jobs:
           sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
           # export compiler
           echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
-          # Install required system libraries
-          sudo apt-get install libpthread-stubs0-dev
 
       - name: Download Coverity Build Tool
         run: |
