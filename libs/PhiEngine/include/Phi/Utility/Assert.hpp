@@ -79,7 +79,7 @@ DETAIL_PHI_END_NAMESPACE()
     CPP_CLANG_SUPPRESS_WARNING_POP                                                                 \
     CPP_END_MACRO
 
-#if PHI_DEBUG
+#if defined(PHI_DEBUG)
 #    define PHI_DBG_ASSERT(condition, ...) PHI_ASSERT(condition, __VA_ARGS__)
 #    define PHI_DBG_SIMPLE_ASSERT(condition, ...) PHI_SIMPLE_ASSERT(condition, __VA_ARGS__)
 #else

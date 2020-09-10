@@ -34,9 +34,7 @@
 /// \endcond
 
 #if defined(CPP_DEBUG)
-#    define PHI_DEBUG 1
-#else
-#    define PHI_DEBUG 0
+#    define PHI_DEBUG
 #endif
 
 // Logging

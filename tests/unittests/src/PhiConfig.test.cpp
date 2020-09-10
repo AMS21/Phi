@@ -27,8 +27,6 @@ TEST_CASE("PhiConfig.hpp macros", "[Config]")
                    (string_length(CPP_STRINGIFY(PHI_VERSION_MAJOR()) CPP_STRINGIFY(
                             PHI_VERSION_MINOR()) CPP_STRINGIFY(PHI_VERSION_PATCH())) +
                     2));
-
-    STATIC_REQUIRE((PHI_DEBUG == 0 || PHI_DEBUG == 1));
 }
 
 TEST_CASE("PhiConfig.hpp variables", "[Config]")

@@ -1,3 +1,4 @@
+#include "StringHelper.hpp"
 #include <Phi/Utility/Assert.hpp>
 #include <catch2/catch.hpp>
 
@@ -11,11 +12,6 @@ TEST_CASE("PHI_DBG_SIMPLE_ASSERT", "[Utility][Assert]")
 {
     PHI_DBG_SIMPLE_ASSERT(true);
     PHI_DBG_SIMPLE_ASSERT(true, "Always passes");
-
-#if !PHI_DEBUG
-    PHI_DBG_SIMPLE_ASSERT(false);
-    PHI_DBG_SIMPLE_ASSERT(false, "Should be ignored");
-#endif
 }
 
 TEST_CASE("PHI_ASSERT", "[Utility][Assert]")
@@ -28,9 +24,11 @@ TEST_CASE("PHI_DBG_ASSERT", "[Utility][Assert]")
 {
     PHI_DBG_ASSERT(true);
     PHI_DBG_ASSERT(true, "Always passes");
+}
 
-#if !PHI_DEBUG
-    PHI_DBG_ASSERT(false);
-    PHI_DBG_ASSERT(false, "Should be ignored");
-#endif
+TEST_CASE("FormatArguments")
+{
+    CHECK(string_equals(phi::detail::FormatArgument(), "<None>"));
+    CHECK(string_equals(phi::detail::FormatArgument("String").c_str(), "String"));
+    CHECK(string_equals(phi::detail::FormatArgument("{}", 42).c_str(), "42"));
 }
