@@ -18,10 +18,10 @@ template <typename Type, std::size_t Size>
 
 template <typename Container>
 [[nodiscard]] constexpr auto at(Container& container, std::size_t index)
-        -> decltype(container[container.size()])
 #if !defined(PHI_DEBUG)
-                noexcept
+        noexcept
 #endif
+        -> decltype(container[container.size()])
 {
     PHI_DBG_ASSERT(index < container.size(), "Index {} is out of bounds! Max value: {}", index,
                    container.size() - 1);
