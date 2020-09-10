@@ -34,7 +34,8 @@ SOFTWARE.
 #include <type_traits>
 
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
-    (std::is_nothrow_constructible_v<lhs, rhs> && std::is_nothrow_assignable_v<lhs, rhs> &&        \
+    (std::is_constructible_v<lhs, rhs> && std::is_nothrow_constructible_v<lhs, rhs> &&             \
+     std::is_assignable_v<lhs, rhs> && std::is_nothrow_assignable_v<lhs, rhs> &&                   \
      (std::is_nothrow_constructible_v<rhs, lhs> == std::is_same_v<lhs::value_type, rhs>))
 
 CPP_GCC_SUPPRESS_WARNING_PUSH
@@ -69,6 +70,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint64_t));
 
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, long double));
+
     // std::int16_t
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int8_t));
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int16_t));
@@ -79,6 +89,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint16_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint64_t));
+
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, long double));
 
     // std::int32_t
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::int8_t));
@@ -91,6 +110,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint64_t));
 
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, long double));
+
     // std::int64_t
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int8_t));
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int16_t));
@@ -101,6 +129,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint16_t));
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint64_t));
+
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, long double));
 
     // std::uint8_t
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::int8_t));
@@ -113,6 +150,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint64_t));
 
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, long double));
+
     // std::uint16_t
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int8_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int16_t));
@@ -123,6 +169,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint16_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint64_t));
+
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, long double));
 
     // std::uint32_t
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::int8_t));
@@ -135,6 +190,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint32_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint64_t));
 
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, long double));
+
     // std::uint64_t
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int8_t));
     STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int16_t));
@@ -145,6 +209,15 @@ TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint16_t));
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint32_t));
     STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint64_t));
+
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, bool));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, wchar_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char16_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char32_t));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, float));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, double));
+    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, long double));
 }
 
 TEST_CASE("Integer", "[Utility][Types][Integer]")

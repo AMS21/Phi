@@ -46,7 +46,8 @@ namespace detail
     template <typename TypeT>
     struct is_integer
         : std::bool_constant<std::is_integral_v<TypeT> && !std::is_same_v<TypeT, bool> &&
-                             !std::is_same_v<TypeT, char>>
+                             !std::is_same_v<TypeT, char> && !std::is_same_v<TypeT, wchar_t> &&
+                             !std::is_same_v<TypeT, char16_t> && !std::is_same_v<TypeT, char32_t>>
     {};
 
     // Integer conversion
