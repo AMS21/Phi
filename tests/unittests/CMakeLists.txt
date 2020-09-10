@@ -8,10 +8,11 @@ file(
   # Main
   "src/main.cpp"
   # Selftest
-  "src/Selftest/StringHelper.test.cpp"
   "src/Selftest/ConstexprHelper.test.cpp"
+  "src/Selftest/StringHelper.test.cpp"
   # Utility
   "src/Utility/Assert.test.cpp"
+  "src/Utility/At.test.cpp"
   "src/Utility/Boolean.test.cpp"
   "src/Utility/FloatingPoint.test.cpp"
   "src/Utility/Integer.test.cpp"
