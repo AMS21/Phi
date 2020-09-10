@@ -36,7 +36,8 @@ SOFTWARE.
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
     (std::is_constructible_v<lhs, rhs> && std::is_nothrow_constructible_v<lhs, rhs> &&             \
      std::is_assignable_v<lhs, rhs> && std::is_nothrow_assignable_v<lhs, rhs> &&                   \
-     (std::is_nothrow_constructible_v<rhs, lhs> == std::is_same_v<lhs::value_type, rhs>))
+     (std::is_constructible_v<rhs, lhs> == std::is_same_v<lhs::value_type, rhs> &&                 \
+      std::is_nothrow_constructible_v<rhs, lhs> == std::is_same_v<lhs::value_type, rhs>))
 
 CPP_GCC_SUPPRESS_WARNING_PUSH
 CPP_GCC_SUPPRESS_WARNING("-Wuseless-cast")

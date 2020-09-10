@@ -27,6 +27,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include "Phi/Utility/Assert.hpp"
 #include "Phi/Utility/Boolean.hpp"
 #include <cpp/Implicit.hpp>
 #include <cpp/Inline.hpp>
@@ -102,6 +103,94 @@ namespace detail
     template <typename LhsT, typename RhsT>
     using fallback_integer_result =
             typename std::enable_if_t<!is_safe_integer_operation<LhsT, RhsT>::value>;
+
+    // Error detection
+    struct signed_integer_tag
+    {};
+
+    struct unsigned_integer_tag
+    {};
+
+    template <typename TypeT>
+    using arithmetic_tag_for =
+            typename std::conditional_t<std::is_signed<TypeT>::value, signed_integer_tag,
+                                        unsigned_integer_tag>;
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag, TypeT a,
+                                                         TypeT b) noexcept
+    {
+        return b > TypeT(0) ? a > std::numeric_limits<TypeT>::max() - b :
+                              a < std::numeric_limits<TypeT>::min() - b;
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag, TypeT a,
+                                                         TypeT b) noexcept
+    {
+        return std::numeric_limits<TypeT>::max() - b < a;
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag, TypeT a,
+                                                            TypeT b) noexcept
+    {
+        return b > TypeT(0) ? a < std::numeric_limits<TypeT>::min() + b :
+                              a > std::numeric_limits<TypeT>::max() + b;
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag, TypeT a,
+                                                            TypeT b) noexcept
+    {
+        return a < b;
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag, TypeT a,
+                                                               TypeT b) noexcept
+    {
+        return a > TypeT(0) ?
+                       (b > TypeT(0) ? a > std::numeric_limits<TypeT>::max() / b : // a, b > 0
+                                b < std::numeric_limits<TypeT>::min() / a) :       // a > 0, b <= 0
+                       (b > TypeT(0) ? a < std::numeric_limits<TypeT>::min() / b : // a <= 0, b > 0
+                                a != TypeT(0) &&
+                                        b < std::numeric_limits<TypeT>::max() / a); // a, b <= 0
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag, TypeT a,
+                                                               TypeT b) noexcept
+    {
+        return b != TypeT(0) && a > std::numeric_limits<TypeT>::max() / b;
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag, TypeT a,
+                                                         TypeT b) noexcept
+    {
+        return b == TypeT(0) || (b == TypeT(-1) && a == std::numeric_limits<TypeT>::min());
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag, TypeT,
+                                                         TypeT b) noexcept
+    {
+        return b == TypeT(0);
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_modulo_error(signed_integer_tag, TypeT, TypeT b) noexcept
+    {
+        return b == TypeT(0);
+    }
+
+    template <typename TypeT>
+    CPP_ALWAYS_INLINE constexpr bool will_modulo_error(unsigned_integer_tag, TypeT,
+                                                       TypeT b) noexcept
+    {
+        return b == TypeT(0);
+    }
 } // namespace detail
 /// \endcond
 
@@ -196,11 +285,18 @@ public:
     {
         static_assert(std::is_signed_v<IntegerT>, "Cannot call unary minus on unsigned integer");
 
+        PHI_DBG_ASSERT(m_Value != limits_type::min(), "Unary minus will overflow. Args {}",
+                       m_Value);
+
         return Integer(-m_Value);
     }
 
     CPP_ALWAYS_INLINE Integer& operator++() noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
+                                                    IntegerT(1)),
+                       "Operator++ will result in overflow. Args {}", m_Value);
+
         m_Value += 1;
         return *this;
     }
@@ -215,6 +311,10 @@ public:
 
     CPP_ALWAYS_INLINE Integer& operator--() noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<IntegerT>{},
+                                                       m_Value, IntegerT(1)),
+                       "Operator-- will result in underflow. Args {}", m_Value);
+
         m_Value -= 1;
         return *this;
     }
@@ -232,6 +332,10 @@ public:
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     CPP_ALWAYS_INLINE Integer& operator+=(const Integer<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_addition_error<IntegerT>(
+                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
+                       "Addition will result in overflow. Args {} + {}", m_Value, other.get());
+
         m_Value += other.get();
         return *this;
     }
@@ -251,6 +355,10 @@ public:
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     CPP_ALWAYS_INLINE Integer& operator-=(const Integer<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_subtraction_error<IntegerT>(
+                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
+                       "Subtraction will result in underflow. Args {} - {}", m_Value, other.get());
+
         m_Value -= other.get();
         return *this;
     }
@@ -270,6 +378,11 @@ public:
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     CPP_ALWAYS_INLINE Integer& operator*=(const Integer<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_multiplication_error<IntegerT>(
+                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
+                       "Multiplication will result in overflow. Args {} * {}", m_Value,
+                       other.get());
+
         m_Value *= other.get();
         return *this;
     }
@@ -289,6 +402,10 @@ public:
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     CPP_ALWAYS_INLINE Integer& operator/=(const Integer<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_division_error<IntegerT>(
+                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
+                       "Division error. Args {} / {}", m_Value, other.get());
+
         m_Value /= other.get();
         return *this;
     }
@@ -308,6 +425,10 @@ public:
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     CPP_ALWAYS_INLINE Integer& operator%=(const Integer<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
+                                                            m_Value, other.get()),
+                       "Modulo error. Args {} % {}", m_Value, other.get());
+
         m_Value %= other.get();
         return *this;
     }
@@ -542,6 +663,10 @@ CPP_ALWAYS_INLINE constexpr auto operator+(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
+    PHI_DBG_ASSERT(
+            !detail::will_addition_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
+            "Addition will result in overflow. Args {} + {}", lhs.get(), rhs.get());
+
     return Integer<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs));
 }
 
@@ -574,6 +699,10 @@ CPP_ALWAYS_INLINE constexpr auto operator-(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
+    PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<type>{}, lhs.get(),
+                                                   rhs.get()),
+                   "Subtraction will result in underflow. Args {} - {}", lhs.get(), rhs.get());
+
     return Integer<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs));
 }
 
@@ -606,6 +735,10 @@ CPP_ALWAYS_INLINE constexpr auto operator*(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
+    PHI_DBG_ASSERT(!detail::will_multiplication_error(detail::arithmetic_tag_for<type>{}, lhs.get(),
+                                                      rhs.get()),
+                   "Multiplication will result in overflow. Args {} * {}", lhs.get(), rhs.get());
+
     return Integer<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs));
 }
 
@@ -638,6 +771,10 @@ CPP_ALWAYS_INLINE constexpr auto operator/(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
+    PHI_DBG_ASSERT(
+            !detail::will_division_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
+            "Division by zero/overflow. Args {} / {}", lhs.get(), rhs.get());
+
     return Integer<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs));
 }
 
@@ -670,6 +807,10 @@ CPP_ALWAYS_INLINE constexpr auto operator%(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
+    PHI_DBG_ASSERT(
+            !detail::will_modulo_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
+            "Modulo by zero. Args {} % {}", lhs.get(), rhs.get());
+
     return Integer<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs));
 }
 
@@ -760,6 +901,9 @@ template <typename IntegerT,
 CPP_ALWAYS_INLINE constexpr make_signed_t<IntegerT> make_signed(const IntegerT& val) noexcept
 {
     using result_type = make_signed_t<IntegerT>;
+    PHI_DBG_ASSERT(val <= std::numeric_limits<result_type>::max(),
+                   "Conversion would overflow. Args {}", val);
+
     return static_cast<result_type>(val);
 }
 
@@ -778,6 +922,8 @@ template <typename IntegerT,
 CPP_ALWAYS_INLINE constexpr make_unsigned_t<IntegerT> make_unsigned(const IntegerT& val) noexcept
 {
     using result_type = make_unsigned_t<IntegerT>;
+    PHI_DBG_ASSERT(val >= IntegerT(0), "Conversion would underflow. Arg {}", val);
+
     return static_cast<result_type>(val);
 }
 
