@@ -11,10 +11,12 @@ file(
   "src/Selftest/StringHelper.test.cpp"
   "src/Selftest/ConstexprHelper.test.cpp"
   # Utility
+  "src/Utility/Assert.test.cpp"
   "src/Utility/Boolean.test.cpp"
   "src/Utility/FloatingPoint.test.cpp"
   "src/Utility/Integer.test.cpp"
   "src/Utility/Log.test.cpp"
+  "src/Utility/Types.test.cpp"
   # Config
   "src/PhiConfig.test.cpp")
 

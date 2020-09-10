@@ -11,7 +11,8 @@ file(
   "include/Phi/Utility/Boolean.hpp"
   "include/Phi/Utility/FloatingPoint.hpp"
   "include/Phi/Utility/Integer.hpp"
-  "include/Phi/Utility/Log.hpp")
+  "include/Phi/Utility/Log.hpp"
+  "include/Phi/Utility/Types.hpp")
 
 file(GLOB PHI_ENGINE_SOURCES "src/Utility/Log.cpp")
 
