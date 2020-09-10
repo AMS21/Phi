@@ -17,9 +17,4 @@ if(PHI_COVERAGE_BUILD)
 
   # Disable optimization flags from Phi
   set(PHI_ENABLE_OPTIMIZATION_FLAGS OFF)
-
-  # Set build type to debug
-  set(CMAKE_BUILD_TYPE
-      "Debug"
-      CACHE STRING "" FORCE)
 endif()
