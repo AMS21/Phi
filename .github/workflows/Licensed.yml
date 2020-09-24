@@ -39,7 +39,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4.4.1
         continue-on-error: false
         with:
-          commit_message: Auto.update license files
+          commit_message: Auto-update license files
           branch: ${{ github.head_ref }}
           commit_options: '-S --no-verify --signoff'
           commit_user_name: Phi Code License Bot
@@ -48,4 +48,4 @@ jobs:
           file_pattern: .licenses/*
 
       - name: Check licenses
-        run : licensed status
+        run: licensed status
