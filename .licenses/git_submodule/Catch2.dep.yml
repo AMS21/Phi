@@ -1,6 +1,6 @@
 ---
 name: Catch2
-version: 284672cc84f3fd53332618d1654d95bc4254ff3f
+version: 314a05d809307fd76978eb3bac4f248b1c4c86d1
 type: git_submodule
 homepage: https://github.com/catchorg/Catch2.git
 license: bsl-1.0
