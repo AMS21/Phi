@@ -20,9 +20,6 @@ jobs:
         with:
           version: '2.x'
 
-      - name: Check licenses
-        run : licensed status
-
       - name: Update licenses
         if: ${{ github.event_name == 'push' }}
         run: licensed cache
@@ -49,3 +46,6 @@ jobs:
           commit_user_email: AMS21Bot.github@gmail.com
           commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
           file_pattern: .licenses/*
+
+      - name: Check licenses
+        run : licensed status
