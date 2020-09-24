@@ -1,14 +1,6 @@
 name: Licensed
 
-on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
+on: [push, pull_request]
 
 jobs:
   test:
@@ -27,6 +19,11 @@ jobs:
           version: '2.x'
 
       - name: Check licenses
+        if: ${{ github.event_name == 'pull_request' }}
+        run : licensed status
+
+      - name: Update licenses
+        if: ${{ github.event_name == 'push' }}
         uses: jonabc/licensed-ci@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
