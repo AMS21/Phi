@@ -113,7 +113,7 @@ jobs:
           commit_user_name: Phi Code Quality Bot
           commit_user_email: AMS21Bot.github@gmail.com
           commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
-          file_pattern: .github/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* tools/* .cmake-format.yaml CMakeLists.txt README.md
+          file_pattern: .github/* .licenses/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* tools/* .cmake-format.yaml CMakeLists.txt README.md
 
   misspell:
     runs-on: ubuntu-latest

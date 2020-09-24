@@ -12,6 +12,8 @@ jobs:
         uses: actions/checkout@v2.3.2
         with:
           submodules: recursive
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.PAT }}
 
       - name: Install Licensed
         uses: jonabc/setup-licensed@v1.0.1
@@ -19,11 +21,31 @@ jobs:
           version: '2.x'
 
       - name: Check licenses
-        if: ${{ github.event_name == 'pull_request' }}
         run : licensed status
 
       - name: Update licenses
         if: ${{ github.event_name == 'push' }}
-        uses: jonabc/licensed-ci@v1
+        run: licensed cache
+
+      - name: Import GPG key
+        if: ${{ github.event_name == 'push' }}
+        uses: crazy-max/ghaction-import-gpg@v2.2.0
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.BOT_KEY_PASSPHRASE }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Commit changes
+        if: ${{ github.event_name == 'push' }}
+        uses: stefanzweifel/git-auto-commit-action@v4.4.1
+        continue-on-error: false
+        with:
+          commit_message: Auto.update license files
+          branch: ${{ github.head_ref }}
+          commit_options: '-S --no-verify --signoff'
+          commit_user_name: Phi Code License Bot
+          commit_user_email: AMS21Bot.github@gmail.com
+          commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
+          file_pattern: .licenses/*
