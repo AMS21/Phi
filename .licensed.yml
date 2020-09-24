@@ -4,3 +4,7 @@ allowed:
   - isc
   - mit
   - unlicense
+
+reviewed:
+  git_submodule:
+    - spdlog
