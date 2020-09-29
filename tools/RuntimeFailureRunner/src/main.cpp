@@ -6,7 +6,7 @@ constexpr int RETURN_FAILURE{0};
 
 int main(int argc, char* argv[])
 {
-    // Requires atleast one commandline argument
+    // Requires at least one commandline argument
     if (argc < 2)
     {
         std::cout << "[RuntimeFailureRunner] requires at least 1 command line argument!\n";
