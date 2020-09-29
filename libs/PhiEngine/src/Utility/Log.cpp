@@ -12,7 +12,7 @@ std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
 constexpr const char DefaultFormattingString[]{"%^[%Y-%m-%d %H:%M:%S.%e] %n [%L](%s:%#):%$ %v"};
 
-std::shared_ptr<spdlog::logger> Log::GetCoreLogger() noexcept
+std::shared_ptr<spdlog::logger> Log::get_core_logger() noexcept
 {
     if (!s_CoreLogger)
     {
@@ -23,7 +23,7 @@ std::shared_ptr<spdlog::logger> Log::GetCoreLogger() noexcept
     return s_CoreLogger;
 }
 
-std::shared_ptr<spdlog::logger> Log::GetClientLogger() noexcept
+std::shared_ptr<spdlog::logger> Log::get_client_logger() noexcept
 {
     if (!s_ClientLogger)
     {

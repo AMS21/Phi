@@ -11,9 +11,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 class Log
 {
 public:
-    [[nodiscard]] static std::shared_ptr<spdlog::logger> GetCoreLogger() noexcept;
+    [[nodiscard]] static std::shared_ptr<spdlog::logger> get_core_logger() noexcept;
 
-    [[nodiscard]] static std::shared_ptr<spdlog::logger> GetClientLogger() noexcept;
+    [[nodiscard]] static std::shared_ptr<spdlog::logger> get_client_logger() noexcept;
 
     static void InitializeDefaultLoggers() noexcept;
 
@@ -33,12 +33,13 @@ private:
 DETAIL_PHI_END_NAMESPACE()
 
 #if defined(PHI_CONFIG_ENABLE_LOGGING)
-#    define PHI_LOG_TRACE(...) SPDLOG_LOGGER_TRACE(::phi::Log::GetClientLogger(), __VA_ARGS__)
-#    define PHI_LOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(::phi::Log::GetClientLogger(), __VA_ARGS__)
-#    define PHI_LOG_INFO(...) SPDLOG_LOGGER_INFO(::phi::Log::GetClientLogger(), __VA_ARGS__)
-#    define PHI_LOG_WARN(...) SPDLOG_LOGGER_WARN(::phi::Log::GetClientLogger(), __VA_ARGS__)
-#    define PHI_LOG_ERROR(...) SPDLOG_LOGGER_ERROR(::phi::Log::GetClientLogger(), __VA_ARGS__)
-#    define PHI_LOG_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(::phi::Log::GetClientLogger(), __VA_ARGS__)
+#    define PHI_LOG_TRACE(...) SPDLOG_LOGGER_TRACE(::phi::Log::get_client_logger(), __VA_ARGS__)
+#    define PHI_LOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(::phi::Log::get_client_logger(), __VA_ARGS__)
+#    define PHI_LOG_INFO(...) SPDLOG_LOGGER_INFO(::phi::Log::get_client_logger(), __VA_ARGS__)
+#    define PHI_LOG_WARN(...) SPDLOG_LOGGER_WARN(::phi::Log::get_client_logger(), __VA_ARGS__)
+#    define PHI_LOG_ERROR(...) SPDLOG_LOGGER_ERROR(::phi::Log::get_client_logger(), __VA_ARGS__)
+#    define PHI_LOG_CRITICAL(...)                                                                  \
+        SPDLOG_LOGGER_CRITICAL(::phi::Log::get_client_logger(), __VA_ARGS__)
 #else
 #    define PHI_LOG_TRACE(...) CPP_EMPTY_MACRO
 #    define PHI_LOG_DEBUG(...) CPP_EMPTY_MACRO
@@ -49,13 +50,13 @@ DETAIL_PHI_END_NAMESPACE()
 #endif
 
 #if defined(PHI_CONFIG_ENABLE_INTERNAL_LOGGING)
-#    define PHI_LOG_CORE_TRACE(...) SPDLOG_LOGGER_TRACE(::phi::Log::GetCoreLogger(), __VA_ARGS__)
-#    define PHI_LOG_CORE_DEBUG(...) SPDLOG_LOGGER_DEBUG(::phi::Log::GetCoreLogger(), __VA_ARGS__)
-#    define PHI_LOG_CORE_INFO(...) SPDLOG_LOGGER_INFO(::phi::Log::GetCoreLogger(), __VA_ARGS__)
-#    define PHI_LOG_CORE_WARN(...) SPDLOG_LOGGER_WARN(::phi::Log::GetCoreLogger(), __VA_ARGS__)
-#    define PHI_LOG_CORE_ERROR(...) SPDLOG_LOGGER_ERROR(::phi::Log::GetCoreLogger(), __VA_ARGS__)
+#    define PHI_LOG_CORE_TRACE(...) SPDLOG_LOGGER_TRACE(::phi::Log::get_core_logger(), __VA_ARGS__)
+#    define PHI_LOG_CORE_DEBUG(...) SPDLOG_LOGGER_DEBUG(::phi::Log::get_core_logger(), __VA_ARGS__)
+#    define PHI_LOG_CORE_INFO(...) SPDLOG_LOGGER_INFO(::phi::Log::get_core_logger(), __VA_ARGS__)
+#    define PHI_LOG_CORE_WARN(...) SPDLOG_LOGGER_WARN(::phi::Log::get_core_logger(), __VA_ARGS__)
+#    define PHI_LOG_CORE_ERROR(...) SPDLOG_LOGGER_ERROR(::phi::Log::get_core_logger(), __VA_ARGS__)
 #    define PHI_LOG_CORE_CRITICAL(...)                                                             \
-        SPDLOG_LOGGER_CRITICAL(::phi::Log::GetCoreLogger(), __VA_ARGS__)
+        SPDLOG_LOGGER_CRITICAL(::phi::Log::get_core_logger(), __VA_ARGS__)
 #else
 #    define PHI_LOG_CORE_TRACE(...) CPP_EMPTY_MACRO
 #    define PHI_LOG_CORE_DEBUG(...) CPP_EMPTY_MACRO

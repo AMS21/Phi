@@ -114,7 +114,7 @@ CPP_ALWAYS_INLINE constexpr Boolean operator==(const Boolean& lhs, TypeT rhs) no
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
 CPP_ALWAYS_INLINE constexpr Boolean operator==(TypeT lhs, const Boolean& rhs) noexcept
 {
-    return Boolean(static_cast<bool>(lhs) == static_cast<bool>(rhs);)
+    return Boolean(static_cast<bool>(lhs) == static_cast<bool>(rhs));
 }
 
 CPP_ALWAYS_INLINE constexpr Boolean operator!=(const Boolean& lhs, const Boolean& rhs) noexcept
