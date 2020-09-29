@@ -18,21 +18,16 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 /// \cond detail
 namespace detail
 {
-    CPP_MSVC_SUPPRESS_WARNING_PUSH
-    CPP_MSVC_SUPPRESS_WARNING(4505) // unreferenced local function has been removed
-
-    static const char* FormatArgument()
+    inline const char* FormatArgument()
     {
         return "<None>";
     }
 
     template <typename... args>
-    static auto FormatArgument(args&&... arg) -> decltype(auto)
+    inline auto FormatArgument(args&&... arg) -> decltype(auto)
     {
         return fmt::format(std::forward<args>(arg)...);
     }
-
-    CPP_MSVC_SUPPRESS_WARNING_POP
 } // namespace detail
 /// \endcond
 
