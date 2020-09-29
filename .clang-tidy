@@ -29,4 +29,8 @@ CheckOptions:
     value: 'CamelCase'
   - key:   readability-identifier-naming.TemplateParameterSuffix
     value: 'T'
+  - key:   readability-identifier-naming.ValueTemplateParameterCase
+    value: 'CamelCase'
+  - key:   readability-identifier-naming.ValueTemplateParameterSuffix
+    value: ''
 ...
