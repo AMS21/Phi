@@ -1,6 +1,6 @@
 ---
 name: CppBase
-version: 86cfb7273aabc681c44a5ecb91bea97504d2004d
+version: cba321dda00aef4ce819b23bc78419e3fcb5611e
 type: git_submodule
 homepage: https://github.com/AMS21/CppBase.git
 license: cc0-1.0
