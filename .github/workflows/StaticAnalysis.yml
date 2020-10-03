@@ -77,13 +77,6 @@ jobs:
         run: |
           cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck -level warning
 
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name CppCheck -level warning
-
   clang-tidy:
     runs-on: ubuntu-latest
     env:
@@ -141,13 +134,6 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
 
   pvs-studio:
     runs-on: ubuntu-latest
@@ -213,13 +199,6 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name PVS-Studio -level warning
 
   include-what-you-use:
     runs-on: ubuntu-latest
@@ -296,13 +275,6 @@ jobs:
         run: |
           cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-check -name include-what-you-use -level warning
 
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-pr-review -name include-what-you-use -level warning
-
   cmake-lint:
     runs-on: ubuntu-latest
 
@@ -335,10 +307,3 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-pr-review -name cmake-lint -level warning
