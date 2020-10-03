@@ -1,6 +1,6 @@
 project("PhiEngine_Tests" CXX)
 
-file(GLOB TEST_HEADERS "include/StringHelper.hpp")
+file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp" "include/Unwrap.hpp")
 
 file(
   GLOB
@@ -12,6 +12,7 @@ file(
   # Selftest
   "src/Selftest/ConstexprHelper.test.cpp"
   "src/Selftest/StringHelper.test.cpp"
+  "src/Selftest/Unwrap.test.cpp"
   # Utility
   "src/Utility/Assert.test.cpp"
   "src/Utility/At.test.cpp"
