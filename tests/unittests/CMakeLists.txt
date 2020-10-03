@@ -14,6 +14,7 @@ file(
   "src/Utility/Assert.test.cpp"
   "src/Utility/At.test.cpp"
   "src/Utility/Boolean.test.cpp"
+  "src/Utility/Conversion.test.cpp"
   "src/Utility/FloatingPoint.test.cpp"
   "src/Utility/Integer.test.cpp"
   "src/Utility/Log.test.cpp"

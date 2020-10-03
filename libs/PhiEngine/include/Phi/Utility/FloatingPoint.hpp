@@ -627,6 +627,19 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
     return out << static_cast<FloatT>(f);
 }
 
+template <typename TypeT>
+struct is_floating_point
+    : std::bool_constant<
+              std::is_floating_point_v<TypeT> ||
+              std::is_same_v<FloatingPoint<float>, typename std::remove_cv_t<TypeT>> ||
+              std::is_same_v<FloatingPoint<double>, typename std::remove_cv_t<TypeT>> ||
+              std::is_same_v<FloatingPoint<long double>, typename std::remove_cv_t<TypeT>>>
+{};
+
+template <typename TypeT>
+constexpr static bool is_floating_point_v =
+        is_floating_point<TypeT>::value; // NOLINT(readability-identifier-naming)
+
 DETAIL_PHI_END_NAMESPACE()
 
 namespace std

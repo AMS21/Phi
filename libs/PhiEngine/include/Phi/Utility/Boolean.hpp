@@ -64,6 +64,7 @@ class Boolean
 {
 public:
     using this_type   = Boolean;
+    using value_type  = bool;
     using limits_type = std::numeric_limits<bool>;
 
     Boolean() = delete;
@@ -81,7 +82,7 @@ public:
         return *this;
     }
 
-    CPP_ALWAYS_INLINE constexpr explicit operator bool() const noexcept
+    CPP_ALWAYS_INLINE constexpr operator bool() const noexcept
     {
         return m_Value;
     }

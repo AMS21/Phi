@@ -10,6 +10,7 @@ file(
   "include/Phi/Utility/Assert.hpp"
   "include/Phi/Utility/At.hpp"
   "include/Phi/Utility/Boolean.hpp"
+  "include/Phi/Utility/Conversion.hpp"
   "include/Phi/Utility/FloatingPoint.hpp"
   "include/Phi/Utility/Integer.hpp"
   "include/Phi/Utility/Log.hpp"
