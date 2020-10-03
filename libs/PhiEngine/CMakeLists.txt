@@ -6,6 +6,8 @@ file(
   PHI_ENGINE_HEADERS
   # Phi
   "include/Phi/PhiConfig.hpp"
+  # Math
+  "include/Phi/Math/Constants.hpp"
   # Utility
   "include/Phi/Utility/Assert.hpp"
   "include/Phi/Utility/At.hpp"

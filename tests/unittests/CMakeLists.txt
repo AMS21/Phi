@@ -7,6 +7,8 @@ file(
   TEST_SOURCES
   # Main
   "src/main.cpp"
+  # Math
+  "src/Math/Constants.test.cpp"
   # Selftest
   "src/Selftest/ConstexprHelper.test.cpp"
   "src/Selftest/StringHelper.test.cpp"
