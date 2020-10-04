@@ -9,7 +9,7 @@
 
 #define PHI_VERSION_MAJOR() 0
 #define PHI_VERSION_MINOR() 1
-#define PHI_VERSION_PATCH() 1
+#define PHI_VERSION_PATCH() 0
 
 #define PHI_VERSION()                                                                              \
     CPP_VERSION_CREATE(PHI_VERSION_MAJOR(), PHI_VERSION_MINOR(), PHI_VERSION_PATCH())
