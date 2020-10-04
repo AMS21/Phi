@@ -73,9 +73,17 @@ template <typename TargetT, typename SourceT>
     if (!std::is_constant_evaluated())
     {
         PHI_DBG_ASSERT(
-                unsafe_cast<SourceT>(target) != source ||
-                        (is_different_signedness && ((target < TargetT{}) != (source < SourceT{}))),
+                unsafe_cast<SourceT>(target) == source &&
+                        (is_different_signedness || ((target < TargetT{}) == (source < SourceT{}))),
                 "Invalid narrowing conversion. Source {}. Converted {}.");
+    }
+    else
+    {
+        if (!(unsafe_cast<SourceT>(target) == source &&
+              (is_different_signedness || ((target < TargetT{}) == (source < SourceT{})))))
+        {
+            throw "Invalid narrowing conversion";
+        }
     }
 
     return target;

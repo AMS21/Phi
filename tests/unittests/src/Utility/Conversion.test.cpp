@@ -135,10 +135,10 @@ TEMPLATE_TEST_CASE("narrow_cast", "[Utility][Types][Conversion][narrow_cast]", s
                    std::int16_t, std::int32_t, std::int64_t, std::uint8_t, std::uint16_t,
                    std::uint32_t, std::uint64_t)
 {
-    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int8_t(-1)) == TestType(-1));
-    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int16_t(-2)) == TestType(-2));
-    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int32_t(-3)) == TestType(-3));
-    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int64_t(-4)) == TestType(-4));
+    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int8_t(1)) == TestType(1));
+    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int16_t(2)) == TestType(2));
+    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int32_t(3)) == TestType(3));
+    STATIC_REQUIRE(phi::narrow_cast<TestType>(std::int64_t(4)) == TestType(4));
 
     STATIC_REQUIRE(phi::narrow_cast<TestType>(std::uint8_t(1)) == TestType(1));
     STATIC_REQUIRE(phi::narrow_cast<TestType>(std::uint16_t(2)) == TestType(2));
