@@ -9,8 +9,6 @@ CheckOptions:
     value: 'CamelCase'
   - key:   readability-identifier-naming.ClassMethodCase
     value: 'lower_case'
-  - key:   readability-identifier-naming.ConstexprVariableCase
-    value: 'CamelCase'
   - key:   readability-identifier-naming.EnumCase
     value: 'CamelCase'
   - key:   readability-identifier-naming.LocalVariableCase

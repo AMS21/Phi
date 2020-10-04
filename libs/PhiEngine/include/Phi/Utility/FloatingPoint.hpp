@@ -637,8 +637,7 @@ struct is_floating_point
 {};
 
 template <typename TypeT>
-constexpr static bool is_floating_point_v =
-        is_floating_point<TypeT>::value; // NOLINT(readability-identifier-naming)
+constexpr static bool is_floating_point_v = is_floating_point<TypeT>::value;
 
 DETAIL_PHI_END_NAMESPACE()
 
