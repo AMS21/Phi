@@ -1,5 +1,8 @@
 include(TestFail)
 
+# Meta
+compile_failure_test(NAME AlwaysFalse_TwoPhaseLookup SOURCE "src/Meta/AlwaysFalse.two_phase_lookup.fail.cpp")
+
 # Selftest
 compile_failure_test(NAME Selftest_StaticAssert SOURCE "src/Selftest/StaticAssert.fail.cpp")
 

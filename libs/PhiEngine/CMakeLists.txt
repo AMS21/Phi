@@ -8,6 +8,8 @@ file(
   "include/Phi/PhiConfig.hpp"
   # Math
   "include/Phi/Math/Constants.hpp"
+  # Meta
+  "include/Phi/Meta/AlwaysFalse.hpp"
   # Utility
   "include/Phi/Utility/Assert.hpp"
   "include/Phi/Utility/At.hpp"

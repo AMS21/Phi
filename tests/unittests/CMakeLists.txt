@@ -9,6 +9,8 @@ file(
   "src/main.cpp"
   # Math
   "src/Math/Constants.test.cpp"
+  # Meta
+  "src/Meta/AlwaysFalse.test.cpp"
   # Selftest
   "src/Selftest/ConstexprHelper.test.cpp"
   "src/Selftest/StringHelper.test.cpp"
