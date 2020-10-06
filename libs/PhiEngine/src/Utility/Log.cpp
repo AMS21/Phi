@@ -37,8 +37,8 @@ std::shared_ptr<spdlog::logger> Log::get_client_logger() noexcept
 void Log::initialize_default_loggers() noexcept
 {
     // Unregister the current loggers
-    UnregisterCoreLogger();
-    UnregisterClientLogger();
+    unregister_core_logger();
+    unregister_client_logger();
 
     // Create sinks
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -62,17 +62,17 @@ void Log::initialize_default_loggers() noexcept
     s_ClientLogger->flush_on(spdlog::level::err);
 }
 
-void Log::RegisterCoreLogger(std::shared_ptr<spdlog::logger>& logger) noexcept
+void Log::register_core_logger(std::shared_ptr<spdlog::logger>& logger) noexcept
 {
     s_CoreLogger = logger;
 }
 
-void Log::RegisterClientLogger(std::shared_ptr<spdlog::logger>& logger) noexcept
+void Log::register_client_logger(std::shared_ptr<spdlog::logger>& logger) noexcept
 {
     s_ClientLogger = logger;
 }
 
-void Log::UnregisterCoreLogger() noexcept
+void Log::unregister_core_logger() noexcept
 {
     if (s_CoreLogger)
     {
@@ -82,7 +82,7 @@ void Log::UnregisterCoreLogger() noexcept
     s_CoreLogger = nullptr;
 }
 
-void Log::UnregisterClientLogger() noexcept
+void Log::unregister_client_logger() noexcept
 {
     if (s_ClientLogger)
     {

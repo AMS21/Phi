@@ -8,16 +8,16 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename Type, std::size_t Size>
-[[nodiscard]] constexpr Type& at(Type (&arr)[Size], std::size_t index) noexcept
+template <typename TypeT, std::size_t Size>
+[[nodiscard]] constexpr TypeT& at(TypeT (&arr)[Size], std::size_t index) noexcept
 {
     PHI_DBG_ASSERT(index < Size, "Index {} is out of bounds! Max value: {}", index, Size - 1);
 
     return arr[index];
 }
 
-template <typename Container>
-[[nodiscard]] constexpr auto at(Container& container, std::size_t index)
+template <typename ContainerT>
+[[nodiscard]] constexpr auto at(ContainerT& container, std::size_t index)
 #if !defined(PHI_DEBUG)
         noexcept
 #endif
@@ -33,8 +33,8 @@ template <typename Container>
 #endif
 }
 
-template <typename Type>
-[[nodiscard]] constexpr Type at(std::initializer_list<Type> list, std::size_t index) noexcept
+template <typename TypeT>
+[[nodiscard]] constexpr TypeT at(std::initializer_list<TypeT> list, std::size_t index) noexcept
 {
     PHI_DBG_ASSERT(index < list.size(), "Index {} is out of bounds! Max value: {}", index,
                    list.size() - 1);

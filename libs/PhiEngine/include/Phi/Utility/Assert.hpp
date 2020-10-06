@@ -23,10 +23,10 @@ namespace detail
         return "<None>";
     }
 
-    template <typename... args>
-    inline auto FormatArgument(args&&... arg) -> decltype(auto)
+    template <typename... ArgsT>
+    inline auto FormatArgument(ArgsT&&... arg) -> decltype(auto)
     {
-        return fmt::format(std::forward<args>(arg)...);
+        return fmt::format(std::forward<ArgsT>(arg)...);
     }
 } // namespace detail
 /// \endcond

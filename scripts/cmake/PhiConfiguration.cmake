@@ -7,7 +7,7 @@ add_library(phi_project_options INTERFACE)
 add_library(Phi::ProjectOptions ALIAS phi_project_options)
 # Require C++20 and disable extensions
 set_target_properties(phi_project_options PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_20
-                                                 INTERFACE_CXX_EXTENSIONS OFF)
+                                                     INTERFACE_CXX_EXTENSIONS OFF)
 
 add_library(phi_internal_project_options INTERFACE)
 add_library(Phi::InternalProjectOptions ALIAS phi_internal_project_options)

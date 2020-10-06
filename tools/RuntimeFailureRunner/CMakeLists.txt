@@ -1,7 +1,6 @@
 project("RuntimeFailureRunner" LANGUAGES CXX)
 
-file(GLOB RTFR_SOURCE
-    "src/main.cpp")
+file(GLOB RTFR_SOURCE "src/main.cpp")
 
 file(GLOB RTFR_HEADERS)
 

@@ -30,20 +30,20 @@ TEST_CASE("Log", "[Utility][Log]")
 
         TEST_ALL_LOG_MACROS();
 
-        phi::Log::UnregisterClientLogger();
-        phi::Log::UnregisterCoreLogger();
+        phi::Log::unregister_client_logger();
+        phi::Log::unregister_core_logger();
     }
 
     SECTION("Custom logger")
     {
         std::shared_ptr<spdlog::logger> my_logger = spdlog::stderr_color_mt("Custom");
 
-        phi::Log::RegisterClientLogger(my_logger);
-        phi::Log::RegisterCoreLogger(my_logger);
+        phi::Log::register_client_logger(my_logger);
+        phi::Log::register_core_logger(my_logger);
 
         TEST_ALL_LOG_MACROS();
 
-        phi::Log::UnregisterClientLogger();
-        phi::Log::UnregisterCoreLogger();
+        phi::Log::unregister_client_logger();
+        phi::Log::unregister_core_logger();
     }
 }

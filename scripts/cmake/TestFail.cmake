@@ -30,7 +30,8 @@ function(runtime_failure_test)
       COMMAND $<TARGET_FILE:RuntimeFailureRunner> $<TARGET_FILE:${TEST_NAME}>
       CONFIGURATIONS ${rtf_CONFIGURATIONS})
   else()
-    add_test(NAME ${TEST_NAME} COMMAND $<TARGET_FILE:RuntimeFailureRunner> $<TARGET_FILE:${TEST_NAME}>)
+    add_test(NAME ${TEST_NAME} COMMAND $<TARGET_FILE:RuntimeFailureRunner>
+                                       $<TARGET_FILE:${TEST_NAME}>)
   endif()
 
   # Optionally enable regex

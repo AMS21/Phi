@@ -7,20 +7,20 @@
 
 TEST_CASE("At c-array", "[Utility][At]")
 {
-    constexpr char Arr[]{"Test String"};
+    constexpr char arr[]{"Test String"};
 
-    STATIC_REQUIRE(phi::at(Arr, 0) == 'T');
-    STATIC_REQUIRE(phi::at(Arr, 1) == 'e');
-    STATIC_REQUIRE(phi::at(Arr, 2) == 's');
-    STATIC_REQUIRE(phi::at(Arr, 3) == 't');
-    STATIC_REQUIRE(phi::at(Arr, 4) == ' ');
-    STATIC_REQUIRE(phi::at(Arr, 5) == 'S');
-    STATIC_REQUIRE(phi::at(Arr, 6) == 't');
-    STATIC_REQUIRE(phi::at(Arr, 7) == 'r');
-    STATIC_REQUIRE(phi::at(Arr, 8) == 'i');
-    STATIC_REQUIRE(phi::at(Arr, 9) == 'n');
-    STATIC_REQUIRE(phi::at(Arr, 10) == 'g');
-    STATIC_REQUIRE(phi::at(Arr, 11) == '\0');
+    STATIC_REQUIRE(phi::at(arr, 0) == 'T');
+    STATIC_REQUIRE(phi::at(arr, 1) == 'e');
+    STATIC_REQUIRE(phi::at(arr, 2) == 's');
+    STATIC_REQUIRE(phi::at(arr, 3) == 't');
+    STATIC_REQUIRE(phi::at(arr, 4) == ' ');
+    STATIC_REQUIRE(phi::at(arr, 5) == 'S');
+    STATIC_REQUIRE(phi::at(arr, 6) == 't');
+    STATIC_REQUIRE(phi::at(arr, 7) == 'r');
+    STATIC_REQUIRE(phi::at(arr, 8) == 'i');
+    STATIC_REQUIRE(phi::at(arr, 9) == 'n');
+    STATIC_REQUIRE(phi::at(arr, 10) == 'g');
+    STATIC_REQUIRE(phi::at(arr, 11) == '\0');
 }
 
 TEST_CASE("At container", "[Utility][At]")

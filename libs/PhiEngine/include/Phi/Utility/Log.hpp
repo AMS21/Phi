@@ -17,13 +17,13 @@ public:
 
     static void initialize_default_loggers() noexcept;
 
-    static void RegisterCoreLogger(std::shared_ptr<spdlog::logger>& logger) noexcept;
+    static void register_core_logger(std::shared_ptr<spdlog::logger>& logger) noexcept;
 
-    static void RegisterClientLogger(std::shared_ptr<spdlog::logger>& logger) noexcept;
+    static void register_client_logger(std::shared_ptr<spdlog::logger>& logger) noexcept;
 
-    static void UnregisterCoreLogger() noexcept;
+    static void unregister_core_logger() noexcept;
 
-    static void UnregisterClientLogger() noexcept;
+    static void unregister_client_logger() noexcept;
 
 private:
     static std::shared_ptr<spdlog::logger> s_CoreLogger;

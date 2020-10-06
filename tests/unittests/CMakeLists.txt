@@ -1,6 +1,7 @@
 project("PhiEngine_Tests" CXX)
 
-file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp" "include/Unwrap.hpp")
+file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp"
+     "include/Unwrap.hpp")
 
 file(
   GLOB
@@ -34,7 +35,8 @@ set(UnittestName "PhiEngine_Unittests")
 
 add_executable(${UnittestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-target_link_libraries(${UnittestName} PRIVATE Phi::InternalProjectOptions Phi::Engine Catch2::Catch2)
+target_link_libraries(${UnittestName} PRIVATE Phi::InternalProjectOptions Phi::Engine
+                                              Catch2::Catch2)
 target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 target_include_directories(${UnittestName} PRIVATE "include")
 
@@ -50,7 +52,8 @@ if(${PHI_ENABLE_CONSTEXPRTESTS})
 
   add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-  target_link_libraries(${ConstexprTestName} PRIVATE Phi::InternalProjectOptions Phi::Engine Catch2::Catch2)
+  target_link_libraries(${ConstexprTestName} PRIVATE Phi::InternalProjectOptions Phi::Engine
+                                                     Catch2::Catch2)
   target_include_directories(${ConstexprTestName} PRIVATE "include")
 
   set_target_properties(${ConstexprTestName} PROPERTIES FOLDER "Tests/Unittest")
