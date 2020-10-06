@@ -11,4 +11,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "Tools")
 
 enable_static_analyzers(${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions)
+target_link_libraries(${PROJECT_NAME} PUBLIC Phi::InternalProjectOptions)

@@ -35,7 +35,7 @@ target_include_directories(
   PUBLIC "include"
   PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Phi::ProjectOptions CppBase::CppBase spdlog::spdlog Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PUBLIC Phi::InternalProjectOptions CppBase::CppBase spdlog::spdlog Threads::Threads)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "NOMINMAX")
