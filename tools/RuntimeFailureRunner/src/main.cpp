@@ -13,11 +13,11 @@ int main(int argc, char* argv[])
         return RETURN_FAILURE;
     }
 
-    // Check if the host enviroment has a command processor
+    // Check if the host environment has a command processor
     const int has_cmd_processor = std::system(nullptr);
     if (has_cmd_processor == 0)
     {
-        std::cout << "[RuntimeFailureRunner] Host enviroment seems to be missing a command "
+        std::cout << "[RuntimeFailureRunner] Host environment seems to be missing a command "
                      "processor!\n";
         return RETURN_FAILURE;
     }

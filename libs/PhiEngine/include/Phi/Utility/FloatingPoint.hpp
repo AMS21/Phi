@@ -60,7 +60,7 @@ namespace detail
     using fallback_safe_floating_point_conversion =
             typename std::enable_if_t<!is_safe_floating_point_conversion<FromT, ToT>::value>;
 
-    // Floating point comparision
+    // Floating point comparison
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_comparison
         : std::bool_constant<is_safe_floating_point_conversion<LhsT, RhsT>::value ||
