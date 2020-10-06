@@ -1,8 +1,15 @@
+#include <Phi/PhiConfig.hpp>
 #include <Phi/Utility/Conversion.hpp>
 #include <Phi/Utility/Integer.hpp>
 #include <Phi/Utility/Types.hpp>
 #include <catch2/catch.hpp>
+#include <cpp/Compiler.hpp>
 #include <cpp/Warning.hpp>
+
+#if defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE) && CPP_COMPILER_IS(CPP_COMPILER_MSVC) &&          \
+        !defined(PHI_DEBUG)
+#    define TEST_BUGGED_MSVC
+#endif
 
 CPP_CLANG_SUPPRESS_WARNING_PUSH
 CPP_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
@@ -16,11 +23,15 @@ TEST_CASE("unsafe_cast primitive types", "[Utility][Types][Conversion][unsafe_ca
     STATIC_REQUIRE(phi::unsafe_cast<double>(3.14f) == double(3.14f));
     STATIC_REQUIRE(phi::unsafe_cast<ld>(3.14f) == ld(3.14f));
 
+#if !defined(TEST_BUGGED_MSVC)
     STATIC_REQUIRE(phi::unsafe_cast<float>(3.14) == float(3.14));
+#endif
     STATIC_REQUIRE(phi::unsafe_cast<double>(3.14) == 3.14);
     STATIC_REQUIRE(phi::unsafe_cast<ld>(3.14) == ld(3.14));
 
+#if !defined(TEST_BUGGED_MSVC)
     STATIC_REQUIRE(phi::unsafe_cast<float>(3.14L) == float(3.14L));
+#endif
     STATIC_REQUIRE(phi::unsafe_cast<double>(3.14L) == double(3.14L));
     STATIC_REQUIRE(phi::unsafe_cast<ld>(3.14L) == 3.14L);
 
@@ -70,9 +81,11 @@ TEMPLATE_TEST_CASE("unsafe_cast from FloatingPoint", "[Utility][Types][Conversio
 
     // To native type
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<float>(3.14f)) == TestType(3.14f));
+#if !defined(TEST_BUGGED_MSVC)
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<double>(3.14)) == TestType(3.14));
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<long double>(3.14L)) ==
                    TestType(3.14L));
+#endif
 }
 
 TEMPLATE_TEST_CASE("unsafe_cast from Integer", "[Utility][Types][Conversion][unsafe_cast]",
@@ -127,8 +140,10 @@ TEMPLATE_TEST_CASE("unsafe_cast to FloatingPoint", "[Utility][Types][Conversion]
 
     // from unsafe type
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(3.14f).get() == vt(3.14f));
+#if !defined(TEST_BUGGED_MSVC)
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(3.14).get() == vt(3.14));
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(3.14L).get() == vt(3.14L));
+#endif
 }
 
 TEMPLATE_TEST_CASE("narrow_cast", "[Utility][Types][Conversion][narrow_cast]", std::int8_t,
