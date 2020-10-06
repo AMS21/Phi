@@ -16,8 +16,8 @@ function(phi_external_project project)
     endif()
 
     # For MSVC we need to set the warnings flag to W0 to silence warnings since MSVC has no concept of system includes
-    if (MSVC)
-        target_compile_options(${project} INTERFACE "/W0")
+    if (MSVC AND NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+        target_compile_options(${project} PRIVATE "/W0")
     endif()
 
     message(STATUS "Added external project ${project}")

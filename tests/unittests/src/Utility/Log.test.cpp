@@ -26,7 +26,7 @@ TEST_CASE("Log", "[Utility][Log]")
 
     SECTION("Default logger")
     {
-        phi::Log::InitializeDefaultLoggers();
+        phi::Log::initialize_default_loggers();
 
         TEST_ALL_LOG_MACROS();
 

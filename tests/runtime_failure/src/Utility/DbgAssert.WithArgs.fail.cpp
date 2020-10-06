@@ -6,7 +6,7 @@ int main()
 {
     SetupDebugReportMode();
 
-    phi::Log::InitializeDefaultLoggers();
+    phi::Log::initialize_default_loggers();
 
     PHI_DBG_ASSERT(false, "[DBG ASSERT FAILED]");
 }

@@ -34,7 +34,7 @@ std::shared_ptr<spdlog::logger> Log::get_client_logger() noexcept
     return s_ClientLogger;
 }
 
-void Log::InitializeDefaultLoggers() noexcept
+void Log::initialize_default_loggers() noexcept
 {
     // Unregister the current loggers
     UnregisterCoreLogger();
