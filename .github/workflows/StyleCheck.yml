@@ -97,7 +97,7 @@ jobs:
         run: |
           # The applied fixes might break the code so make sure it still compiles
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_FAILURE_TESTS=On
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_CONSTEXPRTESTS=On -DPHI_ENABLE_FAILURE_TESTS=On
           cmake --build . --clean-first
           ctest .
 
