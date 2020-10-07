@@ -248,10 +248,6 @@ jobs:
           cat coverage.info
 
       - name: Upload coverage data
+        run: |
+          curl -s https://codecov.io/bash | bash -s -- -F windows -F clang -v -f ./build/coverage.info -t8e825876-0dcb-43ba-92a0-3be2ae36196a # thomasrockhu's token
         uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./build/coverage.info
-          flags: windows,clang
-          name: ${{ runner.os }}-clang
-          fail_ci_if_error: true
