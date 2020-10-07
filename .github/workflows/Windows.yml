@@ -48,7 +48,7 @@ jobs:
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "::set-env name=CXX::${{ matrix.cfg.compiler }}"
+            echo "::set-env name=CXX::C:\ProgramData\scoop\shims\${{ matrix.cfg.compiler }}.exe"
           }
 
           scoop install ninja --global
@@ -173,7 +173,7 @@ jobs:
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "::set-env name=CXX::C:\ProgramData\scoop\shims\${{ matrix.cfg.compiler }}"
+            echo "::set-env name=CXX::C:\ProgramData\scoop\shims\${{ matrix.cfg.compiler }}.exe"
           }
 
           scoop install ninja --global
