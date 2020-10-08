@@ -28,8 +28,7 @@ file(
   # Math
   "include/Phi/Math/Constants.hpp"
   # Meta
-  "include/Phi/Meta/AlwaysFalse.hpp"
-  )
+  "include/Phi/Meta/AlwaysFalse.hpp")
 
 file(GLOB PHI_ENGINE_SOURCES "src/Core/Log.cpp")
 
@@ -46,8 +45,10 @@ target_include_directories(
   PUBLIC "include"
   PRIVATE "src")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog Threads::Threads
-                                      PRIVATE Phi::InternalProjectOptions)
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC spdlog::spdlog Threads::Threads
+  PRIVATE Phi::InternalProjectOptions)
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "NOMINMAX")

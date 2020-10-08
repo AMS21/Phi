@@ -8,7 +8,7 @@ set(FILE_CONTENT
 
 # Loop through every library
 foreach(lib ${PHI_LIBRARIES})
-  if (NOT IS_DIRECTORY ${lib})
+  if(NOT IS_DIRECTORY ${lib})
     continue()
   endif()
 

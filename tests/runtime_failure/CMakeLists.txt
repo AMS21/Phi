@@ -15,11 +15,11 @@ runtime_failure_test(NAME "Selftest_UnhandledException" SOURCE
 
 # Core
 runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
-runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp"
-                     REGEX "ASSERTION VIOLATION")
+runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX
+                     "ASSERTION VIOLATION")
 runtime_failure_test(NAME "Core_AssertWithArgs" SOURCE "src/Core/Assert.WithArgs.fail.cpp")
-runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE
-                     "src/Core/Assert.WithArgs.fail.cpp" REGEX "[ASSERT FAILED]")
+runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE "src/Core/Assert.WithArgs.fail.cpp"
+                     REGEX "[ASSERT FAILED]")
 runtime_failure_test(NAME "Core_DbgAssertNoArgs" SOURCE "src/Core/DbgAssert.NoArgs.fail.cpp"
                      CONFIGURATIONS Debug)
 runtime_failure_test(
