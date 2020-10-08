@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 
+#include <Phi/Core/Types.hpp>
 #include <Phi/Meta/AlwaysFalse.hpp>
-#include <Phi/Utility/Types.hpp>
 
 class CustomClass
 {};

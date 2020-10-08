@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 
 #include "Unwrap.hpp"
-#include <Phi/Utility/Types.hpp>
-#include <cpp/Warning.hpp>
+#include <Phi/Config/Warning.hpp>
+#include <Phi/Core/Types.hpp>
 #include <type_traits>
 
 TEST_CASE("unwrapped", "[selftest][Unwrapped]")
@@ -52,8 +52,8 @@ TEST_CASE("unwrapped_t", "[selftest][Unwrapped]")
     STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::FloatingPoint<long double>>, long double>);
 }
 
-CPP_CLANG_SUPPRESS_WARNING_PUSH
-CPP_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
 TEMPLATE_TEST_CASE("unwrap", "[selftest][unwrap]", std::int8_t, std::int16_t, std::int32_t,
                    std::int64_t, std::uint8_t, std::uint16_t, std::uint32_t, std::uint64_t, phi::i8,
@@ -69,7 +69,7 @@ TEMPLATE_TEST_CASE("unwrap", "[selftest][unwrap]", std::int8_t, std::int16_t, st
     STATIC_REQUIRE(unwrap(TestType(base_t(12))) == base_t(12));
 }
 
-CPP_CLANG_SUPPRESS_WARNING_POP
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("unwrap boolean", "[selftest][unwrap]")
 {

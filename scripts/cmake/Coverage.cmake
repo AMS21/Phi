@@ -13,7 +13,7 @@ if(PHI_COVERAGE_BUILD)
 
   # Replace always inline with never inline
   target_compile_definitions(phi_project_options
-                             INTERFACE CPP_CONFIG_ALWAYS_INLINE_OVERWRITE=CPP_NEVER_INLINE)
+                             INTERFACE PHI_CONFIG_ALWAYS_INLINE_OVERWRITE=PHI_NEVER_INLINE)
 
   # Disable optimization flags from Phi
   set(PHI_ENABLE_OPTIMIZATION_FLAGS OFF)

@@ -13,31 +13,31 @@ runtime_failure_test(NAME "Selftest_Terminate" SOURCE "src/Selftest/Terminate.fa
 runtime_failure_test(NAME "Selftest_UnhandledException" SOURCE
                      "src/Selftest/UnhandledException.fail.cpp")
 
-# Utilitay
-runtime_failure_test(NAME "Utility_AssertNoArgs" SOURCE "src/Utility/Assert.NoArgs.fail.cpp")
-runtime_failure_test(NAME "Utility_AssertNoArgsRegex" SOURCE "src/Utility/Assert.NoArgs.fail.cpp"
+# Core
+runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
+runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp"
                      REGEX "ASSERTION VIOLATION")
-runtime_failure_test(NAME "Utility_AssertWithArgs" SOURCE "src/Utility/Assert.WithArgs.fail.cpp")
-runtime_failure_test(NAME "Utility_AssertWithArgsRegex" SOURCE
-                     "src/Utility/Assert.WithArgs.fail.cpp" REGEX "[ASSERT FAILED]")
-runtime_failure_test(NAME "Utility_DbgAssertNoArgs" SOURCE "src/Utility/DbgAssert.NoArgs.fail.cpp"
+runtime_failure_test(NAME "Core_AssertWithArgs" SOURCE "src/Core/Assert.WithArgs.fail.cpp")
+runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE
+                     "src/Core/Assert.WithArgs.fail.cpp" REGEX "[ASSERT FAILED]")
+runtime_failure_test(NAME "Core_DbgAssertNoArgs" SOURCE "src/Core/DbgAssert.NoArgs.fail.cpp"
                      CONFIGURATIONS Debug)
 runtime_failure_test(
   NAME
-  "Utility_DbgAssertNoArgsRegex"
+  "Core_DbgAssertNoArgsRegex"
   SOURCE
-  "src/Utility/DbgAssert.NoArgs.fail.cpp"
+  "src/Core/DbgAssert.NoArgs.fail.cpp"
   REGEX
   "ASSERTION VIOLATION"
   CONFIGURATIONS
   Debug)
-runtime_failure_test(NAME "Utility_DbgAssertWithArgsRegex" SOURCE
-                     "src/Utility/DbgAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_DbgAssertWithArgsRegex" SOURCE
+                     "src/Core/DbgAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(
   NAME
-  "Utility_DbgAssertWithArgs"
+  "Core_DbgAssertWithArgs"
   SOURCE
-  "src/Utility/DbgAssert.WithArgs.fail.cpp"
+  "src/Core/DbgAssert.WithArgs.fail.cpp"
   REGEX
   "[DBG ASSERT FAILED]"
   CONFIGURATIONS

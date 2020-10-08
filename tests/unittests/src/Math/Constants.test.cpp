@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 
+#include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Math/Constants.hpp>
-#include <Phi/Utility/FloatingPoint.hpp>
 
 TEMPLATE_TEST_CASE("Constants typed", "[Math][Constants]", float, double, long double,
                    phi::FloatingPoint<float>, phi::FloatingPoint<double>,
@@ -32,8 +32,8 @@ TEMPLATE_TEST_CASE("Constants typed", "[Math][Constants]", float, double, long d
 
 #define TEST_CONSTANT(name, val)                                                                   \
     STATIC_REQUIRE(bool(name > val));                                                              \
-    STATIC_REQUIRE(bool(CPP_GLUE(name, _64) > CPP_GLUE(val, L)));                                  \
-    STATIC_REQUIRE(bool(CPP_GLUE(name, _32) > CPP_GLUE(val, f)))
+    STATIC_REQUIRE(bool(PHI_GLUE(name, _64) > PHI_GLUE(val, L)));                                  \
+    STATIC_REQUIRE(bool(PHI_GLUE(name, _32) > PHI_GLUE(val, f)))
 
 TEST_CASE("Constants", "[Math][Constant]")
 {

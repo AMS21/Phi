@@ -1,10 +1,10 @@
 #ifndef INCG_UNITTEST_UNWRAP_HPP
 #define INCG_UNITTEST_UNWRAP_HPP
 
-#include <Phi/Utility/Boolean.hpp>
-#include <Phi/Utility/Conversion.hpp>
-#include <Phi/Utility/FloatingPoint.hpp>
-#include <Phi/Utility/Integer.hpp>
+#include <Phi/Core/Boolean.hpp>
+#include <Phi/Core/Conversion.hpp>
+#include <Phi/Core/FloatingPoint.hpp>
+#include <Phi/Core/Integer.hpp>
 #include <type_traits>
 
 template <typename TypeT>

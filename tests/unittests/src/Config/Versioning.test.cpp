@@ -1,0 +1,30 @@
+#include <catch2/catch.hpp>
+
+#include <Phi/Config/Versioning.hpp>
+
+TEST_CASE("Versioning", "[Config][Versioning]")
+{
+    unsigned val = PHI_VERSION_CREATE(3, 1, 4);
+
+    CHECK(PHI_VERSION_EXTRACT_MAJOR(val) == 3);
+    CHECK(PHI_VERSION_EXTRACT_MINOR(val) == 1);
+    CHECK(PHI_VERSION_EXTRACT_PATCH(val) == 4);
+
+    val = PHI_VERSION_CREATE(0, 0, 0);
+
+    CHECK(PHI_VERSION_EXTRACT_MAJOR(val) == 0);
+    CHECK(PHI_VERSION_EXTRACT_MINOR(val) == 0);
+    CHECK(PHI_VERSION_EXTRACT_PATCH(val) == 0);
+
+    val = PHI_VERSION_CREATE(2, 55, 13);
+
+    CHECK(PHI_VERSION_EXTRACT_MAJOR(val) == 2);
+    CHECK(PHI_VERSION_EXTRACT_MINOR(val) == 55);
+    CHECK(PHI_VERSION_EXTRACT_PATCH(val) == 13);
+
+    val = PHI_VERSION_CREATE(255, 255, 255);
+
+    CHECK(PHI_VERSION_EXTRACT_MAJOR(val) == 255);
+    CHECK(PHI_VERSION_EXTRACT_MINOR(val) == 255);
+    CHECK(PHI_VERSION_EXTRACT_PATCH(val) == 255);
+}
