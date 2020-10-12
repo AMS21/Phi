@@ -1,7 +1,10 @@
 #include <catch2/catch.hpp>
 
 #include "StringHelper.hpp"
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Assert.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wgnu-zero-variadic-macro-arguments")
 
 TEST_CASE("PHI_SIMPLE_ASSERT", "[Utility][Assert]")
 {
@@ -26,6 +29,8 @@ TEST_CASE("PHI_DBG_ASSERT", "[Utility][Assert]")
     PHI_DBG_ASSERT(true);
     PHI_DBG_ASSERT(true, "Always passes");
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("FormatArguments")
 {
