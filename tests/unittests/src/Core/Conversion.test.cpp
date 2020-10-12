@@ -14,6 +14,10 @@
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
 TEST_CASE("unsafe_cast primitive types", "[Utility][Types][Conversion][unsafe_cast]")
 {
     // Floats
@@ -160,5 +164,7 @@ TEMPLATE_TEST_CASE("narrow_cast", "[Utility][Types][Conversion][narrow_cast]", s
     STATIC_REQUIRE(phi::narrow_cast<TestType>(std::uint32_t(3)) == TestType(3));
     STATIC_REQUIRE(phi::narrow_cast<TestType>(std::uint64_t(4)) == TestType(4));
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

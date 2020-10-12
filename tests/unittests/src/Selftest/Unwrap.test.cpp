@@ -55,6 +55,9 @@ TEST_CASE("unwrapped_t", "[selftest][Unwrapped]")
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+
 TEMPLATE_TEST_CASE("unwrap", "[selftest][unwrap]", std::int8_t, std::int16_t, std::int32_t,
                    std::int64_t, std::uint8_t, std::uint16_t, std::uint32_t, std::uint64_t, phi::i8,
                    phi::i16, phi::i32, phi::i64, phi::u8, phi::u16, phi::u32, phi::u64, float,
@@ -68,6 +71,8 @@ TEMPLATE_TEST_CASE("unwrap", "[selftest][unwrap]", std::int8_t, std::int16_t, st
     STATIC_REQUIRE(unwrap(TestType(base_t(3))) == base_t(3));
     STATIC_REQUIRE(unwrap(TestType(base_t(12))) == base_t(12));
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
