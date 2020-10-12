@@ -127,7 +127,7 @@ jobs:
           sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
 
       - name: Print results
-        run: cat clang_tidy_output.log
+        run: cat build/clang_tidy_output.log
 
       - name: ReviewDog check
         env:
@@ -192,7 +192,7 @@ jobs:
           cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests|https://www.viva64.com/en/w/" > PVS-Studio_filtered.err || true
 
       - name: Print results
-        run: cat PVS-Studio_filtered.err
+        run: cat build/PVS-Studio_filtered.err
 
       - name: ReviewDog check
         env:
@@ -267,7 +267,7 @@ jobs:
           cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
 
       - name: Print results
-        run: cat iwyu_filtered.log
+        run: cat build/iwyu_filtered.log
 
       - name: ReviewDog check
         env:
