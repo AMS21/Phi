@@ -1,1 +1,1 @@
-add_subdirectory("PhiEngine")
+add_subdirectory("PhiCore")

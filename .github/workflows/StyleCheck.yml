@@ -86,11 +86,18 @@ jobs:
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -fix -header-filter ".*" -checks="-*,bugprone-argument-comment,bugprone-reserved-identifier,cppcoreguidelines-pro-type-cstyle-cast,modernize-deprecated-headers,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-nullptr,modernize-use-override,modernize-use-using,readability-braces-around-statements,readability-container-size-empty,readability-identifier-naming,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-make-member-function-const,readability-qualified-auto,readability-redundant-control-flow,readability-simplify-boolean-expr"
 
+          # Clang tidy likes to "fix" things in externals libraries so we need to reset them
+          cd ../external/spdlog
+          git reset --hard
+
+      - name: Display diff
+        run: git diff
+
       - name: Build
         run: |
           # The applied fixes might break the code so make sure it still compiles
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_FAILURE_TESTS=On
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_CONSTEXPRTESTS=On -DPHI_ENABLE_FAILURE_TESTS=On
           cmake --build . --clean-first
           ctest .
 
@@ -112,7 +119,7 @@ jobs:
           commit_user_name: Phi Code Quality Bot
           commit_user_email: AMS21Bot.github@gmail.com
           commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
-          file_pattern: .github/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* .cmake-format.yaml CMakeLists.txt README.md
+          file_pattern: .github/* .licenses/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* tools/* .cmake-format.yaml CMakeLists.txt README.md
 
   misspell:
     runs-on: ubuntu-latest
@@ -126,7 +133,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: US
-          reporter: github-pr-review
+          reporter: github-pr-check
           level: warning
 
   yamllint:
@@ -140,7 +147,7 @@ jobs:
         uses: reviewdog/action-yamllint@v1.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-check
           yamllint_flags: '-d "{extends: relaxed, rules: {line-length: {max: 100}}}"'
           level: warning
 
@@ -155,7 +162,7 @@ jobs:
         uses: prologic/action-markdownlint@v0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check # Change reporter. (Only `github-pr-check` is supported at the moment).
+          reporter: github-pr-check
           level: warning
 
   remark-lint:
@@ -169,7 +176,7 @@ jobs:
         uses: prologic/action-remark-lint@v0.0.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check # Change reporter. (Only `github-pr-check` is supported at the moment).
+          reporter: github-pr-check
           level: warning
 
   languagetool:
@@ -182,7 +189,7 @@ jobs:
       - uses: reviewdog/action-languagetool@v1.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-check
           level: warning
 
   alex:
@@ -195,5 +202,5 @@ jobs:
       - uses: reviewdog/action-alex@v1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          reporter: github-pr-check
           level: warning

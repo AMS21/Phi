@@ -10,6 +10,10 @@ jobs:
       GCC_VERSION: "10"
       LLVM_VERSION: "10"
 
+    strategy:
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
@@ -49,7 +53,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -69,8 +73,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: linux,gcc
-          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
+          flags: linux,gcc,${{ matrix.build_type }}
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
       - name: Build coverage data (Clang)
@@ -80,7 +84,7 @@ jobs:
           cd build-clang
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -103,8 +107,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
-          flags: linux,clang
-          name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}
+          flags: linux,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
   macos:
@@ -112,6 +116,10 @@ jobs:
     env:
       GCC_VERSION: "10"
       XCODE_VERSION: "11.6"
+
+    strategy:
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
 
     steps:
       - name: Checkout
@@ -138,7 +146,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -159,8 +167,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
-          flags: macos,gcc
-          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}
+          flags: macos,gcc,${{ matrix.build_type }}
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
       - name: Build coverage data (Clang)
@@ -170,7 +178,7 @@ jobs:
           cd build-clang
 
           # Build it
-          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="clang++" ..
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="clang++" ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -193,12 +201,16 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
-          flags: macos,clang
-          name: ${{ runner.os }}-clang++-${{ env.XCODE_VERSION }}
+          flags: macos,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang++-${{ env.XCODE_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
   windows:
     runs-on: windows-latest
+
+    strategy:
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
 
     steps:
       - name: Checkout
@@ -228,7 +240,7 @@ jobs:
           cd build
 
           # Build it
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON ..
           cmake --build . --clean-first
 
           # Generate coverage data
@@ -252,6 +264,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/coverage.info
-          flags: windows,clang
-          name: ${{ runner.os }}-clang
+          flags: windows,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang-${{ matrix.build_type }}
           fail_ci_if_error: true

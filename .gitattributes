@@ -88,3 +88,5 @@
 # CMake files
 *.cmake text eol=lf
 **/CMakeLists.txt text eol=lf
+
+.licenses/** -diff linguist-generated=true

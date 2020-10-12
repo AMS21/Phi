@@ -3,7 +3,7 @@
 int main()
 {
     // Only return a failure status in debug mode
-#if PHI_DEBUG
+#if defined(PHI_DEBUG)
     return 1;
 #else
     return 0;

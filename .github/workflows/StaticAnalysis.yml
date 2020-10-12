@@ -35,7 +35,7 @@ jobs:
 
       - name: Install cppcheck
         env:
-          CPPCHECK_VERSION: "2.1"
+          CPPCHECK_VERSION: "2.2"
         run: |
           mkdir cppcheck
           wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
@@ -63,26 +63,19 @@ jobs:
 
       - name: Run cppcheck
         run: |
-          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --force --inline-suppr --max-ctu-depth=25 --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DCPP_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DCPP_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
+          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --force --inline-suppr --max-ctu-depth=25 --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
 
           # Filter out external libraries and test code
           cat cppcheck.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > cppcheck_filtered.log || true
 
-          # Print result
-          cat cppcheck_filtered.log
+      - name: Print results
+        run: cat cppcheck_filtered.log
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-latest
@@ -133,21 +126,14 @@ jobs:
           # Remove duplicate entries
           sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
 
-          # Print log
-          cat clang_tidy_output.log
+      - name: Print results
+        run: cat build/clang_tidy_output.log
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-pr-review -name Clang-Tidy -level warning
 
   pvs-studio:
     runs-on: ubuntu-latest
@@ -205,21 +191,14 @@ jobs:
           # Filter out external libraries, test code and help message
           cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests|https://www.viva64.com/en/w/" > PVS-Studio_filtered.err || true
 
-          # Display warnings
-          cat PVS-Studio_filtered.err
+      - name: Print results
+        run: cat build/PVS-Studio_filtered.err
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-pr-review -name PVS-Studio -level warning
 
   include-what-you-use:
     runs-on: ubuntu-latest
@@ -287,21 +266,14 @@ jobs:
           # Filter out correct includes and generated code
           cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
 
-          # Print result
-          cat iwyu_filtered.log
+      - name: Print results
+        run: cat build/iwyu_filtered.log
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-check -name include-what-you-use -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-pr-review -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-latest
@@ -327,18 +299,11 @@ jobs:
         run: |
           cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
 
-          # Print log
-          cat cmake_lint.log
+      - name: Print results
+        run: cat cmake_lint.log
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint -level warning
-
-      - name: ReviewDog Review
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-pr-review -name cmake-lint -level warning

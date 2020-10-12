@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 
 #include "StringHelper.hpp"
+#include <Phi/Config/Stringify.hpp>
 #include <Phi/PhiConfig.hpp>
-#include <cpp/Stringify.hpp>
 
 TEST_CASE("PhiConfig.hpp macros", "[Config]")
 {
@@ -12,23 +12,21 @@ TEST_CASE("PhiConfig.hpp macros", "[Config]")
 
     STATIC_REQUIRE(string_length(PHI_VERSION_MAJOR_STR()) != 0);
     STATIC_REQUIRE(string_length(PHI_VERSION_MAJOR_STR()) ==
-                   string_length(CPP_STRINGIFY(PHI_VERSION_MAJOR())));
+                   string_length(PHI_STRINGIFY(PHI_VERSION_MAJOR())));
 
     STATIC_REQUIRE(string_length(PHI_VERSION_MINOR_STR()) != 0);
     STATIC_REQUIRE(string_length(PHI_VERSION_MINOR_STR()) ==
-                   string_length(CPP_STRINGIFY(PHI_VERSION_MINOR())));
+                   string_length(PHI_STRINGIFY(PHI_VERSION_MINOR())));
 
     STATIC_REQUIRE(string_length(PHI_VERSION_PATCH_STR()) != 0);
     STATIC_REQUIRE(string_length(PHI_VERSION_PATCH_STR()) ==
-                   string_length(CPP_STRINGIFY(PHI_VERSION_PATCH())));
+                   string_length(PHI_STRINGIFY(PHI_VERSION_PATCH())));
 
     STATIC_REQUIRE(string_length(PHI_VERSION_STR()) != 0);
     STATIC_REQUIRE(string_length(PHI_VERSION_STR()) ==
-                   (string_length(CPP_STRINGIFY(PHI_VERSION_MAJOR()) CPP_STRINGIFY(
-                            PHI_VERSION_MINOR()) CPP_STRINGIFY(PHI_VERSION_PATCH())) +
+                   (string_length(PHI_STRINGIFY(PHI_VERSION_MAJOR()) PHI_STRINGIFY(
+                            PHI_VERSION_MINOR()) PHI_STRINGIFY(PHI_VERSION_PATCH())) +
                     2));
-
-    STATIC_REQUIRE((PHI_DEBUG == 0 || PHI_DEBUG == 1));
 }
 
 TEST_CASE("PhiConfig.hpp variables", "[Config]")

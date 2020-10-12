@@ -64,7 +64,13 @@ endif()
 
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Load extternal dependencies
+# Find required system libs
+find_package(Threads REQUIRED)
+
+# Load tools
+add_subdirectory(tools)
+
+# Load external dependencies
 add_subdirectory(external)
 
 # Load libs
