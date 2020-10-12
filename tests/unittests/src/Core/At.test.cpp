@@ -3,6 +3,7 @@
 #include <Phi/Core/At.hpp>
 #include <array>
 #include <deque>
+#include <initializer_list>
 #include <vector>
 
 TEST_CASE("At c-array", "[Utility][At]")

@@ -3,6 +3,7 @@
 #include "StringHelper.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Assert.hpp>
+#include <string>
 
 PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wgnu-zero-variadic-macro-arguments")
 

@@ -30,6 +30,8 @@ SOFTWARE.
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <cfloat>
+#include <cmath>
+#include <functional>
 #include <sstream>
 #include <string>
 #include <type_traits>

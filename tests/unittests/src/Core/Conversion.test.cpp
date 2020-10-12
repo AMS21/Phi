@@ -1,8 +1,9 @@
 #include <catch2/catch.hpp>
 
-#include "Phi/Config/Compiler.hpp"
-#include "Phi/Config/Warning.hpp"
+#include <Phi/Config/Compiler.hpp>
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Conversion.hpp>
+#include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Types.hpp>
 #include <Phi/PhiConfig.hpp>

@@ -3,6 +3,7 @@
 #include "Unwrap.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Types.hpp>
+#include <cstdint>
 #include <type_traits>
 
 TEST_CASE("unwrapped", "[selftest][Unwrapped]")

@@ -2,6 +2,7 @@
 
 #include <Phi/Core/Log.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <memory>
 
 #define TEST_ALL_LOG_MACROS()                                                                      \
     PHI_LOG_CORE_TRACE("Core trace");                                                              \

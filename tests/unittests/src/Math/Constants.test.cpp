@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 
+#include <Phi/Config/Glue.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
+#include <Phi/Core/Types.hpp>
 #include <Phi/Math/Constants.hpp>
 
 TEMPLATE_TEST_CASE("Constants typed", "[Math][Constants]", float, double, long double,

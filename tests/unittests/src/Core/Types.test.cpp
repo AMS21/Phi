@@ -2,6 +2,7 @@
 
 #include <Phi/Core/Types.hpp>
 #include <climits>
+#include <type_traits>
 
 #define SIZE_IN_BITS(type) (sizeof(type) * CHAR_BIT)
 
