@@ -4,7 +4,7 @@
 
 TEST_CASE("Versioning", "[Config][Versioning]")
 {
-    unsigned val = PHI_VERSION_CREATE(3, 1, 4);
+    int val = PHI_VERSION_CREATE(3, 1, 4);
 
     CHECK(PHI_VERSION_EXTRACT_MAJOR(val) == 3);
     CHECK(PHI_VERSION_EXTRACT_MINOR(val) == 1);
