@@ -6,7 +6,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename... TypesT>
-constexpr bool always_false = false;
+constexpr inline bool always_false = false;
 
 DETAIL_PHI_END_NAMESPACE()
 
