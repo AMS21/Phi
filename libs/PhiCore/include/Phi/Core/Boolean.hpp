@@ -81,6 +81,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_ALWAYS_INLINE constexpr operator bool() const noexcept
     {
         return m_Value;
