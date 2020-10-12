@@ -17,9 +17,9 @@ public:
 
     static void initialize_default_loggers() noexcept;
 
-    static void register_core_logger(std::shared_ptr<spdlog::logger>& logger) noexcept;
+    static void register_core_logger(const std::shared_ptr<spdlog::logger>& logger) noexcept;
 
-    static void register_client_logger(std::shared_ptr<spdlog::logger>& logger) noexcept;
+    static void register_client_logger(const std::shared_ptr<spdlog::logger>& logger) noexcept;
 
     static void unregister_core_logger() noexcept;
 

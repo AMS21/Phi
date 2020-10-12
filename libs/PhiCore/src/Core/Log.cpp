@@ -62,12 +62,12 @@ void Log::initialize_default_loggers() noexcept
     s_ClientLogger->flush_on(spdlog::level::err);
 }
 
-void Log::register_core_logger(std::shared_ptr<spdlog::logger>& logger) noexcept
+void Log::register_core_logger(const std::shared_ptr<spdlog::logger>& logger) noexcept
 {
     s_CoreLogger = logger;
 }
 
-void Log::register_client_logger(std::shared_ptr<spdlog::logger>& logger) noexcept
+void Log::register_client_logger(const std::shared_ptr<spdlog::logger>& logger) noexcept
 {
     s_ClientLogger = logger;
 }
