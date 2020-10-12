@@ -28,6 +28,7 @@ SOFTWARE.
 #define INCG_PHI_UTILITY_FLOATINGPOINT_HPP
 
 #include "Phi/Config/Inline.hpp"
+#include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/PhiConfig.hpp"
 #include <cmath>
@@ -363,6 +364,9 @@ template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
 constexpr Boolean operator<=(FloatingPoint<LhsT>, RhsT) = delete;
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wdouble-promotion")
+
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
 PHI_ALWAYS_INLINE constexpr Boolean operator>(const FloatingPoint<LhsT>& lhs,
@@ -370,6 +374,8 @@ PHI_ALWAYS_INLINE constexpr Boolean operator>(const FloatingPoint<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) > static_cast<RhsT>(rhs);
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
