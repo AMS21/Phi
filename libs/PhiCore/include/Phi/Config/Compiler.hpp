@@ -40,7 +40,7 @@
 #    define PHI_COMPILER_MINOR() (__INTEL_COMPILER % 100 / 10)
 #    define PHI_COMPILER_PATCH() (__INTEL_COMPILER % 10)
 #    define PHI_COMPILER_NAME() "Intel ICC"
-#elif defined(_MSVC_VER)
+#elif defined(_MSC_VER)
 #    undef PHI_COMPILER_MSVC
 #    define PHI_COMPILER_MSVC() 1
 #    define PHI_COMPILER_MAJOR() (_MSC_FULL_VER / 10000000)
