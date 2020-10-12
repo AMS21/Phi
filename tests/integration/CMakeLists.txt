@@ -20,8 +20,8 @@ foreach(lib ${PHI_LIBRARIES})
 
   foreach(file ${headers})
     # Include each header file relative from its include directory
-    file(RELATIVE_PATH path ${lib}/include ${file})
-    string(APPEND FILE_CONTENT "#include <" ${path} ">\n")
+    file(RELATIVE_PATH include_path ${lib}/include ${file})
+    string(APPEND FILE_CONTENT "#include <" ${include_path} ">\n")
   endforeach()
 
   string(APPEND FILE_CONTENT "\n")
