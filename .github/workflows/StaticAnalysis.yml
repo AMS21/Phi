@@ -68,8 +68,8 @@ jobs:
           # Filter out external libraries and test code
           cat cppcheck.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > cppcheck_filtered.log || true
 
-          # Print result
-          cat cppcheck_filtered.log
+      - name: Print results
+        run: cat cppcheck_filtered.log
 
       - name: ReviewDog check
         env:
@@ -126,8 +126,8 @@ jobs:
           # Remove duplicate entries
           sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
 
-          # Print log
-          cat clang_tidy_output.log
+      - name: Print results
+        run: cat clang_tidy_output.log
 
       - name: ReviewDog check
         env:
@@ -191,8 +191,8 @@ jobs:
           # Filter out external libraries, test code and help message
           cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests|https://www.viva64.com/en/w/" > PVS-Studio_filtered.err || true
 
-          # Display warnings
-          cat PVS-Studio_filtered.err
+      - name: Print results
+        run: cat PVS-Studio_filtered.err
 
       - name: ReviewDog check
         env:
@@ -266,8 +266,8 @@ jobs:
           # Filter out correct includes and generated code
           cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
 
-          # Print result
-          cat iwyu_filtered.log
+      - name: Print results
+        run: cat iwyu_filtered.log
 
       - name: ReviewDog check
         env:
@@ -299,8 +299,8 @@ jobs:
         run: |
           cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
 
-          # Print log
-          cat cmake_lint.log
+      - name: Print results
+        run: cat cmake_lint.log
 
       - name: ReviewDog check
         env:
