@@ -23,12 +23,12 @@ jobs:
           - { compiler: g++, compiler_version: "10", sanitizer: "lsan" }
           - { compiler: g++, compiler_version: "10", sanitizer: "tsan" }
           - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
-          - { compiler: clang++, compiler_version: "10" }
-          - { compiler: clang++, compiler_version: "10", sanitizer: "asan" }
-          - { compiler: clang++, compiler_version: "10", sanitizer: "lsan" }
-          #- { compiler: clang++, compiler_version: "10", sanitizer: "msan" }
-          - { compiler: clang++, compiler_version: "10", sanitizer: "tsan" }
-          - { compiler: clang++, compiler_version: "10", sanitizer: "ubsan" }
+          - { compiler: clang++, compiler_version: "11" }
+          - { compiler: clang++, compiler_version: "11", sanitizer: "asan" }
+          - { compiler: clang++, compiler_version: "11", sanitizer: "lsan" }
+          #- { compiler: clang++, compiler_version: "11", sanitizer: "msan" }
+          - { compiler: clang++, compiler_version: "11", sanitizer: "tsan" }
+          - { compiler: clang++, compiler_version: "11", sanitizer: "ubsan" }
 
     steps:
       - name: Checkout
@@ -128,7 +128,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: g++, compiler_version: "10" }
-          - { compiler: clang++, compiler_version: "10" }
+          - { compiler: clang++, compiler_version: "11" }
 
     steps:
       - name: Checkout
