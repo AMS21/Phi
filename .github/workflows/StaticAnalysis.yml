@@ -6,7 +6,7 @@ jobs:
   cppcheck:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 10
+      LLVM_VERSION: 11
 
     steps:
       - name: Checkout
@@ -80,7 +80,7 @@ jobs:
   clang-tidy:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 10
+      LLVM_VERSION: 11
 
     steps:
       - name: Checkout
@@ -138,7 +138,7 @@ jobs:
   pvs-studio:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 10
+      LLVM_VERSION: 11
 
     steps:
       - name: Checkout

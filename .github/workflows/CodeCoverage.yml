@@ -8,7 +8,7 @@ jobs:
     env:
       LCOV_VERSION: "1.15"
       GCC_VERSION: "10"
-      LLVM_VERSION: "10"
+      LLVM_VERSION: "11"
 
     strategy:
       matrix:
