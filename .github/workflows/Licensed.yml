@@ -26,13 +26,12 @@ jobs:
 
       - name: Import GPG key
         if: ${{ github.event_name == 'push' }}
-        uses: crazy-max/ghaction-import-gpg@v2.2.0
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.BOT_PRIVATE_KEY }}
-          PASSPHRASE: ${{ secrets.BOT_KEY_PASSPHRASE }}
+        uses: crazy-max/ghaction-import-gpg@v3.0.1
         with:
-          git_user_signingkey: true
-          git_commit_gpgsign: true
+          gpg-private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
 
       - name: Commit changes
         if: ${{ github.event_name == 'push' }}
