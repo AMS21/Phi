@@ -1,6 +1,6 @@
 ---
 name: spdlog
-version: cbe9448650176797739dbab13961ef4c07f4290f
+version: a42b40656cc60083e5cd07723fa9b5c26fce945f
 type: git_submodule
 homepage: https://github.com/gabime/spdlog.git
 license: other
