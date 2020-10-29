@@ -35,7 +35,7 @@ jobs:
 
       - name: Commit changes
         if: ${{ github.event_name == 'push' }}
-        uses: stefanzweifel/git-auto-commit-action@v4.6.0
+        uses: stefanzweifel/git-auto-commit-action@v4.7.2
         continue-on-error: false
         with:
           commit_message: Auto-update license files
