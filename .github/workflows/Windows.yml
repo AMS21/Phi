@@ -20,7 +20,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: cl }
-          - { compiler: g++ }
+          #- { compiler: g++ }
           - { compiler: clang++ }
           - { compiler: clang++, sanitizer: "ubsan" }
 
@@ -48,7 +48,7 @@ jobs:
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "::set-env name=CXX::C:\ProgramData\scoop\apps\gcc\current\bin${{ matrix.cfg.compiler }}.exe"
+            echo "::set-env name=CXX::C:\ProgramData\scoop\apps\gcc\current\bin\${{ matrix.cfg.compiler }}.exe"
           }
 
           scoop install ninja --global
@@ -142,7 +142,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
-          - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
+          #- { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
           - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
@@ -173,7 +173,7 @@ jobs:
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "::set-env name=CXX::C:\ProgramData\scoop\shims\${{ matrix.cfg.compiler }}.exe"
+            echo "::set-env name=CXX::C:\ProgramData\scoop\apps\gcc\current\bin\${{ matrix.cfg.compiler }}.exe"
           }
 
           scoop install ninja --global
