@@ -62,7 +62,7 @@ jobs:
           fi
 
           # export compiler
-          echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
+          echo "CXX=${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
 
       - name: Configure build directory
         run: |
@@ -166,7 +166,7 @@ jobs:
           fi
 
           # export compiler
-          echo "::set-env name=CXX::${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}"
+          echo "CXX=${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
 
       - name: Generate warnings
         run: |
