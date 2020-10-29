@@ -20,7 +20,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: cl }
-          - { compiler: g++ }
+          #- { compiler: g++ }
           - { compiler: clang++ }
           - { compiler: clang++, sanitizer: "ubsan" }
 
@@ -142,7 +142,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: cl, error_format: "%f(%l,%c): warning %m" }
-          - { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
+          #- { compiler: g++, error_format: "%f:%l:%c: warning: %m" }
           - { compiler: clang++, error_format: "%f:%l:%c: warning: %m" }
 
     steps:
