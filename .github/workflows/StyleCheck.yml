@@ -199,7 +199,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      - uses: reviewdog/action-alex@v1.1
+      - uses: reviewdog/action-alex@v1.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
