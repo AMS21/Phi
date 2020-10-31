@@ -44,7 +44,7 @@ jobs:
         sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
 
         # export compiler
-        echo "::set-env name=CXX::g++-${{ env.GCC_VERSION }}"
+        echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)

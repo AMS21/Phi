@@ -41,11 +41,11 @@ jobs:
         run: |
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
             brew install gcc@${{ matrix.cfg.compiler_version }}
-            echo "::set-env name=CXX::g++-${{ matrix.cfg.compiler_version }}"
+            echo "CXX=g++-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
           else
             ls -ls /Applications/
             sudo xcode-select -switch /Applications/Xcode_${{ matrix.cfg.compiler_version }}.app
-            echo "::set-env name=CXX::clang++"
+            echo "CXX=clang++" >> $GITHUB_ENV
           fi
 
       - name: Configure build directory
@@ -131,11 +131,11 @@ jobs:
         run: |
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
             brew install gcc@${{ matrix.cfg.compiler_version }}
-            echo "::set-env name=CXX::g++-${{ matrix.cfg.compiler_version }}"
+            echo "CXX=g++-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
           else
             ls -ls /Applications/
             sudo xcode-select -switch /Applications/Xcode_${{ matrix.cfg.compiler_version }}.app
-            echo "::set-env name=CXX::clang++"
+            echo "CXX=clang++" >> $GITHUB_ENV
           fi
 
       - name: Generate warnings

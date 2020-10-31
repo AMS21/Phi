@@ -9,6 +9,7 @@ jobs:
       LCOV_VERSION: "1.15"
       GCC_VERSION: "10"
       LLVM_VERSION: "11"
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
 
     strategy:
       matrix:
@@ -31,7 +32,7 @@ jobs:
           cd lcov
           sudo make install
 
-          echo "::set-env name=PATH::$(pwd)/lcov/bin:${PATH}"
+          echo "$(pwd)/lcov/bin" >> $GITHUB_PATH
 
           # Add clang repo
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -88,7 +89,6 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
           ctest .
 
       - name: Process coverage data (Clang)
@@ -116,6 +116,7 @@ jobs:
     env:
       GCC_VERSION: "10"
       XCODE_VERSION: "11.6"
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
 
     strategy:
       matrix:
@@ -182,7 +183,6 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
           ctest .
 
       - name: Process coverage data (Clang)
@@ -207,6 +207,8 @@ jobs:
 
   windows:
     runs-on: windows-latest
+    env:
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
 
     strategy:
       matrix:
@@ -228,10 +230,8 @@ jobs:
 
           scoop install llvm ninja --global
 
-          echo "::set-env name=CXX::clang++"
-
-          # Scoop modifies the PATH so we make the modified PATH global.
-          echo "::set-env name=PATH::$env:PATH"
+            echo "CXX="clang++"" >> $GITHUB_ENV
+            echo "C:\ProgramData\scoop\apps\llvm\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Build coverage data
         run: |
@@ -244,7 +244,6 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          echo "::set-env name=LLVM_PROFILE_FILE::profile-%p.profraw"
           ctest .
 
       - name: Process coverage data

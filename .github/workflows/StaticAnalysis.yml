@@ -31,7 +31,7 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }}
 
-          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Install cppcheck
         env:
@@ -106,7 +106,7 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
-          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Run clang-tidy
         run: |
@@ -160,7 +160,7 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
-          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Install PVS-Studio
         run: |
@@ -229,8 +229,8 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
 
-          echo "::set-env name=CC::clang-${{ env.LLVM_VERSION }}"
-          echo "::set-env name=CXX::clang++-${{ env.LLVM_VERSION }}"
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Install Include-What-You-Use
         run: |
