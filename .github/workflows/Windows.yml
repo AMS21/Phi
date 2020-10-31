@@ -43,12 +43,14 @@ jobs:
           if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
             # Clang
             scoop install llvm --global
-            echo "CXX=C:\ProgramData\scoop\apps\llvm\current\bin\${{ matrix.cfg.compiler }}.exe" >> $GITHUB_ENV
+            echo "CXX=${{ matrix.cfg.compiler }}" >> $GITHUB_ENV
+            echo "C:\ProgramData\scoop\apps\llvm\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           }
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "CXX=C:\ProgramData\scoop\apps\gcc\current\bin\${{ matrix.cfg.compiler }}.exe" >> $GITHUB_ENV
+            echo "CXX=${{ matrix.cfg.compiler }}" >> $GITHUB_ENV
+            echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           }
 
           scoop install ninja --global
@@ -165,12 +167,14 @@ jobs:
           if ("${{ matrix.cfg.compiler }}".StartsWith("clang")) {
             # Clang
             scoop install llvm --global
-            echo "CXX=C:\ProgramData\scoop\apps\llvm\current\bin\${{ matrix.cfg.compiler }}.exe" >> $GITHUB_ENV
+            echo "CXX=${{ matrix.cfg.compiler }}" >> $GITHUB_ENV
+            echo "C:\ProgramData\scoop\apps\llvm\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           }
           elseif ("${{ matrix.cfg.compiler }}" -eq "g++") {
             # GCC
             scoop install gcc --global
-            echo "CXX=C:\ProgramData\scoop\apps\gcc\current\bin\${{ matrix.cfg.compiler }}.exe" >> $GITHUB_ENV
+            echo "CXX=${{ matrix.cfg.compiler }}" >> $GITHUB_ENV
+            echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           }
 
           scoop install ninja --global
