@@ -230,10 +230,7 @@ jobs:
 
           scoop install llvm ninja --global
 
-          echo "CXX=clang++" >> $GITHUB_ENV
-
-          # Scoop modifies the PATH so we make the modified PATH global.
-          echo "$PATH" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "CXX=C:\ProgramData\scoop\apps\llvm\current\bin\${{ matrix.cfg.compiler }}.exe" >> $GITHUB_ENV
 
       - name: Build coverage data
         run: |
