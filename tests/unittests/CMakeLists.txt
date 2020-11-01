@@ -6,8 +6,6 @@ file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp"
 file(
   GLOB
   TEST_SOURCES
-  # Main
-  "src/main.cpp"
   # Config
   "src/Config/Assume.test.cpp"
   "src/Config/Compiler.test.cpp"
@@ -48,7 +46,7 @@ set(UnittestName "PhiEngine_Unittests")
 
 add_executable(${UnittestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-target_link_libraries(${UnittestName} PRIVATE Phi::InternalProjectOptions Phi::Core Catch2::Catch2)
+target_link_libraries(${UnittestName} PRIVATE Phi::InternalProjectOptions Phi::Core Catch2::Catch2WithMain)
 target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 target_include_directories(${UnittestName} PRIVATE "include")
 
