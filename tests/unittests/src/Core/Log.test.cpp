@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <Phi/Core/Log.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
