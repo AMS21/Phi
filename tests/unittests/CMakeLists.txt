@@ -63,7 +63,7 @@ if(${PHI_ENABLE_CONSTEXPRTESTS})
   add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
   target_link_libraries(${ConstexprTestName} PRIVATE Phi::InternalProjectOptions Phi::Core
-                                                     Catch2::Catch2)
+                                                     Catch2::Catch2WithMain)
   target_include_directories(${ConstexprTestName} PRIVATE "include")
 
   set_target_properties(${ConstexprTestName} PROPERTIES FOLDER "Tests/Unittest")
