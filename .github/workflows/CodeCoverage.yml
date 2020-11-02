@@ -26,6 +26,9 @@ jobs:
 
       - name: Install tools
         run: |
+          # Install system dependencies
+          sudo apt-get install libpthread-stubs0-dev
+
           # Install lcov
           mkdir lcov
           wget --no-check-certificate -O - "https://github.com/linux-test-project/lcov/releases/download/v${{ env.LCOV_VERSION }}/lcov-${{ env.LCOV_VERSION }}.tar.gz" | tar --strip-components=1 -xz -C lcov
