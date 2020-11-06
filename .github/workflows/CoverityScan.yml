@@ -28,8 +28,10 @@ jobs:
         run: |
           # Update repo list
           sudo apt-get update -m
+
           # Install g++
           sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
+
           # export compiler
           echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
 

@@ -52,7 +52,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
       - name: Configure Sanitizers
         run: |
