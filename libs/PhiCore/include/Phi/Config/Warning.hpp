@@ -68,4 +68,13 @@
 
 #define PHI_UNUSED_PARAMETER(parameter) ((void)(parameter))
 
+// External Warnings
+#if PHI_COMPILER_IS(MSVC)
+#    define PHI_EXTERNAL_HEADERS_BEGIN() __pragma(warning(push, 1))
+#    define PHI_EXTERNAL_HEADERS_END() PHI_MSVC_SUPPRESS_WARNING_POP()
+#else
+#    define PHI_EXTERNAL_HEADERS_BEGIN() /* Nothing */
+#    define PHI_EXTERNAL_HEADERS_END()   /* Nothing */
+#endif
+
 #endif // INCG_PHI_CONFIG_WARNING_HPP

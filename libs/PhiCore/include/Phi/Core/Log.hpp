@@ -2,9 +2,13 @@
 #define INCG_PHI_UTILITY_LOG_HPP
 
 #include "Phi/Config/FunctionLikeMacro.hpp"
+#include "Phi/Config/Warning.hpp"
 #include "Phi/PhiConfig.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <spdlog/spdlog.h>
 #include <memory>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
