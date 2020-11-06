@@ -41,9 +41,6 @@ jobs:
 
       - name: Install
         run: |
-          # Install system dependencies
-          sudo apt-get install libpthread-stubs0-dev
-
           # Adding repositories
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
@@ -148,9 +145,6 @@ jobs:
 
       - name: Install
         run: |
-          # Install system dependencies
-          sudo apt-get install libpthread-stubs0-dev
-
           # Adding repositories
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
