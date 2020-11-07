@@ -28,6 +28,7 @@ file(
   "include/Phi/Core/Types.hpp"
   # Math
   "include/Phi/Math/Constants.hpp"
+  "include/Phi/Math/Vector2.hpp"
   # Meta
   "include/Phi/Meta/AlwaysFalse.hpp")
 

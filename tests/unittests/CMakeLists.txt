@@ -31,6 +31,7 @@ file(
   "src/Core/Types.test.cpp"
   # Math
   "src/Math/Constants.test.cpp"
+  "src/Math/Vector2.test.cpp"
   # Meta
   "src/Meta/AlwaysFalse.test.cpp"
   # Selftest
