@@ -71,7 +71,7 @@ TEST_CASE("finally lambda", "[Core][FinalAction][finally]")
 {
     int i = 3;
     {
-        phi::finally([&i]() { i = 7; });
+        auto action = phi::finally([&i]() { i = 7; });
         CHECK(i == 3);
     }
     CHECK(i == 7);
@@ -82,7 +82,7 @@ TEST_CASE("finally const lvalue lambda", "[Core][FinalAction][finally]")
     int i = 0;
     {
         const auto const_lvalue_lambda = [&i]() { increment(i); };
-        phi::finally(const_lvalue_lambda);
+        auto action = phi::finally(const_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -93,7 +93,7 @@ TEST_CASE("finally mutable lvalue lambda", "[Core][FinalAction][finally]")
     int i = 0;
     {
         auto mutable_lvalue_lambda = [&i]() { increment(i); };
-        phi::finally(mutable_lvalue_lambda);
+        auto action = phi::finally(mutable_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -103,7 +103,7 @@ TEST_CASE("finally bind", "[Core][FinalAction][finally]")
 {
     int i = 0;
     {
-        phi::finally(std::bind(&increment, std::ref(i)));
+        auto action = phi::finally(std::bind(&increment, std::ref(i)));
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -113,7 +113,7 @@ TEST_CASE("finally function pointer", "[Core][FinalAction][finally]")
 {
     global_value = 42;
     {
-        phi::finally(&set_global_to_zero);
+        auto action = phi::finally(&set_global_to_zero);
         CHECK(global_value == 42);
     }
     CHECK(global_value == 0);
