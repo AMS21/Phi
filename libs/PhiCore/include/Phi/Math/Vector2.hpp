@@ -4,6 +4,7 @@
 #include "Phi/PhiConfig.hpp"
 
 #include <utility>
+#include <iterator>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -13,6 +14,14 @@ class Vector2
 public:
     using this_type = Vector2<TypeT>;
     using value_type = TypeT;
+    using reference =  value_type&;
+    using const_reference = const value_type&;
+    using pointer = value_type*;
+    using const_pointer = const value_type*;
+    using iterator = value_type*;
+    using const_iterator = const value_type*;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 public:
     constexpr Vector2(TypeT val_x, TypeT val_y) noexcept :
