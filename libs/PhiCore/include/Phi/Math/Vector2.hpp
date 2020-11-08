@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/Core/Types.hpp"
 #include <utility>
 #include <iterator>
 
@@ -24,6 +25,8 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 public:
+
+    // Constructors
     constexpr Vector2(TypeT val_x, TypeT val_y) noexcept :
         x(val_x),
         y(val_y)
@@ -56,10 +59,90 @@ public:
         y(static_cast<TypeT>(std::move(other.y)))
     {}
 
+    // Operators
+
+    constexpr Vector2<TypeT>& operator=(const Vector2<TypeT>& other) noexcept
+    {
+        x = other.x;
+        y = other.y;
+
+        return *this;
+    }
+
+    constexpr Vector2<TypeT>& operator=(Vector2<TypeT>&& other) noexcept
+    {
+        x = std::move(other.x);
+        y = std::move(other.y);
+
+        return *this;
+    }
+
 public:
     TypeT x;
     TypeT y;
 };
+
+// Operators
+
+template <typename TypeT>
+constexpr Vector2<TypeT> operator+(const Vector2<TypeT>& rhs) noexcept
+{
+    return rhs;
+}
+
+template <typename TypeT>
+constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
+{
+    return Vector2<TypeT>(-rhs.x, -rhs.y);
+}
+
+template <typename LhsT, typename RhsT>
+constexpr Vector2<LhsT> operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    lhs.x += rhs.x;
+    lhs.y += rhs.y;
+
+    return lhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr Vector2<LhsT> operator-=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    lhs.x -= rhs.x;
+    lhs.y -= rhs.y;
+
+    return lhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator+(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator-(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator*(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+{
+    return Vector2(lhs.x * rhs, lhs.y * rhs);
+}
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator/(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+{
+    return Vector2(lhs.x / rhs, lhs.y / rhs);
+}
+
+// Define the most common types
+using Vector2i32 = Vector2<i32>;
+using Vector2u32 = Vector2<u32>;
+using Vector2f32 = Vector2<f32>;
+using Vector2f64 = Vector2<f64>;
 
 DETAIL_PHI_END_NAMESPACE()
 

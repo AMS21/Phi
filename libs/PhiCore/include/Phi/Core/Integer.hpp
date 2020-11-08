@@ -694,7 +694,7 @@ PHI_ALWAYS_INLINE constexpr auto operator+(const Integer<LhsT>& lhs,
             !detail::will_addition_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Addition will result in overflow. Args {} + {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -730,7 +730,7 @@ PHI_ALWAYS_INLINE constexpr auto operator-(const Integer<LhsT>& lhs,
                                                    rhs.get()),
                    "Subtraction will result in underflow. Args {} - {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -766,7 +766,7 @@ PHI_ALWAYS_INLINE constexpr auto operator*(const Integer<LhsT>& lhs,
                                                       rhs.get()),
                    "Multiplication will result in overflow. Args {} * {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -802,7 +802,7 @@ PHI_ALWAYS_INLINE constexpr auto operator/(const Integer<LhsT>& lhs,
             !detail::will_division_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Division by zero/overflow. Args {} / {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -838,7 +838,7 @@ PHI_ALWAYS_INLINE constexpr auto operator%(const Integer<LhsT>& lhs,
             !detail::will_modulo_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Modulo by zero. Args {} % {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
