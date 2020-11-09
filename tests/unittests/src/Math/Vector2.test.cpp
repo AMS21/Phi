@@ -1,4 +1,8 @@
+#include <Phi/Config/Warning.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <catch2/catch_template_test_macros.hpp>
+PHI_EXTERNAL_HEADERS_END()
 
 #include "ConstexprHelper.hpp"
 #include "Unwrap.hpp"
@@ -133,27 +137,27 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         STATIC_REQUIRE(unwrap(res.y) == base_t(40));
     }
 
-    // SECTION("operator*(const Vector2&, rhs)")
-    // {
-    //     CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(6));
-    //     CONSTEXPR_RUNTIME TestType rhs(base_t(2));
+    SECTION("operator*(const Vector2&, rhs)")
+    {
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(6));
+        CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
 
-    //     CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs * rhs);
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs * rhs);
 
-    //     STATIC_REQUIRE(unwrap(res.x) == base_t(6));
-    //     STATIC_REQUIRE(unwrap(res.y) == base_t(12));
-    // }
+        STATIC_REQUIRE(unwrap(res.x) == base_t(6));
+        STATIC_REQUIRE(unwrap(res.y) == base_t(12));
+    }
 
-    // SECTION("operator/(const Vector2&, rhs)")
-    // {
-    //     CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(6), base_t(12));
-    //     CONSTEXPR_RUNTIME TestType rhs(base_t(2));
+    SECTION("operator/(const Vector2&, rhs)")
+    {
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(6), base_t(12));
+        CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
 
-    //     CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs / rhs);
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs / rhs);
 
-    //     STATIC_REQUIRE(unwrap(res.x) == base_t(3));
-    //     STATIC_REQUIRE(unwrap(res.y) == base_t(6));
-    // }
+        STATIC_REQUIRE(unwrap(res.x) == base_t(3));
+        STATIC_REQUIRE(unwrap(res.y) == base_t(6));
+    }
 }
 
 TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
@@ -225,17 +229,20 @@ TEMPLATE_TEST_CASE("Vector2 typedefs", "[Math][Vector2]", char, signed char, uns
                    phi::i64, phi::u8, phi::u16, phi::u32, phi::u64, phi::FloatingPoint<float>,
                    phi::FloatingPoint<double>, phi::FloatingPoint<long double>)
 {
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::this_type, phi::Vector2<TestType>>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::value_type, TestType>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::reference, TestType&>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::const_reference, const TestType&>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::pointer, TestType*>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::const_pointer, const TestType*>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::iterator, TestType*>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::const_iterator, const TestType*>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::reverse_iterator,
+    STATIC_REQUIRE(
+            std::is_same_v<typename phi::Vector2<TestType>::this_type, phi::Vector2<TestType>>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::value_type, TestType>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::reference, TestType&>);
+    STATIC_REQUIRE(
+            std::is_same_v<typename phi::Vector2<TestType>::const_reference, const TestType&>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::pointer, TestType*>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::const_pointer, const TestType*>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::iterator, TestType*>);
+    STATIC_REQUIRE(
+            std::is_same_v<typename phi::Vector2<TestType>::const_iterator, const TestType*>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::reverse_iterator,
                                   std::reverse_iterator<TestType*>>);
-    STATIC_REQUIRE(std::is_same_v<phi::Vector2<TestType>::const_reverse_iterator,
+    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::const_reverse_iterator,
                                   std::reverse_iterator<const TestType*>>);
 }
 

@@ -87,7 +87,7 @@ namespace detail
     // Integer operation
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : std::bool_constant<detail::is_integer<LhsT>::value && detail::is_integer<RhsT>::value &&
+        : std::bool_constant<is_integer<LhsT>::value && is_integer<RhsT>::value &&
                              std::is_signed_v<LhsT> == std::is_signed_v<RhsT>>
     {};
 
@@ -102,7 +102,8 @@ namespace detail
 
     template <typename LhsT, typename RhsT>
     using fallback_integer_result =
-            typename std::enable_if_t<!is_safe_integer_operation<LhsT, RhsT>::value>;
+            typename std::enable_if_t<is_integer<LhsT>::value && is_integer<RhsT>::value &&
+                                      std::is_signed_v<LhsT> != std::is_signed_v<RhsT>>;
 
     // Error detection
     struct signed_integer_tag
