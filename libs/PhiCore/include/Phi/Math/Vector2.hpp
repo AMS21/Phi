@@ -31,7 +31,7 @@ public:
         , y(val_y)
     {}
 
-    constexpr Vector2(TypeT val_xy) noexcept
+    constexpr explicit Vector2(TypeT val_xy) noexcept
         : x(val_xy)
         , y(val_xy)
     {}
