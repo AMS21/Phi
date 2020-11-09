@@ -6,7 +6,7 @@ jobs:
   mull:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 11
+      LLVM_VERSION: 10
 
     steps:
       - name: Checkout
