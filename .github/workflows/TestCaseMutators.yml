@@ -44,7 +44,7 @@ jobs:
           mull-cxx --version
       
       - name: Display clang include paths
-        run: clang++ -x c++ -c /dev/null -v
+        run: clang++-${{ env.LLVM_VERSION }} -x c++ -c /dev/null -v
 
       - name: Configure
         run: |
@@ -65,5 +65,8 @@ jobs:
 
       - name: Run mull
         run: |
+          export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-${{ env.LLVM_VERSION }}/lib/clang/${{ env.LLVM_VERSION }}.0.0/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
+          export LINK_PATHS="/lib/x86_64-linux-gnu;/lib64"
+
           cd build
-          mull-cxx -test-framework=CustomTest bin/PhiEngine_Unittests
+          mull-cxx -test-framework=CustomTest -compdb-path compile_commands.json -compilation-flags="$COMPILE_FLAGS" -ld-search-path="$LINK_PATHS" bin/PhiEngine_Unittests
