@@ -56,7 +56,9 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
-        run: cmake --build .
+        run: | 
+          cd build
+          cmake --build .
 
       - name: Display linked libraries
         run: ldd build/bin/PhiEngine_Unittests
