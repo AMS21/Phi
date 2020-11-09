@@ -1,0 +1,67 @@
+name: TestCaseMutators
+
+on: [push, pull_request]
+
+jobs:
+  mull:
+    runs-on: ubuntu-latest
+    env:
+      LLVM_VERSION: 11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: recursive
+
+      - uses: reviewdog/action-setup@v1.0.2
+        with:
+          reviewdog_version: latest
+
+      - name: Install cmake
+        uses: lukka/get-cmake@latest
+
+      - name: Install clang
+        run: |
+          # Add repository
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+
+          # Install
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }}
+
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Install mull
+        run: |
+          wget -O - https://api.bintray.com/users/bintray/keys/gpg/public.key | sudo apt-key add -
+          echo "deb https://dl.bintray.com/mull-project/ubuntu-18 stable main" | sudo tee -a /etc/apt/sources.list
+          sudo apt-get update
+          sudo apt-get install mull
+
+          # Verify everythings works
+          mull-cxx --version
+      
+      - name: Display clang include paths
+        run: clang++ -x c++ -c /dev/null -v
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build .
+
+      - name: Display linked libraries
+        run: ldd build/bin/PhiEngine_Unittests
+
+      - name: Run mull
+        run: |
+          cd build
+          mull-cxx -test-framework=CustomTest bin/PhiEngine_Unittests
