@@ -68,4 +68,16 @@ jobs:
           export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-10/lib/clang/10.0.1/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
 
           cd build
-          mull-cxx -test-framework=CustomTest -compdb-path compile_commands.json -compilation-flags="$COMPILE_FLAGS" -ld-search-path="/lib/x86_64-linux-gnu" -ld-search-path="/usr/lib/x86_64-linux-gnu" -ld-search-path="/lib64" --exclude-path="../external/.*" bin/PhiEngine_Unittests
+          mull-cxx -test-framework=CustomTest -compdb-path=compile_commands.json -compilation-flags="$COMPILE_FLAGS" -ld-search-path="/lib/x86_64-linux-gnu" -ld-search-path="/usr/lib/x86_64-linux-gnu" -ld-search-path="/lib64" --exclude-path="../external/.*" bin/PhiEngine_Unittests 2> mull_report.log
+
+          # Remove duplicate entries
+          sort mull_report.log | uniq -d > mull_report_filtered.log
+      
+      - name: Print results
+        run: cat build/mull_report_filtered.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name mull -level warning
