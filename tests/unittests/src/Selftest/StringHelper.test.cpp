@@ -22,7 +22,7 @@ TEMPLATE_TEST_CASE("string_equals selftest", "[selftest][StringHelper]", char, u
 
     CHECK(string_equals(null_str, null_str));
     CHECK_FALSE(string_equals(null_str, str2));
-    CHECK_FALSE(string_false(str, null_str));
+    CHECK_FALSE(string_equals(str, null_str));
     CHECK(string_equals(str, str));
     CHECK_FALSE(string_equals(str, str2));
     CHECK_FALSE(string_equals(str, str3));
