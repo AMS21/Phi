@@ -186,6 +186,52 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
     }
 }
 
+TEMPLATE_TEST_CASE("Vector2 integer types", "[Math][Vector2]", char, signed char, unsigned char,
+                   short, unsigned short, int, unsigned, long, unsigned long, long long,
+                   unsigned long long, phi::i8, phi::i16, phi::i32, phi::i64, phi::u8, phi::u16,
+                   phi::u32, phi::u64)
+{
+    using base_t = unwrapped_t<TestType>;
+
+    SECTION("operator==(const Vector2&, const Vector2&)")
+    {
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec0(base_t(3), base_t(4));
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec1(base_t(4), base_t(3));
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec2(base_t(7), base_t(2));
+
+        STATIC_REQUIRE(bool(vec0 == vec0));
+        STATIC_REQUIRE_FALSE(bool(vec0 == vec1));
+        STATIC_REQUIRE_FALSE(bool(vec0 == vec2));
+
+        STATIC_REQUIRE_FALSE(bool(vec1 == vec0));
+        STATIC_REQUIRE(bool(vec1 == vec1));
+        STATIC_REQUIRE_FALSE(bool(vec1 == vec2));
+
+        STATIC_REQUIRE_FALSE(bool(vec2 == vec0));
+        STATIC_REQUIRE_FALSE(bool(vec2 == vec1));
+        STATIC_REQUIRE(bool(vec2 == vec2));
+    }
+
+    SECTION("operator!=(const Vector2&, const Vector2&)")
+    {
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec0(base_t(3), base_t(4));
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec1(base_t(4), base_t(3));
+        CONSTEXPR_RUNTIME phi::Vector2<TestType> vec2(base_t(7), base_t(2));
+
+        STATIC_REQUIRE_FALSE(bool(vec0 != vec0));
+        STATIC_REQUIRE(bool(vec0 != vec1));
+        STATIC_REQUIRE(bool(vec0 != vec2));
+
+        STATIC_REQUIRE(bool(vec1 != vec0));
+        STATIC_REQUIRE_FALSE(bool(vec1 != vec1));
+        STATIC_REQUIRE(bool(vec1 != vec2));
+
+        STATIC_REQUIRE(bool(vec2 != vec0));
+        STATIC_REQUIRE(bool(vec2 != vec1));
+        STATIC_REQUIRE_FALSE(bool(vec2 != vec2));
+    }
+}
+
 TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
 {
     SECTION("Vector2(const Vector2<Other>&)")

@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Types.hpp"
 #include <iterator>
 #include <utility>
@@ -155,6 +156,18 @@ constexpr Vector2<LhsT>& operator/=(Vector2<LhsT>& lhs, const RhsT& rhs) noexcep
     lhs.y /= rhs;
 
     return lhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr Boolean operator==(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr Boolean operator!=(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return lhs.x != rhs.x || lhs.y != rhs.y;
 }
 
 // Define the most common types
