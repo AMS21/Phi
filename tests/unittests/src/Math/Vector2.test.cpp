@@ -15,7 +15,9 @@ PHI_EXTERNAL_HEADERS_END()
 #include <type_traits>
 
 PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wfloat-equal")
-PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wfloat-equal")
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, unsigned char, short,
                    unsigned short, int, unsigned, long, unsigned long, long long,
