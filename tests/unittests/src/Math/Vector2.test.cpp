@@ -150,6 +150,18 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         STATIC_REQUIRE(unwrap(res.y) == base_t(12));
     }
 
+    SECTION("operator*=(const Vector2&, rhs)")
+    {
+        phi::Vector2<TestType> lhs(base_t(2), base_t(12));
+        TestType               rhs(base_t(3));
+
+        phi::Vector2<TestType> vec = (lhs *= rhs);
+        CHECK(unwrap(lhs.x) == base_t(6));
+        CHECK(unwrap(lhs.y) == base_t(36));
+        CHECK(unwrap(vec.x) == base_t(6));
+        CHECK(unwrap(vec.y) == base_t(36));
+    }
+
     SECTION("operator/(const Vector2&, rhs)")
     {
         CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(6), base_t(12));
@@ -159,6 +171,18 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
 
         STATIC_REQUIRE(unwrap(res.x) == base_t(3));
         STATIC_REQUIRE(unwrap(res.y) == base_t(6));
+    }
+
+    SECTION("operator/=(const Vector2&, rhs)")
+    {
+        phi::Vector2<TestType> lhs(base_t(9), base_t(12));
+        TestType               rhs(base_t(3));
+
+        phi::Vector2<TestType> vec = (lhs /= rhs);
+        CHECK(unwrap(lhs.x) == base_t(3));
+        CHECK(unwrap(lhs.y) == base_t(4));
+        CHECK(unwrap(vec.x) == base_t(3));
+        CHECK(unwrap(vec.y) == base_t(4));
     }
 }
 

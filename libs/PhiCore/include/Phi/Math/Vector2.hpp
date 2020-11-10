@@ -81,7 +81,7 @@ public:
     TypeT y;
 };
 
-// Operators
+// Unary Operators
 
 template <typename TypeT>
 constexpr Vector2<TypeT> operator+(const Vector2<TypeT>& rhs) noexcept
@@ -95,6 +95,14 @@ constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
     return Vector2<TypeT>(-rhs.x, -rhs.y);
 }
 
+// Binary Operators
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator+(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
 template <typename LhsT, typename RhsT>
 constexpr Vector2<LhsT> operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
 {
@@ -102,6 +110,12 @@ constexpr Vector2<LhsT> operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs)
     lhs.y += rhs.y;
 
     return lhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr auto operator-(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+{
+    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
 }
 
 template <typename LhsT, typename RhsT>
@@ -114,27 +128,33 @@ constexpr Vector2<LhsT> operator-=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs)
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator+(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
-{
-    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
-}
-
-template <typename LhsT, typename RhsT>
-constexpr auto operator-(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
-{
-    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
-}
-
-template <typename LhsT, typename RhsT>
 constexpr auto operator*(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector2(lhs.x * rhs, lhs.y * rhs);
 }
 
 template <typename LhsT, typename RhsT>
+constexpr Vector2<LhsT>& operator*=(Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+{
+    lhs.x *= rhs;
+    lhs.y *= rhs;
+
+    return lhs;
+}
+
+template <typename LhsT, typename RhsT>
 constexpr auto operator/(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector2(lhs.x / rhs, lhs.y / rhs);
+}
+
+template <typename LhsT, typename RhsT>
+constexpr Vector2<LhsT>& operator/=(Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+{
+    lhs.x /= rhs;
+    lhs.y /= rhs;
+
+    return lhs;
 }
 
 // Define the most common types
