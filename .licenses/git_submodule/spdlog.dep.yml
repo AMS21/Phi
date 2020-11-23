@@ -4,7 +4,6 @@ version: fd5562eebe01bdb6697cd509c30b09478d4be91a
 type: git_submodule
 homepage: https://github.com/gabime/spdlog.git
 license: other
-review_changed_license: true
 licenses:
 - sources: LICENSE
   text: "The MIT License (MIT)\n\nCopyright (c) 2016 Gabi Melman.                                       \n\nPermission
