@@ -102,7 +102,7 @@ jobs:
           ctest .
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v3.0.1
+        uses: crazy-max/ghaction-import-gpg@v3.0.2
         with:
           gpg-private-key: ${{ secrets.BOT_PRIVATE_KEY }}
           passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}
