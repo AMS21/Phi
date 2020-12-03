@@ -75,10 +75,10 @@ DETAIL_PHI_END_NAMESPACE()
     PHI_END_MACRO()
 
 #if defined(PHI_DEBUG)
-#    define PHI_DBG_ASSERT(condition, ...) PHI_ASSERT(condition, __VA_ARGS__)
+#    define PHI_DBG_ASSERT(condition, ...)        PHI_ASSERT(condition, __VA_ARGS__)
 #    define PHI_DBG_SIMPLE_ASSERT(condition, ...) PHI_SIMPLE_ASSERT(condition, __VA_ARGS__)
 #else
-#    define PHI_DBG_ASSERT(condition, ...) DETAIL_PHI_WRAPPED_ASSUME(condition)
+#    define PHI_DBG_ASSERT(condition, ...)        DETAIL_PHI_WRAPPED_ASSUME(condition)
 #    define PHI_DBG_SIMPLE_ASSERT(condition, ...) DETAIL_PHI_WRAPPED_ASSUME(condition)
 #endif
 

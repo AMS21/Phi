@@ -26,6 +26,7 @@ FixNamespaceComments: true
 AccessModifierOffset: -4
 AlwaysBreakBeforeMultilineStrings: false
 IndentPPDirectives: AfterHash
+AlignConsecutiveMacros: true
 
 SpaceAfterControlStatementKeyword: false
 SpaceAfterCStyleCast: false

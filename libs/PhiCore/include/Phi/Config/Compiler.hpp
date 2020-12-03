@@ -11,19 +11,12 @@
 #include "Phi/Config/Versioning.hpp" // PHI_VERSION_CREATE
 
 #define PHI_COMPILER_APPLECLANG() 0
-
-#define PHI_COMPILER_CLANG() 0
-
-#define PHI_COMPILER_ICC() 0
-
-#define PHI_COMPILER_MSVC() 0
-
-#define PHI_COMPILER_GCC() 0
-
+#define PHI_COMPILER_CLANG()      0
+#define PHI_COMPILER_ICC()        0
+#define PHI_COMPILER_MSVC()       0
+#define PHI_COMPILER_GCC()        0
 #define PHI_COMPILER_GCC_COMPAT() 0
-
-#define PHI_COMPILER_MINGW() 0
-
+#define PHI_COMPILER_MINGW()      0
 #define PHI_COMPILER_EMSCRIPTEN() 0
 
 #if defined(__clang__)
@@ -32,21 +25,21 @@
 #    define PHI_COMPILER_MAJOR() __clang_major__
 #    define PHI_COMPILER_MINOR() __clang_minor__
 #    define PHI_COMPILER_PATCH() __clang_patchlevel__
-#    define PHI_COMPILER_NAME() "Clang"
+#    define PHI_COMPILER_NAME()  "Clang"
 #elif defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC)
 #    undef PHI_COMPILER_ICC
-#    define PHI_COMPILER_ICC() 1
+#    define PHI_COMPILER_ICC()   1
 #    define PHI_COMPILER_MAJOR() (__INTEL_COMPILER / 100)
 #    define PHI_COMPILER_MINOR() (__INTEL_COMPILER % 100 / 10)
 #    define PHI_COMPILER_PATCH() (__INTEL_COMPILER % 10)
-#    define PHI_COMPILER_NAME() "Intel ICC"
+#    define PHI_COMPILER_NAME()  "Intel ICC"
 #elif defined(_MSC_VER)
 #    undef PHI_COMPILER_MSVC
-#    define PHI_COMPILER_MSVC() 1
+#    define PHI_COMPILER_MSVC()  1
 #    define PHI_COMPILER_MAJOR() (_MSC_FULL_VER / 10000000)
 #    define PHI_COMPILER_MINOR() (_MSC_FULL_VER % 10000000 / 100000)
 #    define PHI_COMPILER_PATCH() (_MSC_FULL_VER % 100000)
-#    define PHI_COMPILER_NAME() "Microsoft Visual C++ Compiler"
+#    define PHI_COMPILER_NAME()  "Microsoft Visual C++ Compiler"
 #elif defined(__MINGW32__) || defined(__MINGW64__)
 #    include "stdlib.h" // Needed for version information
 #    undef PHI_COMPILER_MINGW
@@ -59,21 +52,20 @@
 #    else
 #        define PHI_COMPILER_NAME() "MinGW32"
 #    endif
-#    if defined(__EMSCRIPTEN__)
-#        undef PHI_COMPILER_EMSCRIPTEN
-#        define PHI_COMPILER_EMSCRIPTEN() 1
-#        define PHI_COMPILER_MAJOR() __EMSCRIPTEN_major__
-#        define PHI_COMPILER_MINOR() __EMSCRIPTEN_minor__
-#        define PHI_COMPILER_PATCH() __EMSCRIPTEN_tiny__
-#        define PHI_COMPILER_NAME() "Emscripten"
-#    endif
+#elif defined(__EMSCRIPTEN__)
+#    undef PHI_COMPILER_EMSCRIPTEN
+#    define PHI_COMPILER_EMSCRIPTEN() 1
+#    define PHI_COMPILER_MAJOR()      __EMSCRIPTEN_major__
+#    define PHI_COMPILER_MINOR()      __EMSCRIPTEN_minor__
+#    define PHI_COMPILER_PATCH()      __EMSCRIPTEN_tiny__
+#    define PHI_COMPILER_NAME()       "Emscripten"
 #elif defined(__GNUC__) || defined(__GNUG__)
 #    undef PHI_COMPILER_GCC
-#    define PHI_COMPILER_GCC() 1
+#    define PHI_COMPILER_GCC()   1
 #    define PHI_COMPILER_MAJOR() __GNUC__
 #    define PHI_COMPILER_MINOR() __GNUC_MINOR__
 #    define PHI_COMPILER_PATCH() __GNUC_PATCHLEVEL__
-#    define PHI_COMPILER_NAME() "GCC"
+#    define PHI_COMPILER_NAME()  "GCC"
 #endif
 
 // Check for gcc compatibility

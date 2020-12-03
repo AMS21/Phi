@@ -49,7 +49,7 @@
 
 /*!
  * \def PHI_GLUE7(a, b, c, d, e, f, g)
- * \brief Token pastes seveb contiguous sequences of tokens together as one.
+ * \brief Token pastes seven contiguous sequences of tokens together as one.
 **/
 #define PHI_GLUE7(a, b, c, d, e, f, g) PHI_GLUE(PHI_GLUE6(a, b, c, d, e, f), g)
 
