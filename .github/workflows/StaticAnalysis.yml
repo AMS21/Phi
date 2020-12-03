@@ -203,7 +203,7 @@ jobs:
   include-what-you-use:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 10
+      LLVM_VERSION: 11
 
     steps:
       - name: Checkout
