@@ -61,7 +61,7 @@ jobs:
           cmake --build .
 
       - name: Display linked libraries
-        run: ldd build/bin/PhiEngine_Unittests
+        run: ldd build/bin/Phi_Unittests
 
       - name: Run mull
         run: |
