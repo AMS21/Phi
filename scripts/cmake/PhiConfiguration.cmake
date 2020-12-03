@@ -50,6 +50,9 @@ enable_sanitizers(phi_project_options)
 # allow for static analysis options
 include(StaticAnalyzers)
 
+# Enable automatic formatting
+include(Formatting)
+
 function(phi_fix_dynamic_dep target)
   if(PHI_COMPILER_MSVC)
     return()
@@ -73,7 +76,7 @@ function(phi_fix_dynamic_dep target)
       list(APPEND updatedLinkLibs ${lib})
     endif()
   endforeach()
-  
+
   # Update link libraries list
   set_target_properties(${target} PROPERTIES LINK_LIBRARIES "${updatedLinkLibs}")
 endfunction()
