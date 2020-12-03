@@ -82,7 +82,7 @@ TEST_CASE("finally const lvalue lambda", "[Core][FinalAction][finally]")
     int i = 0;
     {
         const auto const_lvalue_lambda = [&i]() { increment(i); };
-        auto action = phi::finally(const_lvalue_lambda);
+        auto       action              = phi::finally(const_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -93,7 +93,7 @@ TEST_CASE("finally mutable lvalue lambda", "[Core][FinalAction][finally]")
     int i = 0;
     {
         auto mutable_lvalue_lambda = [&i]() { increment(i); };
-        auto action = phi::finally(mutable_lvalue_lambda);
+        auto action                = phi::finally(mutable_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
