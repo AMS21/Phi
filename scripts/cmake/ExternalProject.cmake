@@ -71,7 +71,7 @@ function(phi_add_external_project)
 
     # If the target is a static library, we create a seperate static library with PIC enabled so it can be used
     # from shared libraries
-    if(${target_type} STREQUAL "STATIC_LIBRARY")
+    if(${target_type} STREQUAL "STATIC_LIBRARY" AND NOT PHI_COMPILER_MSVC)
       set(mock_name ${target}_dyn)
 
       mock_target(NAME ${mock_name} TARGET ${target} BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${ext_PROJECT}")

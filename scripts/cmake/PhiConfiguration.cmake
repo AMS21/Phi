@@ -51,6 +51,10 @@ enable_sanitizers(phi_project_options)
 include(StaticAnalyzers)
 
 function(phi_fix_dynamic_dep target)
+  if(PHI_COMPILER_MSVC)
+    return()
+  endif()
+
   get_target_property(linkLibs ${target} LINK_LIBRARIES)
 
   set(updatedLinkLibs)
