@@ -23,12 +23,14 @@ jobs:
           - { compiler: g++, compiler_version: "10", sanitizer: "lsan" }
           - { compiler: g++, compiler_version: "10", sanitizer: "tsan" }
           - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
+          - { compiler: g++, compiler_version: "10", valgrind: "yes"}
           - { compiler: clang++, compiler_version: "11" }
           - { compiler: clang++, compiler_version: "11", sanitizer: "asan" }
           - { compiler: clang++, compiler_version: "11", sanitizer: "lsan" }
           #- { compiler: clang++, compiler_version: "11", sanitizer: "msan" }
           - { compiler: clang++, compiler_version: "11", sanitizer: "tsan" }
           - { compiler: clang++, compiler_version: "11", sanitizer: "ubsan" }
+          - { compiler: clang++, compiler_version: "11", valgrind: "yes"}
 
     steps:
       - name: Checkout
@@ -61,6 +63,10 @@ jobs:
             sudo apt-get install "g++-${{ matrix.cfg.compiler_version }}" "g++-${{ matrix.cfg.compiler_version }}-multilib" -y
           fi
 
+          if [ "${{ matrix.cfg.valgrind }}" = "yes" ]; then
+            sudo apt-get install valgrind
+          fi
+
           # export compiler
           echo "CXX=${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
 
@@ -69,6 +75,11 @@ jobs:
           mkdir build
           cd build
           cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
+
+          if [ "${{ matrix.cfg.valgrind }}" = "yes" ]; then
+              # Disable failure tests for valgrind
+              cmake .. -DPHI_ENABLE_FAILURE_TESTS=Off
+          fi
 
       - name: Configure Sanitizers
         run: |
@@ -106,6 +117,13 @@ jobs:
           cmake --build . --clean-first
           ctest .
 
+          if [ "${{ matrix.cfg.valgrind }}" = "yes" ]; then
+            ctest . --test-action memcheck
+            
+            # Print results
+            cat "Testing/Temporary/MemoryChecker.*.log"
+          fi
+
       - name: Build RelWithDebInfo
         run: |
           cd build
@@ -113,12 +131,26 @@ jobs:
           cmake --build . --clean-first
           ctest .
 
+          if [ "${{ matrix.cfg.valgrind }}" = "yes" ]; then
+            ctest . --test-action memcheck
+            
+            # Print results
+            cat "Testing/Temporary/MemoryChecker.*.log"
+          fi
+
       - name: Build Release
         run: |
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --clean-first
           ctest .
+
+          if [ "${{ matrix.cfg.valgrind }}" = "yes" ]; then
+            ctest . --test-action memcheck
+            
+            # Print results
+            cat "Testing/Temporary/MemoryChecker.*.log"
+          fi
 
   Warnings:
     runs-on: ubuntu-latest
