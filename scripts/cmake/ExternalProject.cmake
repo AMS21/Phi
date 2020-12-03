@@ -1,25 +1,36 @@
 # ExternalProject.cmake
 
-function(phi_external_project project)
-  if(NOT TARGET ${project})
-    message(FATAL_ERROR "Could not find target ${project}")
-  endif()
+include("CMakeParseArguments")
 
-  # Mark include directory as system include
-  get_target_property(include_dir ${project} INTERFACE_INCLUDE_DIRECTORIES)
-  set_target_properties(${project} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${include_dir}")
+function(phi_add_external_project)
+  cmake_parse_arguments(ext "" "PROJECT" "TARGETS" ${ARGN})
 
-  # Link with Phi::ProjectOptions
-  get_target_property(target_type ${project} TYPE)
-  if(NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
-    target_link_libraries(${project} PRIVATE Phi::ProjectOptions)
-  endif()
+  add_subdirectory(${ext_PROJECT} EXCLUDE_FROM_ALL)
 
-  # For MSVC we need to set the warnings flag to W0 to silence warnings since MSVC has no concept of
-  # system includes
-  if(MSVC AND NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
-    target_compile_options(${project} PRIVATE "/W0")
-  endif()
+  foreach(target ${ext_TARGETS})
+    if(NOT TARGET ${target})
+      message(FATAL_ERROR "Could not find target ${target} at phi_add_external_project when adding external project ${ext_PROJECT}")
+    endif()
 
-  message(STATUS "Added external project ${project}")
+    # Mark include directory as system include
+    get_target_property(include_dir ${target} INTERFACE_INCLUDE_DIRECTORIES)
+    set_target_properties(${target} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${include_dir}")
+
+    # Link with Phi::ProjectOptions
+    get_target_property(target_type ${target} TYPE)
+    if(NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+      target_link_libraries(${target} PRIVATE Phi::ProjectOptions)
+    endif()
+
+    # For MSVC we need to set the warnings flag to W0 to silence warnings since MSVC has no concept of
+    # system includes
+    if(MSVC AND NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+      target_compile_options(${target} PRIVATE "/W0")
+    endif()
+
+    # Set folder to external
+    set_target_properties(${target} PROPERTIES FOLDER "External")
+  endforeach()
+
+  message(STATUS "Added external project ${ext_PROJECT}")
 endfunction()

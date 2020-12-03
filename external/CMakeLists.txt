@@ -2,8 +2,5 @@
 
 include(ExternalProject)
 
-add_subdirectory(Catch2)
-add_subdirectory(spdlog)
-
-phi_external_project(Catch2)
-phi_external_project(spdlog)
+phi_add_external_project(PROJECT Catch2 TARGETS Catch2 Catch2WithMain)
+phi_add_external_project(PROJECT spdlog TARGETS spdlog)
