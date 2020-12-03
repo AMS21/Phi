@@ -133,3 +133,7 @@ endif()
 if(CMAKE_FORMAT_FOUND)
   add_dependencies(format cmake-format)
 endif()
+
+set_target_properties(clang-format PROPERTIES FOLDER "Tools/Formatting")
+set_target_properties(cmake-format PROPERTIES FOLDER "Tools/Formatting")
+set_target_properties(format PROPERTIES FOLDER "Tools/Formatting")
