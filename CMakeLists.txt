@@ -62,6 +62,15 @@ if(EXISTS "${LOC_PATH}")
       "Please consider makeing a build subdirectory.")
 endif()
 
+# Check external directory
+if(NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/external/Catch2/src")
+  message(
+    FATAL_ERROR
+      "The external dependencies repositories are missing! "
+      "You probably did not clone the project with --recursive. It is possible to recover "
+      "by calling \"git submodule update --init --recursive\"")
+endif()
+
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Find required system libs
