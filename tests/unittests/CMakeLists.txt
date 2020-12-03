@@ -1,4 +1,4 @@
-project("PhiEngine_Tests" CXX)
+project("Phi_Tests" CXX)
 
 file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp"
      "include/Unwrap.hpp")
@@ -44,35 +44,45 @@ file(
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 
-# Dynamic unittests
-set(UnittestName "PhiEngine_Unittests")
+set(UnittestLibs)
 
-add_executable(${UnittestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
+# Runtime unittests
+set(UnittestName "Phi_Unittests")
+set(UnittestDynName "${UnittestName}Dynamic")
 
-target_link_libraries(${UnittestName} PRIVATE Phi::InternalProjectOptions Phi::Core
-                                              Catch2::Catch2WithMain)
-target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-target_include_directories(${UnittestName} PRIVATE "include")
-
-set_target_properties(${UnittestName} PROPERTIES FOLDER "Tests/Unittest")
-
-enable_static_analyzers(${UnittestName})
-
-add_test(Unittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${UnittestName})
+list(APPEND UnittestLibs ${UnittestName} ${UnittestDynName})
 
 # Constexpr unittests
 if(${PHI_ENABLE_CONSTEXPRTESTS})
-  set(ConstexprTestName "PhiEngine_ConstexprUnittests")
+  set(ConstexprTestName "Phi_ConstexprUnittests")
+  set(ConstexprDynTestName "${ConstexprTestName}Dynamic")
 
-  add_executable(${ConstexprTestName} "${TEST_HEADERS}" "${TEST_SOURCES}")
+  list(APPEND UnittestLibs ${ConstexprTestName} ${ConstexprDynTestName})
+endif()
 
-  target_link_libraries(${ConstexprTestName} PRIVATE Phi::InternalProjectOptions Phi::Core
-                                                     Catch2::Catch2WithMain)
-  target_include_directories(${ConstexprTestName} PRIVATE "include")
+foreach(lib ${UnittestLibs})
+  add_executable(${lib} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-  set_target_properties(${ConstexprTestName} PROPERTIES FOLDER "Tests/Unittest")
+  target_link_libraries(${lib} PRIVATE Phi::InternalProjectOptions Catch2::Catch2WithMain)
 
-  enable_static_analyzers(${ConstexprTestName})
+  target_include_directories(${lib} PRIVATE "include")
 
-  add_test(ConstexprUnittest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ConstexprTestName})
+  set_target_properties(${lib} PROPERTIES FOLDER "Tests/Unittest")
+
+  enable_static_analyzers(${lib})
+
+  add_test(${lib} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${lib})
+endforeach()
+
+# Runtime static require for Runtime tests
+target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
+target_compile_definitions(${UnittestDynName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
+
+# Link to correct Phi::Core library
+target_link_libraries(${UnittestName} PRIVATE Phi::Core)
+target_link_libraries(${UnittestDynName} PRIVATE Phi::CoreDynamic)
+
+if(${PHI_ENABLE_CONSTEXPRTESTS})
+  target_link_libraries(${ConstexprTestName} PRIVATE Phi::Core)
+  target_link_libraries(${ConstexprDynTestName} PRIVATE Phi::CoreDynamic)
 endif()

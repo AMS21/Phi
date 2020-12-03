@@ -38,3 +38,12 @@ TEST_CASE("PhiConfig.hpp variables", "[Config]")
 
     STATIC_REQUIRE(string_equals(PHI_VERSION_STR(), phi::VersionString));
 }
+
+TEST_CASE("PhiConfig.hpp Static/Dynamic", "[Config]")
+{
+#if defined(PHI_STATIC_BUILD)
+    STATIC_REQUIRE(true);
+#else
+    STATIC_REQUIRE(true);
+#endif
+}

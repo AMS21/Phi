@@ -44,7 +44,7 @@ file(
   CONTENT "${FILE_CONTENT}")
 
 # Add test
-set(ALL_INCLUDE_NAME "PhiEngine_AllIncludes")
+set(ALL_INCLUDE_NAME "Phi_AllIncludes")
 
 add_executable(${ALL_INCLUDE_NAME} "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}" "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}")
 
