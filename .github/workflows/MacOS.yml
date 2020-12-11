@@ -91,7 +91,7 @@ jobs:
             cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Valgrind
-          elif [ "${{ matrix.cfg.dynamic_test ]]" = "valgrind" ]; then
+          elif [ "${{ matrix.cfg.dynamic_test }}" = "valgrind" ]; then
             # Disable failure tests for valgrind
             cmake .. -DPHI_ENABLE_FAILURE_TESTS=Off -DPHI_TEST_WITH_VALGRIND=ON
 
