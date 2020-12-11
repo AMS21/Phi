@@ -232,6 +232,8 @@ using Vector3f32  = Vector3<f32>;
 using Vector3f64  = Vector3<f64>;
 using Vector3fmax = Vector3<fmax>;
 
+using Vector3b = Vector3<Boolean>;
+
 DETAIL_PHI_END_NAMESPACE()
 
 #endif // INCG_PHI_MATH_VECTOR3_HPP

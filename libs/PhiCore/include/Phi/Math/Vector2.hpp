@@ -188,6 +188,8 @@ using Vector2f32  = Vector2<f32>;
 using Vector2f64  = Vector2<f64>;
 using Vector2fmax = Vector2<fmax>;
 
+using Vector2b = Vector2<Boolean>;
+
 DETAIL_PHI_END_NAMESPACE()
 
 #endif // INCG_PHI_MATH_VECTOR2_HPP
