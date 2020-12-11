@@ -23,12 +23,12 @@ jobs:
           - { compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
-          - { compiler: clang++, compiler_version: "11.6" }
-          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "asan" }
-          #- { compiler: clang++, compiler_version: "11.6", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "valgrind" }
+          - { compiler: clang++, compiler_version: "12.2" }
+          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout
@@ -39,14 +39,18 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@latest
 
+      - name: Setup XCode
+        if: matrix.cfg.compiler == 'clang++''
+        uses: maxim-lobanov/setup-xcode@v1.2.1
+        with:
+          xcode-version: matrix.cfg.compiler_version
+
       - name: Install
         run: |
           if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
             brew install gcc@${{ matrix.cfg.compiler_version }}
             echo "CXX=g++-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
-          else
-            ls -ls /Applications/
-            sudo xcode-select -switch /Applications/Xcode_${{ matrix.cfg.compiler_version }}.app
+          elif [ "${{ matrix.cfg.compiler}}" = "clang++" ]; then
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
 
