@@ -19,14 +19,16 @@ jobs:
       matrix:
         cfg:
           - { compiler: g++, compiler_version: "10" }
-          - { compiler: g++, compiler_version: "10", sanitizer: "asan" }
-          - { compiler: g++, compiler_version: "10", sanitizer: "lsan" }
-          - { compiler: g++, compiler_version: "10", sanitizer: "ubsan" }
+          - { compiler: g++, compiler_version: "10", dynamic_test: "asan" }
+          - { compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
+          - { compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
+          - { compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
           - { compiler: clang++, compiler_version: "11.6" }
-          - { compiler: clang++, compiler_version: "11.6", sanitizer: "asan" }
-          #- { compiler: clang++, compiler_version: "11.6", sanitizer: "msan" }
-          - { compiler: clang++, compiler_version: "11.6", sanitizer: "tsan" }
-          - { compiler: clang++, compiler_version: "11.6", sanitizer: "ubsan" }
+          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "11.6", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "11.6", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout
@@ -48,39 +50,50 @@ jobs:
             echo "CXX=clang++" >> $GITHUB_ENV
           fi
 
+          # Install valgrind
+          if [ "${{ matrix.cfg.dynamic_test }}" = "valgrind" ]; then
+            brew tap LouisBrunner/valgrind
+            brew install --HEAD LouisBrunner/valgrind/valgrind
+          endif
+
       - name: Configure build directory
         run: |
           mkdir build
           cd build
           cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
-      - name: Configure Sanitizers
+      - name: Configure dynamic analysis
         run: |
           cd build
 
           # Address Sanitizer
-          if [ "${{ matrix.cfg.sanitizer }}" = "asan" ]; then
+          if [ "${{ matrix.cfg.dynamic_test }}" = "asan" ]; then
             cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
 
           # Leak Sanitizer
-          elif [ "${{ matrix.cfg.sanitizer }}" = "lsan" ]; then
+          elif [ "${{ matrix.cfg.dynamic_test }}" = "lsan" ]; then
             cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Memory Sanitizer
-          elif [ "${{ matrix.cfg.sanitizer }}" = "msan" ]; then
+          elif [ "${{ matrix.cfg.dynamic_test }}" = "msan" ]; then
             cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
 
           # Thread Sanitizer
-          elif [ "${{ matrix.cfg.sanitizer }}" = "tsan" ]; then
+          elif [ "${{ matrix.cfg.dynamic_test }}" = "tsan" ]; then
             cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
           # Undefined Behavior Sanitizer
-          elif [ "${{ matrix.cfg.sanitizer }}" = "ubsan" ]; then
+          elif [ "${{ matrix.cfg.dynamic_test }}" = "ubsan" ]; then
             cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
 
-          # No Sanitizer
+          # Valgrind
+          elif [ "${{ matrix.cfg.dynamic_test ]]" = "valgrind" ]; then
+            # Disable failure tests for valgrind
+            cmake .. -DPHI_ENABLE_FAILURE_TESTS=Off -DPHI_TEST_WITH_VALGRIND=ON
+
+          # No additional dynamic analysis
           else
-            echo Running without sanitizer
+            echo Running without extra dynamic analysis
           fi
 
       - name: Build Debug
@@ -100,7 +113,7 @@ jobs:
       - name: Build Release
         run: |
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF -DCMAKE_VERBOSE_MAKEFILE=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF
           cmake --build . --clean-first
           ctest .
 
