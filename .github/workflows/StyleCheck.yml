@@ -20,7 +20,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.1
 
       - name: Install clang-format
         run: |

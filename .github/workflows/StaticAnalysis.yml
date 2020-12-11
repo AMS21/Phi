@@ -19,7 +19,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.1
 
       - name: Install clang
         run: |
@@ -97,7 +97,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.1
 
       - name: Install clang tidy
         run: |
@@ -151,7 +151,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.1
 
       - name: Install clang
         run: |
@@ -220,7 +220,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@3.19.1
 
       - name: Install llvm
         run: |
