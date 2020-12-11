@@ -30,6 +30,7 @@ file(
   # Math
   "include/Phi/Math/Constants.hpp"
   "include/Phi/Math/Vector2.hpp"
+  "include/Phi/Math/Vector3.hpp"
   # Meta
   "include/Phi/Meta/AlwaysFalse.hpp")
 
