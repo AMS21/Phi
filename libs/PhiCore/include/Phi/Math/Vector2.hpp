@@ -105,7 +105,7 @@ constexpr auto operator+(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noe
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector2<LhsT> operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+constexpr Vector2<LhsT>& operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
 {
     lhs.x += rhs.x;
     lhs.y += rhs.y;
@@ -120,7 +120,7 @@ constexpr auto operator-(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noe
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector2<LhsT> operator-=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
+constexpr Vector2<LhsT>& operator-=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
 {
     lhs.x -= rhs.x;
     lhs.y -= rhs.y;
