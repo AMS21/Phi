@@ -57,7 +57,7 @@ jobs:
 
       - name: Setup msvc dev
         if: matrix.cfg.compiler == 'cl'
-        uses: ilammy/msvc-dev-cmd@v1.4.1
+        uses: ilammy/msvc-dev-cmd@v1.5.0
 
       - name: Configure build directory
         run: |
@@ -181,7 +181,7 @@ jobs:
 
       - name: Setup msvc dev
         if: matrix.cfg.compiler == 'cl'
-        uses: ilammy/msvc-dev-cmd@v1.4.1
+        uses: ilammy/msvc-dev-cmd@v1.5.0
 
       - name: Generate warnings
         shell: bash
