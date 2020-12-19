@@ -28,6 +28,7 @@ file(
   "include/Phi/Core/NotNull.hpp"
   "include/Phi/Core/Types.hpp"
   # Math
+  "include/Phi/Math/Common.hpp"
   "include/Phi/Math/Constants.hpp"
   "include/Phi/Math/Vector2.hpp"
   "include/Phi/Math/Vector3.hpp"
