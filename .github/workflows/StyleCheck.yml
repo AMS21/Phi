@@ -15,7 +15,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
-      - uses: actions/setup-python@v2.1.4
+      - uses: actions/setup-python@v2.2.1
         with:
           python-version: '3.x'
 
