@@ -58,7 +58,7 @@ jobs:
           if [ "${{ matrix.cfg.dynamic_test }}" = "valgrind" ]; then
             brew tap LouisBrunner/valgrind
             brew install --HEAD LouisBrunner/valgrind/valgrind
-          endif
+          fi
 
       - name: Configure build directory
         run: |
