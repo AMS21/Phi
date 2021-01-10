@@ -25,14 +25,14 @@ private:
 
 public:
     template <typename = std::enable_if_t<!std::is_same_v<std::nullptr_t, TypeT>>>
-    constexpr NotNull(TypeT other) noexcept
+    constexpr explicit NotNull(TypeT other) noexcept
         : m_Pointer(std::move(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     template <typename OtherT, typename = std::enable_if_t<std::is_convertible_v<OtherT, TypeT>>>
-    constexpr NotNull(OtherT&& other) noexcept
+    constexpr explicit NotNull(OtherT&& other) noexcept
         : m_Pointer(std::forward(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
