@@ -22,13 +22,13 @@ constexpr PHI_ALWAYS_INLINE TypeT cube(const TypeT val) noexcept
 // Min functions
 
 template <typename TypeT>
-constexpr TypeT& min(const TypeT& lhs, const TypeT& rhs) noexcept
+constexpr const TypeT& min(const TypeT& lhs, const TypeT& rhs) noexcept
 {
     return (lhs < rhs) ? lhs : rhs;
 }
 
 template <typename TypeT, typename CompareT>
-constexpr TypeT& min(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
+constexpr const TypeT& min(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
 {
     return (comp(lhs, rhs) ? lhs : rhs);
 }
@@ -36,13 +36,13 @@ constexpr TypeT& min(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
 // Max functions
 
 template <typename TypeT>
-constexpr TypeT& max(const TypeT& lhs, const TypeT& rhs) noexcept
+constexpr const TypeT& max(const TypeT& lhs, const TypeT& rhs) noexcept
 {
     return (lhs > rhs) ? lhs : rhs;
 }
 
 template <typename TypeT, typename CompareT>
-constexpr TypeT& max(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
+constexpr const TypeT& max(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
 {
     return (comp(lhs, rhs)) ? lhs : rhs;
 }
