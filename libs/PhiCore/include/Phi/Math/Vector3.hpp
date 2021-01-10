@@ -58,8 +58,8 @@ public:
 
     template <typename OtherT>
     constexpr Vector3(const Vector2<OtherT>& vec2, TypeT val_z) noexcept
-        : x(static_cast<TypeT>(vec.x))
-        , y(static_cast<TypeT>(vec.y))
+        : x(static_cast<TypeT>(vec2.x))
+        , y(static_cast<TypeT>(vec2.y))
         , z(val_z)
     {}
 
