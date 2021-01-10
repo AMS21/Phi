@@ -10,12 +10,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
 
-      - uses: actions/setup-python@v2.1.4
+      - uses: actions/setup-python@v2.2.1
         with:
           python-version: '3.x'
 
@@ -102,7 +102,7 @@ jobs:
           ctest .
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v3.0.1
+        uses: crazy-max/ghaction-import-gpg@v3.0.2
         with:
           gpg-private-key: ${{ secrets.BOT_PRIVATE_KEY }}
           passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}
@@ -110,7 +110,7 @@ jobs:
           git-commit-gpgsign: true
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4.7.2
+        uses: stefanzweifel/git-auto-commit-action@v4.8.0
         continue-on-error: true  # Ignore errors
         with:
           commit_message: Applied automatic formatting and fixes
@@ -126,10 +126,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: Run misspell with reviewdog
-        uses: reviewdog/action-misspell@v1.6
+        uses: reviewdog/action-misspell@v1.7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: US
@@ -141,7 +141,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: yamllint
         uses: reviewdog/action-yamllint@v1.2
@@ -156,7 +156,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: markdownlint
         uses: prologic/action-markdownlint@v0.1
@@ -170,10 +170,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: remark-lint
-        uses: prologic/action-remark-lint@v0.0.5
+        uses: prologic/action-remark-lint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
@@ -184,7 +184,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - uses: reviewdog/action-languagetool@v1.4
         with:
@@ -197,7 +197,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - uses: reviewdog/action-alex@v1.2
         with:
