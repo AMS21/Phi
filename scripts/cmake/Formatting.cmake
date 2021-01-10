@@ -1,5 +1,9 @@
 # Copied from https://github.com/BlueBrain/git-cmake-format/blob/master/FindClangFormat.cmake
 
+if(NOT PHI_AUTO_FORMATTING)
+  message(STATUS "Auto formatting disabled")
+endif()
+
 # Clang format
 find_program(
   CLANG_FORMAT_EXECUTABLE
@@ -118,7 +122,7 @@ add_custom_target(
   COMMAND ${CMAKE_FORMAT_EXECUTABLE} -i ${ALL_CMAKEFILES})
 
 # Format target
-if(PHI_AUTO_FORMATTING AND (CLANG_FORMAT_FOUND OR CMAKE_FORMAT_FOUND))
+if(CLANG_FORMAT_FOUND OR CMAKE_FORMAT_FOUND)
   add_custom_target(format ALL)
   message(STATUS "Auto formatting enabled")
 else()
