@@ -117,3 +117,10 @@ else()
   message(FATAL_ERROR "Unsupported compiler")
   return()
 endif()
+
+# Check if CI Build
+if(DEFINED ENV{CI})
+  set(PHI_CI_BUILD TRUE)
+else()
+  set(PHI_CI_BUILD FALSE)
+endif()

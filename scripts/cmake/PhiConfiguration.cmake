@@ -1,7 +1,5 @@
 # PhiConfiguration.cmake
 
-include(Environment)
-
 # Project options
 add_library(phi_project_options INTERFACE)
 add_library(Phi::ProjectOptions ALIAS phi_project_options)

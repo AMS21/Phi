@@ -31,6 +31,9 @@ if(NOT DEFINED PHI_MASTER_PROJECT)
   endif()
 endif()
 
+# Load environemt information
+include(Environment)
+
 # Options
 option(PHI_BUILD_TESTS "Build tests" ${PHI_MASTER_PROJECT})
 option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MASTER_PROJECT})
@@ -45,6 +48,15 @@ option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
 option(PHI_AUTO_FORMATTING "Automatically format all source code when builds" ${PHI_MASTER_PROJECT})
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 
+# CI Builds Settings
+if(PHI_CI_BUILD)
+  # Disable auto formatting
+  set(PHI_AUTO_FORMATTING
+      OFF
+      CACHE BOOL "" FORCE)
+endif()
+
+# Load configuration
 include(PhiConfiguration)
 
 # Settings
