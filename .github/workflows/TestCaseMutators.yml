@@ -42,7 +42,7 @@ jobs:
 
           # Verify everythings works
           mull-cxx --version
-      
+
       - name: Display clang include paths
         run: clang++-${{ env.LLVM_VERSION }} -x c++ -c /dev/null -v
 
@@ -56,7 +56,7 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
-        run: | 
+        run: |
           cd build
           cmake --build .
 
@@ -72,7 +72,7 @@ jobs:
 
           # Remove duplicate entries
           sort mull_report.log | uniq -d > mull_report_filtered.log
-      
+
       - name: Print results
         run: cat build/mull_report_filtered.log
 
