@@ -124,3 +124,13 @@ if(DEFINED ENV{CI})
 else()
   set(PHI_CI_BUILD FALSE)
 endif()
+
+include(ProcessorCount)
+ProcessorCount(ProcCount)
+if(NOT ProcCount EQUAL 0)
+  set(PHI_PROCESSOR_COUNT ${ProcCount})
+else()
+  message(WARNING "Failed to get processor count")
+  # We always assume to have atleast one processor
+  set(PHI_PROCESSOR_COUNT 1)
+endif()
