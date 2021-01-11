@@ -18,8 +18,9 @@ void set_global_to_zero()
 TEST_CASE("ScopeGuard lambda", "[Core][ScopeGuard]")
 {
     int i = 3;
+    CHECK(i == 3);
     {
-        phi::ScopeGuard action([&i]() { i = 7; });
+        phi::ScopeGuard guard([&i]() { i = 7; });
         CHECK(i == 3);
     }
     CHECK(i == 7);
@@ -28,9 +29,10 @@ TEST_CASE("ScopeGuard lambda", "[Core][ScopeGuard]")
 TEST_CASE("ScopeGuard const lvalue lambda", "[Core][ScopeGuard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
         const auto      const_lvalue_lambda = [&i]() { increment(i); };
-        phi::ScopeGuard action(const_lvalue_lambda);
+        phi::ScopeGuard guard(const_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -39,9 +41,10 @@ TEST_CASE("ScopeGuard const lvalue lambda", "[Core][ScopeGuard]")
 TEST_CASE("ScopeGuard mutable lvalue lambda", "[Core][ScopeGuard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
         auto            mutable_lvalue_lambda = [&i]() { increment(i); };
-        phi::ScopeGuard action(mutable_lvalue_lambda);
+        phi::ScopeGuard guard(mutable_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -50,8 +53,9 @@ TEST_CASE("ScopeGuard mutable lvalue lambda", "[Core][ScopeGuard]")
 TEST_CASE("ScopeGuard bind", "[Core][ScopeGuard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
-        phi::ScopeGuard action(std::bind(&increment, std::ref(i)));
+        phi::ScopeGuard guard(std::bind(&increment, std::ref(i)));
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -60,8 +64,9 @@ TEST_CASE("ScopeGuard bind", "[Core][ScopeGuard]")
 TEST_CASE("ScopeGuard function pointer", "[Core][ScopeGuard]")
 {
     global_value = 42;
+    CHECK(global_value == 42);
     {
-        phi::ScopeGuard action(&set_global_to_zero);
+        phi::ScopeGuard guard(&set_global_to_zero);
         CHECK(global_value == 42);
     }
     CHECK(global_value == 0);
@@ -70,8 +75,9 @@ TEST_CASE("ScopeGuard function pointer", "[Core][ScopeGuard]")
 TEST_CASE("make_scope_guard lambda", "[Core][ScopeGuard][make_scope_guard]")
 {
     int i = 3;
+    CHECK(i == 3);
     {
-        auto action = phi::make_scope_guard([&i]() { i = 7; });
+        auto guard = phi::make_scope_guard([&i]() { i = 7; });
         CHECK(i == 3);
     }
     CHECK(i == 7);
@@ -80,9 +86,10 @@ TEST_CASE("make_scope_guard lambda", "[Core][ScopeGuard][make_scope_guard]")
 TEST_CASE("make_scope_guard const lvalue lambda", "[Core][ScopeGuard][make_scope_guard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
         const auto const_lvalue_lambda = [&i]() { increment(i); };
-        auto       action              = phi::make_scope_guard(const_lvalue_lambda);
+        auto       guard               = phi::make_scope_guard(const_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -91,9 +98,10 @@ TEST_CASE("make_scope_guard const lvalue lambda", "[Core][ScopeGuard][make_scope
 TEST_CASE("make_scope_guard mutable lvalue lambda", "[Core][ScopeGuard][make_scope_guard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
         auto mutable_lvalue_lambda = [&i]() { increment(i); };
-        auto action                = phi::make_scope_guard(mutable_lvalue_lambda);
+        auto guard                 = phi::make_scope_guard(mutable_lvalue_lambda);
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -102,8 +110,9 @@ TEST_CASE("make_scope_guard mutable lvalue lambda", "[Core][ScopeGuard][make_sco
 TEST_CASE("make_scope_guard bind", "[Core][ScopeGuard][make_scope_guard]")
 {
     int i = 0;
+    CHECK(i == 0);
     {
-        auto action = phi::make_scope_guard(std::bind(&increment, std::ref(i)));
+        auto guard = phi::make_scope_guard(std::bind(&increment, std::ref(i)));
         CHECK(i == 0);
     }
     CHECK(i == 1);
@@ -112,9 +121,100 @@ TEST_CASE("make_scope_guard bind", "[Core][ScopeGuard][make_scope_guard]")
 TEST_CASE("make_scope_guard function pointer", "[Core][ScopeGuard][make_scope_guard]")
 {
     global_value = 42;
+    CHECK(global_value == 42);
     {
-        auto action = phi::make_scope_guard(&set_global_to_zero);
+        auto guard = phi::make_scope_guard(&set_global_to_zero);
         CHECK(global_value == 42);
     }
     CHECK(global_value == 0);
+}
+
+/* ArmedScopeGuard */
+
+TEST_CASE("ArmedScopeGuard default", "[Core][ArmedScopeGuard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        phi::ArmedScopeGuard guard([&i] { i = 17; });
+        CHECK(i == 0);
+    }
+    CHECK(i == 17);
+}
+
+TEST_CASE("ArmedScopeGuard disarm", "[Core][ArmedScopeGuard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        phi::ArmedScopeGuard guard([&i] { i = 21; });
+        guard.disarm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 0);
+}
+
+TEST_CASE("ArmedScopeGuard rearm", "[Core][ArmedScopeGuard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        phi::ArmedScopeGuard guard([&i] { i = 21; });
+        guard.rearm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 21);
+
+    i = 0;
+    {
+        phi::ArmedScopeGuard guard([&i] { i = 21; });
+        guard.disarm();
+        guard.rearm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 21);
+}
+
+TEST_CASE("make_armed_scope_guard default", "[Core][ArmedScopeGuard][make_armed_scope_guard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        auto guard = phi::make_armed_scope_guard([&i] { i = 17; });
+        CHECK(i == 0);
+    }
+    CHECK(i == 17);
+}
+
+TEST_CASE("make_armed_scope_guard disarm", "[Core][ArmedScopeGuard][make_armed_scope_guard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        guard.disarm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 0);
+}
+
+TEST_CASE("make_armed_scope_guard rearm", "[Core][ArmedScopeGuard][make_armed_scope_guard]")
+{
+    int i = 0;
+    CHECK(i == 0);
+    {
+        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        guard.rearm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 21);
+
+    i = 0;
+    {
+        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        guard.disarm();
+        guard.rearm();
+        CHECK(i == 0);
+    }
+    CHECK(i == 21);
 }
