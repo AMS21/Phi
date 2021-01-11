@@ -14,6 +14,7 @@ file(
   "include/Phi/Config/Likely.hpp"
   "include/Phi/Config/Platform.hpp"
   "include/Phi/Config/Stringify.hpp"
+  "include/Phi/Config/Unreachable.hpp"
   "include/Phi/Config/Versioning.hpp"
   "include/Phi/Config/Warning.hpp"
   # Core

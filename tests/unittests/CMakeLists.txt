@@ -17,6 +17,7 @@ file(
   "src/Config/Platform.test.cpp"
   "src/Config/SourceLine.test.cpp"
   "src/Config/Stringify.test.cpp"
+  "src/Config/Unreachable.test.cpp"
   "src/Config/Versioning.test.cpp"
   "src/Config/Warnings.test.cpp"
   # Core
