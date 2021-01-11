@@ -22,8 +22,13 @@
 #        define PHI_LIKELY(condition)   condition
 #        define PHI_UNLIKELY(condition) condition
 #    endif
-#    define PHI_LIKELY_CASE   /* Nothing */
-#    define PHI_UNLIKELY_CASE /* Nothing */
+#    if PHI_COMPILER_VERSION_IS_ATLEAST(12, 0, 0)
+#        define PHI_LIKELY_CASE   [[likely]]
+#        define PHI_UNLIKELY_CASE [[unlikely]]
+#    else
+#        define PHI_LIKELY_CASE   /* Nothing */
+#        define PHI_UNLIKELY_CASE /* Nothing */
+#    endif
 #elif PHI_COMPILER_IS_ATLEAST(MSVC, 19, 26, 0)
 #    define PHI_LIKELY(condition)   condition
 #    define PHI_UNLIKELY(condition) condition
