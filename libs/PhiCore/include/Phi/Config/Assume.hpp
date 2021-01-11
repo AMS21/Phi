@@ -9,6 +9,10 @@
 #elif PHI_COMPILER_IS(CLANG)
 #    if __has_builtin(__builtin_assume)
 #        define PHI_ASSUME(condition) __builtin_assume(condition)
+#    elif __has_bultin(__builtin_unreachable)
+// clang-format off
+#        define PHI_ASSUME(condition) if (condition){} else __builtin_unreachable()
+// clang-format on
 #    else
 #        define PHI_ASSUME(condition) PHI_EMPTY_MACRO() /* Nothing */
 #    endif
