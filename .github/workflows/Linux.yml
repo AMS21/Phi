@@ -116,21 +116,21 @@ jobs:
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
           cmake --build . --clean-first
-          ctest .
+          ctest . -C Debug
 
       - name: Build RelWithDebInfo
         run: |
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
-          ctest .
+          ctest . -C RelWithDebInfo
 
       - name: Build Release
         run: |
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --clean-first
-          ctest .
+          ctest . -C Release
 
   Warnings:
     runs-on: ubuntu-latest
