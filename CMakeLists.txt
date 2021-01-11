@@ -49,7 +49,7 @@ option(PHI_AUTO_FORMATTING "Automatically format all source code when builds" ${
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 
 # CI Builds Settings
-if(${PHI_CI_BUILD} and ${PHI_MASTER_PROJECT})
+if(${PHI_CI_BUILD} AND ${PHI_MASTER_PROJECT})
   message(STATUS "Phi: Is CI build")
 
   # Disable auto formatting
