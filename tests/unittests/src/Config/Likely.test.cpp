@@ -22,15 +22,18 @@ TEST_CASE("Likely", "[Config][Likely]")
         {
             PHI_UNLIKELY_CASE case 3:
             {
+                CHECK(j == 3);
                 break;
             }
             PHI_LIKELY_CASE case 5:
             {
-                CHECK(true);
+                CHECK(j == 5);
                 break;
             }
-            default:
+            default: {
+                CHECK(j < 10);
                 break;
+            }
         }
     }
 }

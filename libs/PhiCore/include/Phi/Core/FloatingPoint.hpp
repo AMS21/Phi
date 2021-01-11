@@ -85,10 +85,6 @@ namespace detail
     using floating_point_result_t = FloatingPoint<typename std::enable_if_t<
             is_safe_floating_point_operation<LhsT, RhsT>::value,
             typename std::conditional_t<sizeof(LhsT) < sizeof(RhsT), RhsT, LhsT>>>;
-
-    template <typename LhsT, typename RhsT>
-    using fallback_floating_point_result =
-            typename std::enable_if_t<!is_safe_floating_point_operation<LhsT, RhsT>::value>;
 } // namespace detail
 /// \endcond
 
@@ -465,18 +461,6 @@ PHI_ALWAYS_INLINE constexpr auto operator+(const FloatingPoint<LhsT>& lhs, const
     return lhs + FloatingPoint<RhsT>(rhs);
 }
 
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator+(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator+(LhsT, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator+(FloatingPoint<LhsT>, RhsT) noexcept = delete;
-
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE constexpr auto operator-(const FloatingPoint<LhsT>& lhs,
                                            const FloatingPoint<RhsT>& rhs) noexcept
@@ -498,18 +482,6 @@ PHI_ALWAYS_INLINE constexpr auto operator-(const FloatingPoint<LhsT>& lhs, const
 {
     return lhs - FloatingPoint<RhsT>(rhs);
 }
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator-(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator-(LhsT, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator-(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE constexpr auto operator*(const FloatingPoint<LhsT>& lhs,
@@ -533,18 +505,6 @@ PHI_ALWAYS_INLINE constexpr auto operator*(const FloatingPoint<LhsT>& lhs, const
     return lhs * FloatingPoint<RhsT>(rhs);
 }
 
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator*(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator*(LhsT, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator*(FloatingPoint<LhsT>, RhsT) noexcept = delete;
-
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE constexpr auto operator/(const FloatingPoint<LhsT>& lhs,
                                            const FloatingPoint<RhsT>& rhs) noexcept
@@ -567,18 +527,6 @@ PHI_ALWAYS_INLINE constexpr auto operator/(const FloatingPoint<LhsT>& lhs, const
     return lhs / FloatingPoint<RhsT>(rhs);
 }
 
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator/(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator/(LhsT, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator/(FloatingPoint<LhsT>, RhsT) noexcept = delete;
-
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE constexpr auto operator%(const FloatingPoint<LhsT>& lhs,
                                            const FloatingPoint<RhsT>& rhs) noexcept
@@ -600,18 +548,6 @@ PHI_ALWAYS_INLINE constexpr auto operator%(const FloatingPoint<LhsT>& lhs, const
 {
     return lhs % FloatingPoint<RhsT>(rhs);
 }
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator%(FloatingPoint<LhsT>, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator%(LhsT, FloatingPoint<RhsT>) noexcept = delete;
-
-template <typename LhsT, typename RhsT,
-          typename = detail::fallback_floating_point_result<LhsT, RhsT>>
-constexpr int operator%(FloatingPoint<LhsT>, RhsT) noexcept = delete;
 
 //=== input/output ===/
 

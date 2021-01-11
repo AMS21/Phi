@@ -31,6 +31,9 @@ if(NOT DEFINED PHI_MASTER_PROJECT)
   endif()
 endif()
 
+# Load environemt information
+include(Environment)
+
 # Options
 option(PHI_BUILD_TESTS "Build tests" ${PHI_MASTER_PROJECT})
 option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MASTER_PROJECT})
@@ -42,7 +45,18 @@ option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 option(PHI_ENABLE_FAILURE_TESTS "Build the failure tests" ON)
 option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
+option(PHI_AUTO_FORMATTING "Automatically format all source code when builds" ${PHI_MASTER_PROJECT})
+option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 
+# CI Builds Settings
+if(PHI_CI_BUILD)
+  # Disable auto formatting
+  set(PHI_AUTO_FORMATTING
+      OFF
+      CACHE BOOL "" FORCE)
+endif()
+
+# Load configuration
 include(PhiConfiguration)
 
 # Settings
@@ -60,6 +74,15 @@ if(EXISTS "${LOC_PATH}")
     WARNING
       "[Phi] You shoudnt build in a source directory (or any directory with a CMakeLists.txt file)."
       "Please consider makeing a build subdirectory.")
+endif()
+
+# Check external directory
+if(NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/external/Catch2/src")
+  message(
+    FATAL_ERROR
+      "The external dependencies repositories are missing! "
+      "You probably did not clone the project with --recursive. It is possible to recover "
+      "by calling \"git submodule update --init --recursive\"")
 endif()
 
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -83,7 +106,7 @@ endif()
 
 # Tests
 if(${PHI_BUILD_TESTS})
-  enable_testing()
+  include(CTest)
 
   add_subdirectory(tests)
 endif()

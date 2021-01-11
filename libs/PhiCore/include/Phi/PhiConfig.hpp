@@ -1,7 +1,9 @@
 #ifndef INCG_PHI_PHICONFIG_HPP
 #define INCG_PHI_PHICONFIG_HPP
 
+#include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Glue.hpp"
+#include "Phi/Config/Platform.hpp"
 #include "Phi/Config/Stringify.hpp"
 #include "Phi/Config/Versioning.hpp"
 #include <cstdint>
@@ -34,6 +36,36 @@
 
 #if !defined(NDEBUG) || defined(_DEBUG)
 #    define PHI_DEBUG
+#endif
+
+// No min max on Windows
+#if PHI_PLATFORM_IS(WINDOWS)
+#    ifndef NOMINMAX
+#        define NOMINMAX
+#    endif
+#endif
+
+// Import/Export
+#if PHI_PLATFORM_IS(WINDOWS)
+#    define PHI_API_EXPORT __declspec(dllexport)
+#    define PHI_API_IMPORT __declspec(dllimport)
+#elif PHI_COMPILER_IS_ATLEAST(GCC, 4, 0, 0) || PHI_COMPILER_IS(CLANG)
+#    define PHI_API_EXPORT __attribute__((__visibility__("default")))
+#    define PHI_API_IMPORT __attribute__((__visibility__("default")))
+#else
+#    define PHI_API_EXPORT
+#    define PHI_API_IMPORT
+#endif
+
+// Define PHI_API macro
+#if !defined(PHI_STATIC_BUILD)
+#    if defined(PHI_IMPORT)
+#        define PHI_API PHI_API_IMPORT
+#    else
+#        define PHI_API PHI_API_EXPORT
+#    endif
+#else
+#    define PHI_API
 #endif
 
 // Logging

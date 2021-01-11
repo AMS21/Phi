@@ -23,13 +23,13 @@
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(ICC)
 #    define PHI_ALWAYS_INLINE __attribute__((always_inline)) inline
-#    define PHI_NEVER_INLINE __attribute__((noinline))
+#    define PHI_NEVER_INLINE  __attribute__((noinline))
 #elif PHI_COMPILER_IS(MSVC)
 #    define PHI_ALWAYS_INLINE __forceinline
-#    define PHI_NEVER_INLINE __declspec(noinline)
+#    define PHI_NEVER_INLINE  __declspec(noinline)
 #else
 #    define PHI_ALWAYS_INLINE inline
-#    define PHI_NEVER_INLINE /* nothing */
+#    define PHI_NEVER_INLINE  /* nothing */
 #endif
 
 #ifdef PHI_CONFIG_ALWAYS_INLINE_OVERWRITE

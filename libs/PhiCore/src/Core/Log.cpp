@@ -1,11 +1,15 @@
 #include "Phi/Core/Log.hpp"
 
+#include "Phi/Config/Warning.hpp"
 #include "Phi/PhiConfig.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <spdlog/common.h>
 #include <spdlog/logger.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/null_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

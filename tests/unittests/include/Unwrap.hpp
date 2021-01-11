@@ -35,7 +35,7 @@ template <typename TypeT>
 using unwrapped_t = typename unwrapped<TypeT>::value_type;
 
 template <typename TypeT>
-[[nodiscard]] constexpr unwrapped_t<TypeT> unwrap(TypeT&& source) noexcept
+[[nodiscard]] constexpr unwrapped_t<TypeT> unwrap(TypeT source) noexcept
 {
     if constexpr (phi::detail::is_floatingpoint_specialization<TypeT>::value ||
                   phi::detail::is_integer_specilization<TypeT>::value ||

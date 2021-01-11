@@ -22,7 +22,7 @@ jobs:
           submodules: recursive
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.19.1
 
       - name: Install
         run: |

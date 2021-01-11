@@ -1,8 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Log.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <memory>
+PHI_EXTERNAL_HEADERS_END()
 
 #define TEST_ALL_LOG_MACROS()                                                                      \
     PHI_LOG_CORE_TRACE("Core trace");                                                              \

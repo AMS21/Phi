@@ -1,4 +1,8 @@
+#include <Phi/Config/Warning.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <catch2/catch_test_macros.hpp>
+PHI_EXTERNAL_HEADERS_END()
 
 #include <Phi/Core/Types.hpp>
 #include <climits>

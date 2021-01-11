@@ -1,7 +1,5 @@
 # PhiConfiguration.cmake
 
-include(Environment)
-
 # Project options
 add_library(phi_project_options INTERFACE)
 add_library(Phi::ProjectOptions ALIAS phi_project_options)
@@ -11,6 +9,10 @@ set_target_properties(phi_project_options PROPERTIES INTERFACE_COMPILE_FEATURES 
 
 add_library(phi_internal_project_options INTERFACE)
 add_library(Phi::InternalProjectOptions ALIAS phi_internal_project_options)
+
+# Options for shared libraries and their dependencies
+add_library(phi_shared_project_options INTERFACE)
+add_library(Phi::SharedProjectOptions ALIAS phi_shared_project_options)
 
 target_link_libraries(phi_internal_project_options INTERFACE Phi::ProjectOptions)
 
@@ -45,3 +47,34 @@ enable_sanitizers(phi_project_options)
 
 # allow for static analysis options
 include(StaticAnalyzers)
+
+# Enable automatic formatting
+include(Formatting)
+
+function(phi_fix_dynamic_dep target)
+  if(PHI_COMPILER_MSVC)
+    return()
+  endif()
+
+  get_target_property(linkLibs ${target} LINK_LIBRARIES)
+
+  set(updatedLinkLibs)
+  foreach(lib ${linkLibs})
+
+    # If its an alias target we need to work with the underlying target
+    get_target_property(aliasTarget ${lib} ALIASED_TARGET)
+    if(aliasTarget)
+      set(lib ${aliasTarget})
+    endif()
+
+    # If theres a dynamic version available use that instead
+    if(TARGET "${lib}_dyn")
+      list(APPEND updatedLinkLibs ${lib}_dyn)
+    else()
+      list(APPEND updatedLinkLibs ${lib})
+    endif()
+  endforeach()
+
+  # Update link libraries list
+  set_target_properties(${target} PROPERTIES LINK_LIBRARIES "${updatedLinkLibs}")
+endfunction()

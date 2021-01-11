@@ -19,7 +19,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.19.1
 
       - name: Install clang
         run: |
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install cppcheck
         env:
-          CPPCHECK_VERSION: "2.2"
+          CPPCHECK_VERSION: "2.3"
         run: |
           mkdir cppcheck
           wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
@@ -97,7 +97,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.19.1
 
       - name: Install clang tidy
         run: |
@@ -151,7 +151,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.19.1
 
       - name: Install clang
         run: |
@@ -183,7 +183,7 @@ jobs:
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
 
           # Run analysis
-          pvs-studio-analyzer analyze --threads 2 --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external
+          pvs-studio-analyzer analyze --threads 2 --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external --disableLicenseExpirationCheck
 
           # Convert to readable format
           plog-converter --renderTypes errorfile PVS-Studio.log --analyzer "GA:1,2,3;OP:1,2,3;64:1,2,3;CS:1,2,3" --output PVS-Studio.err
@@ -203,7 +203,7 @@ jobs:
   include-what-you-use:
     runs-on: ubuntu-latest
     env:
-      LLVM_VERSION: 10
+      LLVM_VERSION: 11
 
     steps:
       - name: Checkout
@@ -220,7 +220,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.19.1
 
       - name: Install llvm
         run: |

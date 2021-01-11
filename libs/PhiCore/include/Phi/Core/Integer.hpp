@@ -23,6 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 #ifndef INCG_PHI_UTILITY_INTEGER_HPP
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
@@ -87,7 +88,7 @@ namespace detail
     // Integer operation
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : std::bool_constant<detail::is_integer<LhsT>::value && detail::is_integer<RhsT>::value &&
+        : std::bool_constant<is_integer<LhsT>::value && is_integer<RhsT>::value &&
                              std::is_signed_v<LhsT> == std::is_signed_v<RhsT>>
     {};
 
@@ -102,7 +103,8 @@ namespace detail
 
     template <typename LhsT, typename RhsT>
     using fallback_integer_result =
-            typename std::enable_if_t<!is_safe_integer_operation<LhsT, RhsT>::value>;
+            typename std::enable_if_t<is_integer<LhsT>::value && is_integer<RhsT>::value &&
+                                      std::is_signed_v<LhsT> != std::is_signed_v<RhsT>>;
 
     // Error detection
     struct signed_integer_tag
@@ -694,7 +696,7 @@ PHI_ALWAYS_INLINE constexpr auto operator+(const Integer<LhsT>& lhs,
             !detail::will_addition_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Addition will result in overflow. Args {} + {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -730,7 +732,7 @@ PHI_ALWAYS_INLINE constexpr auto operator-(const Integer<LhsT>& lhs,
                                                    rhs.get()),
                    "Subtraction will result in underflow. Args {} - {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -766,7 +768,7 @@ PHI_ALWAYS_INLINE constexpr auto operator*(const Integer<LhsT>& lhs,
                                                       rhs.get()),
                    "Multiplication will result in overflow. Args {} * {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -802,7 +804,7 @@ PHI_ALWAYS_INLINE constexpr auto operator/(const Integer<LhsT>& lhs,
             !detail::will_division_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Division by zero/overflow. Args {} / {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>
@@ -838,7 +840,7 @@ PHI_ALWAYS_INLINE constexpr auto operator%(const Integer<LhsT>& lhs,
             !detail::will_modulo_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
             "Modulo by zero. Args {} % {}", lhs.get(), rhs.get());
 
-    return Integer<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs));
+    return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs)));
 }
 
 template <typename LhsT, typename RhsT>

@@ -8,6 +8,10 @@ compile_failure_test(NAME Integer_ConstructFromChar SOURCE "src/Core/Integer.cha
 compile_failure_test(NAME Integer_ConstructFromFloat SOURCE "src/Core/Integer.float.fail.cpp")
 compile_failure_test(NAME Integer_UnsignedUnaryMinus SOURCE
                      "src/Core/Integer.unsigned_unary_minus.fail.cpp")
+compile_failure_test(NAME NotNull_DefaultConstructor SOURCE "src/Core/NotNull.defaulted.fail.cpp")
+compile_failure_test(NAME NotNull_NonPointer SOURCE "src/Core/NotNull.non_pointer.fail.cpp")
+compile_failure_test(NAME NotNull_ConstructFromNullptr SOURCE "src/Core/NotNull.nullptr.fail.cpp")
+compile_failure_test(NAME NotNull_ConstructFromZero SOURCE "src/Core/NotNull.zero.fail.cpp")
 
 # Meta
 compile_failure_test(NAME AlwaysFalse_TwoPhaseLookup SOURCE
