@@ -91,7 +91,7 @@ public:
         return m_SavedValue;
     }
 
-    [[nodiscard]] constexpr void override_saved_value(const ValueT& new_value) noexcept
+    constexpr void override_saved_value(const ValueT& new_value) noexcept
     {
         m_SavedValue = new_value;
     }
