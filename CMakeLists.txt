@@ -49,10 +49,17 @@ option(PHI_AUTO_FORMATTING "Automatically format all source code when builds" ${
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 
 # CI Builds Settings
-if(PHI_CI_BUILD)
+if(${PHI_CI_BUILD} and ${PHI_MASTER_PROJECT})
+  message(STATUS "Phi: Is CI build")
+
   # Disable auto formatting
   set(PHI_AUTO_FORMATTING
       OFF
+      CACHE BOOL "" FORCE)
+
+  # Enable verbose makefile
+  set(CMAKE_VERBOSE_MAKEFILE
+      TRUE
       CACHE BOOL "" FORCE)
 endif()
 
