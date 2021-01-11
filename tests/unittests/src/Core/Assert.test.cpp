@@ -31,6 +31,35 @@ TEST_CASE("PHI_DBG_ASSERT", "[Utility][Assert]")
     PHI_DBG_ASSERT(true, "Always passes");
 }
 
+static int func()
+{
+    return 21;
+}
+
+TEST_CASE("PHI_ASSERT_NOT_REACHED", "[Core][Assert]")
+{
+    if (func() == 21)
+    {
+        CHECK(true);
+    }
+    else
+    {
+        PHI_ASSERT_NOT_REACHED();
+    }
+}
+
+TEST_CASE("PHI_DBG_ASSERT_NOT_REACHED", "[Core][Assert]")
+{
+    if (func() == 21)
+    {
+        CHECK(true);
+    }
+    else
+    {
+        PHI_DBG_ASSERT_NOT_REACHED();
+    }
+}
+
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("FormatArguments")

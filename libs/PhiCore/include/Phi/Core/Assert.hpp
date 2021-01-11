@@ -6,6 +6,7 @@
 #include "Phi/Config/Likely.hpp"
 #include "Phi/Config/SourceLine.hpp"
 #include "Phi/Config/Stringify.hpp"
+#include "Phi/Config/Unreachable.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Log.hpp"
 #include "Phi/PhiConfig.hpp"
@@ -67,6 +68,8 @@ DETAIL_PHI_END_NAMESPACE()
     }                                                                                              \
     PHI_END_MACRO()
 
+#define PHI_ASSERT_NOT_REACHED() PHI_ASSERT(false, "This code should not be reachable.")
+
 #define DETAIL_PHI_WRAPPED_ASSUME(condition)                                                       \
     PHI_BEGIN_MACRO()                                                                              \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wassume")                                               \
@@ -77,9 +80,11 @@ DETAIL_PHI_END_NAMESPACE()
 #if defined(PHI_DEBUG)
 #    define PHI_DBG_ASSERT(condition, ...)        PHI_ASSERT(condition, __VA_ARGS__)
 #    define PHI_DBG_SIMPLE_ASSERT(condition, ...) PHI_SIMPLE_ASSERT(condition, __VA_ARGS__)
+#    define PHI_DBG_ASSERT_NOT_REACHED()          PHI_ASSERT_NOT_REACHED()
 #else
 #    define PHI_DBG_ASSERT(condition, ...)        DETAIL_PHI_WRAPPED_ASSUME(condition)
 #    define PHI_DBG_SIMPLE_ASSERT(condition, ...) DETAIL_PHI_WRAPPED_ASSUME(condition)
+#    define PHI_DBG_ASSERT_NOT_REACHED()          PHI_UNREACHABLE()
 #endif
 
 #endif // INCG_PHI_UTILITY_ASSERT_HPP

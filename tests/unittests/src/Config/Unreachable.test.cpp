@@ -2,7 +2,7 @@
 
 #include <Phi/Config/Unreachable.hpp>
 
-int func()
+static int func()
 {
     return 12;
 

@@ -42,3 +42,6 @@ runtime_failure_test(
   "[DBG ASSERT FAILED]"
   CONFIGURATIONS
   Debug)
+runtime_failure_test(NAME "Core_AssertNotReached" SOURCE "src/Core/AssertNotReached.fail.cpp")
+runtime_failure_test(NAME "Core_DbgAssertNotReached" SOURCE "src/Core/DbgAssertNotReached.fail.cpp"
+                     CONFIGURATIONS Debug)
