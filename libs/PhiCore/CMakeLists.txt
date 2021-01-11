@@ -27,6 +27,7 @@ file(
   "include/Phi/Core/Log.hpp"
   "include/Phi/Core/NotNull.hpp"
   "include/Phi/Core/ScopeGuard.hpp"
+  "include/Phi/Core/ScopedValueGuard.hpp"
   "include/Phi/Core/Types.hpp"
   # Math
   "include/Phi/Math/Common.hpp"
