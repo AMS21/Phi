@@ -137,6 +137,8 @@ TEST_CASE("ArmedScopeGuard default", "[Core][ArmedScopeGuard]")
     CHECK(i == 0);
     {
         phi::ArmedScopeGuard guard([&i] { i = 17; });
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 17);
@@ -148,7 +150,11 @@ TEST_CASE("ArmedScopeGuard disarm", "[Core][ArmedScopeGuard]")
     CHECK(i == 0);
     {
         phi::ArmedScopeGuard guard([&i] { i = 21; });
+
+        CHECK(guard.is_armed());
         guard.disarm();
+        CHECK_FALSE(guard.is_armed());
+
         CHECK(i == 0);
     }
     CHECK(i == 0);
@@ -160,7 +166,10 @@ TEST_CASE("ArmedScopeGuard rearm", "[Core][ArmedScopeGuard]")
     CHECK(i == 0);
     {
         phi::ArmedScopeGuard guard([&i] { i = 21; });
+
         guard.rearm();
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 21);
@@ -168,8 +177,11 @@ TEST_CASE("ArmedScopeGuard rearm", "[Core][ArmedScopeGuard]")
     i = 0;
     {
         phi::ArmedScopeGuard guard([&i] { i = 21; });
+
         guard.disarm();
         guard.rearm();
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 21);
@@ -181,6 +193,8 @@ TEST_CASE("make_armed_scope_guard default", "[Core][ArmedScopeGuard][make_armed_
     CHECK(i == 0);
     {
         auto guard = phi::make_armed_scope_guard([&i] { i = 17; });
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 17);
@@ -192,7 +206,11 @@ TEST_CASE("make_armed_scope_guard disarm", "[Core][ArmedScopeGuard][make_armed_s
     CHECK(i == 0);
     {
         auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+
+        CHECK(guard.is_armed());
         guard.disarm();
+        CHECK_FALSE(guard.is_armed());
+
         CHECK(i == 0);
     }
     CHECK(i == 0);
@@ -204,7 +222,10 @@ TEST_CASE("make_armed_scope_guard rearm", "[Core][ArmedScopeGuard][make_armed_sc
     CHECK(i == 0);
     {
         auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+
         guard.rearm();
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 21);
@@ -212,8 +233,11 @@ TEST_CASE("make_armed_scope_guard rearm", "[Core][ArmedScopeGuard][make_armed_sc
     i = 0;
     {
         auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+
         guard.disarm();
         guard.rearm();
+
+        CHECK(guard.is_armed());
         CHECK(i == 0);
     }
     CHECK(i == 21);

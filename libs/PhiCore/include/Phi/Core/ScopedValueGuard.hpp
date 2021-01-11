@@ -3,6 +3,8 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/Core/Boolean.hpp"
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ValueT>
@@ -104,10 +106,15 @@ public:
         m_Armed = true;
     }
 
+    [[nodiscard]] constexpr Boolean is_armed() const noexcept
+    {
+        return m_Armed;
+    }
+
 private:
     ValueT& m_Variable;
     ValueT  m_SavedValue;
-    bool    m_Armed;
+    Boolean m_Armed;
 };
 
 template <typename ValueT>

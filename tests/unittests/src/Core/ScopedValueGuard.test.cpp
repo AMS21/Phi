@@ -134,6 +134,8 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
             phi::ArmedScopedValueGuard guard(i);
 
             i = 21;
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);
@@ -147,7 +149,11 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
             phi::ArmedScopedValueGuard guard(i);
 
             i = 21;
+
+            CHECK(guard.is_armed());
             guard.disarm();
+            CHECK_FALSE(guard.is_armed());
+
             CHECK(i == 21);
         }
         CHECK(i == 21);
@@ -162,6 +168,8 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
 
             i = 21;
             guard.rearm();
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);
@@ -177,6 +185,8 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
             guard.disarm();
             i = 21;
             guard.rearm();
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);
@@ -194,6 +204,8 @@ TEST_CASE("make_armed_scoped_value_guard default",
             auto guard = phi::make_armed_scoped_value_guard(i);
 
             i = 21;
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);
@@ -206,8 +218,11 @@ TEST_CASE("make_armed_scoped_value_guard default",
         {
             auto guard = phi::make_armed_scoped_value_guard(i);
 
-            i = 21;
+            CHECK(guard.is_armed());
             guard.disarm();
+            CHECK_FALSE(guard.is_armed());
+
+            i = 21;
             CHECK(i == 21);
         }
         CHECK(i == 21);
@@ -222,6 +237,8 @@ TEST_CASE("make_armed_scoped_value_guard default",
 
             i = 21;
             guard.rearm();
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);
@@ -237,6 +254,8 @@ TEST_CASE("make_armed_scoped_value_guard default",
             guard.disarm();
             i = 21;
             guard.rearm();
+
+            CHECK(guard.is_armed());
             CHECK(i == 21);
         }
         CHECK(i == 0);

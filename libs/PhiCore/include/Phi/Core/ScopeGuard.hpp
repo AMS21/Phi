@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/Core/Boolean.hpp"
 #include <type_traits>
 #include <utility>
 
@@ -74,9 +75,14 @@ public:
         m_Armed = true;
     }
 
+    [[nodiscard]] Boolean is_armed() const noexcept
+    {
+        return m_Armed;
+    }
+
 private:
     ActionT m_Action;
-    bool    m_Armed;
+    Boolean m_Armed;
 };
 
 template <typename ActionT>
