@@ -29,8 +29,8 @@ file(
   "src/Core/Integer.test.cpp"
   "src/Core/Log.test.cpp"
   "src/Core/NotNull.test.cpp"
-  "src/Core/ScopeGuard.test.cpp"
   "src/Core/ScopedValueGuard.test.cpp"
+  "src/Core/ScopeGuard.test.cpp"
   "src/Core/Types.test.cpp"
   # Math
   "src/Math/Constants.test.cpp"

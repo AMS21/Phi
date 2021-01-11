@@ -28,7 +28,7 @@ public:
     ScopeGuard& operator=(const ScopeGuard&) = delete;
     ScopeGuard& operator=(ScopeGuard&&) = delete;
 
-    ~ScopeGuard() noexcept
+    ~ScopeGuard()
     {
         m_Action();
     }
@@ -57,7 +57,7 @@ public:
     ArmedScopeGuard& operator=(const ArmedScopeGuard&) = delete;
     ArmedScopeGuard& operator=(ArmedScopeGuard&&) = delete;
 
-    ~ArmedScopeGuard() noexcept
+    ~ArmedScopeGuard()
     {
         if (m_Armed)
         {

@@ -27,17 +27,17 @@ public:
         m_Variable = m_SavedValue;
     }
 
-    constexpr const ValueT& get_variable() const noexcept
+    [[nodiscard]] constexpr const ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    constexpr ValueT& get_variable() noexcept
+    [[nodiscard]] constexpr ValueT& get_variable() noexcept
     {
         return m_Variable;
     }
 
-    constexpr const ValueT get_saved_value() const noexcept
+    [[nodiscard]] constexpr const ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
@@ -76,22 +76,22 @@ public:
         }
     }
 
-    constexpr const ValueT& get_variable() const noexcept
+    [[nodiscard]] constexpr const ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    constexpr ValueT& get_variable() noexcept
+    [[nodiscard]] constexpr ValueT& get_variable() noexcept
     {
         return m_Variable;
     }
 
-    constexpr const ValueT get_saved_value() const noexcept
+    [[nodiscard]] constexpr const ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
 
-    constexpr void override_saved_value(const ValueT& new_value) noexcept
+    [[nodiscard]] constexpr void override_saved_value(const ValueT& new_value) noexcept
     {
         m_SavedValue = new_value;
     }
