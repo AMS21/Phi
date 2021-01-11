@@ -22,11 +22,11 @@ file(
   "include/Phi/Core/At.hpp"
   "include/Phi/Core/Boolean.hpp"
   "include/Phi/Core/Conversion.hpp"
-  "include/Phi/Core/FinalAction.hpp"
   "include/Phi/Core/FloatingPoint.hpp"
   "include/Phi/Core/Integer.hpp"
   "include/Phi/Core/Log.hpp"
   "include/Phi/Core/NotNull.hpp"
+  "include/Phi/Core/ScopeGuard.hpp"
   "include/Phi/Core/Types.hpp"
   # Math
   "include/Phi/Math/Common.hpp"
