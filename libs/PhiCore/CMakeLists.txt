@@ -29,6 +29,7 @@ file(
   "include/Phi/Core/ObserverPtr.hpp"
   "include/Phi/Core/ScopedValueGuard.hpp"
   "include/Phi/Core/ScopeGuard.hpp"
+  "include/Phi/Core/ScopePtr.hpp"
   "include/Phi/Core/Types.hpp"
   "include/Phi/Core/TypeTraits.hpp"
   # Math

@@ -32,6 +32,7 @@ file(
   "src/Core/ObserverPtr.test.cpp"
   "src/Core/ScopedValueGuard.test.cpp"
   "src/Core/ScopeGuard.test.cpp"
+  "src/Core/ScopePtr.test.cpp"
   "src/Core/Types.test.cpp"
   "src/Core/TypeTraits.test.cpp"
   # Math
