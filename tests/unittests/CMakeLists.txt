@@ -33,6 +33,7 @@ file(
   "src/Core/ScopedValueGuard.test.cpp"
   "src/Core/ScopeGuard.test.cpp"
   "src/Core/Types.test.cpp"
+  "src/Core/TypeTraits.test.cpp"
   # Math
   "src/Math/Constants.test.cpp"
   "src/Math/Vector2.test.cpp"

@@ -30,6 +30,7 @@ file(
   "include/Phi/Core/ScopedValueGuard.hpp"
   "include/Phi/Core/ScopeGuard.hpp"
   "include/Phi/Core/Types.hpp"
+  "include/Phi/Core/TypeTraits.hpp"
   # Math
   "include/Phi/Math/Common.hpp"
   "include/Phi/Math/Constants.hpp"
