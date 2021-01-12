@@ -15,12 +15,12 @@ compile_failure_test(NAME "Core_NotNull_NonPointer" SOURCE "src/Core/NotNull.non
 compile_failure_test(NAME "Core_NotNull_ConstructFromNullptr" SOURCE
                      "src/Core/NotNull.nullptr.fail.cpp")
 compile_failure_test(NAME "Core_NotNull_ConstructFromZero" SOURCE "src/Core/NotNull.zero.fail.cpp")
-# compile_failure_test(NAME "Core_NotNullObserverPtr_DefaultConstructor" SOURCE
-# "src/Core/NotNullObserverPtr.default.fail.cpp") compile_failure_test(NAME
-# "Core_NotNullObserverPtr_ConstructFromNullptr" SOURCE
-# "src/Core/NotNullObserverPtr.construct_nullptr.fail.cpp"); compile_failure_test(NAME
-# "Core_NotNUllObserverPtr_AssignNullptr" SOURCE
-# "src/Core/NotNullObserverPtr.assign_nullptr.fail.cpp")
+compile_failure_test(NAME "Core_NotNullObserverPtr_DefaultConstructor" SOURCE
+                     "src/Core/NotNullObserverPtr.default.fail.cpp")
+compile_failure_test(NAME "Core_NotNullObserverPtr_ConstructFromNullptr" SOURCE
+                     "src/Core/NotNullObserverPtr.construct_nullptr.fail.cpp")
+compile_failure_test(NAME "Core_NotNUllObserverPtr_AssignNullptr" SOURCE
+                     "src/Core/NotNullObserverPtr.assign_nullptr.fail.cpp")
 
 # Meta
 compile_failure_test(NAME "Meta_AlwaysFalse_TwoPhaseLookup" SOURCE

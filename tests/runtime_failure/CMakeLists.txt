@@ -52,4 +52,4 @@ runtime_failure_test(NAME "Core_ObserverPtr_ReleaseFromNullptr" SOURCE
 runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_star" SOURCE
                      "src/Core/ObserverPtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_arrow" SOURCE
-                     "src/Core/Observerptr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
+                     "src/Core/ObserverPtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
