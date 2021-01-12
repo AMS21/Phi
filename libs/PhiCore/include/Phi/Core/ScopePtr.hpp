@@ -139,6 +139,14 @@ public:
         return NotNullScopePtr<TypeT>(leak_ptr());
     }
 
+    template <typename OtherT>
+    constexpr NotNullScopePtr<OtherT> release_not_null() noexcept
+    {
+        PHI_DBG_ASSERT(get() != nullptr, "Can not release to NotNullScopePtr from nullptr");
+
+        return NotNullScopePtr<OtherT>(static_cast<OtherT*>(leak_ptr()));
+    }
+
     void reset(TypeT* new_pointer) noexcept
     {
         delete m_Ptr;
@@ -348,6 +356,7 @@ public:
 
     constexpr void swap(NotNullScopePtr<TypeT>& other) noexcept
     {
+        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
 
         std::swap(m_Ptr, other.m_Ptr);
@@ -356,6 +365,7 @@ public:
     template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
     constexpr void swap(NotNullScopePtr<OtherT>& other) noexcept
     {
+        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
 
         std::swap(m_Ptr, other.m_Ptr);

@@ -465,7 +465,6 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
 
         ptr = phi::NotNullObserverPtr<int>(&j);
 
-        CHECK(ptr);
         CHECK(ptr.get() == &j);
         CHECK(*ptr == 17);
     }
@@ -479,24 +478,8 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
 
         ptr = &j;
 
-        CHECK(ptr);
         CHECK(ptr.get() == &j);
         CHECK(*ptr == 23);
-    }
-
-    SECTION("operator bool")
-    {
-        int                          i = 99;
-        phi::NotNullObserverPtr<int> ptr(&i);
-        CHECK(ptr);
-    }
-
-    SECTION("operator Boolean")
-    {
-        int                          i = 77;
-        phi::NotNullObserverPtr<int> ptr(&i);
-
-        CHECK(static_cast<phi::Boolean>(ptr));
     }
 
     SECTION("operator TypeT*")
@@ -523,7 +506,6 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
 
         ptr.reset(&j);
 
-        REQUIRE(ptr);
         CHECK(ptr.get() == &j);
         CHECK(*ptr == 666);
     }
@@ -538,8 +520,6 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
 
         p1.swap(p2);
 
-        REQUIRE(p1);
-        REQUIRE(p2);
         CHECK(p1.get() == &j);
         CHECK(p2.get() == &i);
     }
@@ -557,13 +537,6 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
         CHECK(p1 == p1);
         CHECK(p2 == p2);
         CHECK(p3 == p3);
-
-        CHECK_FALSE(p1 == nullptr);
-        CHECK_FALSE(p2 == nullptr);
-        CHECK_FALSE(p3 == nullptr);
-        CHECK_FALSE(nullptr == p1);
-        CHECK_FALSE(nullptr == p2);
-        CHECK_FALSE(nullptr == p3);
 
         CHECK_FALSE(p1 == p2);
         CHECK_FALSE(p1 == p3);
@@ -589,13 +562,6 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
         CHECK_FALSE(p1 != p1);
         CHECK_FALSE(p2 != p2);
         CHECK_FALSE(p3 != p3);
-
-        CHECK(p1 != nullptr);
-        CHECK(p2 != nullptr);
-        CHECK(p3 != nullptr);
-        CHECK(nullptr != p1);
-        CHECK(nullptr != p2);
-        CHECK(nullptr != p3);
 
         CHECK(p1 != p2);
         CHECK(p1 != p3);

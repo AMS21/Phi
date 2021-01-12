@@ -64,6 +64,20 @@ public:
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
     }
 
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr(const NotNullObserverPtr<OtherT>& other) noexcept
+        : m_Ptr(other.get())
+    {
+        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr(NotNullObserverPtr<OtherT>&& other) noexcept
+        : m_Ptr(std::move(other.get()))
+    {
+        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
+    }
+
     constexpr ObserverPtr<TypeT>& operator=(const ObserverPtr<TypeT>& other) noexcept
     {
         m_Ptr = other.m_Ptr;
@@ -72,6 +86,22 @@ public:
     }
 
     constexpr ObserverPtr<TypeT>& operator=(ObserverPtr<TypeT>&& other) noexcept
+    {
+        m_Ptr = std::move(other.m_Ptr);
+
+        return *this;
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr<TypeT>& operator=(const ObserverPtr<OtherT>& other) noexcept
+    {
+        m_Ptr = other.m_Ptr;
+
+        return *this;
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr<TypeT>& operator=(ObserverPtr<OtherT>&& other) noexcept
     {
         m_Ptr = std::move(other.m_Ptr);
 
@@ -88,6 +118,26 @@ public:
     }
 
     constexpr ObserverPtr<TypeT>& operator=(NotNullObserverPtr<TypeT>&& other) noexcept
+    {
+        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
+
+        m_Ptr = std::move(other.get());
+
+        return *this;
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr<TypeT>& operator=(const NotNullObserverPtr<OtherT>& other) noexcept
+    {
+        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
+
+        m_Ptr = other.get();
+
+        return *this;
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr ObserverPtr<TypeT>& operator=(NotNullObserverPtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
 
@@ -266,6 +316,8 @@ public:
     using pointer         = TypeT*;
     using const_pointer   = const TypeT*;
 
+    NotNullObserverPtr() = delete;
+
     NotNullObserverPtr(std::nullptr_t) = delete;
 
     constexpr NotNullObserverPtr(TypeT* pointer) noexcept
@@ -329,41 +381,35 @@ public:
 
     constexpr TypeT& operator*() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     constexpr const TypeT& operator*() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     constexpr TypeT* operator->() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
     constexpr const TypeT* operator->() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
-    constexpr explicit operator bool() const noexcept
-    {
-        return true;
-    }
+    operator bool() = delete;
 
-    constexpr operator Boolean() const noexcept
-    {
-        return true;
-    }
+    operator Boolean() = delete;
 
     constexpr explicit operator TypeT*() const noexcept
     {
@@ -382,9 +428,21 @@ public:
         m_Ptr = pointer;
     }
 
+    void reset(std::nullptr_t) = delete;
+
     constexpr void swap(NotNullObserverPtr<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
+        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
+        PHI_DBG_ASSERT(other.get() != nullptr,
+                       "Trying to assign nullptr to phi::NotNullObserverPtr");
+
+        std::swap(m_Ptr, other.m_Ptr);
+    }
+
+    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    constexpr void swap(NotNullObserverPtr<OtherT>& other) noexcept
+    {
+        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
         PHI_DBG_ASSERT(other.get() != nullptr,
                        "Trying to assign nullptr to phi::NotNullObserverPtr");
 
@@ -402,16 +460,10 @@ constexpr Boolean operator==(NotNullObserverPtr<LhsT> lhs, NotNullObserverPtr<Rh
 }
 
 template <typename LhsT>
-constexpr Boolean operator==(NotNullObserverPtr<LhsT>, std::nullptr_t) noexcept
-{
-    return false;
-}
+Boolean operator==(NotNullObserverPtr<LhsT>, std::nullptr_t) = delete;
 
 template <typename RhsT>
-constexpr Boolean operator==(std::nullptr_t, NotNullObserverPtr<RhsT>) noexcept
-{
-    return false;
-}
+Boolean operator==(std::nullptr_t, NotNullObserverPtr<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT>
 constexpr Boolean operator!=(NotNullObserverPtr<LhsT> lhs, NotNullObserverPtr<RhsT> rhs) noexcept
@@ -420,16 +472,10 @@ constexpr Boolean operator!=(NotNullObserverPtr<LhsT> lhs, NotNullObserverPtr<Rh
 }
 
 template <typename LhsT>
-constexpr Boolean operator!=(NotNullObserverPtr<LhsT>, std::nullptr_t) noexcept
-{
-    return true;
-}
+Boolean operator!=(NotNullObserverPtr<LhsT>, std::nullptr_t) = delete;
 
 template <typename RhsT>
-constexpr Boolean operator!=(std::nullptr_t, NotNullObserverPtr<RhsT>) noexcept
-{
-    return true;
-}
+Boolean operator!=(std::nullptr_t, NotNullObserverPtr<RhsT>) = delete;
 
 // make functions
 
