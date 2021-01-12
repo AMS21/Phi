@@ -53,3 +53,19 @@ runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_star" SO
                      "src/Core/ObserverPtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_arrow" SOURCE
                      "src/Core/ObserverPtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_ScopePtr_DereferenceNullptrOperatorStar" SOURCE
+                     "src/Core/ScopePtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_ScopePtr_DereferenceNullptrOperatorArrow" SOURCE
+                     "src/Core/ScopePtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_ScopePtr_ReleaseFromNullptr" SOURCE
+                     "src/Core/ScopePtr.release_from_nullptr.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullScopePtr_AssignNullptr" SOURCE
+                     "src/Core/NotNullScopePtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullScopePtr_ConstructWithNullptr" SOURCE
+                     "src/Core/NotNullScopePtr.construct_nullptr.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullScopePtr_AccessAfterLeakPtrCall" SOURCE
+                     "src/Core/NotNullScopePtr.get_after_leak.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullScopePtr_AccessAfterMoved" SOURCE
+                     "src/Core/NotNullScopePtr.get_after_move.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullScopePtr_ResetNullptr" SOURCE
+                     "src/Core/NotNullScopePtr.reset_nullptr.fail.cpp" CONFIGURATIONS Debug)

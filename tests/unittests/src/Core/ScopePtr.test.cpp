@@ -414,7 +414,6 @@ TEST_CASE("NotNullScopePtr", "[Core][ScopePtr][NotNullScopePtr]")
 
         ptr = std::move(ptr2);
 
-        CHECK(ptr2.get() == nullptr);
         CHECK(ptr.get() == raw_ptr2);
     }
 
@@ -443,7 +442,6 @@ TEST_CASE("NotNullScopePtr", "[Core][ScopePtr][NotNullScopePtr]")
         int* leaked_ptr = ptr.leak_ptr();
 
         CHECK(leaked_ptr == raw_ptr);
-        CHECK(ptr.get() == nullptr);
 
         delete leaked_ptr;
     }

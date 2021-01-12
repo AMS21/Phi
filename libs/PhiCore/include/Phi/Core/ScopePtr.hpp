@@ -344,6 +344,8 @@ public:
         m_Ptr = new_pointer;
     }
 
+    void reset(std::nullptr_t) = delete;
+
     constexpr void swap(NotNullScopePtr<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
@@ -365,6 +367,8 @@ public:
 
     constexpr TypeT* get() noexcept
     {
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Accessing phi::NotNullScopePtr after it was deleted");
+
         return m_Ptr;
     }
 
