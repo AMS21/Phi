@@ -138,7 +138,7 @@ public:
         return get();
     }
 
-    constexpr operator bool() const noexcept
+    constexpr explicit operator bool() const noexcept
     {
         return get() != nullptr;
     }
@@ -355,7 +355,7 @@ public:
         return get();
     }
 
-    constexpr operator bool() const noexcept
+    constexpr explicit operator bool() const noexcept
     {
         return true;
     }
