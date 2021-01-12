@@ -2,6 +2,7 @@
 
 if(NOT PHI_AUTO_FORMATTING)
   message(STATUS "Auto formatting disabled")
+  return()
 endif()
 
 # Clang format
