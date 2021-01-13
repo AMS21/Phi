@@ -10,6 +10,9 @@ jobs:
       GCC_VERSION: "10"
       LLVM_VERSION: "11"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
       matrix:
@@ -58,7 +61,7 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          ctest .
+          ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data (GCC)
         run: |
@@ -89,7 +92,7 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          ctest .
+          ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data (Clang)
         run: |
@@ -117,6 +120,9 @@ jobs:
       GCC_VERSION: "10"
       XCODE_VERSION: "11.6"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
       matrix:
@@ -151,7 +157,7 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          ctest .
+          ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data (GCC)
         run: |
@@ -183,7 +189,7 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          ctest .
+          ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data (Clang)
         run: |
@@ -209,6 +215,9 @@ jobs:
     runs-on: windows-latest
     env:
       LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
       matrix:
@@ -244,7 +253,7 @@ jobs:
           cmake --build . --clean-first
 
           # Generate coverage data
-          ctest .
+          ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data
         shell: bash

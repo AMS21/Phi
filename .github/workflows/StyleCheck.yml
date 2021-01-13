@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LLVM_VERSION: 11
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
 
     steps:
       - name: Checkout
@@ -99,7 +102,7 @@ jobs:
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_CONSTEXPRTESTS=On -DPHI_ENABLE_FAILURE_TESTS=On
           cmake --build . --clean-first
-          ctest .
+          ctest . -C Debug
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v3.0.2

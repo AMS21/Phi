@@ -7,8 +7,9 @@ jobs:
     runs-on: macos-latest
 
     env:
-      CTEST_OUTPUT_ON_FAILURE: ON
-      CTEST_PARALLEL_LEVEL: 2
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
       # Sanitizers
       ASAN_OPTIONS: "strict_string_checks=true:detect_odr_violation=2:detect_stack_use_after_return=true:check_initialization_order=true:strict_init_order=true:detect_invalid_pointer_pairs=3"
       TSAN_OPTIONS: "force_seq_cst_atomics=1"
@@ -123,6 +124,9 @@ jobs:
 
   Warnings:
     runs-on: macos-latest
+
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     strategy:
       fail-fast: false
