@@ -37,7 +37,7 @@ public:
         return m_Variable;
     }
 
-    [[nodiscard]] constexpr const ValueT get_saved_value() const noexcept
+    [[nodiscard]] constexpr ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
