@@ -84,11 +84,11 @@ if(EXISTS "${LOC_PATH}")
 endif()
 
 # Check external directory
-if(NOT IS_DIRECTORY "${CMAKE_SOURCE_DIR}/external/Catch2/src")
+if(NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2/src")
   message(
     FATAL_ERROR
       "The external dependencies repositories are missing! "
-      "You probably did not clone the project with --recursive. It is possible to recover "
+      "You probably did not clone the project with --recursive flag. It is possible to recover "
       "by calling \"git submodule update --init --recursive\"")
 endif()
 
