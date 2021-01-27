@@ -1,0 +1,14 @@
+path_classifiers:
+  docs:
+    - docs
+  examples:
+    - examples
+  test:
+    - tests
+  library:
+    - external
+  tools:
+    - tools
+
+queries:
+  - include: "*"
