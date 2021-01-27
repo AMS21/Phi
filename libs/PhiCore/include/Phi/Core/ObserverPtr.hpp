@@ -35,8 +35,8 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    constexpr ObserverPtr(TypeT* pointer) noexcept
-        : m_Ptr(pointer)
+    constexpr ObserverPtr(TypeT* ptr) noexcept
+        : m_Ptr(ptr)
     {}
 
     constexpr ObserverPtr(const ObserverPtr<TypeT>& other) noexcept
@@ -153,9 +153,9 @@ public:
         return *this;
     }
 
-    constexpr ObserverPtr<TypeT>& operator=(TypeT* pointer) noexcept
+    constexpr ObserverPtr<TypeT>& operator=(TypeT* ptr) noexcept
     {
-        m_Ptr = pointer;
+        m_Ptr = ptr;
 
         return *this;
     }
@@ -210,9 +210,9 @@ public:
 
     constexpr TypeT* release() noexcept
     {
-        TypeT* pointer = m_Ptr;
+        TypeT* ptr = m_Ptr;
         reset();
-        return pointer;
+        return ptr;
     }
 
     constexpr NotNullObserverPtr<TypeT> release_not_null() noexcept
@@ -230,9 +230,9 @@ public:
         return NotNullObserverPtr<OtherT>(static_cast<OtherT*>(release()));
     }
 
-    constexpr void reset(TypeT* pointer = nullptr) noexcept
+    constexpr void reset(TypeT* ptr = nullptr) noexcept
     {
-        m_Ptr = pointer;
+        m_Ptr = ptr;
     }
 
     constexpr void swap(ObserverPtr& other) noexcept
@@ -320,10 +320,10 @@ public:
 
     NotNullObserverPtr(std::nullptr_t) = delete;
 
-    constexpr NotNullObserverPtr(TypeT* pointer) noexcept
-        : m_Ptr(pointer)
+    constexpr NotNullObserverPtr(TypeT* ptr) noexcept
+        : m_Ptr(ptr)
     {
-        PHI_DBG_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr.");
+        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr.");
     }
 
     constexpr NotNullObserverPtr(const NotNullObserverPtr<TypeT>& other) noexcept
@@ -370,11 +370,11 @@ public:
 
     NotNullObserverPtr<TypeT>& operator=(std::nullptr_t) = delete;
 
-    constexpr NotNullObserverPtr<TypeT>& operator=(TypeT* pointer) noexcept
+    constexpr NotNullObserverPtr<TypeT>& operator=(TypeT* ptr) noexcept
     {
-        PHI_DBG_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
+        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
 
-        m_Ptr = pointer;
+        m_Ptr = ptr;
 
         return *this;
     }
@@ -421,11 +421,11 @@ public:
         return m_Ptr;
     }
 
-    constexpr void reset(TypeT* pointer) noexcept
+    constexpr void reset(TypeT* ptr) noexcept
     {
-        PHI_DBG_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
+        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");
 
-        m_Ptr = pointer;
+        m_Ptr = ptr;
     }
 
     void reset(std::nullptr_t) = delete;
@@ -480,15 +480,15 @@ Boolean operator!=(std::nullptr_t, NotNullObserverPtr<RhsT>) = delete;
 // make functions
 
 template <typename TypeT>
-[[nodiscard]] constexpr ObserverPtr<TypeT> make_observer(TypeT* pointer) noexcept
+[[nodiscard]] constexpr ObserverPtr<TypeT> make_observer(TypeT* ptr) noexcept
 {
-    return ObserverPtr<TypeT>(pointer);
+    return ObserverPtr<TypeT>(ptr);
 }
 
 template <typename TypeT>
-[[nodiscard]] constexpr NotNullObserverPtr<TypeT> make_not_null_observer(TypeT* pointer) noexcept
+[[nodiscard]] constexpr NotNullObserverPtr<TypeT> make_not_null_observer(TypeT* ptr) noexcept
 {
-    return NotNullObserverPtr<TypeT>(pointer);
+    return NotNullObserverPtr<TypeT>(ptr);
 }
 
 DETAIL_PHI_END_NAMESPACE()
@@ -498,18 +498,18 @@ namespace std
     template <typename TypeT>
     struct hash<phi::ObserverPtr<TypeT>>
     {
-        std::size_t operator()(phi::ObserverPtr<TypeT> pointer) const noexcept
+        std::size_t operator()(phi::ObserverPtr<TypeT> ptr) const noexcept
         {
-            return std::hash<TypeT*>()(pointer.get());
+            return std::hash<TypeT*>()(ptr.get());
         }
     };
 
     template <typename TypeT>
     struct hash<phi::NotNullObserverPtr<TypeT>>
     {
-        std::size_t operator()(phi::NotNullObserverPtr<TypeT> pointer) const noexcept
+        std::size_t operator()(phi::NotNullObserverPtr<TypeT> ptr) const noexcept
         {
-            return std::hash<TypeT*>()(pointer.get());
+            return std::hash<TypeT*>()(ptr.get());
         }
     };
 } // namespace std

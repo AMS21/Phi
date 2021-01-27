@@ -11,6 +11,9 @@ template <typename ValueT>
 class ScopedValueGuard
 {
 public:
+    using this_type  = ScopedValueGuard<ValueT>;
+    using value_type = ValueT;
+
     constexpr ScopedValueGuard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)
@@ -56,6 +59,9 @@ template <typename ValueT>
 class ArmedScopedValueGuard
 {
 public:
+    using this_type  = ArmedScopedValueGuard<ValueT>;
+    using value_type = ValueT;
+
     constexpr ArmedScopedValueGuard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)

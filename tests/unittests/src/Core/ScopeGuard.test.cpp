@@ -8,7 +8,7 @@ void increment(int& val)
     val += 1;
 }
 
-int global_value = 0;
+static int global_value = 0;
 
 void set_global_to_zero()
 {

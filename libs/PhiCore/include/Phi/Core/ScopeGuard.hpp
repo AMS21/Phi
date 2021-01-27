@@ -18,6 +18,9 @@ private:
                   "phi::ScopeGuard should store its callable by value");
 
 public:
+    using this_type   = ScopeGuard<ActionT>;
+    using action_type = ActionT;
+
     constexpr explicit ScopeGuard(ActionT action) noexcept
         : m_Action(std::move(action))
     {}
@@ -46,6 +49,9 @@ private:
                   "phi::ArmedScopeGuard should store its callable by value");
 
 public:
+    using this_type   = ArmedScopeGuard<ActionT>;
+    using action_type = ActionT;
+
     constexpr explicit ArmedScopeGuard(ActionT action) noexcept
         : m_Action(std::move(action))
         , m_Armed{true}

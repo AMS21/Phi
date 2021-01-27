@@ -6,7 +6,7 @@
 #endif
 
 // This function setups the windows crt debug mode to not open any message boxes
-void SetupDebugReportMode()
+static void SetupDebugReportMode()
 {
 #if defined(_WIN32)
     // Crt errors

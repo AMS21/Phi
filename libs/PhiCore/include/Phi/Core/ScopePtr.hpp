@@ -35,8 +35,8 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    constexpr explicit ScopePtr(TypeT* pointer) noexcept
-        : m_Ptr(pointer)
+    constexpr explicit ScopePtr(TypeT* ptr) noexcept
+        : m_Ptr(ptr)
     {}
 
     constexpr ScopePtr(ScopePtr<TypeT>&& other) noexcept
@@ -100,13 +100,13 @@ public:
         return *this;
     }
 
-    constexpr ScopePtr<TypeT>& operator=(TypeT* pointer) noexcept
+    constexpr ScopePtr<TypeT>& operator=(TypeT* ptr) noexcept
     {
-        if (m_Ptr != pointer)
+        if (m_Ptr != ptr)
         {
             delete m_Ptr;
         }
-        m_Ptr = pointer;
+        m_Ptr = ptr;
 
         return *this;
     }
@@ -126,10 +126,10 @@ public:
 
     constexpr TypeT* leak_ptr() noexcept
     {
-        TypeT* pointer = get();
-        m_Ptr          = nullptr;
+        TypeT* ptr = get();
+        m_Ptr      = nullptr;
 
-        return pointer;
+        return ptr;
     }
 
     constexpr NotNullScopePtr<TypeT> release_not_null() noexcept
@@ -147,10 +147,10 @@ public:
         return NotNullScopePtr<OtherT>(static_cast<OtherT*>(leak_ptr()));
     }
 
-    void reset(TypeT* new_pointer) noexcept
+    void reset(TypeT* new_ptr) noexcept
     {
         delete m_Ptr;
-        m_Ptr = new_pointer;
+        m_Ptr = new_ptr;
     }
 
     constexpr void swap(ScopePtr<TypeT>& other) noexcept
@@ -281,10 +281,10 @@ public:
 
     NotNullScopePtr(std::nullptr_t) = delete;
 
-    constexpr explicit NotNullScopePtr(TypeT* pointer) noexcept
-        : m_Ptr(pointer)
+    constexpr explicit NotNullScopePtr(TypeT* ptr) noexcept
+        : m_Ptr(ptr)
     {
-        PHI_DBG_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
+        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
     }
 
     constexpr NotNullScopePtr(NotNullScopePtr<TypeT>&& other) noexcept
@@ -324,15 +324,15 @@ public:
         return *this;
     }
 
-    constexpr NotNullScopePtr<TypeT>& operator=(TypeT* pointer) noexcept
+    constexpr NotNullScopePtr<TypeT>& operator=(TypeT* ptr) noexcept
     {
-        PHI_DBG_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
+        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
 
-        if (m_Ptr != pointer)
+        if (m_Ptr != ptr)
         {
             delete m_Ptr;
         }
-        m_Ptr = pointer;
+        m_Ptr = ptr;
 
         return *this;
     }
@@ -344,12 +344,12 @@ public:
         return std::exchange(m_Ptr, nullptr);
     }
 
-    void reset(TypeT* new_pointer) noexcept
+    void reset(TypeT* new_ptr) noexcept
     {
-        PHI_DBG_ASSERT(new_pointer != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
+        PHI_DBG_ASSERT(new_ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
 
         delete m_Ptr;
-        m_Ptr = new_pointer;
+        m_Ptr = new_ptr;
     }
 
     void reset(std::nullptr_t) = delete;
@@ -546,18 +546,18 @@ namespace std
     template <typename TypeT>
     struct hash<phi::ScopePtr<TypeT>>
     {
-        std::size_t operator()(phi::ScopePtr<TypeT> pointer) const noexcept
+        std::size_t operator()(phi::ScopePtr<TypeT> ptr) const noexcept
         {
-            return std::hash<TypeT*>()(pointer.get());
+            return std::hash<TypeT*>()(ptr.get());
         }
     };
 
     template <typename TypeT>
     struct hash<phi::NotNullScopePtr<TypeT>>
     {
-        std::size_t operator()(phi::NotNullScopePtr<TypeT> pointer) const noexcept
+        std::size_t operator()(phi::NotNullScopePtr<TypeT> ptr) const noexcept
         {
-            return std::hash<TypeT*>()(pointer.get());
+            return std::hash<TypeT*>()(ptr.get());
         }
     };
 } // namespace std
