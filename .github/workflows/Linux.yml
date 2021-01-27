@@ -40,7 +40,7 @@ jobs:
           submodules: recursive
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.19.1
+        uses: lukka/get-cmake@v3.19.2
 
       - name: Install
         run: |
@@ -157,7 +157,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.19.1
+        uses: lukka/get-cmake@v3.19.2
 
       - name: Install
         run: |
