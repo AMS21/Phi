@@ -1,6 +1,6 @@
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
+  message(STATUS "[Phi]: Setting build type to 'RelWithDebInfo' as none was specified.")
   set(CMAKE_BUILD_TYPE
       RelWithDebInfo
       CACHE STRING "Choose the type of build." FORCE)
@@ -26,7 +26,7 @@ if(PHI_ENABLE_IPO)
       target_link_libraries(phi_project_options INTERFACE -Wl,--no-as-needed)
     endif()
   else()
-    message(WARNING "IPO is not supported: ${ipo_output}")
+    message(WARNING "[Phi]: IPO is not supported: ${ipo_output}")
     set(PHI_ENABLE_IPO
         OFF
         CACHE BOOL "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" FORCE)
@@ -64,4 +64,19 @@ if(PHI_COMPILER_CLANG)
     target_compile_options(phi_project_options INTERFACE -stdlib=libc++)
     target_link_libraries(phi_project_options INTERFACE -stdlib=libc++)
   endif()
+endif()
+
+# Color diagnostics
+option(PHI_COLOR_DIAGNOSTICS ON "Enable colored diagnostics")
+
+if(PHI_COMPILER_CLANG)
+  target_compile_options(phi_project_options INTERFACE -fcolor-diagnostics)
+elseif(PHI_COMPILER_GCC)
+  target_compile_options(phi_project_options INTERFACE -fdiagnostics-color=always)
+else()
+  message(
+    STATUS "[Phi]: No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+  set(PHI_COLOR_DIAGNOSTICS
+      OFF
+      CACHE BOOL "Enable colored diagnostics" FORCE)
 endif()

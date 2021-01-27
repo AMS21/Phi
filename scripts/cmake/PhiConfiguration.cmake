@@ -20,7 +20,7 @@ if(PHI_COMPILER_CLANG)
   option(PHI_BUILD_WITH_TIME_TRACE
          "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(PHI_BUILD_WITH_TIME_TRACE)
-    add_compile_definitions(phi_project_options INTERFACE -ftime-trace)
+    target_compile_definitions(phi_project_options INTERFACE -ftime-trace)
   endif()
 endif()
 
@@ -50,6 +50,10 @@ include(StaticAnalyzers)
 
 # Enable automatic formatting
 include(Formatting)
+
+# Enable user linker
+include(Linker)
+phi_configure_linker(phi_project_options)
 
 function(phi_fix_dynamic_dep target)
   if(PHI_COMPILER_MSVC)

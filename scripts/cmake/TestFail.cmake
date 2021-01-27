@@ -6,11 +6,11 @@ function(runtime_failure_test)
 
   # Check required arguments
   if(NOT DEFINED rtf_NAME)
-    message(FATAL_ERROR "NAME must be defined.")
+    message(FATAL_ERROR "[Phi]: NAME must be defined.")
   endif()
 
   if(NOT DEFINED rtf_SOURCE)
-    message(FATAL_ERROR "SOURCE must be defined.")
+    message(FATAL_ERROR "[Phi]: SOURCE must be defined.")
   endif()
 
   set(TEST_NAME "RuntimeFailure_${rtf_NAME}")
@@ -48,11 +48,11 @@ function(compile_failure_test)
 
   # Check required arguments
   if(NOT DEFINED ctf_NAME)
-    message(FATAL_ERROR "NAME must be defined.")
+    message(FATAL_ERROR "[Phi]: NAME must be defined.")
   endif()
 
   if(NOT DEFINED ctf_SOURCE)
-    message(FATAL_ERROR "SOURCE must be defined.")
+    message(FATAL_ERROR "[Phi]: SOURCE must be defined.")
   endif()
 
   set(TEST_NAME "CompileFailure_${ctf_NAME}")

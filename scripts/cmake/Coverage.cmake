@@ -8,7 +8,7 @@ if(PHI_COVERAGE_BUILD)
                                                          -fcoverage-mapping -O0 -g -fno-inline)
     target_link_libraries(phi_project_options INTERFACE -fprofile-instr-generate -fcoverage-mapping)
   else()
-    message(WARNING "[Phi] No coverage flags set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    message(WARNING "[Phi]: No coverage flags set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   # Replace always inline with never inline
@@ -17,4 +17,6 @@ if(PHI_COVERAGE_BUILD)
 
   # Disable optimization flags from Phi
   set(PHI_ENABLE_OPTIMIZATION_FLAGS OFF)
+
+  message(STATUS "[Phi]: Enabled coverage flags")
 endif()

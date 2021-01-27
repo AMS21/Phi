@@ -37,10 +37,22 @@ function(enable_sanitizers project)
 
   endif()
 
+  # Get target type
+  get_property(
+    target_type
+    TARGET ${project}
+    PROPERTY TYPE)
+
+  if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
+    set(visibility_scope INTERFACE)
+  else()
+    set(visibility_scope PRIVATE)
+  endif()
+
   if(list_of_sanitizers)
     if(NOT "${list_of_sanitizers}" STREQUAL "")
-      target_compile_options(${project} INTERFACE -fsanitize=${list_of_sanitizers})
-      target_link_libraries(${project} INTERFACE -fsanitize=${list_of_sanitizers})
+      target_compile_options(${project} ${visibility_scope} -fsanitize=${list_of_sanitizers})
+      target_link_options(${project} ${visibility_scope} -fsanitize=${list_of_sanitizers})
     endif()
   endif()
 

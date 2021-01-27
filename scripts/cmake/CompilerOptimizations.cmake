@@ -1,5 +1,12 @@
 #
 
+option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi" ON)
+option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
+
+set(ARCH
+    "native"
+    CACHE STRING "Optimization target for platform specific optimization")
+
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
   if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)
@@ -46,6 +53,24 @@ function(set_project_optimizations project)
     message(WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
-  target_compile_options(${project} INTERFACE ${project_opt})
-  target_link_options(${project} INTERFACE ${project_linker_opt})
+  # Get target type
+  get_property(
+    target_type
+    TARGET ${project}
+    PROPERTY TYPE)
+
+  if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
+    set(visibility_scope INTERFACE)
+  else()
+    set(visibility_scope PRIVATE)
+  endif()
+
+  target_compile_options(${project} ${visibility_scope} ${project_opt})
+  target_link_options(${project} ${visibility_scope} ${project_linker_opt})
+
+  if(PHI_ENABLE_PSO AND NOT PHI_COMPILER_MSVC)
+    target_compile_options(${project} ${visibility_scope} "-march=${ARCH}")
+  endif()
+
+  message(STATUS "[Phi]: Setting optimization flags for ${project}")
 endfunction()

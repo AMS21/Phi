@@ -55,7 +55,7 @@ add_library(Phi::Core ALIAS ${PROJECT_NAME})
 add_library(Phi::CoreDynamic ALIAS ${DYNAMIC_LIB_NAME})
 
 foreach(lib ${PROJECT_NAME} ${DYNAMIC_LIB_NAME})
-  enable_static_analyzers(${lib})
+  phi_enable_static_analyzers(${lib})
 
   target_include_directories(
     ${lib}

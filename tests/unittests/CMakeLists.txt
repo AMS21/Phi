@@ -74,7 +74,7 @@ foreach(lib ${UnittestLibs})
 
   set_target_properties(${lib} PROPERTIES FOLDER "Tests/Unittest")
 
-  enable_static_analyzers(${lib})
+  phi_enable_static_analyzers(${lib})
 
   add_test(${lib} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${lib})
 endforeach()

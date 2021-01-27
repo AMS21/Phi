@@ -52,7 +52,7 @@ function(phi_add_external_project)
     if(NOT TARGET ${target})
       message(
         FATAL_ERROR
-          "Could not find target ${target} at phi_add_external_project when adding external project ${ext_PROJECT}"
+          "[Phi]: Could not find target ${target} at phi_add_external_project when adding external project ${ext_PROJECT}"
       )
     endif()
 
@@ -89,5 +89,5 @@ function(phi_add_external_project)
     set_target_properties(${target} PROPERTIES FOLDER "External")
   endforeach()
 
-  message(STATUS "Added external project ${ext_PROJECT}")
+  message(STATUS "[Phi]: Added external project ${ext_PROJECT}")
 endfunction()
