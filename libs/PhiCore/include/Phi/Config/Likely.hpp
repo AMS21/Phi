@@ -15,7 +15,7 @@
 #        define PHI_UNLIKELY_CASE /* Nothing */
 #    endif
 #elif PHI_COMPILER_IS(CLANG)
-#    if __has_builtin(__builtin_expect)
+#    if defined(__has_builtin) && __has_builtin(__builtin_expect)
 #        define PHI_LIKELY(condition)   __builtin_expect(!!(condition), 1)
 #        define PHI_UNLIKELY(condition) __builtin_expect(!!(condition), 0)
 #    else
