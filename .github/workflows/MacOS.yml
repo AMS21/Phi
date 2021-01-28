@@ -19,17 +19,52 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
+          # gcc-8
+          - { compiler: g++, compiler_version: "8" }
+          - { compiler: g++, compiler_version: "8", dynamic_test: "asan" }
+          - { compiler: g++, compiler_version: "8", dynamic_test: "lsan" }
+          - { compiler: g++, compiler_version: "8", dynamic_test: "ubsan" }
+          - { compiler: g++, compiler_version: "8", dynamic_test: "valgrind" }
+          # gcc-9
+          - { compiler: g++, compiler_version: "9" }
+          - { compiler: g++, compiler_version: "9", dynamic_test: "asan" }
+          - { compiler: g++, compiler_version: "9", dynamic_test: "lsan" }
+          - { compiler: g++, compiler_version: "9", dynamic_test: "ubsan" }
+          - { compiler: g++, compiler_version: "9", dynamic_test: "valgrind" }
+          # gcc-10
           - { compiler: g++, compiler_version: "10" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "asan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
+          # AppleClang 12.0.1
+          - { compiler: clang++, compiler_version: "12.0" }
+          - { compiler: clang++, compiler_version: "12.0", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "12.0", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "12.0", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "12.0", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "12.0", dynamic_test: "valgrind" }
+          # AppleClang 12.1.1
+          - { compiler: clang++, compiler_version: "12.1.1" }
+          - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "valgrind" }
+          # AppleClang 12.2
           - { compiler: clang++, compiler_version: "12.2" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "msan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "valgrind" }
+          # AppleClang 12.3
+          - { compiler: clang++, compiler_version: "12.3" }
+          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout
