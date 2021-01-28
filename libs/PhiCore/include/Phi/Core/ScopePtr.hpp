@@ -31,7 +31,7 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    constexpr ScopePtr(std::nullptr_t) noexcept
+    constexpr explicit ScopePtr(std::nullptr_t) noexcept
         : m_Ptr(nullptr)
     {}
 

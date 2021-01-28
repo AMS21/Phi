@@ -38,7 +38,7 @@ public:
         , z(val_z)
     {}
 
-    constexpr Vector3(TypeT val_xyz) noexcept
+    constexpr explicit Vector3(TypeT val_xyz) noexcept
         : x(val_xyz)
         , y(val_xyz)
         , z(val_xyz)

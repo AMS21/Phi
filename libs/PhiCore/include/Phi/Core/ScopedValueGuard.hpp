@@ -14,7 +14,7 @@ public:
     using this_type  = ScopedValueGuard<ValueT>;
     using value_type = ValueT;
 
-    constexpr ScopedValueGuard(ValueT& variable) noexcept
+    constexpr explicit ScopedValueGuard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)
     {}
@@ -30,12 +30,7 @@ public:
         m_Variable = m_SavedValue;
     }
 
-    [[nodiscard]] constexpr const ValueT& get_variable() const noexcept
-    {
-        return m_Variable;
-    }
-
-    [[nodiscard]] constexpr ValueT& get_variable() noexcept
+    [[nodiscard]] constexpr ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
@@ -82,17 +77,12 @@ public:
         }
     }
 
-    [[nodiscard]] constexpr const ValueT& get_variable() const noexcept
+    [[nodiscard]] constexpr ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    [[nodiscard]] constexpr ValueT& get_variable() noexcept
-    {
-        return m_Variable;
-    }
-
-    [[nodiscard]] constexpr const ValueT get_saved_value() const noexcept
+    [[nodiscard]] constexpr ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }

@@ -203,7 +203,7 @@ public:
         return get();
     }
 
-    constexpr TypeT* get() const noexcept
+    [[nodiscard]] constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
     }
@@ -215,7 +215,7 @@ public:
         return ptr;
     }
 
-    constexpr NotNullObserverPtr<TypeT> release_not_null() noexcept
+    [[nodiscard]] constexpr NotNullObserverPtr<TypeT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
@@ -223,7 +223,7 @@ public:
     }
 
     template <typename OtherT>
-    constexpr NotNullObserverPtr<OtherT> release_not_null() noexcept
+    [[nodiscard]] constexpr NotNullObserverPtr<OtherT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
@@ -416,7 +416,7 @@ public:
         return get();
     }
 
-    constexpr TypeT* get() const noexcept
+    [[nodiscard]] constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
     }
