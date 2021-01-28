@@ -6,10 +6,10 @@
 
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_ASSUME(condition) __assume(condition)
-#elif PHI_COMPILER_IS(CLANG) && defined(__has_builtin)
-#    if __has_builtin(__builtin_assume)
+#elif PHI_COMPILER_IS(CLANG)
+#    if PHI_HAS_BUILTIN(__builtin_assume)
 #        define PHI_ASSUME(condition) __builtin_assume(condition)
-#    elif __has_builtin(__builtin_unreachable)
+#    elif PHI_HAS_BUILTIN(__builtin_unreachable)
 // clang-format off
 #        define PHI_ASSUME(condition) if (condition){} else __builtin_unreachable()
 // clang-format on

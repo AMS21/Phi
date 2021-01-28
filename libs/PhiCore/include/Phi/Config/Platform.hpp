@@ -38,7 +38,7 @@
 #        define PHI_PLATFORM_IOS()  1
 #        define PHI_PLATFORM_NAME() "IPhone"
 #    elif TARGET_IPHONE_SIMULATOR
-#         #        undef PHI_PLATFORM_IOS
+#        undef PHI_PLATFORM_IOS
 #        undef PHI_PLATFORM_IOS_SIMULATOR
 #        define PHI_PLATFORM_IOS()           1
 #        define PHI_PLATFORM_IOS_SUMULATOR() 1

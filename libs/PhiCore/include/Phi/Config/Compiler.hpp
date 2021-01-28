@@ -93,4 +93,56 @@
 #define PHI_COMPILER_IS_BELOW(compiler, major, minor, patch)                                       \
     (PHI_COMPILER_IS(compiler) && PHI_COMPILER_VERSION_IS_BELOW(major, minor, patch))
 
+// has attribute
+#if defined(__has_attribute)
+#    define PHI_HAS_ATTRIBUTE(attribute) __has_attribute(attribute)
+#else
+#    define PHI_HAS_ATTRIBUTE(attribute) (0)
+#endif
+
+// has builtin
+#if defined(__has_builtin)
+#    define PHI_HAS_BUILTIN(builtin) __has_builtin(builtin)
+#else
+#    define PHI_HAS_BUILTIN(builtin) (0)
+#endif
+
+// has declspec attribute
+#if defined(__has_declspec_attribute)
+#    define PHI_HAS_DECLSPEC_ATTRIBUTE(attribute) __has_declspec_attribute(attribute)
+#else
+#    define PHI_HAS_DECLSPEC_ATTRIBUTE(attribute) (0)
+#endif
+
+// has feature
+#if defined(__has_feature)
+#    define PHI_HAS_FEATURE(feature) __has_feature(feature)
+#else
+#    define PHI_HAS_FEATURE(feature) (0)
+#endif
+
+// has extension
+#if defined(__has_extension)
+#    define PHI_HAS_EXTENSION(extension) __has_extension(extension)
+#else
+#    define PHI_HAS_EXTENSION(extension) (0)
+#endif
+
+// has warning
+#if defined(__has_warning)
+#    define PHI_HAS_WARNING(warning) __has_warning(warning)
+#else
+#    define PHI_HAS_WARNING(warning) (0)
+#endif
+
+// pragma
+#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                             \
+        PHI_COMPILER_IS_ATLEAST(ICC, 13, 0, 0)
+#    define PHI_PRAGMA(value) _Pragma(#    value)
+#elif PHI_COMPILER_IS_ATLEAST(MSVC, 15, 0, 0)
+#    define PHI_PRAGMA(value) __pragma(value)
+#else
+#    define PHI_PRAGMA(value) /* Nothing */
+#endif
+
 #endif // INCG_PHI_CONFIG_COMPILER_HPP

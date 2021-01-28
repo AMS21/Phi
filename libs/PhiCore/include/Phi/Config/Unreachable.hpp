@@ -8,7 +8,7 @@
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_UNREACHABLE() PHI_ASSUME(0)
 #elif PHI_COMPILER_IS(CLANG)
-#    if defined(__has_builtin) && __has_builtin(__builtin_unreachable)
+#    if PHI_HAS_BUILTIN(__builtin_unreachable)
 #        define PHI_UNREACHABLE() __builtin_unreachable()
 #    else
 #        define PHI_UNREACHABLE() PHI_ASSUME(0)
