@@ -54,16 +54,14 @@ set(UnittestLibs)
 
 # Runtime unittests
 set(UnittestName "Phi_Unittests")
-set(UnittestDynName "${UnittestName}Dynamic")
 
-list(APPEND UnittestLibs ${UnittestName} ${UnittestDynName})
+list(APPEND UnittestLibs ${UnittestName})
 
 # Constexpr unittests
 if(${PHI_ENABLE_CONSTEXPRTESTS})
   set(ConstexprTestName "Phi_ConstexprUnittests")
-  set(ConstexprDynTestName "${ConstexprTestName}Dynamic")
 
-  list(APPEND UnittestLibs ${ConstexprTestName} ${ConstexprDynTestName})
+  list(APPEND UnittestLibs ${ConstexprTestName})
 endif()
 
 foreach(lib ${UnittestLibs})
@@ -82,13 +80,10 @@ endforeach()
 
 # Runtime static require for Runtime tests
 target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-target_compile_definitions(${UnittestDynName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 
 # Link to correct Phi::Core library
 target_link_libraries(${UnittestName} PRIVATE Phi::Core)
-target_link_libraries(${UnittestDynName} PRIVATE Phi::CoreDynamic)
 
 if(${PHI_ENABLE_CONSTEXPRTESTS})
   target_link_libraries(${ConstexprTestName} PRIVATE Phi::Core)
-  target_link_libraries(${ConstexprDynTestName} PRIVATE Phi::CoreDynamic)
 endif()

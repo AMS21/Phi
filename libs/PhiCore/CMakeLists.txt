@@ -47,31 +47,19 @@ file(GLOB PHI_CORE_SOURCES "src/Core/Log.cpp")
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${PHI_CORE_HEADERS} ${PHI_CORE_SOURCES})
 
 # PhiCore library
-set(DYNAMIC_LIB_NAME "${PROJECT_NAME}Dynamic")
-
 add_library(${PROJECT_NAME} STATIC ${PHI_CORE_HEADERS} ${PHI_CORE_SOURCES})
-add_library(${DYNAMIC_LIB_NAME} SHARED ${PHI_CORE_HEADERS} ${PHI_CORE_SOURCES})
 
 # Alias targets
 add_library(Phi::Core ALIAS ${PROJECT_NAME})
-add_library(Phi::CoreDynamic ALIAS ${DYNAMIC_LIB_NAME})
 
-foreach(lib ${PROJECT_NAME} ${DYNAMIC_LIB_NAME})
-  phi_enable_static_analyzers(${lib})
+phi_enable_static_analyzers(${PROJECT_NAME})
 
-  target_include_directories(
-    ${lib}
-    PUBLIC "include"
-    PRIVATE "src")
+target_include_directories(
+  ${PROJECT_NAME}
+  PUBLIC "include"
+  PRIVATE "src")
 
-  target_link_libraries(
-    ${lib}
-    PUBLIC spdlog::spdlog Threads::Threads
-    PRIVATE Phi::InternalProjectOptions)
-endforeach()
-
-target_compile_definitions(${PROJECT_NAME} PUBLIC "PHI_STATIC_BUILD")
-target_compile_definitions(${DYNAMIC_LIB_NAME} INTERFACE "PHI_IMPORT")
-
-# Fix dynamic target dependency libs
-phi_fix_dynamic_dep(${DYNAMIC_LIB_NAME})
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC spdlog::spdlog Threads::Threads
+  PRIVATE Phi::InternalProjectOptions)
