@@ -692,9 +692,10 @@ PHI_ALWAYS_INLINE constexpr auto operator+(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(
-            !detail::will_addition_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
-            "Addition will result in overflow. Args {} + {}", lhs.get(), rhs.get());
+    PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<type>{},
+                                                static_cast<type>(lhs.get()),
+                                                static_cast<type>(rhs.get())),
+                   "Addition will result in overflow. Args {} + {}", lhs.get(), rhs.get());
 
     return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs)));
 }
@@ -728,8 +729,9 @@ PHI_ALWAYS_INLINE constexpr auto operator-(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<type>{}, lhs.get(),
-                                                   rhs.get()),
+    PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<type>{},
+                                                   static_cast<type>(lhs.get()),
+                                                   static_cast<type>(rhs.get())),
                    "Subtraction will result in underflow. Args {} - {}", lhs.get(), rhs.get());
 
     return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs)));
@@ -764,8 +766,9 @@ PHI_ALWAYS_INLINE constexpr auto operator*(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_multiplication_error(detail::arithmetic_tag_for<type>{}, lhs.get(),
-                                                      rhs.get()),
+    PHI_DBG_ASSERT(!detail::will_multiplication_error(detail::arithmetic_tag_for<type>{},
+                                                      static_cast<type>(lhs.get()),
+                                                      static_cast<type>(rhs.get())),
                    "Multiplication will result in overflow. Args {} * {}", lhs.get(), rhs.get());
 
     return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs)));
@@ -800,9 +803,10 @@ PHI_ALWAYS_INLINE constexpr auto operator/(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(
-            !detail::will_division_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
-            "Division by zero/overflow. Args {} / {}", lhs.get(), rhs.get());
+    PHI_DBG_ASSERT(!detail::will_division_error(detail::arithmetic_tag_for<type>{},
+                                                static_cast<type>(lhs.get()),
+                                                static_cast<type>(rhs.get())),
+                   "Division by zero/overflow. Args {} / {}", lhs.get(), rhs.get());
 
     return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs)));
 }
@@ -836,9 +840,10 @@ PHI_ALWAYS_INLINE constexpr auto operator%(const Integer<LhsT>& lhs,
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(
-            !detail::will_modulo_error(detail::arithmetic_tag_for<type>{}, lhs.get(), rhs.get()),
-            "Modulo by zero. Args {} % {}", lhs.get(), rhs.get());
+    PHI_DBG_ASSERT(!detail::will_modulo_error(detail::arithmetic_tag_for<type>{},
+                                              static_cast<type>(lhs.get()),
+                                              static_cast<type>(rhs.get())),
+                   "Modulo by zero. Args {} % {}", lhs.get(), rhs.get());
 
     return Integer<type>(static_cast<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs)));
 }
