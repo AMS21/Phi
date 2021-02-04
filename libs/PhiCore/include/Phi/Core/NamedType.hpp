@@ -95,13 +95,13 @@ public:
     {
         PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 
-        NamedType operator=(TypeT&& value) const
+        NamedType operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
             return NamedType(std::forward<TypeT>(value));
         }
 
         template <typename OtherT>
-        NamedType operator=(OtherT&& value) const
+        NamedType operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
             return NamedType(std::forward<OtherT>(value));
         }
