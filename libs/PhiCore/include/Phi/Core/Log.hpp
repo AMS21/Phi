@@ -12,7 +12,7 @@ PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-class PHI_API Log
+class Log
 {
 public:
     [[nodiscard]] static std::shared_ptr<spdlog::logger> get_core_logger() noexcept;
