@@ -1,8 +1,9 @@
 # Phi ![GitHub](https://img.shields.io/github/license/AMS21/Phi) [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AMS21/Phi) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/AMS21/Phi)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/Linux?label=Linux%20Build)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/MacOS?label=MacOS%20Build)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/Windows?label=Windows%20Build)
+![Linux](https://github.com/AMS21/Phi/workflows/Linux/badge.svg?event=push)
+![MacOS](https://github.com/AMS21/Phi/workflows/MacOS/badge.svg?event=push)
+![Windows](https://github.com/AMS21/Phi/workflows/Windows/badge.svg?event=push)
+![Emscripten](https://github.com/AMS21/Phi/workflows/Emscripten/badge.svg?event=push)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/09c3ab7a70ba4a9a95f270707e81b25b)](https://www.codacy.com/manual/AMS21/Phi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AMS21/Phi&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/ams21/phi/badge)](https://www.codefactor.io/repository/github/ams21/phi)
 ![Coverity Scan](https://img.shields.io/coverity/scan/ams21-phi)
