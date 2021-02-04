@@ -60,8 +60,13 @@ function(set_project_warnings project)
   set(phi_clang_warnings -Weverything -Wformat=2 -Wstrict-aliasing=2 -Wstrict-overflow=5)
 
   set(phi_clang_disabled_warnings
-      -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-documentation-unknown-command -Wno-padded
-      -Wno-missing-prototypes -Wno-ctad-maybe-unsupported)
+      -Wno-c++98-compat
+      -Wno-c++98-compat-pedantic
+      -Wno-documentation-unknown-command
+      -Wno-padded
+      -Wno-missing-prototypes
+      -Wno-ctad-maybe-unsupported
+      -Wno-gnu-zero-variadic-macro-arguments)
 
   set(phi_clang_pedantic_flags -pedantic -pedantic-errors)
 
