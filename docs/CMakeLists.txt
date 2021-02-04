@@ -21,5 +21,5 @@ if(DOXYGEN_FOUND)
 
   doxygen_add_docs(PhiEngine_Documentation ${PROJECT_SOURCE_DIR}/libs/Phi)
 elseif()
-  message(WARNING "Trying to build documentation but the Doxygen executable wasn't found!")
+  phi_warn("Trying to build documentation but the Doxygen executable wasn't found!")
 endif()

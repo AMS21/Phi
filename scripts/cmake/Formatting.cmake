@@ -1,7 +1,7 @@
 # Copied from https://github.com/BlueBrain/git-cmake-format/blob/master/FindClangFormat.cmake
 
 if(NOT PHI_AUTO_FORMATTING)
-  message(STATUS "[Phi]: Auto formatting disabled")
+  phi_trace("Auto formatting disabled")
   return()
 endif()
 
@@ -66,9 +66,8 @@ endif()
 if(CLANG_FORMAT_EXECUTABLE)
   set(CLANG_FORMAT_FOUND TRUE)
 
-  message(
-    STATUS
-      "[Phi]: Found clang-format version ${CLANG_FORMAT_VERSION_MAJOR}.${CLANG_FORMAT_VERSION_MINOR}.${CLANG_FORMAT_VERSION_PATCH}"
+  phi_log(
+    "Found clang-format version ${CLANG_FORMAT_VERSION_MAJOR}.${CLANG_FORMAT_VERSION_MINOR}.${CLANG_FORMAT_VERSION_PATCH} at ${CLANG_FORMAT_EXECUTABLE}"
   )
 else()
   set(CLANG_FORMAT_FOUND FALSE)
@@ -85,7 +84,7 @@ add_custom_target(
   COMMENT "Running clang-format on ${NUMBER_OF_SOURCES} source files"
   COMMAND ${CLANG_FORMAT_EXECUTABLE} -style=file -i ${ALL_SOURCE_FILES})
 
-# Cmake format
+# CMake format
 find_program(
   CMAKE_FORMAT_EXECUTABLE
   NAMES cmake-format
@@ -95,7 +94,7 @@ mark_as_advanced(CMAKE_FORMAT_EXECUTABLE)
 if(CMAKE_FORMAT_EXECUTABLE)
   set(CMAKE_FORMAT_FOUND TRUE)
 
-  message(STATUS "[Phi]: Found cmake-format at ${CMAKE_FORMAT_EXECUTABLE}")
+  phi_log("Found cmake-format at ${CMAKE_FORMAT_EXECUTABLE}")
 else()
   set(CMAKE_FORMAT_FOUND FALSE)
 endif()
@@ -119,16 +118,16 @@ list(LENGTH ALL_CMAKEFILES NUMBER_OF_CMAKEFILES)
 
 add_custom_target(
   cmake-format
-  COMMENT "Running cmake-format on ${NUMBER_OF_CMAKEFILES} cmake files"
+  COMMENT "Running cmake-format on ${NUMBER_OF_CMAKEFILES} CMake files"
   COMMAND ${CMAKE_FORMAT_EXECUTABLE} -i ${ALL_CMAKEFILES})
 
 # Format target
 if(CLANG_FORMAT_FOUND OR CMAKE_FORMAT_FOUND)
   add_custom_target(format ALL)
-  message(STATUS "[Phi]: Auto formatting enabled")
+  phi_log("Auto formatting enabled")
 else()
   add_custom_target(format)
-  message(STATUS "[Phi]: Auto formatting disabled")
+  phi_log("Auto formatting disabled")
 endif()
 
 # Add dependencies

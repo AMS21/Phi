@@ -1,6 +1,6 @@
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "[Phi]: Setting build type to 'RelWithDebInfo' as none was specified.")
+  phi_log("Setting build type to 'RelWithDebInfo' as none was specified.")
   set(CMAKE_BUILD_TYPE
       RelWithDebInfo
       CACHE STRING "Choose the type of build." FORCE)
@@ -10,14 +10,17 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
                                                "RelWithDebInfo")
 endif()
 
-# Generate compile_commands.json to make it easier to work with clang based tools
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+phi_trace("Build type: ${CMAKE_BUILD_TYPE}")
 
-option(PHI_ENABLE_IPO "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
+# Generate compile_commands.json to make it easier to work with clang based tools
+set(CMAKE_EXPORT_COMPILE_COMMANDS
+    ON
+    CACHE BOOL "" FORCE)
 
 if(PHI_ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ipo_result OUTPUT ipo_output)
+
   if(ipo_result)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
     if(PHI_COMPILER_CLANG)
@@ -26,7 +29,7 @@ if(PHI_ENABLE_IPO)
       target_link_libraries(phi_project_options INTERFACE -Wl,--no-as-needed)
     endif()
   else()
-    message(WARNING "[Phi]: IPO is not supported: ${ipo_output}")
+    phi_warn("IPO is not supported: ${ipo_output}")
     set(PHI_ENABLE_IPO
         OFF
         CACHE BOOL "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" FORCE)
@@ -34,11 +37,7 @@ if(PHI_ENABLE_IPO)
 endif()
 
 # Setting the runtime library on windows platforms
-option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
-       "Dynamic")
-set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
-
-if(PHI_OS_WINDOWS)
+if(PHI_PLATFORM_WINDOWS)
   if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.15.0")
     if(${PHI_STANDARD_RUNTIME} STREQUAL "Static")
       set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -56,9 +55,6 @@ if(PHI_OS_WINDOWS)
 endif()
 
 # Standard library
-option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" "Default")
-set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++")
-
 if(PHI_COMPILER_CLANG)
   if(${PHI_STANDARD_LIBRARY} STREQUAL "libc++")
     target_compile_options(phi_project_options INTERFACE -stdlib=libc++)
@@ -67,15 +63,12 @@ if(PHI_COMPILER_CLANG)
 endif()
 
 # Color diagnostics
-option(PHI_COLOR_DIAGNOSTICS ON "Enable colored diagnostics")
-
 if(PHI_COMPILER_CLANG)
   target_compile_options(phi_project_options INTERFACE -fcolor-diagnostics)
 elseif(PHI_COMPILER_GCC)
   target_compile_options(phi_project_options INTERFACE -fdiagnostics-color=always)
 else()
-  message(
-    STATUS "[Phi]: No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+  phi_warn("No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   set(PHI_COLOR_DIAGNOSTICS
       OFF
       CACHE BOOL "Enable colored diagnostics" FORCE)

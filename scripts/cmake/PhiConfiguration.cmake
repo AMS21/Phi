@@ -3,7 +3,7 @@
 # Project options
 add_library(phi_project_options INTERFACE)
 add_library(Phi::ProjectOptions ALIAS phi_project_options)
-# Require C++20 and disable extensions
+# Require C++17 and disable extensions
 set_target_properties(phi_project_options PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17
                                                      INTERFACE_CXX_EXTENSIONS OFF)
 
@@ -12,12 +12,8 @@ add_library(Phi::InternalProjectOptions ALIAS phi_internal_project_options)
 
 target_link_libraries(phi_internal_project_options INTERFACE Phi::ProjectOptions)
 
-if(PHI_COMPILER_CLANG)
-  option(PHI_BUILD_WITH_TIME_TRACE
-         "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
-  if(PHI_BUILD_WITH_TIME_TRACE)
-    target_compile_definitions(phi_project_options INTERFACE -ftime-trace)
-  endif()
+if(PHI_COMPILER_CLANG AND PHI_BUILD_WITH_TIME_TRACE)
+  target_compile_definitions(phi_project_options INTERFACE -ftime-trace)
 endif()
 
 # Standard project settings

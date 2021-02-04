@@ -11,9 +11,13 @@ endif()
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
+include(Functions)
+
 set(PHI_VERSION_MAJOR 0)
 set(PHI_VERSION_MINOR 1)
 set(PHI_VERSION_PATCH 0)
+
+phi_log("Configuring Phi version ${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}")
 
 # Project
 project(
@@ -26,8 +30,10 @@ project(
 if(NOT DEFINED PHI_MASTER_PROJECT)
   if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(PHI_MASTER_PROJECT ON)
+    phi_trace("Building as master project")
   else()
     set(PHI_MASTER_PROJECT OFF)
+    phi_trace("Building as submodule")
   endif()
 endif()
 
@@ -47,14 +53,35 @@ option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
 option(PHI_AUTO_FORMATTING "Automatically format all source code during builds"
        ${PHI_MASTER_PROJECT})
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
+option(PHI_ENABLE_CACHE "Enable cache if available" ON)
+option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi" ON)
+option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
+option(PHI_ARCH "Optimization target for platform specific optimization" "native")
+option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" ON)
+option(PHI_ENABLE_USER_LINKER "Enable a specific linker if available" OFF)
+option(PHI_BUILD_WITH_TIME_TRACE
+       "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
+option(PHI_ENABLE_IPO "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
+option(PHI_COLOR_DIAGNOSTICS ON "Enable colored diagnostics")
+option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
+option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
+option(PHI_EANBKE_IWYU "Enable static analysis with include-what-you-use" OFF)
+
+option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
+       "Dynamic")
+set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
+
+option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" "Default")
+set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++")
 
 # CI Builds Settings
 if(${PHI_CI_BUILD} AND ${PHI_MASTER_PROJECT})
-  message(STATUS "Phi: Is CI build")
+  phi_trace("Is CI build")
 
   # Disable auto formatting
   set(PHI_AUTO_FORMATTING
-      OFF
+      FALSE
       CACHE BOOL "" FORCE)
 
   # Enable verbose makefile
@@ -74,27 +101,20 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Build html files when using emscripten
-if(PHI_OS_EMSCRIPTEN)
-  set(CMAKE_EXECUTABLE_SUFFIX ".html")
-endif()
-
 # Warn about not out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
-  message(
-    WARNING
-      "[Phi] You shoudnt build in a source directory (or any directory with a CMakeLists.txt file)."
-      "Please consider makeing a build subdirectory.")
+  phi_warn(
+    "You shoudnt build in a source directory (or any directory with a CMakeLists.txt file). Please consider makeing a build subdirectory."
+  )
 endif()
 
 # Check external directory
 if(NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2/src")
-  message(
-    FATAL_ERROR
-      "The external dependencies repositories are missing! "
-      "You probably did not clone the project with --recursive flag. It is possible to recover "
-      "by calling \"git submodule update --init --recursive\"")
+  phi_error(
+    "The external dependencies repositories are missing! "
+    "You probably did not clone the project with --recursive flag. It is possible to recover "
+    "by calling \"git submodule update --init --recursive\"")
 endif()
 
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})

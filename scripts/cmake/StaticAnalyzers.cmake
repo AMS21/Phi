@@ -1,12 +1,8 @@
-option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
-option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(PHI_EANBKE_IWYU "Enable static analysis with include-what-you-use" OFF)
-
 if(PHI_ENABLE_CPPCHECK)
   find_program(CPPCHECK cppcheck)
 
   if(CPPCHECK)
-    message(STATUS "[Phi]: cppcheck found: ${CPPCHECK}")
+    phi_log("CppCheck found: ${CPPCHECK}")
 
     set(CPPCHECK
         ${CPPCHECK}
@@ -17,7 +13,10 @@ if(PHI_ENABLE_CPPCHECK)
         -i
         ${CMAKE_SOURCE_DIR}/extlib)
   else()
-    message(SEND_ERROR "[Phi]: cppcheck requested but executable not found")
+    phi_warn("CppCheck requested but executable not found")
+    set(PHI_ENABLE_CPPCHECK
+        OFF
+        CACHE BOOL "" FORCE)
   endif()
 endif()
 
@@ -42,19 +41,25 @@ if(PHI_ENABLE_CLANG_TIDY)
           clang-tidy-3.3)
 
   if(CLANG_TIDY)
-    message(STATUS "[Phi]: clang-tidy found: ${CLANG_TIDY}")
+    phi_log("clang-tidy found: ${CLANG_TIDY}")
   else()
-    message(SEND_ERROR "[Phi]: clang-tidy requested but executable not found")
+    phi_warn("clang-tidy requested but executable not found")
+    set(PHI_ENABLE_CLANG_TIDY
+        OFF
+        CACHE BOOL "" FORCE)
   endif()
 endif()
 
-if(PHI_EANBKE_IWYU)
+if(PHI_ENABLE_IWYU)
   find_program(INCLUDE_WHAT_YOU_USE NAMES include-what-you-use iwyu)
 
   if(INCLUDE_WHAT_YOU_USE)
-    message(STATUS "[Phi]: include-what-you-use found: ${INCLUDE_WHAT_YOU_USE}")
+    phi_log("include-what-you-use found: ${INCLUDE_WHAT_YOU_USE}")
   else()
-    message(SEND_ERROR "[Phi]: include-what-you-use requested but executable not found")
+    phi_warn("include-what-you-use requested but executable not found")
+    set(PHI_ENABLE_IWYU
+        OFF
+        CACHE BOOL "" FORCE)
   endif()
 endif()
 

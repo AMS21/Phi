@@ -1,12 +1,3 @@
-#
-
-option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi" ON)
-option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
-
-set(ARCH
-    "native"
-    CACHE STRING "Optimization target for platform specific optimization")
-
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
   if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)
@@ -50,7 +41,7 @@ function(set_project_optimizations project)
   elseif(PHI_COMPILER_GCC)
     set(project_opt ${phi_gcc_opt})
   else()
-    message(WARNING "No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    phi_warn("No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   # Get target type
@@ -69,8 +60,8 @@ function(set_project_optimizations project)
   target_link_options(${project} ${visibility_scope} ${project_linker_opt})
 
   if(PHI_ENABLE_PSO AND NOT PHI_COMPILER_MSVC)
-    target_compile_options(${project} ${visibility_scope} "-march=${ARCH}")
+    target_compile_options(${project} ${visibility_scope} "-march=${PHI_ARCH}")
   endif()
 
-  message(STATUS "[Phi]: Setting optimization flags for ${project}")
+  phi_trace("Setting optimization flags for ${project}")
 endfunction()

@@ -2,9 +2,6 @@
 #
 # https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
 
-option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" FALSE)
-option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" TRUE)
-
 # Enable warnings for project
 function(set_project_warnings project)
   set(phi_msvc_warnings
@@ -130,8 +127,7 @@ function(set_project_warnings project)
   elseif(PHI_COMPILER_GCC)
     set(project_warnings ${phi_gcc_warnings})
   else()
-    message(
-      AUTHOR_WARNING "[Phi]: No compiler warnings set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    phi_warn("No compiler warnings set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
   endif()
 
   # Get target type
