@@ -1,0 +1,54 @@
+name: Emscripten
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      EM_CACHE_FOLDER: 'emsdk-cache'
+
+    strategy:
+      matrix:
+        em_version: ["2.0.12", "1.40.1"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          submodules: recursive
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v8
+        with:
+          version: ${{ matrix.em_version }}
+          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.19.2
+
+      - name: Configure build directory
+        run: |
+          mkdir -p build
+          cd build
+          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
+
+      - name: Build Debug
+        run: |
+          cd build
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=Debug
+          emmake cmake --build . --clean-first
+
+      - name: Build RelWithDebInfo
+        run: |
+          cd build
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          emmake cmake --build . --clean-first
+
+      - name: Build Release
+        run: |
+          cd build
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=Release
+          emmake cmake --build . --clean-first
