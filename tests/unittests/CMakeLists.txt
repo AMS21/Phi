@@ -67,7 +67,7 @@ endif()
 foreach(lib ${UnittestLibs})
   add_executable(${lib} "${TEST_HEADERS}" "${TEST_SOURCES}")
 
-  target_link_libraries(${lib} PRIVATE Phi::InternalProjectOptions Catch2::Catch2WithMain)
+  target_link_libraries(${lib} PRIVATE Phi::InternalProjectOptions Phi::Core Catch2::Catch2WithMain)
 
   target_include_directories(${lib} PRIVATE "include")
 
@@ -80,10 +80,3 @@ endforeach()
 
 # Runtime static require for Runtime tests
 target_compile_definitions(${UnittestName} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-
-# Link to correct Phi::Core library
-target_link_libraries(${UnittestName} PRIVATE Phi::Core)
-
-if(${PHI_ENABLE_CONSTEXPRTESTS})
-  target_link_libraries(${ConstexprTestName} PRIVATE Phi::Core)
-endif()

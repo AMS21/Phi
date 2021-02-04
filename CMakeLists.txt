@@ -8,7 +8,7 @@ else()
   cmake_policy(VERSION 3.19)
 endif()
 
-# Cmake modules
+# CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 set(PHI_VERSION_MAJOR 0)
@@ -44,7 +44,8 @@ option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 option(PHI_ENABLE_FAILURE_TESTS "Build the failure tests" ON)
 option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
-option(PHI_AUTO_FORMATTING "Automatically format all source code when builds" ${PHI_MASTER_PROJECT})
+option(PHI_AUTO_FORMATTING "Automatically format all source code during builds"
+       ${PHI_MASTER_PROJECT})
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 
 # CI Builds Settings
@@ -101,11 +102,11 @@ set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 # Find required system libs
 find_package(Threads REQUIRED)
 
-# Load tools
-add_subdirectory(tools)
-
 # Load external dependencies
 add_subdirectory(external)
+
+# Load tools
+add_subdirectory(tools)
 
 # Load libs
 add_subdirectory(libs)
