@@ -261,7 +261,7 @@ namespace detail
         static_assert(sizeof(TypeT) <= sizeof(OtherT) &&
                               std::is_signed<OtherT>::value == std::is_signed<TypeT>::value,
                       "mismatched types");
-        static_assert(U(std::numeric_limits<TypeT>::min()) <= Value &&
+        static_assert(OtherT(std::numeric_limits<TypeT>::min()) <= Value &&
                               Value <= OtherT(std::numeric_limits<TypeT>::max()),
                       "integer literal overflow");
         return static_cast<TypeT>(Value);
