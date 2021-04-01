@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.cfg.os }}
 
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -20,66 +20,66 @@ jobs:
       matrix:
         cfg:
           # gcc-8
-          - { compiler: g++, compiler_version: "8" }
-          - { compiler: g++, compiler_version: "8", dynamic_test: "asan" }
-          - { compiler: g++, compiler_version: "8", dynamic_test: "lsan" }
-          - { compiler: g++, compiler_version: "8", dynamic_test: "tsan" }
-          - { compiler: g++, compiler_version: "8", dynamic_test: "ubsan" }
-          - { compiler: g++, compiler_version: "8", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8", dynamic_test: "lsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "8", dynamic_test: "valgrind" }
           # gcc-9
-          - { compiler: g++, compiler_version: "9" }
-          - { compiler: g++, compiler_version: "9", dynamic_test: "asan" }
-          - { compiler: g++, compiler_version: "9", dynamic_test: "lsan" }
-          - { compiler: g++, compiler_version: "9", dynamic_test: "tsan" }
-          - { compiler: g++, compiler_version: "9", dynamic_test: "ubsan" }
-          - { compiler: g++, compiler_version: "9", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9", dynamic_test: "lsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "9", dynamic_test: "valgrind" }
           # gcc-10
-          - { compiler: g++, compiler_version: "10" }
-          - { compiler: g++, compiler_version: "10", dynamic_test: "asan" }
-          - { compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
-          - { compiler: g++, compiler_version: "10", dynamic_test: "tsan" }
-          - { compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
-          - { compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
           # clang-7
-          - { compiler: clang++, compiler_version: "7" }
-          - { compiler: clang++, compiler_version: "7", dynamic_test: "asan" }
-          - { compiler: clang++, compiler_version: "7", dynamic_test: "lsan" }
-          #- { compiler: clang++, compiler_version: "7", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "7", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "7", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "7", dynamic_test: "valgrind" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "asan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "lsan" }
+          #- { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "msan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "tsan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "ubsan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "valgrind" }
           # clang-8
-          - { compiler: clang++, compiler_version: "8" }
-          - { compiler: clang++, compiler_version: "8", dynamic_test: "asan" }
-          - { compiler: clang++, compiler_version: "8", dynamic_test: "lsan" }
-          #- { compiler: clang++, compiler_version: "8", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "8", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "8", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "8", dynamic_test: "valgrind" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "asan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "lsan" }
+          #- { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "msan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "tsan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "ubsan" }
+          - { os: ubuntu-18.04, compiler: clang++, compiler_version: "8", dynamic_test: "valgrind" }
           # clang-9
-          - { compiler: clang++, compiler_version: "9" }
-          - { compiler: clang++, compiler_version: "9", dynamic_test: "asan" }
-          - { compiler: clang++, compiler_version: "9", dynamic_test: "lsan" }
-          #- { compiler: clang++, compiler_version: "9", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "9", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "9", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "9", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "lsan" }
+          #- { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "msan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "9", dynamic_test: "valgrind" }
           # clang-10
-          - { compiler: clang++, compiler_version: "10" }
-          - { compiler: clang++, compiler_version: "10", dynamic_test: "asan" }
-          - { compiler: clang++, compiler_version: "10", dynamic_test: "lsan" }
-          #- { compiler: clang++, compiler_version: "10", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "10", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "10", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "10", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "lsan" }
+          #- { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "msan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "10", dynamic_test: "valgrind" }
           # clang-11
-          - { compiler: clang++, compiler_version: "11" }
-          - { compiler: clang++, compiler_version: "11", dynamic_test: "asan" }
-          - { compiler: clang++, compiler_version: "11", dynamic_test: "lsan" }
-          #- { compiler: clang++, compiler_version: "11", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "11", dynamic_test: "tsan" }
-          - { compiler: clang++, compiler_version: "11", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "11", dynamic_test: "valgrind" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "lsan" }
+          #- { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "msan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "11", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout
@@ -92,11 +92,24 @@ jobs:
 
       - name: Install
         run: |
+          # Determine os name
+          if [ "${{ matrix.cfg.os }}" = "ubuntu-20.04" ]; then
+            os_name="focal"
+          elif [ "${{ matrix.cfg.os }}" = "ubuntu-18.04" ]; then
+            os_name="bionic"
+          elif [ "${{ matrix.cfg.os }}" = "ubunut-16.04" ]; then
+            os_name="xenial"
+          else
+            # Unknown os version
+            exit 1
+          fi
+
           # Adding repositories
+
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
             wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-            sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ matrix.cfg.compiler_version }} main"
+            sudo add-apt-repository "deb http://apt.llvm.org/$os_name/ llvm-toolchain-$os_name-${{ matrix.cfg.compiler_version }} main"
           fi
 
           # Update repo list
