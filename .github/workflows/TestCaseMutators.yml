@@ -6,7 +6,7 @@ jobs:
   mull:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 11
+      LLVM_VERSION: 10
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
