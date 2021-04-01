@@ -4,9 +4,9 @@ on: [push, pull_request]
 
 jobs:
   mull:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 11
+      LLVM_VERSION: 10
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -26,7 +26,7 @@ jobs:
         run: |
           # Add repository
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
 
           # Install
           sudo apt-get update -m
@@ -66,10 +66,10 @@ jobs:
 
       - name: Run mull
         run: |
-          export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-10/lib/clang/10.0.1/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
+          export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-11/lib/clang/11.0.1/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
 
           cd build
-          mull-cxx -test-framework=CustomTest -compdb-path=compile_commands.json -compilation-flags="$COMPILE_FLAGS" -ld-search-path="/lib/x86_64-linux-gnu" -ld-search-path="/usr/lib/x86_64-linux-gnu" -ld-search-path="/lib64" --exclude-path="../external/.*" bin/Phi_Unittests | tee mull_report.log
+          mull-cxx -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$COMPILE_FLAGS" -exclude-path="../external/.*" ./bin/Phi_Unittests | tee mull_report.log
 
           # Remove duplicate entries
           sort mull_report.log | uniq -d > mull_report_filtered.log
