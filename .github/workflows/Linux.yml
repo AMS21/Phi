@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -96,7 +96,7 @@ jobs:
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
             wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-            sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ matrix.cfg.compiler_version }} main"
+            sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ matrix.cfg.compiler_version }} main"
           fi
 
           # Update repo list
@@ -182,7 +182,7 @@ jobs:
           ctest . -C Release
 
   Warnings:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -213,7 +213,7 @@ jobs:
           # Add clang repo
           if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
             wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-            sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ matrix.cfg.compiler_version }} main"
+            sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ matrix.cfg.compiler_version }} main"
           fi
 
           # Update repo list

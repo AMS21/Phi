@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   format:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 11
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -30,7 +30,7 @@ jobs:
           # Install clang-format
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 
-          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
           sudo apt-get update -m
           sudo apt-get install clang-format-${{ env.LLVM_VERSION }}
 
@@ -125,7 +125,7 @@ jobs:
           file_pattern: .github/* .licenses/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* tools/* .cmake-format.yaml CMakeLists.txt README.md
 
   misspell:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -140,7 +140,7 @@ jobs:
           level: warning
 
   yamllint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -155,7 +155,7 @@ jobs:
           level: warning
 
   markdownlint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -169,7 +169,7 @@ jobs:
           level: warning
 
   remark-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -183,7 +183,7 @@ jobs:
           level: warning
 
   languagetool:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout
@@ -196,7 +196,7 @@ jobs:
           level: warning
 
   alex:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout

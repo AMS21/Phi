@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "2"

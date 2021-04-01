@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       LCOV_VERSION: "1.15"
       GCC_VERSION: "10"
@@ -39,7 +39,7 @@ jobs:
 
           # Add clang repo
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
 
           # Update repo list
           sudo apt-get update -m

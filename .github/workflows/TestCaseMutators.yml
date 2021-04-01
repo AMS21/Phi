@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   mull:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 11
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -26,7 +26,7 @@ jobs:
         run: |
           # Add repository
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-${{ env.LLVM_VERSION }} main"
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
 
           # Install
           sudo apt-get update -m
