@@ -52,6 +52,17 @@ struct is_scoped_enum : detail::is_scoped_enum_impl<TypeT, std::is_enum_v<TypeT>
 template <typename TypeT>
 inline constexpr bool is_scoped_enum_v = is_scoped_enum<TypeT>::value;
 
+// copy_const
+template <typename FromT, typename ToT>
+struct copy_const
+{
+    using type = typename std::conditional<std::is_const<FromT>::value,
+                                           const typename std::remove_const<ToT>::type, ToT>::type;
+};
+
+template <typename FromT, typename ToT>
+using copy_const_v = typename copy_const<FromT, ToT>::type;
+
 DETAIL_PHI_END_NAMESPACE()
 
 #endif // INCG_PHI_CORE_TYPETRAITS_HPP

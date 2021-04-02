@@ -65,3 +65,17 @@ TEST_CASE("type_traits is_scoped_enum", "[Core][TypeTraits][is_scoped_enum]")
     STATIC_REQUIRE(phi::is_scoped_enum_v<EClass>);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<int>);
 }
+
+TEST_CASE("type_traits copy_const", "[Core][TypeTraits][copy_const]")
+{
+    STATIC_REQUIRE(std::is_same_v<typename phi::copy_const<int, float>::type, float>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::copy_const<int, const float>::type, const float>);
+    STATIC_REQUIRE(std::is_same_v<typename phi::copy_const<const int, float>::type, const float>);
+    STATIC_REQUIRE(
+            std::is_same_v<typename phi::copy_const<const int, const float>::type, const float>);
+
+    STATIC_REQUIRE(std::is_same_v<phi::copy_const_v<int, float>, float>);
+    STATIC_REQUIRE(std::is_same_v<phi::copy_const_v<int, const float>, const float>);
+    STATIC_REQUIRE(std::is_same_v<phi::copy_const_v<const int, float>, const float>);
+    STATIC_REQUIRE(std::is_same_v<phi::copy_const_v<const int, const float>, const float>);
+}
