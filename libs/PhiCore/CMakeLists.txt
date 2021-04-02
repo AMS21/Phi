@@ -23,6 +23,7 @@ file(
   "include/Phi/Core/Boolean.hpp"
   "include/Phi/Core/Conversion.hpp"
   "include/Phi/Core/CRTP.hpp"
+  "include/Phi/Core/FlatPtr.hpp"
   "include/Phi/Core/FloatingPoint.hpp"
   "include/Phi/Core/Integer.hpp"
   "include/Phi/Core/Log.hpp"

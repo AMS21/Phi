@@ -25,6 +25,7 @@ file(
   "src/Core/At.test.cpp"
   "src/Core/Boolean.test.cpp"
   "src/Core/Conversion.test.cpp"
+  "src/Core/FlatPtr.test.cpp"
   "src/Core/FloatingPoint.test.cpp"
   "src/Core/Integer.test.cpp"
   "src/Core/Log.test.cpp"

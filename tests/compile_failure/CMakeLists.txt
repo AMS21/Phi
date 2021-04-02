@@ -15,6 +15,9 @@ compile_failure_test(NAME "Core_NotNull_NonPointer" SOURCE "src/Core/NotNull.non
 compile_failure_test(NAME "Core_NotNull_ConstructFromNullptr" SOURCE
                      "src/Core/NotNull.nullptr.fail.cpp")
 compile_failure_test(NAME "Core_NotNull_ConstructFromZero" SOURCE "src/Core/NotNull.zero.fail.cpp")
+compile_failure_test(NAME "Core_NotNullFlatPtr_DefaultConstructor" SOURCE "src/Core/NotNullFlatPtr.default.fail.cpp")
+compile_failure_test(NAME "Core_NotNullFlatPtr_ConstructFromNullptr" SOURCE "src/Core/NotNullFlatPtr.construct_nullptr.fail.cpp")
+compile_failure_test(NAME "Core_NotNullFlatPtr_AssignNullptr" SOURCE "src/Core/NotNullFlatPtr.assign_nullptr.fail.cpp")
 compile_failure_test(NAME "Core_NotNullObserverPtr_DefaultConstructor" SOURCE
                      "src/Core/NotNullObserverPtr.default.fail.cpp")
 compile_failure_test(NAME "Core_NotNullObserverPtr_ConstructFromNullptr" SOURCE

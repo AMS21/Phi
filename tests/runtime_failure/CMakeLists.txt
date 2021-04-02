@@ -45,6 +45,8 @@ runtime_failure_test(
 runtime_failure_test(NAME "Core_AssertNotReached" SOURCE "src/Core/AssertNotReached.fail.cpp")
 runtime_failure_test(NAME "Core_DbgAssertNotReached" SOURCE "src/Core/DbgAssertNotReached.fail.cpp"
                      CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_FlatPtr_ReleaseFromNullptr" SOURCE "src/Core/FlatPtr.release_from_nullptr.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Core_NotNullFlatPtr_AssignNullptr" SOURCE "src/Core/NotNullFlatPtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_NotNullObserverPtr_AssignNullptr" SOURCE
                      "src/Core/NotNullObserverPtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_ObserverPtr_ReleaseFromNullptr" SOURCE
