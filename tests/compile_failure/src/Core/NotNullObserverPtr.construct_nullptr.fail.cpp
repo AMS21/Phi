@@ -2,5 +2,5 @@
 
 int main()
 {
-    phi::NotNullObserverPtr<int> ptr = nullptr;
+    phi::NotNullObserverPtr<int> ptr(nullptr);
 }
