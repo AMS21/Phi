@@ -27,6 +27,7 @@ file(
   "include/Phi/Core/FloatingPoint.hpp"
   "include/Phi/Core/Integer.hpp"
   "include/Phi/Core/Log.hpp"
+  "include/Phi/Core/Monitor.hpp"
   "include/Phi/Core/NamedType.hpp"
   "include/Phi/Core/NotNull.hpp"
   "include/Phi/Core/ObserverPtr.hpp"
