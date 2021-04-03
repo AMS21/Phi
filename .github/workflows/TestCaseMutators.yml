@@ -66,7 +66,7 @@ jobs:
 
       - name: Run mull
         run: |
-          export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-11/lib/clang/11.0.1/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
+          export COMPILE_FLAGS="-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -isystem /usr/local/include -isystem /usr/lib/llvm-10/lib/clang/10.0.1/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include"
 
           cd build
           mull-cxx -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$COMPILE_FLAGS" -exclude-path="../external/.*" ./bin/Phi_Unittests | tee mull_report.log
