@@ -36,6 +36,10 @@ compile_failure_test(NAME "Core_NotNullScopePtr_DefaultConstructor" SOURCE
 compile_failure_test(NAME "Core_NotNullScopePtr_ResetWithNullptr" SOURCE
                      "src/Core/NotNullScopePtr.reset_nullptr.fail.cpp")
 
+# Math
+compile_failure_test(NAME "Math_Vector2_UnaryMinus" SOURCE "src/Math/Vector2.unary_minus.fail.cpp")
+compile_failure_test(NAME "Math_Vector3_UnaryMinus" SOURCE "src/Math/Vector3.unary_minus.fail.cpp")
+
 # Meta
 compile_failure_test(NAME "Meta_AlwaysFalse_TwoPhaseLookup" SOURCE
                      "src/Meta/AlwaysFalse.two_phase_lookup.fail.cpp")

@@ -133,6 +133,9 @@ constexpr Vector3<TypeT> operator+(const Vector3<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 {
+    static_assert(!detail::is_integer<TypeT>::value || std::is_signed_v<TypeT>,
+                  "Cannot call unary minus on unsigned integer");
+
     return Vector3<TypeT>(-rhs.x, -rhs.y, -rhs.z);
 }
 

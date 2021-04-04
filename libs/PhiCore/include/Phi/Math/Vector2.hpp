@@ -6,6 +6,7 @@
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Types.hpp"
 #include <iterator>
+#include <type_traits>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -93,6 +94,9 @@ constexpr Vector2<TypeT> operator+(const Vector2<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
 {
+    static_assert(!detail::is_integer<TypeT>::value || std::is_signed_v<TypeT>,
+                  "Cannot call unary minus on unsigned integer");
+
     return Vector2<TypeT>(-rhs.x, -rhs.y);
 }
 
