@@ -29,6 +29,7 @@ file(
   "include/Phi/Core/Log.hpp"
   "include/Phi/Core/Monitor.hpp"
   "include/Phi/Core/NamedType.hpp"
+  "include/Phi/Core/NonCopyable.hpp"
   "include/Phi/Core/NotNull.hpp"
   "include/Phi/Core/ObserverPtr.hpp"
   "include/Phi/Core/ScopedValueGuard.hpp"

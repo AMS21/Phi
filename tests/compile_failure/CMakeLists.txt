@@ -9,6 +9,9 @@ compile_failure_test(NAME "Core_Integer_ConstructFromFloat" SOURCE
                      "src/Core/Integer.float.fail.cpp")
 compile_failure_test(NAME "Core_Integer_UnsignedUnaryMinus" SOURCE
                      "src/Core/Integer.unsigned_unary_minus.fail.cpp")
+compile_failure_test(NAME "Core_NonCopyable_NotConstructable" SOURCE "src/Core/NonCopyable.construct.fail.cpp")
+compile_failure_test(NAME "Core_NonCopyable_CopyAssign" SOURCE "src/Core/NonCopyable.copy_assign.fail.cpp")
+compile_failure_test(NAME "Core_NonCopyable_CopyConstruct" SOURCE "src/Core/NonCopyable.copy_construct.fail.cpp")
 compile_failure_test(NAME "Core_NotNull_DefaultConstructor" SOURCE
                      "src/Core/NotNull.defaulted.fail.cpp")
 compile_failure_test(NAME "Core_NotNull_NonPointer" SOURCE "src/Core/NotNull.non_pointer.fail.cpp")

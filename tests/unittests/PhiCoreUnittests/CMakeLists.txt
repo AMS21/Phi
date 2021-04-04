@@ -31,6 +31,7 @@ file(
   "src/Core/Log.test.cpp"
   "src/Core/Monitor.test.cpp"
   "src/Core/NamedType.test.cpp"
+  "src/Core/NonCopyable.test.cpp"
   "src/Core/NotNull.test.cpp"
   "src/Core/ObserverPtr.test.cpp"
   "src/Core/ScopedValueGuard.test.cpp"
