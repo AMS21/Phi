@@ -21,7 +21,7 @@
 #define PHI_PLATFORM_DOS()           0
 #define PHI_PLATFORM_WEB()           0
 
-#if defined(_WIN32)
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #    undef PHI_PLATFORM_WINDOWS
 #    define PHI_PLATFORM_WINDOWS() 1
 #    define PHI_PLATFORM_NAME()    "Windows"
@@ -61,7 +61,7 @@
 #        undef PHI_PLATFORM_ANDROID
 #        define PHI_PLATFORM_ANDOIRD() 1
 #        define PHI_PLATFORM_NAME()    "Android"
-#    elif defined(__linux__)
+#    elif defined(linux) || defined(__linux) || defined(__linux__)
 #        undef PHI_PLATFORM_LINUX
 #        define PHI_PLATFORM_LINUX() 1
 #        define PHI_PLATFORM_NAME()  "Linux"
