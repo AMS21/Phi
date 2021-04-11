@@ -32,18 +32,20 @@
 #    define PHI_PLATFORM_UNIX()  1
 
 // Apple platform, see which one it is
+// Reference: https://opensource.apple.com/source/CarbonHeaders/CarbonHeaders-18.1/TargetConditionals.h.auto.html
 #    include "TargetConditionals.h"
-#    if TARGET_OS_IPHONE
-#        undef PHI_PLATFORM_IOS
-#        define PHI_PLATFORM_IOS()  1
-#        define PHI_PLATFORM_NAME() "IPhone"
-#    elif TARGET_IPHONE_SIMULATOR
+#    if defined(TARGET_IPHONE_SIMULATOR) && TARGET_IPHONE_SIMULATOR == 1
 #        undef PHI_PLATFORM_IOS
 #        undef PHI_PLATFORM_IOS_SIMULATOR
 #        define PHI_PLATFORM_IOS()           1
 #        define PHI_PLATFORM_IOS_SUMULATOR() 1
-#        define PHI_PLATFORM_NAME()          "IPhone Simulator"
-#    elif TARGET_OS_MAC
+#        define PHI_PLATFORM_NAME()          "iOS Simulator"
+#    elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1
+#        undef PHI_PLATFORM_IOS
+#        define PHI_PLATFORM_IOS()  1
+#        define PHI_PLATFORM_NAME() "iOS"
+#    elif (defined(TARGET_OS_MAC) && TARGET_OS_MAC == 1) ||                                        \
+            (defined(TARGET_OS_OSX) && TARGET_OS_OSX == 1)
 #        undef PHI_PLATFORM_MACOS
 #        define PHI_PLATFORM_MACOS() 1
 #        define PHI_PLATFORM_NAME()  "MacOS"
