@@ -27,7 +27,7 @@ jobs:
           actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.19.2
+        uses: lukka/get-cmake@v3.20.1
 
       - name: Configure build directory
         run: |
