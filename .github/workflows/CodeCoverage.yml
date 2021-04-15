@@ -118,7 +118,7 @@ jobs:
     runs-on: macos-latest
     env:
       GCC_VERSION: "10"
-      XCODE_VERSION: "11.6"
+      XCODE_VERSION: "12.4"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
       CTEST_PARALLEL_LEVEL: "2"

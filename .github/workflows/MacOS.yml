@@ -65,6 +65,13 @@ jobs:
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "valgrind" }
+          # AppleClang 12.4
+          - { compiler: clang++, compiler_version: "12.4" }
+          - { compiler: clang++, compiler_version: "12.4", dynamic_test: "asan" }
+          #- { compiler: clang++, compiler_version: "12.4", dynamic_test: "msan" }
+          - { compiler: clang++, compiler_version: "12.4", dynamic_test: "tsan" }
+          - { compiler: clang++, compiler_version: "12.4", dynamic_test: "ubsan" }
+          - { compiler: clang++, compiler_version: "12.4", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout
@@ -168,7 +175,7 @@ jobs:
       matrix:
         cfg:
           - { compiler: g++, compiler_version: "10" }
-          - { compiler: clang++, compiler_version: "11.6" }
+          - { compiler: clang++, compiler_version: "12.4" }
 
     steps:
       - name: Checkout
