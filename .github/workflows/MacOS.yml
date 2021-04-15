@@ -57,7 +57,7 @@ jobs:
           #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "msan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "valgrind" }
+          #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "valgrind" } # valgrind seems to not build with AppleClang-12.2
           # AppleClang 12.3
           - { compiler: clang++, compiler_version: "12.3" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "asan" }
