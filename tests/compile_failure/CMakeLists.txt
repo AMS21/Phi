@@ -32,7 +32,7 @@ compile_failure_test(NAME "Core_NotNullScopePtr_AssignNullptr" SOURCE
 compile_failure_test(NAME "Core_NotNullScopePtr_ConstructFromNullptr" SOURCE
                      "src/Core/NotNullScopePtr.construct_nullptr.fail.cpp")
 compile_failure_test(NAME "Core_NotNullScopePtr_DefaultConstructor" SOURCE
-                     "src/Core/NotNullScopePtr.default.fail")
+                     "src/Core/NotNullScopePtr.default.fail.cpp")
 compile_failure_test(NAME "Core_NotNullScopePtr_ResetWithNullptr" SOURCE
                      "src/Core/NotNullScopePtr.reset_nullptr.fail.cpp")
 
