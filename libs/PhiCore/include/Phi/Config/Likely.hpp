@@ -14,7 +14,7 @@
 #        define PHI_UNLIKELY(condition) condition
 #    endif
 #    if PHI_COMPILER_IS_ATLEAST(CLANG, 12, 0, 0) && PHI_COMPILER_IS_NOT(EMCC) &&                   \
-            PHI_CPP_STANDARD_IS_ATLEAST(20) g
+            PHI_CPP_STANDARD_IS_ATLEAST(20)
 #        define PHI_LIKELY_CASE   [[likely]]
 #        define PHI_UNLIKELY_CASE [[unlikely]]
 #    else
