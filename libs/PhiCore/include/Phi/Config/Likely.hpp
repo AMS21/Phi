@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_CONFIG_LIKELY_HPP
 #define INCG_PHI_CONFIG_LIKELY_HPP
 
+#include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/FunctionLikeMacro.hpp"
 
@@ -12,7 +13,8 @@
 #        define PHI_LIKELY(condition)   condition
 #        define PHI_UNLIKELY(condition) condition
 #    endif
-#    if PHI_COMPILER_IS_ATLEAST(CLANG, 12, 0, 0) && PHI_COMPILER_IS_NOT(EMCC)
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 12, 0, 0) && PHI_COMPILER_IS_NOT(EMCC) &&                   \
+            PHI_CPP_STANDARD_IS_ATLEAST(20) g
 #        define PHI_LIKELY_CASE   [[likely]]
 #        define PHI_UNLIKELY_CASE [[unlikely]]
 #    else
