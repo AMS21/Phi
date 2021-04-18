@@ -293,7 +293,7 @@ jobs:
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
 
           # Run analysis
-          pvs-studio-analyzer analyze --threads 2 --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external --disableLicenseExpirationCheck
+          pvs-studio-analyzer analyze --threads 2 --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external
 
           # Convert to readable format
           plog-converter --renderTypes errorfile PVS-Studio.log --analyzer "GA:1,2,3;OP:1,2,3;64:1,2,3;CS:1,2,3" --output PVS-Studio.err
