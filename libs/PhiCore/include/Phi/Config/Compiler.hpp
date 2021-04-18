@@ -59,7 +59,7 @@
 #    define PHI_MINGW_VERSION_PATCH() 0
 #endif
 
-#if defined(__clang__)
+#if defined(__clang__) && !PHI_COMPILER_EMCC()
 #    define PHI_COMPILER_CLANG()      1
 #    define PHI_CLANG_VERSION_MAJOR() __clang_major__
 #    define PHI_CLANG_VERSION_MINOR() __clang_minor__
@@ -71,7 +71,7 @@
 #    define PHI_CLANG_VERSION_PATCH() 0
 #endif
 
-#if defined(__GNUC__) || defined(__GNUG__)
+#if (defined(__GNUC__) || defined(__GNUG__)) && (!PHI_COMPILER_CLANG() && !PHI_COMPILER_MINGW())
 #    define PHI_COMPILER_GCC()      1
 #    define PHI_GCC_VERSION_MAJOR() __GNUC__
 #    define PHI_GCC_VERSION_MINOR() __GNUC_MINOR__
@@ -81,6 +81,32 @@
 #    define PHI_GCC_VERSION_MAJOR() 0
 #    define PHI_GCC_VERSION_MINOR() 0
 #    define PHI_GCC_VERSION_PATCH() 0
+#endif
+
+// Compiler compatibility
+
+#if (defined(__GNUC__) || defined(__GNUG__))
+#    define PHI_COMPILER_GCC_COMPAT()      1
+#    define PHI_GCC_COMPAT_VERSION_MAJOR() __GNUC__
+#    define PHI_GCC_COMPAT_VERSION_MINOR() __GNUC_MINOR__
+#    define PHI_GCC_COMPAT_VERSION_PATCH() __GNUC_PATCHLEVEL__
+#else
+#    define PHI_COMPILER_GCC_COMPAT()      0
+#    define PHI_GCC_COMPAT_VERSION_MAJOR() 0
+#    define PHI_GCC_COMPAT_VERSION_MINOR() 0
+#    define PHI_GCC_COMPAT_VERSION_PATCH() 0
+#endif
+
+#if defined(__clang__)
+#    define PHI_COMPILER_CLANG_COMPAT()      1
+#    define PHI_CLANG_COMPAT_VERSION_MAJOR() __clang_major__
+#    define PHI_CLANG_COMPAT_VERSION_MINOR() __clang_minor__
+#    define PHI_CLANG_COMPAT_VERSION_PATCH() __clang_patchlevel__
+#else
+#    define PHI_COMPILER_CLANG_COMPAT()      0
+#    define PHI_CLANG_COMPAT_VERSION_MAJOR() 0
+#    define PHI_CLANG_COMPAT_VERSION_MINOR() 0
+#    define PHI_CLANG_COMPAT_VERSION_PATCH() 0
 #endif
 
 #define PHI_COMPILER_VERSION(compiler)                                                             \
