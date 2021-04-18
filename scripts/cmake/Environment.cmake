@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Detect information about the build environment
 
 # Detect Platform

@@ -138,7 +138,7 @@ endif()
 
 # Tests
 if(${PHI_BUILD_TESTS})
-  include(CTest)
+  include(Testing)
 
   add_subdirectory(tests)
 endif()

@@ -33,22 +33,25 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
+          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DPHI_ENABLE_FAILURE_TESTS=OFF ..
 
       - name: Build Debug
         run: |
           cd build
           emcmake cmake .. -DCMAKE_BUILD_TYPE=Debug
           emmake cmake --build . --clean-first
+          ctest . -C Debug
 
       - name: Build RelWithDebInfo
         run: |
           cd build
           emcmake cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           emmake cmake --build . --clean-first
+          ctest . -C RelWithDebInfo
 
       - name: Build Release
         run: |
           cd build
           emcmake cmake .. -DCMAKE_BUILD_TYPE=Release
           emmake cmake --build . --clean-first
+          ctest . -C Release

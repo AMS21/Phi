@@ -78,7 +78,7 @@ foreach(lib ${UnittestLibs})
 
   phi_enable_static_analyzers(${lib})
 
-  add_test(${lib} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${lib})
+  phi_add_test(${lib})
 endforeach()
 
 # Runtime static require for Runtime tests

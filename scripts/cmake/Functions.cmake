@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Log a trace message
 function(phi_trace text)
   message(STATUS "[Phi]: ${text}")
