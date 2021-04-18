@@ -191,7 +191,9 @@
 // pragma
 #if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                             \
         PHI_COMPILER_IS_ATLEAST(ICC, 13, 0, 0)
-#    define PHI_PRAGMA(value) _Pragma(#    value)
+// clang-format off
+#    define PHI_PRAGMA(value) _Pragma(#value)
+// clang-format on
 #elif PHI_COMPILER_IS_ATLEAST(MSVC, 15, 0, 0)
 #    define PHI_PRAGMA(value) __pragma(value)
 #else
