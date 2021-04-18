@@ -1096,6 +1096,9 @@ MigrationBackup/
 
 # Project dirs
 [Bb]uild*/
+!examples/BuildInfo/
+
+# VSCode
 .vscode/
 
 # CodeLite
