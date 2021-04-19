@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <Phi/Config/Compiler.hpp>
 #include <Phi/Core/Monitor.hpp>
 #include <thread>
 #include <utility>
@@ -86,6 +87,11 @@ TEST_CASE("Monitor", "[Core][Monitor]")
 
     SECTION("Thread safety")
     {
+#if PHI_COMPILER_IS(EMCC)
+        // Skip thread safety test in emscripten since the support for multiple threads is not very great,
+        // See: https://emscripten.org/docs/porting/pthreads.html
+        return;
+#else
         phi::Monitor<A> mon;
 
         std::vector<std::thread> threads;
@@ -104,5 +110,6 @@ TEST_CASE("Monitor", "[Core][Monitor]")
         constexpr int expected_value = 1 + (test_thread_count * test_write_count);
 
         CHECK(mon->val == expected_value);
+#endif
     }
 }
