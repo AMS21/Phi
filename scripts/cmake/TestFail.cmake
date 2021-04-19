@@ -1,4 +1,7 @@
+include_guard(GLOBAL)
+
 include("CMakeParseArguments")
+include(Environment)
 
 function(runtime_failure_test)
   # Commandline
@@ -22,6 +25,12 @@ function(runtime_failure_test)
   target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
   target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/runtime_failure/include")
   add_dependencies(${TEST_NAME} RuntimeFailureRunner)
+
+  # RuntimeFailureRunner doesn't really work with emscripten. So for that platform we only build the
+  # test but not run it.
+  if(PHI_PLATFORM_EMSCRIPTEN)
+    return()
+  endif()
 
   # Add test
   if(DEFINED rtf_CONFIGURATIONS)

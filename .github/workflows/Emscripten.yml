@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DPHI_ENABLE_FAILURE_TESTS=OFF ..
+          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
       - name: Build Debug
         run: |
