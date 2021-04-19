@@ -125,9 +125,6 @@ find_package(Threads REQUIRED)
 # Load external dependencies
 add_subdirectory(external)
 
-# Load tools
-add_subdirectory(tools)
-
 # Load libs
 add_subdirectory(libs)
 

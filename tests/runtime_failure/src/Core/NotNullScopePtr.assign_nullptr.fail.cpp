@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/ScopePtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     int* null_ptr = nullptr;
 

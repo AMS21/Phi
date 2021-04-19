@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/ObserverPtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     int                          i    = 12;
     int*                         null = nullptr;

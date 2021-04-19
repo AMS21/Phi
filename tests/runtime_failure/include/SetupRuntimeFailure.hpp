@@ -1,0 +1,24 @@
+#ifndef INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_RUNTIME_FAILURE_HPP
+#define INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_RUNTIME_FAILURE_HPP
+
+#include "SetupDebugReportMode.hpp"
+#include <csignal>
+#include <cstdlib>
+
+extern "C" [[noreturn]] void RuntimeFailureSignalHandler(int /*signal*/)
+{
+    // Change exit code to 1
+    std::exit(1);
+}
+
+static void SetupRuntimeFailure()
+{
+    // Needed for windows to not open a message box in debug mode
+    SetupDebugReportMode();
+
+    // Register signal handlers
+    std::signal(SIGABRT, RuntimeFailureSignalHandler);
+    std::signal(SIGTERM, RuntimeFailureSignalHandler);
+}
+
+#endif // INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_RUNTIME_FAILURE_HPP

@@ -1,4 +1,4 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/ScopePtr.hpp>
 
 struct A
@@ -9,7 +9,7 @@ struct A
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::ScopePtr<A> ptr;
 

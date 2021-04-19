@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/Assert.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     PHI_DBG_ASSERT_NOT_REACHED();
 }

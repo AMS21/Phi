@@ -78,7 +78,7 @@ foreach(lib ${UnittestLibs})
 
   phi_enable_static_analyzers(${lib})
 
-  phi_add_test(${lib})
+  phi_add_test(TARGET ${lib})
 endforeach()
 
 # Runtime static require for Runtime tests

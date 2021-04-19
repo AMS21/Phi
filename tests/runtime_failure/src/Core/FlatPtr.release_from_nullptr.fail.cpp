@@ -1,11 +1,11 @@
 #include "Phi/Config/Warning.hpp"
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/FlatPtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::FlatPtr ptr;
 

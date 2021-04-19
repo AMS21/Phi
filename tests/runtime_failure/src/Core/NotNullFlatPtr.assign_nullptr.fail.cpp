@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/FlatPtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     int                 i    = 12;
     int*                null = nullptr;

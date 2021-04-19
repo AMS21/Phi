@@ -1,10 +1,10 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::NotNullScopePtr<int> ptr(new int(3));
 

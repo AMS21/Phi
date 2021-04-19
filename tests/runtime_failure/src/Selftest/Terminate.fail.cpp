@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <exception>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     std::terminate();
 }

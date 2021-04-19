@@ -1,10 +1,10 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/ObserverPtr.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::ObserverPtr<int> ptr;
 

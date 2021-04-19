@@ -1,9 +1,9 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <cstdlib>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     std::abort();
 }

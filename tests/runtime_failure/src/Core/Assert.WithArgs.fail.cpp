@@ -1,10 +1,10 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/Assert.hpp>
 #include <Phi/Core/Log.hpp>
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::Log::initialize_default_loggers();
 

@@ -2,6 +2,7 @@ include_guard(GLOBAL)
 
 include("CMakeParseArguments")
 include(Environment)
+include(Testing)
 
 function(runtime_failure_test)
   # Commandline
@@ -24,24 +25,13 @@ function(runtime_failure_test)
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
   target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/runtime_failure/include")
-  add_dependencies(${TEST_NAME} RuntimeFailureRunner)
 
-  # RuntimeFailureRunner doesn't really work with emscripten. So for that platform we only build the
-  # test but not run it.
   if(PHI_PLATFORM_EMSCRIPTEN)
-    return()
+    set(extension ".js")
   endif()
 
   # Add test
-  if(DEFINED rtf_CONFIGURATIONS)
-    add_test(
-      NAME ${TEST_NAME}
-      COMMAND $<TARGET_FILE:RuntimeFailureRunner> $<TARGET_FILE:${TEST_NAME}>
-      CONFIGURATIONS "${rtf_CONFIGURATIONS}")
-  else()
-    add_test(NAME ${TEST_NAME} COMMAND $<TARGET_FILE:RuntimeFailureRunner>
-                                       $<TARGET_FILE:${TEST_NAME}>)
-  endif()
+  phi_add_test(TARGET ${TEST_NAME} CONFIGURATIONS "${rtf_CONFIGURATIONS}")
 
   # Optionally enable regex
   if(DEFINED rtf_REGEX)

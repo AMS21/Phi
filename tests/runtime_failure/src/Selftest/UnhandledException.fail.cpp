@@ -1,8 +1,8 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     throw "Exception which will not be caught";
 }

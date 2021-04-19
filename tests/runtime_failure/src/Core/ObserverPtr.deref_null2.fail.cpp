@@ -1,4 +1,4 @@
-#include "SetupDebugReportMode.hpp"
+#include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/ObserverPtr.hpp>
 
 class A
@@ -10,7 +10,7 @@ public:
 
 int main()
 {
-    SetupDebugReportMode();
+    SetupRuntimeFailure();
 
     phi::ObserverPtr<A> ptr;
 
