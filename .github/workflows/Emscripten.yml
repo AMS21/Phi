@@ -29,6 +29,10 @@ jobs:
           version: ${{ matrix.em_version }}
           actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
+      - name: Verify version
+        run: |
+          emcc --version
+
       - name: Install cmake
         uses: lukka/get-cmake@v3.20.1
 
