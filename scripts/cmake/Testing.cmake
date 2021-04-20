@@ -16,16 +16,28 @@ function(phi_add_test)
     phi_error("No target named '${ts_TARGET}' found!")
   endif()
 
+  if(NOT DEFINED ts_CONFIGURATIONS)
+    set(all_configs TRUE)
+  endif()
+
   if(PHI_PLATFORM_EMSCRIPTEN)
     # Run the target file with node with emscripten
-    add_test(
-      NAME ${ts_TARGET}
-      COMMAND node "$<TARGET_FILE:${ts_TARGET}>"
-      CONFIGURATIONS "${ts_CONFIGURATIONS}")
+    if(all_configs)
+      add_test(NAME ${ts_TARGET} COMMAND node "$<TARGET_FILE:${ts_TARGET}>")
+    else()
+      add_test(
+        NAME ${ts_TARGET}
+        COMMAND node "$<TARGET_FILE:${ts_TARGET}>"
+        CONFIGURATIONS "${ts_CONFIGURATIONS}")
+    endif()
   else()
-    add_test(
-      NAME ${ts_TARGET}
-      COMMAND $<TARGET_FILE:${ts_TARGET}>
-      CONFIGURATIONS "${ts_CONFIGURATIONS}")
+    if(all_configs)
+      add_test(NAME ${ts_TARGET} COMMAND $<TARGET_FILE:${ts_TARGET}>)
+    else()
+      add_test(
+        NAME ${ts_TARGET}
+        COMMAND $<TARGET_FILE:${ts_TARGET}>
+        CONFIGURATIONS "${ts_CONFIGURATIONS}")
+    endif()
   endif()
 endfunction()

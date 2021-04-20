@@ -26,10 +26,6 @@ function(runtime_failure_test)
   target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
   target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/runtime_failure/include")
 
-  if(PHI_PLATFORM_EMSCRIPTEN)
-    set(extension ".js")
-  endif()
-
   # Add test
   phi_add_test(TARGET ${TEST_NAME} CONFIGURATIONS "${rtf_CONFIGURATIONS}")
 
