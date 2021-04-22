@@ -1,11 +1,9 @@
 #include "SetupRuntimeFailure.hpp"
 #include <Phi/Core/ObserverPtr.hpp>
 
-class A
+struct A
 {
-public:
-    void f()
-    {}
+    int val{0};
 };
 
 int main()
@@ -14,5 +12,5 @@ int main()
 
     phi::ObserverPtr<A> ptr;
 
-    ptr->f();
+    return ptr->val;
 }

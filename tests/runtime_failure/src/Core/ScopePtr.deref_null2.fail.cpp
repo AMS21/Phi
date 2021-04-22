@@ -3,8 +3,7 @@
 
 struct A
 {
-    void f()
-    {}
+    int val{0};
 };
 
 int main()
@@ -13,5 +12,5 @@ int main()
 
     phi::ScopePtr<A> ptr;
 
-    ptr->f();
+    return ptr->val;
 }
