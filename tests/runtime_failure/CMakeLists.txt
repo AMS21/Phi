@@ -41,6 +41,32 @@ runtime_failure_test(
   "[DBG ASSERT FAILED]"
   CONFIGURATIONS
   Debug)
+runtime_failure_test(NAME "Core_SimpleAssertNoArgs" SOURCE "src/Core/SimpleAssert.NoArgs.fail.cpp")
+runtime_failure_test(NAME "Core_SimpleAssertNoArgsRegex" SOURCE "src/Core/SimpleAssert.NoArgs.fail.cpp" REGEX "ASSERTION VIOLATION")
+runtime_failure_test(NAME "Core_SimpleAssertWithArgs" SOURCE "src/Core/SimpleAssert.WithArgs.fail.cpp")
+runtime_failure_test(NAME "Core_SimpleAssertWithArgsRegex" SOURCE "src/Core/SimpleAssert.WithArgs.fail.cpp" REGEX "[SIMPLE ASSERT FAILED]")
+runtime_failure_test(NAME "Core_DbgSimpleAssertNoArgs" SOURCE "src/Core/DbgSimpleAssert.NoArgs.fail.cpp"
+                     CONFIGURATIONS Debug)
+runtime_failure_test(
+  NAME
+  "Core_DbgSimpleAssertNoArgsRegex"
+  SOURCE
+  "src/Core/DbgSimpleAssert.NoArgs.fail.cpp"
+  REGEX
+  "ASSERTION VIOLATION"
+  CONFIGURATIONS
+  Debug)
+runtime_failure_test(NAME "Core_DbgSimpleAssertWithArgsRegex" SOURCE
+                     "src/Core/DbgSimpleAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(
+  NAME
+  "Core_DbgSimpleAssertWithArgs"
+  SOURCE
+  "src/Core/DbgSimpleAssert.WithArgs.fail.cpp"
+  REGEX
+  "[DBG SIMPLE ASSERT FAILED]"
+  CONFIGURATIONS
+  Debug)
 runtime_failure_test(NAME "Core_AssertNotReached" SOURCE "src/Core/AssertNotReached.fail.cpp")
 runtime_failure_test(NAME "Core_DbgAssertNotReached" SOURCE "src/Core/DbgAssertNotReached.fail.cpp"
                      CONFIGURATIONS Debug)
