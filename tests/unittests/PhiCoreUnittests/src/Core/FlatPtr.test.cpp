@@ -231,6 +231,15 @@ TEST_CASE("FlatPtr", "[Core][FlatPtr]")
         CHECK(ptr2.get() == raw_ptr2);
     }
 
+    SECTION("operator bool")
+    {
+        phi::FlatPtr false_ptr;
+        phi::FlatPtr true_ptr{raw_ptr1};
+
+        CHECK_FALSE(false_ptr);
+        CHECK(true_ptr);
+    }
+
     SECTION("operator Boolean")
     {
         phi::FlatPtr false_ptr;
@@ -240,11 +249,20 @@ TEST_CASE("FlatPtr", "[Core][FlatPtr]")
         CHECK(static_cast<phi::Boolean>(true_ptr));
     }
 
-    SECTION("operator *void")
+    SECTION("operator void*")
     {
         phi::FlatPtr ptr(raw_ptr1);
 
         void* new_ptr = static_cast<void*>(ptr);
+
+        CHECK(new_ptr == raw_ptr1);
+    }
+
+    SECTION("operator const void*")
+    {
+        const phi::FlatPtr ptr(raw_ptr1);
+
+        const void* new_ptr = static_cast<const void*>(ptr);
 
         CHECK(new_ptr == raw_ptr1);
     }
@@ -293,6 +311,16 @@ TEST_CASE("FlatPtr", "[Core][FlatPtr]")
         ptr2 = raw_ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("std::hash")
+    {
+        std::size_t null_hash = std::hash<phi::FlatPtr>{}(nullptr);
+        std::size_t ptr_hash  = std::hash<phi::FlatPtr>{}(raw_ptr1);
+
+        CHECK(null_hash != ptr_hash);
+        CHECK(null_hash == std::hash<void*>{}(nullptr));
+        CHECK(ptr_hash == std::hash<void*>{}(raw_ptr1));
     }
 }
 
@@ -407,9 +435,9 @@ TEST_CASE("NotNullFlatPtr", "[Core][FlatPtr][NotNullFlatPtr]")
 
     SECTION("operator!=")
     {
-        phi::FlatPtr ptr1(raw_ptr1);
-        phi::FlatPtr ptr2(raw_ptr2);
-        phi::FlatPtr ptr3(raw_ptr3);
+        phi::NotNullFlatPtr ptr1(raw_ptr1);
+        phi::NotNullFlatPtr ptr2(raw_ptr2);
+        phi::NotNullFlatPtr ptr3(raw_ptr3);
 
         CHECK(ptr1 != ptr2);
         CHECK(ptr1 != ptr3);
@@ -418,5 +446,33 @@ TEST_CASE("NotNullFlatPtr", "[Core][FlatPtr][NotNullFlatPtr]")
         ptr2 = raw_ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("operator void*")
+    {
+        phi::NotNullFlatPtr ptr(raw_ptr1);
+
+        void* new_ptr = static_cast<void*>(ptr);
+
+        CHECK(new_ptr == raw_ptr1);
+    }
+
+    SECTION("operator const void*")
+    {
+        const phi::NotNullFlatPtr ptr(raw_ptr1);
+
+        const void* new_ptr = static_cast<const void*>(ptr);
+
+        CHECK(new_ptr == raw_ptr1);
+    }
+
+    SECTION("std::hash")
+    {
+        std::size_t ptr1_hash = std::hash<phi::NotNullFlatPtr>{}(raw_ptr1);
+        std::size_t ptr2_hash = std::hash<phi::NotNullFlatPtr>{}(raw_ptr2);
+
+        CHECK(ptr1_hash != ptr2_hash);
+        CHECK(ptr1_hash == std::hash<void*>{}(raw_ptr1));
+        CHECK(ptr2_hash == std::hash<void*>{}(raw_ptr2));
     }
 }
