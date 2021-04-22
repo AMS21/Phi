@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 include(CheckCXXCompilerFlag)
 
 set(PHI_USER_LINKER_OPTION

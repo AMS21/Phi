@@ -1,5 +1,7 @@
 # ExternalProject.cmake
 
+include_guard(GLOBAL)
+
 include("CMakeParseArguments")
 
 function(phi_add_external_project)

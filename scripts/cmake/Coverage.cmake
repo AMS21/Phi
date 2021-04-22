@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 if(PHI_COVERAGE_BUILD)
   # Enable coverage flags
   if(PHI_COMPILER_GCC)

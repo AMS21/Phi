@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   phi_log("Setting build type to 'RelWithDebInfo' as none was specified.")

@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 if(PHI_ENABLE_CPPCHECK)
   find_program(CPPCHECK cppcheck)
 

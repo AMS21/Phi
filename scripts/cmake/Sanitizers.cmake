@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Enable sanitizers for a specific project
 function(enable_sanitizers project)
   if(PHI_COMPILER_GCC OR PHI_COMPILER_CLANG)

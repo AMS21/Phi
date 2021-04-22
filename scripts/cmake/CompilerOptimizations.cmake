@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)
   if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)

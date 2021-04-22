@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 if(NOT PHI_ENABLE_CACHE)
   return()
 endif()
