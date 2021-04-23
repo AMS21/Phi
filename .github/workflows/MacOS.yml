@@ -41,35 +41,35 @@ jobs:
           - { compiler: clang++, compiler_version: "12.0" }
           - { compiler: clang++, compiler_version: "12.0", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.0", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "12.0", dynamic_test: "tsan" }
+          #- { compiler: clang++, compiler_version: "12.0", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.0", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.0", dynamic_test: "valgrind" }
           # AppleClang 12.1.1
           - { compiler: clang++, compiler_version: "12.1.1" }
           - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "tsan" }
+          #- { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.1.1", dynamic_test: "valgrind" }
           # AppleClang 12.2
           - { compiler: clang++, compiler_version: "12.2" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "12.2", dynamic_test: "tsan" }
+          #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.2", dynamic_test: "ubsan" }
           #- { compiler: clang++, compiler_version: "12.2", dynamic_test: "valgrind" } # valgrind seems to not build with AppleClang-12.2
           # AppleClang 12.3
           - { compiler: clang++, compiler_version: "12.3" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "tsan" }
+          #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "valgrind" }
           # AppleClang 12.4
           - { compiler: clang++, compiler_version: "12.4" }
           - { compiler: clang++, compiler_version: "12.4", dynamic_test: "asan" }
           #- { compiler: clang++, compiler_version: "12.4", dynamic_test: "msan" }
-          - { compiler: clang++, compiler_version: "12.4", dynamic_test: "tsan" }
+          #- { compiler: clang++, compiler_version: "12.4", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.4", dynamic_test: "ubsan" }
           - { compiler: clang++, compiler_version: "12.4", dynamic_test: "valgrind" }
 
