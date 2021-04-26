@@ -32,6 +32,7 @@ file(
   "include/Phi/Core/NonCopyable.hpp"
   "include/Phi/Core/NotNull.hpp"
   "include/Phi/Core/ObserverPtr.hpp"
+  "include/Phi/Core/Optional.hpp"
   "include/Phi/Core/ScopedValueGuard.hpp"
   "include/Phi/Core/ScopeGuard.hpp"
   "include/Phi/Core/ScopePtr.hpp"

@@ -34,6 +34,7 @@ file(
   "src/Core/NonCopyable.test.cpp"
   "src/Core/NotNull.test.cpp"
   "src/Core/ObserverPtr.test.cpp"
+  "src/Core/Optional.test.cpp"
   "src/Core/ScopedValueGuard.test.cpp"
   "src/Core/ScopeGuard.test.cpp"
   "src/Core/ScopePtr.test.cpp"
