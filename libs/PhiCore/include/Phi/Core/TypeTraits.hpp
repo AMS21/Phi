@@ -4,7 +4,9 @@
 #include "Phi/PhiConfig.hpp"
 
 #include <cstddef>
+#include <functional>
 #include <type_traits>
+#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -62,6 +64,45 @@ struct copy_const
 
 template <typename FromT, typename ToT>
 using copy_const_v = typename copy_const<FromT, ToT>::type;
+
+// invoke
+template <typename FnT, typename... ArgsT,
+          typename = std::enable_if_t<std::is_member_pointer<std::decay_t<FnT>>::value>, int = 0>
+constexpr auto invoke(FnT&& f, ArgsT&&... args) noexcept(
+        noexcept(std::mem_fn(f)(std::forward<ArgsT>(args)...)))
+        -> decltype(std::mem_fn(f)(std::forward<ArgsT>(args)...))
+{
+    return std::mem_fn(f)(std::forward<ArgsT>(args)...);
+}
+
+template <typename FnT, typename... ArgsT,
+          typename = std::enable_if_t<!std::is_member_pointer<std::decay_t<FnT>>::value>>
+constexpr auto invoke(FnT&& f, ArgsT&&... args) noexcept(
+        noexcept(std::forward<FnT>(f)(std::forward<ArgsT>(args)...)))
+        -> decltype(std::forward<FnT>(f)(std::forward<ArgsT>(args)...))
+{
+    return std::forward<FnT>(f)(std::forward<ArgsT>(args)...);
+}
+
+// std::invoke_result
+namespace detail
+{
+    template <typename FnT, typename, typename... ArgsT>
+    struct invoke_result_impl;
+
+    template <typename FnT, typename... ArgsT>
+    struct invoke_result_impl<
+            FnT, decltype(invoke(std::declval<FnT>(), std::declval<ArgsT>()...), void()), ArgsT...>
+    {
+        using type = decltype(invoke(std::declval<FnT>(), std::declval<ArgsT>()...));
+    };
+} // namespace detail
+
+template <typename FnT, typename... ArgsT>
+using invoke_result = detail::invoke_result_impl<FnT, void, ArgsT...>;
+
+template <typename FnT, typename... ArgsT>
+using invoke_result_t = typename invoke_result<FnT, ArgsT...>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 
