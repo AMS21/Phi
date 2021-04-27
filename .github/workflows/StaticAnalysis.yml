@@ -75,7 +75,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name CppCheck -level warning
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-20.04
@@ -133,7 +133,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name Clang-Tidy -level warning
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=github-check -name Clang-Tidy -level warning
 
   include-what-you-use:
     runs-on: ubuntu-20.04
@@ -209,7 +209,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff" -reporter=github-check -name include-what-you-use -level warning
+          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=github-check -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-20.04
@@ -242,7 +242,7 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff" -reporter=github-check -name cmake-lint -level warning
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=github-check -name cmake-lint -level warning
 
   pvs-studio:
     runs-on: ubuntu-20.04
@@ -308,4 +308,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff" -reporter=github-check -name PVS-Studio -level warning
+          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name PVS-Studio -level warning
