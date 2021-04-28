@@ -211,13 +211,13 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug
-          cmake --build .  --clean-first 2> build.log
+          cmake --build . --clean-first 2> build.log
 
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
 
       - name: Print results
-        run: cat build_filtered.log
+        run: cat build/build_filtered.log
 
       - name: ReviewDog check
         env:

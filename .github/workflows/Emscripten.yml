@@ -103,7 +103,7 @@ jobs:
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
 
       - name: Print results
-        run: cat build_filtered.log
+        run: cat build/build_filtered.log
 
       - name: ReviewDog check
         env:

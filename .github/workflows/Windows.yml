@@ -199,7 +199,7 @@ jobs:
 
       - name: Print results
         shell: bash
-        run: cat build_filtered.log
+        run: cat build/build_filtered.log
 
       - name: ReviewDog check
         shell: bash
