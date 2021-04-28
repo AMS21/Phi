@@ -197,8 +197,9 @@ jobs:
           # Filter out warnings for external dependencies
           cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
 
-          # Print logs
-          cat build_filtered.log
+      - name: Print results
+        shell: bash
+        run: cat build_filtered.log
 
       - name: ReviewDog check
         shell: bash
