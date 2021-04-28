@@ -64,7 +64,7 @@ jobs:
           #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "msan" }
           #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "tsan" }
           - { compiler: clang++, compiler_version: "12.3", dynamic_test: "ubsan" }
-          - { compiler: clang++, compiler_version: "12.3", dynamic_test: "valgrind" }
+          #- { compiler: clang++, compiler_version: "12.3", dynamic_test: "valgrind" }
           # AppleClang 12.4
           - { compiler: clang++, compiler_version: "12.4" }
           - { compiler: clang++, compiler_version: "12.4", dynamic_test: "asan" }
