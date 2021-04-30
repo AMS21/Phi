@@ -40,6 +40,13 @@ jobs:
           - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "tsan" }
           - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
           - { os: ubuntu-20.04, compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
+          # gcc-11
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11", dynamic_test: "lsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: g++, compiler_version: "11", dynamic_test: "valgrind" }
           # clang-7
           - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7" }
           - { os: ubuntu-18.04, compiler: clang++, compiler_version: "7", dynamic_test: "asan" }
@@ -212,7 +219,7 @@ jobs:
       fail-fast: false
       matrix:
         cfg:
-          - { compiler: g++, compiler_version: "10" }
+          - { compiler: g++, compiler_version: "11" }
           - { compiler: clang++, compiler_version: "12" }
 
     steps:
