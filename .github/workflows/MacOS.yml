@@ -37,12 +37,6 @@ jobs:
           - { compiler: g++, compiler_version: "10", dynamic_test: "lsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "ubsan" }
           - { compiler: g++, compiler_version: "10", dynamic_test: "valgrind" }
-          # gcc-11
-          - { compiler: g++, compiler_version: "11" }
-          - { compiler: g++, compiler_version: "11", dynamic_test: "asan" }
-          - { compiler: g++, compiler_version: "11", dynamic_test: "lsan" }
-          - { compiler: g++, compiler_version: "11", dynamic_test: "ubsan" }
-          - { compiler: g++, compiler_version: "11", dynamic_test: "valgrind" }
           # AppleClang 12.0.1
           - { compiler: clang++, compiler_version: "12.0" }
           - { compiler: clang++, compiler_version: "12.0", dynamic_test: "asan" }
