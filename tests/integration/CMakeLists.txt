@@ -47,6 +47,6 @@ set(ALL_INCLUDE_NAME "Phi_AllIncludes")
 add_executable(${ALL_INCLUDE_NAME} "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
                                    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}")
 
-target_link_libraries(${ALL_INCLUDE_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
+target_link_libraries(${ALL_INCLUDE_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core Phi::Window)
 set_target_properties(${ALL_INCLUDE_NAME} PROPERTIES FOLDER "Tests/Integration")
 phi_enable_static_analyzers(${ALL_INCLUDE_NAME})
