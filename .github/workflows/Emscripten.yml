@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        em_version: ["2.0.18", "2.0.17", "2.0.16", "2.0.15", "2.0.14", "2.0.13", "2.0.12", "1.40.1"]
+        em_version: ["2.0.24", "2.0.23", "2.0.22", "2.0.21", "2.0.18", "2.0.17", "2.0.16", "2.0.15", "2.0.14", "2.0.13", "2.0.12", "1.40.1"]
 
     steps:
       - name: Checkout
@@ -69,7 +69,7 @@ jobs:
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
       EM_CACHE_FOLDER: 'emsdk-cache'
-      EM_VERSION: '2.0.16'
+      EM_VERSION: '2.0.24'
 
     steps:
       - name: Checkout
