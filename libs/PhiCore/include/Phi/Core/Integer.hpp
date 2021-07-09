@@ -320,7 +320,7 @@ public:
         return Integer(-m_Value);
     }
 
-    PHI_ALWAYS_INLINE Integer& operator++() noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator++() noexcept
     {
         PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
                                                     IntegerT(1)),
@@ -331,14 +331,14 @@ public:
     }
 
     // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
-    PHI_ALWAYS_INLINE const Integer operator++(int) noexcept
+    PHI_ALWAYS_INLINE constexpr const Integer operator++(int) noexcept
     {
         auto res = *this;
         ++*this;
         return res;
     }
 
-    PHI_ALWAYS_INLINE Integer& operator--() noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator--() noexcept
     {
         PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<IntegerT>{},
                                                        m_Value, IntegerT(1)),
@@ -349,7 +349,7 @@ public:
     }
 
     // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
-    PHI_ALWAYS_INLINE const Integer operator--(int) noexcept
+    PHI_ALWAYS_INLINE constexpr const Integer operator--(int) noexcept
     {
         auto res = *this;
         --*this;
@@ -359,7 +359,7 @@ public:
     //=== compound assignment ====//
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator+=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator+=(const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_addition_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -370,7 +370,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator+=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator+=(const TypeT& other) noexcept
     {
         return *this += Integer<TypeT>(other);
     }
@@ -382,7 +382,7 @@ public:
     Integer& operator+=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator-=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator-=(const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_subtraction_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -393,7 +393,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator-=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator-=(const TypeT& other) noexcept
     {
         return *this -= Integer<TypeT>(other);
     }
@@ -405,7 +405,7 @@ public:
     Integer& operator-=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator*=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator*=(const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_multiplication_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -417,7 +417,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator*=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator*=(const TypeT& other) noexcept
     {
         return *this *= Integer<TypeT>(other);
     }
@@ -429,7 +429,7 @@ public:
     Integer& operator*=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator/=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator/=(const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_division_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -440,7 +440,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator/=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator/=(const TypeT& other) noexcept
     {
         return *this /= Integer<TypeT>(other);
     }
@@ -452,7 +452,7 @@ public:
     Integer& operator/=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator%=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator%=(const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
                                                             m_Value, other.get()),
@@ -463,7 +463,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator%=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE constexpr Integer& operator%=(const TypeT& other) noexcept
     {
         return *this %= Integer<TypeT>(other);
     }
