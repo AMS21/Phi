@@ -12,6 +12,9 @@ runtime_failure_test(NAME "Selftest_Terminate" SOURCE "src/Selftest/Terminate.fa
 runtime_failure_test(NAME "Selftest_UnhandledException" SOURCE
                      "src/Selftest/UnhandledException.fail.cpp")
 
+# Algorithm
+runtime_failure_test(NAME "Algorithm_StringLengthNullptr" SOURCE "src/Algorithm/StringLength.nullptr.fail.cpp" CONFIGURATIONS Debug)
+
 # Core
 runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
 runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX

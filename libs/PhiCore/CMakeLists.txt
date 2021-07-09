@@ -4,6 +4,8 @@ project(PhiCore LANGUAGES CXX)
 file(
   GLOB
   PHI_CORE_HEADERS
+  # Algorithm
+  "include/Phi/Algorithm/StringLength.hpp"
   # Config
   "include/Phi/Config/Assume.hpp"
   "include/Phi/Config/Compiler.hpp"

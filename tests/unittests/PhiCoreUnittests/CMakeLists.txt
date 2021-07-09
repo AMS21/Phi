@@ -6,6 +6,8 @@ file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp"
 file(
   GLOB
   TEST_SOURCES
+  # Algorithm
+  "src/Algorithm/StringLength.test.cpp"
   # Config
   "src/Config/Assume.test.cpp"
   "src/Config/Compiler.test.cpp"
