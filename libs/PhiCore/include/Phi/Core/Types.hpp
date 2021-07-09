@@ -70,13 +70,10 @@ using u64_least = Integer<std::uint_least64_t>;
 
 using isize = Integer<std::make_signed<std::size_t>::type>;
 using usize = Integer<std::size_t>;
-using imax  = i64;
-using umax  = u64;
 
 // Floating point
-using f32  = FloatingPoint<float>;
-using f64  = FloatingPoint<double>;
-using fmax = f64;
+using f32 = FloatingPoint<float>;
+using f64 = FloatingPoint<double>;
 
 namespace detail
 {
@@ -342,18 +339,6 @@ inline namespace literals
         return usize(detail::parse_unsigned<std::size_t, DigitsT...>());
     }
 
-    template <char... DigitsT>
-    constexpr imax operator"" _imax()
-    {
-        return imax(detail::parse_signed<std::intmax_t, DigitsT...>());
-    }
-
-    template <char... DigitsT>
-    constexpr umax operator"" _umax()
-    {
-        return umax(detail::parse_unsigned<std::uintmax_t, DigitsT...>());
-    }
-
     constexpr f32 operator"" _f32(long double val)
     {
         return f32(static_cast<std::float_t>(val));
@@ -362,11 +347,6 @@ inline namespace literals
     constexpr f64 operator"" _f64(long double val)
     {
         return f64(static_cast<std::double_t>(val));
-    }
-
-    constexpr fmax operator"" _fmax(long double val)
-    {
-        return fmax(static_cast<std::double_t>(val));
     }
 } // namespace literals
 

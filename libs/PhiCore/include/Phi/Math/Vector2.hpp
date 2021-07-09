@@ -183,14 +183,11 @@ using Vector2i32   = Vector2<i32>;
 using Vector2u32   = Vector2<u32>;
 using Vector2i64   = Vector2<i64>;
 using Vector2u64   = Vector2<u64>;
-using Vector2imax  = Vector2<imax>;
-using Vector2umax  = Vector2<umax>;
 using Vector2isize = Vector2<isize>;
 using Vector2usize = Vector2<usize>;
 
-using Vector2f32  = Vector2<f32>;
-using Vector2f64  = Vector2<f64>;
-using Vector2fmax = Vector2<fmax>;
+using Vector2f32 = Vector2<f32>;
+using Vector2f64 = Vector2<f64>;
 
 using Vector2b = Vector2<Boolean>;
 

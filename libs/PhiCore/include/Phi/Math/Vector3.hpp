@@ -226,14 +226,11 @@ using Vector3i32   = Vector3<i32>;
 using Vector3u32   = Vector3<u32>;
 using Vector3i64   = Vector3<i64>;
 using Vector3u64   = Vector3<u64>;
-using Vector3imax  = Vector3<imax>;
-using Vector3umax  = Vector3<umax>;
 using Vector3isize = Vector3<isize>;
 using Vector3usize = Vector3<usize>;
 
-using Vector3f32  = Vector3<f32>;
-using Vector3f64  = Vector3<f64>;
-using Vector3fmax = Vector3<fmax>;
+using Vector3f32 = Vector3<f32>;
+using Vector3f64 = Vector3<f64>;
 
 using Vector3b = Vector3<Boolean>;
 

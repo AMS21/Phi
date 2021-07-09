@@ -333,12 +333,9 @@ TEST_CASE("Vector2 global typedefs", "[Math][Vector2]")
     TEST_VEC2_TYPEDEF(phi::Vector2u32, phi::u32);
     TEST_VEC2_TYPEDEF(phi::Vector2i64, phi::i64);
     TEST_VEC2_TYPEDEF(phi::Vector2u64, phi::u64);
-    TEST_VEC2_TYPEDEF(phi::Vector2imax, phi::imax);
-    TEST_VEC2_TYPEDEF(phi::Vector2umax, phi::umax);
     TEST_VEC2_TYPEDEF(phi::Vector2isize, phi::isize);
     TEST_VEC2_TYPEDEF(phi::Vector2usize, phi::usize);
 
     TEST_VEC2_TYPEDEF(phi::Vector2f32, phi::f32);
     TEST_VEC2_TYPEDEF(phi::Vector2f64, phi::f64);
-    TEST_VEC2_TYPEDEF(phi::Vector2fmax, phi::fmax);
 }
