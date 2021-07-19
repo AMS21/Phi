@@ -8,6 +8,8 @@ file(
   TEST_SOURCES
   # Algorithm
   "src/Algorithm/StringLength.test.cpp"
+  # CompilerSupport
+  "src/CompilerSupport/Char8_t.test.cpp"
   # Config
   "src/Config/Assume.test.cpp"
   "src/Config/Compiler.test.cpp"

@@ -6,6 +6,8 @@ file(
   PHI_CORE_HEADERS
   # Algorithm
   "include/Phi/Algorithm/StringLength.hpp"
+  # CompilerSupport
+  "include/Phi/CompilerSupport/Char8_t.hpp"
   # Config
   "include/Phi/Config/Assume.hpp"
   "include/Phi/Config/Compiler.hpp"
