@@ -67,6 +67,7 @@
 #endif
 
 #define PHI_UNUSED_PARAMETER(parameter) ((void)(parameter))
+#define PHI_UNUSED_VARIABLE(variable)   ((void)(variable))
 
 // External Warnings
 #if PHI_COMPILER_IS(MSVC)
