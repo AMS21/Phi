@@ -71,6 +71,8 @@ using u64_least = Integer<std::uint_least64_t>;
 using isize = Integer<std::make_signed<std::size_t>::type>;
 using usize = Integer<std::size_t>;
 
+using ptrdiff = Integer<std::ptrdiff_t>;
+
 // Floating point
 using f32 = FloatingPoint<float>;
 using f64 = FloatingPoint<double>;
