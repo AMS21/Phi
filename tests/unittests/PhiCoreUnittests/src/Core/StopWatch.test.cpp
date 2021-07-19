@@ -49,6 +49,6 @@ TEST_CASE("StopWatch", "[Core][StopWatch]")
         std::chrono::duration<std::int32_t, std::micro> elapsed =
                 sw.getElapsed<std::int32_t, std::micro>();
 
-        CHECK(elapsed.count() >= 1);
+        CHECK(elapsed.count() >= 1000);
     }
 }
