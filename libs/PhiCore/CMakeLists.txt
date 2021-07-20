@@ -8,6 +8,7 @@ file(
   "include/Phi/Algorithm/StringLength.hpp"
   # CompilerSupport
   "include/Phi/CompilerSupport/Char8_t.hpp"
+  "include/Phi/CompilerSupport/Constexpr.hpp"
   # Config
   "include/Phi/Config/Assume.hpp"
   "include/Phi/Config/Compiler.hpp"
