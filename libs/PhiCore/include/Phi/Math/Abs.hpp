@@ -14,7 +14,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename UnsignedNumericT>
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr UnsignedNumericT abs(
+    [[nodiscard]] PHI_ALWAYS_INLINE constexpr UnsignedNumericT abs_impl(
             const UnsignedNumericT unsigned_numeric, std::false_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_signed);
@@ -23,7 +23,7 @@ namespace detail
     }
 
     template <typename SignedNumericT>
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr SignedNumericT abs(
+    [[nodiscard]] PHI_ALWAYS_INLINE constexpr SignedNumericT abs_impl(
             const SignedNumericT signed_numeric, std::true_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_signed);
@@ -51,7 +51,7 @@ namespace detail
 template <typename NumericT>
 [[nodiscard]] PHI_ALWAYS_INLINE constexpr NumericT abs(NumericT numeric) noexcept
 {
-    return detail::abs(numeric, std::is_signed<NumericT>());
+    return detail::abs_impl(numeric, std::is_signed<NumericT>());
 }
 
 DETAIL_PHI_END_NAMESPACE()
