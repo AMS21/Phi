@@ -45,6 +45,7 @@ file(
   "include/Phi/Core/Types.hpp"
   "include/Phi/Core/TypeTraits.hpp"
   # Math
+  "include/Phi/Math/Abs.hpp"
   "include/Phi/Math/Common.hpp"
   "include/Phi/Math/Constants.hpp"
   "include/Phi/Math/Signum.hpp"

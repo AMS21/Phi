@@ -46,6 +46,7 @@ file(
   "src/Core/Types.test.cpp"
   "src/Core/TypeTraits.test.cpp"
   # Math
+  "src/Math/Abs.test.cpp"
   "src/Math/Constants.test.cpp"
   "src/Math/Signum.test.cpp"
   "src/Math/Vector2.test.cpp"

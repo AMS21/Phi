@@ -99,3 +99,6 @@ runtime_failure_test(NAME "Core_NotNullScopePtr_AccessAfterMoved" SOURCE
                      "src/Core/NotNullScopePtr.get_after_move.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_NotNullScopePtr_ResetNullptr" SOURCE
                      "src/Core/NotNullScopePtr.reset_nullptr.fail.cpp" CONFIGURATIONS Debug)
+
+# Math
+runtime_failure_test(NAME "Math_Abs_SignedMinUnderflow" SOURCE "src/Math/Abs.signed_min.fail.cpp" CONFIGURATIONS Debug)
