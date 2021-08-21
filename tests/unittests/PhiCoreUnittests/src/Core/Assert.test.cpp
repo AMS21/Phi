@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "StringHelper.hpp"
+#include <Phi/Algorithm/StringEquals.hpp>
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Assert.hpp>
 #include <string>
@@ -64,7 +64,7 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("FormatArguments")
 {
-    CHECK(string_equals(phi::detail::FormatArgument(), "<None>"));
-    CHECK(string_equals(phi::detail::FormatArgument("String").c_str(), "String"));
-    CHECK(string_equals(phi::detail::FormatArgument("{}", 42).c_str(), "42"));
+    CHECK(phi::StringEquals(phi::detail::FormatArgument(), "<None>"));
+    CHECK(phi::StringEquals(phi::detail::FormatArgument("String").c_str(), "String"));
+    CHECK(phi::StringEquals(phi::detail::FormatArgument("{}", 42).c_str(), "42"));
 }

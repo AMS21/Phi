@@ -1,10 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "ConstexprHelper.hpp"
-#include "Phi/Algorithm/StringLength.hpp"
-#include "Phi/Core/Types.hpp"
-#include "StringHelper.hpp"
+#include <Phi/Algorithm/StringEquals.hpp>
+#include <Phi/Algorithm/StringLength.hpp>
 #include <Phi/Container/StringView.hpp>
+#include <Phi/Core/Types.hpp>
 #include <limits>
 #include <utility>
 
@@ -22,7 +22,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     {
         CONSTEXPR_RUNTIME phi::StringView view("Hello World");
 
-        STATIC_REQUIRE(string_equals(view.data(), "Hello World"));
+        STATIC_REQUIRE(phi::StringEquals(view.data(), "Hello World"));
         STATIC_REQUIRE(bool(view.size() == 11u));
     }
 
@@ -30,7 +30,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     {
         CONSTEXPR_RUNTIME phi::StringView view("Hello World", 11u);
 
-        STATIC_REQUIRE(string_equals(view.data(), "Hello World"));
+        STATIC_REQUIRE(phi::StringEquals(view.data(), "Hello World"));
         STATIC_REQUIRE(bool(view.size() == 11u));
 
         CONSTEXPR_RUNTIME phi::StringView view2("Hello World", 5u);
@@ -49,7 +49,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CONSTEXPR_RUNTIME phi::StringView base_view2("Hello World");
         CONSTEXPR_RUNTIME phi::StringView copy_view2(base_view2);
 
-        STATIC_REQUIRE(string_equals(copy_view2.data(), "Hello World"));
+        STATIC_REQUIRE(phi::StringEquals(copy_view2.data(), "Hello World"));
         STATIC_REQUIRE(copy_view2.data() == base_view2.data());
         STATIC_REQUIRE(bool(copy_view2.size() == 11u));
         STATIC_REQUIRE(bool(copy_view2.size() == base_view2.size()));
@@ -66,7 +66,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CONSTEXPR_RUNTIME phi::StringView base_view2("Hello World");
         CONSTEXPR_RUNTIME phi::StringView move_view2(std::move(base_view2));
 
-        STATIC_REQUIRE(string_equals(move_view2.data(), "Hello World"));
+        STATIC_REQUIRE(phi::StringEquals(move_view2.data(), "Hello World"));
         STATIC_REQUIRE(bool(move_view2.size() == 11u));
     }
 
@@ -85,7 +85,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         copy_view2 = base_view2;
 
-        CHECK(string_equals(copy_view2.data(), "Hello World"));
+        CHECK(phi::StringEquals(copy_view2.data(), "Hello World"));
         CHECK(base_view2 == copy_view2);
         CHECK(bool(copy_view2.size() == 11u));
     }
@@ -105,7 +105,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         move_view2 = std::move(base_view2);
 
-        CHECK(string_equals(move_view2.data(), "Hello World"));
+        CHECK(phi::StringEquals(move_view2.data(), "Hello World"));
         CHECK(bool(move_view2.size() == 11u));
     }
 
@@ -276,12 +276,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         constexpr static const char* str = "Hello World";
         phi::StringView              view(str + 6);
 
-        CHECK(string_equals(view.data(), "World"));
+        CHECK(phi::StringEquals(view.data(), "World"));
         CHECK(bool(view.size() == 5u));
 
         view.add_prefix(6u);
 
-        CHECK(string_equals(view.data(), "Hello World"));
+        CHECK(phi::StringEquals(view.data(), "Hello World"));
         CHECK(bool(view.size() == 11u));
     }
 
@@ -295,7 +295,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         view.add_postfix(6u);
 
-        CHECK(string_equals(view.data(), "Hello World"));
+        CHECK(phi::StringEquals(view.data(), "Hello World"));
         CHECK(bool(view.size() == 11u));
     }
 
@@ -304,12 +304,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         constexpr static const char* str = "Hello World";
         phi::StringView              view(str);
 
-        CHECK(string_equals(view.data(), "Hello World"));
+        CHECK(phi::StringEquals(view.data(), "Hello World"));
         CHECK(bool(view.size() == 11u));
 
         view.remove_prefix(6u);
 
-        CHECK(string_equals(view.data(), "World"));
+        CHECK(phi::StringEquals(view.data(), "World"));
         CHECK(bool(view.size() == 5u));
     }
 
@@ -318,7 +318,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         constexpr static const char* str = "Hello World";
         phi::StringView              view(str);
 
-        CHECK(string_equals(view.data(), "Hello World"));
+        CHECK(phi::StringEquals(view.data(), "Hello World"));
         CHECK(bool(view.size() == 11u));
 
         view.remove_suffix(6u);
@@ -350,8 +350,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         view1.swap(view2);
 
-        CHECK(string_equals(view1.data(), "World"));
-        CHECK(string_equals(view2.data(), "Hello"));
+        CHECK(phi::StringEquals(view1.data(), "World"));
+        CHECK(phi::StringEquals(view2.data(), "Hello"));
     }
 
     SECTION("copy")
@@ -363,13 +363,13 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         view.copy(dest, 5u);
         dest[5u] = '\0';
 
-        CHECK(string_equals(dest, "Hello"));
+        CHECK(phi::StringEquals(dest, "Hello"));
         CHECK(bool(phi::StringLength(dest) == 5u));
 
         view.copy(dest, 5u, 6u);
         dest[5u] = '\0';
 
-        CHECK(string_equals(dest, "World"));
+        CHECK(phi::StringEquals(dest, "World"));
         CHECK(bool(phi::StringLength(dest) == 5u));
     }
 
@@ -378,7 +378,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CONSTEXPR_RUNTIME phi::StringView base_view("Hello World");
         CONSTEXPR_RUNTIME phi::StringView sub_view = base_view.substr(6u);
 
-        STATIC_REQUIRE(string_equals(sub_view.data(), "World"));
+        STATIC_REQUIRE(phi::StringEquals(sub_view.data(), "World"));
         STATIC_REQUIRE(bool(sub_view.size() == 5u));
 
         CONSTEXPR_RUNTIME phi::StringView sub_view2 = base_view.substr(0u, 5u);

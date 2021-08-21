@@ -1,6 +1,6 @@
 project("Phi_CoreUnittestsTests" CXX)
 
-file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp" "include/StringHelper.hpp"
+file(GLOB TEST_HEADERS "include/ConstexprHelper.hpp"
      "include/Unwrap.hpp")
 
 file(
@@ -56,7 +56,6 @@ file(
   "src/Meta/AlwaysFalse.test.cpp"
   # Selftest
   "src/Selftest/ConstexprHelper.test.cpp"
-  "src/Selftest/StringHelper.test.cpp"
   "src/Selftest/Unwrap.test.cpp"
   # Base
   "src/PhiConfig.test.cpp")
