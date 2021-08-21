@@ -1,6 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include "ConstexprHelper.hpp"
 #include <Phi/Algorithm/StringLength.hpp>
+#include <string>
+#include <string_view>
 
 TEST_CASE("StringLength char")
 {
@@ -78,10 +81,66 @@ TEST_CASE("StringLength char32_t")
     STATIC_REQUIRE(bool(phi::StringLength(U"äb", 3u) == 2u));
 }
 
+TEST_CASE("StringLength basic_string")
+{
+    CHECK(bool(phi::StringLength(std::string()) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring()) == 0u));
+    CHECK(bool(phi::StringLength(std::string("")) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring(L"")) == 0u));
+    CHECK(bool(phi::StringLength(std::string("a")) == 1u));
+    CHECK(bool(phi::StringLength(std::wstring(L"a")) == 1u));
+    CHECK(bool(phi::StringLength(std::string("aa")) == 2u));
+    CHECK(bool(phi::StringLength(std::wstring(L"aa")) == 2u));
+    CHECK(bool(phi::StringLength(std::string("ccc")) == 3u));
+    CHECK(bool(phi::StringLength(std::wstring(L"ccc")) == 3u));
+
+    CHECK(bool(phi::StringLength(std::string(), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring(), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::string(""), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring(L""), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::string(""), 1u) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring(L""), 1u) == 0u));
+    CHECK(bool(phi::StringLength(std::string("a"), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::wstring(L"a"), 0u) == 0u));
+    CHECK(bool(phi::StringLength(std::string("a"), 1u) == 1u));
+    CHECK(bool(phi::StringLength(std::wstring(L"a"), 1u) == 1u));
+    CHECK(bool(phi::StringLength(std::string("a"), 2u) == 1u));
+    CHECK(bool(phi::StringLength(std::wstring(L"a"), 2u) == 1u));
+}
+
+TEST_CASE("StringLength basic_string_view")
+{
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view()) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view()) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("")) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"")) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("a")) == 1u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"a")) == 1u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("aa")) == 2u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"aa")) == 2u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("ccc")) == 3u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"ccc")) == 3u));
+
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view(), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view(""), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L""), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view(""), 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L""), 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("a"), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"a"), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("a"), 1u) == 1u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"a"), 1u) == 1u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::string_view("a"), 2u) == 1u));
+    STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"a"), 2u) == 1u));
+}
+
 // SafeStringLength
 
 TEST_CASE("SafeStringLength char")
 {
+    CONSTEXPR_RUNTIME const char* nullp = nullptr;
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char*>(nullptr)) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength("") == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength("a") == 1u));
@@ -90,6 +149,9 @@ TEST_CASE("SafeStringLength char")
     STATIC_REQUIRE(bool(phi::SafeStringLength("abcd") == 4u));
     STATIC_REQUIRE(bool(phi::SafeStringLength("abcde") == 5u));
 
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 2u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char*>(nullptr), 0u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char*>(nullptr), 1u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char*>(nullptr), 2u) == 0u));
@@ -104,6 +166,8 @@ TEST_CASE("SafeStringLength char")
 
 TEST_CASE("SafeStringLength wchar_t")
 {
+    CONSTEXPR_RUNTIME const wchar_t* nullp = nullptr;
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const wchar_t*>(nullptr)) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(L"") == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(L"ä") == 1u));
@@ -116,6 +180,9 @@ TEST_CASE("SafeStringLength wchar_t")
             phi::SafeStringLength(
                     L"爆ぜろリアル！弾けろシナプス！パニッシュメントディス、ワールド！") == 32u));
 
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 2u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const wchar_t*>(nullptr), 0u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const wchar_t*>(nullptr), 1u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const wchar_t*>(nullptr), 2u) == 0u));
@@ -130,6 +197,8 @@ TEST_CASE("SafeStringLength wchar_t")
 
 TEST_CASE("SafeStringLength char16_t")
 {
+    CONSTEXPR_RUNTIME const char16_t* nullp = nullptr;
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char16_t*>(nullptr)) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(u"") == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(u"ä") == 1u));
@@ -138,6 +207,9 @@ TEST_CASE("SafeStringLength char16_t")
     STATIC_REQUIRE(bool(phi::SafeStringLength(u"äböd") == 4u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(u"äbödü") == 5u));
 
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 2u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char16_t*>(nullptr), 0u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char16_t*>(nullptr), 1u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char16_t*>(nullptr), 2u) == 0u));
@@ -152,6 +224,8 @@ TEST_CASE("SafeStringLength char16_t")
 
 TEST_CASE("SafeStringLength char32_t")
 {
+    CONSTEXPR_RUNTIME const char32_t* nullp = nullptr;
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char32_t*>(nullptr)) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"") == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"ä") == 1u));
@@ -160,6 +234,9 @@ TEST_CASE("SafeStringLength char32_t")
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"äböd") == 4u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"äbödü") == 5u));
 
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(nullp, 2u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char32_t*>(nullptr), 0u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char32_t*>(nullptr), 1u) == 0u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(static_cast<const char32_t*>(nullptr), 2u) == 0u));
@@ -170,4 +247,58 @@ TEST_CASE("SafeStringLength char32_t")
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"äb", 1u) == 1u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"äb", 2u) == 2u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(U"äb", 3u) == 2u));
+}
+
+TEST_CASE("SafeStringLength basic_string")
+{
+    CHECK(bool(phi::SafeStringLength(std::string()) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring()) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string("")) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"")) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string("a")) == 1u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"a")) == 1u));
+    CHECK(bool(phi::SafeStringLength(std::string("aa")) == 2u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"aa")) == 2u));
+    CHECK(bool(phi::SafeStringLength(std::string("ccc")) == 3u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"ccc")) == 3u));
+
+    CHECK(bool(phi::SafeStringLength(std::string(), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string(""), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L""), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string(""), 1u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L""), 1u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string("a"), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"a"), 0u) == 0u));
+    CHECK(bool(phi::SafeStringLength(std::string("a"), 1u) == 1u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"a"), 1u) == 1u));
+    CHECK(bool(phi::SafeStringLength(std::string("a"), 2u) == 1u));
+    CHECK(bool(phi::SafeStringLength(std::wstring(L"a"), 2u) == 1u));
+}
+
+TEST_CASE("SafeStringLength basic_string_view")
+{
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view()) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view()) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("")) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"")) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("a")) == 1u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"a")) == 1u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("aa")) == 2u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"aa")) == 2u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("ccc")) == 3u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"ccc")) == 3u));
+
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view(), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view(""), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L""), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view(""), 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L""), 1u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("a"), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"a"), 0u) == 0u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("a"), 1u) == 1u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"a"), 1u) == 1u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("a"), 2u) == 1u));
+    STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"a"), 2u) == 1u));
 }

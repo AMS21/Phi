@@ -15,6 +15,20 @@ runtime_failure_test(NAME "Selftest_UnhandledException" SOURCE
 # Algorithm
 runtime_failure_test(NAME "Algorithm_StringLengthNullptr" SOURCE "src/Algorithm/StringLength.nullptr.fail.cpp" CONFIGURATIONS Debug)
 
+# Container
+runtime_failure_test(NAME "Container_StringViewConstructWithNullptr" SOURCE "src/Container/StringView.construct_nullptr.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewConstructWithNullptrAndSize" SOURCE "src/Container/StringView.construct_nullptr2.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewConstructWithZeroSize" SOURCE "src/Container/StringView.construct_zero_size.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewTooShortString" SOURCE "src/Container/StringView.short_string.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewAtOnEmpty" SOURCE "src/Container/StringView.empty_at.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewBackOnEmpty" SOURCE "src/Container/StringView.empty_back.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewFrontOnEmpty" SOURCE "src/Container/StringView.empty_front.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewInvalidElementAccess" SOURCE "src/Container/StringView.invalid_element.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewRemovePrefix" SOURCE "src/Container/StringView.remove_prefix.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewRemoveSuffix" SOURCE "src/Container/StringView.remove_suffix.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewCopy" SOURCE "src/Container/StringView.copy.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "Container_StringViewSubstr" SOURCE "src/Container/StringView.substr.fail.cpp" CONFIGURATIONS Debug)
+
 # Core
 runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
 runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX

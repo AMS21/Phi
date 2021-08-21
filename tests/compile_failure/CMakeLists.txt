@@ -1,5 +1,13 @@
 include(TestFail)
 
+# Algorithm
+compile_failure_test(NAME "Algorithm_StringLength_CountNullptr" SOURCE "src/Algorithm/StringLength.count_nullptr.fail.cpp")
+compile_failure_test(NAME "Algorithm_StringLength_Nullptr" SOURCE "src/Algorithm/StringLength.nullptr.fail.cpp")
+
+# Container
+compile_failure_test(NAME "Container_StringView_ConstructWithNullptr" SOURCE "src/Container/StringView.construct_nullptr.fail.cpp")
+compile_failure_test(NAME "Container_StringView_AssignNullptr" SOURCE "src/Container/StringView.assign_nullptr.fail.cpp")
+
 # Phi/Core
 compile_failure_test(NAME "Core_FloatingPoint_ConstructFromInt" SOURCE
                      "src/Core/FloatingPoint.int.fail.cpp")

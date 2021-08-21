@@ -24,6 +24,8 @@ file(
   "src/Config/Unreachable.test.cpp"
   "src/Config/Versioning.test.cpp"
   "src/Config/Warnings.test.cpp"
+  # Container
+  "src/Container/StringView.test.cpp"
   # Core
   "src/Core/Assert.test.cpp"
   "src/Core/At.test.cpp"

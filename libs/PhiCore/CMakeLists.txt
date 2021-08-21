@@ -22,6 +22,8 @@ file(
   "include/Phi/Config/Unreachable.hpp"
   "include/Phi/Config/Versioning.hpp"
   "include/Phi/Config/Warning.hpp"
+  # Container
+  "include/Phi/Container/StringView.hpp"
   # Core
   "include/Phi/Core/Assert.hpp"
   "include/Phi/Core/At.hpp"
