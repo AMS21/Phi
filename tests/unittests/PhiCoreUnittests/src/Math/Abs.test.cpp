@@ -1,5 +1,6 @@
 #include <catch2/catch_template_test_macros.hpp>
 
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Math/Abs.hpp>
 #include <limits>
 
@@ -28,3 +29,20 @@ TEMPLATE_TEST_CASE("Abs unsigned", "[Math][Abs]", unsigned char, unsigned short,
     STATIC_REQUIRE(phi::abs(std::numeric_limits<TestType>::max()) ==
                    std::numeric_limits<TestType>::max());
 }
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+
+TEMPLATE_TEST_CASE("Abs floating point", "[Math][Abs]", float, double, long double)
+{
+    STATIC_REQUIRE(phi::abs(TestType(0.0L)) == TestType(0.0L));
+    STATIC_REQUIRE(phi::abs(TestType(-0.0L)) == TestType(0.0L));
+    STATIC_REQUIRE(phi::abs(TestType(-21.0L)) == TestType(21.0L));
+    STATIC_REQUIRE(phi::abs(TestType(21.0L)) == TestType(21.0L));
+}
+
+PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_SUPPRESS_WARNING_POP()
