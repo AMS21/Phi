@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 # Function to enable optimizations for a specific project
 function(set_project_optimizations project)

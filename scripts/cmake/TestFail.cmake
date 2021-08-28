@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 include("CMakeParseArguments")
 include(Environment)

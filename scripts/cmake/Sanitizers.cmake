@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 # Enable sanitizers for a specific project
 function(enable_sanitizers project)
@@ -41,7 +41,15 @@ function(enable_sanitizers project)
       phi_trace("Enabled fuzzer flag")
     endif()
 
-    list(JOIN sanitizers "," list_of_sanitizers)
+    # Join list of sanitizers
+    set(list_of_sanitizers "")
+    foreach(san ${sanitizers})
+      if(list_of_sanitizers EQUAL "")
+        set(list_of_sanitizers "${san}")
+      else()
+        set(list_of_sanitizers "${list_of_sanitizers},${san}")
+      endif()
+    endforeach()
   endif()
 
   # Get target type

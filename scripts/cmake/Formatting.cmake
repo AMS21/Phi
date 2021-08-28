@@ -1,6 +1,6 @@
 # Copied from https://github.com/BlueBrain/git-cmake-format/blob/master/FindClangFormat.cmake
 
-include_guard(GLOBAL)
+phi_include_guard()
 
 if(NOT PHI_AUTO_FORMATTING)
   phi_trace("Auto formatting disabled")

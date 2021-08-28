@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 if(NOT PHI_ENABLE_CACHE)
   return()

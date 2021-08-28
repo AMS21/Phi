@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 if(PHI_COVERAGE_BUILD)
   # Enable coverage flags

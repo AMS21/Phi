@@ -1,4 +1,4 @@
-include_guard(GLOBAL)
+phi_include_guard()
 
 # Set a default build type if none was specified
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)

@@ -58,22 +58,24 @@ file(
 
 file(GLOB PHI_CORE_SOURCES "src/Core/Log.cpp")
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${PHI_CORE_HEADERS} ${PHI_CORE_SOURCES})
-
-# PhiCore library
-add_library(${PROJECT_NAME} STATIC ${PHI_CORE_HEADERS} ${PHI_CORE_SOURCES})
-
-# Alias targets
-add_library(Phi::Core ALIAS ${PROJECT_NAME})
+phi_add_library(
+  NAME
+  ${PROJECT_NAME}
+  STATIC
+  SOURCES
+  ${PHI_CORE_SOURCES}
+  HEADERS
+  ${PHI_CORE_HEADERS}
+  ALIAS_TARGET
+  Phi::Core
+  PUBLIC_LINK_LIBRARIES
+  spdlog::spdlog
+  Threads::Threads
+  PRIVATE_LINK_LIBRARIES
+  Phi::InternalProjectOptions
+  PUBLIC_INCLUDE_DIRS
+  "include"
+  PRIVATE_INCLUDE_DIRS
+  "src")
 
 phi_enable_static_analyzers(${PROJECT_NAME})
-
-target_include_directories(
-  ${PROJECT_NAME}
-  PUBLIC "include"
-  PRIVATE "src")
-
-target_link_libraries(
-  ${PROJECT_NAME}
-  PUBLIC spdlog::spdlog Threads::Threads
-  PRIVATE Phi::InternalProjectOptions)

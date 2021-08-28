@@ -1,5 +1,5 @@
 # Phi top level cmake file
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.5)
 
 # Policy
 if(${CMAKE_VERSION} VERSION_LESS 3.20)
@@ -11,6 +11,7 @@ endif()
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
+include(IncludeGuard)
 include(Functions)
 
 set(PHI_VERSION_MAJOR 0)
@@ -22,9 +23,8 @@ phi_log("Configuring Phi version ${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI
 # Project
 project(
   Phi
-  LANGUAGES CXX
   VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}"
-  DESCRIPTION "High performance, modular, modern, cross-platform Game Engine library")
+  LANGUAGES CXX)
 
 # Check if Phi is being used directly or via add_subdirectory, but allow overriding
 if(NOT DEFINED PHI_MASTER_PROJECT)
@@ -62,18 +62,30 @@ option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" ON)
 option(PHI_ENABLE_USER_LINKER "Enable a specific linker if available" OFF)
 option(PHI_BUILD_WITH_TIME_TRACE
        "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
-option(PHI_ENABLE_IPO "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
-option(PHI_COLOR_DIAGNOSTICS ON "Enable colored diagnostics")
+option(PHI_ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
+option(PHI_COLOR_DIAGNOSTICS "Enable colored diagnostics" ON)
 option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(PHI_EANBKE_IWYU "Enable static analysis with include-what-you-use" OFF)
+option(PHI_EANBLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 
-option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
-       "Dynamic")
+phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
+           STRING "Dynamic")
 set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
 
-option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" "Default")
+phi_option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" STRING
+           "Default")
 set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++")
+
+phi_option(PHI_STANDARD "Which C++ Standard to use" STRING "latest")
+set_property(
+  CACHE PHI_STANDARD
+  PROPERTY STRINGS
+           "latest"
+           "11"
+           "14"
+           "17"
+           "20"
+           "23")
 
 # CI Builds Settings
 if(${PHI_CI_BUILD} AND ${PHI_MASTER_PROJECT})
@@ -89,6 +101,15 @@ if(${PHI_CI_BUILD} AND ${PHI_MASTER_PROJECT})
       TRUE
       CACHE BOOL "" FORCE)
 endif()
+
+# Project option targets
+add_library(phi_project_options INTERFACE)
+add_library(Phi::ProjectOptions ALIAS phi_project_options)
+
+add_library(phi_internal_project_options INTERFACE)
+add_library(Phi::InternalProjectOptions ALIAS phi_internal_project_options)
+
+target_link_libraries(phi_internal_project_options INTERFACE Phi::ProjectOptions)
 
 # Load configuration
 include(PhiConfiguration)

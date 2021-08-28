@@ -60,7 +60,9 @@ file(
   # Base
   "src/PhiConfig.test.cpp")
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
+if (${CMAKE_VERSION} VERSION_GREATER "3.7")
+  source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
+endif()
 
 set(UnittestLibs)
 

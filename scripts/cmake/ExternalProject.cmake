@@ -1,6 +1,6 @@
 # ExternalProject.cmake
 
-include_guard(GLOBAL)
+phi_include_guard()
 
 include("CMakeParseArguments")
 
@@ -21,9 +21,10 @@ function(phi_add_external_project)
     set_target_properties(${target} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
                                                "${include_dir}")
 
-    # Link with Phi::ProjectOptions
+    # Link with Phi::ProjectOptions See
+    # https://cmake.org/cmake/help/latest/policy/CMP0079.html#policy:CMP0079
     get_target_property(target_type ${target} TYPE)
-    if(NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+    if(NOT ${target_type} STREQUAL "INTERFACE_LIBRARY" AND ${CMAKE_VERSION} VERSION_GREATER "3.12")
       target_link_libraries(${target} PRIVATE Phi::ProjectOptions)
     endif()
 
