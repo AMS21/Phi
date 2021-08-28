@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_CORE_NOTNULL_HPP
 #define INCG_PHI_CORE_NOTNULL_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/PhiConfig.hpp"
@@ -82,7 +83,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] constexpr
+    PHI_NODISCARD constexpr
             typename std::conditional_t<std::is_copy_constructible_v<TypeT>, TypeT, const TypeT&>
             get() const noexcept
     {

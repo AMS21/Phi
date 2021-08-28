@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_CORE_ALGORITHM_STRING_LENGTH_HPP
 #define INCG_PHI_CORE_ALGORITHM_STRING_LENGTH_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Types.hpp"
@@ -13,7 +14,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
-[[nodiscard]] constexpr usize StringLength(CharT* string) noexcept
+PHI_NODISCARD constexpr usize StringLength(CharT* string) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to StringLength is not allowed. Use "
                                       "SafeStringLength if you intended to pass a nullptr.");
@@ -28,23 +29,23 @@ template <typename CharT>
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-[[nodiscard]] constexpr usize StringLength(
+PHI_NODISCARD constexpr usize StringLength(
         std::basic_string<CharT, TraitsT, AllocatorT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT>
-[[nodiscard]] constexpr usize StringLength(std::basic_string_view<CharT, TraitsT> string) noexcept
+PHI_NODISCARD constexpr usize StringLength(std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT = std::nullptr_t>
-[[nodiscard]] constexpr usize StringLength(std::nullptr_t) noexcept = delete;
+PHI_NODISCARD constexpr usize StringLength(std::nullptr_t) noexcept = delete;
 
 template <typename CharT>
-[[nodiscard]] constexpr usize StringLength(CharT* string, usize length) noexcept
+PHI_NODISCARD constexpr usize StringLength(CharT* string, usize length) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to StringLength is not allowed. Use "
                                       "SafeStringLength if you intended to pass a nullptr.");
@@ -59,24 +60,24 @@ template <typename CharT>
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-[[nodiscard]] constexpr usize StringLength(std::basic_string<CharT, TraitsT, AllocatorT> string,
+PHI_NODISCARD constexpr usize StringLength(std::basic_string<CharT, TraitsT, AllocatorT> string,
                                            usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT>
-[[nodiscard]] constexpr usize StringLength(std::basic_string_view<CharT, TraitsT> string,
+PHI_NODISCARD constexpr usize StringLength(std::basic_string_view<CharT, TraitsT> string,
                                            usize                                  length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT = std::nullptr_t>
-[[nodiscard]] constexpr usize StringLength(std::nullptr_t, usize) noexcept = delete;
+PHI_NODISCARD constexpr usize StringLength(std::nullptr_t, usize) noexcept = delete;
 
 template <typename CharT>
-[[nodiscard]] constexpr usize SafeStringLength(CharT* string) noexcept
+PHI_NODISCARD constexpr usize SafeStringLength(CharT* string) noexcept
 {
     if (string == nullptr)
     {
@@ -93,27 +94,27 @@ template <typename CharT>
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-[[nodiscard]] constexpr usize SafeStringLength(
+PHI_NODISCARD constexpr usize SafeStringLength(
         std::basic_string<CharT, TraitsT, AllocatorT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT>
-[[nodiscard]] constexpr usize SafeStringLength(
+PHI_NODISCARD constexpr usize SafeStringLength(
         std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT = std::nullptr_t>
-[[nodiscard]] constexpr usize SafeStringLength(std::nullptr_t) noexcept
+PHI_NODISCARD constexpr usize SafeStringLength(std::nullptr_t) noexcept
 {
     return 0u;
 }
 
 template <typename CharT>
-[[nodiscard]] constexpr usize SafeStringLength(CharT* string, usize length) noexcept
+PHI_NODISCARD constexpr usize SafeStringLength(CharT* string, usize length) noexcept
 {
     if (string == nullptr)
     {
@@ -130,21 +131,21 @@ template <typename CharT>
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-[[nodiscard]] constexpr usize SafeStringLength(std::basic_string<CharT, TraitsT, AllocatorT> string,
+PHI_NODISCARD constexpr usize SafeStringLength(std::basic_string<CharT, TraitsT, AllocatorT> string,
                                                usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT>
-[[nodiscard]] constexpr usize SafeStringLength(std::basic_string_view<CharT, TraitsT> string,
+PHI_NODISCARD constexpr usize SafeStringLength(std::basic_string_view<CharT, TraitsT> string,
                                                usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT = std::nullptr_t>
-[[nodiscard]] constexpr usize SafeStringLength(std::nullptr_t, usize length) noexcept
+PHI_NODISCARD constexpr usize SafeStringLength(std::nullptr_t, usize length) noexcept
 {
     PHI_UNUSED_PARAMETER(length);
 

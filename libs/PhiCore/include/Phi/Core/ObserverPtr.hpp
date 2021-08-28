@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include <cstddef>
@@ -203,7 +204,7 @@ public:
         return get();
     }
 
-    [[nodiscard]] constexpr TypeT* get() const noexcept
+    PHI_NODISCARD constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
     }
@@ -215,7 +216,7 @@ public:
         return ptr;
     }
 
-    [[nodiscard]] constexpr NotNullObserverPtr<TypeT> release_not_null() noexcept
+    PHI_NODISCARD constexpr NotNullObserverPtr<TypeT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
@@ -223,7 +224,7 @@ public:
     }
 
     template <typename OtherT>
-    [[nodiscard]] constexpr NotNullObserverPtr<OtherT> release_not_null() noexcept
+    PHI_NODISCARD constexpr NotNullObserverPtr<OtherT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
@@ -416,7 +417,7 @@ public:
         return get();
     }
 
-    [[nodiscard]] constexpr TypeT* get() const noexcept
+    PHI_NODISCARD constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
     }
@@ -480,13 +481,13 @@ Boolean operator!=(std::nullptr_t, NotNullObserverPtr<RhsT>) = delete;
 // make functions
 
 template <typename TypeT>
-[[nodiscard]] constexpr ObserverPtr<TypeT> make_observer(TypeT* ptr) noexcept
+PHI_NODISCARD constexpr ObserverPtr<TypeT> make_observer(TypeT* ptr) noexcept
 {
     return ObserverPtr<TypeT>(ptr);
 }
 
 template <typename TypeT>
-[[nodiscard]] constexpr NotNullObserverPtr<TypeT> make_not_null_observer(TypeT* ptr) noexcept
+PHI_NODISCARD constexpr NotNullObserverPtr<TypeT> make_not_null_observer(TypeT* ptr) noexcept
 {
     return NotNullObserverPtr<TypeT>(ptr);
 }

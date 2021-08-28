@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -30,12 +31,12 @@ public:
         m_Variable = m_SavedValue;
     }
 
-    [[nodiscard]] constexpr ValueT& get_variable() const noexcept
+    PHI_NODISCARD constexpr ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    [[nodiscard]] constexpr ValueT get_saved_value() const noexcept
+    PHI_NODISCARD constexpr ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
@@ -77,12 +78,12 @@ public:
         }
     }
 
-    [[nodiscard]] constexpr ValueT& get_variable() const noexcept
+    PHI_NODISCARD constexpr ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    [[nodiscard]] constexpr ValueT get_saved_value() const noexcept
+    PHI_NODISCARD constexpr ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
@@ -102,7 +103,7 @@ public:
         m_Armed = true;
     }
 
-    [[nodiscard]] constexpr Boolean is_armed() const noexcept
+    PHI_NODISCARD constexpr Boolean is_armed() const noexcept
     {
         return m_Armed;
     }
@@ -114,13 +115,13 @@ private:
 };
 
 template <typename ValueT>
-[[nodiscard]] constexpr ScopedValueGuard<ValueT> make_scoped_value_guard(ValueT& variable) noexcept
+PHI_NODISCARD constexpr ScopedValueGuard<ValueT> make_scoped_value_guard(ValueT& variable) noexcept
 {
     return ScopedValueGuard<ValueT>(variable);
 }
 
 template <typename ValueT>
-[[nodiscard]] constexpr ArmedScopedValueGuard<ValueT> make_armed_scoped_value_guard(
+PHI_NODISCARD constexpr ArmedScopedValueGuard<ValueT> make_armed_scoped_value_guard(
         ValueT& variable) noexcept
 {
     return ArmedScopedValueGuard<ValueT>(variable);

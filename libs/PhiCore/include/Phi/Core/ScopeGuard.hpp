@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include <type_traits>
 #include <utility>
@@ -81,7 +82,7 @@ public:
         m_Armed = true;
     }
 
-    [[nodiscard]] Boolean is_armed() const noexcept
+    PHI_NODISCARD Boolean is_armed() const noexcept
     {
         return m_Armed;
     }
@@ -92,7 +93,7 @@ private:
 };
 
 template <typename ActionT>
-[[nodiscard]] constexpr ScopeGuard<
+PHI_NODISCARD constexpr ScopeGuard<
         typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>
 make_scope_guard(ActionT&& action) noexcept
 {
@@ -101,7 +102,7 @@ make_scope_guard(ActionT&& action) noexcept
 }
 
 template <typename ActionT>
-[[nodiscard]] constexpr ArmedScopeGuard<
+PHI_NODISCARD constexpr ArmedScopeGuard<
         typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>
 make_armed_scope_guard(ActionT&& action) noexcept
 {

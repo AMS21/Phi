@@ -1,11 +1,13 @@
 #ifndef INCG_PHI_CORE_MATH_ABS_HPP
 #define INCG_PHI_CORE_MATH_ABS_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <limits>
 #include <type_traits>
 
@@ -69,9 +71,9 @@ namespace detail
     };
 
     template <typename SignedNumericT>
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr typename make_unsigned_abs<SignedNumericT>::type
-    abs_impl(const SignedNumericT signed_numeric, std::false_type is_floating_point,
-             std::true_type is_signed) noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr typename make_unsigned_abs<SignedNumericT>::type
+                  abs_impl(const SignedNumericT signed_numeric, std::false_type is_floating_point,
+                           std::true_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
@@ -82,7 +84,7 @@ namespace detail
     }
 
     template <typename UnsignedNumericT>
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr UnsignedNumericT abs_impl(
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr UnsignedNumericT abs_impl(
             const UnsignedNumericT unsigned_numeric, std::false_type is_floating_point,
             std::false_type is_signed) noexcept
     {
@@ -92,7 +94,7 @@ namespace detail
         return unsigned_numeric;
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr float abs_impl(const float    floating_point_numeric,
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr float abs_impl(const float    floating_point_numeric,
                                                              std::true_type is_floating_point,
                                                              std::true_type is_signed) noexcept
     {
@@ -106,7 +108,7 @@ namespace detail
 #endif
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr double abs_impl(const double   floating_point_numeric,
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr double abs_impl(const double   floating_point_numeric,
                                                               std::true_type is_floating_point,
                                                               std::true_type is_signed) noexcept
     {
@@ -120,7 +122,7 @@ namespace detail
 #endif
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr long double abs_impl(
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr long double abs_impl(
             const long double floating_point_numeric, std::true_type is_floating_point,
             std::true_type is_signed) noexcept
     {
@@ -149,7 +151,7 @@ namespace detail
  *
 **/
 template <typename NumericT>
-[[nodiscard]] constexpr typename detail::make_unsigned_abs<NumericT>::type abs(
+PHI_NODISCARD constexpr typename detail::make_unsigned_abs<NumericT>::type abs(
         NumericT numeric) noexcept
 {
     return detail::abs_impl(numeric, std::is_floating_point<NumericT>(),

@@ -3,6 +3,7 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/TypeTraits.hpp"
@@ -469,14 +470,14 @@ constexpr void swap(NotNullScopePtr<LhsT>& lhs, NotNullScopePtr<RhsT>& rhs)
 // make functions
 
 template <typename TypeT, typename... ArgsT>
-[[nodiscard]] std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>> make_scope(
+PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>> make_scope(
         ArgsT&&... args)
 {
     return ScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope(
+PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope(
         phi::usize size)
 {
     return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
@@ -486,15 +487,15 @@ template <typename TypeT, typename... ArgsT>
 std::enable_if_t<is_bounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope(ArgsT&&... args) = delete;
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>>
-make_scope_for_overwrite()
+PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>>
+              make_scope_for_overwrite()
 {
     return ScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>>
-make_scope_for_overwrite(phi::usize size)
+PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>>
+              make_scope_for_overwrite(phi::usize size)
 {
     return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
 }
@@ -504,15 +505,15 @@ std::enable_if_t<is_bounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope_for_over
         ArgsT&&... args) = delete;
 
 template <typename TypeT, typename... ArgsT>
-[[nodiscard]] std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
-make_not_null_scope(ArgsT&&... args)
+PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
+              make_not_null_scope(ArgsT&&... args)
 {
     return NotNullScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
-make_not_null_scope(phi::usize size)
+PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
+              make_not_null_scope(phi::usize size)
 {
     return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
 }
@@ -522,15 +523,15 @@ std::enable_if_t<is_bounded_array_v<TypeT>, NotNullScopePtr<TypeT>> make_not_nul
         ArgsT&&... args) = delete;
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
-make_not_null_scope_for_overwrite()
+PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
+              make_not_null_scope_for_overwrite()
 {
     return NotNullScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-[[nodiscard]] std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
-make_not_null_scope_for_overwrite(phi::usize size)
+PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
+              make_not_null_scope_for_overwrite(phi::usize size)
 {
     return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
 }

@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_UTILITY_LOG_HPP
 #define INCG_PHI_UTILITY_LOG_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/FunctionLikeMacro.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/PhiConfig.hpp"
@@ -15,9 +16,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 class Log
 {
 public:
-    [[nodiscard]] static std::shared_ptr<spdlog::logger> get_core_logger() noexcept;
+    PHI_NODISCARD static std::shared_ptr<spdlog::logger> get_core_logger() noexcept;
 
-    [[nodiscard]] static std::shared_ptr<spdlog::logger> get_client_logger() noexcept;
+    PHI_NODISCARD static std::shared_ptr<spdlog::logger> get_client_logger() noexcept;
 
     static void initialize_default_loggers() noexcept;
 

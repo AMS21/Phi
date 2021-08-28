@@ -27,6 +27,7 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_FLOATINGPOINT_HPP
 #define INCG_PHI_UTILITY_FLOATINGPOINT_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Boolean.hpp"
@@ -148,7 +149,7 @@ public:
         return m_Value;
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr FloatT get() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr FloatT get() const noexcept
     {
         return m_Value;
     }

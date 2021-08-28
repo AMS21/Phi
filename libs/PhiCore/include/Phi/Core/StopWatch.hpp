@@ -1,8 +1,10 @@
 #ifndef INCG_PHI_CORE_STOP_WATCH_HPP
 #define INCG_PHI_CORE_STOP_WATCH_HPP
 
-#include "Phi/Core/Types.hpp"
 #include "Phi/PhiConfig.hpp"
+
+#include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Core/Types.hpp"
 #include <chrono>
 #include <ratio>
 
@@ -21,7 +23,7 @@ public:
     {}
 
     template <typename StorageT = double, typename PeriodT = std::milli>
-    [[nodiscard]] std::chrono::duration<StorageT, PeriodT> getElapsed() const noexcept
+    PHI_NODISCARD std::chrono::duration<StorageT, PeriodT> getElapsed() const noexcept
     {
         const std::chrono::time_point<ClockT> current_time_point = ClockT::now();
 

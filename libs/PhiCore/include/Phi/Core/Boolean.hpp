@@ -27,6 +27,7 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_BOOLEAN_HPP
 #define INCG_PHI_UTILITY_BOOLEAN_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/PhiConfig.hpp"
 #include <functional>
@@ -92,7 +93,7 @@ public:
         return Boolean(!m_Value);
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr bool get() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool get() const noexcept
     {
         return m_Value;
     }

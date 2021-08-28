@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_UTILITY_CONVERSION_HPP
 #define INCG_PHI_UTILITY_CONVERSION_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
 #include "Phi/Core/Integer.hpp"
@@ -31,7 +32,7 @@ namespace detail
 
 // unsafe_cast base
 template <typename TargetT, typename SourceT>
-[[nodiscard]] constexpr TargetT unsafe_cast(SourceT&& source) noexcept
+PHI_NODISCARD constexpr TargetT unsafe_cast(SourceT&& source) noexcept
 {
     if constexpr (detail::is_floatingpoint_specialization<TargetT>::value ||
                   detail::is_integer_specilization<TargetT>::value ||
@@ -47,21 +48,21 @@ template <typename TargetT, typename SourceT>
 
 // Floating Point
 template <typename TargetT, typename SourceT>
-[[nodiscard]] constexpr TargetT unsafe_cast(FloatingPoint<SourceT>&& source) noexcept
+PHI_NODISCARD constexpr TargetT unsafe_cast(FloatingPoint<SourceT>&& source) noexcept
 {
     return unsafe_cast<TargetT>(source.get());
 }
 
 // Integer
 template <typename TargetT, typename SourceT>
-[[nodiscard]] constexpr TargetT unsafe_cast(Integer<SourceT>&& source) noexcept
+PHI_NODISCARD constexpr TargetT unsafe_cast(Integer<SourceT>&& source) noexcept
 {
     return unsafe_cast<TargetT>(source.get());
 }
 
 // Narrow cast
 template <typename TargetT, typename SourceT>
-[[nodiscard]] constexpr TargetT narrow_cast(SourceT&& source) noexcept
+PHI_NODISCARD constexpr TargetT narrow_cast(SourceT&& source) noexcept
 {
 #if defined(PHI_DEBUG)
     constexpr const bool is_different_signedness =

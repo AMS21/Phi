@@ -5,6 +5,7 @@
 #ifndef INCG_PHI_CORE_OPTIONAL_HPP
 #define INCG_PHI_CORE_OPTIONAL_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/TypeTraits.hpp"
@@ -214,27 +215,27 @@ namespace detail
             }
         }
 
-        [[nodiscard]] bool has_value() const
+        PHI_NODISCARD bool has_value() const
         {
             return this->m_has_value;
         }
 
-        [[nodiscard]] constexpr TypeT& get() &
+        PHI_NODISCARD constexpr TypeT& get() &
         {
             return this->m_Value;
         }
 
-        [[nodiscard]] constexpr const TypeT& get() const&
+        PHI_NODISCARD constexpr const TypeT& get() const&
         {
             return this->m_Value;
         }
 
-        [[nodiscard]] constexpr TypeT&& get() &&
+        PHI_NODISCARD constexpr TypeT&& get() &&
         {
             return std::move(this->m_Value);
         }
 
-        [[nodiscard]] constexpr const TypeT&& get() const&&
+        PHI_NODISCARD constexpr const TypeT&& get() const&&
         {
             return std::move(this->m_Value);
         }
@@ -769,7 +770,7 @@ public:
     }
 
     /// Returns whether or not the Optional has a value
-    [[nodiscard]] constexpr bool has_value() const noexcept
+    PHI_NODISCARD constexpr bool has_value() const noexcept
     {
         return this->m_has_value;
     }
@@ -790,7 +791,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    [[nodiscard]] constexpr const TypeT& value() const&
+    PHI_NODISCARD constexpr const TypeT& value() const&
     {
         if (has_value())
         {
@@ -800,7 +801,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    [[nodiscard]] constexpr TypeT&& value() &&
+    PHI_NODISCARD constexpr TypeT&& value() &&
     {
         if (has_value())
         {
@@ -810,7 +811,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    [[nodiscard]] constexpr const TypeT&& value() const&&
+    PHI_NODISCARD constexpr const TypeT&& value() const&&
     {
         if (has_value())
         {
@@ -1076,42 +1077,42 @@ public:
     }
 
     /// Returns `rhs` if `*this` is empty, otherwise the current value.
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) &
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &
     {
         return has_value() ? *this : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) const&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&
     {
         return has_value() ? *this : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) &&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &&
     {
         return has_value() ? std::move(*this) : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) const&&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&&
     {
         return has_value() ? std::move(*this) : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) &
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &
     {
         return has_value() ? *this : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) const&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&
     {
         return has_value() ? *this : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) &&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &&
     {
         return has_value() ? std::move(*this) : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) const&&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&&
     {
         return has_value() ? std::move(*this) : std::move(rhs);
     }
@@ -1489,7 +1490,7 @@ public:
         return *m_Value;
     }
 
-    [[nodiscard]] constexpr bool has_value() const noexcept
+    PHI_NODISCARD constexpr bool has_value() const noexcept
     {
         return m_Value != nullptr;
     }
@@ -1500,7 +1501,7 @@ public:
     }
 
     /// Returns the contained value if there is one, otherwise throws bad_optional_access
-    [[nodiscard]] constexpr TypeT& value()
+    PHI_NODISCARD constexpr TypeT& value()
     {
         if (has_value())
         {
@@ -1510,7 +1511,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    [[nodiscard]] constexpr const TypeT& value() const
+    PHI_NODISCARD constexpr const TypeT& value() const
     {
         if (has_value())
         {
@@ -1522,7 +1523,7 @@ public:
 
     /// Returns the stored value if there is one, otherwise returns `u`
     template <typename OtherT>
-    [[nodiscard]] constexpr TypeT value_or(OtherT&& u) const& noexcept
+    PHI_NODISCARD constexpr TypeT value_or(OtherT&& u) const& noexcept
     {
         static_assert(std::is_copy_constructible<TypeT>::value &&
                               std::is_convertible<OtherT&&, TypeT>::value,
@@ -1533,7 +1534,7 @@ public:
 
     /// \group value_or
     template <typename OtherT>
-    [[nodiscard]] constexpr TypeT value_or(OtherT&& u) && noexcept
+    PHI_NODISCARD constexpr TypeT value_or(OtherT&& u) && noexcept
     {
         static_assert(std::is_move_constructible<TypeT>::value &&
                               std::is_convertible<OtherT&&, TypeT>::value,
@@ -1773,42 +1774,42 @@ public:
     }
 
     /// Returns `rhs` if `*this` is empty, otherwise the current value.
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) &
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &
     {
         return has_value() ? *this : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) const&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&
     {
         return has_value() ? *this : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) &&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &&
     {
         return has_value() ? std::move(*this) : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(const Optional& rhs) const&&
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&&
     {
         return has_value() ? std::move(*this) : rhs;
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) &
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &
     {
         return has_value() ? *this : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) const&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&
     {
         return has_value() ? *this : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) &&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &&
     {
         return has_value() ? std::move(*this) : std::move(rhs);
     }
 
-    [[nodiscard]] constexpr Optional disjunction(Optional&& rhs) const&&
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&&
     {
         return has_value() ? std::move(*this) : std::move(rhs);
     }

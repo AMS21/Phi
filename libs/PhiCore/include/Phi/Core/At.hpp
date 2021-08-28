@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_UTILITY_AT_HPP
 #define INCG_PHI_UTILITY_AT_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/PhiConfig.hpp"
 #include <cstdint>
@@ -9,7 +10,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, std::size_t Size>
-[[nodiscard]] constexpr TypeT& at(TypeT (&arr)[Size], std::size_t index) noexcept
+PHI_NODISCARD constexpr TypeT& at(TypeT (&arr)[Size], std::size_t index) noexcept
 {
     PHI_DBG_ASSERT(index < Size, "Index {} is out of bounds! Max value: {}", index, Size - 1);
 
@@ -17,7 +18,7 @@ template <typename TypeT, std::size_t Size>
 }
 
 template <typename ContainerT>
-[[nodiscard]] constexpr auto at(ContainerT& container, std::size_t index)
+PHI_NODISCARD constexpr auto at(ContainerT& container, std::size_t index)
 #if !defined(PHI_DEBUG)
         noexcept
 #endif
@@ -34,7 +35,7 @@ template <typename ContainerT>
 }
 
 template <typename TypeT>
-[[nodiscard]] constexpr TypeT at(std::initializer_list<TypeT> list, std::size_t index) noexcept
+PHI_NODISCARD constexpr TypeT at(std::initializer_list<TypeT> list, std::size_t index) noexcept
 {
     PHI_DBG_ASSERT(index < list.size(), "Index {} is out of bounds! Max value: {}", index,
                    list.size() - 1);

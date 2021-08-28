@@ -27,6 +27,7 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_INTEGER_HPP
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
@@ -284,22 +285,22 @@ public:
 
     //=== conversion back ===//
 
-    [[nodiscard]] PHI_ALWAYS_INLINE explicit constexpr operator IntegerT() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE explicit constexpr operator IntegerT() const noexcept
     {
         return m_Value;
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr IntegerT get() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr IntegerT get() const noexcept
     {
         return m_Value;
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr static Integer<IntegerT> min() noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr static Integer<IntegerT> min() noexcept
     {
         return limits_type::min();
     }
 
-    [[nodiscard]] PHI_ALWAYS_INLINE constexpr static Integer<IntegerT> max() noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr static Integer<IntegerT> max() noexcept
     {
         return limits_type::max();
     }

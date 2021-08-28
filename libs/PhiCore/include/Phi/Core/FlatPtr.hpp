@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_CORE_FLAT_PTR_HPP
 #define INCG_PHI_CORE_FLAT_PTR_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/PhiConfig.hpp"
@@ -86,12 +87,12 @@ public:
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr const void* get() const noexcept
+    PHI_NODISCARD constexpr const void* get() const noexcept
     {
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr NotNullFlatPtr release_not_null() const noexcept;
+    PHI_NODISCARD constexpr NotNullFlatPtr release_not_null() const noexcept;
 
     constexpr void clear() noexcept
     {
@@ -225,12 +226,12 @@ public:
         return *this;
     }
 
-    [[nodiscard]] constexpr void* get() noexcept
+    PHI_NODISCARD constexpr void* get() noexcept
     {
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr const void* get() const noexcept
+    PHI_NODISCARD constexpr const void* get() const noexcept
     {
         return m_Ptr;
     }

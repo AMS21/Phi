@@ -4,6 +4,7 @@
 #include "Phi/PhiConfig.hpp"
 
 #include "Phi/Config/Inline.hpp"
+#include <limits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

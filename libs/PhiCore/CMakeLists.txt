@@ -9,6 +9,7 @@ file(
   # CompilerSupport
   "include/Phi/CompilerSupport/Char8_t.hpp"
   "include/Phi/CompilerSupport/Constexpr.hpp"
+  "include/Phi/CompilerSupport/Nodiscard.hpp"
   # Config
   "include/Phi/Config/Assume.hpp"
   "include/Phi/Config/Compiler.hpp"

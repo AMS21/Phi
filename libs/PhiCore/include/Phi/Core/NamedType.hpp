@@ -34,6 +34,7 @@ SOFTWARE.
 #ifndef INCG_PHI_CORE_NAMEDTYPE_HPP
 #define INCG_PHI_CORE_NAMEDTYPE_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/CRTP.hpp"
@@ -76,12 +77,12 @@ public:
         : m_Value(std::move(value))
     {}
 
-    [[nodiscard]] constexpr TypeT& get() noexcept
+    PHI_NODISCARD constexpr TypeT& get() noexcept
     {
         return m_Value;
     }
 
-    [[nodiscard]] constexpr const std::remove_reference_t<TypeT>& get() const noexcept
+    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>& get() const noexcept
     {
         return m_Value;
     }
@@ -120,7 +121,7 @@ private:
 };
 
 template <template <typename TypeT> class StrongTypeT, typename TypeT>
-[[nodiscard]] constexpr StrongTypeT<TypeT> make_named(const TypeT& value)
+PHI_NODISCARD constexpr StrongTypeT<TypeT> make_named(const TypeT& value)
 {
     return StrongTypeT<TypeT>(value);
 }
@@ -170,7 +171,7 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 template <typename TypeT>
 struct PHI_EBCO BinaryAddable : CRTP<TypeT, BinaryAddable>
 {
-    [[nodiscard]] constexpr TypeT operator+(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator+(const TypeT& other) const
     {
         return TypeT(this->underlying().get() + other.get());
     }
@@ -185,7 +186,7 @@ struct PHI_EBCO BinaryAddable : CRTP<TypeT, BinaryAddable>
 template <typename TypeT>
 struct PHI_EBCO UnaryAddable : CRTP<TypeT, UnaryAddable>
 {
-    [[nodiscard]] constexpr TypeT operator+() const
+    PHI_NODISCARD constexpr TypeT operator+() const
     {
         return TypeT(+this->underlying().get());
     }
@@ -202,7 +203,7 @@ struct PHI_EBCO Addable : BinaryAddable<TypeT>, UnaryAddable<TypeT>
 template <typename TypeT>
 struct PHI_EBCO BinarySubtractable : CRTP<TypeT, BinarySubtractable>
 {
-    [[nodiscard]] constexpr TypeT operator-(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator-(const TypeT& other) const
     {
         return TypeT(this->underlying().get() - other.get());
     }
@@ -217,7 +218,7 @@ struct PHI_EBCO BinarySubtractable : CRTP<TypeT, BinarySubtractable>
 template <typename TypeT>
 struct PHI_EBCO UnarySubtractable : CRTP<TypeT, UnarySubtractable>
 {
-    [[nodiscard]] constexpr TypeT operator-() const
+    PHI_NODISCARD constexpr TypeT operator-() const
     {
         return TypeT(-this->underlying().get());
     }
@@ -234,7 +235,7 @@ struct PHI_EBCO Subtractable : BinarySubtractable<TypeT>, UnarySubtractable<Type
 template <typename TypeT>
 struct PHI_EBCO Multiplicable : CRTP<TypeT, Multiplicable>
 {
-    [[nodiscard]] constexpr TypeT operator*(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator*(const TypeT& other) const
     {
         return TypeT(this->underlying().get() * other.get());
     }
@@ -249,7 +250,7 @@ struct PHI_EBCO Multiplicable : CRTP<TypeT, Multiplicable>
 template <typename TypeT>
 struct PHI_EBCO Divisible : CRTP<TypeT, Divisible>
 {
-    [[nodiscard]] constexpr TypeT operator/(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator/(const TypeT& other) const
     {
         return TypeT(this->underlying().get() / other.get());
     }
@@ -264,7 +265,7 @@ struct PHI_EBCO Divisible : CRTP<TypeT, Divisible>
 template <typename TypeT>
 struct PHI_EBCO Modulable : CRTP<TypeT, Modulable>
 {
-    [[nodiscard]] constexpr TypeT operator%(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator%(const TypeT& other) const
     {
         return TypeT(this->underlying().get() % other.get());
     }
@@ -279,7 +280,7 @@ struct PHI_EBCO Modulable : CRTP<TypeT, Modulable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseInvertable : CRTP<TypeT, BitWiseInvertable>
 {
-    [[nodiscard]] constexpr TypeT operator~() const
+    PHI_NODISCARD constexpr TypeT operator~() const
     {
         return TypeT(~this->underlying().get());
     }
@@ -288,7 +289,7 @@ struct PHI_EBCO BitWiseInvertable : CRTP<TypeT, BitWiseInvertable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseAndable : CRTP<TypeT, BitWiseAndable>
 {
-    [[nodiscard]] constexpr TypeT operator&(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator&(const TypeT& other) const
     {
         return TypeT(this->underlying().get() & other.get());
     }
@@ -303,7 +304,7 @@ struct PHI_EBCO BitWiseAndable : CRTP<TypeT, BitWiseAndable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseOrable : CRTP<TypeT, BitWiseOrable>
 {
-    [[nodiscard]] constexpr TypeT operator|(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator|(const TypeT& other) const
     {
         return TypeT(this->underlying().get() | other.get());
     }
@@ -318,7 +319,7 @@ struct PHI_EBCO BitWiseOrable : CRTP<TypeT, BitWiseOrable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseXorable : CRTP<TypeT, BitWiseXorable>
 {
-    [[nodiscard]] constexpr TypeT operator^(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator^(const TypeT& other) const
     {
         return TypeT(this->underlying().get() ^ other.get());
     }
@@ -333,7 +334,7 @@ struct PHI_EBCO BitWiseXorable : CRTP<TypeT, BitWiseXorable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseLeftShiftable : CRTP<TypeT, BitWiseLeftShiftable>
 {
-    [[nodiscard]] constexpr TypeT operator<<(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator<<(const TypeT& other) const
     {
         return TypeT(this->underlying().get() << other.get());
     }
@@ -348,7 +349,7 @@ struct PHI_EBCO BitWiseLeftShiftable : CRTP<TypeT, BitWiseLeftShiftable>
 template <typename TypeT>
 struct PHI_EBCO BitWiseRightShiftable : CRTP<TypeT, BitWiseRightShiftable>
 {
-    [[nodiscard]] constexpr TypeT operator>>(const TypeT& other) const
+    PHI_NODISCARD constexpr TypeT operator>>(const TypeT& other) const
     {
         return TypeT(this->underlying().get() >> other.get());
     }
@@ -363,40 +364,40 @@ struct PHI_EBCO BitWiseRightShiftable : CRTP<TypeT, BitWiseRightShiftable>
 template <typename TypeT>
 struct PHI_EBCO Comparable : CRTP<TypeT, Comparable>
 {
-    [[nodiscard]] constexpr bool operator<(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator<(const TypeT& other) const
     {
         return this->underlying().get() < other.get();
     }
 
-    [[nodiscard]] constexpr bool operator>(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator>(const TypeT& other) const
     {
         return other.get() < this->underlying().get();
     }
 
-    [[nodiscard]] constexpr bool operator<=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator<=(const TypeT& other) const
     {
         return !(other.get() < this->underlying().get());
     }
 
-    [[nodiscard]] constexpr bool operator>=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator>=(const TypeT& other) const
     {
         return !(*this < other);
     }
 
 #if PHI_COMPILER_IS(MSVC)
-    [[nodiscard]] constexpr bool operator==(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator==(const TypeT& other) const
     {
         return !(*this < other) && !(other.get() < this->underlying().get());
     }
 #else
-    [[nodiscard]] friend constexpr bool operator==(const Comparable<TypeT>& self,
+    PHI_NODISCARD friend constexpr bool operator==(const Comparable<TypeT>& self,
                                                    const TypeT&             other)
     {
         return !(self < other) && !(other.get() < self.underlying().get());
     }
 #endif
 
-    [[nodiscard]] constexpr bool operator!=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator!=(const TypeT& other) const
     {
         return !(*this == other);
     }
@@ -409,12 +410,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO Dereferencable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, Dereferencable>
 {
-    [[nodiscard]] constexpr TypeT& operator*() &
+    PHI_NODISCARD constexpr TypeT& operator*() &
     {
         return this->underlying().get();
     }
 
-    [[nodiscard]] constexpr const std::remove_reference_t<TypeT>& operator*() const&
+    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>& operator*() const&
     {
         return this->underlying().get();
     }
@@ -426,7 +427,7 @@ struct PHI_EBCO ImplicitlyConvertibleTo
     template <typename TypeT>
     struct templ : CRTP<TypeT, templ>
     {
-        [[nodiscard]] constexpr operator DestinationT() const
+        PHI_NODISCARD constexpr operator DestinationT() const
         {
             return this->underlying().get();
         }
@@ -469,12 +470,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO FunctionCallable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, FunctionCallable>
 {
-    [[nodiscard]] constexpr operator const TypeT&() const
+    PHI_NODISCARD constexpr operator const TypeT&() const
     {
         return this->underlying().get();
     }
 
-    [[nodiscard]] constexpr operator TypeT&()
+    PHI_NODISCARD constexpr operator TypeT&()
     {
         return this->underlying().get();
     }
@@ -487,12 +488,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, MethodCallable>
 {
-    [[nodiscard]] constexpr const std::remove_reference_t<TypeT>* operator->() const
+    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>* operator->() const
     {
         return std::addressof(this->underlying().get());
     }
 
-    [[nodiscard]] constexpr std::remove_reference_t<TypeT>* operator->()
+    PHI_NODISCARD constexpr std::remove_reference_t<TypeT>* operator->()
     {
         return std::addressof(this->underlying().get());
     }

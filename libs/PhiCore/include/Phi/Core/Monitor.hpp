@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_CORE_MONITOR_HPP
 #define INCG_PHI_CORE_MONITOR_HPP
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/PhiConfig.hpp"
 #include <functional>
 #include <mutex>
@@ -23,7 +24,7 @@ private:
             , m_Lock(monitor->m_Mutex)
         {}
 
-        [[nodiscard]] SharedDataT* operator->() noexcept
+        PHI_NODISCARD SharedDataT* operator->() noexcept
         {
             return &m_Monitor->m_SharedData;
         }
@@ -51,7 +52,7 @@ public:
         , m_Mutex()
     {}
 
-    [[nodiscard]] monitor_helper operator->() noexcept
+    PHI_NODISCARD monitor_helper operator->() noexcept
     {
         return monitor_helper(this);
     }
@@ -70,12 +71,12 @@ public:
         return std::invoke(std::forward<CallableT>(callable), m_SharedData);
     }
 
-    [[nodiscard]] monitor_helper ManuallyLock() noexcept
+    PHI_NODISCARD monitor_helper ManuallyLock() noexcept
     {
         return monitor_helper(this);
     }
 
-    [[nodiscard]] SharedDataT& GetThreadUnsafeAccess() noexcept
+    PHI_NODISCARD SharedDataT& GetThreadUnsafeAccess() noexcept
     {
         return m_SharedData;
     }
