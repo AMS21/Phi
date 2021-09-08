@@ -8,14 +8,15 @@ TEST_CASE("ObserverPtr", "[Core][ObserverPtr]")
 {
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::this_type, phi::ObserverPtr<int>>);
         STATIC_REQUIRE(
-                std::is_same_v<phi::ObserverPtr<int>::not_null_type, phi::NotNullObserverPtr<int>>);
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::value_type, int>);
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::reference, int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::const_reference, const int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::pointer, int*>);
-        STATIC_REQUIRE(std::is_same_v<phi::ObserverPtr<int>::const_pointer, const int*>);
+                std::is_same<phi::ObserverPtr<int>::this_type, phi::ObserverPtr<int>>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::not_null_type,
+                                    phi::NotNullObserverPtr<int>>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::value_type, int>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::reference, int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::const_reference, const int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::pointer, int*>::value);
+        STATIC_REQUIRE(std::is_same<phi::ObserverPtr<int>::const_pointer, const int*>::value);
     }
 
     SECTION("ObserverPtr()")
@@ -80,8 +81,8 @@ TEST_CASE("ObserverPtr", "[Core][ObserverPtr]")
 
     SECTION("ObserverPtr(NotNullObserverPtr&&)")
     {
-        int              i = 25;
-        phi::ObserverPtr ptr{phi::NotNullObserverPtr<int>(&i)};
+        int                   i = 25;
+        phi::ObserverPtr<int> ptr{phi::NotNullObserverPtr<int>(&i)};
 
         CHECK(ptr);
         CHECK(ptr.get() == &i);
@@ -407,13 +408,15 @@ TEST_CASE("NotNullObserverPtr", "[Core][ObserverPtr][NotNullNotNullObserverPtr]"
 {
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::this_type,
-                                      phi::NotNullObserverPtr<int>>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::value_type, int>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::reference, int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::const_reference, const int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::pointer, int*>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullObserverPtr<int>::const_pointer, const int*>);
+        STATIC_REQUIRE(std::is_same<phi::NotNullObserverPtr<int>::this_type,
+                                    phi::NotNullObserverPtr<int>>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullObserverPtr<int>::value_type, int>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullObserverPtr<int>::reference, int&>::value);
+        STATIC_REQUIRE(
+                std::is_same<phi::NotNullObserverPtr<int>::const_reference, const int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullObserverPtr<int>::pointer, int*>::value);
+        STATIC_REQUIRE(
+                std::is_same<phi::NotNullObserverPtr<int>::const_pointer, const int*>::value);
     }
 
     SECTION("NotNullObserverPtr(TypeT*)")

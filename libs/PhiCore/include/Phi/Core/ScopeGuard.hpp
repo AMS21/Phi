@@ -4,6 +4,7 @@
 #include "Phi/PhiConfig.hpp"
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include <type_traits>
 #include <utility>
@@ -14,8 +15,8 @@ template <typename ActionT>
 class ScopeGuard
 {
 private:
-    static_assert(!std::is_reference_v<ActionT> && !std::is_const_v<ActionT> &&
-                          !std::is_volatile_v<ActionT>,
+    static_assert(!std::is_reference<ActionT>::value && !std::is_const<ActionT>::value &&
+                          !std::is_volatile<ActionT>::value,
                   "phi::ScopeGuard should store its callable by value");
 
 public:
@@ -26,11 +27,13 @@ public:
         : m_Action(std::move(action))
     {}
 
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
     ScopeGuard(ScopeGuard&&)      = delete;
     ScopeGuard(const ScopeGuard&) = delete;
 
     ScopeGuard& operator=(const ScopeGuard&) = delete;
     ScopeGuard& operator=(ScopeGuard&&) = delete;
+#endif
 
     ~ScopeGuard()
     {
@@ -45,8 +48,8 @@ template <typename ActionT>
 class ArmedScopeGuard
 {
 private:
-    static_assert(!std::is_reference_v<ActionT> && !std::is_const_v<ActionT> &&
-                          !std::is_volatile_v<ActionT>,
+    static_assert(!std::is_reference<ActionT>::value && !std::is_const<ActionT>::value &&
+                          !std::is_volatile<ActionT>::value,
                   "phi::ArmedScopeGuard should store its callable by value");
 
 public:
@@ -58,11 +61,13 @@ public:
         , m_Armed{true}
     {}
 
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
     ArmedScopeGuard(ArmedScopeGuard&&)      = delete;
     ArmedScopeGuard(const ArmedScopeGuard&) = delete;
 
     ArmedScopeGuard& operator=(const ArmedScopeGuard&) = delete;
     ArmedScopeGuard& operator=(ArmedScopeGuard&&) = delete;
+#endif
 
     ~ArmedScopeGuard()
     {
@@ -82,7 +87,7 @@ public:
         m_Armed = true;
     }
 
-    PHI_NODISCARD Boolean is_armed() const noexcept
+    PHI_NODISCARD constexpr Boolean is_armed() const noexcept
     {
         return m_Armed;
     }

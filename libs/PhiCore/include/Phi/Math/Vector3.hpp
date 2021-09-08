@@ -133,7 +133,7 @@ constexpr Vector3<TypeT> operator+(const Vector3<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 {
-    static_assert(!detail::is_integer<TypeT>::value || std::is_signed_v<TypeT>,
+    static_assert(!detail::is_integer<TypeT>::value || std::is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector3<TypeT>(-rhs.x, -rhs.y, -rhs.z);
@@ -144,7 +144,7 @@ constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 template <typename LhsT, typename RhsT>
 constexpr auto operator+(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
-    return Vector3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+    return Vector3<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
@@ -160,7 +160,7 @@ constexpr Vector3<LhsT>& operator+=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 template <typename LhsT, typename RhsT>
 constexpr auto operator-(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
-    return Vector3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+    return Vector3<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
@@ -176,7 +176,7 @@ constexpr Vector3<LhsT>& operator-=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 template <typename LhsT, typename RhsT>
 constexpr auto operator*(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
-    return Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
+    return Vector3<LhsT>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
 }
 
 template <typename LhsT, typename RhsT>
@@ -192,7 +192,7 @@ constexpr Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcep
 template <typename LhsT, typename RhsT>
 constexpr auto operator/(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
-    return Vector3(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
+    return Vector3<LhsT>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
 
 template <typename LhsT, typename RhsT>

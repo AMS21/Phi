@@ -6,8 +6,9 @@
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
-#include "Phi/Core/TypeTraits.hpp"
 #include "Phi/Core/Types.hpp"
+#include "Phi/TypeTraits/is_bounded_array.hpp"
+#include "Phi/TypeTraits/is_unbounded_array.hpp"
 #include <cstddef>
 #include <type_traits>
 
@@ -44,7 +45,8 @@ public:
         : m_Ptr(other.leak_ptr())
     {}
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr(ScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {}
@@ -55,7 +57,8 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved NotNullScopePtr");
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr(NotNullScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -74,7 +77,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr<TypeT>& operator=(ScopePtr<OtherT>&& other) noexcept
     {
         reset(other.leak_ptr());
@@ -91,7 +95,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr<TypeT>& operator=(NotNullScopePtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from moved NotNullScopePtr");
@@ -159,7 +164,8 @@ public:
         std::swap(m_Ptr, other.m_Ptr);
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr void swap(ScopePtr<OtherT>& other) noexcept
     {
         std::swap(m_Ptr, other.m_Ptr);
@@ -294,7 +300,8 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr NotNullScopePtr(NotNullScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -315,7 +322,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr NotNullScopePtr<TypeT>& operator=(NotNullScopePtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
@@ -363,7 +371,8 @@ public:
         std::swap(m_Ptr, other.m_Ptr);
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr void swap(NotNullScopePtr<OtherT>& other) noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
@@ -470,74 +479,77 @@ constexpr void swap(NotNullScopePtr<LhsT>& lhs, NotNullScopePtr<RhsT>& rhs)
 // make functions
 
 template <typename TypeT, typename... ArgsT>
-PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>> make_scope(
-        ArgsT&&... args)
+PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, ScopePtr<TypeT>>::type
+make_scope(ArgsT&&... args)
 {
     return ScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope(
-        phi::usize size)
+PHI_NODISCARD typename std::enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
+make_scope(phi::usize size)
 {
     return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
 }
 
 template <typename TypeT, typename... ArgsT>
-std::enable_if_t<is_bounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope(ArgsT&&... args) = delete;
+typename std::enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type make_scope(
+        ArgsT&&... args) = delete;
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, ScopePtr<TypeT>>
-              make_scope_for_overwrite()
+PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, ScopePtr<TypeT>>::type
+make_scope_for_overwrite()
 {
     return ScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, ScopePtr<TypeT>>
-              make_scope_for_overwrite(phi::usize size)
+PHI_NODISCARD typename std::enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
+make_scope_for_overwrite(phi::usize size)
 {
     return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
 }
 
 template <typename TypeT, typename... ArgsT>
-std::enable_if_t<is_bounded_array_v<TypeT>, ScopePtr<TypeT>> make_scope_for_overwrite(
-        ArgsT&&... args) = delete;
+typename std::enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type
+make_scope_for_overwrite(ArgsT&&... args) = delete;
 
 template <typename TypeT, typename... ArgsT>
-PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
-              make_not_null_scope(ArgsT&&... args)
+PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+make_not_null_scope(ArgsT&&... args)
 {
     return NotNullScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
-              make_not_null_scope(phi::usize size)
+PHI_NODISCARD
+        typename std::enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+        make_not_null_scope(phi::usize size)
 {
     return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
 }
 
 template <typename TypeT, typename... ArgsT>
-std::enable_if_t<is_bounded_array_v<TypeT>, NotNullScopePtr<TypeT>> make_not_null_scope(
-        ArgsT&&... args) = delete;
+typename std::enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+make_not_null_scope(ArgsT&&... args) = delete;
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>
-              make_not_null_scope_for_overwrite()
+PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+make_not_null_scope_for_overwrite()
 {
     return NotNullScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-PHI_NODISCARD std::enable_if_t<is_unbounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
-              make_not_null_scope_for_overwrite(phi::usize size)
+PHI_NODISCARD
+        typename std::enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+        make_not_null_scope_for_overwrite(phi::usize size)
 {
     return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
 }
 
 template <typename TypeT, typename... ArgsT>
-std::enable_if_t<is_bounded_array_v<TypeT>, NotNullScopePtr<TypeT>>
+typename std::enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
 make_not_null_scope_for_overwrite(ArgsT&&... args) = delete;
 
 DETAIL_PHI_END_NAMESPACE()

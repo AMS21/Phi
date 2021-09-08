@@ -25,28 +25,31 @@ private:
                   "Phi::NotNull: Type cannot be compared to nullptr.");
 
 public:
-    template <typename = std::enable_if_t<!std::is_same_v<std::nullptr_t, TypeT>>>
+    template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, TypeT>::value>>
     constexpr explicit NotNull(TypeT other) noexcept
         : m_Pointer(std::move(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT, typename = std::enable_if_t<std::is_convertible_v<OtherT, TypeT>>>
+    template <typename OtherT,
+              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
     constexpr explicit NotNull(OtherT&& other) noexcept
         : m_Pointer(std::forward(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT, typename = std::enable_if_t<std::is_convertible_v<OtherT, TypeT>>>
+    template <typename OtherT,
+              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
     constexpr NotNull(const NotNull<OtherT>& other) noexcept
         : NotNull(other.get())
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT, typename = std::enable_if_t<std::is_convertible_v<OtherT, TypeT>>>
+    template <typename OtherT,
+              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
     constexpr NotNull(NotNull<OtherT>&& other) noexcept
         : NotNull(std::move(other.get()))
     {
@@ -83,9 +86,9 @@ public:
         return *this;
     }
 
-    PHI_NODISCARD constexpr
-            typename std::conditional_t<std::is_copy_constructible_v<TypeT>, TypeT, const TypeT&>
-            get() const noexcept
+    PHI_NODISCARD constexpr typename std::conditional<std::is_copy_constructible<TypeT>::value,
+                                                      TypeT, const TypeT&>::type
+    get() const noexcept
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::ReturnNullptrError);
         return m_Pointer;

@@ -25,7 +25,7 @@ if(${PHI_STANDARD} STREQUAL "latest")
     phi_error("Failed to find latest supported standard")
   endif()
 
-  phi_log("Using latest standard: C++-${phi_standard_version}/${phi_standard_flag}")
+  phi_log("Using latest standard: C++-${phi_standard_version}/\"${phi_standard_flag}\"")
 
 else()
   # Explicit standard version
@@ -52,7 +52,7 @@ else()
     phi_error("Unsupported value for PHI_STANADRD \"${PHI_STANDARD}\"")
   endif()
 
-  phi_log("Using explicit standard: C++-${phi_standard_version}/${phi_standard_flag}")
+  phi_log("Using explicit standard: C++-${phi_standard_version}/\"${phi_standard_flag}\"")
 endif()
 
 function(phi_set_standard_flag target)

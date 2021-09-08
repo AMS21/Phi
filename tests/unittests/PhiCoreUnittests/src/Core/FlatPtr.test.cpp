@@ -18,18 +18,18 @@ TEST_CASE("FlatPtr", "[Core][FlatPtr]")
     {
         STATIC_REQUIRE(sizeof(phi::FlatPtr) == sizeof(void*));
 
-        STATIC_REQUIRE(std::is_default_constructible_v<phi::FlatPtr>);
-        STATIC_REQUIRE(std::is_copy_constructible_v<phi::FlatPtr>);
-        STATIC_REQUIRE(std::is_move_constructible_v<phi::FlatPtr>);
-        STATIC_REQUIRE(std::is_copy_assignable_v<phi::FlatPtr>);
-        STATIC_REQUIRE(std::is_move_assignable_v<phi::FlatPtr>);
+        STATIC_REQUIRE(std::is_default_constructible<phi::FlatPtr>::value);
+        STATIC_REQUIRE(std::is_copy_constructible<phi::FlatPtr>::value);
+        STATIC_REQUIRE(std::is_move_constructible<phi::FlatPtr>::value);
+        STATIC_REQUIRE(std::is_copy_assignable<phi::FlatPtr>::value);
+        STATIC_REQUIRE(std::is_move_assignable<phi::FlatPtr>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::FlatPtr::this_type, phi::FlatPtr>);
-        STATIC_REQUIRE(std::is_same_v<phi::FlatPtr::value_type, void*>);
-        STATIC_REQUIRE(std::is_same_v<phi::FlatPtr::not_null_type, phi::NotNullFlatPtr>);
+        STATIC_REQUIRE(std::is_same<phi::FlatPtr::this_type, phi::FlatPtr>::value);
+        STATIC_REQUIRE(std::is_same<phi::FlatPtr::value_type, void*>::value);
+        STATIC_REQUIRE(std::is_same<phi::FlatPtr::not_null_type, phi::NotNullFlatPtr>::value);
     }
 
     int val1 = 21;
@@ -330,17 +330,17 @@ TEST_CASE("NotNullFlatPtr", "[Core][FlatPtr][NotNullFlatPtr]")
     {
         STATIC_REQUIRE(sizeof(phi::NotNullFlatPtr) == sizeof(void*));
 
-        STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::NotNullFlatPtr>);
-        STATIC_REQUIRE(std::is_copy_constructible_v<phi::NotNullFlatPtr>);
-        STATIC_REQUIRE(std::is_move_constructible_v<phi::NotNullFlatPtr>);
-        STATIC_REQUIRE(std::is_copy_assignable_v<phi::NotNullFlatPtr>);
-        STATIC_REQUIRE(std::is_move_assignable_v<phi::NotNullFlatPtr>);
+        STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::NotNullFlatPtr>::value);
+        STATIC_REQUIRE(std::is_copy_constructible<phi::NotNullFlatPtr>::value);
+        STATIC_REQUIRE(std::is_move_constructible<phi::NotNullFlatPtr>::value);
+        STATIC_REQUIRE(std::is_copy_assignable<phi::NotNullFlatPtr>::value);
+        STATIC_REQUIRE(std::is_move_assignable<phi::NotNullFlatPtr>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullFlatPtr::this_type, phi::NotNullFlatPtr>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullFlatPtr::value_type, void*>);
+        STATIC_REQUIRE(std::is_same<phi::NotNullFlatPtr::this_type, phi::NotNullFlatPtr>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullFlatPtr::value_type, void*>::value);
     }
 
     int  val1     = 21;

@@ -48,7 +48,8 @@ public:
         : m_Ptr(std::move(other.get()))
     {}
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr(ObserverPtr<OtherT> other) noexcept
         : m_Ptr(other.get())
     {}
@@ -65,14 +66,16 @@ public:
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr(const NotNullObserverPtr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr(NotNullObserverPtr<OtherT>&& other) noexcept
         : m_Ptr(std::move(other.get()))
     {
@@ -93,7 +96,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr<TypeT>& operator=(const ObserverPtr<OtherT>& other) noexcept
     {
         m_Ptr = other.m_Ptr;
@@ -101,7 +105,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr<TypeT>& operator=(ObserverPtr<OtherT>&& other) noexcept
     {
         m_Ptr = std::move(other.m_Ptr);
@@ -127,7 +132,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr<TypeT>& operator=(const NotNullObserverPtr<OtherT>& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
@@ -137,7 +143,8 @@ public:
         return *this;
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ObserverPtr<TypeT>& operator=(NotNullObserverPtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::NotNullObserverPtr");
@@ -341,7 +348,8 @@ public:
                        "Trying to assign nullptr to phi::NotNullObserverPtr.");
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr NotNullObserverPtr(NotNullObserverPtr<OtherT> other) noexcept
         : m_Ptr(other.get())
     {
@@ -440,7 +448,8 @@ public:
         std::swap(m_Ptr, other.m_Ptr);
     }
 
-    template <typename OtherT, std::enable_if_t<std::is_convertible_v<OtherT*, TypeT*>> = 0>
+    template <typename OtherT,
+              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr void swap(NotNullObserverPtr<OtherT>& other) noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullObserverPtr");

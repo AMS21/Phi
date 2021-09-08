@@ -46,17 +46,26 @@ file(
   "src/Core/ScopePtr.test.cpp"
   "src/Core/StopWatch.test.cpp"
   "src/Core/Types.test.cpp"
-  "src/Core/TypeTraits.test.cpp"
   # Math
   "src/Math/Abs.test.cpp"
   "src/Math/Constants.test.cpp"
   "src/Math/Signum.test.cpp"
   "src/Math/Vector2.test.cpp"
-  # Meta
-  "src/Meta/AlwaysFalse.test.cpp"
   # Selftest
   "src/Selftest/ConstexprHelper.test.cpp"
   "src/Selftest/Unwrap.test.cpp"
+  # TypeTraits
+  "src/TypeTraits/add_lvalue_reference.test.cpp"
+  "src/TypeTraits/add_reference.test.cpp"
+  "src/TypeTraits/always_false.test.cpp"
+  "src/TypeTraits/conditional.test.cpp"
+  "src/TypeTraits/copy_const.test.cpp"
+  "src/TypeTraits/copy_volatile.test.cpp"
+  "src/TypeTraits/integral_constant.test.cpp"
+  "src/TypeTraits/is_bounded_array.test.cpp"
+  "src/TypeTraits/is_scoped_enum.test.cpp"
+  "src/TypeTraits/is_swappable.test.cpp"
+  "src/TypeTraits/is_unbounded_array.test.cpp"
   # Base
   "src/PhiConfig.test.cpp")
 

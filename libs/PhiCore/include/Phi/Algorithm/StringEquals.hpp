@@ -1,10 +1,11 @@
 #ifndef INCG_PHI_CORE_ALGORITHM_STRING_EQUALS_HPP
 #define INCG_PHI_CORE_ALGORITHM_STRING_EQUALS_HPP
 
+#include "Phi/PhiConfig.hpp"
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Types.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <cstddef>
 #include <functional>
 #include <utility>

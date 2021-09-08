@@ -4,6 +4,7 @@
 #include "Phi/PhiConfig.hpp"
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -20,11 +21,13 @@ public:
         , m_SavedValue(variable)
     {}
 
-    ScopedValueGuard(ScopedValueGuard&&)      = delete;
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
     ScopedValueGuard(const ScopedValueGuard&) = delete;
+    ScopedValueGuard(ScopedValueGuard&&)      = delete;
 
     ScopedValueGuard& operator=(const ScopedValueGuard&) = delete;
     ScopedValueGuard& operator=(ScopedValueGuard&&) = delete;
+#endif
 
     ~ScopedValueGuard()
     {
@@ -58,17 +61,19 @@ public:
     using this_type  = ArmedScopedValueGuard<ValueT>;
     using value_type = ValueT;
 
-    constexpr ArmedScopedValueGuard(ValueT& variable) noexcept
+    constexpr explicit ArmedScopedValueGuard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)
         , m_Armed(true)
     {}
 
-    ArmedScopedValueGuard(ArmedScopedValueGuard&&)      = delete;
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
     ArmedScopedValueGuard(const ArmedScopedValueGuard&) = delete;
+    ArmedScopedValueGuard(ArmedScopedValueGuard&&)      = delete;
 
     ArmedScopedValueGuard& operator=(const ArmedScopedValueGuard&) = delete;
     ArmedScopedValueGuard& operator=(ArmedScopedValueGuard&&) = delete;
+#endif
 
     ~ArmedScopedValueGuard()
     {

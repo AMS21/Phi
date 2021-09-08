@@ -36,30 +36,30 @@ SOFTWARE.
 TEST_CASE("Boolean layout", "[Utility][Types][Boolean]")
 {
     STATIC_REQUIRE(sizeof(phi::Boolean) == sizeof(bool));
-    STATIC_REQUIRE(std::is_trivially_copyable_v<phi::Boolean>);
-    STATIC_REQUIRE(std::is_standard_layout_v<phi::Boolean>);
-    STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::Boolean>);
+    STATIC_REQUIRE(std::is_trivially_copyable<phi::Boolean>::value);
+    STATIC_REQUIRE(std::is_standard_layout<phi::Boolean>::value);
+    STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::Boolean>::value);
 
     // conversion checks
-    STATIC_REQUIRE(std::is_constructible_v<phi::Boolean, bool>);
-    STATIC_REQUIRE(std::is_constructible_v<phi::Boolean, phi::Boolean>);
-    STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::Boolean, int>);
-    STATIC_REQUIRE_FALSE(std::is_constructible_v<phi::Boolean, float>);
-    STATIC_REQUIRE(std::is_constructible_v<bool, phi::Boolean>);
+    STATIC_REQUIRE(std::is_constructible<phi::Boolean, bool>::value);
+    STATIC_REQUIRE(std::is_constructible<phi::Boolean, phi::Boolean>::value);
+    STATIC_REQUIRE_FALSE(std::is_constructible<phi::Boolean, int>::value);
+    STATIC_REQUIRE_FALSE(std::is_constructible<phi::Boolean, float>::value);
+    STATIC_REQUIRE(std::is_constructible<bool, phi::Boolean>::value);
 
-    STATIC_REQUIRE(std::is_assignable_v<phi::Boolean, bool>);
-    STATIC_REQUIRE(std::is_assignable_v<phi::Boolean, phi::Boolean>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::Boolean, int>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<phi::Boolean, float>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<bool, phi::Boolean>);
+    STATIC_REQUIRE(std::is_assignable<phi::Boolean, bool>::value);
+    STATIC_REQUIRE(std::is_assignable<phi::Boolean, phi::Boolean>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<phi::Boolean, int>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<phi::Boolean, float>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<bool, phi::Boolean>::value);
 }
 
 TEST_CASE("Boolean", "[Utility][Types][Boolean]")
 {
     SECTION("Type traits")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::Boolean::this_type, phi::Boolean>);
-        STATIC_REQUIRE(std::is_same_v<phi::Boolean::limits_type, std::numeric_limits<bool>>);
+        STATIC_REQUIRE(std::is_same<phi::Boolean::this_type, phi::Boolean>::value);
+        STATIC_REQUIRE(std::is_same<phi::Boolean::limits_type, std::numeric_limits<bool>>::value);
     }
 
     SECTION("constructor")

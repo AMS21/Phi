@@ -6,7 +6,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename TypeT, template <typename> typename CRTPTypeT>
+template <typename TypeT, template <typename> class CRTPTypeT>
 class CRTP
 {
 public:

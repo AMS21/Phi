@@ -94,7 +94,7 @@ constexpr Vector2<TypeT> operator+(const Vector2<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
 {
-    static_assert(!detail::is_integer<TypeT>::value || std::is_signed_v<TypeT>,
+    static_assert(!detail::is_integer<TypeT>::value || std::is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector2<TypeT>(-rhs.x, -rhs.y);
@@ -105,7 +105,7 @@ constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
 template <typename LhsT, typename RhsT>
 constexpr auto operator+(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
 {
-    return Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
+    return Vector2<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y);
 }
 
 template <typename LhsT, typename RhsT>
@@ -120,7 +120,7 @@ constexpr Vector2<LhsT>& operator+=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs
 template <typename LhsT, typename RhsT>
 constexpr auto operator-(const Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs) noexcept
 {
-    return Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
+    return Vector2<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y);
 }
 
 template <typename LhsT, typename RhsT>
@@ -135,7 +135,7 @@ constexpr Vector2<LhsT>& operator-=(Vector2<LhsT>& lhs, const Vector2<RhsT>& rhs
 template <typename LhsT, typename RhsT>
 constexpr auto operator*(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
 {
-    return Vector2(lhs.x * rhs, lhs.y * rhs);
+    return Vector2<LhsT>(lhs.x * rhs, lhs.y * rhs);
 }
 
 template <typename LhsT, typename RhsT>
@@ -150,7 +150,7 @@ constexpr Vector2<LhsT>& operator*=(Vector2<LhsT>& lhs, const RhsT& rhs) noexcep
 template <typename LhsT, typename RhsT>
 constexpr auto operator/(const Vector2<LhsT>& lhs, const RhsT& rhs) noexcept
 {
-    return Vector2(lhs.x / rhs, lhs.y / rhs);
+    return Vector2<LhsT>(lhs.x / rhs, lhs.y / rhs);
 }
 
 template <typename LhsT, typename RhsT>

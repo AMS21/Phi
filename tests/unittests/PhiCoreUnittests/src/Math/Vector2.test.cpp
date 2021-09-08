@@ -301,26 +301,27 @@ TEMPLATE_TEST_CASE("Vector2 typedefs", "[Math][Vector2]", char, signed char, uns
                    phi::i64, phi::u8, phi::u16, phi::u32, phi::u64, phi::FloatingPoint<float>,
                    phi::FloatingPoint<double>, phi::FloatingPoint<long double>)
 {
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::this_type,
+                                phi::Vector2<TestType>>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::value_type, TestType>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::reference, TestType&>::value);
     STATIC_REQUIRE(
-            std::is_same_v<typename phi::Vector2<TestType>::this_type, phi::Vector2<TestType>>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::value_type, TestType>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::reference, TestType&>);
+            std::is_same<typename phi::Vector2<TestType>::const_reference, const TestType&>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::pointer, TestType*>::value);
     STATIC_REQUIRE(
-            std::is_same_v<typename phi::Vector2<TestType>::const_reference, const TestType&>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::pointer, TestType*>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::const_pointer, const TestType*>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::iterator, TestType*>);
+            std::is_same<typename phi::Vector2<TestType>::const_pointer, const TestType*>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::iterator, TestType*>::value);
     STATIC_REQUIRE(
-            std::is_same_v<typename phi::Vector2<TestType>::const_iterator, const TestType*>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::reverse_iterator,
-                                  std::reverse_iterator<TestType*>>);
-    STATIC_REQUIRE(std::is_same_v<typename phi::Vector2<TestType>::const_reverse_iterator,
-                                  std::reverse_iterator<const TestType*>>);
+            std::is_same<typename phi::Vector2<TestType>::const_iterator, const TestType*>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::reverse_iterator,
+                                std::reverse_iterator<TestType*>>::value);
+    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::const_reverse_iterator,
+                                std::reverse_iterator<const TestType*>>::value);
 }
 
 #define TEST_VEC2_TYPEDEF(vec_t, base_t)                                                           \
     STATIC_REQUIRE(sizeof(vec_t) == (sizeof(base_t) * 2));                                         \
-    STATIC_REQUIRE(std::is_same_v<vec_t::value_type, base_t>)
+    STATIC_REQUIRE(std::is_same<vec_t::value_type, base_t>::value)
 
 TEST_CASE("Vector2 global typedefs", "[Math][Vector2]")
 {

@@ -34,11 +34,13 @@ SOFTWARE.
 #ifndef INCG_PHI_CORE_NAMEDTYPE_HPP
 #define INCG_PHI_CORE_NAMEDTYPE_HPP
 
+#include "Phi/PhiConfig.hpp"
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Warning.hpp"
+#include "Phi/Core/AddressOf.hpp"
 #include "Phi/Core/CRTP.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <memory>
 #include <type_traits>
 #include <utility>
@@ -66,14 +68,14 @@ public:
     NamedType() = default;
 
     explicit constexpr NamedType(const TypeT& value) noexcept(
-            std::is_nothrow_copy_constructible_v<TypeT>)
+            std::is_nothrow_copy_constructible<TypeT>::value)
         : m_Value(value)
     {}
 
     template <typename OtherT = TypeT,
-              typename        = std::enable_if_t<!std::is_reference_v<OtherT>, void>>
+              typename        = std::enable_if_t<!std::is_reference<OtherT>::value, void>>
     explicit constexpr NamedType(TypeT&& value) noexcept(
-            std::is_nothrow_move_constructible_v<TypeT>)
+            std::is_nothrow_move_constructible<TypeT>::value)
         : m_Value(std::move(value))
     {}
 
@@ -490,12 +492,12 @@ struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
 {
     PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>* operator->() const
     {
-        return std::addressof(this->underlying().get());
+        return addressof(this->underlying().get());
     }
 
     PHI_NODISCARD constexpr std::remove_reference_t<TypeT>* operator->()
     {
-        return std::addressof(this->underlying().get());
+        return addressof(this->underlying().get());
     }
 };
 

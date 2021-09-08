@@ -2,6 +2,7 @@
 #define INCG_PHI_CORE_MONITOR_HPP
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Core/Invoke.hpp"
 #include "Phi/PhiConfig.hpp"
 #include <functional>
 #include <mutex>
@@ -68,7 +69,7 @@ public:
     auto operator()(CallableT&& callable) const -> decltype(auto)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
-        return std::invoke(std::forward<CallableT>(callable), m_SharedData);
+        return invoke(std::forward<CallableT>(callable), m_SharedData);
     }
 
     PHI_NODISCARD monitor_helper ManuallyLock() noexcept

@@ -19,15 +19,18 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 /// \cond detail
 namespace detail
 {
-    inline const char* FormatArgument()
+    inline constexpr const char* FormatArgument()
     {
         return "<None>";
     }
 
     template <typename... ArgsT>
-    inline auto FormatArgument(ArgsT&&... arg) -> decltype(auto)
+    inline constexpr auto FormatArgument(ArgsT&&... /*arg*/) -> decltype(auto)
     {
+        return std::string("<Disabled>");
+        /*
         return fmt::format(std::forward<ArgsT>(arg)...);
+        */
     }
 } // namespace detail
 /// \endcond

@@ -1,7 +1,7 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 #include <Phi/Core/Types.hpp>
-#include <Phi/Meta/AlwaysFalse.hpp>
+#include <Phi/TypeTraits/always_false.hpp>
 
 class CustomClass
 {};

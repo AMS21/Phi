@@ -1,19 +1,22 @@
 #ifndef INCG_PHI_MATH_CONSTANTS_HPP
 #define INCG_PHI_MATH_CONSTANTS_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Glue.hpp"
+#include "Phi/Config/Inline.hpp"
 #include "Phi/Core/Conversion.hpp"
 #include "Phi/Core/Types.hpp"
-#include "Phi/PhiConfig.hpp"
-#include <type_traits>
 
 #define DETAIL_PHI_DECLARE_CONSTANT(name, value)                                                   \
     template <typename TypeT>                                                                      \
-    constexpr inline TypeT PHI_GLUE(name, _v) = unsafe_cast<TypeT>(value);                         \
+    constexpr PHI_INLINE_VARIABLE TypeT PHI_GLUE(name, _v) = unsafe_cast<TypeT>(value);            \
                                                                                                    \
-    constexpr inline f64 name                = PHI_GLUE(name, _v)<f64>;                            \
-    constexpr inline f64 PHI_GLUE(name, _64) = PHI_GLUE(name, _v)<f64>;                            \
-    constexpr inline f32 PHI_GLUE(name, _32) = PHI_GLUE(name, _v)<f32>
+    constexpr PHI_INLINE_VARIABLE f64 name                = PHI_GLUE(name, _v)<f64>;               \
+    constexpr PHI_INLINE_VARIABLE f64 PHI_GLUE(name, _64) = PHI_GLUE(name, _v)<f64>;               \
+    constexpr PHI_INLINE_VARIABLE f32 PHI_GLUE(name, _32) = PHI_GLUE(name, _v)<f32>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

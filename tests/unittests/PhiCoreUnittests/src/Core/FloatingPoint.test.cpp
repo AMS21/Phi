@@ -37,7 +37,7 @@ SOFTWARE.
 #include <type_traits>
 
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
-    (std::is_nothrow_constructible_v<lhs, rhs> && std::is_nothrow_assignable_v<lhs, rhs>)
+    (std::is_nothrow_constructible<lhs, rhs>::value && std::is_nothrow_assignable<lhs, rhs>::value)
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
@@ -51,9 +51,9 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
     STATIC_REQUIRE(sizeof(float) == sizeof(phi::FloatingPoint<float>));
     STATIC_REQUIRE(sizeof(double) == sizeof(phi::FloatingPoint<double>));
     STATIC_REQUIRE(sizeof(long double) == sizeof(phi::FloatingPoint<long double>));
-    STATIC_REQUIRE(std::is_trivially_copyable_v<phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(std::is_standard_layout_v<phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::FloatingPoint<float>>);
+    STATIC_REQUIRE(std::is_trivially_copyable<phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(std::is_standard_layout<phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::FloatingPoint<float>>::value);
 
     // conversion checks
     STATIC_REQUIRE(TEST_CONVERSION(phi::FloatingPoint<float>, float));
@@ -87,25 +87,30 @@ TEST_CASE("FloatingPoint layout", "[Utility][Typs][FlooatingType]")
     STATIC_REQUIRE(
             TEST_CONVERSION(phi::FloatingPoint<long double>, phi::FloatingPoint<long double>));
 
-    STATIC_REQUIRE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<float, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<double, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(std::is_nothrow_constructible_v<long double, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE(std::is_nothrow_constructible<float, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<float, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE_FALSE(
+            std::is_nothrow_constructible<float, phi::FloatingPoint<long double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<double, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(std::is_nothrow_constructible<double, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE_FALSE(
+            std::is_nothrow_constructible<double, phi::FloatingPoint<long double>>::value);
+    STATIC_REQUIRE_FALSE(
+            std::is_nothrow_constructible<long double, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(
+            std::is_nothrow_constructible<long double, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE(
+            std::is_nothrow_constructible<long double, phi::FloatingPoint<long double>>::value);
 
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<float, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<double, phi::FloatingPoint<long double>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<float>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<double>>);
-    STATIC_REQUIRE_FALSE(std::is_assignable_v<long double, phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::FloatingPoint<long double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::FloatingPoint<long double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<long double, phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<long double, phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE_FALSE(std::is_assignable<long double, phi::FloatingPoint<long double>>::value);
 }
 
 TEST_CASE("phi::FloatingPoint", "[Utility][Types][FloatingPoint]")
@@ -388,36 +393,36 @@ TEST_CASE("is_floating_point", "[Utility][FloatingPoint]")
     STATIC_REQUIRE_FALSE(phi::is_floating_point<UserClass>::value);
 
     // is_floating_point_v
-    STATIC_REQUIRE(phi::is_floating_point_v<float>);
-    STATIC_REQUIRE(phi::is_floating_point_v<double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<long double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE(phi::is_floating_point<float>::value);
+    STATIC_REQUIRE(phi::is_floating_point<double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<long double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<long double>>::value);
 
-    STATIC_REQUIRE(phi::is_floating_point_v<const float>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const long double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE(phi::is_floating_point<const float>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const long double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<long double>>::value);
 
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile float>);
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile long double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<volatile phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE(phi::is_floating_point<volatile float>::value);
+    STATIC_REQUIRE(phi::is_floating_point<volatile double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<volatile long double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<long double>>::value);
 
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile float>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile long double>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile phi::FloatingPoint<float>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile phi::FloatingPoint<double>>);
-    STATIC_REQUIRE(phi::is_floating_point_v<const volatile phi::FloatingPoint<long double>>);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile float>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile long double>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<float>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<double>>::value);
+    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<long double>>::value);
 
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<int>);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<bool>);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<char>);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<UserClass>);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<bool>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<char>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<UserClass>::value);
 }

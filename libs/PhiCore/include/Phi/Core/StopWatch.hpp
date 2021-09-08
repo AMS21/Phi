@@ -27,7 +27,7 @@ public:
     {
         const std::chrono::time_point<ClockT> current_time_point = ClockT::now();
 
-        const std::chrono::duration elapsed_time = current_time_point - m_BeginTimePoint;
+        auto elapsed_time = current_time_point - m_BeginTimePoint;
 
         return std::chrono::duration_cast<std::chrono::duration<StorageT, PeriodT>>(elapsed_time);
     }

@@ -2,6 +2,8 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/Config/Compiler.hpp"
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 // C++-98 standard from november 1997
@@ -14,11 +16,30 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 #define PHI_CPLUSPLUS_17() (201703L)
 // C++-20 standard from feburary 2020
 #define PHI_CPLUSPLUS_20() (202002L)
+// C++-23 standard (Working draft)
+#define PHI_CPLUSPLUS_23() (202101L)
+// Latest C++ standard
+#define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_23()
 
-#define PHI_CPP_STANDARD_IS_EXACTLY(standard) (__cplusplus == PHI_CPLUSPLUS_##standard())
+#if PHI_COMPILER_IS(MSVC)
+#    if defined(_MSVC_LANG)
+#        define PHI_CPP_STANDARD() _MSVC_LANG
+#    else
+#        define PHI_CPP_STANDARD() PHI_CPLUSPLUS_LATEST()
+#    endif
+#elif defined(__cplusplus)
+#    define PHI_CPP_STANDARD() __cplusplus
+#else
+// Use C++-98 as fallback
+#    define PHI_CPP_STANDARD() PHI_CPLUSPLUS_98()
+#endif
 
-#define PHI_CPP_STANDARD_IS_ATLEAST(standard) (__cplusplus >= PHI_CPLUSPLUS_##standard())
+#define PHI_CPP_STANDARD_IS_EXACTLY(standard) (PHI_CPP_STANDARD() == PHI_CPLUSPLUS_##standard())
 
-#define PHI_CPP_STANDARD_IS_BELOW(standard) (__cplusplus < PHI_CPLUSPLUS_##standard())
+#define PHI_CPP_STANDARD_IS_GREATER(standard) (PHI_CPP_STANDARD() > PHI_CPLUSPLUS_##standard())
+
+#define PHI_CPP_STANDARD_IS_ATLEAST(standard) (PHI_CPP_STANDARD() >= PHI_CPLUSPLUS_##standard())
+
+#define PHI_CPP_STANDARD_IS_BELOW(standard) (PHI_CPP_STANDARD() < PHI_CPLUSPLUS_##standard())
 
 DETAIL_PHI_END_NAMESPACE()

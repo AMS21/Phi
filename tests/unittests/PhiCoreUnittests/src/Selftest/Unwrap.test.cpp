@@ -8,49 +8,49 @@
 
 TEST_CASE("unwrapped", "[selftest][Unwrapped]")
 {
-    STATIC_REQUIRE(std::is_same_v<unwrapped<bool>::value_type, bool>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<int>::value_type, int>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<float>::value_type, float>);
+    STATIC_REQUIRE(std::is_same<unwrapped<bool>::value_type, bool>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<int>::value_type, int>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<float>::value_type, float>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::Boolean>::value_type, bool>);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::Boolean>::value_type, bool>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::i8>::value_type, std::int8_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::i16>::value_type, std::int16_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::i32>::value_type, std::int32_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::i64>::value_type, std::int64_t>);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::i8>::value_type, std::int8_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::i16>::value_type, std::int16_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::i32>::value_type, std::int32_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::i64>::value_type, std::int64_t>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::u8>::value_type, std::uint8_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::u16>::value_type, std::uint16_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::u32>::value_type, std::uint32_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::u64>::value_type, std::uint64_t>);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::u8>::value_type, std::uint8_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::u16>::value_type, std::uint16_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::u32>::value_type, std::uint32_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::u64>::value_type, std::uint64_t>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::FloatingPoint<float>>::value_type, float>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped<phi::FloatingPoint<double>>::value_type, double>);
-    STATIC_REQUIRE(
-            std::is_same_v<unwrapped<phi::FloatingPoint<long double>>::value_type, long double>);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::FloatingPoint<float>>::value_type, float>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::FloatingPoint<double>>::value_type, double>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped<phi::FloatingPoint<long double>>::value_type,
+                                long double>::value);
 }
 
 TEST_CASE("unwrapped_t", "[selftest][Unwrapped]")
 {
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<bool>, bool>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<int>, int>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<float>, float>);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<bool>, bool>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<int>, int>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<float>, float>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::Boolean>, bool>);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::Boolean>, bool>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::i8>, std::int8_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::i16>, std::int16_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::i32>, std::int32_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::i64>, std::int64_t>);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::i8>, std::int8_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::i16>, std::int16_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::i32>, std::int32_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::i64>, std::int64_t>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::u8>, std::uint8_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::u16>, std::uint16_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::u32>, std::uint32_t>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::u64>, std::uint64_t>);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::u8>, std::uint8_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::u16>, std::uint16_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::u32>, std::uint32_t>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::u64>, std::uint64_t>::value);
 
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::FloatingPoint<float>>, float>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::FloatingPoint<double>>, double>);
-    STATIC_REQUIRE(std::is_same_v<unwrapped_t<phi::FloatingPoint<long double>>, long double>);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::FloatingPoint<float>>, float>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::FloatingPoint<double>>, double>::value);
+    STATIC_REQUIRE(std::is_same<unwrapped_t<phi::FloatingPoint<long double>>, long double>::value);
 }
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()

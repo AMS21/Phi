@@ -5,11 +5,18 @@
 #ifndef INCG_PHI_CORE_OPTIONAL_HPP
 #define INCG_PHI_CORE_OPTIONAL_HPP
 
+#include "Phi/PhiConfig.hpp"
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Assert.hpp"
-#include "Phi/Core/TypeTraits.hpp"
-#include "Phi/PhiConfig.hpp"
+#include "Phi/TypeTraits/conjunction.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/invoke_result.hpp"
+#include "Phi/TypeTraits/is_nothrow_swappable.hpp"
+#include "Phi/TypeTraits/is_swappable.hpp"
+#include "Phi/TypeTraits/is_void.hpp"
+#include "Phi/TypeTraits/void_t.hpp"
 #include <functional>
 #include <type_traits>
 #include <utility>
@@ -38,69 +45,69 @@ namespace detail
     struct returns_void_impl;
 
     template <typename FuncT, typename... ArgsT>
-    struct returns_void_impl<FuncT, std::void_t<invoke_result_t<FuncT, ArgsT...>>, ArgsT...>
-        : public std::is_void<invoke_result_t<FuncT, ArgsT...>>
+    struct returns_void_impl<FuncT, void_t<invoke_result_t<FuncT, ArgsT...>>, ArgsT...>
+        : public is_void<invoke_result_t<FuncT, ArgsT...>>
     {};
 
     template <typename FuncT, typename... ArgsT>
     using returns_void = returns_void_impl<FuncT, void, ArgsT...>;
 
     template <typename TypeT, typename... ArgsT>
-    using enable_if_ret_void = std::enable_if_t<returns_void<TypeT&&, ArgsT...>::value>;
+    using enable_if_ret_void = enable_if_t<returns_void<TypeT&&, ArgsT...>::value>;
 
     template <typename TypeT, typename... ArgsT>
-    using disable_if_ret_void = std::enable_if_t<!returns_void<TypeT&&, ArgsT...>::value>;
+    using disable_if_ret_void = enable_if_t<!returns_void<TypeT&&, ArgsT...>::value>;
 
     template <typename TypeT, typename OtherT>
     using enable_forward_value =
-            std::enable_if_t<std::is_constructible<TypeT, OtherT&&>::value &&
-                             !std::is_same<std::decay_t<OtherT>, in_place_t>::value &&
-                             !std::is_same<Optional<TypeT>, std::decay_t<OtherT>>::value>;
+            enable_if_t<std::is_constructible<TypeT, OtherT&&>::value &&
+                        !is_same<std::decay_t<OtherT>, in_place_t>::value &&
+                        !is_same<Optional<TypeT>, std::decay_t<OtherT>>::value>;
 
     template <typename TypeT, typename OtherT>
     using enable_assign_forward =
-            std::enable_if_t<!std::is_same<Optional<TypeT>, std::decay_t<OtherT>>::value &&
-                             !std::conjunction<std::is_scalar<TypeT>,
-                                               std::is_same<TypeT, std::decay_t<OtherT>>>::value &&
-                             std::is_constructible<TypeT, OtherT>::value &&
-                             std::is_assignable<TypeT&, OtherT>::value>;
+            enable_if_t<!is_same<Optional<TypeT>, std::decay_t<OtherT>>::value &&
+                        !conjunction<std::is_scalar<TypeT>::value,
+                                     is_same_v<TypeT, std::decay_t<OtherT>>>::value &&
+                        std::is_constructible<TypeT, OtherT>::value &&
+                        std::is_assignable<TypeT&, OtherT>::value>;
 
     template <typename TypeT, typename Type2T, typename OtherT>
     using enable_from_other =
-            std::enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
-                             !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
-                             !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
-                             !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
-                             !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
-                             !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
-                             !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
-                             !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
-                             !std::is_convertible<const Optional<Type2T>&&, TypeT>::value>;
+            enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
+                        !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
+                        !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
+                        !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
+                        !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
+                        !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
+                        !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
+                        !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
+                        !std::is_convertible<const Optional<Type2T>&&, TypeT>::value>;
 
     template <typename TypeT, typename Type2T, typename OtherT>
     using enable_assign_from_other =
-            std::enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
-                             std::is_assignable<TypeT&, OtherT>::value &&
-                             !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
-                             !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
-                             !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
-                             !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
-                             !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
-                             !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
-                             !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
-                             !std::is_convertible<const Optional<Type2T>&&, TypeT>::value &&
-                             !std::is_assignable<TypeT&, Optional<Type2T>&>::value &&
-                             !std::is_assignable<TypeT&, Optional<Type2T>&&>::value &&
-                             !std::is_assignable<TypeT&, const Optional<Type2T>&>::value &&
-                             !std::is_assignable<TypeT&, const Optional<Type2T>&&>::value>;
+            enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
+                        std::is_assignable<TypeT&, OtherT>::value &&
+                        !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
+                        !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
+                        !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
+                        !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
+                        !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
+                        !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
+                        !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
+                        !std::is_convertible<const Optional<Type2T>&&, TypeT>::value &&
+                        !std::is_assignable<TypeT&, Optional<Type2T>&>::value &&
+                        !std::is_assignable<TypeT&, Optional<Type2T>&&>::value &&
+                        !std::is_assignable<TypeT&, const Optional<Type2T>&>::value &&
+                        !std::is_assignable<TypeT&, const Optional<Type2T>&&>::value>;
 
     // Trait for checking if a type is a phi::Optional
     template <typename TypeT>
-    struct is_optional_impl : std::false_type
+    struct is_optional_impl : false_type
     {};
 
     template <typename TypeT>
-    struct is_optional_impl<Optional<TypeT>> : std::true_type
+    struct is_optional_impl<Optional<TypeT>> : true_type
     {};
 
     template <typename TypeT>
@@ -215,7 +222,7 @@ namespace detail
             }
         }
 
-        PHI_NODISCARD bool has_value() const
+        PHI_NODISCARD constexpr bool has_value() const
         {
             return this->m_has_value;
         }
@@ -712,8 +719,8 @@ public:
     /// If both have a value, the values are swapped.
     /// If one has a value, it is moved to the other and the movee is left
     /// valueless.
-    void swap(Optional& rhs) noexcept(std::is_nothrow_move_constructible<TypeT>::value&&
-                                              std::is_nothrow_swappable<TypeT>::value)
+    void swap(Optional& rhs) noexcept(
+            std::is_nothrow_move_constructible<TypeT>::value&& is_nothrow_swappable<TypeT>::value)
     {
         using std::swap;
         if (has_value())
@@ -1308,7 +1315,7 @@ inline constexpr bool operator>=(const OtherT& lhs, const Optional<TypeT>& rhs)
 }
 
 template <typename TypeT, std::enable_if_t<std::is_move_constructible<TypeT>::value>* = nullptr,
-          std::enable_if_t<std::is_swappable<TypeT>::value>* = nullptr>
+          std::enable_if_t<is_swappable<TypeT>::value>* = nullptr>
 void swap(Optional<TypeT>& lhs, Optional<TypeT>& rhs) noexcept(noexcept(lhs.swap(rhs)))
 {
     return lhs.swap(rhs);

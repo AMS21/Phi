@@ -16,12 +16,24 @@
 // * https://github.com/TartanLlama/optional/blob/master/tests/relops.cpp
 // * https://github.com/TartanLlama/optional/blob/master/tests/swap.cpp
 
-#include <Phi/Core/Optional.hpp>
 #include <catch2/catch_test_macros.hpp>
+
+#include <Phi/Config/Warning.hpp>
+#include <Phi/Core/Optional.hpp>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
+PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-copy")
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 TEST_CASE("Optional Assigment value")
 {
@@ -123,7 +135,8 @@ TEST_CASE("Optional triviality")
         {
             T(const T&)
             {}
-            T(T&&){};
+            T(T&&)
+            {}
             T& operator=(const T&)
             {
                 return *this;
@@ -131,7 +144,7 @@ TEST_CASE("Optional triviality")
             T& operator=(T&&)
             {
                 return *this;
-            };
+            }
             ~T()
             {}
         };
@@ -252,7 +265,8 @@ struct foo
 {
     foo()     = default;
     foo(foo&) = delete;
-    foo(foo&&){};
+    foo(foo&&)
+    {}
 };
 
 TEST_CASE("Optional Constructors")
@@ -349,7 +363,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
             double operator()(int) &&
             {
                 return 42.0;
-            };
+            }
         };
 
         // ensure that function object is forwarded
@@ -646,7 +660,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
             phi::Optional<double> operator()(int) &&
             {
                 return phi::Optional<double>(42.0);
-            };
+            }
         };
 
         // ensure that function object is forwarded
@@ -1313,3 +1327,6 @@ TEST_CASE("Swap null intialized with value", "[swap.nullopt_value]")
     CHECK(o1.value() == 42);
     CHECK(!o2.has_value());
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_SUPPRESS_WARNING_POP()

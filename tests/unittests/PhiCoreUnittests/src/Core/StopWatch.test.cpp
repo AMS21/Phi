@@ -9,7 +9,7 @@ TEST_CASE("StopWatch", "[Core][StopWatch]")
 {
     SECTION("defaulted")
     {
-        phi::StopWatch sw;
+        phi::StopWatch<> sw;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
 

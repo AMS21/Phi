@@ -9,7 +9,7 @@ TEST_CASE("ScopedValueGuard", "[Core][ScopedValueGuard]")
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ScopedValueGuard guard(i);
+            phi::ScopedValueGuard<int> guard(i);
             CHECK(guard.get_saved_value() == 0);
 
             i = 21;
@@ -24,7 +24,7 @@ TEST_CASE("ScopedValueGuard", "[Core][ScopedValueGuard]")
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ScopedValueGuard guard(i);
+            phi::ScopedValueGuard<int> guard(i);
 
             guard.get_variable() = 21;
 
@@ -38,7 +38,7 @@ TEST_CASE("ScopedValueGuard", "[Core][ScopedValueGuard]")
         int i = 0;
         CHECK(i == 0);
         {
-            const phi::ScopedValueGuard guard(i);
+            const phi::ScopedValueGuard<int> guard(i);
 
             i = 21;
 
@@ -52,7 +52,7 @@ TEST_CASE("ScopedValueGuard", "[Core][ScopedValueGuard]")
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ScopedValueGuard guard(i);
+            phi::ScopedValueGuard<int> guard(i);
 
             i = 21;
             guard.override_saved_value(99);
@@ -69,7 +69,7 @@ TEST_CASE("make_scoped_value_guard", "[Core][ScopedValueGuard][make_scoped_value
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_scoped_value_guard(i);
+            phi::ScopedValueGuard<int> guard = phi::make_scoped_value_guard<int>(i);
             CHECK(guard.get_saved_value() == 0);
 
             i = 21;
@@ -84,7 +84,7 @@ TEST_CASE("make_scoped_value_guard", "[Core][ScopedValueGuard][make_scoped_value
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_scoped_value_guard(i);
+            phi::ScopedValueGuard<int> guard = phi::make_scoped_value_guard<int>(i);
 
             guard.get_variable() = 21;
 
@@ -98,7 +98,7 @@ TEST_CASE("make_scoped_value_guard", "[Core][ScopedValueGuard][make_scoped_value
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_scoped_value_guard(i);
+            phi::ScopedValueGuard<int> guard = phi::make_scoped_value_guard<int>(i);
 
             i = 21;
 
@@ -112,7 +112,7 @@ TEST_CASE("make_scoped_value_guard", "[Core][ScopedValueGuard][make_scoped_value
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_scoped_value_guard(i);
+            phi::ScopedValueGuard<int> guard = phi::make_scoped_value_guard<int>(i);
 
             i = 21;
             guard.override_saved_value(99);
@@ -131,7 +131,7 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ArmedScopedValueGuard guard(i);
+            phi::ArmedScopedValueGuard<int> guard(i);
 
             i = 21;
 
@@ -146,7 +146,7 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ArmedScopedValueGuard guard(i);
+            phi::ArmedScopedValueGuard<int> guard(i);
 
             i = 21;
 
@@ -164,7 +164,7 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ArmedScopedValueGuard guard(i);
+            phi::ArmedScopedValueGuard<int> guard(i);
 
             i = 21;
             guard.rearm();
@@ -180,7 +180,7 @@ TEST_CASE("ArmedScopedValueGuard default", "[Core][ScopedValueGuard][ArmedScoped
         int i = 0;
         CHECK(i == 0);
         {
-            phi::ArmedScopedValueGuard guard(i);
+            phi::ArmedScopedValueGuard<int> guard(i);
 
             guard.disarm();
             i = 21;
@@ -201,7 +201,7 @@ TEST_CASE("make_armed_scoped_value_guard default",
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_armed_scoped_value_guard(i);
+            phi::ArmedScopedValueGuard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
 
             i = 21;
 
@@ -216,7 +216,7 @@ TEST_CASE("make_armed_scoped_value_guard default",
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_armed_scoped_value_guard(i);
+            phi::ArmedScopedValueGuard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
 
             CHECK(guard.is_armed());
             guard.disarm();
@@ -233,7 +233,7 @@ TEST_CASE("make_armed_scoped_value_guard default",
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_armed_scoped_value_guard(i);
+            phi::ArmedScopedValueGuard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
 
             i = 21;
             guard.rearm();
@@ -249,7 +249,7 @@ TEST_CASE("make_armed_scoped_value_guard default",
         int i = 0;
         CHECK(i == 0);
         {
-            auto guard = phi::make_armed_scoped_value_guard(i);
+            phi::ArmedScopedValueGuard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
 
             guard.disarm();
             i = 21;

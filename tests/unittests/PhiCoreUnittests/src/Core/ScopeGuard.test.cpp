@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <Phi/Config/CPlusPlus.hpp>
 #include <Phi/Core/ScopeGuard.hpp>
 #include <functional>
 
@@ -15,6 +16,7 @@ void set_global_to_zero()
     global_value = 0;
 }
 
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
 TEST_CASE("ScopeGuard lambda", "[Core][ScopeGuard]")
 {
     int i = 3;
@@ -71,6 +73,7 @@ TEST_CASE("ScopeGuard function pointer", "[Core][ScopeGuard]")
     }
     CHECK(global_value == 0);
 }
+#endif
 
 TEST_CASE("make_scope_guard lambda", "[Core][ScopeGuard][make_scope_guard]")
 {
@@ -131,6 +134,7 @@ TEST_CASE("make_scope_guard function pointer", "[Core][ScopeGuard][make_scope_gu
 
 /* ArmedScopeGuard */
 
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
 TEST_CASE("ArmedScopeGuard default", "[Core][ArmedScopeGuard]")
 {
     int i = 0;
@@ -186,6 +190,7 @@ TEST_CASE("ArmedScopeGuard rearm", "[Core][ArmedScopeGuard]")
     }
     CHECK(i == 21);
 }
+#endif
 
 TEST_CASE("make_armed_scope_guard default", "[Core][ArmedScopeGuard][make_armed_scope_guard]")
 {

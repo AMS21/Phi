@@ -1,11 +1,12 @@
 #ifndef INCG_PHI_CORE_ALGORITHM_STRING_COMPARE_HPP
 #define INCG_PHI_CORE_ALGORITHM_STRING_COMPARE_HPP
 
+#include "Phi/PhiConfig.hpp"
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Types.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <cstddef>
 #include <functional>
 #include <type_traits>

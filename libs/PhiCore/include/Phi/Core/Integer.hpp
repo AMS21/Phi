@@ -27,12 +27,14 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_INTEGER_HPP
 #define INCG_PHI_UTILITY_INTEGER_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <functional>
 #include <iosfwd>
 #include <limits>
@@ -48,49 +50,54 @@ namespace detail
 {
     template <typename TypeT>
     struct is_integer
-        : std::bool_constant<std::is_integral_v<TypeT> && !std::is_same_v<TypeT, bool> &&
-                             !std::is_same_v<TypeT, char> && !std::is_same_v<TypeT, wchar_t> &&
-                             !std::is_same_v<TypeT, char16_t> && !std::is_same_v<TypeT, char32_t>>
+        : std::integral_constant<bool, std::is_integral<TypeT>::value &&
+                                               !std::is_same<TypeT, bool>::value &&
+                                               !std::is_same<TypeT, char>::value &&
+                                               !std::is_same<TypeT, wchar_t>::value &&
+                                               !std::is_same<TypeT, char16_t>::value &&
+                                               !std::is_same<TypeT, char32_t>::value>
     {};
 
     // Integer conversion
     template <typename FromT, typename ToT>
     struct is_safe_integer_conversion
-        : std::bool_constant<detail::is_integer<FromT>::value && detail::is_integer<ToT>::value &&
-                             ((sizeof(FromT) <= sizeof(ToT) &&
-                               std::is_signed_v<FromT> == std::is_signed_v<ToT>) ||
-                              (sizeof(FromT) < sizeof(ToT) && std::is_unsigned_v<FromT> &&
-                               std::is_signed_v<ToT>))>
+        : std::integral_constant<
+                  bool, detail::is_integer<FromT>::value && detail::is_integer<ToT>::value &&
+                                ((sizeof(FromT) <= sizeof(ToT) &&
+                                  std::is_signed<FromT>::value == std::is_signed<ToT>::value) ||
+                                 (sizeof(FromT) < sizeof(ToT) && std::is_unsigned<FromT>::value &&
+                                  std::is_signed<ToT>::value))>
     {};
 
     template <typename FromT, typename ToT>
     using enable_safe_integer_conversion =
-            typename std::enable_if_t<is_safe_integer_conversion<FromT, ToT>::value>;
+            typename std::enable_if<is_safe_integer_conversion<FromT, ToT>::value>::type;
 
     template <typename FromT, typename ToT>
     using fallback_safe_integer_conversion =
-            typename std::enable_if_t<!is_safe_integer_conversion<FromT, ToT>::value>;
+            typename std::enable_if<!is_safe_integer_conversion<FromT, ToT>::value>::type;
 
     // Integer comparison
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_comparison
-        : std::bool_constant<is_safe_integer_conversion<LhsT, RhsT>::value ||
-                             is_safe_integer_conversion<RhsT, LhsT>::value>
+        : std::integral_constant<bool, is_safe_integer_conversion<LhsT, RhsT>::value ||
+                                               is_safe_integer_conversion<RhsT, LhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
     using enable_safe_integer_comparison =
-            typename std::enable_if_t<is_safe_integer_comparison<LhsT, RhsT>::value>;
+            typename std::enable_if<is_safe_integer_comparison<LhsT, RhsT>::value>::type;
 
     template <typename LhsT, typename RhsT>
     using fallback_safe_integer_comparison =
-            typename std::enable_if_t<!is_safe_integer_comparison<LhsT, RhsT>::value>;
+            typename std::enable_if<!is_safe_integer_comparison<LhsT, RhsT>::value>::type;
 
     // Integer operation
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : std::bool_constant<is_integer<LhsT>::value && is_integer<RhsT>::value &&
-                             std::is_signed_v<LhsT> == std::is_signed_v<RhsT>>
+        : std::integral_constant<bool,
+                                 is_integer<LhsT>::value && is_integer<RhsT>::value &&
+                                         std::is_signed<LhsT>::value == std::is_signed<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
@@ -104,8 +111,9 @@ namespace detail
 
     template <typename LhsT, typename RhsT>
     using fallback_integer_result =
-            typename std::enable_if_t<is_integer<LhsT>::value && is_integer<RhsT>::value &&
-                                      std::is_signed_v<LhsT> != std::is_signed_v<RhsT>>;
+            typename std::enable_if<is_integer<LhsT>::value && is_integer<RhsT>::value &&
+                                    std::is_signed<LhsT>::value !=
+                                            std::is_signed<RhsT>::value>::type;
 
     // Error detection
     struct signed_integer_tag
@@ -116,8 +124,8 @@ namespace detail
 
     template <typename TypeT>
     using arithmetic_tag_for =
-            typename std::conditional_t<std::is_signed<TypeT>::value, signed_integer_tag,
-                                        unsigned_integer_tag>;
+            typename std::conditional<std::is_signed<TypeT>::value, signed_integer_tag,
+                                      unsigned_integer_tag>::type;
 
     template <typename TypeT>
     PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag tag, TypeT lhs,
@@ -313,7 +321,8 @@ public:
 
     PHI_ALWAYS_INLINE constexpr Integer operator-() const noexcept
     {
-        static_assert(std::is_signed_v<IntegerT>, "Cannot call unary minus on unsigned integer");
+        static_assert(std::is_signed<IntegerT>::value,
+                      "Cannot call unary minus on unsigned integer");
 
         PHI_DBG_ASSERT(m_Value != limits_type::min(), "Unary minus will overflow. Args {}",
                        m_Value);
@@ -970,14 +979,14 @@ PHI_ALWAYS_INLINE constexpr make_unsigned_t<Integer<IntegerT>> make_unsigned(
 }
 
 template <typename SignedIntegerT,
-          typename = typename std::enable_if_t<std::is_signed_v<SignedIntegerT>>>
+          typename = typename std::enable_if<std::is_signed<SignedIntegerT>::value>::type>
 PHI_ALWAYS_INLINE constexpr make_unsigned_t<SignedIntegerT> abs(const SignedIntegerT& val) noexcept
 {
     return make_unsigned(val > 0 ? val : -val);
 }
 
 template <typename SignedIntegerT,
-          typename = typename std::enable_if_t<std::is_signed_v<SignedIntegerT>>>
+          typename = typename std::enable_if<std::is_signed<SignedIntegerT>::value>::type>
 PHI_ALWAYS_INLINE constexpr make_unsigned_t<Integer<SignedIntegerT>> abs(
         const Integer<SignedIntegerT>& val) noexcept
 {
@@ -985,14 +994,14 @@ PHI_ALWAYS_INLINE constexpr make_unsigned_t<Integer<SignedIntegerT>> abs(
 }
 
 template <typename UnsignedIntegerT,
-          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedIntegerT>>>
+          typename = typename std::enable_if<std::is_unsigned<UnsignedIntegerT>::value>::type>
 PHI_ALWAYS_INLINE constexpr UnsignedIntegerT abs(const UnsignedIntegerT& val) noexcept
 {
     return val;
 }
 
 template <typename UnsignedIntegerT,
-          typename = typename std::enable_if_t<std::is_unsigned_v<UnsignedIntegerT>>>
+          typename = typename std::enable_if<std::is_unsigned<UnsignedIntegerT>::value>::type>
 PHI_ALWAYS_INLINE constexpr Integer<UnsignedIntegerT> abs(
         const Integer<UnsignedIntegerT>& val) noexcept
 {

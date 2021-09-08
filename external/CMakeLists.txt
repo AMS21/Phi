@@ -11,3 +11,8 @@ string(REPLACE "cmake_minimum_required(VERSION 3.10)" "cmake_minimum_required(VE
 file(WRITE "spdlog/CMakeLists.txt" "${FILE_CONTENTS}")
 
 phi_add_external_project(PROJECT spdlog TARGETS spdlog)
+
+# Reset spdlog files
+file(READ "spdlog/CMakeLists.txt" FILE_CONTENTS)
+string(REPLACE "cmake_minimum_required(VERSION 3.5)" "cmake_minimum_required(VERSION 3.10)" FILE_CONTENTS "${FILE_CONTENTS}")
+file(WRITE "spdlog/CMakeLists.txt" "${FILE_CONTENTS}")

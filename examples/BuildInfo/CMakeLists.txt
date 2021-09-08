@@ -2,8 +2,15 @@
 
 project(Phi_BuildInfo LANGUAGES CXX)
 
-add_executable(${PROJECT_NAME} "src/main.cpp")
+phi_add_executable(
+  NAME
+  ${PROJECT_NAME}
+  SOURCES
+  "src/main.cpp"
+  PRIVATE_LINK_LIBRARIES
+  Phi::Core
+  Phi::InternalProjectOptions
+  FOLDER
+  "Examples")
 
 phi_enable_static_analyzers(${PROJECT_NAME})
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Phi::Core Phi::InternalProjectOptions)

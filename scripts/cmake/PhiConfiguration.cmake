@@ -16,6 +16,9 @@ if(PHI_COMPILER_CLANG AND PHI_BUILD_WITH_TIME_TRACE)
   target_compile_definitions(phi_project_options INTERFACE -ftime-trace)
 endif()
 
+# Compiler features
+include(CompilerFeatures)
+
 # Standard project settings
 include(StandardProjectSettings)
 

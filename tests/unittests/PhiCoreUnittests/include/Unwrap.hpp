@@ -1,11 +1,14 @@
 #ifndef INCG_UNITTEST_UNWRAP_HPP
 #define INCG_UNITTEST_UNWRAP_HPP
 
+#include "Phi/Config/Warning.hpp"
+#include <Phi/CompilerSupport/Nodiscard.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/Conversion.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <type_traits>
+#include <utility>
 
 template <typename TypeT>
 struct unwrapped
@@ -34,19 +37,36 @@ struct unwrapped<phi::Integer<IntegerT>>
 template <typename TypeT>
 using unwrapped_t = typename unwrapped<TypeT>::value_type;
 
-template <typename TypeT>
-[[nodiscard]] constexpr unwrapped_t<TypeT> unwrap(TypeT source) noexcept
+namespace detail
 {
-    if constexpr (phi::detail::is_floatingpoint_specialization<TypeT>::value ||
-                  phi::detail::is_integer_specilization<TypeT>::value ||
-                  std::is_same_v<phi::Boolean, std::remove_reference_t<std::remove_cv_t<TypeT>>>)
+    template <typename TypeT>
+    PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap_impl(TypeT          source,
+                                                           std::true_type is_safe_type) noexcept
     {
+        PHI_UNUSED_PARAMETER(is_safe_type);
+
         return source.get();
     }
-    else
+
+    template <typename TypeT>
+    PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap_impl(TypeT           source,
+                                                           std::false_type is_safe_type) noexcept
     {
+        PHI_UNUSED_PARAMETER(is_safe_type);
+
         return source;
     }
+} // namespace detail
+
+template <typename TypeT>
+PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap(TypeT source) noexcept
+{
+    using is_safe_type_t = typename std::integral_constant<
+            bool, phi::detail::is_floatingpoint_specialization<TypeT>::value ||
+                          phi::detail::is_integer_specilization<TypeT>::value ||
+                          phi::detail::is_boolean_specilization<TypeT>::value>;
+
+    return detail::unwrap_impl(source, is_safe_type_t{});
 }
 
 #endif // INCG_UNITTEST_UNWRAP_HPP

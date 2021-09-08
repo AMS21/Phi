@@ -64,7 +64,6 @@ function(set_project_warnings project)
       -Wno-documentation-unknown-command
       -Wno-padded
       -Wno-missing-prototypes
-      -Wno-ctad-maybe-unsupported
       -Wno-language-extension-token
       -Wno-gnu-zero-variadic-macro-arguments)
 
@@ -83,7 +82,6 @@ function(set_project_warnings project)
       -Wpedantic # warn if non-standard C++ is used
       -Wconversion # warn on type conversions that may lose data
       -Wsign-conversion # warn on sign conversions
-      -Wnull-dereference # warn if a null dereference is detected
       -Wdouble-promotion # warn if float is implicit promoted to double
       -Wformat=2 # warn on security issues around functions that format output (ie printf)
       -Wcast-qual
@@ -91,9 +89,6 @@ function(set_project_warnings project)
       -Wmissing-noreturn
       -Wundef
       -Wzero-as-null-pointer-constant
-      -Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
-      -Wduplicated-cond # warn if if / else chain has duplicated conditions
-      -Wduplicated-branches # warn if if / else branches have duplicated code
       -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
       -Wuseless-cast # warn if you perform a cast to the same type
       -Wpointer-arith
@@ -103,10 +98,22 @@ function(set_project_warnings project)
       -Wstrict-overflow=5
       -Wnoexcept
       -Wtrampolines
-      -Wvector-operation-performance
-      -Wshift-overflow=2
-      -Walloc-zero
-      -Wrestrict)
+      -Wvector-operation-performance)
+
+  if(${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "5.999")
+    set(phi_gcc_warnings
+        ${phi_gcc_warnings}
+        -Wnull-dereference # warn if a null dereference is detected
+        -Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+        -Wduplicated-cond # warn if if / else chain has duplicated conditions
+        -Wshift-overflow=2)
+  endif()
+
+  if(${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "6.999")
+    set(phi_gcc_warnings
+        ${phi_gcc_warnings} -Wduplicated-branches # warn if if / else branches have duplicated code
+        -Walloc-zero -Wrestrict)
+  endif()
 
   # Warnings as errors
   if(PHI_WARNINGS_AS_ERRORS)

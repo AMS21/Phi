@@ -19,21 +19,21 @@ TEST_CASE("ScopePtr", "[Core][ScopePtr]")
     {
         STATIC_REQUIRE(sizeof(phi::ScopePtr<int>) == sizeof(int*));
 
-        STATIC_REQUIRE(std::is_default_constructible_v<phi::ScopePtr<int>>);
-        STATIC_REQUIRE_FALSE(std::is_copy_constructible_v<phi::ScopePtr<int>>);
-        STATIC_REQUIRE(std::is_move_constructible_v<phi::ScopePtr<int>>);
-        STATIC_REQUIRE_FALSE(std::is_copy_assignable_v<phi::ScopePtr<int>>);
-        STATIC_REQUIRE(std::is_move_assignable_v<phi::ScopePtr<int>>);
+        STATIC_REQUIRE(std::is_default_constructible<phi::ScopePtr<int>>::value);
+        STATIC_REQUIRE_FALSE(std::is_copy_constructible<phi::ScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_move_constructible<phi::ScopePtr<int>>::value);
+        STATIC_REQUIRE_FALSE(std::is_copy_assignable<phi::ScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_move_assignable<phi::ScopePtr<int>>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::this_type, phi::ScopePtr<int>>);
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::value_type, int>);
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::reference, int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::const_reference, const int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::pointer, int*>);
-        STATIC_REQUIRE(std::is_same_v<phi::ScopePtr<int>::const_pointer, const int*>);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::this_type, phi::ScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::value_type, int>::value);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::reference, int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::const_reference, const int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::pointer, int*>::value);
+        STATIC_REQUIRE(std::is_same<phi::ScopePtr<int>::const_pointer, const int*>::value);
     }
 
     SECTION("ScopePtr()")
@@ -356,22 +356,22 @@ TEST_CASE("NotNullScopePtr", "[Core][ScopePtr][NotNullScopePtr]")
     {
         STATIC_REQUIRE(sizeof(phi::NotNullScopePtr<int>) == sizeof(int*));
 
-        STATIC_REQUIRE_FALSE(std::is_default_constructible_v<phi::NotNullScopePtr<int>>);
-        STATIC_REQUIRE_FALSE(std::is_copy_constructible_v<phi::NotNullScopePtr<int>>);
-        STATIC_REQUIRE(std::is_move_constructible_v<phi::NotNullScopePtr<int>>);
-        STATIC_REQUIRE_FALSE(std::is_copy_assignable_v<phi::NotNullScopePtr<int>>);
-        STATIC_REQUIRE(std::is_move_assignable_v<phi::NotNullScopePtr<int>>);
+        STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::NotNullScopePtr<int>>::value);
+        STATIC_REQUIRE_FALSE(std::is_copy_constructible<phi::NotNullScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_move_constructible<phi::NotNullScopePtr<int>>::value);
+        STATIC_REQUIRE_FALSE(std::is_copy_assignable<phi::NotNullScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_move_assignable<phi::NotNullScopePtr<int>>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(
-                std::is_same_v<phi::NotNullScopePtr<int>::this_type, phi::NotNullScopePtr<int>>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullScopePtr<int>::value_type, int>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullScopePtr<int>::reference, int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullScopePtr<int>::const_reference, const int&>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullScopePtr<int>::pointer, int*>);
-        STATIC_REQUIRE(std::is_same_v<phi::NotNullScopePtr<int>::const_pointer, const int*>);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::this_type,
+                                    phi::NotNullScopePtr<int>>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::value_type, int>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::reference, int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::const_reference, const int&>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::pointer, int*>::value);
+        STATIC_REQUIRE(std::is_same<phi::NotNullScopePtr<int>::const_pointer, const int*>::value);
     }
 
     SECTION("NotNullScopePtr(TypeT*)")

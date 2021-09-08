@@ -3,7 +3,10 @@
 #include "ConstexprHelper.hpp"
 #include <Phi/Algorithm/StringLength.hpp>
 #include <string>
-#include <string_view>
+
+#if PHI_HAS_LIB_STRING_VIEW()
+#    include <string_view>
+#endif
 
 TEST_CASE("StringLength char")
 {
@@ -108,6 +111,7 @@ TEST_CASE("StringLength basic_string")
     CHECK(bool(phi::StringLength(std::wstring(L"a"), 2u) == 1u));
 }
 
+#if PHI_HAS_LIB_STRING_VIEW()
 TEST_CASE("StringLength basic_string_view")
 {
     STATIC_REQUIRE(bool(phi::StringLength(std::string_view()) == 0u));
@@ -134,6 +138,7 @@ TEST_CASE("StringLength basic_string_view")
     STATIC_REQUIRE(bool(phi::StringLength(std::string_view("a"), 2u) == 1u));
     STATIC_REQUIRE(bool(phi::StringLength(std::wstring_view(L"a"), 2u) == 1u));
 }
+#endif
 
 // SafeStringLength
 
@@ -276,6 +281,7 @@ TEST_CASE("SafeStringLength basic_string")
     CHECK(bool(phi::SafeStringLength(std::wstring(L"a"), 2u) == 1u));
 }
 
+#if PHI_HAS_LIB_STRING_VIEW()
 TEST_CASE("SafeStringLength basic_string_view")
 {
     STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view()) == 0u));
@@ -302,3 +308,4 @@ TEST_CASE("SafeStringLength basic_string_view")
     STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view("a"), 2u) == 1u));
     STATIC_REQUIRE(bool(phi::SafeStringLength(std::wstring_view(L"a"), 2u) == 1u));
 }
+#endif
