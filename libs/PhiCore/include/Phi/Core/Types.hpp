@@ -28,10 +28,11 @@ SOFTWARE.
 #ifndef INCG_PHI_CORE_TYPES_HPP
 #define INCG_PHI_CORE_TYPES_HPP
 
+#include "Phi/PhiConfig.hpp"
+
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
 #include "Phi/Core/Integer.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <cmath>
 #include <cstddef>
 #include <cstdint>

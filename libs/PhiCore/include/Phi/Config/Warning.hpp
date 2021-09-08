@@ -19,8 +19,8 @@
 #    define PHI_MSVC_SUPPRESS_WARNING_POP()              /* Nothing */
 #endif
 
-/* Clang Warnings */
-#if PHI_COMPILER_IS(CLANG)
+/* Clang/Emscripten Warnings */
+#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(EMCC)
 #    define PHI_CLANG_SUPPRESS_WARNING_PUSH()   PHI_PRAGMA(clang diagnostic push)
 #    define PHI_CLANG_SUPPRESS_WARNING(warning) PHI_PRAGMA(clang diagnostic ignored warning)
 #    define PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH(warning)                                          \
@@ -34,7 +34,7 @@
 #endif
 
 /* GCC Warnings */
-#if PHI_COMPILER_IS(GCC) && PHI_COMPILER_IS_NOT(CLANG)
+#if PHI_COMPILER_IS(GCC)
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 7, 0)
 #        define PHI_GCC_SUPPRESS_WARNING_PUSH() PHI_PRAGMA(GCC diagnostic push)
 #        define PHI_GCC_SUPPRESS_WARNING_POP()  PHI_PRAGMA(GCC diagnostic pop)
