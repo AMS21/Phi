@@ -4,10 +4,11 @@
 #include "Phi/PhiConfig.hpp"
 
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/Move.hpp"
 #include "Phi/Core/Types.hpp"
+#include "Phi/TypeTraits/is_integer.hpp"
+#include "Phi/TypeTraits/is_signed.hpp"
 #include <iterator>
-#include <type_traits>
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -44,8 +45,8 @@ public:
     {}
 
     constexpr Vector2(Vector2<TypeT>&& other) noexcept
-        : x(std::move(other.x))
-        , y(std::move(other.y))
+        : x(move(other.x))
+        , y(move(other.y))
     {}
 
     template <typename OtherT>
@@ -56,8 +57,8 @@ public:
 
     template <typename OtherT>
     constexpr Vector2(Vector2<OtherT>&& other) noexcept
-        : x(static_cast<TypeT>(std::move(other.x)))
-        , y(static_cast<TypeT>(std::move(other.y)))
+        : x(static_cast<TypeT>(move(other.x)))
+        , y(static_cast<TypeT>(move(other.y)))
     {}
 
     // Operators
@@ -72,8 +73,8 @@ public:
 
     constexpr Vector2<TypeT>& operator=(Vector2<TypeT>&& other) noexcept
     {
-        x = std::move(other.x);
-        y = std::move(other.y);
+        x = move(other.x);
+        y = move(other.y);
 
         return *this;
     }
@@ -94,7 +95,7 @@ constexpr Vector2<TypeT> operator+(const Vector2<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector2<TypeT> operator-(const Vector2<TypeT>& rhs) noexcept
 {
-    static_assert(!detail::is_integer<TypeT>::value || std::is_signed<TypeT>::value,
+    static_assert(!is_integer_v<TypeT> || is_signed_v<TypeT>,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector2<TypeT>(-rhs.x, -rhs.y);

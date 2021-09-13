@@ -32,6 +32,9 @@ struct copy_cv<FromT, ToT, true, true>
     using type = const volatile ToT;
 };
 
+template <typename FromT, typename ToT>
+using copy_cv_t = typename copy_cv<FromT, ToT>::type;
+
 DETAIL_PHI_END_NAMESPACE()
 
 #endif // INCG_PHI_CORE_TYPE_TRAITS_COPY_CV_HPP

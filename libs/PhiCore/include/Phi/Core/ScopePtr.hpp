@@ -6,11 +6,15 @@
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/Forward.hpp"
+#include "Phi/Core/Nullptr.hpp"
 #include "Phi/Core/Types.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_array.hpp"
 #include "Phi/TypeTraits/is_bounded_array.hpp"
+#include "Phi/TypeTraits/is_convertible.hpp"
 #include "Phi/TypeTraits/is_unbounded_array.hpp"
-#include <cstddef>
-#include <type_traits>
+#include "Phi/TypeTraits/remove_extent.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -33,7 +37,7 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    constexpr explicit ScopePtr(std::nullptr_t) noexcept
+    constexpr explicit ScopePtr(nullptr_t) noexcept
         : m_Ptr(nullptr)
     {}
 
@@ -45,8 +49,7 @@ public:
         : m_Ptr(other.leak_ptr())
     {}
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr(ScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {}
@@ -57,8 +60,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved NotNullScopePtr");
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr(NotNullScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -77,8 +79,7 @@ public:
         return *this;
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr<TypeT>& operator=(ScopePtr<OtherT>&& other) noexcept
     {
         reset(other.leak_ptr());
@@ -95,8 +96,7 @@ public:
         return *this;
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr ScopePtr<TypeT>& operator=(NotNullScopePtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from moved NotNullScopePtr");
@@ -117,7 +117,7 @@ public:
         return *this;
     }
 
-    constexpr ScopePtr<TypeT>& operator=(std::nullptr_t) noexcept
+    constexpr ScopePtr<TypeT>& operator=(nullptr_t) noexcept
     {
         clear();
 
@@ -164,8 +164,7 @@ public:
         std::swap(m_Ptr, other.m_Ptr);
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr void swap(ScopePtr<OtherT>& other) noexcept
     {
         std::swap(m_Ptr, other.m_Ptr);
@@ -236,13 +235,13 @@ constexpr Boolean operator==(const ScopePtr<LhsT>& lhs, const ScopePtr<RhsT>& rh
 }
 
 template <typename LhsT>
-constexpr Boolean operator==(const ScopePtr<LhsT>& lhs, std::nullptr_t) noexcept
+constexpr Boolean operator==(const ScopePtr<LhsT>& lhs, nullptr_t) noexcept
 {
     return lhs.get() == nullptr;
 }
 
 template <typename RhsT>
-constexpr Boolean operator==(std::nullptr_t, const ScopePtr<RhsT>& rhs) noexcept
+constexpr Boolean operator==(nullptr_t, const ScopePtr<RhsT>& rhs) noexcept
 {
     return rhs.get() == nullptr;
 }
@@ -254,13 +253,13 @@ constexpr Boolean operator!=(const ScopePtr<LhsT>& lhs, const ScopePtr<RhsT>& rh
 }
 
 template <typename LhsT>
-constexpr Boolean operator!=(const ScopePtr<LhsT>& lhs, std::nullptr_t) noexcept
+constexpr Boolean operator!=(const ScopePtr<LhsT>& lhs, nullptr_t) noexcept
 {
     return lhs.get() != nullptr;
 }
 
 template <typename RhsT>
-constexpr Boolean operator!=(std::nullptr_t, const ScopePtr<RhsT>& rhs) noexcept
+constexpr Boolean operator!=(nullptr_t, const ScopePtr<RhsT>& rhs) noexcept
 {
     return rhs.get() != nullptr;
 }
@@ -286,7 +285,7 @@ public:
 
     NotNullScopePtr() = delete;
 
-    NotNullScopePtr(std::nullptr_t) = delete;
+    NotNullScopePtr(nullptr_t) = delete;
 
     constexpr explicit NotNullScopePtr(TypeT* ptr) noexcept
         : m_Ptr(ptr)
@@ -300,8 +299,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr NotNullScopePtr(NotNullScopePtr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -322,8 +320,7 @@ public:
         return *this;
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr NotNullScopePtr<TypeT>& operator=(NotNullScopePtr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
@@ -346,7 +343,7 @@ public:
         return *this;
     }
 
-    NotNullScopePtr<TypeT>& operator=(std::nullptr_t) = delete;
+    NotNullScopePtr<TypeT>& operator=(nullptr_t) = delete;
 
     TypeT* leak_ptr() noexcept
     {
@@ -361,7 +358,7 @@ public:
         m_Ptr = new_ptr;
     }
 
-    void reset(std::nullptr_t) = delete;
+    void reset(nullptr_t) = delete;
 
     constexpr void swap(NotNullScopePtr<TypeT>& other) noexcept
     {
@@ -371,8 +368,7 @@ public:
         std::swap(m_Ptr, other.m_Ptr);
     }
 
-    template <typename OtherT,
-              typename std::enable_if<std::is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     constexpr void swap(NotNullScopePtr<OtherT>& other) noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
@@ -452,10 +448,10 @@ constexpr Boolean operator==(const NotNullScopePtr<LhsT>& lhs,
 }
 
 template <typename LhsT>
-Boolean operator==(const NotNullScopePtr<LhsT>& lhs, std::nullptr_t) = delete;
+Boolean operator==(const NotNullScopePtr<LhsT>& lhs, nullptr_t) = delete;
 
 template <typename RhsT>
-Boolean operator==(std::nullptr_t, const NotNullScopePtr<RhsT>& rhs) = delete;
+Boolean operator==(nullptr_t, const NotNullScopePtr<RhsT>& rhs) = delete;
 
 template <typename LhsT, typename RhsT>
 constexpr Boolean operator!=(const NotNullScopePtr<LhsT>& lhs,
@@ -465,10 +461,10 @@ constexpr Boolean operator!=(const NotNullScopePtr<LhsT>& lhs,
 }
 
 template <typename LhsT>
-Boolean operator!=(const NotNullScopePtr<LhsT>& lhs, std::nullptr_t) = delete;
+Boolean operator!=(const NotNullScopePtr<LhsT>& lhs, nullptr_t) = delete;
 
 template <typename RhsT>
-Boolean operator!=(std::nullptr_t, const NotNullScopePtr<RhsT>& rhs) = delete;
+Boolean operator!=(nullptr_t, const NotNullScopePtr<RhsT>& rhs) = delete;
 
 template <typename LhsT, typename RhsT>
 constexpr void swap(NotNullScopePtr<LhsT>& lhs, NotNullScopePtr<RhsT>& rhs)
@@ -479,77 +475,75 @@ constexpr void swap(NotNullScopePtr<LhsT>& lhs, NotNullScopePtr<RhsT>& rhs)
 // make functions
 
 template <typename TypeT, typename... ArgsT>
-PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, ScopePtr<TypeT>>::type
-make_scope(ArgsT&&... args)
+PHI_NODISCARD typename enable_if<!is_array<TypeT>::value, ScopePtr<TypeT>>::type make_scope(
+        ArgsT&&... args)
 {
-    return ScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
+    return ScopePtr<TypeT>(new TypeT(phi::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-PHI_NODISCARD typename std::enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
+PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
 make_scope(phi::usize size)
 {
-    return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
+    return ScopePtr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]());
 }
 
 template <typename TypeT, typename... ArgsT>
-typename std::enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type make_scope(
+typename enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type make_scope(
         ArgsT&&... args) = delete;
 
 template <typename TypeT>
-PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, ScopePtr<TypeT>>::type
+PHI_NODISCARD typename enable_if<!is_array<TypeT>::value, ScopePtr<TypeT>>::type
 make_scope_for_overwrite()
 {
     return ScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-PHI_NODISCARD typename std::enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
+PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, ScopePtr<TypeT>>::type
 make_scope_for_overwrite(phi::usize size)
 {
-    return ScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
+    return ScopePtr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]);
 }
 
 template <typename TypeT, typename... ArgsT>
-typename std::enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type
-make_scope_for_overwrite(ArgsT&&... args) = delete;
+typename enable_if<is_bounded_array<TypeT>::value, ScopePtr<TypeT>>::type make_scope_for_overwrite(
+        ArgsT&&... args) = delete;
 
 template <typename TypeT, typename... ArgsT>
-PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+PHI_NODISCARD typename enable_if<!is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
 make_not_null_scope(ArgsT&&... args)
 {
-    return NotNullScopePtr<TypeT>(new TypeT(std::forward<ArgsT>(args)...));
+    return NotNullScopePtr<TypeT>(new TypeT(phi::forward<ArgsT>(args)...));
 }
 
 template <typename TypeT>
-PHI_NODISCARD
-        typename std::enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
-        make_not_null_scope(phi::usize size)
+PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+make_not_null_scope(phi::usize size)
 {
-    return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]());
+    return NotNullScopePtr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]());
 }
 
 template <typename TypeT, typename... ArgsT>
-typename std::enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+typename enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
 make_not_null_scope(ArgsT&&... args) = delete;
 
 template <typename TypeT>
-PHI_NODISCARD typename std::enable_if<!std::is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+PHI_NODISCARD typename enable_if<!is_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
 make_not_null_scope_for_overwrite()
 {
     return NotNullScopePtr<TypeT>(new TypeT);
 }
 
 template <typename TypeT>
-PHI_NODISCARD
-        typename std::enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
-        make_not_null_scope_for_overwrite(phi::usize size)
+PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+make_not_null_scope_for_overwrite(phi::usize size)
 {
-    return NotNullScopePtr<TypeT>(new typename std::remove_extent<TypeT>::type[size.get()]);
+    return NotNullScopePtr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]);
 }
 
 template <typename TypeT, typename... ArgsT>
-typename std::enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
+typename enable_if<is_bounded_array<TypeT>::value, NotNullScopePtr<TypeT>>::type
 make_not_null_scope_for_overwrite(ArgsT&&... args) = delete;
 
 DETAIL_PHI_END_NAMESPACE()

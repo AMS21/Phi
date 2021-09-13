@@ -3,6 +3,9 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Config/Inline.hpp"
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, TypeT Value>
@@ -14,12 +17,12 @@ struct integral_constant
 
     static constexpr TypeT value = Value;
 
-    constexpr operator TypeT() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr operator TypeT() const noexcept
     {
         return value;
     }
 
-    constexpr TypeT operator()() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr TypeT operator()() const noexcept
     {
         return value;
     }

@@ -12,7 +12,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
                                                "RelWithDebInfo")
 endif()
 
-phi_trace("Build type: ${CMAKE_BUILD_TYPE}")
+if(CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  phi_trace("Build type: ${CMAKE_BUILD_TYPE}")
+elseif(CMAKE_CONFIGURATION_TYPES)
+  phi_trace("Configuration types: \"${CMAKE_CONFIGURATION_TYPES}\"")
+endif()
 
 # Generate compile_commands.json to make it easier to work with clang based tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS
@@ -65,13 +69,22 @@ if(PHI_COMPILER_CLANG)
 endif()
 
 # Color diagnostics
-if(PHI_COMPILER_CLANG)
-  target_compile_options(phi_project_options INTERFACE -fcolor-diagnostics)
-elseif(PHI_COMPILER_GCC)
-  target_compile_options(phi_project_options INTERFACE -fdiagnostics-color=always)
-else()
-  phi_warn("No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
-  set(PHI_COLOR_DIAGNOSTICS
-      OFF
-      CACHE BOOL "Enable colored diagnostics" FORCE)
+if(PHI_COLOR_DIAGNOSTICS)
+  phi_trace("Enabling color diagnostics")
+  
+  if(PHI_COMPILER_CLANG)
+    target_compile_options(phi_project_options INTERFACE -fcolor-diagnostics)
+  elseif(PHI_COMPILER_GCC)
+    target_compile_options(phi_project_options INTERFACE -fdiagnostics-color=always)
+  elseif(PHI_COMPILER_MSVC)
+    # MSVC has no color diagnostics flag
+    set(PHI_COLOR_DIAGNOSTICS
+        OFF
+        CACHE BOOL "Enable colored diagnostics" FORCE)
+  else()
+    phi_warn("No colored compiler diagnostic set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    set(PHI_COLOR_DIAGNOSTICS
+        OFF
+        CACHE BOOL "Enable colored diagnostics" FORCE)
+  endif()
 endif()

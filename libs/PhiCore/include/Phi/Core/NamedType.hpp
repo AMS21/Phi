@@ -41,8 +41,14 @@ SOFTWARE.
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/AddressOf.hpp"
 #include "Phi/Core/CRTP.hpp"
+#include "Phi/Core/Forward.hpp"
+#include "Phi/Core/Move.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_nothrow_copy_constructible.hpp"
+#include "Phi/TypeTraits/is_nothrow_move_constructible.hpp"
+#include "Phi/TypeTraits/is_reference.hpp"
+#include "Phi/TypeTraits/remove_reference.hpp"
 #include <memory>
-#include <type_traits>
 #include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio.
@@ -62,21 +68,20 @@ public:
     using underlying_type = TypeT;
     using reference       = NamedType<TypeT&, ParameterT, SkillsT...>;
     using const_reference = NamedType<const TypeT&, ParameterT, SkillsT...>;
-    using pointer         = NamedType<std::remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
-    using const_pointer = NamedType<const std::remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
+    using pointer         = NamedType<remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
+    using const_pointer   = NamedType<const remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
 
     NamedType() = default;
 
     explicit constexpr NamedType(const TypeT& value) noexcept(
-            std::is_nothrow_copy_constructible<TypeT>::value)
+            is_nothrow_copy_constructible<TypeT>::value)
         : m_Value(value)
     {}
 
-    template <typename OtherT = TypeT,
-              typename        = std::enable_if_t<!std::is_reference<OtherT>::value, void>>
+    template <typename OtherT = TypeT, typename = enable_if_t<!is_reference<OtherT>::value, void>>
     explicit constexpr NamedType(TypeT&& value) noexcept(
-            std::is_nothrow_move_constructible<TypeT>::value)
-        : m_Value(std::move(value))
+            is_nothrow_move_constructible<TypeT>::value)
+        : m_Value(phi::move(value))
     {}
 
     PHI_NODISCARD constexpr TypeT& get() noexcept
@@ -84,7 +89,7 @@ public:
         return m_Value;
     }
 
-    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>& get() const noexcept
+    PHI_NODISCARD constexpr const remove_reference_t<TypeT>& get() const noexcept
     {
         return m_Value;
     }
@@ -100,13 +105,13 @@ public:
 
         NamedType operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
-            return NamedType(std::forward<TypeT>(value));
+            return NamedType(phi::forward<TypeT>(value));
         }
 
         template <typename OtherT>
         NamedType operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
-            return NamedType(std::forward<OtherT>(value));
+            return NamedType(phi::forward<OtherT>(value));
         }
 
         PHI_GCC_SUPPRESS_WARNING_POP()
@@ -417,7 +422,7 @@ struct PHI_EBCO Dereferencable<NamedType<TypeT, ParameterT, SkillsT...>>
         return this->underlying().get();
     }
 
-    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>& operator*() const&
+    PHI_NODISCARD constexpr const remove_reference_t<TypeT>& operator*() const&
     {
         return this->underlying().get();
     }
@@ -450,8 +455,8 @@ struct PHI_EBCO Printable : CRTP<TypeT, Printable>
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT, typename CharT,
           typename CharTraitsT>
-typename std::enable_if<NamedType<TypeT, ParameterT, SkillsT...>::is_printable,
-                        std::basic_ostream<CharT, CharTraitsT>&>::type
+typename enable_if<NamedType<TypeT, ParameterT, SkillsT...>::is_printable,
+                   std::basic_ostream<CharT, CharTraitsT>&>::type
 operator<<(std::basic_ostream<CharT, CharTraitsT>&         stream,
            NamedType<TypeT, ParameterT, SkillsT...> const& object)
 {
@@ -490,12 +495,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, MethodCallable>
 {
-    PHI_NODISCARD constexpr const std::remove_reference_t<TypeT>* operator->() const
+    PHI_NODISCARD constexpr const remove_reference_t<TypeT>* operator->() const
     {
         return addressof(this->underlying().get());
     }
 
-    PHI_NODISCARD constexpr std::remove_reference_t<TypeT>* operator->()
+    PHI_NODISCARD constexpr remove_reference_t<TypeT>* operator->()
     {
         return addressof(this->underlying().get());
     }
@@ -534,7 +539,7 @@ namespace std
     struct hash<phi::NamedType<TypeT, ParameterT, SkillsT...>>
     {
         using NamedType       = phi::NamedType<TypeT, ParameterT, SkillsT...>;
-        using checkIfHashable = typename std::enable_if<NamedType::is_hashable, void>::type;
+        using checkIfHashable = typename enable_if<NamedType::is_hashable, void>::type;
 
         std::size_t operator()(const NamedType& value) const noexcept
         {

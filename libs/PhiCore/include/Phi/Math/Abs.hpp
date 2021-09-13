@@ -3,13 +3,16 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/TypeTraits/integral_constant.hpp"
+#include "Phi/TypeTraits/is_floating_point.hpp"
+#include "Phi/TypeTraits/is_signed.hpp"
 #include <limits>
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -20,6 +23,24 @@ namespace detail
     struct make_unsigned_abs
     {
         using type = TypeT;
+    };
+
+    template <>
+    struct make_unsigned_abs<char>
+    {
+        using type = unsigned char;
+    };
+
+    template <>
+    struct make_unsigned_abs<signed char>
+    {
+        using type = unsigned char;
+    };
+
+    template <>
+    struct make_unsigned_abs<unsigned char>
+    {
+        using type = unsigned char;
     };
 
     template <>
@@ -72,8 +93,8 @@ namespace detail
 
     template <typename SignedNumericT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr typename make_unsigned_abs<SignedNumericT>::type
-                  abs_impl(const SignedNumericT signed_numeric, std::false_type is_floating_point,
-                           std::true_type is_signed) noexcept
+                  abs_impl(const SignedNumericT signed_numeric, false_type is_floating_point,
+                           true_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
@@ -85,8 +106,8 @@ namespace detail
 
     template <typename UnsignedNumericT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr UnsignedNumericT abs_impl(
-            const UnsignedNumericT unsigned_numeric, std::false_type is_floating_point,
-            std::false_type is_signed) noexcept
+            const UnsignedNumericT unsigned_numeric, false_type is_floating_point,
+            false_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
@@ -94,45 +115,45 @@ namespace detail
         return unsigned_numeric;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr float abs_impl(const float    floating_point_numeric,
-                                                             std::true_type is_floating_point,
-                                                             std::true_type is_signed) noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr float abs_impl(const float floating_point_numeric,
+                                                             true_type   is_floating_point,
+                                                             true_type   is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
 
-#if PHI_COMPILER_IS(MSVC)
-        return fabsf(floating_point_numeric);
-#else
+#if PHI_HAS_INTRINSIC_BUILTIN_FABSF()
         return __builtin_fabsf(floating_point_numeric);
+#else
+        return (floating_point_numeric > 0) ? floating_point_numeric : -floating_point_numeric
 #endif
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr double abs_impl(const double   floating_point_numeric,
-                                                              std::true_type is_floating_point,
-                                                              std::true_type is_signed) noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr double abs_impl(const double floating_point_numeric,
+                                                              true_type    is_floating_point,
+                                                              true_type    is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
 
-#if PHI_COMPILER_IS(MSVC)
-        return fabs(floating_point_numeric);
-#else
+#if PHI_HAS_INTRINSIC_BUILTIN_FABS()
         return __builtin_fabs(floating_point_numeric);
+#else
+        return (floating_point_numeric > 0) ? floating_point_numeric : -floating_point_numeric
 #endif
     }
 
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr long double abs_impl(
-            const long double floating_point_numeric, std::true_type is_floating_point,
-            std::true_type is_signed) noexcept
+            const long double floating_point_numeric, true_type is_floating_point,
+            true_type is_signed) noexcept
     {
         PHI_UNUSED_PARAMETER(is_floating_point);
         PHI_UNUSED_PARAMETER(is_signed);
 
-#if PHI_COMPILER_IS(MSVC)
-        return fabsl(floating_point_numeric);
-#else
+#if PHI_HAS_INTRINSIC_BUILTIN_FABSL()
         return __builtin_fabsl(floating_point_numeric);
+#else
+        return (floating_point_numeric > 0) ? floating_point_numeric : -floating_point_numeric
 #endif
     }
 } // namespace detail
@@ -154,8 +175,7 @@ template <typename NumericT>
 PHI_NODISCARD constexpr typename detail::make_unsigned_abs<NumericT>::type abs(
         NumericT numeric) noexcept
 {
-    return detail::abs_impl(numeric, std::is_floating_point<NumericT>(),
-                            std::is_signed<NumericT>());
+    return detail::abs_impl(numeric, is_floating_point<NumericT>(), is_signed<NumericT>());
 }
 
 DETAIL_PHI_END_NAMESPACE()

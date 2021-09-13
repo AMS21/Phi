@@ -54,3 +54,9 @@ compile_failure_test(NAME "Meta_AlwaysFalse_TwoPhaseLookup" SOURCE
 
 # Selftest
 compile_failure_test(NAME "Selftest_StaticAssert" SOURCE "src/Selftest/StaticAssert.fail.cpp")
+
+# TypeTraits
+if (PHI_HAS_INTRINSIC_BUILTIN_IS_CONSTANT_EVALUATED)
+compile_failure_test(NAME "TypeTraits_IsConstantEvaluated_StaticAssert" SOURCE "src/TypeTraits/is_constant_evaluated.static_assert.fail.cpp")
+compile_failure_test(NAME "TypeTaits_IsConstantEvaluated_Constexpr" SOURCE "src/TypeTraits/is_constant_evaluated.static_assert.fail.cpp")
+endif()

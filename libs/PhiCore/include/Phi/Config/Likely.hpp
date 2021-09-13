@@ -1,12 +1,13 @@
 #ifndef INCG_PHI_CONFIG_LIKELY_HPP
 #define INCG_PHI_CONFIG_LIKELY_HPP
 
+#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/FunctionLikeMacro.hpp"
 
 #if PHI_COMPILER_IS(CLANG)
-#    if PHI_HAS_BUILTIN(__builtin_expect)
+#    if PHI_HAS_EXTENSION_BUILTIN_EXPECT()
 #        define PHI_LIKELY(condition)   __builtin_expect(!!(condition), 1)
 #        define PHI_UNLIKELY(condition) __builtin_expect(!!(condition), 0)
 #    else

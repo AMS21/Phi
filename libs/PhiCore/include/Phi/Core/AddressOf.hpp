@@ -5,13 +5,13 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
-#include <type_traits>
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_object.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename std::enable_if<std::is_object<TypeT>::value, TypeT*>::type
-addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr enable_if_t<is_object_v<TypeT>, TypeT*> addressof(TypeT& arg) noexcept
 {
 #if PHI_HAS_INTRINSIC_BUILTIN_ADDRESS_OF()
     return __builtin_addressof(arg);
@@ -22,8 +22,7 @@ addressof(TypeT& arg) noexcept
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename std::enable_if<!std::is_object<TypeT>::value, TypeT*>::type
-addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr enable_if_t<!is_object_v<TypeT>, TypeT*> addressof(TypeT& arg) noexcept
 {
     return &arg;
 }

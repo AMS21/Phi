@@ -3,20 +3,29 @@
 
 #include "Phi/PhiConfig.hpp"
 
-#include "Phi/TypeTraits/add_reference.hpp"
+#include "Phi/TypeTraits/is_referenceable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+namespace detail
+{
+    template <typename TypeT, bool = is_referenceable_v<TypeT>>
+    struct add_lvalue_reference_impl
+    {
+        using type = TypeT;
+    };
+
+    template <typename TypeT>
+    struct add_lvalue_reference_impl<TypeT, true>
+    {
+        using type = TypeT&;
+    };
+} // namespace detail
 
 template <typename TypeT>
 struct add_lvalue_reference
 {
-    using type = TypeT&;
-};
-
-template <typename TypeT>
-struct add_lvalue_reference<TypeT&&>
-{
-    using type = TypeT&;
+    using type = typename detail::add_lvalue_reference_impl<TypeT>::type;
 };
 
 template <typename TypeT>

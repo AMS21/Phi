@@ -5,14 +5,17 @@
 #include "Phi/CompilerSupport/Char8_t.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/Core/Nullptr.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/PhiConfig.hpp"
+#include "Phi/TypeTraits/is_array.hpp"
+#include "Phi/TypeTraits/is_same.hpp"
+#include "Phi/TypeTraits/is_standard_layout.hpp"
+#include "Phi/TypeTraits/is_trivial.hpp"
 #include <algorithm>
-#include <cstddef>
 #include <iterator>
 #include <limits>
 #include <string>
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -33,6 +36,15 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
     using size_type              = usize;
     using difference_type        = ptrdiff;
+
+    // Static checks
+    static_assert(!is_array_v<value_type>,
+                  "phi::BasicStringView: Character type must not be an array");
+    static_assert(is_standard_layout_v<value_type>,
+                  "phi::BasicStringView: Character type must be standard-layout");
+    static_assert(is_trivial_v<value_type>, "phi::BasicStringView: Character type must be trivial");
+    static_assert(is_same_v<value_type, typename traits_type::char_type>,
+                  "phi::BasicStringView: CharT must be the same type as traits_type::char_type");
 
     constexpr BasicStringView() noexcept
         : m_Data(nullptr)
@@ -60,7 +72,7 @@ public:
                        "The supplied string is shorter than the given count");
     }
 
-    constexpr BasicStringView(std::nullptr_t) = delete;
+    constexpr BasicStringView(nullptr_t) = delete;
 
     ~BasicStringView() = default;
 
@@ -68,7 +80,7 @@ public:
 
     constexpr BasicStringView& operator=(BasicStringView&& other) noexcept = default;
 
-    constexpr BasicStringView& operator=(std::nullptr_t) noexcept = delete;
+    constexpr BasicStringView& operator=(nullptr_t) noexcept = delete;
 
     // Iterators
 

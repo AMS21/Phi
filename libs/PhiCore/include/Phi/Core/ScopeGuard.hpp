@@ -6,8 +6,12 @@
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Boolean.hpp"
-#include <type_traits>
-#include <utility>
+#include "Phi/Core/Forward.hpp"
+#include "Phi/Core/Move.hpp"
+#include "Phi/TypeTraits/is_const.hpp"
+#include "Phi/TypeTraits/is_reference.hpp"
+#include "Phi/TypeTraits/is_volatile.hpp"
+#include "Phi/TypeTraits/remove_cvref.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -15,8 +19,8 @@ template <typename ActionT>
 class ScopeGuard
 {
 private:
-    static_assert(!std::is_reference<ActionT>::value && !std::is_const<ActionT>::value &&
-                          !std::is_volatile<ActionT>::value,
+    static_assert(!is_reference<ActionT>::value && !is_const<ActionT>::value &&
+                          !is_volatile<ActionT>::value,
                   "phi::ScopeGuard should store its callable by value");
 
 public:
@@ -24,7 +28,7 @@ public:
     using action_type = ActionT;
 
     constexpr explicit ScopeGuard(ActionT action) noexcept
-        : m_Action(std::move(action))
+        : m_Action(phi::move(action))
     {}
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -48,8 +52,8 @@ template <typename ActionT>
 class ArmedScopeGuard
 {
 private:
-    static_assert(!std::is_reference<ActionT>::value && !std::is_const<ActionT>::value &&
-                          !std::is_volatile<ActionT>::value,
+    static_assert(!is_reference<ActionT>::value && !is_const<ActionT>::value &&
+                          !is_volatile<ActionT>::value,
                   "phi::ArmedScopeGuard should store its callable by value");
 
 public:
@@ -57,7 +61,7 @@ public:
     using action_type = ActionT;
 
     constexpr explicit ArmedScopeGuard(ActionT action) noexcept
-        : m_Action(std::move(action))
+        : m_Action(phi::move(action))
         , m_Armed{true}
     {}
 
@@ -98,21 +102,17 @@ private:
 };
 
 template <typename ActionT>
-PHI_NODISCARD constexpr ScopeGuard<
-        typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>
-make_scope_guard(ActionT&& action) noexcept
+PHI_NODISCARD constexpr ScopeGuard<remove_cvref_t<ActionT>> make_scope_guard(
+        ActionT&& action) noexcept
 {
-    return ScopeGuard<typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>(
-            std::forward<ActionT>(action));
+    return ScopeGuard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));
 }
 
 template <typename ActionT>
-PHI_NODISCARD constexpr ArmedScopeGuard<
-        typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>
-make_armed_scope_guard(ActionT&& action) noexcept
+PHI_NODISCARD constexpr ArmedScopeGuard<remove_cvref_t<ActionT>> make_armed_scope_guard(
+        ActionT&& action) noexcept
 {
-    return ArmedScopeGuard<typename std::remove_cv_t<typename std::remove_reference_t<ActionT>>>(
-            std::forward<ActionT>(action));
+    return ArmedScopeGuard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));
 }
 
 DETAIL_PHI_END_NAMESPACE()

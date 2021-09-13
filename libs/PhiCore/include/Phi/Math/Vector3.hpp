@@ -4,10 +4,12 @@
 #include "Phi/PhiConfig.hpp"
 
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/Move.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/Math/Vector2.hpp"
+#include "Phi/TypeTraits/is_integer.hpp"
+#include "Phi/TypeTraits/is_signed.hpp"
 #include <iterator>
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -51,8 +53,8 @@ public:
     {}
 
     constexpr Vector3(Vector2<TypeT>&& vec2, TypeT val_z) noexcept
-        : x(std::move(vec2.x))
-        , y(std::move(vec2.y))
+        : x(phi::move(vec2.x))
+        , y(phi::move(vec2.y))
         , z(val_z)
     {}
 
@@ -65,8 +67,8 @@ public:
 
     template <typename OtherT>
     constexpr Vector3(Vector2<OtherT>&& vec2, TypeT val_z) noexcept
-        : x(static_cast<TypeT>(std::move(vec2.x)))
-        , y(static_cast<TypeT>(std::move(vec2.y)))
+        : x(static_cast<TypeT>(phi::move(vec2.x)))
+        , y(static_cast<TypeT>(phi::move(vec2.y)))
         , z(val_z)
     {}
 
@@ -77,9 +79,9 @@ public:
     {}
 
     constexpr Vector3(Vector3<TypeT>&& other) noexcept
-        : x(std::move(other.x))
-        , y(std::move(other.y))
-        , z(std::move(other.z))
+        : x(phi::move(other.x))
+        , y(phi::move(other.y))
+        , z(phi::move(other.z))
     {}
 
     template <typename OtherT>
@@ -91,9 +93,9 @@ public:
 
     template <typename OtherT>
     constexpr Vector3(Vector3<OtherT>&& other) noexcept
-        : x(static_cast<TypeT>(std::move(other.x)))
-        , y(static_cast<TypeT>(std::move(other.y)))
-        , z(static_cast<TypeT>(std::move(other.z)))
+        : x(static_cast<TypeT>(phi::move(other.x)))
+        , y(static_cast<TypeT>(phi::move(other.y)))
+        , z(static_cast<TypeT>(phi::move(other.z)))
     {}
 
     // Operators
@@ -109,9 +111,9 @@ public:
 
     constexpr Vector3<TypeT>& operator=(Vector3<TypeT>&& other) noexcept
     {
-        x = std::move(other.x);
-        y = std::move(other.y);
-        z = std::move(other.z);
+        x = phi::move(other.x);
+        y = phi::move(other.y);
+        z = phi::move(other.z);
 
         return *this;
     }
@@ -133,7 +135,7 @@ constexpr Vector3<TypeT> operator+(const Vector3<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 {
-    static_assert(!detail::is_integer<TypeT>::value || std::is_signed<TypeT>::value,
+    static_assert(!is_integer_v<TypeT> || is_signed_v<TypeT>,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector3<TypeT>(-rhs.x, -rhs.y, -rhs.z);

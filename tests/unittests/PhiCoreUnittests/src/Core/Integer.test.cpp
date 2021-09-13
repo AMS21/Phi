@@ -534,6 +534,7 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         STATIC_REQUIRE(bool(int_t(5) >= 5));
     }
 
+    /*
     SECTION("make_(un)signed")
     {
         int_t                       a = 5;
@@ -544,6 +545,7 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         a = phi::make_signed(b);
         CHECK(static_cast<std::int32_t>(a) == 125);
     }
+    */
 
     SECTION("i/o")
     {
@@ -558,6 +560,7 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         CHECK(static_cast<std::int32_t>(i) == 10);
     }
 
+    /*
     SECTION("abs")
     {
         CONSTEXPR_RUNTIME std::int32_t i = 123;
@@ -578,6 +581,7 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         CONSTEXPR_RUNTIME phi::Integer<std::uint32_t> phi_unsigned = 12u;
         STATIC_REQUIRE(bool(phi::abs(phi_unsigned) == 12u));
     }
+    */
 
     SECTION("signed_to_unsigned")
     {

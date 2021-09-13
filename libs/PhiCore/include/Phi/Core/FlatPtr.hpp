@@ -2,11 +2,13 @@
 #define INCG_PHI_CORE_FLAT_PTR_HPP
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Core//Nullptr.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/PhiConfig.hpp"
-#include <cstddef>
-#include <type_traits>
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_pointer.hpp"
+#include <cstdint>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -24,12 +26,11 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    constexpr FlatPtr(std::nullptr_t) noexcept
+    constexpr FlatPtr(nullptr_t) noexcept
         : m_Ptr(nullptr)
     {}
 
-    template <typename PtrT,
-              typename std::enable_if<std::is_pointer<PtrT>::value, bool>::type = true>
+    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
     constexpr FlatPtr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {}
@@ -46,7 +47,7 @@ public:
 
     constexpr FlatPtr(NotNullFlatPtr&& other) noexcept;
 
-    constexpr FlatPtr& operator=(std::nullptr_t) noexcept
+    constexpr FlatPtr& operator=(nullptr_t) noexcept
     {
         m_Ptr = nullptr;
 
@@ -55,8 +56,7 @@ public:
 
     ~FlatPtr() = default;
 
-    template <typename PtrT,
-              typename std::enable_if<std::is_pointer<PtrT>::value, bool>::type = true>
+    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
     constexpr FlatPtr& operator=(PtrT ptr) noexcept
     {
         m_Ptr = static_cast<void*>(ptr);
@@ -141,12 +141,12 @@ constexpr Boolean operator==(const FlatPtr& lhs, const FlatPtr& rhs) noexcept
     return lhs.get() == rhs.get();
 }
 
-constexpr Boolean operator==(const FlatPtr& lhs, std::nullptr_t) noexcept
+constexpr Boolean operator==(const FlatPtr& lhs, nullptr_t) noexcept
 {
     return lhs.get() == nullptr;
 }
 
-constexpr Boolean operator==(std::nullptr_t, const FlatPtr& rhs) noexcept
+constexpr Boolean operator==(nullptr_t, const FlatPtr& rhs) noexcept
 {
     return rhs.get() == nullptr;
 }
@@ -156,12 +156,12 @@ constexpr Boolean operator!=(const FlatPtr& lhs, const FlatPtr& rhs) noexcept
     return lhs.get() != rhs.get();
 }
 
-constexpr Boolean operator!=(const FlatPtr& lhs, std::nullptr_t) noexcept
+constexpr Boolean operator!=(const FlatPtr& lhs, nullptr_t) noexcept
 {
     return lhs.get() != nullptr;
 }
 
-constexpr Boolean operator!=(std::nullptr_t, const FlatPtr& rhs) noexcept
+constexpr Boolean operator!=(nullptr_t, const FlatPtr& rhs) noexcept
 {
     return rhs.get() != nullptr;
 }
@@ -179,10 +179,9 @@ public:
 
     NotNullFlatPtr() = delete;
 
-    NotNullFlatPtr(std::nullptr_t) = delete;
+    NotNullFlatPtr(nullptr_t) = delete;
 
-    template <typename PtrT,
-              typename std::enable_if<std::is_pointer<PtrT>::value, bool>::type = true>
+    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
     constexpr NotNullFlatPtr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {
@@ -199,11 +198,10 @@ public:
 
     ~NotNullFlatPtr() = default;
 
-    constexpr NotNullFlatPtr& operator=(std::nullptr_t) = delete;
+    constexpr NotNullFlatPtr& operator=(nullptr_t) = delete;
 
     template <typename PtrT>
-    constexpr NotNullFlatPtr& operator=(
-            typename std::enable_if<std::is_pointer<PtrT>::value, PtrT>::type ptr) noexcept
+    constexpr NotNullFlatPtr& operator=(enable_if_t<is_pointer_v<PtrT>, PtrT> ptr) noexcept
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullFlatPtr");
 
@@ -297,18 +295,18 @@ constexpr Boolean operator==(const NotNullFlatPtr& lhs, const NotNullFlatPtr& rh
     return lhs.get() == rhs.get();
 }
 
-Boolean operator==(const NotNullFlatPtr&, std::nullptr_t) = delete;
+Boolean operator==(const NotNullFlatPtr&, nullptr_t) = delete;
 
-Boolean operator==(std::nullptr_t, const NotNullFlatPtr&) = delete;
+Boolean operator==(nullptr_t, const NotNullFlatPtr&) = delete;
 
 constexpr Boolean operator!=(const NotNullFlatPtr& lhs, const NotNullFlatPtr& rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
-Boolean operator!=(const NotNullFlatPtr&, std::nullptr_t) = delete;
+Boolean operator!=(const NotNullFlatPtr&, nullptr_t) = delete;
 
-Boolean operator!=(std::nullptr_t, const NotNullFlatPtr&) = delete;
+Boolean operator!=(nullptr_t, const NotNullFlatPtr&) = delete;
 
 inline void swap(NotNullFlatPtr& lhs, NotNullFlatPtr& rhs) noexcept
 {

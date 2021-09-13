@@ -4,8 +4,11 @@
 #include <Phi/Algorithm/StringLength.hpp>
 #include <string>
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_CPP_STANDARD_IS_ATLEAST(17) && PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
+#    define HAS_LIB_STRING_VIEW() 1
+#else
+#    define HAS_LIB_STRING_VIEW() 0
 #endif
 
 TEST_CASE("StringLength char")
@@ -111,7 +114,7 @@ TEST_CASE("StringLength basic_string")
     CHECK(bool(phi::StringLength(std::wstring(L"a"), 2u) == 1u));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if HAS_LIB_STRING_VIEW()
 TEST_CASE("StringLength basic_string_view")
 {
     STATIC_REQUIRE(bool(phi::StringLength(std::string_view()) == 0u));
@@ -281,7 +284,7 @@ TEST_CASE("SafeStringLength basic_string")
     CHECK(bool(phi::SafeStringLength(std::wstring(L"a"), 2u) == 1u));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if HAS_LIB_STRING_VIEW()
 TEST_CASE("SafeStringLength basic_string_view")
 {
     STATIC_REQUIRE(bool(phi::SafeStringLength(std::string_view()) == 0u));

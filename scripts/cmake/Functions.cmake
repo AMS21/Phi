@@ -93,6 +93,9 @@ function(phi_add_library)
   # Add library
   add_library(${command})
 
+  # Set standard
+  phi_set_standard_flag(${al_NAME})
+
   # Group source files
   if(${CMAKE_VERSION} VERSION_GREATER "3.7")
     # TREE option was introduced with 3.8
@@ -160,7 +163,7 @@ function(phi_add_executable)
     ${ARGN})
 
   # Check required arguments
-  if(NOT DEFINED ae_NAME)
+  if(NOT ae_NAME)
     phi_error("phi_add_executable: You must specify a name using NAME")
   endif()
 
@@ -168,7 +171,7 @@ function(phi_add_executable)
   set(command ${ae_NAME})
 
   # Add optional EXCLUDE_FROM_ALL
-  if(DEFINED ae_EXCLUDE_FROM_ALL)
+  if(ae_EXCLUDE_FROM_ALL)
     set(command ${command} EXCLUDE_FROM_ALL)
   endif()
 
@@ -178,6 +181,9 @@ function(phi_add_executable)
   # Add executable
   add_executable(${command})
 
+  # Set standard
+  phi_set_standard_flag(${ae_NAME})
+
   # Group source files
   if(${CMAKE_VERSION} VERSION_GREATER "3.7")
     # TREE option was introduced with 3.8
@@ -185,42 +191,42 @@ function(phi_add_executable)
   endif()
 
   # Add optional alias target
-  if(DEFINED ae_ALIAS_TARGET)
+  if(ae_ALIAS_TARGET)
     add_executable("${ae_ALIAS_TARGET}" ALIAS ${ae_NAME})
   endif()
 
   # Set optional folder
-  if(DEFINED ae_FOLDER)
+  if(ae_FOLDER)
     set_target_properties(${ae_NAME} PROPERTIES FOLDER "${ae_FOLDER}")
   endif()
 
   # Add optional private link libraries
-  if(DEFINED ae_PUBLIC_LINK_LIBRARIES)
+  if(ae_PUBLIC_LINK_LIBRARIES)
     target_link_libraries(${ae_NAME} PUBLIC "${ae_PUBLIC_LINK_LIBRARIES}")
   endif()
 
   # Add optional private link libraries
-  if(DEFINED ae_PRIVATE_LINK_LIBRARIES)
+  if(ae_PRIVATE_LINK_LIBRARIES)
     target_link_libraries(${ae_NAME} PRIVATE "${ae_PRIVATE_LINK_LIBRARIES}")
   endif()
 
   # Add optional interface link libraries
-  if(DEFINED ae_INTERFACE_LINK_LIBRARIES)
+  if(ae_INTERFACE_LINK_LIBRARIES)
     target_link_libraries(${ae_NAME} INTERFACE "${ae_INTERFACE_LINK_LIBRARIES}")
   endif()
 
   # Add optional public include directories
-  if(DEFINED ae_PUBLIC_INCLUDE_DIRS)
+  if(ae_PUBLIC_INCLUDE_DIRS)
     target_include_directories(${ae_NAME} PUBLIC "${ae_PUBLIC_INCLUDE_DIRS}")
   endif()
 
   # Add optional private include directories
-  if(DEFINED ae_PRIVATE_INCLUDE_DIRS)
+  if(ae_PRIVATE_INCLUDE_DIRS)
     target_include_directories(${ae_NAME} PRIVATE "${ae_PRIVATE_INCLUDE_DIRS}")
   endif()
 
   # Add optional interface include directories
-  if(DEFINED ae_INTERFACE_INCLUDE_DIRS)
+  if(ae_INTERFACE_INCLUDE_DIRS)
     target_include_directories(${ae_NAME} INTERFACE "${ae_INTERFACE_INCLUDE_DIRS}")
   endif()
 endfunction()

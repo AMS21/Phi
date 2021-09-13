@@ -3,14 +3,26 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/conjunction.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <bool... Bs>
-struct disjunction : bool_constant<!conjunction<!Bs...>::value>
+template <typename...>
+struct disjunction : public false_type
 {};
+
+template <typename B1>
+struct disjunction<B1> : B1
+{};
+
+template <typename B1, typename... Bn>
+struct disjunction<B1, Bn...> : conditional_t<bool(B1::value), B1, disjunction<Bn...>>
+{};
+
+template <typename... B>
+PHI_INLINE_VARIABLE constexpr bool disjunction_v = disjunction<B...>::value;
 
 DETAIL_PHI_END_NAMESPACE()
 

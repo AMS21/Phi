@@ -5,17 +5,13 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
+#include "Phi/TypeTraits/internals.hpp"
 #include "Phi/TypeTraits/is_not_same.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    struct two
-    {
-        char lx[2];
-    };
-
     struct is_referenceable_impl
     {
         template <class TypeT>

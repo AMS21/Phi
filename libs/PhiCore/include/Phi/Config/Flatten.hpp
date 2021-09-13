@@ -1,11 +1,9 @@
 #ifndef INCG_PHI_CORE_CONFIG_FLATTEN_HPP
 #define INCG_PHI_CORE_CONFIG_FLATTEN_HPP
 
-#include "Phi/PhiConfig.hpp"
+#include "Phi/CompilerSupport/Features.hpp"
 
-#include "Phi/Config/Compiler.hpp"
-
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_ATLEAST(CLANG, 3, 5, 0)
+#if PHI_HAS_EXTENSION_ATTRIBUTE_FLATTEN()
 #    define PHI_FLATTEN __attribute__((flatten))
 #else
 #    define PHI_FLATTEN /* Nothing */

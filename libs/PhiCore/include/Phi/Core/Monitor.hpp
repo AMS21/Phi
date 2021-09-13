@@ -2,9 +2,10 @@
 #define INCG_PHI_CORE_MONITOR_HPP
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Invoke.hpp"
+#include "Phi/Core/Move.hpp"
 #include "Phi/PhiConfig.hpp"
-#include <functional>
 #include <mutex>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -40,7 +41,7 @@ public:
 
     template <typename... ArgsT>
     constexpr Monitor(ArgsT&&... args) noexcept
-        : m_SharedData(std::forward<ArgsT>(args)...)
+        : m_SharedData(forward<ArgsT>(args)...)
         , m_Mutex()
     {}
 
@@ -49,7 +50,7 @@ public:
 	* \param shared_data the data to be protected by the Monitor.
 	**/
     constexpr explicit Monitor(SharedDataT shared_data) noexcept
-        : m_SharedData(std::move(shared_data))
+        : m_SharedData(move(shared_data))
         , m_Mutex()
     {}
 
@@ -69,7 +70,7 @@ public:
     auto operator()(CallableT&& callable) const -> decltype(auto)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
-        return invoke(std::forward<CallableT>(callable), m_SharedData);
+        return invoke(forward<CallableT>(callable), m_SharedData);
     }
 
     PHI_NODISCARD monitor_helper ManuallyLock() noexcept

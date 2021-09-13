@@ -266,6 +266,7 @@ TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
 
     SECTION("operator-(const Vector2&)")
     {
+        /*
         CONSTEXPR_RUNTIME phi::Vector2<phi::i32> b1(12, 32);
         CONSTEXPR_RUNTIME phi::Vector2<phi::i32> r1 = -b1;
 
@@ -289,6 +290,7 @@ TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
 
         STATIC_REQUIRE(bool(r4.x == -8));
         STATIC_REQUIRE(bool(r4.y == 0));
+        */
     }
 }
 

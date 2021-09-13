@@ -6,12 +6,7 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/remove_cv.hpp"
-
-namespace std
-{
-    template <typename TypeT>
-    class reference_wrapper;
-}
+#include <functional>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

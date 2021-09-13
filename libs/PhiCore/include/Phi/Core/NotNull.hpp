@@ -4,9 +4,19 @@
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/Declval.hpp"
+#include "Phi/Core/Forward.hpp"
+#include "Phi/Core/Move.hpp"
+#include "Phi/Core/Nullptr.hpp"
 #include "Phi/PhiConfig.hpp"
+#include "Phi/TypeTraits/conditional.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_convertible.hpp"
+#include "Phi/TypeTraits/is_copy_constructible.hpp"
+#include "Phi/TypeTraits/is_same.hpp"
+#include "Phi/TypeTraits/remove_cv.hpp"
+#include "Phi/TypeTraits/remove_reference.hpp"
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -21,37 +31,34 @@ template <typename TypeT>
 class NotNull
 {
 private:
-    static_assert(std::is_convertible<decltype(std::declval<TypeT>() != nullptr), bool>::value,
+    static_assert(is_convertible<decltype(declval<TypeT>() != nullptr), bool>::value,
                   "Phi::NotNull: Type cannot be compared to nullptr.");
 
 public:
-    template <typename = std::enable_if_t<!std::is_same<std::nullptr_t, TypeT>::value>>
+    template <typename = enable_if_t<!is_same<nullptr_t, TypeT>::value>>
     constexpr explicit NotNull(TypeT other) noexcept
-        : m_Pointer(std::move(other))
+        : m_Pointer(move(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT,
-              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
+    template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
     constexpr explicit NotNull(OtherT&& other) noexcept
-        : m_Pointer(std::forward(other))
+        : m_Pointer(forward(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT,
-              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
+    template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
     constexpr NotNull(const NotNull<OtherT>& other) noexcept
         : NotNull(other.get())
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
-    template <typename OtherT,
-              typename = std::enable_if_t<std::is_convertible<OtherT, TypeT>::value>>
+    template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
     constexpr NotNull(NotNull<OtherT>&& other) noexcept
-        : NotNull(std::move(other.get()))
+        : NotNull(move(other.get()))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
@@ -63,7 +70,7 @@ public:
     }
 
     constexpr NotNull(NotNull&& other) noexcept
-        : m_Pointer(std::move(other.m_Pointer))
+        : m_Pointer(move(other.m_Pointer))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
@@ -79,24 +86,24 @@ public:
 
     constexpr NotNull& operator=(NotNull&& other) noexcept
     {
-        m_Pointer = std::move(other.m_Pointer);
+        m_Pointer = move(other.m_Pointer);
 
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
 
         return *this;
     }
 
-    PHI_NODISCARD constexpr typename std::conditional<std::is_copy_constructible<TypeT>::value,
-                                                      TypeT, const TypeT&>::type
-    get() const noexcept
+    PHI_NODISCARD constexpr
+            typename conditional<is_copy_constructible<TypeT>::value, TypeT, const TypeT&>::type
+            get() const noexcept
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::ReturnNullptrError);
         return m_Pointer;
     }
 
     // Disallow compilation with nullptr constant
-    NotNull(std::nullptr_t) = delete;
-    NotNull& operator=(std::nullptr_t) = delete;
+    NotNull(nullptr_t) = delete;
+    NotNull& operator=(nullptr_t) = delete;
 
     // Explicitly remove pointer operations
     NotNull& operator++()                     = delete;
@@ -114,7 +121,7 @@ private:
 template <typename TypeT>
 auto make_not_null(TypeT&& val) noexcept
 {
-    return NotNull<std::remove_cv_t<std::remove_reference_t<TypeT>>>{std::forward<TypeT>(val)};
+    return NotNull<remove_cv_t<remove_reference_t<TypeT>>>{forward<TypeT>(val)};
 }
 
 DETAIL_PHI_END_NAMESPACE()

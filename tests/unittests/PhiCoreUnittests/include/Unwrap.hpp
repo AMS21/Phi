@@ -7,7 +7,8 @@
 #include <Phi/Core/Conversion.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
-#include <type_traits>
+#include <Phi/TypeTraits/integral_constant.hpp>
+#include <Phi/TypeTraits/is_safe_type.hpp>
 #include <utility>
 
 template <typename TypeT>
@@ -41,7 +42,7 @@ namespace detail
 {
     template <typename TypeT>
     PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap_impl(TypeT          source,
-                                                           std::true_type is_safe_type) noexcept
+                                                           phi::true_type is_safe_type) noexcept
     {
         PHI_UNUSED_PARAMETER(is_safe_type);
 
@@ -50,7 +51,7 @@ namespace detail
 
     template <typename TypeT>
     PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap_impl(TypeT           source,
-                                                           std::false_type is_safe_type) noexcept
+                                                           phi::false_type is_safe_type) noexcept
     {
         PHI_UNUSED_PARAMETER(is_safe_type);
 
@@ -61,12 +62,7 @@ namespace detail
 template <typename TypeT>
 PHI_NODISCARD constexpr unwrapped_t<TypeT> unwrap(TypeT source) noexcept
 {
-    using is_safe_type_t = typename std::integral_constant<
-            bool, phi::detail::is_floatingpoint_specialization<TypeT>::value ||
-                          phi::detail::is_integer_specilization<TypeT>::value ||
-                          phi::detail::is_boolean_specilization<TypeT>::value>;
-
-    return detail::unwrap_impl(source, is_safe_type_t{});
+    return detail::unwrap_impl(source, phi::is_safe_type<TypeT>{});
 }
 
 #endif // INCG_UNITTEST_UNWRAP_HPP

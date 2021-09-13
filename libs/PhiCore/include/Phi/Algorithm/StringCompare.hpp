@@ -7,9 +7,9 @@
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Types.hpp"
+#include "Phi/TypeTraits/make_signed.hpp"
+#include <Phi/Core/Nullptr.hpp>
 #include <cstddef>
-#include <functional>
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -25,17 +25,17 @@ PHI_NODISCARD constexpr i32 StringCompare(const CharT* lhs, const CharT* rhs) no
         ++rhs;
     }
 
-    using SignedCharT = typename std::make_signed<CharT>::type;
+    using SignedCharT = typename make_signed<CharT>::type;
 
     return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 StringCompare(const CharT*, std::nullptr_t) noexcept = delete;
+PHI_NODISCARD constexpr i32 StringCompare(const CharT*, nullptr_t) noexcept = delete;
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 StringCompare(std::nullptr_t, const CharT*) noexcept = delete;
+PHI_NODISCARD constexpr i32 StringCompare(nullptr_t, const CharT*) noexcept = delete;
 
 template <typename CharT>
 PHI_NODISCARD constexpr i32 StringCompare(const CharT* lhs, const CharT* rhs, usize count) noexcept
@@ -49,17 +49,17 @@ PHI_NODISCARD constexpr i32 StringCompare(const CharT* lhs, const CharT* rhs, us
         ++rhs;
     }
 
-    using SignedCharT = typename std::make_signed<CharT>::type;
+    using SignedCharT = typename make_signed<CharT>::type;
 
     return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 StringCompare(const CharT*, std::nullptr_t, usize) noexcept = delete;
+PHI_NODISCARD constexpr i32 StringCompare(const CharT*, nullptr_t, usize) noexcept = delete;
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 StringCompare(std::nullptr_t, const CharT*, usize) noexcept = delete;
+PHI_NODISCARD constexpr i32 StringCompare(nullptr_t, const CharT*, usize) noexcept = delete;
 
 template <typename CharT>
 PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, const CharT* rhs) noexcept
@@ -84,14 +84,14 @@ PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, const CharT* rhs
         ++rhs;
     }
 
-    using SignedCharT = typename std::make_signed<CharT>::type;
+    using SignedCharT = typename make_signed<CharT>::type;
 
     return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, std::nullptr_t) noexcept
+PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, nullptr_t) noexcept
 {
     if (lhs == nullptr)
     {
@@ -102,7 +102,7 @@ PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, std::nullptr_t) 
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 SafeStringCompare(std::nullptr_t, const CharT* rhs) noexcept
+PHI_NODISCARD constexpr i32 SafeStringCompare(nullptr_t, const CharT* rhs) noexcept
 {
     if (rhs == nullptr)
     {
@@ -135,14 +135,14 @@ PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, const CharT* rhs
         ++rhs;
     }
 
-    using SignedCharT = typename std::make_signed<CharT>::type;
+    using SignedCharT = typename make_signed<CharT>::type;
 
     return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, std::nullptr_t, usize size) noexcept
+PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, nullptr_t, usize size) noexcept
 {
     PHI_UNUSED_PARAMETER(size);
 
@@ -155,7 +155,7 @@ PHI_NODISCARD constexpr i32 SafeStringCompare(const CharT* lhs, std::nullptr_t, 
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr i32 SafeStringCompare(std::nullptr_t, const CharT* rhs, usize size) noexcept
+PHI_NODISCARD constexpr i32 SafeStringCompare(nullptr_t, const CharT* rhs, usize size) noexcept
 {
     PHI_UNUSED_PARAMETER(size);
 

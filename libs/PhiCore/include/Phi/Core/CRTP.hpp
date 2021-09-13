@@ -1,8 +1,9 @@
 #ifndef INCG_PHI_CORE_CRTP_HPP
 #define INCG_PHI_CORE_CRTP_HPP
 
-#include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/PhiConfig.hpp"
+
+#include "Phi/CompilerSupport/Nodiscard.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
