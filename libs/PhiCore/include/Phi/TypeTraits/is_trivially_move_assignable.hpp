@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/add_lvalue_reference.hpp"
 #include "Phi/TypeTraits/add_rvalue_reference.hpp"

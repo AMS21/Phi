@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/TypeTraits/copy_cv.hpp"
 #include "Phi/TypeTraits/is_enum.hpp"
 #include "Phi/TypeTraits/is_integral.hpp"

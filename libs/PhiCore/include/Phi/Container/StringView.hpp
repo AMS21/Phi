@@ -1,13 +1,18 @@
 #ifndef INCG_PHI_CONTAINER_STRING_VIEW_HPP
 #define INCG_PHI_CONTAINER_STRING_VIEW_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Algorithm/StringLength.hpp"
 #include "Phi/CompilerSupport/Char8_t.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Nullptr.hpp"
 #include "Phi/Core/Types.hpp"
-#include "Phi/PhiConfig.hpp"
 #include "Phi/TypeTraits/is_array.hpp"
 #include "Phi/TypeTraits/is_same.hpp"
 #include "Phi/TypeTraits/is_standard_layout.hpp"

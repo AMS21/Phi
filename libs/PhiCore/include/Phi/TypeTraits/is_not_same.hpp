@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
@@ -13,7 +17,7 @@ struct is_not_same : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_same<TypeT, TypeT> : false_type
+struct is_not_same<TypeT, TypeT> : public false_type
 {};
 
 template <typename TypeT, typename OtherT>

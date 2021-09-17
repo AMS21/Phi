@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
@@ -21,11 +25,11 @@ PHI_INLINE_VARIABLE constexpr bool is_rvalue_reference_v = __is_rvalue_reference
 #else
 
 template <typename TypeT>
-struct is_rvalue_reference : false_type
+struct is_rvalue_reference : public false_type
 {};
 
 template <typename TypeT>
-struct is_rvalue_reference<TypeT&&> : true_type
+struct is_rvalue_reference<TypeT&&> : public true_type
 {};
 
 template <typename TypeT>

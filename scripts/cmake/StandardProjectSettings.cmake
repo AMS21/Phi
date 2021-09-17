@@ -71,7 +71,7 @@ endif()
 # Color diagnostics
 if(PHI_COLOR_DIAGNOSTICS)
   phi_trace("Enabling color diagnostics")
-  
+
   if(PHI_COMPILER_CLANG)
     target_compile_options(phi_project_options INTERFACE -fcolor-diagnostics)
   elseif(PHI_COMPILER_GCC)

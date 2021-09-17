@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_safe_integer.hpp"

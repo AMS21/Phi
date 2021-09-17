@@ -3,26 +3,32 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include <type_traits>
+#include "Phi/TypeTraits/integral_constant.hpp"
+#include "Phi/TypeTraits/is_convertible.hpp"
+#include "Phi/TypeTraits/is_enum.hpp"
+#include "Phi/TypeTraits/to_underlying.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
     template <typename TypeT, bool IsEnum>
-    struct is_scoped_enum_impl : std::false_type
+    struct is_scoped_enum_impl : false_type
     {};
 
     template <typename TypeT>
     struct is_scoped_enum_impl<TypeT, true>
-        : std::integral_constant<bool,
-                                 !std::is_convertible<TypeT, std::underlying_type_t<TypeT>>::value>
+        : bool_constant<!is_convertible<TypeT, underlying_type_t<TypeT>>::value>
     {};
 } // namespace detail
 
 template <typename TypeT>
-struct is_scoped_enum : detail::is_scoped_enum_impl<TypeT, std::is_enum<TypeT>::value>
+struct is_scoped_enum : public detail::is_scoped_enum_impl<TypeT, is_enum<TypeT>::value>
 {};
 
 template <typename TypeT>

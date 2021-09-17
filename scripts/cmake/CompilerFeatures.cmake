@@ -10,6 +10,8 @@ check_cxx_source_compiles("int main() { char8_t c; }" PHI_HAS_FEATURE_CHAR8_T)
 check_cxx_source_compiles("inline int i; int main() {}" PHI_HAS_FEATURE_INLINE_VARIABLES)
 check_cxx_source_compiles("int main() { using T = void() noexcept; }"
                           PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE)
+check_cxx_source_compiles("[[nodiscard]] int f() { return 3; } int main() {}"
+                          PHI_HAS_FEATURE_NODISCARD)
 
 # Lib
 check_cxx_source_compiles("#include <string_view>
@@ -122,11 +124,17 @@ check_cxx_source_compiles("__attribute__((always_inline)) inline void f(){} int 
                           PHI_HAS_EXTENSION_ATTRIBUTE_ALWAYS_INLINE)
 check_cxx_source_compiles("__attribute__((noinline)) void f(){} int main() {}"
                           PHI_HAS_EXTENSION_ATTRIBUTE_NOINLINE)
+check_cxx_source_compiles("__attribute__((warn_unused_result)) int f() { return 3; } int main() {}"
+                          PHI_HAS_EXTENSION_ATTRIBUTE_WARN_UNUSED_RESULT)
 check_cxx_source_compiles("__forceinline void f(){} int main() {}" PHI_HAS_EXTENSION_FORCEINLINE)
 check_cxx_source_compiles("__declspec(noinline) void f(){} int main() {}"
                           PHI_HAS_EXTENSION_DECLSPEC_NOINLINE)
 check_cxx_source_compiles("int main() { __builtin_expect(true, 1); }"
                           PHI_HAS_EXTENSION_BUILTIN_EXPECT)
+check_cxx_source_compiles("#pragma once
+int main() {}" PHI_HAS_EXTENSION_PRAGMA_ONCE)
+check_cxx_source_compiles("_Check_return_ int f() { return 3; } int main() {}"
+                          PHI_HAS_EXTENSION_CHECK_RETURN)
 
 # configure file
 configure_file("scripts/cmake/Features.hpp.in"

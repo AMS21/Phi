@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/remove_cv.hpp"
@@ -13,16 +17,17 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT>
-    struct is_reference_wrapper_impl : false_type
+    struct is_reference_wrapper_impl : public false_type
     {};
 
     template <typename TypeT>
-    struct is_reference_wrapper_impl<std::reference_wrapper<TypeT>> : true_type
+    struct is_reference_wrapper_impl<std::reference_wrapper<TypeT>> : public true_type
     {};
 } // namespace detail
 
 template <typename TypeT>
-struct is_reference_wrapper : detail::is_reference_wrapper_impl<typename remove_cv<TypeT>::type>
+struct is_reference_wrapper
+    : public detail::is_reference_wrapper_impl<typename remove_cv<TypeT>::type>
 {};
 
 template <typename TypeT>

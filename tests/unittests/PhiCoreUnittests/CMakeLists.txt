@@ -31,7 +31,7 @@ file(
   "src/Core/At.test.cpp"
   "src/Core/Boolean.test.cpp"
   "src/Core/Conversion.test.cpp"
-  "ssrc/Core/Declval.test.cpp"
+  "src/Core/Declval.test.cpp"
   "src/Core/FlatPtr.test.cpp"
   "src/Core/FloatingPoint.test.cpp"
   "src/Core/Forward.test.cpp"
@@ -59,6 +59,7 @@ file(
   "src/Selftest/ConstexprHelper.test.cpp"
   "src/Selftest/Unwrap.test.cpp"
   # TypeTraits
+  "src/TypeTraits/detail/yes_no_type.test.cpp"
   "src/TypeTraits/add_const.test.cpp"
   "src/TypeTraits/add_cv.test.cpp"
   "src/TypeTraits/add_lvalue_reference.test.cpp"
@@ -140,12 +141,12 @@ foreach(file IN ITEMS ${TEST_SOURCES})
 
   # Normal test
   phi_add_executable(NAME ${dynamic_name} SOURCES ${file} FOLDER "Tests/Unittests/Dynamic" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Catch2::Catch2WithMain PRIVATE_INCLUDE_DIRS "include")
+  target_compile_definitions(${dynamic_name} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
   phi_enable_static_analyzers(${dynamic_name})
   phi_add_test(TARGET ${dynamic_name})
 
   # Constexpr test
   phi_add_executable(NAME ${static_name} SOURCES ${file} FOLDER "Tests/Unittests/Constexpr" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Catch2::Catch2WithMain PRIVATE_INCLUDE_DIRS "include")
-  target_compile_definitions(${static_name} PRIVATE CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
   phi_enable_static_analyzers(${static_name})
   phi_add_test(TARGET ${static_name})
 endforeach()

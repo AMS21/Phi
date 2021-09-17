@@ -3,11 +3,15 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Core/Declval.hpp"
+#include "Phi/TypeTraits/detail/yes_no_type.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/internals.hpp"
 #include "Phi/TypeTraits/is_function.hpp"
 #include "Phi/TypeTraits/is_reference.hpp"
 #include "Phi/TypeTraits/remove_all_extents.hpp"
@@ -37,13 +41,13 @@ namespace detail
     struct is_destructor_wellformed
     {
         template <typename Type1T>
-        static char test(
+        static yes_type test(
                 typename is_destructible_apply<decltype(declval<Type1T&>().~Type1T())>::type);
 
         template <typename Type1T>
-        static two test(...);
+        static no_type test(...);
 
-        static const bool value = sizeof(test<TypeT>(12)) == sizeof(char);
+        static const bool value = sizeof(test<TypeT>(12)) == sizeof_yes_type;
     };
 
     template <typename TypeT, bool>

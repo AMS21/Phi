@@ -1,6 +1,12 @@
 #ifndef INCG_PHI_UTILITY_ASSERT_HPP
 #define INCG_PHI_UTILITY_ASSERT_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Config/Assume.hpp"
 #include "Phi/Config/CurrentFunction.hpp"
 #include "Phi/Config/Likely.hpp"
@@ -9,7 +15,6 @@
 #include "Phi/Config/Unreachable.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Log.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <spdlog/fmt/fmt.h>
 #include <cstdlib>
 #include <iostream>

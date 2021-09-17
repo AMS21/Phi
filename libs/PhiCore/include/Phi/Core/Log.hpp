@@ -1,10 +1,15 @@
 #ifndef INCG_PHI_UTILITY_LOG_HPP
 #define INCG_PHI_UTILITY_LOG_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/FunctionLikeMacro.hpp"
 #include "Phi/Config/Warning.hpp"
-#include "Phi/PhiConfig.hpp"
 
 PHI_EXTERNAL_HEADERS_BEGIN()
 #include <spdlog/spdlog.h>

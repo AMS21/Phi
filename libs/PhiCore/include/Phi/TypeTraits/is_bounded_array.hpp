@@ -3,17 +3,21 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_bounded_array : false_type
+struct is_bounded_array : public false_type
 {};
 
 template <typename TypeT, std::size_t SizeT>
-struct is_bounded_array<TypeT[SizeT]> : true_type
+struct is_bounded_array<TypeT[SizeT]> : public true_type
 {};
 
 template <typename TypeT>

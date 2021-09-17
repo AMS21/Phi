@@ -1,11 +1,16 @@
 #ifndef INCG_PHI_CORE_MONITOR_HPP
 #define INCG_PHI_CORE_MONITOR_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Invoke.hpp"
 #include "Phi/Core/Move.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <mutex>
 
 DETAIL_PHI_BEGIN_NAMESPACE()

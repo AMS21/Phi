@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Config/Compiler.hpp"
@@ -12,7 +16,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_VOID() && PHI_HAS_KEYWORD(__is_pointer)
+#if PHI_HAS_INTRINSIC_IS_VOID() && PHI_HAS_KEYWORD(__is_void)
 
 template <typename TypeT>
 struct is_void : public bool_constant<__is_void(TypeT)>

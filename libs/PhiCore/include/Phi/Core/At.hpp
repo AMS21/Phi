@@ -1,9 +1,14 @@
 #ifndef INCG_PHI_UTILITY_AT_HPP
 #define INCG_PHI_UTILITY_AT_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
-#include "Phi/PhiConfig.hpp"
 #include <cstdint>
 #include <initializer_list>
 

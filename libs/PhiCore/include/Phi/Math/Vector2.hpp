@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Move.hpp"
 #include "Phi/Core/Types.hpp"

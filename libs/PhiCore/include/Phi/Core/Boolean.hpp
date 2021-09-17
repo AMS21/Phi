@@ -27,9 +27,14 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_BOOLEAN_HPP
 #define INCG_PHI_UTILITY_BOOLEAN_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
-#include "Phi/PhiConfig.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_bool.hpp"
 #include <functional>

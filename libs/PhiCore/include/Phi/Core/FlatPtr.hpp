@@ -1,11 +1,16 @@
 #ifndef INCG_PHI_CORE_FLAT_PTR_HPP
 #define INCG_PHI_CORE_FLAT_PTR_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core//Nullptr.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
-#include "Phi/PhiConfig.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_pointer.hpp"
 #include <cstdint>

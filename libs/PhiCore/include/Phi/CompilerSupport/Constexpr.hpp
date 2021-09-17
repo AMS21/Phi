@@ -1,9 +1,14 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_CONSTEXPR_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_CONSTEXPR_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Config/Compiler.hpp"
-#include "Phi/PhiConfig.hpp"
 
 // Support for C++-11 constexpr
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2235.pdf

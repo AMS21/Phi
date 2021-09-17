@@ -3,7 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
-#include "Phi/CompilerSupport/Features.hpp"
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Config/Compiler.hpp"

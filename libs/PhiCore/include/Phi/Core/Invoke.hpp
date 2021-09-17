@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Core/Forward.hpp"
 #include "Phi/TypeTraits/invoke_result.hpp"
 #include "Phi/TypeTraits/is_invocable.hpp"

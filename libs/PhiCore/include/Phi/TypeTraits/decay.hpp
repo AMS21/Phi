@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/TypeTraits/add_pointer.hpp"
 #include "Phi/TypeTraits/conditional.hpp"
 #include "Phi/TypeTraits/is_array.hpp"

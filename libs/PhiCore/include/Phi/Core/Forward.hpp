@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/Config/Inline.hpp"
 #include "Phi/TypeTraits/is_lvalue_reference.hpp"
 #include "Phi/TypeTraits/remove_reference.hpp"

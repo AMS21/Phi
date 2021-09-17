@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/TypeTraits/remove_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()

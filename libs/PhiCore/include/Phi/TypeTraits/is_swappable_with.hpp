@@ -3,11 +3,16 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/is_not_same.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 #include "Phi/TypeTraits/nat.hpp"
-#include <type_traits>
+#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -18,7 +23,7 @@ namespace detail
     struct is_swappable_with_impl
     {
         template <typename LhsT, typename RhsT>
-        static decltype(std::swap(std::declval<LhsT>(), std::declval<RhsT>())) test_swap(int);
+        static decltype(std::swap(declval<LhsT>(), declval<RhsT>())) test_swap(int);
 
         template <typename, typename>
         static nat test_swap(long);
@@ -31,7 +36,7 @@ namespace detail
     };
 
     template <typename TypeT, typename OtherT>
-    struct is_swappable_with_impl<TypeT, OtherT, false> : false_type
+    struct is_swappable_with_impl<TypeT, OtherT, false> : public false_type
     {};
 } // namespace detail
 

@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
