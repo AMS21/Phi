@@ -19,8 +19,12 @@ template <typename TypeT>
 struct is_polymorphic : public bool_constant<__is_polymorphic(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = __is_polymorphic(TypeT);
+
+#    endif
 
 #else
 
@@ -39,8 +43,12 @@ template <typename TypeT>
 struct is_polymorphic : public decltype(detail::detect_is_polymorphic<TypeT>(nullptr))
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = is_polymorphic<TypeT>::value;
+
+#    endif
 
 #endif
 

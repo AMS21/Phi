@@ -1,11 +1,11 @@
-#include "Phi/TypeTraits/is_safe_bool.hpp"
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "SameType.hpp"
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Nullptr.hpp>
-#include <Phi/TypeTraits/is_same.hpp>
+#include <Phi/TypeTraits/is_safe_bool.hpp>
 #include <Phi/TypeTraits/make_safe.hpp>
 
 class Class
@@ -66,16 +66,15 @@ using FunctionPtr = void (*)();
 template <typename InT, typename OutT>
 void test_make_safe()
 {
-    STATIC_REQUIRE(phi::is_same_v<typename phi::make_safe<InT>::type, OutT>);
-    STATIC_REQUIRE(phi::is_same_v<typename phi::make_safe<const InT>::type, const OutT>);
-    STATIC_REQUIRE(phi::is_same_v<typename phi::make_safe<volatile InT>::type, volatile OutT>);
-    STATIC_REQUIRE(
-            phi::is_same_v<typename phi::make_safe<const volatile InT>::type, const volatile OutT>);
+    CHECK_SAME_TYPE(typename phi::make_safe<InT>::type, OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe<const InT>::type, const OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe<volatile InT>::type, volatile OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe<const volatile InT>::type, const volatile OutT);
 
-    STATIC_REQUIRE(phi::is_same_v<phi::make_safe_t<InT>, OutT>);
-    STATIC_REQUIRE(phi::is_same_v<phi::make_safe_t<const InT>, const OutT>);
-    STATIC_REQUIRE(phi::is_same_v<phi::make_safe_t<volatile InT>, volatile OutT>);
-    STATIC_REQUIRE(phi::is_same_v<phi::make_safe_t<const volatile InT>, const volatile OutT>);
+    CHECK_SAME_TYPE(typename phi::make_safe_t<InT>, OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe_t<const InT>, const OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe_t<volatile InT>, volatile OutT);
+    CHECK_SAME_TYPE(typename phi::make_safe_t<const volatile InT>, const volatile OutT);
 }
 
 TEST_CASE("make_safe", "[TypeTraits][make_safe]")

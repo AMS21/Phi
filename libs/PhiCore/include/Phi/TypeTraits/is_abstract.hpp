@@ -20,6 +20,12 @@ template <typename TypeT>
 struct is_abstract : public bool_constant<__is_abstract(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_abstract_v = __is_abstract(TypeT);
+
+#    endif
 #else
 
 template <typename TypeT>
@@ -28,10 +34,14 @@ struct is_abstract : public false_type
     static_assert(always_false<TypeT>, "phi::is_abstract requires compiler support");
 };
 
-#endif
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_abstract_v = is_abstract<TypeT>::value;
+
+#    endif
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

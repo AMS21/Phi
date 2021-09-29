@@ -20,7 +20,7 @@
 #endif
 
 /* Clang/Emscripten Warnings */
-#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(EMCC)
+#if PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_CLANG_SUPPRESS_WARNING_PUSH()   PHI_PRAGMA(clang diagnostic push)
 #    define PHI_CLANG_SUPPRESS_WARNING(warning) PHI_PRAGMA(clang diagnostic ignored warning)
 #    define PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH(warning)                                          \
@@ -65,9 +65,6 @@
 #else
 #    define PHI_COMPILER_WARNING(msg) /* Nothing */
 #endif
-
-#define PHI_UNUSED_PARAMETER(parameter) ((void)(parameter))
-#define PHI_UNUSED_VARIABLE(variable)   ((void)(variable))
 
 // External Warnings
 #if PHI_COMPILER_IS(MSVC)

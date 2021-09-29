@@ -21,8 +21,12 @@ template <typename TypeT>
 struct is_standard_layout : public bool_constant<__is_standard_layout(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_standard_layout_v = __is_standard_layout(TypeT);
+
+#    endif
 
 #else
 
@@ -30,8 +34,12 @@ template <typename TypeT>
 struct is_standard_layout : public bool_constant<is_scalar_v<remove_all_extents_t<TypeT>>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_standard_layout_v = is_standard_layout<TypeT>::value;
+
+#    endif
 
 #endif
 

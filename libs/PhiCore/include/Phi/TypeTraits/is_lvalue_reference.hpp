@@ -19,8 +19,12 @@ template <typename TypeT>
 struct is_lvalue_reference : public bool_constant<__is_lvalue_reference(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_lvalue_reference_v = __is_lvalue_reference(TypeT);
+
+#    endif
 
 #else
 
@@ -32,8 +36,12 @@ template <typename TypeT>
 struct is_lvalue_reference<TypeT&> : public true_type
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_lvalue_reference_v = is_lvalue_reference<TypeT>::value;
+
+#    endif
 
 #endif
 

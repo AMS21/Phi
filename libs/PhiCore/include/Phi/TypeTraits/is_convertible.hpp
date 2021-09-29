@@ -9,9 +9,9 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -21,8 +21,12 @@ template <typename FromT, typename ToT>
 struct is_convertible : public bool_constant<__is_convertible_to(FromT, ToT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename FromT, typename ToT>
 PHI_INLINE_VARIABLE constexpr bool is_convertible_v = __is_convertible_to(FromT, ToT);
+
+#    endif
 
 #else
 
@@ -36,7 +40,7 @@ namespace detail
 
     template <typename FromT, typename ToT>
     auto test_implicitly_convertible(int)
-            -> decltype(void(std::declval<void (&)(ToT)>()(std::declval<FromT>())), true_type{});
+            -> decltype(void(declval<void (&)(ToT)>()(declval<FromT>())), true_type{});
 
     template <typename, typename>
     auto test_implicitly_convertible(...) -> false_type;
@@ -51,8 +55,12 @@ struct is_convertible
                     (is_void_v<FromT> && is_void_v<ToT>)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename FromT, typename ToT>
 PHI_INLINE_VARIABLE constexpr bool is_convertible_v = is_convertible<FromT, ToT>::value;
+
+#    endif
 
 #endif
 

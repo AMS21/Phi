@@ -18,7 +18,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_enum_v<TypeT>>
+    template <typename TypeT, bool = is_enum<TypeT>::value>
     struct underlying_type_impl;
 
     template <typename TypeT>
@@ -33,7 +33,7 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-struct underlying_type : public detail::underlying_type_impl<TypeT, is_enum_v<TypeT>>
+struct underlying_type : public detail::underlying_type_impl<TypeT, is_enum<TypeT>::value>
 {};
 
 #else

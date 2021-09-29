@@ -23,7 +23,7 @@ namespace detail
 
     template <typename TypeT>
     struct is_scoped_enum_impl<TypeT, true>
-        : bool_constant<!is_convertible<TypeT, underlying_type_t<TypeT>>::value>
+        : public bool_constant<!is_convertible<TypeT, underlying_type_t<TypeT>>::value>
     {};
 } // namespace detail
 
@@ -31,8 +31,12 @@ template <typename TypeT>
 struct is_scoped_enum : public detail::is_scoped_enum_impl<TypeT, is_enum<TypeT>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scoped_enum_v = is_scoped_enum<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

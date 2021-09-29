@@ -12,31 +12,31 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 template <typename TypeT>
 struct remove_pointer
 {
-    using type = int;
+    using type = TypeT;
 };
 
 template <typename TypeT>
 struct remove_pointer<TypeT*>
 {
-    using type = int;
+    using type = TypeT;
 };
 
 template <typename TypeT>
 struct remove_pointer<TypeT* const>
 {
-    using type = int;
+    using type = TypeT;
 };
 
 template <typename TypeT>
 struct remove_pointer<TypeT* volatile>
 {
-    using type = int;
+    using type = TypeT;
 };
 
 template <typename TypeT>
 struct remove_pointer<TypeT* const volatile>
 {
-    using type = int;
+    using type = TypeT;
 };
 
 template <typename TypeT>

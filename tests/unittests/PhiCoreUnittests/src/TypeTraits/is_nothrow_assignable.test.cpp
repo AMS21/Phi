@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
@@ -8,7 +8,9 @@ template <typename T, typename U>
 void test_is_nothrow_assignable()
 {
     STATIC_REQUIRE(phi::is_nothrow_assignable<T, U>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_assignable_v<T, U>);
+#endif
 }
 
 template <typename T, typename U>
@@ -33,7 +35,9 @@ template <typename T, typename U>
 void test_is_not_nothrow_assignable()
 {
     STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<T, U>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable_v<T, U>);
+#endif
 }
 
 template <typename T, typename U>

@@ -19,9 +19,13 @@ struct is_nothrow_move_assignable
     : public is_nothrow_assignable<add_lvalue_reference_t<TypeT>, add_rvalue_reference_t<TypeT>>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_move_assignable_v =
         is_nothrow_move_assignable<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

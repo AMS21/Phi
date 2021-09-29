@@ -19,9 +19,13 @@ struct is_nothrow_copy_constructible
     : public is_nothrow_constructible<TypeT, add_lvalue_reference_t<add_const_t<TypeT>>>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_constructible_v =
         is_nothrow_copy_constructible<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/CompilerSupport/Features.hpp>
@@ -18,10 +18,12 @@ void test_is_integer()
     STATIC_REQUIRE(phi::is_integer<volatile TypeT>::value);
     STATIC_REQUIRE(phi::is_integer<const volatile TypeT>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_integer_v<TypeT>);
     STATIC_REQUIRE(phi::is_integer_v<const TypeT>);
     STATIC_REQUIRE(phi::is_integer_v<volatile TypeT>);
     STATIC_REQUIRE(phi::is_integer_v<const volatile TypeT>);
+#endif
 }
 
 template <typename TypeT>
@@ -32,10 +34,12 @@ void test_is_not_integer()
     STATIC_REQUIRE_FALSE(phi::is_integer<volatile TypeT>::value);
     STATIC_REQUIRE_FALSE(phi::is_integer<const volatile TypeT>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_integer_v<TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_integer_v<const TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_integer_v<volatile TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_integer_v<const volatile TypeT>);
+#endif
 }
 
 TEST_CASE("is_integer", "[TypeTraits][is_integer]")

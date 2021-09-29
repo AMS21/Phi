@@ -24,8 +24,12 @@ struct is_swappable
                          false_type>::type
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 constexpr PHI_INLINE_VARIABLE bool is_swappable_v = is_swappable<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/CompilerSupport/Char8_t.hpp>
@@ -16,10 +16,12 @@ void test_is_floating_point()
     STATIC_REQUIRE(phi::is_floating_point<volatile T>::value);
     STATIC_REQUIRE(phi::is_floating_point<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_floating_point_v<T>);
     STATIC_REQUIRE(phi::is_floating_point_v<const T>);
     STATIC_REQUIRE(phi::is_floating_point_v<volatile T>);
     STATIC_REQUIRE(phi::is_floating_point_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -30,10 +32,12 @@ void test_is_not_floating_point()
     STATIC_REQUIRE_FALSE(phi::is_floating_point<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_floating_point<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_floating_point")

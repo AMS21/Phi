@@ -20,8 +20,12 @@ template <typename TypeT>
 struct is_member_pointer : public bool_constant<__is_member_pointer(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_pointer_v = __is_member_pointer(TypeT);
+
+#    endif
 
 #else
 
@@ -40,8 +44,12 @@ template <typename TypeT>
 struct is_member_pointer : public detail::is_member_pointer_impl<remove_cv_t<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_pointer_v = is_member_pointer<TypeT>::value;
+
+#    endif
 
 #endif
 

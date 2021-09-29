@@ -10,10 +10,10 @@
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Core/Declval.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_constructible.hpp"
 #include "Phi/TypeTraits/is_reference.hpp"
-#include <cstdint>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -23,9 +23,13 @@ template <typename TypeT, typename... ArgsT>
 struct is_nothrow_constructible : public bool_constant<__is_nothrow_constructible(TypeT, ArgsT...)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_constructible_v =
         __is_nothrow_constructible(TypeT, ArgsT...);
+
+#    endif
 
 #else
 
@@ -62,14 +66,18 @@ struct is_nothrow_constructible
                                             is_reference_v<TypeT>, TypeT, ArgsT...>
 {};
 
-template <typename TypeT, std::size_t Dimension>
+template <typename TypeT, size_t Dimension>
 struct is_nothrow_constructible<TypeT[Dimension]>
     : detail::is_nothrow_constructible_impl<is_constructible_v<TypeT>, is_reference_v<TypeT>, TypeT>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_constructible_v =
         is_nothrow_constructible<TypeT, ArgsT...>::value;
+
+#    endif
 
 #endif
 

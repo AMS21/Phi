@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/TypeTraits/conjunction.hpp>
 #include <Phi/TypeTraits/integral_constant.hpp>
@@ -7,14 +7,19 @@ template <typename... ArgsT>
 void test_conjunction_true()
 {
     STATIC_REQUIRE(phi::conjunction<ArgsT...>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::conjunction_v<ArgsT...>);
+#endif
 }
 
 template <typename... ArgsT>
 void test_conjunction_false()
 {
     STATIC_REQUIRE_FALSE(phi::conjunction<ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::conjunction_v<ArgsT...>);
+#endif
 }
 
 struct True
@@ -103,10 +108,14 @@ TEST_CASE("conjunction")
 
     // Non bool values
     STATIC_REQUIRE(phi::conjunction<phi::integral_constant<int, 2>>::value == 2);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::conjunction_v<phi::integral_constant<int, 2>>);
+#endif
 
     STATIC_REQUIRE(phi::conjunction<phi::integral_constant<int, 2>,
                                     phi::integral_constant<int, 4>>::value == 4);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(
             phi::conjunction_v<phi::integral_constant<int, 2>, phi::integral_constant<int, 4>>);
+#endif
 }

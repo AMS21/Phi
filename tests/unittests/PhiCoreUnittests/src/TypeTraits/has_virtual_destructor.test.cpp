@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Phi/Core/Nullptr.hpp"
 #include "TestTypes.hpp"
@@ -12,10 +12,12 @@ void test_has_virtual_destructor()
     STATIC_REQUIRE(phi::has_virtual_destructor<volatile T>::value);
     STATIC_REQUIRE(phi::has_virtual_destructor<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE(phi::has_virtual_destructor_v<const T>);
     STATIC_REQUIRE(phi::has_virtual_destructor_v<volatile T>);
     STATIC_REQUIRE(phi::has_virtual_destructor_v<const volatile T>);
+#endif
 }
 
 template <class T>
@@ -26,10 +28,12 @@ void test_has_not_virtual_destructor()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<const T>);
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<const volatile T>);
+#endif
 }
 
 struct A

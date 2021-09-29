@@ -9,6 +9,7 @@
 
 #include "Phi/Algorithm/StringLength.hpp"
 #include "Phi/CompilerSupport/Char8_t.hpp"
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Nullptr.hpp"
@@ -43,12 +44,13 @@ public:
     using difference_type        = ptrdiff;
 
     // Static checks
-    static_assert(!is_array_v<value_type>,
+    static_assert(!is_array<value_type>::value,
                   "phi::BasicStringView: Character type must not be an array");
-    static_assert(is_standard_layout_v<value_type>,
+    static_assert(is_standard_layout<value_type>::value,
                   "phi::BasicStringView: Character type must be standard-layout");
-    static_assert(is_trivial_v<value_type>, "phi::BasicStringView: Character type must be trivial");
-    static_assert(is_same_v<value_type, typename traits_type::char_type>,
+    static_assert(is_trivial<value_type>::value,
+                  "phi::BasicStringView: Character type must be trivial");
+    static_assert(is_same<value_type, typename traits_type::char_type>::value,
                   "phi::BasicStringView: CharT must be the same type as traits_type::char_type");
 
     constexpr BasicStringView() noexcept
@@ -60,14 +62,14 @@ public:
 
     constexpr BasicStringView(BasicStringView&& other) noexcept = default;
 
-    constexpr BasicStringView(const CharT* string) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView(const CharT* string) noexcept
         : m_Data(string)
         , m_Size(StringLength(string))
     {
         PHI_DBG_ASSERT(string != nullptr, "Do not construct a BasicStringView with nullptr");
     }
 
-    constexpr BasicStringView(const CharT* string, size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView(const CharT* string, size_type count) noexcept
         : m_Data(string)
         , m_Size(count)
     {
@@ -81,11 +83,12 @@ public:
 
     ~BasicStringView() = default;
 
-    constexpr BasicStringView& operator=(const BasicStringView& other) noexcept = default;
+    PHI_EXTENDED_CONSTEXPR BasicStringView& operator=(const BasicStringView& other) noexcept =
+            default;
 
-    constexpr BasicStringView& operator=(BasicStringView&& other) noexcept = default;
+    PHI_EXTENDED_CONSTEXPR BasicStringView& operator=(BasicStringView&& other) noexcept = default;
 
-    constexpr BasicStringView& operator=(nullptr_t) noexcept = delete;
+    BasicStringView& operator=(nullptr_t) = delete;
 
     // Iterators
 
@@ -180,24 +183,24 @@ public:
 
     // Modifiers
 
-    constexpr void clear() noexcept
+    PHI_EXTENDED_CONSTEXPR void clear() noexcept
     {
         m_Data = nullptr;
         m_Size = 0u;
     }
 
-    constexpr void add_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR void add_prefix(size_type count) noexcept
     {
         m_Data -= count.get();
         m_Size += count;
     }
 
-    constexpr void add_postfix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR void add_postfix(size_type count) noexcept
     {
         m_Size += count;
     }
 
-    constexpr void remove_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR void remove_prefix(size_type count) noexcept
     {
         PHI_DBG_ASSERT(count <= size(), "Cannot remove more than size");
 
@@ -205,19 +208,19 @@ public:
         m_Size -= count;
     }
 
-    constexpr void remove_suffix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR void remove_suffix(size_type count) noexcept
     {
         PHI_DBG_ASSERT(count <= size(), "Cannot remove more than size");
 
         m_Size -= count;
     }
 
-    constexpr void resize(size_type new_size) noexcept
+    PHI_EXTENDED_CONSTEXPR void resize(size_type new_size) noexcept
     {
         m_Size = new_size;
     }
 
-    constexpr void swap(BasicStringView& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(BasicStringView& other) noexcept
     {
         const BasicStringView tmp(other);
         other = *this;
@@ -226,7 +229,8 @@ public:
 
     // String operations
 
-    constexpr size_type copy(CharT* destination, size_type count, size_type pos = 0u) const noexcept
+    PHI_EXTENDED_CONSTEXPR size_type copy(CharT* destination, size_type count,
+                                          size_type pos = 0u) const noexcept
     {
         PHI_DBG_ASSERT(pos <= size(), "Invalid position");
 
@@ -236,8 +240,8 @@ public:
         return rlen;
     }
 
-    PHI_NODISCARD constexpr BasicStringView substr(size_type pos   = 0u,
-                                                   size_type count = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR BasicStringView
+    substr(size_type pos = 0u, size_type count = npos) const noexcept
     {
         PHI_DBG_ASSERT(pos <= size(), "Invalid position");
 
@@ -248,6 +252,7 @@ public:
 
     PHI_NODISCARD constexpr i32 compare(BasicStringView other) const noexcept
     {
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         {
             const i32 result = TraitsT::compare(data(), other.data(),
                                                 std::min(size().get(), other.size().get()));
@@ -259,6 +264,19 @@ public:
         }
 
         return size() == other.size() ? 0 : size() < other.size() ? -1 : 1;
+
+#else
+
+        // Ugly C++-11 compatible version of the same code
+        return TraitsT::compare(data(), other.data(), std::min(size().get(), other.size().get())) !=
+                               0 ?
+                                        TraitsT::compare(data(), other.data(),
+                                        std::min(size().get(), other.size().get())) :
+               size() == other.size() ? 0 :
+               size() < other.size()  ? -1 :
+                                        1;
+
+#endif
     }
 
     PHI_NODISCARD constexpr i32 compare(size_type pos, size_type count,
@@ -341,7 +359,8 @@ public:
 
     // find
 
-    PHI_NODISCARD constexpr size_type find(BasicStringView view, size_type pos = 0u) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find(BasicStringView view,
+                                                        size_type       pos = 0u) const noexcept
     {
         PHI_DBG_ASSERT(view.size() == 0u || view.data() != nullptr, "Invalid argument view");
 
@@ -368,8 +387,8 @@ public:
 
     // rfind
 
-    PHI_NODISCARD constexpr size_type rfind(BasicStringView view,
-                                            size_type       pos = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type rfind(BasicStringView view,
+                                                         size_type       pos = npos) const noexcept
     {
         if (size() < view.size())
         {
@@ -435,8 +454,8 @@ public:
         return find_first_of(BasicStringView(string, count), pos);
     }
 
-    PHI_NODISCARD constexpr size_type find_last_of(BasicStringView view,
-                                                   size_type       pos = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find_last_of(BasicStringView view,
+                                                                size_type pos = npos) const noexcept
     {
         if (is_empty())
         {
@@ -493,8 +512,8 @@ public:
         return find_first_not_of(BasicStringView(string, count), pos);
     }
 
-    PHI_NODISCARD constexpr size_type find_last_not_of(BasicStringView view,
-                                                       size_type       pos = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type
+    find_last_not_of(BasicStringView view, size_type pos = npos) const noexcept
     {
         if (is_empty())
         {
@@ -529,7 +548,7 @@ public:
 
     // Constants
 
-    static constexpr size_type npos = size_type::max();
+    PHI_CONSTEXPR_AND_CONST static size_type npos = size_type::max();
 
 private:
     struct not_in_view
@@ -546,7 +565,7 @@ private:
         }
     };
 
-    PHI_NODISCARD constexpr const_reference data_at(size_type pos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
     {
         PHI_DBG_ASSERT(pos < size(), "Index out of bounds!");
 

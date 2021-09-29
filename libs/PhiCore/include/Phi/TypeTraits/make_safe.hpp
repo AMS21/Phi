@@ -30,9 +30,10 @@ namespace detail
     struct make_safe_impl
     {
         using type = conditional_t<
-                is_unsafe_bool_v<TypeT>, Boolean,
-                conditional_t<is_unsafe_floating_point_v<TypeT>, FloatingPoint<TypeT>,
-                              conditional_t<is_unsafe_integer_v<TypeT>, Integer<TypeT>, TypeT>>>;
+                is_unsafe_bool<TypeT>::value, Boolean,
+                conditional_t<
+                        is_unsafe_floating_point<TypeT>::value, FloatingPoint<TypeT>,
+                        conditional_t<is_unsafe_integer<TypeT>::value, Integer<TypeT>, TypeT>>>;
     };
 } // namespace detail
 

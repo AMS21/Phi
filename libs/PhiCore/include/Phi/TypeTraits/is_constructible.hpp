@@ -9,31 +9,122 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/Config/Compiler.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
-#include "Phi/TypeTraits/detail/yes_no_type.hpp"
+#include "Phi/TypeTraits/detail/intrinsics.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
+
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// GCCs implementation of of __is_constructible is bugged
-// See: TODO insert link
-#if PHI_HAS_INTRINSIC_IS_CONSTRUCTIBLE() && PHI_COMPILER_IS_NOT(GCC)
-
 template <typename TypeT, typename... ArgsT>
-struct is_constructible : public bool_constant<__is_constructible(TypeT, ArgsT...)>
+struct is_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_constructible_v = __is_constructible(TypeT, ArgsT...);
+PHI_INLINE_VARIABLE constexpr bool is_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
+
+#    endif
+
+DETAIL_PHI_END_NAMESPACE()
 
 #else
+
+#    include "Phi/Core/Declval.hpp"
+#    include "Phi/TypeTraits/detail/yes_no_type.hpp"
+#    include "Phi/TypeTraits/is_complete.hpp"
+#    include "Phi/TypeTraits/is_default_constructible.hpp"
+#    include "Phi/TypeTraits/is_destructible.hpp"
+#    include "Phi/TypeTraits/is_void.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+namespace detail
+{
+    struct is_constructible_imp
+    {
+        template <typename T, typename... TheArgs, typename = decltype(T(declval<TheArgs>()...))>
+
+        static yes_type test(int);
+        template <typename, typename...>
+
+        static no_type test(...);
+
+        template <typename T, typename Arg, typename = decltype(::new T(declval<Arg>()))>
+        static yes_type test1(int);
+
+        template <typename, typename>
+        static no_type test1(...);
+
+        template <typename T>
+        static yes_type ref_test(T);
+
+        template <typename T>
+        static no_type ref_test(...);
+    };
+} // namespace detail
+
+template <typename T, typename... ArgsT>
+struct is_constructible
+    : public bool_constant<sizeof(detail::is_constructible_imp::test<T, ArgsT...>(0)) ==
+                           detail::sizeof_yes_type>
+{
+    static_assert(is_complete<T>::value || is_void<T>::value,
+                  "The target type must be complete in order to test for constructibility");
+};
+
+template <typename T, typename ArgT>
+struct is_constructible<T, ArgT>
+    : public bool_constant<is_destructible<T>::value &&
+                           sizeof(detail::is_constructible_imp::test1<T, ArgT>(0)) ==
+                                   detail::sizeof_yes_type>
+{
+    static_assert(is_complete<T>::value || is_void<T>::value,
+                  "The target type must be complete in order to test for constructibility");
+};
+
+template <typename RefT, typename ArgT>
+struct is_constructible<RefT&, ArgT>
+    : public bool_constant<sizeof(detail::is_constructible_imp::ref_test<RefT&>(declval<ArgT>())) ==
+                           detail::sizeof_yes_type>
+{};
+
+template <typename RefT, typename ArgT>
+struct is_constructible<RefT&&, ArgT>
+    : public bool_constant<sizeof(detail::is_constructible_imp::ref_test<RefT&&>(
+                                   declval<ArgT>())) == detail::sizeof_yes_type>
+{};
+
+template <>
+struct is_constructible<void> : public false_type
+{};
+
+template <>
+struct is_constructible<void const> : public false_type
+{};
+
+template <>
+struct is_constructible<void const volatile> : public false_type
+{};
+
+template <>
+struct is_constructible<void volatile> : public false_type
+{};
+
+template <typename T>
+struct is_constructible<T> : public is_default_constructible<T>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_constructible_v = is_constructible<TypeT, ArgsT...>::value;
 
-#endif
+#    endif
 
 DETAIL_PHI_END_NAMESPACE()
+
+#endif
 
 #endif // INCG_PHI_CORE_TYPE_TRAITS_IS_CONSTRUCTIBLE_HPP

@@ -15,11 +15,15 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_arithmetic
-    : public bool_constant<is_unsafe_arithmetic_v<TypeT> || is_safe_arithmetic_v<TypeT>>
+    : public bool_constant<is_unsafe_arithmetic<TypeT>::value || is_safe_arithmetic<TypeT>::value>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_arithmetic_v = is_arithmetic<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

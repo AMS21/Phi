@@ -10,7 +10,7 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/detail/yes_no_type.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/is_not_same.hpp"
+#include "Phi/TypeTraits/is_same.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -32,8 +32,12 @@ struct is_referenceable
                                 detail::no_type>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 constexpr PHI_INLINE_VARIABLE bool is_referenceable_v = is_referenceable<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

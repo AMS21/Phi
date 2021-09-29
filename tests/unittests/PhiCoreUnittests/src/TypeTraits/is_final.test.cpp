@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Phi/Core/Nullptr.hpp"
 #include "TestTypes.hpp"
@@ -30,10 +30,12 @@ void test_is_final()
     STATIC_REQUIRE(phi::is_final<volatile T>::value);
     STATIC_REQUIRE(phi::is_final<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_final_v<T>);
     STATIC_REQUIRE(phi::is_final_v<const T>);
     STATIC_REQUIRE(phi::is_final_v<volatile T>);
     STATIC_REQUIRE(phi::is_final_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -44,10 +46,12 @@ void test_is_not_final()
     STATIC_REQUIRE_FALSE(phi::is_final<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_final<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_final_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_final_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_final_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_final_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_final")

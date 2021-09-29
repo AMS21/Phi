@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Move.hpp"
 #include "Phi/Core/Types.hpp"
@@ -37,7 +38,6 @@ public:
     using reverse_iterator       = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-public:
     constexpr Vector3(TypeT val_x, TypeT val_y, TypeT val_z) noexcept
         : x(val_x)
         , y(val_y)
@@ -104,7 +104,7 @@ public:
 
     // Operators
 
-    constexpr Vector3<TypeT>& operator=(const Vector3<TypeT>& other) noexcept
+    PHI_EXTENDED_CONSTEXPR Vector3<TypeT>& operator=(const Vector3<TypeT>& other) noexcept
     {
         x = other.x;
         y = other.y;
@@ -113,7 +113,7 @@ public:
         return *this;
     }
 
-    constexpr Vector3<TypeT>& operator=(Vector3<TypeT>&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR Vector3<TypeT>& operator=(Vector3<TypeT>&& other) noexcept
     {
         x = phi::move(other.x);
         y = phi::move(other.y);
@@ -139,7 +139,7 @@ constexpr Vector3<TypeT> operator+(const Vector3<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 {
-    static_assert(!is_integer_v<TypeT> || is_signed_v<TypeT>,
+    static_assert(!is_integer<TypeT>::value || is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector3<TypeT>(-rhs.x, -rhs.y, -rhs.z);
@@ -148,13 +148,14 @@ constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 // Binary Operators
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator+(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+constexpr Vector3<LhsT> operator+(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator+=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator+=(Vector3<LhsT>&       lhs,
+                                                 const Vector3<RhsT>& rhs) noexcept
 {
     lhs.x += rhs.x;
     lhs.y += rhs.y;
@@ -164,13 +165,14 @@ constexpr Vector3<LhsT>& operator+=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator-(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+constexpr Vector3<LhsT> operator-(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator-=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator-=(Vector3<LhsT>&       lhs,
+                                                 const Vector3<RhsT>& rhs) noexcept
 {
     lhs.x -= rhs.x;
     lhs.y -= rhs.y;
@@ -180,13 +182,13 @@ constexpr Vector3<LhsT>& operator-=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator*(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+constexpr Vector3<LhsT> operator*(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     lhs.x *= rhs;
     lhs.y *= rhs;
@@ -196,13 +198,13 @@ constexpr Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcep
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator/(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+constexpr Vector3<LhsT> operator/(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator/=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator/=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     lhs.x /= rhs;
     lhs.y /= rhs;

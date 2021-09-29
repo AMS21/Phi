@@ -19,8 +19,12 @@ template <typename TypeT>
 struct is_const : public bool_constant<__is_const(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_const_v = __is_const(TypeT);
+
+#    endif
 
 #else
 
@@ -32,8 +36,12 @@ template <typename TypeT>
 struct is_const<const TypeT> : public true_type
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_const_v = is_const<TypeT>::value;
+
+#    endif
 
 #endif
 

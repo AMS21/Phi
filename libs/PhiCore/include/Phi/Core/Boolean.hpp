@@ -50,7 +50,7 @@ class Boolean;
 namespace detail
 {
     template <typename TypeT>
-    using enable_if_boolean_t = enable_if_t<is_bool_v<TypeT>>;
+    using enable_if_boolean_t = enable_if_t<is_bool<TypeT>::value>;
 } // namespace detail
 /// \endcond
 
@@ -84,7 +84,7 @@ public:
 
     PHI_ALWAYS_INLINE constexpr Boolean operator!() const noexcept
     {
-        return Boolean(!m_Value);
+        return {!m_Value};
     }
 
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool get() const noexcept

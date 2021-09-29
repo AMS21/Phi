@@ -1,10 +1,10 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Phi/Core/Nullptr.hpp"
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/extent.hpp>
 
-template <class T, unsigned A>
+template <typename T, unsigned A>
 void test_extent()
 {
     STATIC_REQUIRE(phi::extent<T>::value == A);
@@ -12,13 +12,15 @@ void test_extent()
     STATIC_REQUIRE(phi::extent<volatile T>::value == A);
     STATIC_REQUIRE(phi::extent<const volatile T>::value == A);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::extent_v<T> == A);
     STATIC_REQUIRE(phi::extent_v<const T> == A);
     STATIC_REQUIRE(phi::extent_v<volatile T> == A);
     STATIC_REQUIRE(phi::extent_v<const volatile T> == A);
+#endif
 }
 
-template <class T, unsigned Val, unsigned A>
+template <typename T, unsigned Val, unsigned A>
 void test_extent_var()
 {
     STATIC_REQUIRE(phi::extent<T, Val>::value == A);
@@ -26,10 +28,12 @@ void test_extent_var()
     STATIC_REQUIRE(phi::extent<volatile T, Val>::value == A);
     STATIC_REQUIRE(phi::extent<const volatile T, Val>::value == A);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::extent_v<T, Val> == A);
     STATIC_REQUIRE(phi::extent_v<const T, Val> == A);
     STATIC_REQUIRE(phi::extent_v<volatile T, Val> == A);
     STATIC_REQUIRE(phi::extent_v<const volatile T, Val> == A);
+#endif
 }
 
 TEST_CASE("extent")

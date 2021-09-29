@@ -15,11 +15,15 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_bool : public bool_constant<is_safe_bool_v<TypeT> || is_unsafe_bool_v<TypeT>>
+struct is_bool : public bool_constant<is_safe_bool<TypeT>::value || is_unsafe_bool<TypeT>::value>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_bool_v = is_bool<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

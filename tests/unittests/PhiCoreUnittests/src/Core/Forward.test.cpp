@@ -1,10 +1,17 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
+#include "Noexcept.hpp"
+#include "SameType.hpp"
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Forward.hpp>
 #include <Phi/TypeTraits/is_same.hpp>
 
 struct A
 {};
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-internal-declaration")
 
 static A source() noexcept
 {
@@ -16,7 +23,9 @@ static const A csource() noexcept
     return A();
 }
 
-constexpr bool test_constexpr_forward()
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
+PHI_EXTENDED_CONSTEXPR bool test_constexpr_forward()
 {
     int       x  = 42;
     const int cx = 101;
@@ -34,31 +43,31 @@ TEST_CASE("forward")
     ((void)a);  // Prevent unused warning
     ((void)ca); // Prevent unused warning
 
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<A&>(a)), A&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<A>(a)), A&&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<A>(source())), A&&>);
-    STATIC_REQUIRE(noexcept(phi::forward<A&>(a)));
-    STATIC_REQUIRE(noexcept(phi::forward<A>(a)));
-    STATIC_REQUIRE(noexcept(phi::forward<A>(source())));
+    CHECK_SAME_TYPE(decltype(phi::forward<A&>(a)), A&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(a)), A&&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(source())), A&&);
+    CHECK_NOEXCEPT(phi::forward<A&>(a));
+    CHECK_NOEXCEPT(phi::forward<A>(a));
+    CHECK_NOEXCEPT(phi::forward<A>(source()));
 
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A&>(a)), const A&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A>(a)), const A&&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A>(source())), const A&&>);
-    STATIC_REQUIRE(noexcept(phi::forward<const A&>(a)));
-    STATIC_REQUIRE(noexcept(phi::forward<const A>(a)));
-    STATIC_REQUIRE(noexcept(phi::forward<const A>(source())));
+    CHECK_SAME_TYPE(decltype(phi::forward<const A&>(a)), const A&);
+    CHECK_SAME_TYPE(decltype(phi::forward<const A>(a)), const A&&);
+    CHECK_SAME_TYPE(decltype(phi::forward<const A>(source())), const A&&);
+    CHECK_NOEXCEPT(phi::forward<const A&>(a));
+    CHECK_NOEXCEPT(phi::forward<const A>(a));
+    CHECK_NOEXCEPT(phi::forward<const A>(source()));
 
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A&>(ca)), const A&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A>(ca)), const A&&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::forward<const A>(csource())), const A&&>);
-    STATIC_REQUIRE(noexcept(phi::forward<const A&>(ca)));
-    STATIC_REQUIRE(noexcept(phi::forward<const A>(ca)));
-    STATIC_REQUIRE(noexcept(phi::forward<const A>(csource())));
+    CHECK_SAME_TYPE(decltype(phi::forward<const A&>(ca)), const A&);
+    CHECK_SAME_TYPE(decltype(phi::forward<const A>(ca)), const A&&);
+    CHECK_SAME_TYPE(decltype(phi::forward<const A>(csource())), const A&&);
+    CHECK_NOEXCEPT(phi::forward<const A&>(ca));
+    CHECK_NOEXCEPT(phi::forward<const A>(ca));
+    CHECK_NOEXCEPT(phi::forward<const A>(csource()));
 
     constexpr int i2 = phi::forward<int>(42);
     STATIC_REQUIRE(phi::forward<int>(42) == 42);
     STATIC_REQUIRE(phi::forward<const int&>(i2) == 42);
-    STATIC_REQUIRE(test_constexpr_forward());
+    EXT_STATIC_REQUIRE(test_constexpr_forward());
 
     constexpr int i3 = phi::forward<int>(42);
     STATIC_REQUIRE(phi::forward<int>(42) == 42);

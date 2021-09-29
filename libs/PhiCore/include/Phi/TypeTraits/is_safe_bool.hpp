@@ -18,8 +18,12 @@ template <typename TypeT>
 struct is_safe_bool : public is_same_rcv<TypeT, Boolean>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_bool_v = is_safe_bool<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

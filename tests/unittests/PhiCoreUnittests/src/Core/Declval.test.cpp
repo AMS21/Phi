@@ -1,6 +1,7 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Noexcept.hpp"
+#include "SameType.hpp"
 #include <Phi/Core/Declval.hpp>
 #include <Phi/TypeTraits/is_same.hpp>
 
@@ -12,8 +13,10 @@ class A
 
 TEST_CASE("declval")
 {
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::declval<int>()), int&&>);
-    STATIC_REQUIRE(phi::is_same_v<decltype(phi::declval<A>()), A&&>);
+    CHECK_SAME_TYPE(decltype(phi::declval<int>()), int&&);
+    CHECK_SAME_TYPE(decltype(phi::declval<A>()), A&&);
+    CHECK_SAME_TYPE(decltype(phi::declval<void>()), void);
     CHECK_NOEXCEPT(phi::declval<int>());
     CHECK_NOEXCEPT(phi::declval<A>());
+    CHECK_NOEXCEPT(phi::declval<void>());
 }

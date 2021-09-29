@@ -15,11 +15,16 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_function : public bool_constant<!is_const_v<const TypeT> && !is_reference_v<TypeT>>
+struct is_function
+    : public bool_constant<!is_const<const TypeT>::value && !is_reference<TypeT>::value>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_function_v = is_function<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

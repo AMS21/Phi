@@ -18,7 +18,18 @@ struct is_same_rc : public is_same<remove_const_t<LhsT>, remove_const_t<RhsT>>
 {};
 
 template <typename LhsT, typename RhsT>
+struct is_not_same_rc : public is_not_same<remove_const_t<LhsT>, remove_const_t<RhsT>>
+{};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename LhsT, typename RhsT>
 PHI_INLINE_VARIABLE constexpr bool is_same_rc_v = is_same_rc<LhsT, RhsT>::value;
+
+template <typename LhsT, typename RhsT>
+PHI_INLINE_VARIABLE constexpr bool is_not_same_rc_v = is_not_same_rc<LhsT, RhsT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

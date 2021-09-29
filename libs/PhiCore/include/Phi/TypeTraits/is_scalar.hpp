@@ -25,19 +25,27 @@ template <typename TypeT>
 struct is_scalar : public bool_constant<__is_scalar(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scalar_v = __is_scalar(TypeT);
+
+#    endif
 
 #else
 
 template <typename TypeT>
-struct is_scalar
-    : bool_constant<is_arithmetic_v<TypeT> || is_enum_v<TypeT> || is_pointer_v<TypeT> ||
-                    is_member_pointer_v<TypeT> || is_null_pointer_v<TypeT>>
+struct is_scalar : bool_constant<is_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
+                                 is_pointer<TypeT>::value || is_member_pointer<TypeT>::value ||
+                                 is_null_pointer<TypeT>::value>
 {};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scalar_v = is_scalar<TypeT>::value;
+
+#    endif
 
 #endif
 

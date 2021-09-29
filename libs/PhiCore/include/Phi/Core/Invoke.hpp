@@ -17,7 +17,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename FunctionT, typename... ArgsT>
 constexpr invoke_result_t<FunctionT, ArgsT...> invoke(
-        FunctionT&& function, ArgsT&&... args) noexcept(is_nothrow_invocable_v<FunctionT, ArgsT...>)
+        FunctionT&& function,
+        ArgsT&&... args) noexcept(is_nothrow_invocable<FunctionT, ArgsT...>::value)
 {
     return detail::invoke_impl(phi::forward<FunctionT>(function), phi::forward<ArgsT>(args)...);
 }

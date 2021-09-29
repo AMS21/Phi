@@ -11,6 +11,7 @@
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Invoke.hpp"
 #include "Phi/Core/Move.hpp"
+#include "Phi/TypeTraits/invoke_result.hpp"
 #include <mutex>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -46,7 +47,7 @@ public:
 
     template <typename... ArgsT>
     constexpr Monitor(ArgsT&&... args) noexcept
-        : m_SharedData(forward<ArgsT>(args)...)
+        : m_SharedData(phi::forward<ArgsT>(args)...)
         , m_Mutex()
     {}
 
@@ -55,7 +56,7 @@ public:
 	* \param shared_data the data to be protected by the Monitor.
 	**/
     constexpr explicit Monitor(SharedDataT shared_data) noexcept
-        : m_SharedData(move(shared_data))
+        : m_SharedData(phi::move(shared_data))
         , m_Mutex()
     {}
 
@@ -64,6 +65,7 @@ public:
         return monitor_helper(this);
     }
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     /*!
 	* \brief Receives a callable and invokes that callable by passing the
 	*        shared data to it. The call itself is protected by a mutex.
@@ -72,11 +74,12 @@ public:
 	*         as the callable's call operator's argument.
 	**/
     template <typename CallableT>
-    auto operator()(CallableT&& callable) const -> decltype(auto)
+    auto operator()(CallableT&& callable) const
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
-        return invoke(forward<CallableT>(callable), m_SharedData);
+        return phi::invoke(phi::forward<CallableT>(callable), m_SharedData);
     }
+#endif
 
     PHI_NODISCARD monitor_helper ManuallyLock() noexcept
     {

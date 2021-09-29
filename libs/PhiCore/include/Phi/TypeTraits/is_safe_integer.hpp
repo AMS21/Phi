@@ -31,8 +31,12 @@ template <typename TypeT>
 struct is_safe_integer : public detail::is_safe_integer_impl<remove_cv_t<TypeT>>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_integer_v = is_safe_integer<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

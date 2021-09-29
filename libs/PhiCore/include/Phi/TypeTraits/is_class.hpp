@@ -21,8 +21,12 @@ template <typename TypeT>
 struct is_class : public bool_constant<__is_class(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_class_v = __is_class(TypeT);
+
+#    endif
 
 #else
 
@@ -41,8 +45,12 @@ struct is_class
                            !is_union_v<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_class_v = is_class<TypeT>::value;
+
+#    endif
 
 #endif
 

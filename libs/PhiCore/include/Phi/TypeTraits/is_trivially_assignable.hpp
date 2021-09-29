@@ -20,9 +20,13 @@ template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public bool_constant<__is_trivially_assignable(TypeT, ArgT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = __is_trivially_assignable(TypeT,
                                                                                          ArgT);
+
+#    endif
 
 #else
 
@@ -33,9 +37,13 @@ struct is_trivially_assignable : public false_type
                                        "intrinsic __is_trivially_assignable");
 };
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v =
         is_trivially_assignable<TypeT, ArgT>::value;
+
+#    endif
 
 #endif
 

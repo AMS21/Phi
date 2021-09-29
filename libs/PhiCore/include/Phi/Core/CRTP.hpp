@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -15,12 +16,12 @@ template <typename TypeT, template <typename> class CRTPTypeT>
 class CRTP
 {
 public:
-    PHI_NODISCARD constexpr TypeT& underlying() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& underlying() noexcept
     {
         return static_cast<TypeT&>(*this);
     }
 
-    PHI_NODISCARD constexpr TypeT const& underlying() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT const& underlying() const noexcept
     {
         return static_cast<TypeT const&>(*this);
     }

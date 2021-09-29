@@ -26,8 +26,12 @@ template <typename TypeT>
 struct is_object : public bool_constant<__is_object(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_object_v = __is_object(TypeT);
+
+#    endif
 
 #else
 
@@ -36,8 +40,12 @@ struct is_object : public bool_constant<is_scalar_v<TypeT> || is_array_v<TypeT> 
                                         is_union_v<TypeT> || is_class_v<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_object_v = is_object<TypeT>::value;
+
+#    endif
 
 #endif
 

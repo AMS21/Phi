@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
@@ -12,10 +12,12 @@ void test_is_lvalue_reference()
     STATIC_REQUIRE(phi::is_lvalue_reference<volatile T>::value);
     STATIC_REQUIRE(phi::is_lvalue_reference<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_lvalue_reference_v<T>);
     STATIC_REQUIRE(phi::is_lvalue_reference_v<const T>);
     STATIC_REQUIRE(phi::is_lvalue_reference_v<volatile T>);
     STATIC_REQUIRE(phi::is_lvalue_reference_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -26,10 +28,12 @@ void test_is_not_lvalue_reference()
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_lvalue_reference")

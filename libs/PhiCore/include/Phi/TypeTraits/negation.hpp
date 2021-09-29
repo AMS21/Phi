@@ -16,8 +16,12 @@ template <typename BoolT>
 struct negation : bool_constant<!bool(BoolT::value)>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename BoolT>
 PHI_INLINE_VARIABLE constexpr bool negation_v = negation<BoolT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

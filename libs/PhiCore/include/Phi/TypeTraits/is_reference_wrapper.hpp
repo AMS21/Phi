@@ -30,8 +30,12 @@ struct is_reference_wrapper
     : public detail::is_reference_wrapper_impl<typename remove_cv<TypeT>::type>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 constexpr PHI_INLINE_VARIABLE bool is_reference_wrapper_v = is_reference_wrapper<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

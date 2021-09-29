@@ -19,8 +19,12 @@ template <typename TypeT>
 struct is_volatile : bool_constant<__is_volatile(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_volatile_v = __is_volatile(TypeT);
+
+#    endif
 
 #else
 
@@ -32,8 +36,12 @@ template <typename TypeT>
 struct is_volatile<volatile TypeT> : true_type
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_volatile_v = is_volatile<TypeT>::value;
+
+#    endif
 
 #endif
 

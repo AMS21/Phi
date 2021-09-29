@@ -1,8 +1,8 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/TypeTraits/is_base_of.hpp>
 
-template <class T, class U>
+template <typename T, typename U>
 void test_is_base_of()
 {
     // is_base_of
@@ -27,6 +27,7 @@ void test_is_base_of()
     STATIC_REQUIRE(phi::is_base_of<const volatile T, const volatile U>::value);
 
     // is_base_of_v
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_base_of_v<T, U>);
     STATIC_REQUIRE(phi::is_base_of_v<T, const U>);
     STATIC_REQUIRE(phi::is_base_of_v<T, volatile U>);
@@ -46,13 +47,16 @@ void test_is_base_of()
     STATIC_REQUIRE(phi::is_base_of_v<const volatile T, const U>);
     STATIC_REQUIRE(phi::is_base_of_v<const volatile T, volatile U>);
     STATIC_REQUIRE(phi::is_base_of_v<const volatile T, const volatile U>);
+#endif
 }
 
-template <class T, class U>
+template <typename T, typename U>
 void test_is_not_base_of()
 {
     STATIC_REQUIRE_FALSE(phi::is_base_of<T, U>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
+#endif
 }
 
 struct B

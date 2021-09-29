@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/is_class.hpp>
@@ -11,10 +11,12 @@ void test_is_class()
     STATIC_REQUIRE(phi::is_class<volatile T>::value);
     STATIC_REQUIRE(phi::is_class<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_class_v<T>);
     STATIC_REQUIRE(phi::is_class_v<const T>);
     STATIC_REQUIRE(phi::is_class_v<volatile T>);
     STATIC_REQUIRE(phi::is_class_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -25,10 +27,12 @@ void test_is_not_class()
     STATIC_REQUIRE_FALSE(phi::is_class<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_class<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_class_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_class_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_class_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_class")

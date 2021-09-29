@@ -13,7 +13,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_referenceable_v<TypeT>>
+    template <typename TypeT, bool = is_referenceable<TypeT>::value>
     struct add_lvalue_reference_impl
     {
         using type = TypeT;

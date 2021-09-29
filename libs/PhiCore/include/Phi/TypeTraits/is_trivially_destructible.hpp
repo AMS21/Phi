@@ -23,8 +23,12 @@ template <typename TypeT>
 struct is_trivially_destructible : public bool_constant<__is_trivially_destructible(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v = __is_trivially_destructible(TypeT);
+
+#    endif
 
 #elif PHI_HAS_INTRINSIC_HAS_TRIVIAL_DESTRUCTOR()
 
@@ -33,9 +37,13 @@ struct is_trivially_destructible
     : public bool_constant<is_destructible_v<TypeT>&& __has_trivial_destructor(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v =
         is_trivially_destructible<TypeT>::value;
+
+#    endif
 
 #else
 
@@ -56,9 +64,13 @@ template <typename TypeT>
 struct is_trivially_destructible<TypeT[]> : public false_type
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v =
         is_trivially_destructible<TypeT>::value;
+
+#    endif
 
 #endif
 

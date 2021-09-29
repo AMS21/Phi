@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/CompilerSupport/Char8_t.hpp>
 #include <climits>

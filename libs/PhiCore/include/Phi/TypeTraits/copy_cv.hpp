@@ -12,7 +12,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename FromT, typename ToT, bool = is_const_v<FromT>, bool = is_volatile_v<FromT>>
+template <typename FromT, typename ToT, bool = is_const<FromT>::value,
+          bool = is_volatile<FromT>::value>
 struct copy_cv
 {
     using type = ToT;

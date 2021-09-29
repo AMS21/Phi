@@ -1,5 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
-#include <Phi/Config/Warning.hpp>
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Container/StringView.hpp>
 
 int main()

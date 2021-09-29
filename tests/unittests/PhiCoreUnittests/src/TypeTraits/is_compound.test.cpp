@@ -1,10 +1,10 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/is_compound.hpp>
 
-template <class T>
+template <typename T>
 void test_is_compound()
 {
     STATIC_REQUIRE(phi::is_compound<T>::value);
@@ -12,10 +12,12 @@ void test_is_compound()
     STATIC_REQUIRE(phi::is_compound<volatile T>::value);
     STATIC_REQUIRE(phi::is_compound<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_compound_v<T>);
     STATIC_REQUIRE(phi::is_compound_v<const T>);
     STATIC_REQUIRE(phi::is_compound_v<volatile T>);
     STATIC_REQUIRE(phi::is_compound_v<const volatile T>);
+#endif
 }
 
 template <class T>
@@ -26,10 +28,12 @@ void test_is_not_compound()
     STATIC_REQUIRE_FALSE(phi::is_compound<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_compound<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_compound_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_compound_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_compound_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_compound")

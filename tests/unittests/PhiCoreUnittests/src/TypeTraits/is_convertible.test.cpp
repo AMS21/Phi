@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/TypeTraits/is_convertible.hpp>
 
@@ -22,6 +22,7 @@ void test_is_convertible()
     STATIC_REQUIRE(phi::is_convertible<const volatile T, const volatile U>::value);
 
     // is_convertible_v
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_convertible_v<T, U>);
     STATIC_REQUIRE(phi::is_convertible_v<T, const U>);
     STATIC_REQUIRE(phi::is_convertible_v<T, volatile U>);
@@ -36,6 +37,7 @@ void test_is_convertible()
     STATIC_REQUIRE(phi::is_convertible_v<const volatile T, const U>);
     STATIC_REQUIRE(phi::is_convertible_v<const volatile T, volatile U>);
     STATIC_REQUIRE(phi::is_convertible_v<const volatile T, const volatile U>);
+#endif
 }
 
 template <typename T, typename U>
@@ -58,6 +60,7 @@ void test_is_not_convertible()
     STATIC_REQUIRE_FALSE(phi::is_convertible<const volatile T, const volatile U>::value);
 
     // is_convertible_v
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, U>);
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, const U>);
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, volatile U>);
@@ -72,6 +75,7 @@ void test_is_not_convertible()
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, const U>);
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, volatile U>);
     STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, const volatile U>);
+#endif
 }
 
 using Function      = void();

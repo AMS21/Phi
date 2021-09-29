@@ -2,7 +2,7 @@
 #define INCG_PHI_UNITTEST_SAMETYPE_HPP
 
 #include <Phi/TypeTraits/is_same.hpp>
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #define CHECK_SAME_TYPE(...) STATIC_REQUIRE(phi::is_same<__VA_ARGS__>::value)
 

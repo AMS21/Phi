@@ -20,8 +20,12 @@ template <typename TypeT>
 struct is_empty : public bool_constant<__is_empty(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_empty_v = __is_empty(TypeT);
+
+#    endif
 
 #else
 
@@ -52,8 +56,12 @@ template <typename TypeT>
 struct is_empty : public detail::is_empty_impl<TypeT>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_empty_v = is_empty<TypeT>::value;
+
+#    endif
 
 #endif
 

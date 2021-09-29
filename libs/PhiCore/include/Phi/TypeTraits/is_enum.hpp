@@ -29,21 +29,29 @@ template <typename TypeT>
 struct is_enum : bool_constant<__is_enum(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_enum_v = __is_enum(TypeT);
+
+#    endif
 
 #else
 
 template <typename TypeT>
-struct is_enum : public bool_constant<!is_void_v<TypeT> && !is_integral_v<TypeT> &&
-                                      !is_floating_point_v<TypeT> && !is_array<TypeT> &&
-                                      !is_pointer_v<TypeT> && !is_reference_v<TypeT> &&
-                                      !is_member_pointer_v<TypeT> && !is_union_v<TypeT> &&
-                                      !is_class_v<TypeT> && !is_function_v<TypeT>>
+struct is_enum : public bool_constant<!is_void<TypeT>::value && !is_integral<TypeT>::value &&
+                                      !is_floating_point<TypeT>::value && !is_array<TypeT>::value &&
+                                      !is_pointer<TypeT>::value && !is_reference<TypeT>::value &&
+                                      !is_member_pointer<TypeT>::value && !is_union<TypeT>::value &&
+                                      !is_class<TypeT>::value && !is_function<TypeT>::value>
 {};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_enum_v = is_enum<TypeT>::value;
+
+#    endif
 
 #endif
 

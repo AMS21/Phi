@@ -13,18 +13,29 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+// clang-format off
 template <typename TypeT>
 struct is_unsafe_integer
-    : public bool_constant<is_same_rcv_v<TypeT, signed char> ||
-                           is_same_rcv_v<TypeT, unsigned char> || is_same_rcv_v<TypeT, short> ||
-                           is_same_rcv_v<TypeT, unsigned short> || is_same_rcv_v<TypeT, int> ||
-                           is_same_rcv_v<TypeT, unsigned> || is_same_rcv_v<TypeT, long> ||
-                           is_same_rcv_v<TypeT, unsigned long> || is_same_rcv_v<TypeT, long long> ||
-                           is_same_rcv_v<TypeT, unsigned long long>>
+    : public bool_constant<
+              is_same_rcv<TypeT, signed char>::value    ||
+              is_same_rcv<TypeT, unsigned char>::value  ||
+              is_same_rcv<TypeT, short>::value          ||
+              is_same_rcv<TypeT, unsigned short>::value ||
+              is_same_rcv<TypeT, int>::value            ||
+              is_same_rcv<TypeT, unsigned>::value       ||
+              is_same_rcv<TypeT, long>::value           ||
+              is_same_rcv<TypeT, unsigned long>::value  ||
+              is_same_rcv<TypeT, long long>::value      ||
+              is_same_rcv<TypeT, unsigned long long>::value>
 {};
+// clang-format on
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_integer_v = is_unsafe_integer<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

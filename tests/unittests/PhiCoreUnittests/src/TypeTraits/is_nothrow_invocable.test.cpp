@@ -1,6 +1,7 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/CompilerSupport/Features.hpp>
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/is_invocable.hpp>
 #include <vector>
@@ -26,7 +27,7 @@ struct Explicit
     {}
 };
 
-template <bool IsNoexcept, class Ret, class... Args>
+template <bool IsNoexcept, typename Ret, typename... Args>
 struct CallObject
 {
     Ret operator()(Args&&...) const noexcept(IsNoexcept);
@@ -34,23 +35,26 @@ struct CallObject
 
 struct Sink
 {
-    template <class... Args>
+    template <typename... Args>
     void operator()(Args&&...) const noexcept
     {}
 };
 
-template <class Fn, class... Args>
+template <typename Fn, typename... Args>
 constexpr bool throws_invocable()
 {
     return phi::is_invocable<Fn, Args...>::value && !phi::is_nothrow_invocable<Fn, Args...>::value;
 }
 
-template <class Ret, class Fn, class... Args>
+template <typename Ret, typename Fn, typename... Args>
 constexpr bool throws_invocable_r()
 {
     return phi::is_invocable_r<Ret, Fn, Args...>::value &&
            !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
 
 // FIXME(EricWF) Don't test the where noexcept is *not* part of the type system
 // once implementations have caught up.
@@ -80,6 +84,8 @@ void test_noexcept_function_pointers()
     }
 #endif
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_nothrow_invocable")
 {
@@ -182,11 +188,12 @@ TEST_CASE("is_nothrow_invocable")
     }
     {
         // Check that PMD derefs are noexcept
-        using Fn = int(Tag::*);
+        using Fn = int Tag::*;
         STATIC_REQUIRE(phi::is_nothrow_invocable<Fn, Tag&>::value);
         STATIC_REQUIRE(phi::is_nothrow_invocable_r<Implicit, Fn, Tag&>::value);
         STATIC_REQUIRE(throws_invocable_r<ThrowsImplicit, Fn, Tag&>());
     }
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     {
         // Check for is_nothrow_invocable_v
         using Fn = CallObject<true, int>;
@@ -199,6 +206,7 @@ TEST_CASE("is_nothrow_invocable")
         STATIC_REQUIRE(phi::is_nothrow_invocable_r_v<void, Fn>);
         STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<int, Fn, int>);
     }
+#endif
 
     test_noexcept_function_pointers();
 }

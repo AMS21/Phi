@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/Algorithm/StringEquals.hpp>
 #include <Phi/Config/Warning.hpp>
@@ -6,18 +6,6 @@
 #include <string>
 
 PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wgnu-zero-variadic-macro-arguments")
-
-TEST_CASE("PHI_SIMPLE_ASSERT", "[Utility][Assert]")
-{
-    //PHI_SIMPLE_ASSERT(true);
-    PHI_SIMPLE_ASSERT(true, "Always passes");
-}
-
-TEST_CASE("PHI_DBG_SIMPLE_ASSERT", "[Utility][Assert]")
-{
-    //PHI_DBG_SIMPLE_ASSERT(true);
-    PHI_DBG_SIMPLE_ASSERT(true, "Always passes");
-}
 
 TEST_CASE("PHI_ASSERT", "[Utility][Assert]")
 {

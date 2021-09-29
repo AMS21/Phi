@@ -1,5 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "SameType.hpp"
 #include <Phi/TypeTraits/integral_constant.hpp>
 #include <Phi/TypeTraits/invoke_result.hpp>
 #include <Phi/TypeTraits/is_invocable.hpp>
@@ -47,17 +48,19 @@ struct test_invoke_result<FnT(ArgsT...), RetT>
     static void call()
     {
         STATIC_REQUIRE(phi::is_invocable<FnT, ArgsT...>::value);
-        STATIC_REQUIRE(phi::is_invocable_v<FnT, ArgsT...>);
-
         STATIC_REQUIRE(phi::is_invocable_r<RetT, FnT, ArgsT...>::value);
-        STATIC_REQUIRE(phi::is_invocable_r_v<RetT, FnT, ArgsT...>);
 
-        STATIC_REQUIRE(phi::is_same_v<RetT, typename phi::invoke_result<FnT, ArgsT...>::type>);
-        STATIC_REQUIRE(phi::is_same_v<RetT, phi::invoke_result_t<FnT, ArgsT...>>);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+        STATIC_REQUIRE(phi::is_invocable_v<FnT, ArgsT...>);
+        STATIC_REQUIRE(phi::is_invocable_r_v<RetT, FnT, ArgsT...>);
+#endif
+
+        CHECK_SAME_TYPE(RetT, typename phi::invoke_result<FnT, ArgsT...>::type);
+        CHECK_SAME_TYPE(RetT, phi::invoke_result_t<FnT, ArgsT...>);
     }
 };
 
-template <class T, class U>
+template <typename T, typename U>
 void test_result_of()
 {
     test_invoke_result<T, U>::call();
@@ -72,7 +75,9 @@ struct test_invoke_no_result<FnT(ArgsT...)>
     static void call()
     {
         STATIC_REQUIRE_FALSE(phi::is_invocable<FnT, ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
         STATIC_REQUIRE_FALSE(phi::is_invocable_v<FnT, ArgsT...>);
+#endif
 
         STATIC_REQUIRE_FALSE(HasType<phi::invoke_result<FnT, ArgsT...>>::value);
     }

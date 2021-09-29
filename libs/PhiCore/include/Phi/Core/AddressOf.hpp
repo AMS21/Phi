@@ -1,3 +1,4 @@
+
 #ifndef INCG_PHI_CORE_ADDRESS_OF_HPP
 #define INCG_PHI_CORE_ADDRESS_OF_HPP
 
@@ -15,7 +16,8 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr enable_if_t<is_object_v<TypeT>, TypeT*> addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::type addressof(
+        TypeT& arg) noexcept
 {
 #if PHI_HAS_INTRINSIC_BUILTIN_ADDRESS_OF()
     return __builtin_addressof(arg);
@@ -26,7 +28,8 @@ PHI_NODISCARD constexpr enable_if_t<is_object_v<TypeT>, TypeT*> addressof(TypeT&
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr enable_if_t<!is_object_v<TypeT>, TypeT*> addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr typename enable_if<!is_object<TypeT>::value, TypeT*>::type addressof(
+        TypeT& arg) noexcept
 {
     return &arg;
 }

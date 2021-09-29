@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/has_unique_object_representations.hpp>
@@ -11,10 +11,12 @@ void test_has_unique_object_representations()
     STATIC_REQUIRE(phi::has_unique_object_representations<volatile T>::value);
     STATIC_REQUIRE(phi::has_unique_object_representations<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_unique_object_representations_v<T>);
     STATIC_REQUIRE(phi::has_unique_object_representations_v<const T>);
     STATIC_REQUIRE(phi::has_unique_object_representations_v<volatile T>);
     STATIC_REQUIRE(phi::has_unique_object_representations_v<const volatile T>);
+#endif
 }
 
 template <class T>
@@ -25,10 +27,12 @@ void test_has_not_has_unique_object_representations()
     STATIC_REQUIRE(!phi::has_unique_object_representations<volatile T>::value);
     STATIC_REQUIRE(!phi::has_unique_object_representations<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(!phi::has_unique_object_representations_v<T>);
     STATIC_REQUIRE(!phi::has_unique_object_representations_v<const T>);
     STATIC_REQUIRE(!phi::has_unique_object_representations_v<volatile T>);
     STATIC_REQUIRE(!phi::has_unique_object_representations_v<const volatile T>);
+#endif
 }
 
 union EmptyUnion

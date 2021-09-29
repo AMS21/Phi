@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Boolean.hpp"
@@ -41,9 +42,15 @@ public:
 
     ScopeGuard& operator=(const ScopeGuard&) = delete;
     ScopeGuard& operator=(ScopeGuard&&) = delete;
+#else
+    ScopeGuard(ScopeGuard&&)      = default;
+    ScopeGuard(const ScopeGuard&) = default;
+
+    ScopeGuard& operator=(const ScopeGuard&) = default;
+    ScopeGuard& operator=(ScopeGuard&&)     = default;
 #endif
 
-    ~ScopeGuard()
+    PHI_CONSTEXPR_DESTRUCTOR ~ScopeGuard()
     {
         m_Action();
     }
@@ -51,6 +58,11 @@ public:
 private:
     ActionT m_Action;
 };
+
+#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
+template <typename TypeT>
+ScopeGuard(TypeT) -> ScopeGuard<TypeT>;
+#endif
 
 template <typename ActionT>
 class ArmedScopeGuard
@@ -75,9 +87,15 @@ public:
 
     ArmedScopeGuard& operator=(const ArmedScopeGuard&) = delete;
     ArmedScopeGuard& operator=(ArmedScopeGuard&&) = delete;
+#else
+    ArmedScopeGuard(ArmedScopeGuard&&)      = default;
+    ArmedScopeGuard(const ArmedScopeGuard&) = default;
+
+    ArmedScopeGuard& operator=(const ArmedScopeGuard&) = default;
+    ArmedScopeGuard& operator=(ArmedScopeGuard&&) = default;
 #endif
 
-    ~ArmedScopeGuard()
+    PHI_CONSTEXPR_DESTRUCTOR ~ArmedScopeGuard()
     {
         if (m_Armed)
         {
@@ -85,12 +103,12 @@ public:
         }
     }
 
-    constexpr void disarm() noexcept
+    PHI_EXTENDED_CONSTEXPR void disarm() noexcept
     {
         m_Armed = false;
     }
 
-    constexpr void rearm() noexcept
+    PHI_EXTENDED_CONSTEXPR void rearm() noexcept
     {
         m_Armed = true;
     }
@@ -104,6 +122,11 @@ private:
     ActionT m_Action;
     Boolean m_Armed;
 };
+
+#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
+template <typename TypeT>
+ArmedScopeGuard(TypeT) -> ArmedScopeGuard<TypeT>;
+#endif
 
 template <typename ActionT>
 PHI_NODISCARD constexpr ScopeGuard<remove_cvref_t<ActionT>> make_scope_guard(

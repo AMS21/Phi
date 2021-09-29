@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Boolean.hpp>
@@ -13,10 +13,12 @@ void test_is_bool()
     STATIC_REQUIRE(phi::is_bool<volatile T>::value);
     STATIC_REQUIRE(phi::is_bool<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_bool_v<T>);
     STATIC_REQUIRE(phi::is_bool_v<const T>);
     STATIC_REQUIRE(phi::is_bool_v<volatile T>);
     STATIC_REQUIRE(phi::is_bool_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -27,10 +29,12 @@ void test_is_not_bool()
     STATIC_REQUIRE_FALSE(phi::is_bool<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_bool")

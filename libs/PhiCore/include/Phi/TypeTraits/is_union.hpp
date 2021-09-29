@@ -20,6 +20,13 @@ template <typename TypeT>
 struct is_union : public bool_constant<__is_union(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_union_v = __is_union(TypeT);
+
+#    endif
+
 #else
 
 template <typename TypeT>
@@ -28,10 +35,14 @@ struct is_union : public false_type
     static_assert(always_false<TypeT>, "phi::is_union requires compiler support to properly work.");
 };
 
-#endif
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_union_v = is_union<TypeT>::value;
+
+#    endif
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

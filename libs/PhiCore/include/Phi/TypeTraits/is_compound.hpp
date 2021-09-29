@@ -20,8 +20,12 @@ template <typename TypeT>
 struct is_compound : public bool_constant<__is_compound(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_compound_v = __is_compound(TypeT);
+
+#    endif
 
 #else
 
@@ -29,8 +33,12 @@ template <typename TypeT>
 struct is_compound : public bool_constant<!is_fundamental_v<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_compound_v = is_compound<TypeT>::value;
+
+#    endif
 
 #endif
 

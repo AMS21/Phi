@@ -65,7 +65,8 @@ function(set_project_warnings project)
       -Wno-padded
       -Wno-missing-prototypes
       -Wno-language-extension-token
-      -Wno-gnu-zero-variadic-macro-arguments)
+      -Wno-gnu-zero-variadic-macro-arguments
+      -Wno-constexpr-not-const)
 
   set(phi_clang_pedantic_flags -pedantic -pedantic-errors)
 

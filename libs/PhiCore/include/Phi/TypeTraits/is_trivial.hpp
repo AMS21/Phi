@@ -21,8 +21,12 @@ template <typename TypeT>
 struct is_trivial : public bool_constant<__is_trivial(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivial_v = __is_trivial(TypeT);
+
+#    endif
 
 #else
 
@@ -31,8 +35,12 @@ struct is_trivial : public bool_constant<is_trivially_copyable_v<TypeT> &&
                                          is_trivially_default_constructible_v<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivial_v = is_trivial<TypeT>::value;
+
+#    endif
 
 #endif
 

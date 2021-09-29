@@ -40,6 +40,7 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Warning.hpp"
@@ -47,6 +48,7 @@ SOFTWARE.
 #include "Phi/Core/CRTP.hpp"
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Move.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_nothrow_copy_constructible.hpp"
 #include "Phi/TypeTraits/is_nothrow_move_constructible.hpp"
@@ -56,10 +58,10 @@ SOFTWARE.
 #include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio.
-#if defined(_MSC_VER) && _MSC_VER >= 1910
+#if PHI_HAS_EXTENSION_DECLSPEC_EMPTY_BASES()
 #    define PHI_EBCO __declspec(empty_bases)
 #else
-#    define PHI_EBCO
+#    define PHI_EBCO /* Nothing */
 #endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -88,12 +90,13 @@ public:
         : m_Value(phi::move(value))
     {}
 
-    PHI_NODISCARD constexpr TypeT& get() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& get() noexcept
     {
         return m_Value;
     }
 
-    PHI_NODISCARD constexpr const remove_reference_t<TypeT>& get() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(const)
+            remove_reference_t<TypeT>& get() const noexcept
     {
         return m_Value;
     }
@@ -142,7 +145,7 @@ PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 template <typename TypeT>
 struct PHI_EBCO PreIncrementable : CRTP<TypeT, PreIncrementable>
 {
-    constexpr TypeT& operator++()
+    PHI_EXTENDED_CONSTEXPR TypeT& operator++()
     {
         ++this->underlying().get();
         return this->underlying();
@@ -152,7 +155,7 @@ struct PHI_EBCO PreIncrementable : CRTP<TypeT, PreIncrementable>
 template <typename TypeT>
 struct PHI_EBCO PostIncrementable : CRTP<TypeT, PostIncrementable>
 {
-    constexpr TypeT operator++(int)
+    PHI_EXTENDED_CONSTEXPR TypeT operator++(int)
     {
         return TypeT(this->underlying().get()++);
     }
@@ -161,7 +164,7 @@ struct PHI_EBCO PostIncrementable : CRTP<TypeT, PostIncrementable>
 template <typename TypeT>
 struct PHI_EBCO PreDecrementable : CRTP<TypeT, PreDecrementable>
 {
-    constexpr TypeT& operator--()
+    PHI_EXTENDED_CONSTEXPR TypeT& operator--()
     {
         --this->underlying().get();
         return this->underlying();
@@ -171,7 +174,7 @@ struct PHI_EBCO PreDecrementable : CRTP<TypeT, PreDecrementable>
 template <typename TypeT>
 struct PHI_EBCO PostDecrementable : CRTP<TypeT, PostDecrementable>
 {
-    constexpr TypeT operator--(int)
+    PHI_EXTENDED_CONSTEXPR TypeT operator--(int)
     {
         return TypeT(this->underlying().get()--);
     }
@@ -187,7 +190,7 @@ struct PHI_EBCO BinaryAddable : CRTP<TypeT, BinaryAddable>
         return TypeT(this->underlying().get() + other.get());
     }
 
-    constexpr TypeT& operator+=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator+=(const TypeT& other)
     {
         this->underlying().get() += other.get();
         return this->underlying();
@@ -219,7 +222,7 @@ struct PHI_EBCO BinarySubtractable : CRTP<TypeT, BinarySubtractable>
         return TypeT(this->underlying().get() - other.get());
     }
 
-    constexpr TypeT& operator-=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator-=(const TypeT& other)
     {
         this->underlying().get() -= other.get();
         return this->underlying();
@@ -251,7 +254,7 @@ struct PHI_EBCO Multiplicable : CRTP<TypeT, Multiplicable>
         return TypeT(this->underlying().get() * other.get());
     }
 
-    constexpr TypeT& operator*=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator*=(const TypeT& other)
     {
         this->underlying().get() *= other.get();
         return this->underlying();
@@ -266,7 +269,7 @@ struct PHI_EBCO Divisible : CRTP<TypeT, Divisible>
         return TypeT(this->underlying().get() / other.get());
     }
 
-    constexpr TypeT& operator/=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator/=(const TypeT& other)
     {
         this->underlying().get() /= other.get();
         return this->underlying();
@@ -281,7 +284,7 @@ struct PHI_EBCO Modulable : CRTP<TypeT, Modulable>
         return TypeT(this->underlying().get() % other.get());
     }
 
-    constexpr TypeT& operator%=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator%=(const TypeT& other)
     {
         this->underlying().get() %= other.get();
         return this->underlying();
@@ -305,7 +308,7 @@ struct PHI_EBCO BitWiseAndable : CRTP<TypeT, BitWiseAndable>
         return TypeT(this->underlying().get() & other.get());
     }
 
-    constexpr TypeT& operator&=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator&=(const TypeT& other)
     {
         this->underlying().get() &= other.get();
         return this->underlying();
@@ -320,7 +323,7 @@ struct PHI_EBCO BitWiseOrable : CRTP<TypeT, BitWiseOrable>
         return TypeT(this->underlying().get() | other.get());
     }
 
-    constexpr TypeT& operator|=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator|=(const TypeT& other)
     {
         this->underlying().get() |= other.get();
         return this->underlying();
@@ -335,7 +338,7 @@ struct PHI_EBCO BitWiseXorable : CRTP<TypeT, BitWiseXorable>
         return TypeT(this->underlying().get() ^ other.get());
     }
 
-    constexpr TypeT& operator^=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator^=(const TypeT& other)
     {
         this->underlying().get() ^= other.get();
         return this->underlying();
@@ -350,7 +353,7 @@ struct PHI_EBCO BitWiseLeftShiftable : CRTP<TypeT, BitWiseLeftShiftable>
         return TypeT(this->underlying().get() << other.get());
     }
 
-    constexpr TypeT& operator<<=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator<<=(const TypeT& other)
     {
         this->underlying().get() <<= other.get();
         return this->underlying();
@@ -365,7 +368,7 @@ struct PHI_EBCO BitWiseRightShiftable : CRTP<TypeT, BitWiseRightShiftable>
         return TypeT(this->underlying().get() >> other.get());
     }
 
-    constexpr TypeT& operator>>=(const TypeT& other)
+    PHI_EXTENDED_CONSTEXPR TypeT& operator>>=(const TypeT& other)
     {
         this->underlying().get() >>= other.get();
         return this->underlying();
@@ -421,12 +424,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO Dereferencable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, Dereferencable>
 {
-    PHI_NODISCARD constexpr TypeT& operator*() &
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& operator*() &
     {
         return this->underlying().get();
     }
 
-    PHI_NODISCARD constexpr const remove_reference_t<TypeT>& operator*() const&
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const remove_reference_t<TypeT>& operator*() const&
     {
         return this->underlying().get();
     }
@@ -436,7 +439,7 @@ template <typename DestinationT>
 struct PHI_EBCO ImplicitlyConvertibleTo
 {
     template <typename TypeT>
-    struct templ : CRTP<TypeT, templ>
+    struct templ : public CRTP<TypeT, templ>
     {
         PHI_NODISCARD constexpr operator DestinationT() const
         {
@@ -481,12 +484,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO FunctionCallable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, FunctionCallable>
 {
-    PHI_NODISCARD constexpr operator const TypeT&() const
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR operator TypeT&()
     {
         return this->underlying().get();
     }
 
-    PHI_NODISCARD constexpr operator TypeT&()
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR operator const TypeT&() const
     {
         return this->underlying().get();
     }
@@ -499,12 +502,12 @@ template <typename TypeT, typename ParameterT, template <typename> class... Skil
 struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
     : CRTP<NamedType<TypeT, ParameterT, SkillsT...>, MethodCallable>
 {
-    PHI_NODISCARD constexpr const remove_reference_t<TypeT>* operator->() const
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR remove_reference_t<TypeT>* operator->()
     {
         return addressof(this->underlying().get());
     }
 
-    PHI_NODISCARD constexpr remove_reference_t<TypeT>* operator->()
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const remove_reference_t<TypeT>* operator->() const
     {
         return addressof(this->underlying().get());
     }
@@ -545,7 +548,7 @@ namespace std
         using NamedType       = phi::NamedType<TypeT, ParameterT, SkillsT...>;
         using checkIfHashable = typename enable_if<NamedType::is_hashable, void>::type;
 
-        std::size_t operator()(const NamedType& value) const noexcept
+        size_t operator()(const NamedType& value) const noexcept
         {
             static_assert(noexcept(std::hash<TypeT>()(value.get())),
                           "hash fuction should not throw");

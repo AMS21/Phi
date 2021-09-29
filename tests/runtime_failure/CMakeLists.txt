@@ -30,23 +30,27 @@ runtime_failure_test(NAME "Container_StringViewCopy" SOURCE "src/Container/Strin
 runtime_failure_test(NAME "Container_StringViewSubstr" SOURCE "src/Container/StringView.substr.fail.cpp" CONFIGURATIONS Debug)
 
 # Core
-#runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
-#runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX
-#                     "ASSERTION VIOLATION")
+if (PHI_HAS_EXTENSION_VARIADIC_MACRO_ZERO_ARGS)
+runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
+runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX
+                     "ASSERTION VIOLATION")
+endif()
 runtime_failure_test(NAME "Core_AssertWithArgs" SOURCE "src/Core/Assert.WithArgs.fail.cpp")
 runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE "src/Core/Assert.WithArgs.fail.cpp"
                      REGEX "[ASSERT FAILED]")
-#runtime_failure_test(NAME "Core_DbgAssertNoArgs" SOURCE "src/Core/DbgAssert.NoArgs.fail.cpp"
-#                     CONFIGURATIONS Debug)
-#runtime_failure_test(
-#  NAME
-#  "Core_DbgAssertNoArgsRegex"
-#  SOURCE
-#  "src/Core/DbgAssert.NoArgs.fail.cpp"
-#  REGEX
-#  "ASSERTION VIOLATION"
-#  CONFIGURATIONS
-#  Debug)
+                     if (PHI_HAS_EXTENSION_VARIADIC_MACRO_ZERO_ARGS)
+runtime_failure_test(NAME "Core_DbgAssertNoArgs" SOURCE "src/Core/DbgAssert.NoArgs.fail.cpp"
+                     CONFIGURATIONS Debug)
+runtime_failure_test(
+  NAME
+  "Core_DbgAssertNoArgsRegex"
+  SOURCE
+  "src/Core/DbgAssert.NoArgs.fail.cpp"
+  REGEX
+  "ASSERTION VIOLATION"
+  CONFIGURATIONS
+  Debug)
+endif()
 runtime_failure_test(NAME "Core_DbgAssertWithArgsRegex" SOURCE
                      "src/Core/DbgAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(
@@ -56,32 +60,6 @@ runtime_failure_test(
   "src/Core/DbgAssert.WithArgs.fail.cpp"
   REGEX
   "[DBG ASSERT FAILED]"
-  CONFIGURATIONS
-  Debug)
-#runtime_failure_test(NAME "Core_SimpleAssertNoArgs" SOURCE "src/Core/SimpleAssert.NoArgs.fail.cpp")
-#runtime_failure_test(NAME "Core_SimpleAssertNoArgsRegex" SOURCE "src/Core/SimpleAssert.NoArgs.fail.cpp" REGEX "ASSERTION VIOLATION")
-runtime_failure_test(NAME "Core_SimpleAssertWithArgs" SOURCE "src/Core/SimpleAssert.WithArgs.fail.cpp")
-runtime_failure_test(NAME "Core_SimpleAssertWithArgsRegex" SOURCE "src/Core/SimpleAssert.WithArgs.fail.cpp" REGEX "[SIMPLE ASSERT FAILED]")
-#runtime_failure_test(NAME "Core_DbgSimpleAssertNoArgs" SOURCE "src/Core/DbgSimpleAssert.NoArgs.fail.cpp"
-#                     CONFIGURATIONS Debug)
-#runtime_failure_test(
-#  NAME
-#  "Core_DbgSimpleAssertNoArgsRegex"
-#  SOURCE
-#  "src/Core/DbgSimpleAssert.NoArgs.fail.cpp"
-#  REGEX
-#  "ASSERTION VIOLATION"
-#  CONFIGURATIONS
-#  Debug)
-runtime_failure_test(NAME "Core_DbgSimpleAssertWithArgsRegex" SOURCE
-                     "src/Core/DbgSimpleAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(
-  NAME
-  "Core_DbgSimpleAssertWithArgs"
-  SOURCE
-  "src/Core/DbgSimpleAssert.WithArgs.fail.cpp"
-  REGEX
-  "[DBG SIMPLE ASSERT FAILED]"
   CONFIGURATIONS
   Debug)
 runtime_failure_test(NAME "Core_AssertNotReached" SOURCE "src/Core/AssertNotReached.fail.cpp")

@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
@@ -12,10 +12,12 @@ void test_is_bounded_array()
     STATIC_REQUIRE(phi::is_bounded_array<volatile T>::value);
     STATIC_REQUIRE(phi::is_bounded_array<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_bounded_array_v<T>);
     STATIC_REQUIRE(phi::is_bounded_array_v<const T>);
     STATIC_REQUIRE(phi::is_bounded_array_v<volatile T>);
     STATIC_REQUIRE(phi::is_bounded_array_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -26,10 +28,12 @@ void test_is_not_bounded_array()
     STATIC_REQUIRE_FALSE(phi::is_bounded_array<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bounded_array<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<const volatile T>);
+#endif
 }
 
 class A

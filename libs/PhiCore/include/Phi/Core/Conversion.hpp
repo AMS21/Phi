@@ -8,6 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/CompilerSupport/Unused.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
@@ -22,20 +23,16 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&& source,
-                                                     true_type is_safe_type) noexcept
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&            source,
+                                                     PHI_UNUSED true_type is_safe_type) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_safe_type);
-
         return static_cast<typename TargetT::value_type>(forward<SourceT>(source));
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&  source,
-                                                     false_type is_safe_type) noexcept
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source,
+                                                     PHI_UNUSED false_type is_safe_type) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_safe_type);
-
         return static_cast<TargetT>(forward<SourceT>(source));
     }
 } // namespace detail
@@ -65,7 +62,12 @@ PHI_NODISCARD constexpr TargetT unsafe_cast(Integer<SourceT>&& source) noexcept
 
 // Narrow cast
 template <typename TargetT, typename SourceT>
-PHI_NODISCARD constexpr TargetT narrow_cast(SourceT&& source) noexcept
+PHI_NODISCARD
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() || !defined(PHI_DEBUG)
+        constexpr
+#endif
+        TargetT
+        narrow_cast(SourceT&& source) noexcept
 {
 #if defined(PHI_DEBUG)
     constexpr const bool is_different_signedness =

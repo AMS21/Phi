@@ -1,11 +1,11 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Phi/Core/Nullptr.hpp"
 #include "SameType.hpp"
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/decay.hpp>
 
-template <class T, class U>
+template <typename T, typename U>
 void test_decay()
 {
     CHECK_SAME_TYPE(U, typename phi::decay<T>::type);

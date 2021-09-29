@@ -17,7 +17,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_safe_type_v<TypeT>>
+    template <typename TypeT, bool = is_safe_type<TypeT>::value>
     struct is_safe_integral_impl : public is_unsafe_integral<typename TypeT::value_type>
     {};
 
@@ -27,11 +27,15 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-struct is_safe_integral : public detail ::is_safe_integral_impl<TypeT, is_safe_type_v<TypeT>>
+struct is_safe_integral : public detail ::is_safe_integral_impl<TypeT, is_safe_type<TypeT>::value>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_integral_v = is_safe_integral<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

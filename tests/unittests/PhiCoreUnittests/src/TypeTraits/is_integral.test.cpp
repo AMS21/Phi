@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/CompilerSupport/Char8_t.hpp>
@@ -16,10 +16,12 @@ void test_is_integral()
     STATIC_REQUIRE(phi::is_integral<volatile T>::value);
     STATIC_REQUIRE(phi::is_integral<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_integral_v<T>);
     STATIC_REQUIRE(phi::is_integral_v<const T>);
     STATIC_REQUIRE(phi::is_integral_v<volatile T>);
     STATIC_REQUIRE(phi::is_integral_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -30,10 +32,12 @@ void test_is_not_integral()
     STATIC_REQUIRE_FALSE(phi::is_integral<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_integral<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_integral_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_integral_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_integral_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_integral_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_integral")

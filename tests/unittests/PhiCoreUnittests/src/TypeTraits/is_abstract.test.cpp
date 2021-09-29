@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "Phi/Core/Nullptr.hpp"
 #include "TestTypes.hpp"
@@ -12,10 +12,12 @@ void test_is_abstract()
     STATIC_REQUIRE(phi::is_abstract<volatile T>::value);
     STATIC_REQUIRE(phi::is_abstract<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_abstract_v<T>);
     STATIC_REQUIRE(phi::is_abstract_v<const T>);
     STATIC_REQUIRE(phi::is_abstract_v<volatile T>);
     STATIC_REQUIRE(phi::is_abstract_v<const volatile T>);
+#endif
 }
 
 template <class T>
@@ -26,10 +28,12 @@ void test_is_not_abstract()
     STATIC_REQUIRE(!phi::is_abstract<volatile T>::value);
     STATIC_REQUIRE(!phi::is_abstract<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(!phi::is_abstract_v<T>);
     STATIC_REQUIRE(!phi::is_abstract_v<const T>);
     STATIC_REQUIRE(!phi::is_abstract_v<volatile T>);
     STATIC_REQUIRE(!phi::is_abstract_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_abstract")
@@ -59,6 +63,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<EnumSigned>();
     test_is_not_abstract<EnumUnsigned>();
     test_is_not_abstract<EnumClass>();
+    test_is_not_abstract<Function>();
     test_is_not_abstract<FunctionPtr>();
     test_is_not_abstract<MemberObjectPtr>();
     test_is_not_abstract<MemberFunctionPtr>();

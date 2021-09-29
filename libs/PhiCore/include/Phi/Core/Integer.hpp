@@ -33,8 +33,10 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/CompilerSupport/Unused.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
@@ -60,10 +62,11 @@ namespace detail
     // Integer conversion
     template <typename FromT, typename ToT>
     struct is_safe_integer_conversion
-        : public bool_constant<
-                  is_unsafe_integer<FromT>::value && is_unsafe_integer<ToT>::value &&
-                  ((sizeof(FromT) <= sizeof(ToT) && is_signed_v<FromT> == is_signed_v<ToT>) ||
-                   (sizeof(FromT) < sizeof(ToT) && is_unsigned_v<FromT> && is_signed_v<ToT>))>
+        : public bool_constant<is_unsafe_integer<FromT>::value && is_unsafe_integer<ToT>::value &&
+                               ((sizeof(FromT) <= sizeof(ToT) &&
+                                 is_signed<FromT>::value == is_signed<ToT>::value) ||
+                                (sizeof(FromT) < sizeof(ToT) && is_unsigned<FromT>::value &&
+                                 is_signed<ToT>::value))>
     {};
 
     template <typename FromT, typename ToT>
@@ -92,8 +95,8 @@ namespace detail
     // Integer operation
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : public bool_constant<is_unsafe_integer_v<LhsT> && is_unsafe_integer_v<RhsT> &&
-                               is_signed_v<LhsT> == is_signed_v<RhsT>>
+        : public bool_constant<is_unsafe_integer<LhsT>::value && is_unsafe_integer<RhsT>::value &&
+                               is_signed<LhsT>::value == is_signed<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
@@ -107,8 +110,8 @@ namespace detail
 
     template <typename LhsT, typename RhsT>
     using fallback_integer_result =
-            enable_if_t<is_unsafe_integer_v<LhsT> && is_unsafe_integer_v<RhsT> &&
-                        is_signed_v<LhsT> != is_signed_v<RhsT>>;
+            enable_if_t<is_unsafe_integer<LhsT>::value && is_unsafe_integer<RhsT>::value &&
+                        is_signed<LhsT>::value != is_signed<RhsT>::value>;
 
     // Error detection
     struct signed_integer_tag
@@ -119,52 +122,42 @@ namespace detail
 
     template <typename TypeT>
     using arithmetic_tag_for =
-            conditional_t<is_signed_v<TypeT>, signed_integer_tag, unsigned_integer_tag>;
+            conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag tag, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(PHI_UNUSED signed_integer_tag tag,
+                                                         TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return rhs > TypeT(0) ? lhs > std::numeric_limits<TypeT>::max() - rhs :
                                 lhs < std::numeric_limits<TypeT>::min() - rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag tag, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(PHI_UNUSED unsigned_integer_tag tag,
+                                                         TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return std::numeric_limits<TypeT>::max() - rhs < lhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag tag, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(PHI_UNUSED signed_integer_tag tag,
+                                                            TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return rhs > TypeT(0) ? lhs < std::numeric_limits<TypeT>::min() + rhs :
                                 lhs > std::numeric_limits<TypeT>::max() + rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag tag, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(PHI_UNUSED unsigned_integer_tag tag,
+                                                            TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return lhs < rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag tag, TypeT lhs,
-                                                               TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(PHI_UNUSED signed_integer_tag tag,
+                                                               TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return lhs > TypeT(0) ?
                        (rhs > TypeT(0) ?
                                 lhs > std::numeric_limits<TypeT>::max() / rhs : // lhs, rhs > 0
@@ -177,50 +170,37 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag tag, TypeT lhs,
-                                                               TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(PHI_UNUSED unsigned_integer_tag tag,
+                                                               TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return rhs != TypeT(0) && lhs > std::numeric_limits<TypeT>::max() / rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag tag, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(PHI_UNUSED signed_integer_tag tag,
+                                                         TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-
         return rhs == TypeT(0) || (rhs == TypeT(-1) && lhs == std::numeric_limits<TypeT>::min());
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag tag, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(PHI_UNUSED unsigned_integer_tag tag,
+                                                         PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-        PHI_UNUSED_PARAMETER(lhs);
-
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(signed_integer_tag tag, TypeT lhs,
-                                                       TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(PHI_UNUSED signed_integer_tag tag,
+                                                       PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-        PHI_UNUSED_PARAMETER(lhs);
-
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(unsigned_integer_tag tag, TypeT lhs,
-                                                       TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(PHI_UNUSED unsigned_integer_tag tag,
+                                                       PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
     {
-        PHI_UNUSED_PARAMETER(tag);
-        PHI_UNUSED_PARAMETER(lhs);
-
         return rhs == TypeT(0);
     }
 } // namespace detail
@@ -242,7 +222,8 @@ namespace detail
 template <typename IntegerT>
 class Integer
 {
-    static_assert(is_unsafe_integer_v<IntegerT>, "[phi::Integer] Must be a real integer type");
+    static_assert(is_unsafe_integer<IntegerT>::value,
+                  "[phi::Integer] IntegerT must be a real integer type");
 
 public:
     using this_type   = Integer<IntegerT>;
@@ -255,7 +236,7 @@ public:
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
     // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
-    PHI_ALWAYS_INLINE constexpr Integer(const TypeT& val) noexcept
+    constexpr Integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
@@ -271,14 +252,14 @@ public:
     //=== assignment ===//
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator=(const TypeT& val) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator=(const TypeT& val) noexcept
     {
         m_Value = val;
         return *this;
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE Integer& operator=(const Integer<TypeT>& val) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator=(const Integer<TypeT>& val) noexcept
     {
         m_Value = static_cast<TypeT>(val);
         return *this;
@@ -312,9 +293,9 @@ public:
         return *this;
     }
 
-    PHI_ALWAYS_INLINE constexpr Integer operator-() const noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer operator-() const noexcept
     {
-        static_assert(is_signed_v<IntegerT>, "Cannot call unary minus on unsigned integer");
+        static_assert(is_signed<IntegerT>::value, "Cannot call unary minus on unsigned integer");
 
         PHI_DBG_ASSERT(m_Value != limits_type::min(), "Unary minus will overflow. Args {}",
                        m_Value);
@@ -322,7 +303,7 @@ public:
         return Integer(-m_Value);
     }
 
-    PHI_ALWAYS_INLINE constexpr Integer& operator++() noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator++() noexcept
     {
         PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
                                                     IntegerT(1)),
@@ -333,14 +314,14 @@ public:
     }
 
     // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
-    PHI_ALWAYS_INLINE constexpr const Integer operator++(int) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR const Integer operator++(int) noexcept
     {
         auto res = *this;
         ++*this;
         return res;
     }
 
-    PHI_ALWAYS_INLINE constexpr Integer& operator--() noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator--() noexcept
     {
         PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<IntegerT>{},
                                                        m_Value, IntegerT(1)),
@@ -351,7 +332,7 @@ public:
     }
 
     // cppcheck-suppress functionConst; NOLINTNEXTLINE(readability-const-return-type)
-    PHI_ALWAYS_INLINE constexpr const Integer operator--(int) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR const Integer operator--(int) noexcept
     {
         auto res = *this;
         --*this;
@@ -361,7 +342,8 @@ public:
     //=== compound assignment ====//
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator+=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator+=(
+            const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_addition_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -372,7 +354,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator+=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator+=(const TypeT& other) noexcept
     {
         return *this += Integer<TypeT>(other);
     }
@@ -384,7 +366,8 @@ public:
     Integer& operator+=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator-=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator-=(
+            const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_subtraction_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -395,7 +378,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator-=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator-=(const TypeT& other) noexcept
     {
         return *this -= Integer<TypeT>(other);
     }
@@ -407,7 +390,8 @@ public:
     Integer& operator-=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator*=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator*=(
+            const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_multiplication_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -419,7 +403,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator*=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator*=(const TypeT& other) noexcept
     {
         return *this *= Integer<TypeT>(other);
     }
@@ -431,7 +415,8 @@ public:
     Integer& operator*=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator/=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator/=(
+            const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_division_error<IntegerT>(
                                detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.get()),
@@ -442,7 +427,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator/=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator/=(const TypeT& other) noexcept
     {
         return *this /= Integer<TypeT>(other);
     }
@@ -454,7 +439,8 @@ public:
     Integer& operator/=(TypeT) = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator%=(const Integer<TypeT>& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator%=(
+            const Integer<TypeT>& other) noexcept
     {
         PHI_DBG_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
                                                             m_Value, other.get()),
@@ -465,7 +451,7 @@ public:
     }
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr Integer& operator%=(const TypeT& other) noexcept
+    PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR Integer& operator%=(const TypeT& other) noexcept
     {
         return *this %= Integer<TypeT>(other);
     }
@@ -689,8 +675,8 @@ constexpr Boolean operator>=(Integer<LhsT>, RhsT) = delete;
 //=== binary operations ===//
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const Integer<LhsT>& lhs,
-                                           const Integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator+(const Integer<LhsT>& lhs,
+                                                        const Integer<RhsT>& rhs) noexcept
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
@@ -726,8 +712,8 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator+(Integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const Integer<LhsT>& lhs,
-                                           const Integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator-(const Integer<LhsT>& lhs,
+                                                        const Integer<RhsT>& rhs) noexcept
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
@@ -763,8 +749,8 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator-(Integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const Integer<LhsT>& lhs,
-                                           const Integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator*(const Integer<LhsT>& lhs,
+                                                        const Integer<RhsT>& rhs) noexcept
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
@@ -800,8 +786,8 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator*(Integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const Integer<LhsT>& lhs,
-                                           const Integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator/(const Integer<LhsT>& lhs,
+                                                        const Integer<RhsT>& rhs) noexcept
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
@@ -837,8 +823,8 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator/(Integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const Integer<LhsT>& lhs,
-                                           const Integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator%(const Integer<LhsT>& lhs,
+                                                        const Integer<RhsT>& rhs) noexcept
         -> Integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;

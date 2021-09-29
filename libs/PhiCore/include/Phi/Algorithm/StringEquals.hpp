@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Nullptr.hpp"
@@ -15,7 +16,8 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
-PHI_NODISCARD constexpr Boolean StringEquals(const CharT* lhs, const CharT* rhs) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR Boolean StringEquals(const CharT* lhs,
+                                                          const CharT* rhs) noexcept
 {
     if ((lhs == nullptr || rhs == nullptr))
     {
@@ -37,8 +39,8 @@ PHI_NODISCARD constexpr Boolean StringEquals(const CharT* lhs, const CharT* rhs)
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr Boolean StringEquals(const CharT* lhs, const CharT* rhs,
-                                             usize count) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR Boolean StringEquals(const CharT* lhs, const CharT* rhs,
+                                                          usize count) noexcept
 {
     if ((lhs == nullptr || rhs == nullptr))
     {

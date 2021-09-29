@@ -1,5 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
-#include <Phi/Config/Warning.hpp>
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 
 int main()
@@ -10,5 +10,5 @@ int main()
 
     int val = *ptr;
 
-    PHI_UNUSED_PARAMETER(val);
+    PHI_UNUSED_VARIABLE(val);
 }

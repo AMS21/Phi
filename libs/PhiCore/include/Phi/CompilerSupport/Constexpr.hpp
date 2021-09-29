@@ -7,20 +7,11 @@
 #    pragma once
 #endif
 
-#include "Phi/Config/CPlusPlus.hpp"
-#include "Phi/Config/Compiler.hpp"
+#include "Phi/CompilerSupport/Features.hpp"
 
 // Support for C++-11 constexpr
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2235.pdf
-#if (PHI_COMPILER_IS_ATLEAST(GCC, 4, 6, 0) || PHI_COMPILER_IS_ATLEAST(CLANG_COMPAT, 3, 1, 0) ||    \
-     PHI_COMPILER_IS_ATLEAST(MSVC, 19, 0, 0)) &&                                                   \
-        PHI_CPP_STANDARD_IS_ATLEAST(11)
-#    define DETAIL_PHI_CONSTEXPR_SUPPORT 1
-#else
-#    define DETAIL_PHI_CONSTEXPR_SUPPORT 0
-#endif
-
-#if DETAIL_PHI_CONSTEXPR_SUPPORT
+#if PHI_HAS_FEATURE_CONSTEXPR()
 #    define PHI_CONSTEXPR                 constexpr
 #    define PHI_CONSTEXPR_OR_CONST        constexpr
 #    define PHI_CONSTEXPR_OR_INLINE       constexpr
@@ -36,15 +27,7 @@
 
 // Support for C++-14 extended constexpr
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3652.html
-#if (PHI_COMPILER_IS_ATLEAST(GCC, 5, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG_COMPAT, 3, 4, 0) ||    \
-     PHI_COMPILER_IS_ATLEAST(MSVC, 19, 10, 0)) &&                                                  \
-        PHI_CPP_STANDARD_IS_ATLEAST(14)
-#    define DETAIL_PHI_EXTENDED_CONSTEXPR_SUPPORT 1
-#else
-#    define DETAIL_PHI_EXTENDED_CONSTEXPR_SUPPORT 0
-#endif
-
-#if DETAIL_PHI_EXTENDED_CONSTEXPR_SUPPORT
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
 #    define PHI_EXTENDED_CONSTEXPR                 constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR_CONST        constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR_INLINE       constexpr
@@ -59,21 +42,26 @@
 #endif
 
 // constexpr and const
-#if DETAIL_PHI_CONSTEXPR_SUPPORT
-#    if DETAIL_PHI_EXTENDED_CONSTEXPR_SUPPORT
-#        define PHI_CONSTEXPR_AND_CONST constexpr const
+#if PHI_HAS_FEATURE_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#        define PHI_CONSTEXPR_AND_CONST                          constexpr const
+#        define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr const
+#        define PHI_EXTENDED_CONSTEXPR_AND_CONST                 constexpr const
+#        define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) constexpr const
 #    else
-#        define PHI_CONSTEXPR_AND_CONST constexpr
+#        define PHI_CONSTEXPR_AND_CONST                          constexpr
+#        define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr
+#        define PHI_EXTENDED_CONSTEXPR_AND_CONST                 /* Nothing */
+#        define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) alternative
 #    endif
 #else
-#    define PHI_CONSTEXPR_AND_CONST const
+#    define PHI_CONSTEXPR_AND_CONST                 const
+#    define PHI_CONSTEXPR_AND_CONST_OR(alternative) alternative
 #endif
 
 // Constexpr lambda expression
 // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0170r1.pdf
-#if (PHI_COMPILER_IS_ATLEAST(GCC, 7, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG_COMPAT, 5, 0, 0) ||    \
-     PHI_COMPILER_IS_ATLEAST(MSVC, 19, 11, 0)) &&                                                  \
-        PHI_CPP_STANDARD_IS_ATLEAST(17)
+#if PHI_HAS_FEATURE_CONSTEXPR_LAMBDA()
 #    define PHI_CONSTEXPR_LAMBDA constexpr
 #else
 #    define PHI_CONSTEXPR_LAMBDA /* Nothing */
@@ -81,16 +69,17 @@
 
 // Constexpr virtual functions
 // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1064r0.html
-#if (PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG_COMPAT, 9, 0, 0) ||    \
-     PHI_COMPILER_IS_ATLEAST(MSVC, 19, 28, 0)) &&                                                  \
-        PHI_CPP_STANDARD_IS_ATLEAST(20)
-#    define PHI_CONSTEXPR_VIRTUAL_FUNC constexpr
+#if PHI_HAS_FEATURE_CONSTEXPR_VIRTUAL()
+#    define PHI_CONSTEXPR_VIRTUAL constexpr
 #else
-#    define PHI_CONSTEXPR_VIRTUAL_FUNC /* Nothing */
+#    define PHI_CONSTEXPR_VIRTUAL /* Nothing */
 #endif
 
-// Undef macros
-#undef DETAIL_PHI_CONSTEXPR_SUPPORT
-#undef DETAIL_PHI_EXTENDED_CONSTEXPR_SUPPORT
+// Constexpr destructor
+#if PHI_HAS_FEATURE_CONSTEXPR_DESTRUCTOR()
+#    define PHI_CONSTEXPR_DESTRUCTOR constexpr
+#else
+#    define PHI_CONSTEXPR_DESTRUCTOR /* Nothing */
+#endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_CONSTEXPR_HPP

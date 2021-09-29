@@ -7,15 +7,16 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
-#include <cstdint>
+#include "Phi/Core/SizeT.hpp"
 #include <initializer_list>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename TypeT, std::size_t Size>
-PHI_NODISCARD constexpr TypeT& at(TypeT (&arr)[Size], std::size_t index) noexcept
+template <typename TypeT, size_t Size>
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index) noexcept
 {
     PHI_DBG_ASSERT(index < Size, "Index {} is out of bounds! Max value: {}", index, Size - 1);
 
@@ -23,7 +24,7 @@ PHI_NODISCARD constexpr TypeT& at(TypeT (&arr)[Size], std::size_t index) noexcep
 }
 
 template <typename ContainerT>
-PHI_NODISCARD constexpr auto at(ContainerT& container, std::size_t index)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index)
 #if !defined(PHI_DEBUG)
         noexcept
 #endif
@@ -40,7 +41,8 @@ PHI_NODISCARD constexpr auto at(ContainerT& container, std::size_t index)
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr TypeT at(std::initializer_list<TypeT> list, std::size_t index) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT at(std::initializer_list<TypeT> list,
+                                              std::size_t                  index) noexcept
 {
     PHI_DBG_ASSERT(index < list.size(), "Index {} is out of bounds! Max value: {}", index,
                    list.size() - 1);

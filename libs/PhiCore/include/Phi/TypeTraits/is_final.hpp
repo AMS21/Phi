@@ -31,8 +31,12 @@ struct is_final : public false_type
 
 #endif
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_final_v = is_final<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

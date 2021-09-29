@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Config/Compiler.hpp>
@@ -13,12 +13,6 @@ struct A
 private:
     A(char);
 };
-
-struct Base
-{};
-
-struct Derived : public Base
-{};
 
 class AbstractFunc
 {
@@ -63,42 +57,54 @@ template <typename T>
 void test_is_constructible()
 {
     STATIC_REQUIRE(phi::is_constructible<T>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T>);
+#endif
 }
 
 template <typename T, typename A0>
 void test_is_constructible()
 {
     STATIC_REQUIRE(phi::is_constructible<T, A0>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T, A0>);
+#endif
 }
 
 template <typename T, typename A0, typename A1>
 void test_is_constructible()
 {
     STATIC_REQUIRE(phi::is_constructible<T, A0, A1>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T, A0, A1>);
+#endif
 }
 
 template <typename T, typename A0, typename A1, typename A2>
 void test_is_constructible()
 {
     STATIC_REQUIRE(phi::is_constructible<T, A0, A1, A2>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T, A0, A1, A2>);
+#endif
 }
 
 template <typename T>
 void test_is_not_constructible()
 {
     STATIC_REQUIRE_FALSE(phi::is_constructible<T>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<T>);
+#endif
 }
 
 template <typename T, typename A0>
 void test_is_not_constructible()
 {
     STATIC_REQUIRE_FALSE(phi::is_constructible<T, A0>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, A0>);
+#endif
 }
 
 TEST_CASE("is_constructible")
@@ -192,25 +198,43 @@ TEST_CASE("is_constructible")
     test_is_constructible<int&&, double&>();
     test_is_constructible<const int&, ImplicitTo<int&>&>();
     test_is_constructible<const int&, ImplicitTo<int&>>();
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
     test_is_constructible<const int&, ExplicitTo<int&>&>();
     test_is_constructible<const int&, ExplicitTo<int&>>();
-
-    test_is_constructible<const int&, ExplicitTo<int&>&>();
-    test_is_constructible<const int&, ExplicitTo<int&>>();
-
-    // Binding through reference-compatible type is required to perform
-    // direct-initialization as described in [over.match.ref] p. 1 b. 1:
-    //
-    // But the rvalue to lvalue reference binding isn't allowed according to
-    // [over.match.ref] despite Clang accepting it.
-    test_is_constructible<int&, ExplicitTo<int&>>();
-#if PHI_COMPILER_IS_NOT(GCC)
-    test_is_constructible<const int&, ExplicitTo<int&&>>();
+#else
+    test_is_not_constructible<const int&, ExplicitTo<int&>&>();
+    test_is_not_constructible<const int&, ExplicitTo<int&>>();
 #endif
 
-    test_is_constructible<int&&, ExplicitTo<int&&>>();
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+    test_is_constructible<const int&, ExplicitTo<int&>>();
+    test_is_constructible<const int&, ExplicitTo<int&>&>();
+#else
+    test_is_not_constructible<const int&, ExplicitTo<int&>>();
+    test_is_not_constructible<const int&, ExplicitTo<int&>&>();
+#endif
 
+// Binding through reference-compatible type is required to perform
+// direct-initialization as described in [over.match.ref] p. 1 b. 1:
+//
+// But the rvalue to lvalue reference binding isn't allowed according to
+// [over.match.ref] despite Clang accepting it.
 #if PHI_COMPILER_IS(CLANG)
+    test_is_constructible<int&, ExplicitTo<int&>>();
+#endif
+#if PHI_COMPILER_IS_NOT(GCC)
+    test_is_constructible<const int&, ExplicitTo<int&&>>();
+#else
+    test_is_not_constructible<const int&, ExplicitTo<int&&>>();
+#endif
+
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+    test_is_constructible<int&&, ExplicitTo<int&&>>();
+#else
+    test_is_not_constructible<int&&, ExplicitTo<int&&>>();
+#endif
+
+#if PHI_COMPILER_IS(CLANG_COMPAT)
     // FIXME Clang and GCC disagree on the validity of this expression.
     test_is_constructible<const int&, ExplicitTo<int>>();
     test_is_constructible<int&&, ExplicitTo<int>>();
@@ -229,4 +253,9 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<void() volatile>();
     test_is_not_constructible<void()&>();
     test_is_not_constructible<void() &&>();
+
+#if !PHI_HAS_BUG_GCC_102305()
+    // GCC bug 102305 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
+    test_is_not_constructible<AbstractTemplate<int>>();
+#endif
 }

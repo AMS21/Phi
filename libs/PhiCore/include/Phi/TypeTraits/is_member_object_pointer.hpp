@@ -21,8 +21,12 @@ template <typename TypeT>
 struct is_member_object_pointer : public bool_constant<__is_member_object_pointer(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v = __is_member_object_pointer(TypeT);
+
+#    endif
 
 #else
 
@@ -31,9 +35,13 @@ struct is_member_object_pointer
     : bool_constant<is_member_pointer_v<TypeT> && !is_member_function_pointer_v<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v =
         is_member_object_pointer<TypeT>::value;
+
+#    endif
 
 #endif
 

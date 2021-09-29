@@ -112,7 +112,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.20")
 endif()
 
 # set(phi_supported_standards "23" "20" "17" "14" "11")
-set(phi_supported_standards "17" "14")
+set(phi_supported_standards "17" "14" "11")
 
 # Find the latest standard
 foreach(std IN ITEMS ${phi_supported_standards})

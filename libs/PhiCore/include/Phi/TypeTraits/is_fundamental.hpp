@@ -17,11 +17,16 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_fundamental
-    : public bool_constant<is_void_v<TypeT> || is_null_pointer_v<TypeT> || is_arithmetic_v<TypeT>>
+    : public bool_constant<is_void<TypeT>::value || is_null_pointer<TypeT>::value ||
+                           is_arithmetic<TypeT>::value>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_fundamental_v = is_fundamental<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

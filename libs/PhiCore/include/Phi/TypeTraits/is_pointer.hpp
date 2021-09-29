@@ -21,8 +21,12 @@ template <typename TypeT>
 struct is_pointer : public bool_constant<__is_pointer(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_pointer_v = __is_pointer(TypeT);
+
+#    endif
 
 #else
 
@@ -43,8 +47,12 @@ template <typename TypeT>
 struct is_pointer : public detail::is_pointer_impl<remove_cv_t<TypeT>>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_pointer_v = is_pointer<TypeT>::value;
+
+#    endif
 
 #endif
 

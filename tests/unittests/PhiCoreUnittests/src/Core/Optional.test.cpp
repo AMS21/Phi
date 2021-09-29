@@ -16,8 +16,10 @@
 // * https://github.com/TartanLlama/optional/blob/master/tests/relops.cpp
 // * https://github.com/TartanLlama/optional/blob/master/tests/swap.cpp
 
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Move.hpp>
 #include <Phi/Core/Optional.hpp>
@@ -241,24 +243,24 @@ TEST_CASE("Optional constexpr")
 
     SECTION("value construct")
     {
-        constexpr phi::Optional<int> o1 = 42;
-        constexpr phi::Optional<int> o2{42};
-        constexpr phi::Optional<int> o3(42);
-        constexpr phi::Optional<int> o4 = {42};
-        constexpr int                i  = 42;
-        constexpr phi::Optional<int> o5 = phi::move(i);
-        constexpr phi::Optional<int> o6{phi::move(i)};
-        constexpr phi::Optional<int> o7(phi::move(i));
-        constexpr phi::Optional<int> o8 = {phi::move(i)};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o1 = 42;
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o2{42};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o3(42);
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o4 = {42};
+        EXT_CONSTEXPR_RUNTIME int                i  = 42;
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o5 = phi::move(i);
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o6{phi::move(i)};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o7(phi::move(i));
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o8 = {phi::move(i)};
 
-        STATIC_REQUIRE(*o1 == 42);
-        STATIC_REQUIRE(*o2 == 42);
-        STATIC_REQUIRE(*o3 == 42);
-        STATIC_REQUIRE(*o4 == 42);
-        STATIC_REQUIRE(*o5 == 42);
-        STATIC_REQUIRE(*o6 == 42);
-        STATIC_REQUIRE(*o7 == 42);
-        STATIC_REQUIRE(*o8 == 42);
+        EXT_STATIC_REQUIRE(*o1 == 42);
+        EXT_STATIC_REQUIRE(*o2 == 42);
+        EXT_STATIC_REQUIRE(*o3 == 42);
+        EXT_STATIC_REQUIRE(*o4 == 42);
+        EXT_STATIC_REQUIRE(*o5 == 42);
+        EXT_STATIC_REQUIRE(*o6 == 42);
+        EXT_STATIC_REQUIRE(*o7 == 42);
+        EXT_STATIC_REQUIRE(*o8 == 42);
     }
 }
 
@@ -346,6 +348,7 @@ constexpr phi::Optional<int> get_opt_int(int)
 
 TEST_CASE("Optional monadic operations", "[monadic]")
 {
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("map")
     { // lhs is empty
         phi::Optional<int> o1;
@@ -744,6 +747,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         constexpr auto               o19r = phi::move(o19).and_then(get_opt_int);
         REQUIRE(!o19r);
     }
+#endif
 
     SECTION("or else")
     {
@@ -814,12 +818,14 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         {}
     };
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #1")
     {
         phi::Optional<foo> f = foo{};
         auto               l = [](auto&& x) { x.non_const(); };
         f.map(l);
     }
+#endif
 
     struct overloaded
     {
@@ -833,11 +839,15 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         }
     };
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #2")
     {
         phi::Optional<foo> f = foo{};
         auto               x = f.and_then(overloaded{});
+
+        PHI_UNUSED_VARIABLE(x);
     }
+#endif
 }
 
 struct takes_init_and_variadic
@@ -895,6 +905,7 @@ int& x(int& i)
     return i;
 }
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
 TEST_CASE("issue 14")
 {
     phi::Optional<bar> f = bar{};
@@ -904,6 +915,7 @@ TEST_CASE("issue 14")
     REQUIRE(*v == 42);
     REQUIRE((&f->i) == (&*v));
 }
+#endif
 
 struct fail_on_copy_self
 {
@@ -1137,10 +1149,8 @@ TEST_CASE("Observers", "[observers]")
     success = phi::is_same<decltype(phi::move(o1).value()), int&&>::value;
     REQUIRE(success);
 
-#ifndef TL_OPTIONAL_NO_CONSTRR
     success = phi::is_same<decltype(phi::move(o3).value()), const int&&>::value;
     REQUIRE(success);
-#endif
 
     phi::Optional<move_detector> o4{phi::in_place};
     move_detector                o5 = phi::move(o4).value();

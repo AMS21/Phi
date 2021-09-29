@@ -14,7 +14,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_safe_type_v<TypeT>>
+    template <typename TypeT, bool = is_safe_type<TypeT>::value>
     struct make_unsafe_impl
     {
         using type = copy_cv_t<TypeT, typename TypeT::value_type>;
@@ -28,7 +28,7 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-struct make_unsafe : public detail::make_unsafe_impl<TypeT, is_safe_type_v<TypeT>>
+struct make_unsafe : public detail::make_unsafe_impl<TypeT, is_safe_type<TypeT>::value>
 {};
 
 template <typename TypeT>

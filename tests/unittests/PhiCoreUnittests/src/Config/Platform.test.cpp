@@ -1,5 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
 #include <Phi/Algorithm/StringEquals.hpp>
 #include <Phi/Config/Platform.hpp>
 
@@ -37,5 +38,5 @@ TEST_CASE("Platform", "[Config][Platform]")
     STATIC_REQUIRE(true);
 #endif
 
-    STATIC_REQUIRE_FALSE(phi::StringEquals(PHI_PLATFORM_NAME(), "Unknown"));
+    EXT_STATIC_REQUIRE_FALSE(phi::StringEquals(PHI_PLATFORM_NAME(), "Unknown"));
 }

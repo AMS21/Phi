@@ -30,8 +30,8 @@ namespace detail
     {
     public:
         using type = conditional_t<
-                is_array_v<TypeT>, remove_extent_t<TypeT>*,
-                conditional_t<is_function_v<TypeT>, add_pointer_t<TypeT>, remove_cv_t<TypeT>>>;
+                is_array<TypeT>::value, remove_extent_t<TypeT>*,
+                conditional_t<is_function<TypeT>::value, add_pointer_t<TypeT>, remove_cv_t<TypeT>>>;
     };
 } // namespace detail
 

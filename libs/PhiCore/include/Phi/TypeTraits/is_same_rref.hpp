@@ -17,8 +17,12 @@ template <typename LhsT, typename RhsT>
 struct is_same_rref : public is_same<remove_reference_t<LhsT>, remove_reference_t<RhsT>>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename LhsT, typename RhsT>
 PHI_INLINE_VARIABLE constexpr bool is_same_rref_v = is_same_rref<LhsT, RhsT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -1,5 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
-#include <Phi/Config/Warning.hpp>
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Core/ObserverPtr.hpp>
 
 int main()
@@ -9,5 +9,5 @@ int main()
     phi::ObserverPtr<int> ptr;
 
     auto err = *ptr;
-    PHI_UNUSED_PARAMETER(err);
+    PHI_UNUSED_VARIABLE(err);
 }

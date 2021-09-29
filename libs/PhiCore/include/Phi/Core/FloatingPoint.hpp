@@ -58,8 +58,8 @@ namespace detail
     // Floating point conversion
     template <typename FromT, typename ToT>
     struct is_safe_floating_point_conversion
-        : public bool_constant<is_unsafe_floating_point_v<FromT> &&
-                               is_unsafe_floating_point_v<ToT> && sizeof(FromT) <= sizeof(ToT)>
+        : public bool_constant<is_unsafe_floating_point<FromT>::value &&
+                               is_unsafe_floating_point<ToT>::value && sizeof(FromT) <= sizeof(ToT)>
     {};
 
     template <typename FromT, typename ToT>
@@ -88,7 +88,8 @@ namespace detail
     // Floating point operation
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_operation
-        : public bool_constant<is_unsafe_floating_point_v<LhsT> && is_unsafe_floating_point_v<RhsT>>
+        : public bool_constant<is_unsafe_floating_point<LhsT>::value &&
+                               is_unsafe_floating_point<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>

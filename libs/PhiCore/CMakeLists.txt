@@ -8,6 +8,7 @@ file(
   "include/Phi/Algorithm/StringCompare.hpp"
   "include/Phi/Algorithm/StringEquals.hpp"
   "include/Phi/Algorithm/StringLength.hpp"
+  "include/Phi/Algorithm/Swap.hpp"
   # CompilerSupport
   "include/Phi/CompilerSupport/Char8_t.hpp"
   "include/Phi/CompilerSupport/Constexpr.hpp"
@@ -22,7 +23,6 @@ file(
   "include/Phi/Config/FunctionLikeMacro.hpp"
   "include/Phi/Config/Glue.hpp"
   "include/Phi/Config/Inline.hpp"
-  "include/Phi/Config/Likely.hpp"
   "include/Phi/Config/Platform.hpp"
   "include/Phi/Config/SourceLine.hpp"
   "include/Phi/Config/Stringify.hpp"
@@ -44,7 +44,6 @@ file(
   "include/Phi/Core/Forward.hpp"
   "include/Phi/Core/Integer.hpp"
   "include/Phi/Core/Invoke.hpp"
-  "include/Phi/Core/Log.hpp"
   "include/Phi/Core/Monitor.hpp"
   "include/Phi/Core/Move.hpp"
   "include/Phi/Core/NamedType.hpp"
@@ -115,7 +114,6 @@ file(
   "include/Phi/TypeTraits/is_member_pointer.hpp"
   "include/Phi/TypeTraits/is_move_assignable.hpp"
   "include/Phi/TypeTraits/is_move_constructible.hpp"
-  "include/Phi/TypeTraits/is_not_same.hpp"
   "include/Phi/TypeTraits/is_nothrow_assignable.hpp"
   "include/Phi/TypeTraits/is_nothrow_constructible.hpp"
   "include/Phi/TypeTraits/is_nothrow_convertible.hpp"
@@ -161,7 +159,7 @@ file(
   "include/Phi/TypeTraits/underlying_type.hpp"
   "include/Phi/TypeTraits/void_t.hpp")
 
-file(GLOB PHI_CORE_SOURCES "src/Core/Log.cpp")
+file(GLOB PHI_CORE_SOURCES "src/dummy.cpp")
 
 phi_add_library(
   NAME
@@ -174,7 +172,6 @@ phi_add_library(
   ALIAS_TARGET
   Phi::Core
   PUBLIC_LINK_LIBRARIES
-  spdlog::spdlog
   Threads::Threads
   PRIVATE_LINK_LIBRARIES
   Phi::InternalProjectOptions

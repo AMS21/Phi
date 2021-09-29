@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
@@ -12,10 +12,12 @@ void test_is_const()
     STATIC_REQUIRE_FALSE(phi::is_const<volatile T>::value);
     STATIC_REQUIRE(phi::is_const<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_const_v<T>);
     STATIC_REQUIRE(phi::is_const_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_const_v<volatile T>);
     STATIC_REQUIRE(phi::is_const_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -26,10 +28,12 @@ void test_is_not_const()
     STATIC_REQUIRE_FALSE(phi::is_const<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_const<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_const_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_const_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_const_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_const_v<const volatile T>);
+#endif
 }
 
 struct A; // incomplete

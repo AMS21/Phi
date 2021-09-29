@@ -10,6 +10,7 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_unsafe_arithmetic.hpp"
+#include "Phi/TypeTraits/make_unsafe.hpp"
 #include "Phi/TypeTraits/remove_cv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -17,7 +18,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 /// \cond detail
 namespace detail
 {
-    template <typename TypeT, bool = is_unsafe_arithmetic_v<TypeT>>
+    template <typename TypeT, bool = is_unsafe_arithmetic<TypeT>::value>
     struct is_unsigned_impl : public bool_constant<TypeT(0) < TypeT(-1)>
     {};
 
@@ -28,11 +29,15 @@ namespace detail
 /// \endcond
 
 template <typename TypeT>
-struct is_unsigned : public detail::is_unsigned_impl<remove_cv_t<TypeT>>
+struct is_unsigned : public detail::is_unsigned_impl<remove_cv_t<make_unsafe_t<TypeT>>>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsigned_v = is_unsigned<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

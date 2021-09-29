@@ -1,7 +1,7 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
-#include "Phi/Core/Nullptr.hpp"
 #include "TestTypes.hpp"
+#include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/is_destructible.hpp>
 
 template <typename T>
@@ -12,10 +12,12 @@ void test_is_destructible()
     STATIC_REQUIRE(phi::is_destructible<volatile T>::value);
     STATIC_REQUIRE(phi::is_destructible<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_destructible_v<T>);
     STATIC_REQUIRE(phi::is_destructible_v<const T>);
     STATIC_REQUIRE(phi::is_destructible_v<volatile T>);
     STATIC_REQUIRE(phi::is_destructible_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -26,10 +28,12 @@ void test_is_not_destructible()
     STATIC_REQUIRE_FALSE(phi::is_destructible<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_destructible<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_destructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_destructible_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_destructible_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_destructible_v<const volatile T>);
+#endif
 }
 
 class NotEmpty2
@@ -42,22 +46,28 @@ struct A
     ~A();
 };
 
-typedef void(Function)();
+using Function = void();
 
 struct PublicAbstract
 {
+    virtual ~PublicAbstract() = default;
+
 public:
     virtual void foo() = 0;
 };
 
 struct ProtectedAbstract
 {
+    virtual ~ProtectedAbstract() = default;
+
 protected:
     virtual void foo() = 0;
 };
 
 struct PrivateAbstract
 {
+    virtual ~PrivateAbstract() = default;
+
 private:
     virtual void foo() = 0;
 };
@@ -65,43 +75,37 @@ private:
 struct PublicDestructor
 {
 public:
-    ~PublicDestructor()
-    {}
+    ~PublicDestructor() = default;
 };
 
 struct ProtectedDestructor
 {
 protected:
-    ~ProtectedDestructor()
-    {}
+    ~ProtectedDestructor() = default;
 };
 
 struct PrivateDestructor
 {
 private:
-    ~PrivateDestructor()
-    {}
+    ~PrivateDestructor() = default;
 };
 
 struct VirtualPublicDestructor
 {
 public:
-    virtual ~VirtualPublicDestructor()
-    {}
+    virtual ~VirtualPublicDestructor() = default;
 };
 
 struct VirtualProtectedDestructor
 {
 protected:
-    virtual ~VirtualProtectedDestructor()
-    {}
+    virtual ~VirtualProtectedDestructor() = default;
 };
 
 struct VirtualPrivateDestructor
 {
 private:
-    virtual ~VirtualPrivateDestructor()
-    {}
+    virtual ~VirtualPrivateDestructor() = default;
 };
 
 struct PurePublicDestructor

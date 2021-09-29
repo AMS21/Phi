@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Config/Compiler.hpp>
@@ -9,14 +9,18 @@ template <typename T>
 void test_is_move_constructible()
 {
     STATIC_REQUIRE(phi::is_move_constructible<T>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_move_constructible_v<T>);
+#endif
 }
 
 template <typename T>
 void test_is_not_move_constructible()
 {
     STATIC_REQUIRE_FALSE(phi::is_move_constructible<T>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_move_constructible_v<T>);
+#endif
 }
 
 struct A
@@ -112,11 +116,6 @@ TEST_CASE("is_move_constructible")
     test_is_move_constructible<MemberFunctionPtr>();
 
     test_is_not_move_constructible<char[3]>();
-    test_is_not_move_constructible<char[]>();
-    test_is_not_move_constructible<void>();
-    test_is_not_move_constructible<const void>();
-    test_is_not_move_constructible<volatile void>();
-    test_is_not_move_constructible<const volatile void>();
     test_is_not_move_constructible<volatile Class>();
     test_is_not_move_constructible<const volatile Class>();
     test_is_not_move_constructible<Abstract>();
@@ -162,8 +161,18 @@ TEST_CASE("is_move_constructible")
     test_is_not_move_constructible<volatile H>();
     test_is_not_move_constructible<const volatile H>();
 
-    // GCC thinks AbstractTempalte<int> is move constructible
-#if PHI_COMPILER_IS_NOT(GCC)
+#if !PHI_HAS_BUG_GCC_102305()
+    // Test GCC bug 102305 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
     test_is_not_move_constructible<AbstractTemplate<int>>();
+#endif
+
+    // Incomplete types only work with the intrinsic functions
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+    test_is_not_move_constructible<void>();
+    test_is_not_move_constructible<const void>();
+    test_is_not_move_constructible<volatile void>();
+    test_is_not_move_constructible<const volatile void>();
+
+    test_is_not_move_constructible<char[]>();
 #endif
 }

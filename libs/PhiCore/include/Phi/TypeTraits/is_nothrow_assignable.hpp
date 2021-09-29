@@ -21,8 +21,12 @@ template <typename TypeT, typename ArgT>
 struct is_nothrow_assignable : public bool_constant<__is_nothrow_assignable(TypeT, ArgT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v = __is_nothrow_assignable(TypeT, ArgT);
+
+#    endif
 
 #else
 
@@ -46,9 +50,13 @@ struct is_nothrow_assignable
     : public detail::is_nothrow_assignable_impl<is_assignable_v<TypeT, ArgT>, TypeT, ArgT>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v =
         is_nothrow_assignable<TypeT, ArgT>::value;
+
+#    endif
 
 #endif
 

@@ -17,8 +17,8 @@
 #include "Phi/TypeTraits/is_convertible.hpp"
 #include "Phi/TypeTraits/is_member_function_pointer.hpp"
 #include "Phi/TypeTraits/is_member_object_pointer.hpp"
-#include "Phi/TypeTraits/is_not_same.hpp"
 #include "Phi/TypeTraits/is_reference_wrapper.hpp"
+#include "Phi/TypeTraits/is_same.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 #include "Phi/TypeTraits/nat.hpp"
 
@@ -173,8 +173,8 @@ namespace detail
         using ResultT = decltype(try_call<FunctionPointerT, ArgsT...>(0));
 
         using type = conditional_t<
-                is_not_same_v<ResultT, nat>,
-                conditional_t<is_void_v<ReturnT>, true_type, is_convertible<ResultT, ReturnT>>,
+                is_not_same<ResultT, nat>::value,
+                conditional_t<is_void<ReturnT>::value, true_type, is_convertible<ResultT, ReturnT>>,
                 false_type>;
         static const bool value = type::value;
     };
@@ -230,8 +230,12 @@ template <typename FunctionT, typename... ArgsT>
 struct is_invocable : public bool_constant<detail::invokable_impl<FunctionT, ArgsT...>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename FunctionT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_invocable_v = is_invocable<FunctionT, ArgsT...>::value;
+
+#endif
 
 // is_invocable_r
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
@@ -239,9 +243,13 @@ struct is_invocable_r
     : public bool_constant<detail::invokable_r_impl<ReturnT, FunctionT, ArgsT...>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_invocable_r_v =
         is_invocable_r<ReturnT, FunctionT, ArgsT...>::value;
+
+#endif
 
 // is_nothrow_invocable
 template <typename FunctionT, typename... ArgsT>
@@ -249,9 +257,13 @@ struct is_nothrow_invocable
     : public bool_constant<detail::nothrow_invokable<FunctionT, ArgsT...>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename FunctionT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_invocable_v =
         is_nothrow_invocable<FunctionT, ArgsT...>::value;
+
+#endif
 
 // is_nothrow_invocable_r
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
@@ -259,9 +271,13 @@ struct is_nothrow_invocable_r
     : public bool_constant<detail::nothrow_invokable_r<ReturnT, FunctionT, ArgsT...>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_invocable_r_v =
         is_nothrow_invocable_r<ReturnT, FunctionT, ArgsT...>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

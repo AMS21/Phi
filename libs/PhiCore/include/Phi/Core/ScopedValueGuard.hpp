@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Core/Boolean.hpp"
@@ -31,9 +32,15 @@ public:
 
     ScopedValueGuard& operator=(const ScopedValueGuard&) = delete;
     ScopedValueGuard& operator=(ScopedValueGuard&&) = delete;
+#else
+    ScopedValueGuard(const ScopedValueGuard&) = default;
+    ScopedValueGuard(ScopedValueGuard&&)      = default;
+
+    ScopedValueGuard& operator=(const ScopedValueGuard&) = default;
+    ScopedValueGuard& operator=(ScopedValueGuard&&)     = default;
 #endif
 
-    ~ScopedValueGuard()
+    PHI_CONSTEXPR_DESTRUCTOR ~ScopedValueGuard() noexcept
     {
         m_Variable = m_SavedValue;
     }
@@ -48,7 +55,7 @@ public:
         return m_SavedValue;
     }
 
-    constexpr void override_saved_value(const ValueT& new_value) noexcept
+    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) noexcept
     {
         m_SavedValue = new_value;
     }
@@ -57,6 +64,11 @@ private:
     ValueT& m_Variable;
     ValueT  m_SavedValue;
 };
+
+#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
+template <typename TypeT>
+ScopedValueGuard(TypeT) -> ScopedValueGuard<TypeT>;
+#endif
 
 template <typename ValueT>
 class ArmedScopedValueGuard
@@ -77,9 +89,15 @@ public:
 
     ArmedScopedValueGuard& operator=(const ArmedScopedValueGuard&) = delete;
     ArmedScopedValueGuard& operator=(ArmedScopedValueGuard&&) = delete;
+#else
+    ArmedScopedValueGuard(const ArmedScopedValueGuard&) = default;
+    ArmedScopedValueGuard(ArmedScopedValueGuard&&)      = default;
+
+    ArmedScopedValueGuard& operator=(const ArmedScopedValueGuard&) = default;
+    ArmedScopedValueGuard& operator=(ArmedScopedValueGuard&&) = default;
 #endif
 
-    ~ArmedScopedValueGuard()
+    PHI_CONSTEXPR_DESTRUCTOR ~ArmedScopedValueGuard() noexcept
     {
         if (m_Armed)
         {
@@ -97,17 +115,17 @@ public:
         return m_SavedValue;
     }
 
-    constexpr void override_saved_value(const ValueT& new_value) noexcept
+    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) noexcept
     {
         m_SavedValue = new_value;
     }
 
-    constexpr void disarm() noexcept
+    PHI_EXTENDED_CONSTEXPR void disarm() noexcept
     {
         m_Armed = false;
     }
 
-    constexpr void rearm() noexcept
+    PHI_EXTENDED_CONSTEXPR void rearm() noexcept
     {
         m_Armed = true;
     }
@@ -122,6 +140,11 @@ private:
     ValueT  m_SavedValue;
     Boolean m_Armed;
 };
+
+#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
+template <typename TypeT>
+ArmedScopedValueGuard(TypeT) -> ArmedScopedValueGuard<TypeT>;
+#endif
 
 template <typename ValueT>
 PHI_NODISCARD constexpr ScopedValueGuard<ValueT> make_scoped_value_guard(ValueT& variable) noexcept

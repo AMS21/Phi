@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/CompilerSupport/Char8_t.hpp>
@@ -18,10 +18,12 @@ void test_is_signed()
     STATIC_REQUIRE(phi::is_signed<volatile TypeT>::value);
     STATIC_REQUIRE(phi::is_signed<const volatile TypeT>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_signed_v<TypeT>);
     STATIC_REQUIRE(phi::is_signed_v<const TypeT>);
     STATIC_REQUIRE(phi::is_signed_v<volatile TypeT>);
     STATIC_REQUIRE(phi::is_signed_v<const volatile TypeT>);
+#endif
 }
 
 template <typename TypeT>
@@ -32,10 +34,12 @@ void test_is_not_signed()
     STATIC_REQUIRE_FALSE(phi::is_signed<volatile TypeT>::value);
     STATIC_REQUIRE_FALSE(phi::is_signed<const volatile TypeT>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_signed_v<TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_signed_v<const TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_signed_v<volatile TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_signed_v<const volatile TypeT>);
+#endif
 }
 
 TEST_CASE("is_signed", "[TypeTraits][is_signed]")

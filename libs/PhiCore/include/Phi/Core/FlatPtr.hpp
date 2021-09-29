@@ -7,13 +7,15 @@
 #    pragma once
 #endif
 
+#include "Phi/Algorithm/Swap.hpp"
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core//Nullptr.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_pointer.hpp"
-#include <cstdint>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -35,7 +37,7 @@ public:
         : m_Ptr(nullptr)
     {}
 
-    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
+    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
     constexpr FlatPtr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {}
@@ -52,7 +54,7 @@ public:
 
     constexpr FlatPtr(NotNullFlatPtr&& other) noexcept;
 
-    constexpr FlatPtr& operator=(nullptr_t) noexcept
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(nullptr_t) noexcept
     {
         m_Ptr = nullptr;
 
@@ -61,45 +63,47 @@ public:
 
     ~FlatPtr() = default;
 
-    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
-    constexpr FlatPtr& operator=(PtrT ptr) noexcept
+    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(PtrT ptr) noexcept
     {
         m_Ptr = static_cast<void*>(ptr);
 
         return *this;
     }
 
-    constexpr FlatPtr& operator=(const FlatPtr& other) noexcept
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(const FlatPtr& other) noexcept
     {
         m_Ptr = other.m_Ptr;
 
         return *this;
     }
 
-    constexpr FlatPtr& operator=(FlatPtr&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(FlatPtr&& other) noexcept
     {
         m_Ptr = other.get();
 
         return *this;
     }
 
-    constexpr FlatPtr& operator=(const NotNullFlatPtr& other) noexcept;
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(const NotNullFlatPtr& other) noexcept;
 
-    constexpr FlatPtr& operator=(NotNullFlatPtr&& other) noexcept;
+    PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(NotNullFlatPtr&& other) noexcept;
 
     constexpr void* get() noexcept
     {
         return m_Ptr;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr const void* get() const noexcept
     {
         return m_Ptr;
     }
+#endif
 
-    PHI_NODISCARD constexpr NotNullFlatPtr release_not_null() const noexcept;
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR NotNullFlatPtr release_not_null() const noexcept;
 
-    constexpr void clear() noexcept
+    PHI_EXTENDED_CONSTEXPR void clear() noexcept
     {
         m_Ptr = nullptr;
     }
@@ -126,7 +130,7 @@ public:
 
     void swap(FlatPtr& other) noexcept
     {
-        std::swap(m_Ptr, other.m_Ptr);
+        phi::swap(m_Ptr, other.m_Ptr);
     }
 
     void* operator->() = delete;
@@ -186,8 +190,8 @@ public:
 
     NotNullFlatPtr(nullptr_t) = delete;
 
-    template <typename PtrT, enable_if_t<is_pointer_v<PtrT>, bool> = true>
-    constexpr NotNullFlatPtr(PtrT ptr) noexcept
+    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
+    PHI_EXTENDED_CONSTEXPR NotNullFlatPtr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullFlatPtr");
@@ -206,7 +210,8 @@ public:
     constexpr NotNullFlatPtr& operator=(nullptr_t) = delete;
 
     template <typename PtrT>
-    constexpr NotNullFlatPtr& operator=(enable_if_t<is_pointer_v<PtrT>, PtrT> ptr) noexcept
+    PHI_EXTENDED_CONSTEXPR NotNullFlatPtr& operator=(
+            enable_if_t<is_pointer<PtrT>::value, PtrT> ptr) noexcept
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::NotNullFlatPtr");
 
@@ -215,14 +220,14 @@ public:
         return *this;
     }
 
-    constexpr NotNullFlatPtr& operator=(const NotNullFlatPtr& other) noexcept
+    PHI_EXTENDED_CONSTEXPR NotNullFlatPtr& operator=(const NotNullFlatPtr& other) noexcept
     {
         m_Ptr = other.m_Ptr;
 
         return *this;
     }
 
-    constexpr NotNullFlatPtr& operator=(NotNullFlatPtr&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR NotNullFlatPtr& operator=(NotNullFlatPtr&& other) noexcept
     {
         m_Ptr = other.m_Ptr;
 
@@ -234,10 +239,12 @@ public:
         return m_Ptr;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr const void* get() const noexcept
     {
         return m_Ptr;
     }
+#endif
 
     constexpr explicit operator const void*() const noexcept
     {
@@ -274,25 +281,25 @@ constexpr FlatPtr::FlatPtr(NotNullFlatPtr&& other) noexcept
     : m_Ptr(other.get())
 {}
 
-constexpr FlatPtr& FlatPtr::operator=(const NotNullFlatPtr& other) noexcept
+PHI_EXTENDED_CONSTEXPR_OR_INLINE FlatPtr& FlatPtr::operator=(const NotNullFlatPtr& other) noexcept
 {
     m_Ptr = const_cast<void*>(other.get());
 
     return *this;
 }
 
-constexpr FlatPtr& FlatPtr::operator=(NotNullFlatPtr&& other) noexcept
+PHI_EXTENDED_CONSTEXPR_OR_INLINE FlatPtr& FlatPtr::operator=(NotNullFlatPtr&& other) noexcept
 {
     m_Ptr = other.get();
 
     return *this;
 }
 
-constexpr NotNullFlatPtr FlatPtr::release_not_null() const noexcept
+PHI_EXTENDED_CONSTEXPR_OR_INLINE NotNullFlatPtr FlatPtr::release_not_null() const noexcept
 {
     PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to release nullptr to phi::NotNullFlatPtr");
 
-    return NotNullFlatPtr(m_Ptr);
+    return {m_Ptr};
 }
 
 constexpr Boolean operator==(const NotNullFlatPtr& lhs, const NotNullFlatPtr& rhs) noexcept
@@ -325,18 +332,18 @@ namespace std
     template <>
     struct hash<phi::FlatPtr>
     {
-        std::size_t operator()(phi::FlatPtr ptr) const noexcept
+        size_t operator()(const phi::FlatPtr& ptr) const noexcept
         {
-            return std::hash<void*>()(ptr.get());
+            return std::hash<const void*>()(ptr.get());
         }
     };
 
     template <>
     struct hash<phi::NotNullFlatPtr>
     {
-        std::size_t operator()(phi::NotNullFlatPtr ptr) const noexcept
+        size_t operator()(const phi::NotNullFlatPtr& ptr) const noexcept
         {
-            return std::hash<void*>()(ptr.get());
+            return std::hash<const void*>()(ptr.get());
         }
     };
 } // namespace std

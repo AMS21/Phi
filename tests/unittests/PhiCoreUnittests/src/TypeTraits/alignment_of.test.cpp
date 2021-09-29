@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/alignment_of.hpp>
@@ -16,10 +16,12 @@ void test_alignment_of()
     STATIC_REQUIRE(phi::alignment_of<volatile T>::value == A);
     STATIC_REQUIRE(phi::alignment_of<const volatile T>::value == A);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::alignment_of_v<T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<const T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<volatile T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<const volatile T> == A);
+#endif
 }
 
 TEST_CASE("alignment_of")

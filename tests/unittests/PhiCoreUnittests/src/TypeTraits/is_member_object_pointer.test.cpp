@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
@@ -49,6 +49,7 @@ void test_is_member_object_pointer_imp()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_fundamental<T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE(phi::is_object_v<T>);
@@ -70,6 +71,7 @@ void test_is_member_object_pointer_imp()
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_fundamental_v<T>);
+#endif
 }
 
 template <typename T>
@@ -89,10 +91,12 @@ void test_is_not_member_object_pointer()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<const volatile T>);
+#endif
 }
 
 TEST_CASE("is_member_object_pointer")

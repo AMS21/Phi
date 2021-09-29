@@ -24,8 +24,12 @@ template <typename TypeT>
 struct is_destructible : bool_constant<__is_destructible(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_destructible_v = __is_destructible(TypeT);
+
+#    endif
 
 #else
 
@@ -88,8 +92,12 @@ template <>
 struct is_destructible<void> : public false_type
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_destructible_v = is_destructible<TypeT>::value;
+
+#    endif
 
 #endif
 

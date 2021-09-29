@@ -16,7 +16,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_integral_v<TypeT> || is_enum_v<TypeT>>
+    template <typename TypeT, bool = is_integral<TypeT>::value || is_enum<TypeT>::value>
     struct make_signed_impl
     {};
 

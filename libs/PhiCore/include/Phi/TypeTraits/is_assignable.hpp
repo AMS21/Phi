@@ -9,20 +9,25 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/Core/Declval.hpp"
+#include "Phi/TypeTraits/detail/intrinsics.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_ASSIGNABLE()
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_ASSIGNABLE()
 
 template <typename TypeT, typename ArgT>
-struct is_assignable : public bool_constant<__is_assignable(TypeT, ArgT)>
+struct is_assignable : public bool_constant<PHI_IS_ASSIGNABLE(TypeT, ArgT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_assignable_v = __is_assignable(TypeT, ArgT);
+PHI_INLINE_VARIABLE constexpr bool is_assignable_v = PHI_IS_ASSIGNABLE(TypeT, ArgT);
+
+#    endif
 
 #else
 
@@ -35,7 +40,7 @@ namespace detail
     };
 
     template <typename TypeT, typename ArgT>
-    typename select_2nd<decltype((std::declval<TypeT>() = std::declval<ArgT>())), true_type>::type
+    typename select_2nd<decltype((declval<TypeT>() = declval<ArgT>())), true_type>::type
     is_assignable_test(int);
 
     template <typename, typename>
@@ -54,8 +59,12 @@ template <typename TypeT, typename ArgT>
 struct is_assignable : public detail::is_assignable_imp<TypeT, ArgT>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_assignable_v = is_assignable<TypeT, ArgT>::value;
+
+#    endif
 
 #endif
 

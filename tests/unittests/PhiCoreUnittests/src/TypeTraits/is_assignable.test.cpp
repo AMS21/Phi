@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/TypeTraits/is_assignable.hpp>
 
@@ -10,25 +10,29 @@ struct B
     void operator=(A);
 };
 
-template <class T, class U>
+template <typename T, typename U>
 void test_is_assignable()
 {
     STATIC_REQUIRE(phi::is_assignable<T, U>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_assignable_v<T, U>);
+#endif
 }
 
-template <class T, class U>
+template <typename T, typename U>
 void test_is_not_assignable()
 {
     STATIC_REQUIRE_FALSE(phi::is_assignable<T, U>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_assignable_v<T, U>);
+#endif
 }
 
 struct D;
 
 struct C
 {
-    template <class U>
+    template <typename U>
     D operator,(U&&);
 };
 

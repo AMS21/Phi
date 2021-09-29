@@ -22,8 +22,12 @@ template <typename TypeT>
 struct is_void : public bool_constant<__is_void(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_void_v = __is_void(TypeT);
+
+#    endif
 
 #else
 
@@ -31,8 +35,12 @@ template <typename TypeT>
 struct is_void : public is_same<void, typename remove_cv<TypeT>::type>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_void_v = is_void<TypeT>::value;
+
+#    endif
 
 #endif
 

@@ -1,7 +1,10 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
+#include "Noexcept.hpp"
+#include "Phi/Config/Warning.hpp"
+#include "SameType.hpp"
 #include <Phi/Core/Move.hpp>
-#include <Phi/TypeTraits/is_same.hpp>
 
 class move_only
 {
@@ -25,10 +28,15 @@ static move_only source()
     return move_only();
 }
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-function")
+
 static const move_only csource()
 {
     return move_only();
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 void test(move_only)
 {}
@@ -60,7 +68,7 @@ struct A
     A& operator=(const A&) = delete;
 };
 
-constexpr bool test_constexpr_move()
+PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
 {
     int       y  = 42;
     const int cy = y;
@@ -72,14 +80,15 @@ TEST_CASE("move")
 {
     {
         // Test return type and noexcept.
-        STATIC_REQUIRE(phi::is_same_v<decltype(phi::move(x)), int&&>);
-        STATIC_REQUIRE(noexcept(phi::move(x)));
-        STATIC_REQUIRE(phi::is_same_v<decltype(phi::move(cx)), const int&&>);
-        STATIC_REQUIRE(noexcept(phi::move(cx)));
-        STATIC_REQUIRE(phi::is_same_v<decltype(phi::move(42)), int&&>);
-        STATIC_REQUIRE(noexcept(phi::move(42)));
-        STATIC_REQUIRE(phi::is_same_v<decltype(phi::move(get<const int&&>())), const int&&>);
-        STATIC_REQUIRE(noexcept(phi::move(get<int const&&>())));
+        CHECK_SAME_TYPE(decltype(phi::move(x)), int&&);
+        CHECK_SAME_TYPE(decltype(phi::move(cx)), const int&&);
+        CHECK_SAME_TYPE(decltype(phi::move(42)), int&&);
+        CHECK_SAME_TYPE(decltype(phi::move(get<const int&&>())), const int&&);
+
+        CHECK_NOEXCEPT(phi::move(x));
+        CHECK_NOEXCEPT(phi::move(cx));
+        CHECK_NOEXCEPT(phi::move(42));
+        CHECK_NOEXCEPT(phi::move(get<int const&&>()));
     }
     {
         // test copy and move semantics
@@ -118,7 +127,7 @@ TEST_CASE("move")
     {
         constexpr int y = 42;
         STATIC_REQUIRE(phi::move(y) == 42);
-        STATIC_REQUIRE(test_constexpr_move());
+        EXT_STATIC_REQUIRE(test_constexpr_move());
     }
     {
         constexpr int y = 42;

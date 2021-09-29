@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/is_invocable.hpp>
@@ -43,28 +43,36 @@ template <typename FunctionT, typename... ArgsT>
 void test_is_invocable()
 {
     STATIC_REQUIRE(phi::is_invocable<FunctionT, ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_invocable_v<FunctionT, ArgsT...>);
+#endif
 }
 
 template <typename FunctionT, typename... ArgsT>
 void test_is_not_invocable()
 {
     STATIC_REQUIRE_FALSE(phi::is_invocable<FunctionT, ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_v<FunctionT, ArgsT...>);
+#endif
 }
 
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
 void test_is_invocable_r()
 {
     STATIC_REQUIRE(phi::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
+#endif
 }
 
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
 void test_is_not_invocable_r()
 {
     STATIC_REQUIRE_FALSE(phi::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
+#endif
 }
 
 TEST_CASE("is_invocable")
@@ -311,7 +319,9 @@ TEST_CASE("is_invocable")
         using Fn = void (*)();
         test_is_invocable_r<void, Fn>();
         test_is_not_invocable_r<int, Fn>();
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
         STATIC_REQUIRE(phi::is_invocable_r_v<void, Fn>);
         STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<int, Fn>);
+#endif
     }
 }

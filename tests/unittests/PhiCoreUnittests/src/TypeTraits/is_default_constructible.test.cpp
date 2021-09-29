@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
 #include <Phi/Config/Compiler.hpp>
@@ -13,10 +13,12 @@ void test_is_default_constructible()
     STATIC_REQUIRE(phi::is_default_constructible<volatile T>::value);
     STATIC_REQUIRE(phi::is_default_constructible<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_default_constructible_v<T>);
     STATIC_REQUIRE(phi::is_default_constructible_v<const T>);
     STATIC_REQUIRE(phi::is_default_constructible_v<volatile T>);
     STATIC_REQUIRE(phi::is_default_constructible_v<const volatile T>);
+#endif
 }
 
 template <typename T>
@@ -27,10 +29,12 @@ void test_is_not_default_constructible()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<const volatile T>::value);
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<const volatile T>);
+#endif
 }
 
 class NoDefaultConstructor
@@ -83,8 +87,6 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<void>();
     test_is_not_default_constructible<int&>();
     test_is_not_default_constructible<int&&>();
-    test_is_not_default_constructible<char[]>();
-    test_is_not_default_constructible<char[][3]>();
 
     test_is_not_default_constructible<Abstract>();
     test_is_not_default_constructible<NoDefaultConstructor>();
@@ -116,8 +118,14 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<void() volatile&& noexcept>();
     test_is_not_default_constructible<void() const volatile&& noexcept>();
 
-    // GCC seems to be bugged with AbstractTemplate<int>
-#if PHI_COMPILER_IS_NOT(GCC)
+#if !PHI_HAS_BUG_GCC_102305()
+    // Test GCC bug 102305 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
     test_is_not_default_constructible<AbstractTemplate<int>>();
+#endif
+
+    // Incomplete types only work with the intrinsics
+#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+    test_is_not_default_constructible<char[]>();
+    test_is_not_default_constructible<char[][3]>();
 #endif
 }

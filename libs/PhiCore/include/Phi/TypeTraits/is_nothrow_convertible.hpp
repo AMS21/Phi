@@ -10,6 +10,7 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Declval.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_convertible.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
@@ -29,22 +30,41 @@ namespace detail
     is_nothrow_convertible_test();
 
     template <typename FromT, typename ToT>
-    struct is_nothrow_convertible_impl : decltype(is_nothrow_convertible_test<FromT, ToT>())
+    struct is_nothrow_convertible_impl_3
+        : public decltype(is_nothrow_convertible_test<FromT, ToT>())
     {};
+
+    template <typename FromT, typename ToT, bool = is_convertible<FromT, ToT>::value>
+    struct is_nothrow_convertible_impl_2 : public is_nothrow_convertible_impl_3<FromT, ToT>
+    {};
+
+    template <typename FromT, typename ToT>
+    struct is_nothrow_convertible_impl_2<FromT, ToT, false> : public false_type
+    {};
+
+    template <typename FromT, typename ToT, bool = is_void<FromT>::value&& is_void<ToT>::value>
+    struct is_nothrow_convertible_impl : public is_nothrow_convertible_impl_2<FromT, ToT>
+    {};
+
+    template <typename FromT, typename ToT>
+    struct is_nothrow_convertible_impl<FromT, ToT, true> : public true_type
+    {};
+
 } // namespace detail
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename FromT, typename ToT>
-struct is_nothrow_convertible
-    : public bool_constant<(is_void_v<FromT> && is_void_v<ToT>) ||
-                           (is_convertible_v<FromT, ToT> &&
-                            detail::is_nothrow_convertible_impl<FromT, ToT>::value)>
+struct is_nothrow_convertible : public detail::is_nothrow_convertible_impl<FromT, ToT>
 {};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_convertible_v =
         is_nothrow_convertible<FromT, ToT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

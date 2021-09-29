@@ -20,8 +20,12 @@ template <typename TypeT>
 struct is_trivially_copyable : public bool_constant<__is_trivially_copyable(TypeT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = __is_trivially_copyable(TypeT);
+
+#    endif
 
 #else
 
@@ -32,8 +36,12 @@ struct is_trivially_copyable : public false_type
                                        "instrinci __is_trivilly_copyable");
 };
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = is_trivially_copyable<TypeT>::value;
+
+#    endif
 
 #endif
 

@@ -8,6 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/CompilerSupport/Unused.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Forward.hpp"
@@ -18,23 +19,24 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
+    PHI_CLANG_SUPPRESS_WARNING_PUSH()
+    PHI_CLANG_SUPPRESS_WARNING("-Wunused-parameter")
+
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, true_type is_safe_type) noexcept
+            TypeT original, PHI_UNUSED true_type is_safe_type) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_safe_type);
-
         return original.get();
     }
 
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, false_type is_safe_type) noexcept
+            TypeT original, PHI_UNUSED false_type is_safe_type) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_safe_type);
-
         return original;
     }
+
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 } // namespace detail
 
 template <typename TypeT>

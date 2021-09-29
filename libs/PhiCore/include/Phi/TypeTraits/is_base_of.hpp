@@ -20,6 +20,13 @@ template <typename BaseT, typename DerivedT>
 struct is_base_of : public bool_constant<__is_base_of(BaseT, DerivedT)>
 {};
 
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename BaseT, typename DerivedT>
+PHI_INLINE_VARIABLE constexpr bool is_base_of_v = __is_base_of(BaseT, DerivedT);
+
+#    endif
+
 #else
 
 namespace detail
@@ -45,10 +52,14 @@ struct is_base_of
                                                            BaseT, DerivedT>(0))::value>
 {};
 
-#endif
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename BaseT, typename DerivedT>
 PHI_INLINE_VARIABLE constexpr bool is_base_of_v = is_base_of<BaseT, DerivedT>::value;
+
+#    endif
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

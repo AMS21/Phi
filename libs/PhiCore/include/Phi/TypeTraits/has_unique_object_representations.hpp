@@ -34,9 +34,13 @@ struct has_unique_object_representations : public false_type
 
 #endif
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool has_unique_object_representations_v =
         has_unique_object_representations<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

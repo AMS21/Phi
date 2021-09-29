@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include <cstdint>
+#include "Phi/Core/SizeT.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -23,7 +23,7 @@ struct remove_all_extents<TypeT[]>
     using type = typename remove_all_extents<TypeT>::type;
 };
 
-template <typename TypeT, std::size_t Size>
+template <typename TypeT, size_t Size>
 struct remove_all_extents<TypeT[Size]>
 {
     using type = typename remove_all_extents<TypeT>::type;

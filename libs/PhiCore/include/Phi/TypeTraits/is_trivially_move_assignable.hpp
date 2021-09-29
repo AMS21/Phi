@@ -20,9 +20,13 @@ struct is_trivially_move_assignable
                                      typename add_rvalue_reference<TypeT>::type>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_move_assignable_v =
         is_trivially_move_assignable<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 
