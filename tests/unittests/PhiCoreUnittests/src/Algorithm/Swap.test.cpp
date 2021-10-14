@@ -1,5 +1,6 @@
 #include <catch2/catch.hpp>
 
+#include "TestTypes.hpp"
 #include <Phi/Algorithm/Swap.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/is_same.hpp>
@@ -125,6 +126,56 @@ TEST_CASE("swap")
         STATIC_REQUIRE(!noexcept(phi::swap(c, c)));
         STATIC_REQUIRE(!noexcept(phi::swap(m, m)));
         STATIC_REQUIRE(noexcept(phi::swap(nm, nm)));
+    }
+
+    {
+        // Check that swap does not call any copy constructor
+        NonCopyable a;
+        NonCopyable b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        Tracked a;
+        Tracked b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapConstructible a;
+        TrapConstructible b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapImplicitConversion a;
+        TrapImplicitConversion b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapComma a;
+        TrapComma b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapCall a;
+        TrapCall b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapSelfAssign a;
+        TrapSelfAssign b;
+
+        phi::swap(a, b);
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()

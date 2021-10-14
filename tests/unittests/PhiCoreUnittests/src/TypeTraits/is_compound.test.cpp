@@ -20,7 +20,7 @@ void test_is_compound()
 #endif
 }
 
-template <class T>
+template <typename T>
 void test_is_not_compound()
 {
     STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);

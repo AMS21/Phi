@@ -133,6 +133,9 @@ struct incomplete_type;
 template <typename T>
 struct IncompleteTemplate;
 
+template <typename... Ts>
+struct IncompleteVariadicTemplate;
+
 using Function = void();
 
 using FunctionPtr = void (*)();
@@ -211,7 +214,6 @@ public:
 
     PHI_EXTENDED_CONSTEXPR Tracked& operator=(const Tracked& other) noexcept
     {
-        assert(m_State != State::MovedFrom);
         assert(m_State != State::Destroyed);
         assert(other.m_State != State::MovedFrom);
         assert(other.m_State != State::Destroyed);
@@ -222,7 +224,6 @@ public:
 
     PHI_EXTENDED_CONSTEXPR Tracked& operator=(Tracked&& other) noexcept
     {
-        assert(m_State != State::MovedFrom);
         assert(m_State != State::Destroyed);
         assert(other.m_State != State::MovedFrom);
         assert(other.m_State != State::Destroyed);
@@ -240,6 +241,22 @@ public:
         m_State = State::Destroyed;
     }
 
+    PHI_EXTENDED_CONSTEXPR void set_value(int new_val) noexcept
+    {
+        assert(m_State != State::Destroyed);
+        assert(m_State != State::MovedFrom);
+
+        m_Value = new_val;
+    }
+
+    [[nodiscard]] PHI_CONSTEXPR_DESTRUCTOR int value() const noexcept
+    {
+        assert(m_State != State::Destroyed);
+        assert(m_State != State::MovedFrom);
+
+        return m_Value;
+    }
+
 private:
     int m_Value;
     // Use volatile to force the compiler to not optimize away any assignments
@@ -253,8 +270,11 @@ struct TrapConstructible
     TrapConstructible(const TrapConstructible&) = default;
     TrapConstructible(TrapConstructible&&)      = default;
 
+    TrapConstructible& operator=(const TrapConstructible&) = default;
+    TrapConstructible& operator=(TrapConstructible&&) = default;
+
     template <typename... ArgsT>
-    constexpr TrapConstructible(ArgsT&&...) noexcept
+    constexpr TrapConstructible(PHI_UNUSED ArgsT&&... args) noexcept
     {
         static_assert(phi::always_false<ArgsT...>::value,
                       "TrapConstructible constructor must not be used");

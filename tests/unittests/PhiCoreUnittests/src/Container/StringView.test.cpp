@@ -281,6 +281,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         view.clear();
 
         CHECK(view.data() == nullptr);
+        CHECK(view.is_empty());
         CHECK(bool(view.size() == 0u));
     }
 
@@ -389,7 +390,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     SECTION("substr")
     {
         EXT_CONSTEXPR_RUNTIME phi::StringView base_view("Hello World");
-        EXT_CONSTEXPR_RUNTIME phi::StringView sub_view = base_view.substr(6u);
+        EXT_CONSTEXPR_RUNTIME phi::StringView sub_view = base_view.substr(
+                6u); // TODO: This line generates a linker error with GCC when npos is defined to be size_type instead of size_t
 
         EXT_STATIC_REQUIRE(phi::StringEquals(sub_view.data(), "World"));
         EXT_STATIC_REQUIRE(bool(sub_view.size() == 5u));

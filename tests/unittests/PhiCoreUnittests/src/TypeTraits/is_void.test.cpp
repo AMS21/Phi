@@ -7,23 +7,92 @@
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
+#include <Phi/TypeTraits/is_arithmetic.hpp>
+#include <Phi/TypeTraits/is_array.hpp>
+#include <Phi/TypeTraits/is_bool.hpp>
+#include <Phi/TypeTraits/is_class.hpp>
+#include <Phi/TypeTraits/is_compound.hpp>
+#include <Phi/TypeTraits/is_enum.hpp>
+#include <Phi/TypeTraits/is_floating_point.hpp>
+#include <Phi/TypeTraits/is_function.hpp>
+#include <Phi/TypeTraits/is_fundamental.hpp>
+#include <Phi/TypeTraits/is_integer.hpp>
+#include <Phi/TypeTraits/is_integral.hpp>
+#include <Phi/TypeTraits/is_lvalue_reference.hpp>
+#include <Phi/TypeTraits/is_member_function_pointer.hpp>
+#include <Phi/TypeTraits/is_member_object_pointer.hpp>
+#include <Phi/TypeTraits/is_member_pointer.hpp>
+#include <Phi/TypeTraits/is_null_pointer.hpp>
+#include <Phi/TypeTraits/is_object.hpp>
+#include <Phi/TypeTraits/is_pointer.hpp>
+#include <Phi/TypeTraits/is_reference.hpp>
+#include <Phi/TypeTraits/is_rvalue_reference.hpp>
+#include <Phi/TypeTraits/is_scalar.hpp>
+#include <Phi/TypeTraits/is_union.hpp>
 #include <Phi/TypeTraits/is_void.hpp>
 #include <vector>
 
 template <typename T>
-void test_is_void()
+void test_is_void_impl()
 {
+    STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
+    STATIC_REQUIRE(phi::is_fundamental<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_integer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_integral<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE(phi::is_void<T>::value);
-    STATIC_REQUIRE(phi::is_void<const T>::value);
-    STATIC_REQUIRE(phi::is_void<volatile T>::value);
-    STATIC_REQUIRE(phi::is_void<const volatile T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
+    STATIC_REQUIRE(phi::is_fundamental_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_integer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_integral_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE(phi::is_void_v<T>);
-    STATIC_REQUIRE(phi::is_void_v<const T>);
-    STATIC_REQUIRE(phi::is_void_v<volatile T>);
-    STATIC_REQUIRE(phi::is_void_v<const volatile T>);
 #endif
+}
+
+template <typename T>
+void test_is_void()
+{
+    test_is_void_impl<T>();
+    test_is_void_impl<const T>();
+    test_is_void_impl<volatile T>();
+    test_is_void_impl<const volatile T>();
 }
 
 template <typename T>
@@ -45,7 +114,6 @@ void test_is_not_void()
 TEST_CASE("is_void")
 {
     test_is_void<void>();
-
     test_is_not_void<phi::nullptr_t>();
     test_is_not_void<bool>();
     test_is_not_void<char>();
@@ -191,6 +259,12 @@ TEST_CASE("is_void")
     test_is_not_void<IncompleteTemplate<int>>();
     test_is_not_void<IncompleteTemplate<Class>>();
     test_is_not_void<IncompleteTemplate<incomplete_type>>();
+    test_is_not_void<IncompleteVariadicTemplate<>>();
+    test_is_not_void<IncompleteVariadicTemplate<void>>();
+    test_is_not_void<IncompleteVariadicTemplate<int>>();
+    test_is_not_void<IncompleteVariadicTemplate<Class>>();
+    test_is_not_void<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_void<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_void<int Class::*>();
     test_is_not_void<float Class::*>();
     test_is_not_void<void * Class::*>();
@@ -203,6 +277,33 @@ TEST_CASE("is_void")
     test_is_not_void<float Class::*&&>();
     test_is_not_void<void * Class::*&&>();
     test_is_not_void<int * Class::*&&>();
+    test_is_not_void<int Class::*const>();
+    test_is_not_void<float Class::*const>();
+    test_is_not_void<void * Class::*const>();
+    test_is_not_void<int Class::*const&>();
+    test_is_not_void<float Class::*const&>();
+    test_is_not_void<void * Class::*const&>();
+    test_is_not_void<int Class::*const&&>();
+    test_is_not_void<float Class::*const&&>();
+    test_is_not_void<void * Class::*const&&>();
+    test_is_not_void<int Class::*volatile>();
+    test_is_not_void<float Class::*volatile>();
+    test_is_not_void<void * Class::*volatile>();
+    test_is_not_void<int Class::*volatile&>();
+    test_is_not_void<float Class::*volatile&>();
+    test_is_not_void<void * Class::*volatile&>();
+    test_is_not_void<int Class::*volatile&&>();
+    test_is_not_void<float Class::*volatile&&>();
+    test_is_not_void<void * Class::*volatile&&>();
+    test_is_not_void<int Class::*const volatile>();
+    test_is_not_void<float Class::*const volatile>();
+    test_is_not_void<void * Class::*const volatile>();
+    test_is_not_void<int Class::*const volatile&>();
+    test_is_not_void<float Class::*const volatile&>();
+    test_is_not_void<void * Class::*const volatile&>();
+    test_is_not_void<int Class::*const volatile&&>();
+    test_is_not_void<float Class::*const volatile&&>();
+    test_is_not_void<void * Class::*const volatile&&>();
     test_is_not_void<NonCopyable>();
     test_is_not_void<NonMoveable>();
     test_is_not_void<NonConstructible>();
@@ -219,12 +320,24 @@ TEST_CASE("is_void")
     test_is_not_void<void() const>();
     test_is_not_void<void() const&>();
     test_is_not_void<void() const&&>();
+    test_is_not_void<void() volatile>();
+    test_is_not_void<void() volatile&>();
+    test_is_not_void<void() volatile&&>();
+    test_is_not_void<void() const volatile>();
+    test_is_not_void<void() const volatile&>();
+    test_is_not_void<void() const volatile&&>();
     test_is_not_void<void() noexcept>();
     test_is_not_void<void()& noexcept>();
     test_is_not_void<void()&& noexcept>();
     test_is_not_void<void() const noexcept>();
     test_is_not_void<void() const& noexcept>();
     test_is_not_void<void() const&& noexcept>();
+    test_is_not_void<void() volatile noexcept>();
+    test_is_not_void<void() volatile& noexcept>();
+    test_is_not_void<void() volatile&& noexcept>();
+    test_is_not_void<void() const volatile noexcept>();
+    test_is_not_void<void() const volatile& noexcept>();
+    test_is_not_void<void() const volatile&& noexcept>();
 
     test_is_not_void<void(int)>();
     test_is_not_void<void(int)&>();
@@ -232,12 +345,24 @@ TEST_CASE("is_void")
     test_is_not_void<void(int) const>();
     test_is_not_void<void(int) const&>();
     test_is_not_void<void(int) const&&>();
+    test_is_not_void<void(int) volatile>();
+    test_is_not_void<void(int) volatile&>();
+    test_is_not_void<void(int) volatile&&>();
+    test_is_not_void<void(int) const volatile>();
+    test_is_not_void<void(int) const volatile&>();
+    test_is_not_void<void(int) const volatile&&>();
     test_is_not_void<void(int) noexcept>();
     test_is_not_void<void(int)& noexcept>();
     test_is_not_void<void(int)&& noexcept>();
     test_is_not_void<void(int) const noexcept>();
     test_is_not_void<void(int) const& noexcept>();
     test_is_not_void<void(int) const&& noexcept>();
+    test_is_not_void<void(int) volatile noexcept>();
+    test_is_not_void<void(int) volatile& noexcept>();
+    test_is_not_void<void(int) volatile&& noexcept>();
+    test_is_not_void<void(int) const volatile noexcept>();
+    test_is_not_void<void(int) const volatile& noexcept>();
+    test_is_not_void<void(int) const volatile&& noexcept>();
 
     test_is_not_void<void(...)>();
     test_is_not_void<void(...)&>();
@@ -245,12 +370,24 @@ TEST_CASE("is_void")
     test_is_not_void<void(...) const>();
     test_is_not_void<void(...) const&>();
     test_is_not_void<void(...) const&&>();
+    test_is_not_void<void(...) volatile>();
+    test_is_not_void<void(...) volatile&>();
+    test_is_not_void<void(...) volatile&&>();
+    test_is_not_void<void(...) const volatile>();
+    test_is_not_void<void(...) const volatile&>();
+    test_is_not_void<void(...) const volatile&&>();
     test_is_not_void<void(...) noexcept>();
     test_is_not_void<void(...)& noexcept>();
     test_is_not_void<void(...)&& noexcept>();
     test_is_not_void<void(...) const noexcept>();
     test_is_not_void<void(...) const& noexcept>();
     test_is_not_void<void(...) const&& noexcept>();
+    test_is_not_void<void(...) volatile noexcept>();
+    test_is_not_void<void(...) volatile& noexcept>();
+    test_is_not_void<void(...) volatile&& noexcept>();
+    test_is_not_void<void(...) const volatile noexcept>();
+    test_is_not_void<void(...) const volatile& noexcept>();
+    test_is_not_void<void(...) const volatile&& noexcept>();
 
     test_is_not_void<void(int, ...)>();
     test_is_not_void<void(int, ...)&>();
@@ -258,12 +395,24 @@ TEST_CASE("is_void")
     test_is_not_void<void(int, ...) const>();
     test_is_not_void<void(int, ...) const&>();
     test_is_not_void<void(int, ...) const&&>();
+    test_is_not_void<void(int, ...) volatile>();
+    test_is_not_void<void(int, ...) volatile&>();
+    test_is_not_void<void(int, ...) volatile&&>();
+    test_is_not_void<void(int, ...) const volatile>();
+    test_is_not_void<void(int, ...) const volatile&>();
+    test_is_not_void<void(int, ...) const volatile&&>();
     test_is_not_void<void(int, ...) noexcept>();
     test_is_not_void<void(int, ...)& noexcept>();
     test_is_not_void<void(int, ...)&& noexcept>();
     test_is_not_void<void(int, ...) const noexcept>();
     test_is_not_void<void(int, ...) const& noexcept>();
     test_is_not_void<void(int, ...) const&& noexcept>();
+    test_is_not_void<void(int, ...) volatile noexcept>();
+    test_is_not_void<void(int, ...) volatile& noexcept>();
+    test_is_not_void<void(int, ...) volatile&& noexcept>();
+    test_is_not_void<void(int, ...) const volatile noexcept>();
+    test_is_not_void<void(int, ...) const volatile& noexcept>();
+    test_is_not_void<void(int, ...) const volatile&& noexcept>();
 
     test_is_not_void<int()>();
     test_is_not_void<int()&>();
@@ -271,12 +420,24 @@ TEST_CASE("is_void")
     test_is_not_void<int() const>();
     test_is_not_void<int() const&>();
     test_is_not_void<int() const&&>();
+    test_is_not_void<int() volatile>();
+    test_is_not_void<int() volatile&>();
+    test_is_not_void<int() volatile&&>();
+    test_is_not_void<int() const volatile>();
+    test_is_not_void<int() const volatile&>();
+    test_is_not_void<int() const volatile&&>();
     test_is_not_void<int() noexcept>();
     test_is_not_void<int()& noexcept>();
     test_is_not_void<int()&& noexcept>();
     test_is_not_void<int() const noexcept>();
     test_is_not_void<int() const& noexcept>();
     test_is_not_void<int() const&& noexcept>();
+    test_is_not_void<int() volatile noexcept>();
+    test_is_not_void<int() volatile& noexcept>();
+    test_is_not_void<int() volatile&& noexcept>();
+    test_is_not_void<int() const volatile noexcept>();
+    test_is_not_void<int() const volatile& noexcept>();
+    test_is_not_void<int() const volatile&& noexcept>();
 
     test_is_not_void<int(int)>();
     test_is_not_void<int(int)&>();
@@ -284,12 +445,24 @@ TEST_CASE("is_void")
     test_is_not_void<int(int) const>();
     test_is_not_void<int(int) const&>();
     test_is_not_void<int(int) const&&>();
+    test_is_not_void<int(int) volatile>();
+    test_is_not_void<int(int) volatile&>();
+    test_is_not_void<int(int) volatile&&>();
+    test_is_not_void<int(int) const volatile>();
+    test_is_not_void<int(int) const volatile&>();
+    test_is_not_void<int(int) const volatile&&>();
     test_is_not_void<int(int) noexcept>();
     test_is_not_void<int(int)& noexcept>();
     test_is_not_void<int(int)&& noexcept>();
     test_is_not_void<int(int) const noexcept>();
     test_is_not_void<int(int) const& noexcept>();
     test_is_not_void<int(int) const&& noexcept>();
+    test_is_not_void<int(int) volatile noexcept>();
+    test_is_not_void<int(int) volatile& noexcept>();
+    test_is_not_void<int(int) volatile&& noexcept>();
+    test_is_not_void<int(int) const volatile noexcept>();
+    test_is_not_void<int(int) const volatile& noexcept>();
+    test_is_not_void<int(int) const volatile&& noexcept>();
 
     test_is_not_void<int(...)>();
     test_is_not_void<int(...)&>();
@@ -297,12 +470,24 @@ TEST_CASE("is_void")
     test_is_not_void<int(...) const>();
     test_is_not_void<int(...) const&>();
     test_is_not_void<int(...) const&&>();
+    test_is_not_void<int(...) volatile>();
+    test_is_not_void<int(...) volatile&>();
+    test_is_not_void<int(...) volatile&&>();
+    test_is_not_void<int(...) const volatile>();
+    test_is_not_void<int(...) const volatile&>();
+    test_is_not_void<int(...) const volatile&&>();
     test_is_not_void<int(...) noexcept>();
     test_is_not_void<int(...)& noexcept>();
     test_is_not_void<int(...)&& noexcept>();
     test_is_not_void<int(...) const noexcept>();
     test_is_not_void<int(...) const& noexcept>();
     test_is_not_void<int(...) const&& noexcept>();
+    test_is_not_void<int(...) volatile noexcept>();
+    test_is_not_void<int(...) volatile& noexcept>();
+    test_is_not_void<int(...) volatile&& noexcept>();
+    test_is_not_void<int(...) const volatile noexcept>();
+    test_is_not_void<int(...) const volatile& noexcept>();
+    test_is_not_void<int(...) const volatile&& noexcept>();
 
     test_is_not_void<int(int, ...)>();
     test_is_not_void<int(int, ...)&>();
@@ -310,12 +495,24 @@ TEST_CASE("is_void")
     test_is_not_void<int(int, ...) const>();
     test_is_not_void<int(int, ...) const&>();
     test_is_not_void<int(int, ...) const&&>();
+    test_is_not_void<int(int, ...) volatile>();
+    test_is_not_void<int(int, ...) volatile&>();
+    test_is_not_void<int(int, ...) volatile&&>();
+    test_is_not_void<int(int, ...) const volatile>();
+    test_is_not_void<int(int, ...) const volatile&>();
+    test_is_not_void<int(int, ...) const volatile&&>();
     test_is_not_void<int(int, ...) noexcept>();
     test_is_not_void<int(int, ...)& noexcept>();
     test_is_not_void<int(int, ...)&& noexcept>();
     test_is_not_void<int(int, ...) const noexcept>();
     test_is_not_void<int(int, ...) const& noexcept>();
     test_is_not_void<int(int, ...) const&& noexcept>();
+    test_is_not_void<int(int, ...) volatile noexcept>();
+    test_is_not_void<int(int, ...) volatile& noexcept>();
+    test_is_not_void<int(int, ...) volatile&& noexcept>();
+    test_is_not_void<int(int, ...) const volatile noexcept>();
+    test_is_not_void<int(int, ...) const volatile& noexcept>();
+    test_is_not_void<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_void<void (*)()>();
     test_is_not_void<void (*)() noexcept>();

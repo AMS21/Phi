@@ -1,5 +1,9 @@
 # PhiCore
-project(PhiCore LANGUAGES CXX)
+if(${CMAKE_VERSION} VERSION_LESS 3.0)
+  project(PhiCore CXX C)
+else()
+  project(PhiCore LANGUAGES CXX)
+endif()
 
 file(
   GLOB

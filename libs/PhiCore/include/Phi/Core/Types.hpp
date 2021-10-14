@@ -34,6 +34,7 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
 #include "Phi/Core/Integer.hpp"

@@ -11,20 +11,18 @@
 #include <Phi/TypeTraits/add_const.hpp>
 #include <vector>
 
-template <typename T, typename U>
-void test_add_const_imp()
-{
-    CHECK_SAME_TYPE(const U, typename phi::add_const<T>::type);
-    CHECK_SAME_TYPE(const U, phi::add_const_t<T>);
-}
-
 template <typename T>
 void test_add_const()
 {
-    test_add_const_imp<T, const T>();
-    test_add_const_imp<const T, const T>();
-    test_add_const_imp<volatile T, volatile const T>();
-    test_add_const_imp<const volatile T, const volatile T>();
+    CHECK_SAME_TYPE(typename phi::add_const<T>::type, const T);
+    CHECK_SAME_TYPE(typename phi::add_const<const T>::type, const T);
+    CHECK_SAME_TYPE(typename phi::add_const<volatile T>::type, const volatile T);
+    CHECK_SAME_TYPE(typename phi::add_const<const volatile T>::type, const volatile T);
+
+    CHECK_SAME_TYPE(phi::add_const_t<T>, const T);
+    CHECK_SAME_TYPE(phi::add_const_t<const T>, const T);
+    CHECK_SAME_TYPE(phi::add_const_t<volatile T>, const volatile T);
+    CHECK_SAME_TYPE(phi::add_const_t<const volatile T>, const volatile T);
 }
 
 TEST_CASE("add_const")
@@ -89,6 +87,10 @@ TEST_CASE("add_const")
     test_add_const<const int*&>();
     test_add_const<volatile int*&>();
     test_add_const<const volatile int*&>();
+    test_add_const<int*&&>();
+    test_add_const<const int*&&>();
+    test_add_const<volatile int*&&>();
+    test_add_const<const volatile int*&&>();
     test_add_const<void*>();
     test_add_const<char[3]>();
     test_add_const<char[]>();
@@ -98,6 +100,8 @@ TEST_CASE("add_const")
     test_add_const<int(*)[]>();
     test_add_const<int(&)[3]>();
     test_add_const<int(&)[]>();
+    test_add_const<int(&&)[3]>();
+    test_add_const<int(&&)[]>();
     test_add_const<char[3][2]>();
     test_add_const<char[][2]>();
     test_add_const<char* [3][2]>();
@@ -106,6 +110,8 @@ TEST_CASE("add_const")
     test_add_const<int(*)[][2]>();
     test_add_const<int(&)[3][2]>();
     test_add_const<int(&)[][2]>();
+    test_add_const<int(&&)[3][2]>();
+    test_add_const<int(&&)[][2]>();
     test_add_const<Class>();
     test_add_const<Class[]>();
     test_add_const<Class[2]>();
@@ -167,10 +173,51 @@ TEST_CASE("add_const")
     test_add_const<IncompleteTemplate<int>>();
     test_add_const<IncompleteTemplate<Class>>();
     test_add_const<IncompleteTemplate<incomplete_type>>();
+    test_add_const<IncompleteVariadicTemplate<>>();
+    test_add_const<IncompleteVariadicTemplate<void>>();
+    test_add_const<IncompleteVariadicTemplate<int>>();
+    test_add_const<IncompleteVariadicTemplate<Class>>();
+    test_add_const<IncompleteVariadicTemplate<incomplete_type>>();
+    test_add_const<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_const<int Class::*>();
     test_add_const<float Class::*>();
     test_add_const<void * Class::*>();
     test_add_const<int * Class::*>();
+    test_add_const<int Class::*&>();
+    test_add_const<float Class::*&>();
+    test_add_const<void * Class::*&>();
+    test_add_const<int * Class::*&>();
+    test_add_const<int Class::*&&>();
+    test_add_const<float Class::*&&>();
+    test_add_const<void * Class::*&&>();
+    test_add_const<int * Class::*&&>();
+    test_add_const<int Class::*const>();
+    test_add_const<float Class::*const>();
+    test_add_const<void * Class::*const>();
+    test_add_const<int Class::*const&>();
+    test_add_const<float Class::*const&>();
+    test_add_const<void * Class::*const&>();
+    test_add_const<int Class::*const&&>();
+    test_add_const<float Class::*const&&>();
+    test_add_const<void * Class::*const&&>();
+    test_add_const<int Class::*volatile>();
+    test_add_const<float Class::*volatile>();
+    test_add_const<void * Class::*volatile>();
+    test_add_const<int Class::*volatile&>();
+    test_add_const<float Class::*volatile&>();
+    test_add_const<void * Class::*volatile&>();
+    test_add_const<int Class::*volatile&&>();
+    test_add_const<float Class::*volatile&&>();
+    test_add_const<void * Class::*volatile&&>();
+    test_add_const<int Class::*const volatile>();
+    test_add_const<float Class::*const volatile>();
+    test_add_const<void * Class::*const volatile>();
+    test_add_const<int Class::*const volatile&>();
+    test_add_const<float Class::*const volatile&>();
+    test_add_const<void * Class::*const volatile&>();
+    test_add_const<int Class::*const volatile&&>();
+    test_add_const<float Class::*const volatile&&>();
+    test_add_const<void * Class::*const volatile&&>();
     test_add_const<NonCopyable>();
     test_add_const<NonMoveable>();
     test_add_const<NonConstructible>();
@@ -332,6 +379,30 @@ TEST_CASE("add_const")
 
     test_add_const<int (&)(int, ...)>();
     test_add_const<int (&)(int, ...) noexcept>();
+
+    test_add_const<void(&&)()>();
+    test_add_const<void(&&)() noexcept>();
+
+    test_add_const<void(&&)(int)>();
+    test_add_const<void(&&)(int) noexcept>();
+
+    test_add_const<void(&&)(...)>();
+    test_add_const<void(&&)(...) noexcept>();
+
+    test_add_const<void(&&)(int, ...)>();
+    test_add_const<void(&&)(int, ...) noexcept>();
+
+    test_add_const<int(&&)()>();
+    test_add_const<int(&&)() noexcept>();
+
+    test_add_const<int(&&)(int)>();
+    test_add_const<int(&&)(int) noexcept>();
+
+    test_add_const<int(&&)(...)>();
+    test_add_const<int(&&)(...) noexcept>();
+
+    test_add_const<int(&&)(int, ...)>();
+    test_add_const<int(&&)(int, ...) noexcept>();
 
     test_add_const<void (Class::*)()>();
     test_add_const<void (Class::*)()&>();

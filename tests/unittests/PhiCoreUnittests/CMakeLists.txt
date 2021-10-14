@@ -26,6 +26,7 @@ file(
   "src/Config/Versioning.test.cpp"
   "src/Config/Warnings.test.cpp"
   # Container
+  "src/Container/Array.test.cpp"
   "src/Container/StringView.test.cpp"
   # Core
   "src/Core/AsConst.test.cpp"
@@ -55,6 +56,7 @@ file(
   # Math
   "src/Math/Abs.test.cpp"
   "src/Math/Constants.test.cpp"
+  "src/Math/IsNaN.test.cpp"
   "src/Math/Signum.test.cpp"
   "src/Math/Vector2.test.cpp"
   # Selftest
@@ -176,6 +178,7 @@ file(
   "src/TypeTraits/is_volatile.test.cpp"
   "src/TypeTraits/make_safe.test.cpp"
   "src/TypeTraits/make_unsafe.test.cpp"
+  "src/TypeTraits/make_unsigned.test.cpp"
   "src/TypeTraits/negation.test.cpp"
   "src/TypeTraits/rank.test.cpp"
   "src/TypeTraits/remove_all_extents.test.cpp"

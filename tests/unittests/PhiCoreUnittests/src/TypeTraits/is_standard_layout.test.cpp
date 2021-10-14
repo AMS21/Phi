@@ -62,6 +62,7 @@ private:
 
 struct C
 {
+    virtual ~C();
     virtual void foo();
 };
 

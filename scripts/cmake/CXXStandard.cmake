@@ -1,7 +1,77 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(CheckCXXCompilerFlag)
+
+# C++-11/14 Flags were introduces in CMake 3.1
+if(${CMAKE_VERSION} VERSION_LESS "3.1")
+  # C++-11
+  set(phi_known_cxx11_flags "-std=c++11" "-std=c++0x" "-std:c++11" "-std:c++latest" "-Qstd=c++11")
+  set(phi_known_cxx11_ext_flags "-std=gnu++11" "-std=gnu++0x")
+
+  # Check normal flag
+  foreach(flag IN ITEMS ${phi_known_cxx11_flags})
+    set(var_name "PHI_STANDARD_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(NAME CMAKE_CXX11_STANDARD_COMPILE_OPTION VALUE ${flag})
+      break()
+    endif()
+  endforeach()
+
+  # Check extension flags
+  foreach(flag IN ITEMS ${phi_known_cxx11_ext_flags})
+    set(var_name "PHI_EXTENSION_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(NAME CMAKE_CXX11_EXTENSION_COMPILE_OPTION VALUE ${flag})
+      break()
+    endif()
+  endforeach()
+
+  # C++-14
+  set(phi_known_cxx14_flags "-std=c++14" "-std=c++1y" "-std:c++14" "-std:c++latest" "-Qstd=c++14")
+  set(phi_known_cxx14_ext_flags "-std=gnu++14" "-std=gnu++1y")
+
+  # Check normal flag
+  foreach(flag IN ITEMS ${phi_known_cxx14_flags})
+    set(var_name "PHI_STANDARD_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(NAME CMAKE_CXX14_STANDARD_COMPILE_OPTION VALUE ${flag})
+      break()
+    endif()
+  endforeach()
+
+  # Check extension flags
+  foreach(flag IN ITEMS ${phi_known_cxx14_ext_flags})
+    set(var_name "PHI_EXTENSION_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(NAME CMAKE_CXX14_EXTENSION_COMPILE_OPTION VALUE ${flag})
+      break()
+    endif()
+  endforeach()
+endif()
 
 # C++-17 Flags were introduced in CMake 3.8
 if(${CMAKE_VERSION} VERSION_LESS "3.8")
@@ -15,7 +85,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.8")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX17_STANDARD_COMPILE_OPTION VALUE ${flag})
@@ -30,7 +100,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.8")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX17_EXTENSION_COMPILE_OPTION VALUE ${flag})
@@ -51,7 +121,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX20_STANDARD_COMPILE_OPTION VALUE ${flag})
@@ -66,7 +136,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX20_EXTENSION_COMPILE_OPTION VALUE ${flag})
@@ -87,7 +157,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.20")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX23_STANDARD_COMPILE_OPTION VALUE ${flag})
@@ -102,7 +172,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.20")
     string(REPLACE "=" "_" var_name ${var_name})
     string(REPLACE ":" "_" var_name ${var_name})
 
-    check_cxx_compiler_flag(${flag} ${var_name})
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
 
     if(${var_name})
       phi_set_cache_value(NAME CMAKE_CXX23_EXTENSION_COMPILE_OPTION VALUE ${flag})

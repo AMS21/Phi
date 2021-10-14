@@ -88,3 +88,8 @@ if(PHI_COLOR_DIAGNOSTICS)
         CACHE BOOL "Enable colored diagnostics" FORCE)
   endif()
 endif()
+
+# Enable bigobj for MSVC
+if(PHI_COMPILER_MSVC)
+  target_compile_options(phi_project_options INTERFACE /bigobj)
+endif()

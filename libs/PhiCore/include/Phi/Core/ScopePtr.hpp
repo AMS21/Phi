@@ -15,6 +15,7 @@
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Nullptr.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_array.hpp"
@@ -74,7 +75,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved NotNullScopePtr");
     }
 
-    ~ScopePtr() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~ScopePtr() noexcept
     {
         clear();
     }
@@ -273,14 +274,6 @@ constexpr Boolean operator!=(nullptr_t, const ScopePtr<RhsT>& rhs) noexcept
     return rhs.get() != nullptr;
 }
 
-/*
-template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR void swap(ScopePtr<LhsT>& lhs, ScopePtr<RhsT>& rhs)
-{
-    lhs.swap(rhs);
-}
-*/
-
 /* NotNullScopePtr */
 
 template <typename TypeT>
@@ -317,7 +310,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::NotNullScopePtr");
     }
 
-    ~NotNullScopePtr() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~NotNullScopePtr() noexcept
     {
         clear();
     }
@@ -443,13 +436,12 @@ public:
     }
 
 private:
-    void clear() noexcept
+    PHI_EXTENDED_CONSTEXPR void clear() noexcept
     {
         delete m_Ptr;
         m_Ptr = nullptr;
     }
 
-private:
     TypeT* m_Ptr;
 };
 
@@ -478,14 +470,6 @@ Boolean operator!=(const NotNullScopePtr<LhsT>& lhs, nullptr_t) = delete;
 
 template <typename RhsT>
 Boolean operator!=(nullptr_t, const NotNullScopePtr<RhsT>& rhs) = delete;
-
-/*
-template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR void swap(NotNullScopePtr<LhsT>& lhs, NotNullScopePtr<RhsT>& rhs)
-{
-    lhs.swap(rhs);
-}
-*/
 
 // make functions
 
@@ -568,7 +552,7 @@ namespace std
     template <typename TypeT>
     struct hash<phi::ScopePtr<TypeT>>
     {
-        std::size_t operator()(phi::ScopePtr<TypeT> ptr) const noexcept
+        phi::size_t operator()(phi::ScopePtr<TypeT> ptr) const noexcept
         {
             return std::hash<TypeT*>()(ptr.get());
         }
@@ -577,10 +561,16 @@ namespace std
     template <typename TypeT>
     struct hash<phi::NotNullScopePtr<TypeT>>
     {
-        std::size_t operator()(phi::NotNullScopePtr<TypeT> ptr) const noexcept
+        phi::size_t operator()(phi::NotNullScopePtr<TypeT> ptr) const noexcept
         {
             return std::hash<TypeT*>()(ptr.get());
         }
+    };
+
+    template <>
+    struct hash<phi::NotNullScopePtr<phi::nullptr_t>>
+    {
+        phi::size_t operator()(phi::NotNullScopePtr<phi::nullptr_t> ptr) = delete;
     };
 } // namespace std
 

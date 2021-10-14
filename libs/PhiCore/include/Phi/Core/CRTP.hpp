@@ -21,9 +21,9 @@ public:
         return static_cast<TypeT&>(*this);
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT const& underlying() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& underlying() const noexcept
     {
-        return static_cast<TypeT const&>(*this);
+        return static_cast<const TypeT&>(*this);
     }
 };
 

@@ -2,6 +2,7 @@
 #define INCG_PHI_UTILITY_CONVERSION_HPP
 
 #include "Phi/PhiConfig.hpp"
+#include "Phi/TypeTraits/integral_constant.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
@@ -11,11 +12,13 @@
 #include "Phi/CompilerSupport/Unused.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Integer.hpp"
 #include "Phi/TypeTraits/is_safe_type.hpp"
 #include "Phi/TypeTraits/is_signed.hpp"
+#include "Phi/TypeTraits/remove_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -23,41 +26,92 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&            source,
-                                                     PHI_UNUSED true_type is_safe_type) noexcept
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&       source,
+                                                     PHI_UNUSED true_type target_safe,
+                                                     PHI_UNUSED true_type source_safe) noexcept
     {
-        return static_cast<typename TargetT::value_type>(forward<SourceT>(source));
+        return static_cast<typename TargetT::value_type>(
+                phi::forward<const typename remove_reference_t<SourceT>::value_type>(source.get()));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&            source,
+                                                     PHI_UNUSED true_type target_safe,
+                                                     PHI_UNUSED true_type source_safe) noexcept
+    {
+        return static_cast<typename TargetT::value_type>(
+                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.get()));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+                                                     PHI_UNUSED true_type  target_safe,
+                                                     PHI_UNUSED false_type source_safe) noexcept
+    {
+        return static_cast<typename remove_reference_t<TargetT>::value_type>(
+                phi::forward<const SourceT>(source));
     }
 
     template <typename TargetT, typename SourceT>
     PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source,
-                                                     PHI_UNUSED false_type is_safe_type) noexcept
+                                                     PHI_UNUSED true_type  target_safe,
+                                                     PHI_UNUSED false_type source_safe) noexcept
     {
-        return static_cast<TargetT>(forward<SourceT>(source));
+        return static_cast<typename remove_reference_t<TargetT>::value_type>(
+                phi::forward<SourceT>(source));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+                                                     PHI_UNUSED false_type target_safe,
+                                                     PHI_UNUSED true_type  source_safe) noexcept
+    {
+        return static_cast<TargetT>(
+                phi::forward<const typename remove_reference_t<SourceT>::value_type>(source.get()));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source,
+                                                     PHI_UNUSED false_type target_safe,
+                                                     PHI_UNUSED true_type  source_safe) noexcept
+    {
+        return static_cast<TargetT>(
+                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.get()));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+                                                     PHI_UNUSED false_type target_safe,
+                                                     PHI_UNUSED false_type source_safe) noexcept
+    {
+        return static_cast<TargetT>(phi::forward<const SourceT>(source));
+    }
+
+    template <typename TargetT, typename SourceT>
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source,
+                                                     PHI_UNUSED false_type target_safe,
+                                                     PHI_UNUSED false_type source_safe) noexcept
+    {
+        return static_cast<TargetT>(phi::forward<SourceT>(source));
     }
 } // namespace detail
 /// \endcond
 
 // unsafe_cast base
 template <typename TargetT, typename SourceT>
+PHI_NODISCARD constexpr TargetT unsafe_cast(const SourceT& source) noexcept
+{
+    return detail::unsafe_cast_impl<TargetT, SourceT>(phi::forward<const SourceT>(source),
+                                                      is_safe_type<remove_reference_t<TargetT>>{},
+                                                      is_safe_type<remove_reference_t<SourceT>>{});
+}
+
+template <typename TargetT, typename SourceT>
 PHI_NODISCARD constexpr TargetT unsafe_cast(SourceT&& source) noexcept
 {
-    return detail::unsafe_cast_impl<TargetT, SourceT>(forward<SourceT>(source),
-                                                      is_safe_type<TargetT>{});
-}
-
-// Floating Point
-template <typename TargetT, typename SourceT>
-PHI_NODISCARD constexpr TargetT unsafe_cast(FloatingPoint<SourceT>&& source) noexcept
-{
-    return unsafe_cast<TargetT>(source.get());
-}
-
-// Integer
-template <typename TargetT, typename SourceT>
-PHI_NODISCARD constexpr TargetT unsafe_cast(Integer<SourceT>&& source) noexcept
-{
-    return unsafe_cast<TargetT>(source.get());
+    return detail::unsafe_cast_impl<TargetT, SourceT>(phi::forward<SourceT>(source),
+                                                      is_safe_type<remove_reference_t<TargetT>>{},
+                                                      is_safe_type<remove_reference_t<SourceT>>{});
 }
 
 // Narrow cast

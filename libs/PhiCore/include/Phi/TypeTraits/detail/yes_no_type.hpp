@@ -8,7 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include <cstdint>
+#include "Phi/Core/SizeT.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -20,7 +20,7 @@ namespace detail
         char padding;
     };
 
-    PHI_INLINE_VARIABLE constexpr std::size_t sizeof_yes_type = sizeof(yes_type);
+    PHI_INLINE_VARIABLE constexpr phi::size_t sizeof_yes_type = sizeof(yes_type);
 
     // size == 8
     struct no_type
@@ -28,7 +28,7 @@ namespace detail
         char padding[8];
     };
 
-    PHI_INLINE_VARIABLE constexpr std::size_t sizeof_no_type = sizeof(no_type);
+    PHI_INLINE_VARIABLE constexpr phi::size_t sizeof_no_type = sizeof(no_type);
 } // namespace detail
 
 DETAIL_PHI_END_NAMESPACE()

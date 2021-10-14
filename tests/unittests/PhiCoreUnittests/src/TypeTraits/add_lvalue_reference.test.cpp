@@ -10,7 +10,7 @@
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/add_lvalue_reference.hpp>
 
-template <typename T, typename U>
+template <typename T, typename U = T>
 void test_add_lvalue_reference()
 {
     CHECK_SAME_TYPE(U, typename phi::add_lvalue_reference<T>::type);
@@ -206,6 +206,16 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<IncompleteTemplate<Class>, IncompleteTemplate<Class>&>();
     test_add_lvalue_reference<IncompleteTemplate<incomplete_type>,
                               IncompleteTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<>, IncompleteVariadicTemplate<>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<void>,
+                              IncompleteVariadicTemplate<void>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<int>, IncompleteVariadicTemplate<int>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<Class>,
+                              IncompleteVariadicTemplate<Class>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<incomplete_type>,
+                              IncompleteVariadicTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<int, void, Class, volatile char[]>,
+                              IncompleteVariadicTemplate<int, void, Class, volatile char[]>&>();
     test_add_lvalue_reference<int Class::*, int Class::*&>();
     test_add_lvalue_reference<float Class::*, float Class::*&>();
     test_add_lvalue_reference<void * Class::*, void * Class::*&>();
@@ -218,6 +228,33 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<float Class::*&&, float Class::*&>();
     test_add_lvalue_reference<void * Class::*&&, void * Class::*&>();
     test_add_lvalue_reference<int * Class::*&&, int * Class::*&>();
+    test_add_lvalue_reference<int Class::*const, int Class::*const&>();
+    test_add_lvalue_reference<float Class::*const, float Class::*const&>();
+    test_add_lvalue_reference<void * Class::*const, void * Class::*const&>();
+    test_add_lvalue_reference<int Class::*const&, int Class::*const&>();
+    test_add_lvalue_reference<float Class::*const&, float Class::*const&>();
+    test_add_lvalue_reference<void * Class::*const&, void * Class::*const&>();
+    test_add_lvalue_reference<int Class::*const&&, int Class::*const&>();
+    test_add_lvalue_reference<float Class::*const&&, float Class::*const&>();
+    test_add_lvalue_reference<void * Class::*const&&, void * Class::*const&>();
+    test_add_lvalue_reference<int Class::*volatile, int Class::*volatile&>();
+    test_add_lvalue_reference<float Class::*volatile, float Class::*volatile&>();
+    test_add_lvalue_reference<void * Class::*volatile, void * Class::*volatile&>();
+    test_add_lvalue_reference<int Class::*volatile&, int Class::*volatile&>();
+    test_add_lvalue_reference<float Class::*volatile&, float Class::*volatile&>();
+    test_add_lvalue_reference<void * Class::*volatile&, void * Class::*volatile&>();
+    test_add_lvalue_reference<int Class::*volatile&&, int Class::*volatile&>();
+    test_add_lvalue_reference<float Class::*volatile&&, float Class::*volatile&>();
+    test_add_lvalue_reference<void * Class::*volatile&&, void * Class::*volatile&>();
+    test_add_lvalue_reference<int Class::*const volatile, int Class::*const volatile&>();
+    test_add_lvalue_reference<float Class::*const volatile, float Class::*const volatile&>();
+    test_add_lvalue_reference<void * Class::*const volatile, void * Class::*const volatile&>();
+    test_add_lvalue_reference<int Class::*const volatile&, int Class::*const volatile&>();
+    test_add_lvalue_reference<float Class::*const volatile&, float Class::*const volatile&>();
+    test_add_lvalue_reference<void * Class::*const volatile&, void * Class::*const volatile&>();
+    test_add_lvalue_reference<int Class::*const volatile&&, int Class::*const volatile&>();
+    test_add_lvalue_reference<float Class::*const volatile&&, float Class::*const volatile&>();
+    test_add_lvalue_reference<void * Class::*const volatile&&, void * Class::*const volatile&>();
     test_add_lvalue_reference<NonCopyable, NonCopyable&>();
     test_add_lvalue_reference<NonMoveable, NonMoveable&>();
     test_add_lvalue_reference<NonConstructible, NonConstructible&>();

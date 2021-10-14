@@ -11,20 +11,18 @@
 #include <Phi/TypeTraits/add_cv.hpp>
 #include <vector>
 
-template <typename T, typename U>
-void test_add_cv_imp()
-{
-    CHECK_SAME_TYPE(const volatile U, typename phi::add_cv<T>::type);
-    CHECK_SAME_TYPE(const volatile U, phi::add_cv_t<T>);
-}
-
 template <typename T>
 void test_add_cv()
 {
-    test_add_cv_imp<T, const volatile T>();
-    test_add_cv_imp<const T, const volatile T>();
-    test_add_cv_imp<volatile T, const volatile T>();
-    test_add_cv_imp<const volatile T, const volatile T>();
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, const volatile T);
+    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, const volatile T);
+    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, const volatile T);
+    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type, const volatile T);
+
+    CHECK_SAME_TYPE(phi::add_cv_t<T>, const volatile T);
+    CHECK_SAME_TYPE(phi::add_cv_t<const T>, const volatile T);
+    CHECK_SAME_TYPE(phi::add_cv_t<volatile T>, const volatile T);
+    CHECK_SAME_TYPE(phi::add_cv_t<const volatile T>, const volatile T);
 }
 
 TEST_CASE("add_cv")
@@ -89,6 +87,10 @@ TEST_CASE("add_cv")
     test_add_cv<const int*&>();
     test_add_cv<volatile int*&>();
     test_add_cv<const volatile int*&>();
+    test_add_cv<int*&&>();
+    test_add_cv<const int*&&>();
+    test_add_cv<volatile int*&&>();
+    test_add_cv<const volatile int*&&>();
     test_add_cv<void*>();
     test_add_cv<char[3]>();
     test_add_cv<char[]>();
@@ -98,6 +100,8 @@ TEST_CASE("add_cv")
     test_add_cv<int(*)[]>();
     test_add_cv<int(&)[3]>();
     test_add_cv<int(&)[]>();
+    test_add_cv<int(&&)[3]>();
+    test_add_cv<int(&&)[]>();
     test_add_cv<char[3][2]>();
     test_add_cv<char[][2]>();
     test_add_cv<char* [3][2]>();
@@ -106,6 +110,8 @@ TEST_CASE("add_cv")
     test_add_cv<int(*)[][2]>();
     test_add_cv<int(&)[3][2]>();
     test_add_cv<int(&)[][2]>();
+    test_add_cv<int(&&)[3][2]>();
+    test_add_cv<int(&&)[][2]>();
     test_add_cv<Class>();
     test_add_cv<Class[]>();
     test_add_cv<Class[2]>();
@@ -167,10 +173,51 @@ TEST_CASE("add_cv")
     test_add_cv<IncompleteTemplate<int>>();
     test_add_cv<IncompleteTemplate<Class>>();
     test_add_cv<IncompleteTemplate<incomplete_type>>();
+    test_add_cv<IncompleteVariadicTemplate<>>();
+    test_add_cv<IncompleteVariadicTemplate<void>>();
+    test_add_cv<IncompleteVariadicTemplate<int>>();
+    test_add_cv<IncompleteVariadicTemplate<Class>>();
+    test_add_cv<IncompleteVariadicTemplate<incomplete_type>>();
+    test_add_cv<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_cv<int Class::*>();
     test_add_cv<float Class::*>();
     test_add_cv<void * Class::*>();
     test_add_cv<int * Class::*>();
+    test_add_cv<int Class::*&>();
+    test_add_cv<float Class::*&>();
+    test_add_cv<void * Class::*&>();
+    test_add_cv<int * Class::*&>();
+    test_add_cv<int Class::*&&>();
+    test_add_cv<float Class::*&&>();
+    test_add_cv<void * Class::*&&>();
+    test_add_cv<int * Class::*&&>();
+    test_add_cv<int Class::*const>();
+    test_add_cv<float Class::*const>();
+    test_add_cv<void * Class::*const>();
+    test_add_cv<int Class::*const&>();
+    test_add_cv<float Class::*const&>();
+    test_add_cv<void * Class::*const&>();
+    test_add_cv<int Class::*const&&>();
+    test_add_cv<float Class::*const&&>();
+    test_add_cv<void * Class::*const&&>();
+    test_add_cv<int Class::*volatile>();
+    test_add_cv<float Class::*volatile>();
+    test_add_cv<void * Class::*volatile>();
+    test_add_cv<int Class::*volatile&>();
+    test_add_cv<float Class::*volatile&>();
+    test_add_cv<void * Class::*volatile&>();
+    test_add_cv<int Class::*volatile&&>();
+    test_add_cv<float Class::*volatile&&>();
+    test_add_cv<void * Class::*volatile&&>();
+    test_add_cv<int Class::*const volatile>();
+    test_add_cv<float Class::*const volatile>();
+    test_add_cv<void * Class::*const volatile>();
+    test_add_cv<int Class::*const volatile&>();
+    test_add_cv<float Class::*const volatile&>();
+    test_add_cv<void * Class::*const volatile&>();
+    test_add_cv<int Class::*const volatile&&>();
+    test_add_cv<float Class::*const volatile&&>();
+    test_add_cv<void * Class::*const volatile&&>();
     test_add_cv<NonCopyable>();
     test_add_cv<NonMoveable>();
     test_add_cv<NonConstructible>();
@@ -332,6 +379,30 @@ TEST_CASE("add_cv")
 
     test_add_cv<int (&)(int, ...)>();
     test_add_cv<int (&)(int, ...) noexcept>();
+
+    test_add_cv<void(&&)()>();
+    test_add_cv<void(&&)() noexcept>();
+
+    test_add_cv<void(&&)(int)>();
+    test_add_cv<void(&&)(int) noexcept>();
+
+    test_add_cv<void(&&)(...)>();
+    test_add_cv<void(&&)(...) noexcept>();
+
+    test_add_cv<void(&&)(int, ...)>();
+    test_add_cv<void(&&)(int, ...) noexcept>();
+
+    test_add_cv<int(&&)()>();
+    test_add_cv<int(&&)() noexcept>();
+
+    test_add_cv<int(&&)(int)>();
+    test_add_cv<int(&&)(int) noexcept>();
+
+    test_add_cv<int(&&)(...)>();
+    test_add_cv<int(&&)(...) noexcept>();
+
+    test_add_cv<int(&&)(int, ...)>();
+    test_add_cv<int(&&)(int, ...) noexcept>();
 
     test_add_cv<void (Class::*)()>();
     test_add_cv<void (Class::*)()&>();

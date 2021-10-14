@@ -9,9 +9,7 @@ set(FILE_CONTENT
 
 # Loop through every library
 foreach(lib ${PHI_LIBRARIES})
-  if(NOT IS_DIRECTORY ${lib})
-    continue()
-  endif()
+  if(IS_DIRECTORY ${lib})
 
   # Get all header files from the lib
   file(GLOB_RECURSE headers ${lib}/include/*.hpp)
@@ -24,6 +22,7 @@ foreach(lib ${PHI_LIBRARIES})
     file(RELATIVE_PATH include_path ${lib}/include ${file})
     string(APPEND FILE_CONTENT "#include <" ${include_path} ">\n")
   endforeach()
+  endif()
 endforeach()
 
 # Generate second file

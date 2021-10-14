@@ -26,7 +26,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 #if PHI_HAS_INTRINSIC_IS_ENUM()
 
 template <typename TypeT>
-struct is_enum : bool_constant<__is_enum(TypeT)>
+struct is_enum : public bool_constant<__is_enum(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

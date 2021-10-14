@@ -15,6 +15,7 @@
 #include "Phi/Core/Forward.hpp"
 #include "Phi/Core/Move.hpp"
 #include "Phi/Core/Nullptr.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/is_convertible.hpp"
 
@@ -505,6 +506,9 @@ PHI_NODISCARD constexpr NotNullObserverPtr<TypeT> make_not_null_observer(TypeT* 
     return NotNullObserverPtr<TypeT>(ptr);
 }
 
+template <typename TypeT>
+NotNullObserverPtr<TypeT> make_not_null_observer(nullptr_t ptr) = delete;
+
 DETAIL_PHI_END_NAMESPACE()
 
 namespace std
@@ -512,7 +516,7 @@ namespace std
     template <typename TypeT>
     struct hash<phi::ObserverPtr<TypeT>>
     {
-        std::size_t operator()(phi::ObserverPtr<TypeT> ptr) const noexcept
+        phi::size_t operator()(phi::ObserverPtr<TypeT> ptr) const noexcept
         {
             return std::hash<TypeT*>()(ptr.get());
         }
@@ -521,10 +525,16 @@ namespace std
     template <typename TypeT>
     struct hash<phi::NotNullObserverPtr<TypeT>>
     {
-        std::size_t operator()(phi::NotNullObserverPtr<TypeT> ptr) const noexcept
+        phi::size_t operator()(phi::NotNullObserverPtr<TypeT> ptr) const noexcept
         {
             return std::hash<TypeT*>()(ptr.get());
         }
+    };
+
+    template <>
+    struct hash<phi::NotNullObserverPtr<nullptr_t>>
+    {
+        phi::size_t operator()(phi::NotNullObserverPtr<nullptr_t> ptr) = delete;
     };
 } // namespace std
 

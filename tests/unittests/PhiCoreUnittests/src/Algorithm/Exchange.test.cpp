@@ -1,5 +1,6 @@
 #include <catch2/catch.hpp>
 
+#include "TestTypes.hpp"
 #include <Phi/Algorithm/Exchange.hpp>
 #include <Phi/CompilerSupport/Constexpr.hpp>
 #include <string>
@@ -42,7 +43,7 @@ TEST_CASE("exchange")
 
     {
         bool b = false;
-        CHECK(!phi::exchange(b, true));
+        CHECK_FALSE(phi::exchange(b, true));
         CHECK(b);
     }
 
@@ -57,11 +58,45 @@ TEST_CASE("exchange")
 
         s3 = s2; // Dad
         CHECK(phi::exchange(s3, {}) == s2);
-        CHECK(s3.size() == 0);
+        CHECK(s3.empty());
 
         s3 = s2; // Dad
         CHECK(phi::exchange(s3, "") == s2);
-        CHECK(s3.size() == 0);
+        CHECK(s3.empty());
+    }
+
+    {
+        Tracked a{0};
+        Tracked b{1};
+        CHECK(phi::exchange(a, b).value() == 0);
+    }
+
+    {
+        TrapConstructible a;
+        TrapConstructible b;
+
+        phi::exchange(a, b);
+    }
+
+    {
+        TrapImplicitConversion a;
+        TrapImplicitConversion b;
+
+        phi::exchange(a, b);
+    }
+
+    {
+        TrapComma a;
+        TrapComma b;
+
+        phi::exchange(a, b);
+    }
+
+    {
+        TrapCall a;
+        TrapCall b;
+
+        phi::exchange(a, b);
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()

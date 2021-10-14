@@ -27,19 +27,89 @@ SOFTWARE.
 #include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
+#include "Phi/TypeTraits/is_trivially_destructible.hpp"
+#include "SameType.hpp"
 #include <Phi/Config/Warning.hpp>
+#include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/Integer.hpp>
+#include <Phi/TypeTraits/is_assignable.hpp>
+#include <Phi/TypeTraits/is_constructible.hpp>
+#include <Phi/TypeTraits/is_convertible.hpp>
+#include <Phi/TypeTraits/is_copy_assignable.hpp>
+#include <Phi/TypeTraits/is_copy_constructible.hpp>
+#include <Phi/TypeTraits/is_default_constructible.hpp>
+#include <Phi/TypeTraits/is_move_assignable.hpp>
+#include <Phi/TypeTraits/is_move_constructible.hpp>
+#include <Phi/TypeTraits/is_nothrow_assignable.hpp>
+#include <Phi/TypeTraits/is_nothrow_constructible.hpp>
+#include <Phi/TypeTraits/is_nothrow_convertible.hpp>
+#include <Phi/TypeTraits/is_nothrow_copy_assignable.hpp>
+#include <Phi/TypeTraits/is_nothrow_copy_constructible.hpp>
+#include <Phi/TypeTraits/is_nothrow_default_constructible.hpp>
+#include <Phi/TypeTraits/is_nothrow_move_assignable.hpp>
+#include <Phi/TypeTraits/is_nothrow_move_constructible.hpp>
+#include <Phi/TypeTraits/is_same.hpp>
+#include <Phi/TypeTraits/is_standard_layout.hpp>
+#include <Phi/TypeTraits/is_trivially_copyable.hpp>
 #include <cstdint>
+#include <limits>
 #include <sstream>
 #include <string>
-#include <type_traits>
 
-#define TEST_CONVERSION(lhs, rhs)                                                                  \
-    (std::is_constructible<lhs, rhs>::value && std::is_nothrow_constructible<lhs, rhs>::value &&   \
-     std::is_assignable<lhs, rhs>::value && std::is_nothrow_assignable<lhs, rhs>::value &&         \
-     (std::is_constructible<rhs, lhs>::value == std::is_same<lhs::value_type, rhs>::value &&       \
-      std::is_nothrow_constructible<rhs, lhs>::value ==                                            \
-              std::is_same<lhs::value_type, rhs>::value))
+template <typename T>
+void test_integer_layout()
+{
+    STATIC_REQUIRE(sizeof(T) == sizeof(typename T::value_type));
+
+    STATIC_REQUIRE(phi::is_standard_layout<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
+
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_copy_assignable<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_copy_assignable<T>::value);
+    STATIC_REQUIRE(phi::is_copy_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_copy_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_move_assignable<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_move_assignable<T>::value);
+    STATIC_REQUIRE(phi::is_move_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_move_constructible<T>::value);
+}
+
+template <typename LhsT, typename RhsT>
+void test_integer_convertible()
+{
+    STATIC_REQUIRE(phi::is_constructible<LhsT, RhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<LhsT, RhsT>::value);
+    STATIC_REQUIRE(phi::is_assignable<LhsT, RhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_assignable<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+
+    STATIC_REQUIRE(phi::is_constructible<RhsT, LhsT>::value ==
+                   phi::is_same<typename LhsT::value_type, RhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<RhsT, LhsT>::value ==
+                   phi::is_same<typename LhsT::value_type, RhsT>::value);
+    STATIC_REQUIRE(phi::is_convertible<RhsT, LhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_convertible<RhsT, LhsT>::value);
+}
+
+template <typename LhsT, typename RhsT>
+void test_integer_not_convertible()
+{
+    STATIC_REQUIRE_FALSE(phi::is_constructible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+
+    STATIC_REQUIRE_FALSE(phi::is_constructible<RhsT, LhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<RhsT, LhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<RhsT, LhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<RhsT, LhsT>::value);
+}
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
@@ -53,177 +123,192 @@ TEST_CASE("Integer layout", "[Utility][Types][Integer]")
     STATIC_REQUIRE(sizeof(phi::Integer<std::int16_t>) == sizeof(std::int16_t));
     STATIC_REQUIRE(sizeof(phi::Integer<std::int32_t>) == sizeof(std::int32_t));
     STATIC_REQUIRE(sizeof(phi::Integer<std::int64_t>) == sizeof(std::int64_t));
+
     STATIC_REQUIRE(sizeof(phi::Integer<std::uint8_t>) == sizeof(std::uint8_t));
     STATIC_REQUIRE(sizeof(phi::Integer<std::uint16_t>) == sizeof(std::uint16_t));
     STATIC_REQUIRE(sizeof(phi::Integer<std::uint32_t>) == sizeof(std::uint32_t));
     STATIC_REQUIRE(sizeof(phi::Integer<std::uint64_t>) == sizeof(std::uint64_t));
 
-    STATIC_REQUIRE(std::is_standard_layout<phi::Integer<std::int32_t>>::value);
-    STATIC_REQUIRE(std::is_trivially_copyable<phi::Integer<std::int32_t>>::value);
-    STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::Integer<std::int32_t>>::value);
+    test_integer_layout<phi::Integer<std::int8_t>>();
+    test_integer_layout<phi::Integer<std::int16_t>>();
+    test_integer_layout<phi::Integer<std::int32_t>>();
+    test_integer_layout<phi::Integer<std::int64_t>>();
+
+    test_integer_layout<phi::Integer<std::uint8_t>>();
+    test_integer_layout<phi::Integer<std::uint16_t>>();
+    test_integer_layout<phi::Integer<std::uint32_t>>();
+    test_integer_layout<phi::Integer<std::uint64_t>>();
 }
 
 TEST_CASE("Integer conversion checks", "[Utility][Types][Integer]")
 {
     // std::int8_t
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::int8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::int64_t));
+    test_integer_convertible<phi::Integer<std::int8_t>, std::int8_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::int64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, std::uint64_t));
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::uint8_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::uint16_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int8_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::int8_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::int8_t>, long double>();
 
     // std::int16_t
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::int64_t));
+    test_integer_convertible<phi::Integer<std::int16_t>, std::int8_t>();
+    test_integer_convertible<phi::Integer<std::int16_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::int16_t>, std::uint8_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, std::uint16_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int16_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::int16_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::int16_t>, long double>();
 
     // std::int32_t
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::int8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::int16_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::int64_t));
+    test_integer_convertible<phi::Integer<std::int32_t>, std::int8_t>();
+    test_integer_convertible<phi::Integer<std::int32_t>, std::int16_t>();
+    test_integer_convertible<phi::Integer<std::int32_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::int32_t>, std::uint8_t>();
+    test_integer_convertible<phi::Integer<std::int32_t>, std::uint16_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int32_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::int32_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::int32_t>, long double>();
 
     // std::int64_t
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int16_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int32_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::int64_t));
+    test_integer_convertible<phi::Integer<std::int64_t>, std::int8_t>();
+    test_integer_convertible<phi::Integer<std::int64_t>, std::int16_t>();
+    test_integer_convertible<phi::Integer<std::int64_t>, std::int32_t>();
+    test_integer_convertible<phi::Integer<std::int64_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint16_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::int64_t>, std::uint8_t>();
+    test_integer_convertible<phi::Integer<std::int64_t>, std::uint16_t>();
+    test_integer_convertible<phi::Integer<std::int64_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::int64_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::int64_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::int64_t>, long double>();
 
     // std::uint8_t
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::int8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::int64_t));
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::int8_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::uint8_t>, std::uint8_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::uint16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint8_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::uint8_t>, long double>();
 
     // std::uint16_t
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::int64_t));
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::int8_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::uint16_t>, std::uint8_t>();
+    test_integer_convertible<phi::Integer<std::uint16_t>, std::uint16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint16_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::uint16_t>, long double>();
 
     // std::uint32_t
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::int8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::int64_t));
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, std::int8_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint16_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::uint32_t>, std::uint8_t>();
+    test_integer_convertible<phi::Integer<std::uint32_t>, std::uint16_t>();
+    test_integer_convertible<phi::Integer<std::uint32_t>, std::uint32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint32_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::uint32_t>, long double>();
 
     // std::uint64_t
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int8_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::int64_t));
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, std::int8_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, std::int16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, std::int32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, std::int64_t>();
 
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint8_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint16_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint32_t));
-    STATIC_REQUIRE(TEST_CONVERSION(phi::Integer<std::uint64_t>, std::uint64_t));
+    test_integer_convertible<phi::Integer<std::uint64_t>, std::uint8_t>();
+    test_integer_convertible<phi::Integer<std::uint64_t>, std::uint16_t>();
+    test_integer_convertible<phi::Integer<std::uint64_t>, std::uint32_t>();
+    test_integer_convertible<phi::Integer<std::uint64_t>, std::uint64_t>();
 
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, bool));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, wchar_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char16_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, char32_t));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, float));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, double));
-    STATIC_REQUIRE_FALSE(TEST_CONVERSION(phi::Integer<std::uint64_t>, long double));
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, bool>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, phi::Boolean>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, char>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, wchar_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, char16_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, char32_t>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, float>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, double>();
+    test_integer_not_convertible<phi::Integer<std::uint64_t>, long double>();
 }
 
 TEST_CASE("Integer", "[Utility][Types][Integer]")
@@ -233,53 +318,40 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
     SECTION("Type traits")
     {
         // this_type
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int8_t>::this_type,
-                                    phi::Integer<std::int8_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int16_t>::this_type,
-                                    phi::Integer<std::int16_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int32_t>::this_type,
-                                    phi::Integer<std::int32_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int64_t>::this_type,
-                                    phi::Integer<std::int64_t>>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::int8_t>::this_type, phi::Integer<std::int8_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int16_t>::this_type, phi::Integer<std::int16_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int32_t>::this_type, phi::Integer<std::int32_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int64_t>::this_type, phi::Integer<std::int64_t>);
 
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint8_t>::this_type,
-                                    phi::Integer<std::uint8_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint16_t>::this_type,
-                                    phi::Integer<std::uint16_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint32_t>::this_type,
-                                    phi::Integer<std::uint32_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint64_t>::this_type,
-                                    phi::Integer<std::uint64_t>>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::uint8_t>::this_type, phi::Integer<std::uint8_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint16_t>::this_type, phi::Integer<std::uint16_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint32_t>::this_type, phi::Integer<std::uint32_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint64_t>::this_type, phi::Integer<std::uint64_t>);
 
         // value_type
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int8_t>::value_type, std::int8_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int16_t>::value_type, std::int16_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int32_t>::value_type, std::int32_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int64_t>::value_type, std::int64_t>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::int8_t>::value_type, std::int8_t);
+        CHECK_SAME_TYPE(phi::Integer<std::int16_t>::value_type, std::int16_t);
+        CHECK_SAME_TYPE(phi::Integer<std::int32_t>::value_type, std::int32_t);
+        CHECK_SAME_TYPE(phi::Integer<std::int64_t>::value_type, std::int64_t);
 
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint8_t>::value_type, std::uint8_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint16_t>::value_type, std::uint16_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint32_t>::value_type, std::uint32_t>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint64_t>::value_type, std::uint64_t>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::uint8_t>::value_type, std::uint8_t);
+        CHECK_SAME_TYPE(phi::Integer<std::uint16_t>::value_type, std::uint16_t);
+        CHECK_SAME_TYPE(phi::Integer<std::uint32_t>::value_type, std::uint32_t);
+        CHECK_SAME_TYPE(phi::Integer<std::uint64_t>::value_type, std::uint64_t);
 
         // limits_type
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int8_t>::limits_type,
-                                    std::numeric_limits<std::int8_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int16_t>::limits_type,
-                                    std::numeric_limits<std::int16_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int32_t>::limits_type,
-                                    std::numeric_limits<std::int32_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::int64_t>::limits_type,
-                                    std::numeric_limits<std::int64_t>>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::int8_t>::limits_type, std::numeric_limits<std::int8_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int16_t>::limits_type, std::numeric_limits<std::int16_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int32_t>::limits_type, std::numeric_limits<std::int32_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::int64_t>::limits_type, std::numeric_limits<std::int64_t>);
 
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint8_t>::limits_type,
-                                    std::numeric_limits<std::uint8_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint16_t>::limits_type,
-                                    std::numeric_limits<std::uint16_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint32_t>::limits_type,
-                                    std::numeric_limits<std::uint32_t>>::value);
-        STATIC_REQUIRE(std::is_same<phi::Integer<std::uint64_t>::limits_type,
-                                    std::numeric_limits<std::uint64_t>>::value);
+        CHECK_SAME_TYPE(phi::Integer<std::uint8_t>::limits_type, std::numeric_limits<std::uint8_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint16_t>::limits_type,
+                        std::numeric_limits<std::uint16_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint32_t>::limits_type,
+                        std::numeric_limits<std::uint32_t>);
+        CHECK_SAME_TYPE(phi::Integer<std::uint64_t>::limits_type,
+                        std::numeric_limits<std::uint64_t>);
     }
 
     SECTION("constructor")
@@ -534,19 +606,6 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         STATIC_REQUIRE(bool(int_t(5) >= 5));
     }
 
-    /*
-    SECTION("make_(un)signed")
-    {
-        int_t                       a = 5;
-        phi::Integer<std::uint32_t> b = phi::make_unsigned(a);
-        CHECK(static_cast<std::uint32_t>(b) == 5);
-
-        b = 125u;
-        a = phi::make_signed(b);
-        CHECK(static_cast<std::int32_t>(a) == 125);
-    }
-    */
-
     SECTION("i/o")
     {
         std::ostringstream out;
@@ -560,135 +619,150 @@ TEST_CASE("Integer", "[Utility][Types][Integer]")
         CHECK(static_cast<std::int32_t>(i) == 10);
     }
 
-    /*
-    SECTION("abs")
-    {
-        CONSTEXPR_RUNTIME std::int32_t i = 123;
-        STATIC_REQUIRE(phi::abs(i) == 123u);
-
-        CONSTEXPR_RUNTIME std::int32_t i2 = -123;
-        STATIC_REQUIRE(phi::abs(i2) == 123u);
-
-        CONSTEXPR_RUNTIME std::uint32_t unsigned_i = 12u;
-        STATIC_REQUIRE(phi::abs(unsigned_i) == 12u);
-
-        CONSTEXPR_RUNTIME phi::Integer<std::int32_t> phi_pos = 123;
-        STATIC_REQUIRE(bool(phi::abs(phi_pos) == 123u));
-
-        CONSTEXPR_RUNTIME phi::Integer<std::int32_t> phi_neg = -123;
-        STATIC_REQUIRE(bool(phi::abs(phi_neg) == 123u));
-
-        CONSTEXPR_RUNTIME phi::Integer<std::uint32_t> phi_unsigned = 12u;
-        STATIC_REQUIRE(bool(phi::abs(phi_unsigned) == 12u));
-    }
-    */
-
     SECTION("signed_to_unsigned")
     {
         // From int8_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int8_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int8_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int8_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int8_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int8_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int8_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int8_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int8_t>, phi::Integer<uint64_t>>::value);
 
         // From int16_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int16_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int16_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int16_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int16_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int16_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int16_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int16_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int16_t>, phi::Integer<uint64_t>>::value);
 
         // From int32_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<uint64_t>>::value);
 
         // From int64_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<uint64_t>>::value);
     }
 
     SECTION("unsigned_to_signed")
     {
         // From uint8_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint8_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<int64_t>>::value);
 
         // From uint16_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint16_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint16_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint16_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint16_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<int64_t>>::value);
 
         // From uint32_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint32_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint32_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint32_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint32_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<int64_t>>::value);
 
         // From uint64_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<int64_t>>::value);
     }
 
     SECTION("signed_to_signed")
     {
         // From int8_t
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int8_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int8_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int8_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int8_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int8_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int8_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int8_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int8_t>, phi::Integer<int64_t>>::value);
 
         // From int16_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int16_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int16_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int16_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int16_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int16_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int16_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int16_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int16_t>, phi::Integer<int64_t>>::value);
 
         // From int32_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int32_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int32_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int32_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int32_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int32_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int32_t>, phi::Integer<int64_t>>::value);
 
         // From int64_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<int8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<int16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<int64_t>, phi::Integer<int32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<int64_t>, phi::Integer<int64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<int8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<int16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<int64_t>, phi::Integer<int32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<int64_t>, phi::Integer<int64_t>>::value);
     }
 
     SECTION("unsigned_to_unsigned")
     {
         // From uint8_t
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint8_t>, phi::Integer<uint64_t>>::value);
 
         // From uint16_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint16_t>, phi::Integer<uint64_t>>::value);
 
         // From uint32_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint32_t>, phi::Integer<uint64_t>>::value);
 
         // From uint64_t
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint8_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint16_t>>::value);
-        STATIC_REQUIRE(!std::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint32_t>>::value);
-        STATIC_REQUIRE(std::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint64_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint8_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint16_t>>::value);
+        STATIC_REQUIRE_FALSE(
+                phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint32_t>>::value);
+        STATIC_REQUIRE(phi::is_convertible<phi::Integer<uint64_t>, phi::Integer<uint64_t>>::value);
     }
 
     SECTION("std::hash")

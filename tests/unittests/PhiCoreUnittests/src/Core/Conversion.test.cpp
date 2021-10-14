@@ -129,6 +129,17 @@ TEMPLATE_TEST_CASE("unsafe_cast to Integer", "[Utility][Types][Conversion][unsaf
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(std::uint16_t(5)).get() == vt(5));
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(std::uint32_t(6)).get() == vt(6));
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(std::uint64_t(7)).get() == vt(7));
+
+    // Fron safe type
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::i8(std::int8_t(0))).get() == vt(0));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::i16(std::int16_t(1))).get() == vt(1));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::i32(std::int32_t(2))).get() == vt(2));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::i64(std::int64_t(3))).get() == vt(3));
+
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::u8(std::uint8_t(4))).get() == vt(4));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::u16(std::uint16_t(5))).get() == vt(5));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::u32(std::uint32_t(6))).get() == vt(6));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::u64(std::uint64_t(7))).get() == vt(7));
 }
 
 TEMPLATE_TEST_CASE("unsafe_cast to FloatingPoint", "[Utility][Types][Conversion][unsafe_cast]",
@@ -148,6 +159,14 @@ TEMPLATE_TEST_CASE("unsafe_cast to FloatingPoint", "[Utility][Types][Conversion]
 #if !defined(TEST_BUGGED_MSVC)
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(3.14).get() == vt(3.14));
     STATIC_REQUIRE(phi::unsafe_cast<TestType>(3.14L).get() == vt(3.14L));
+#endif
+
+    // from safe type
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<float>(3.14f)).get() == vt(3.14f));
+#if !defined(TEST_BUGGED_MSVC)
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<double>(3.14)).get() == vt(3.14));
+    STATIC_REQUIRE(phi::unsafe_cast<TestType>(phi::FloatingPoint<long double>(3.14L)).get() ==
+                   vt(3.14L));
 #endif
 }
 

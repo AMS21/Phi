@@ -1,9 +1,13 @@
 #include <catch2/catch.hpp>
 
 #include "Noexcept.hpp"
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/AsConst.hpp>
 #include <Phi/TypeTraits/is_const.hpp>
 #include <Phi/TypeTraits/remove_reference.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
 struct S
 {
@@ -61,3 +65,5 @@ TEST_CASE("as_const")
     test_as_const(d);
     test_as_const(s);
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()

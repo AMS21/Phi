@@ -12,7 +12,9 @@
 #include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/Core/Integer.hpp"
 #include "Phi/Core/Nullptr.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/TypeTraits/is_array.hpp"
 #include "Phi/TypeTraits/is_same.hpp"
@@ -53,6 +55,11 @@ public:
     static_assert(is_same<value_type, typename traits_type::char_type>::value,
                   "phi::BasicStringView: CharT must be the same type as traits_type::char_type");
 
+    // Constants
+    // TODO: For some reason using size_type instead of size_t causes a linker error in StringView.test.cpp when compiling with GCC
+    static PHI_CONSTEXPR_AND_CONST size_t npos = std::numeric_limits<size_t>::max();
+
+    // Constructors
     constexpr BasicStringView() noexcept
         : m_Data(nullptr)
         , m_Size(0u)
@@ -545,10 +552,6 @@ public:
     {
         return find_last_not_of(BasicStringView(string, count), pos);
     }
-
-    // Constants
-
-    PHI_CONSTEXPR_AND_CONST static size_type npos = size_type::max();
 
 private:
     struct not_in_view

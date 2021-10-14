@@ -10,7 +10,7 @@
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/is_fundamental.hpp"
+#include "Phi/TypeTraits/is_unsafe_fundamental.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -30,7 +30,7 @@ PHI_INLINE_VARIABLE constexpr bool is_compound_v = __is_compound(TypeT);
 #else
 
 template <typename TypeT>
-struct is_compound : public bool_constant<!is_fundamental_v<TypeT>>
+struct is_compound : public bool_constant<!is_unsafe_fundamental<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

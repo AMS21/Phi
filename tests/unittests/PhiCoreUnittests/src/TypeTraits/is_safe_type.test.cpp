@@ -58,6 +58,51 @@ TEST_CASE("is_safe_type")
     test_is_safe_type<phi::FloatingPoint<double>>();
     test_is_safe_type<phi::FloatingPoint<long double>>();
 
+    test_is_not_safe_type<phi::Boolean&>();
+    test_is_not_safe_type<phi::Integer<signed char>&>();
+    test_is_not_safe_type<phi::Integer<unsigned char>&>();
+    test_is_not_safe_type<phi::Integer<short>&>();
+    test_is_not_safe_type<phi::Integer<unsigned short>&>();
+    test_is_not_safe_type<phi::Integer<int>&>();
+    test_is_not_safe_type<phi::Integer<unsigned int>&>();
+    test_is_not_safe_type<phi::Integer<long>&>();
+    test_is_not_safe_type<phi::Integer<unsigned long>&>();
+    test_is_not_safe_type<phi::Integer<long long>&>();
+    test_is_not_safe_type<phi::Integer<unsigned long long>&>();
+    test_is_not_safe_type<phi::FloatingPoint<float>&>();
+    test_is_not_safe_type<phi::FloatingPoint<double>&>();
+    test_is_not_safe_type<phi::FloatingPoint<long double>&>();
+
+    test_is_not_safe_type<phi::Boolean&&>();
+    test_is_not_safe_type<phi::Integer<signed char>&&>();
+    test_is_not_safe_type<phi::Integer<unsigned char>&&>();
+    test_is_not_safe_type<phi::Integer<short>&&>();
+    test_is_not_safe_type<phi::Integer<unsigned short>&&>();
+    test_is_not_safe_type<phi::Integer<int>&&>();
+    test_is_not_safe_type<phi::Integer<unsigned int>&&>();
+    test_is_not_safe_type<phi::Integer<long>&&>();
+    test_is_not_safe_type<phi::Integer<unsigned long>&&>();
+    test_is_not_safe_type<phi::Integer<long long>&&>();
+    test_is_not_safe_type<phi::Integer<unsigned long long>&&>();
+    test_is_not_safe_type<phi::FloatingPoint<float>&&>();
+    test_is_not_safe_type<phi::FloatingPoint<double>&&>();
+    test_is_not_safe_type<phi::FloatingPoint<long double>&&>();
+
+    test_is_not_safe_type<phi::Boolean*>();
+    test_is_not_safe_type<phi::Integer<signed char>*>();
+    test_is_not_safe_type<phi::Integer<unsigned char>*>();
+    test_is_not_safe_type<phi::Integer<short>*>();
+    test_is_not_safe_type<phi::Integer<unsigned short>*>();
+    test_is_not_safe_type<phi::Integer<int>*>();
+    test_is_not_safe_type<phi::Integer<unsigned int>*>();
+    test_is_not_safe_type<phi::Integer<long>*>();
+    test_is_not_safe_type<phi::Integer<unsigned long>*>();
+    test_is_not_safe_type<phi::Integer<long long>*>();
+    test_is_not_safe_type<phi::Integer<unsigned long long>*>();
+    test_is_not_safe_type<phi::FloatingPoint<float>*>();
+    test_is_not_safe_type<phi::FloatingPoint<double>*>();
+    test_is_not_safe_type<phi::FloatingPoint<long double>*>();
+
     test_is_not_safe_type<void>();
     test_is_not_safe_type<phi::nullptr_t>();
     test_is_not_safe_type<bool>();

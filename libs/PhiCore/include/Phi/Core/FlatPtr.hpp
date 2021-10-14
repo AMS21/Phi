@@ -89,7 +89,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR FlatPtr& operator=(NotNullFlatPtr&& other) noexcept;
 
-    constexpr void* get() noexcept
+    PHI_NODISCARD constexpr void* get() noexcept
     {
         return m_Ptr;
     }
@@ -128,7 +128,7 @@ public:
         return get();
     }
 
-    void swap(FlatPtr& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(FlatPtr& other) noexcept
     {
         phi::swap(m_Ptr, other.m_Ptr);
     }
@@ -175,7 +175,7 @@ constexpr Boolean operator!=(nullptr_t, const FlatPtr& rhs) noexcept
     return rhs.get() != nullptr;
 }
 
-inline void swap(FlatPtr& lhs, FlatPtr& rhs)
+PHI_EXTENDED_CONSTEXPR inline void swap(FlatPtr& lhs, FlatPtr& rhs) noexcept
 {
     lhs.swap(rhs);
 }
@@ -207,7 +207,7 @@ public:
 
     ~NotNullFlatPtr() = default;
 
-    constexpr NotNullFlatPtr& operator=(nullptr_t) = delete;
+    NotNullFlatPtr& operator=(nullptr_t) = delete;
 
     template <typename PtrT>
     PHI_EXTENDED_CONSTEXPR NotNullFlatPtr& operator=(
@@ -256,9 +256,9 @@ public:
         return get();
     }
 
-    void swap(NotNullFlatPtr& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(NotNullFlatPtr& other) noexcept
     {
-        std::swap(m_Ptr, other.m_Ptr);
+        phi::swap(m_Ptr, other.m_Ptr);
     }
 
     void* operator->() = delete;

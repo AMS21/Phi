@@ -48,9 +48,9 @@ template<class Ret, class... Args>
 struct A<Ret(Args...) noexcept> {};
 int main() {}"
   PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE)
-phi_check_cxx_source_compiles("[[nodiscard]] int f() { return 3; } int main() {}"
+phi_check_cxx_source_compiles("[[nodiscard]] int f() { return 3; } int main() { return f(); }"
                               PHI_HAS_FEATURE_NODISCARD)
-phi_check_cxx_source_compiles("void f([[maybe_unused]] int a) {} int main() {}"
+phi_check_cxx_source_compiles("void f([[maybe_unused]] int a) {} int main() { f(3); }"
                               PHI_HAS_FEATURE_MAYBE_UNUSED)
 
 # C++-20 Features
@@ -205,6 +205,8 @@ phi_check_cxx_source_compiles("struct __declspec(empty_bases) A{}; int main() { 
                               PHI_HAS_EXTENSION_DECLSPEC_EMPTY_BASES)
 phi_check_cxx_source_compiles("void f(__attribute((unused)) int a) {} int main() {}"
                               PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED)
+phi_check_cxx_source_compiles("int main() { int i = 0 / 0; float f = 0.0 / 0.0; }"
+                              PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT)
 
 # Bugs
 phi_check_cxx_source_compiles(
