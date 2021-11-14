@@ -13,8 +13,8 @@
 #    define PHI_IS_FINAL(type)      __is_final(type)
 #    define PHI_SUPPORTS_IS_FINAL() 1
 #elif PHI_HAS_INTRINSIC_IS_SEALED()
-#define PHI_IS_FINAL(type) __is_sealed(type)
-#define PHI_SUPPORTS_IS_FINAL() 1
+#    define PHI_IS_FINAL(type)      __is_sealed(type)
+#    define PHI_SUPPORTS_IS_FINAL() 1
 #else
 #    define PHI_IS_FINAL(type)      false
 #    define PHI_SUPPORTS_IS_FINAL() 0
