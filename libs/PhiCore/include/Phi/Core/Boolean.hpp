@@ -27,13 +27,19 @@ SOFTWARE.
 #ifndef INCG_PHI_UTILITY_BOOLEAN_HPP
 #define INCG_PHI_UTILITY_BOOLEAN_HPP
 
+#include "Phi/PhiConfig.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
-#include "Phi/PhiConfig.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_bool.hpp"
 #include <functional>
 #include <iosfwd>
 #include <limits>
-#include <type_traits>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -44,19 +50,7 @@ class Boolean;
 namespace detail
 {
     template <typename TypeT>
-    struct is_boolean : std::false_type
-    {};
-
-    template <>
-    struct is_boolean<bool> : std::true_type
-    {};
-
-    template <>
-    struct is_boolean<Boolean> : std::true_type
-    {};
-
-    template <typename TypeT>
-    using enable_if_boolean_t = typename std::enable_if_t<is_boolean<TypeT>::value>;
+    using enable_if_boolean_t = enable_if_t<is_bool<TypeT>::value>;
 } // namespace detail
 /// \endcond
 
@@ -90,7 +84,7 @@ public:
 
     PHI_ALWAYS_INLINE constexpr Boolean operator!() const noexcept
     {
-        return Boolean(!m_Value);
+        return {!m_Value};
     }
 
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool get() const noexcept

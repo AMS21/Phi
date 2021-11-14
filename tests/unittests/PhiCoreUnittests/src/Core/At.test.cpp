@@ -1,5 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
 #include <Phi/Core/At.hpp>
 #include <array>
 #include <deque>
@@ -10,18 +11,18 @@ TEST_CASE("At c-array", "[Utility][At]")
 {
     constexpr char arr[]{"Test String"};
 
-    STATIC_REQUIRE(phi::at(arr, 0) == 'T');
-    STATIC_REQUIRE(phi::at(arr, 1) == 'e');
-    STATIC_REQUIRE(phi::at(arr, 2) == 's');
-    STATIC_REQUIRE(phi::at(arr, 3) == 't');
-    STATIC_REQUIRE(phi::at(arr, 4) == ' ');
-    STATIC_REQUIRE(phi::at(arr, 5) == 'S');
-    STATIC_REQUIRE(phi::at(arr, 6) == 't');
-    STATIC_REQUIRE(phi::at(arr, 7) == 'r');
-    STATIC_REQUIRE(phi::at(arr, 8) == 'i');
-    STATIC_REQUIRE(phi::at(arr, 9) == 'n');
-    STATIC_REQUIRE(phi::at(arr, 10) == 'g');
-    STATIC_REQUIRE(phi::at(arr, 11) == '\0');
+    EXT_STATIC_REQUIRE(phi::at(arr, 0) == 'T');
+    EXT_STATIC_REQUIRE(phi::at(arr, 1) == 'e');
+    EXT_STATIC_REQUIRE(phi::at(arr, 2) == 's');
+    EXT_STATIC_REQUIRE(phi::at(arr, 3) == 't');
+    EXT_STATIC_REQUIRE(phi::at(arr, 4) == ' ');
+    EXT_STATIC_REQUIRE(phi::at(arr, 5) == 'S');
+    EXT_STATIC_REQUIRE(phi::at(arr, 6) == 't');
+    EXT_STATIC_REQUIRE(phi::at(arr, 7) == 'r');
+    EXT_STATIC_REQUIRE(phi::at(arr, 8) == 'i');
+    EXT_STATIC_REQUIRE(phi::at(arr, 9) == 'n');
+    EXT_STATIC_REQUIRE(phi::at(arr, 10) == 'g');
+    EXT_STATIC_REQUIRE(phi::at(arr, 11) == '\0');
 }
 
 TEST_CASE("At container", "[Utility][At]")

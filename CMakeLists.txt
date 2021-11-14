@@ -1,11 +1,11 @@
 # Phi top level cmake file
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8.12)
 
 # Policy
-if(${CMAKE_VERSION} VERSION_LESS 3.20)
+if(${CMAKE_VERSION} VERSION_LESS 3.22)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.20)
+  cmake_policy(VERSION 3.22)
 endif()
 
 # CMake modules
@@ -21,10 +21,14 @@ set(PHI_VERSION_PATCH 0)
 phi_log("Configuring Phi version ${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}")
 
 # Project
-project(
-  Phi
-  VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}"
-  LANGUAGES CXX)
+if(${CMAKE_VERSION} VERSION_LESS 3.0)
+  project(Phi C CXX)
+else()
+  project(
+    Phi
+    VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}"
+    LANGUAGES CXX)
+endif()
 
 # Check if Phi is being used directly or via add_subdirectory, but allow overriding
 if(NOT DEFINED PHI_MASTER_PROJECT)

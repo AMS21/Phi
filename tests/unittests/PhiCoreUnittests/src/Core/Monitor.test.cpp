@@ -1,4 +1,5 @@
-#include <catch2/catch_test_macros.hpp>
+#include "Phi/Core/Forward.hpp"
+#include <catch2/catch.hpp>
 
 #include <Phi/Config/Compiler.hpp>
 #include <Phi/Core/Monitor.hpp>
@@ -54,6 +55,7 @@ TEST_CASE("Monitor", "[Core][Monitor]")
         CHECK(mon->val == 2);
     }
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("operator()")
     {
         phi::Monitor<A> mon(3, 3.14);
@@ -62,6 +64,7 @@ TEST_CASE("Monitor", "[Core][Monitor]")
 
         CHECK(mon->val == 3);
     }
+#endif
 
     SECTION("ManualLock")
     {

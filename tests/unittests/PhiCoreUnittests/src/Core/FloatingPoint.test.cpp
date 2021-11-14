@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <catch2/catch_template_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
 #include <Phi/Config/Warning.hpp>
@@ -351,78 +351,3 @@ TEST_CASE("phi::FloatingPoint", "[Utility][Types][FloatingPoint]")
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
-
-class UserClass
-{};
-
-TEST_CASE("is_floating_point", "[Utility][FloatingPoint]")
-{
-    // is_floating_point
-    STATIC_REQUIRE(phi::is_floating_point<float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<const float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<volatile float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<const volatile float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<void>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<int>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<bool>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<char>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<UserClass>::value);
-
-    // is_floating_point_v
-    STATIC_REQUIRE(phi::is_floating_point<float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<const float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<volatile float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<volatile phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE(phi::is_floating_point<const volatile float>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile long double>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<float>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<double>>::value);
-    STATIC_REQUIRE(phi::is_floating_point<const volatile phi::FloatingPoint<long double>>::value);
-
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<int>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<bool>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<char>::value);
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<UserClass>::value);
-}

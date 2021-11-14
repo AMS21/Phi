@@ -1,5 +1,9 @@
 # PhiCore
-project(PhiCore LANGUAGES CXX)
+if(${CMAKE_VERSION} VERSION_LESS 3.0)
+  project(PhiCore CXX C)
+else()
+  project(PhiCore LANGUAGES CXX)
+endif()
 
 file(
   GLOB
@@ -8,6 +12,7 @@ file(
   "include/Phi/Algorithm/StringCompare.hpp"
   "include/Phi/Algorithm/StringEquals.hpp"
   "include/Phi/Algorithm/StringLength.hpp"
+  "include/Phi/Algorithm/Swap.hpp"
   # CompilerSupport
   "include/Phi/CompilerSupport/Char8_t.hpp"
   "include/Phi/CompilerSupport/Constexpr.hpp"
@@ -22,7 +27,6 @@ file(
   "include/Phi/Config/FunctionLikeMacro.hpp"
   "include/Phi/Config/Glue.hpp"
   "include/Phi/Config/Inline.hpp"
-  "include/Phi/Config/Likely.hpp"
   "include/Phi/Config/Platform.hpp"
   "include/Phi/Config/SourceLine.hpp"
   "include/Phi/Config/Stringify.hpp"
@@ -38,15 +42,18 @@ file(
   "include/Phi/Core/Boolean.hpp"
   "include/Phi/Core/Conversion.hpp"
   "include/Phi/Core/CRTP.hpp"
+  "include/Phi/Core/Declval.hpp"
   "include/Phi/Core/FlatPtr.hpp"
   "include/Phi/Core/FloatingPoint.hpp"
+  "include/Phi/Core/Forward.hpp"
   "include/Phi/Core/Integer.hpp"
   "include/Phi/Core/Invoke.hpp"
-  "include/Phi/Core/Log.hpp"
   "include/Phi/Core/Monitor.hpp"
+  "include/Phi/Core/Move.hpp"
   "include/Phi/Core/NamedType.hpp"
   "include/Phi/Core/NonCopyable.hpp"
   "include/Phi/Core/NotNull.hpp"
+  "include/Phi/Core/Nullptr.hpp"
   "include/Phi/Core/ObserverPtr.hpp"
   "include/Phi/Core/Optional.hpp"
   "include/Phi/Core/ScopedValueGuard.hpp"
@@ -65,9 +72,10 @@ file(
   "include/Phi/TypeTraits/add_const.hpp"
   "include/Phi/TypeTraits/add_cv.hpp"
   "include/Phi/TypeTraits/add_lvalue_reference.hpp"
-  "include/Phi/TypeTraits/add_reference.hpp"
+  "include/Phi/TypeTraits/add_pointer.hpp"
   "include/Phi/TypeTraits/add_rvalue_reference.hpp"
   "include/Phi/TypeTraits/add_volatile.hpp"
+  "include/Phi/TypeTraits/alignment_of.hpp"
   "include/Phi/TypeTraits/always_false.hpp"
   "include/Phi/TypeTraits/bool_pack.hpp"
   "include/Phi/TypeTraits/conditional.hpp"
@@ -75,40 +83,87 @@ file(
   "include/Phi/TypeTraits/copy_const.hpp"
   "include/Phi/TypeTraits/copy_cv.hpp"
   "include/Phi/TypeTraits/copy_volatile.hpp"
+  "include/Phi/TypeTraits/decay.hpp"
   "include/Phi/TypeTraits/disable_if.hpp"
   "include/Phi/TypeTraits/disjunction.hpp"
   "include/Phi/TypeTraits/enable_if.hpp"
+  "include/Phi/TypeTraits/extent.hpp"
+  "include/Phi/TypeTraits/has_unique_object_representations.hpp"
   "include/Phi/TypeTraits/integral_constant.hpp"
   "include/Phi/TypeTraits/invoke_result.hpp"
+  "include/Phi/TypeTraits/is_abstract.hpp"
+  "include/Phi/TypeTraits/is_aggregate.hpp"
+  "include/Phi/TypeTraits/is_arithmetic.hpp"
   "include/Phi/TypeTraits/is_array.hpp"
+  "include/Phi/TypeTraits/is_assignable.hpp"
+  "include/Phi/TypeTraits/is_base_of.hpp"
   "include/Phi/TypeTraits/is_bounded_array.hpp"
+  "include/Phi/TypeTraits/is_class.hpp"
+  "include/Phi/TypeTraits/is_compound.hpp"
   "include/Phi/TypeTraits/is_const.hpp"
+  "include/Phi/TypeTraits/is_constant_evaluated.hpp"
+  "include/Phi/TypeTraits/is_constructible.hpp"
+  "include/Phi/TypeTraits/is_convertible.hpp"
+  "include/Phi/TypeTraits/is_copy_assignable.hpp"
+  "include/Phi/TypeTraits/is_copy_constructible.hpp"
+  "include/Phi/TypeTraits/is_default_constructible.hpp"
+  "include/Phi/TypeTraits/is_final.hpp"
+  "include/Phi/TypeTraits/is_floating_point.hpp"
+  "include/Phi/TypeTraits/is_function.hpp"
+  "include/Phi/TypeTraits/is_fundamental.hpp"
+  "include/Phi/TypeTraits/is_integral.hpp"
   "include/Phi/TypeTraits/is_lvalue_reference.hpp"
-  "include/Phi/TypeTraits/is_not_same.hpp"
+  "include/Phi/TypeTraits/is_member_function_pointer.hpp"
+  "include/Phi/TypeTraits/is_member_object_pointer.hpp"
+  "include/Phi/TypeTraits/is_member_pointer.hpp"
+  "include/Phi/TypeTraits/is_move_assignable.hpp"
+  "include/Phi/TypeTraits/is_move_constructible.hpp"
+  "include/Phi/TypeTraits/is_nothrow_assignable.hpp"
+  "include/Phi/TypeTraits/is_nothrow_constructible.hpp"
+  "include/Phi/TypeTraits/is_nothrow_convertible.hpp"
+  "include/Phi/TypeTraits/is_nothrow_copy_assignable.hpp"
   "include/Phi/TypeTraits/is_nothrow_swappable_with.hpp"
   "include/Phi/TypeTraits/is_nothrow_swappable.hpp"
   "include/Phi/TypeTraits/is_null_pointer.hpp"
+  "include/Phi/TypeTraits/is_object.hpp"
   "include/Phi/TypeTraits/is_pointer.hpp"
+  "include/Phi/TypeTraits/is_polymorphic.hpp"
   "include/Phi/TypeTraits/is_reference_wrapper.hpp"
   "include/Phi/TypeTraits/is_reference.hpp"
   "include/Phi/TypeTraits/is_referenceable.hpp"
   "include/Phi/TypeTraits/is_rvalue_reference.hpp"
+  "include/Phi/TypeTraits/is_safe_flaoting_point.hpp"
+  "include/Phi/TypeTraits/is_same_rc.hpp"
+  "include/Phi/TypeTraits/is_same_rcv.hpp"
+  "include/Phi/TypeTraits/is_same_rcvref.hpp"
+  "include/Phi/TypeTraits/is_same_rref.hpp"
+  "include/Phi/TypeTraits/is_same_rv.hpp"
   "include/Phi/TypeTraits/is_same.hpp"
   "include/Phi/TypeTraits/is_scoped_enum.hpp"
   "include/Phi/TypeTraits/is_swappable_with.hpp"
   "include/Phi/TypeTraits/is_swappable.hpp"
   "include/Phi/TypeTraits/is_unbounded_array.hpp"
+  "include/Phi/TypeTraits/is_union.hpp"
+  "include/Phi/TypeTraits/is_unsafe_floating_point.hpp"
   "include/Phi/TypeTraits/is_void.hpp"
   "include/Phi/TypeTraits/is_volatile.hpp"
   "include/Phi/TypeTraits/nat.hpp"
+  "include/Phi/TypeTraits/negation.hpp"
+  "include/Phi/TypeTraits/rank.hpp"
+  "include/Phi/TypeTraits/remove_all_extents.hpp"
   "include/Phi/TypeTraits/remove_const.hpp"
   "include/Phi/TypeTraits/remove_cv.hpp"
   "include/Phi/TypeTraits/remove_cvref.hpp"
+  "include/Phi/TypeTraits/remove_extent.hpp"
+  "include/Phi/TypeTraits/remove_pointer.hpp"
   "include/Phi/TypeTraits/remove_reference.hpp"
   "include/Phi/TypeTraits/remove_volatile.hpp"
+  "include/Phi/TypeTraits/to_underlying.hpp"
+  "include/Phi/TypeTraits/type_identity.hpp"
+  "include/Phi/TypeTraits/underlying_type.hpp"
   "include/Phi/TypeTraits/void_t.hpp")
 
-file(GLOB PHI_CORE_SOURCES "src/Core/Log.cpp")
+file(GLOB PHI_CORE_SOURCES "src/dummy.cpp")
 
 phi_add_library(
   NAME
@@ -121,7 +176,6 @@ phi_add_library(
   ALIAS_TARGET
   Phi::Core
   PUBLIC_LINK_LIBRARIES
-  spdlog::spdlog
   Threads::Threads
   PRIVATE_LINK_LIBRARIES
   Phi::InternalProjectOptions

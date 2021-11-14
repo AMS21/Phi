@@ -1,17 +1,23 @@
+
 #ifndef INCG_PHI_CORE_ADDRESS_OF_HPP
 #define INCG_PHI_CORE_ADDRESS_OF_HPP
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
-#include <type_traits>
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/is_object.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename std::enable_if<std::is_object<TypeT>::value, TypeT*>::type
-addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::type addressof(
+        TypeT& arg) noexcept
 {
 #if PHI_HAS_INTRINSIC_BUILTIN_ADDRESS_OF()
     return __builtin_addressof(arg);
@@ -22,8 +28,8 @@ addressof(TypeT& arg) noexcept
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename std::enable_if<!std::is_object<TypeT>::value, TypeT*>::type
-addressof(TypeT& arg) noexcept
+PHI_NODISCARD constexpr typename enable_if<!is_object<TypeT>::value, TypeT*>::type addressof(
+        TypeT& arg) noexcept
 {
     return &arg;
 }

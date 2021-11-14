@@ -6,7 +6,7 @@ jobs:
   cppcheck:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 12
+      LLVM_VERSION: 13
 
     steps:
       - name: Checkout
@@ -31,11 +31,12 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }}
 
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
           echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Install cppcheck
         env:
-          CPPCHECK_VERSION: "2.5"
+          CPPCHECK_VERSION: "2.6"
         run: |
           mkdir cppcheck
           wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
@@ -80,7 +81,7 @@ jobs:
   clang-tidy:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 12
+      LLVM_VERSION: 13
 
     steps:
       - name: Checkout
@@ -106,6 +107,7 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
           echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Run clang-tidy
@@ -247,7 +249,7 @@ jobs:
   pvs-studio:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 12
+      LLVM_VERSION: 13
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -270,6 +272,7 @@ jobs:
           sudo apt-get update -m
           sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
 
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
           echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
 
       - name: Install PVS-Studio

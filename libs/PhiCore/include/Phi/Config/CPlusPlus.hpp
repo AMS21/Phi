@@ -1,10 +1,7 @@
-#pragma once
-
-#include "Phi/PhiConfig.hpp"
+#ifndef INCG_PHI_CONFIG_CPLUSPLUS_HPP
+#define INCG_PHI_CONFIG_CPLUSPLUS_HPP
 
 #include "Phi/Config/Compiler.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 // C++-98 standard from november 1997
 #define PHI_CPLUSPLUS_98() (199711L)
@@ -42,4 +39,4 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #define PHI_CPP_STANDARD_IS_BELOW(standard) (PHI_CPP_STANDARD() < PHI_CPLUSPLUS_##standard())
 
-DETAIL_PHI_END_NAMESPACE()
+#endif // INCG_PHI_CONFIG_CPLUSPLUS_HPP

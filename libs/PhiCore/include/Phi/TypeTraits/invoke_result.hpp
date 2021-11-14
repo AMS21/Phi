@@ -3,29 +3,21 @@
 
 #include "Phi/PhiConfig.hpp"
 
-#include "Phi/Core/Invoke.hpp"
-#include <utility>
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/Core/Declval.hpp"
+#include "Phi/TypeTraits/is_invocable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-namespace detail
-{
-    template <typename FnT, typename, typename... ArgsT>
-    struct invoke_result_impl;
+template <typename FunctionT, typename... ArgsT>
+struct invoke_result : public detail::invoke_of<FunctionT, ArgsT...>
+{};
 
-    template <typename FnT, typename... ArgsT>
-    struct invoke_result_impl<
-            FnT, decltype(invoke(std::declval<FnT>(), std::declval<ArgsT>()...), void()), ArgsT...>
-    {
-        using type = decltype(invoke(std::declval<FnT>(), std::declval<ArgsT>()...));
-    };
-} // namespace detail
-
-template <typename FnT, typename... ArgsT>
-using invoke_result = detail::invoke_result_impl<FnT, void, ArgsT...>;
-
-template <typename FnT, typename... ArgsT>
-using invoke_result_t = typename invoke_result<FnT, ArgsT...>::type;
+template <typename FunctionT, typename... ArgsT>
+using invoke_result_t = typename invoke_result<FunctionT, ArgsT...>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/add_lvalue_reference.hpp"
 #include "Phi/TypeTraits/conditional.hpp"
@@ -20,8 +24,12 @@ struct is_swappable
                          false_type>::type
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT>
 constexpr PHI_INLINE_VARIABLE bool is_swappable_v = is_swappable<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

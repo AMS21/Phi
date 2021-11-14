@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
@@ -29,7 +33,18 @@ struct is_null_pointer<const volatile decltype(nullptr)> : public true_type
 {};
 
 template <typename TypeT>
+struct is_not_null_pointer : public bool_constant<!is_null_pointer<TypeT>::value>
+{};
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_null_pointer_v = is_null_pointer<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_null_pointer_v = is_not_null_pointer<TypeT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

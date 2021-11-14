@@ -1,18 +1,15 @@
-#include <Phi/Config/Warning.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
-#include <catch2/catch_template_test_macros.hpp>
-PHI_EXTERNAL_HEADERS_END()
+#include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
-#include "Unwrap.hpp"
+#include "SameType.hpp"
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Types.hpp>
 #include <Phi/Math/Vector2.hpp>
+#include <Phi/TypeTraits/make_unsafe.hpp>
+#include <Phi/TypeTraits/to_unsafe.hpp>
 #include <iterator>
-#include <type_traits>
 
 PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wfloat-equal")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -25,22 +22,22 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
                    phi::i64, phi::u8, phi::u16, phi::u32, phi::u64, phi::FloatingPoint<float>,
                    phi::FloatingPoint<double>, phi::FloatingPoint<long double>)
 {
-    using base_t = unwrapped_t<TestType>;
+    using base_t = phi::make_unsafe_t<TestType>;
 
     SECTION("Vector2(x, y)")
     {
         CONSTEXPR_RUNTIME phi::Vector2<TestType> vec(base_t(13), base_t(29));
 
-        STATIC_REQUIRE(unwrap(vec.x) == base_t(13));
-        STATIC_REQUIRE(unwrap(vec.y) == base_t(29));
+        STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(13));
+        STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(29));
     }
 
     SECTION("Vector2(xy)")
     {
         CONSTEXPR_RUNTIME phi::Vector2<TestType> vec(base_t(42));
 
-        STATIC_REQUIRE(unwrap(vec.x) == base_t(42));
-        STATIC_REQUIRE(unwrap(vec.y) == base_t(42));
+        STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(42));
+        STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(42));
     }
 
     SECTION("Vector2(const Vector2&)")
@@ -48,16 +45,16 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         CONSTEXPR_RUNTIME phi::Vector2<TestType> base(base_t(18), base_t(23));
         CONSTEXPR_RUNTIME phi::Vector2<TestType> vec(base);
 
-        STATIC_REQUIRE(unwrap(vec.x) == base_t(18));
-        STATIC_REQUIRE(unwrap(vec.y) == base_t(23));
+        STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(18));
+        STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(23));
     }
 
     SECTION("Vector2(Vector2&&)")
     {
         CONSTEXPR_RUNTIME phi::Vector2<TestType> vec(phi::Vector2<TestType>(base_t(11), base_t(9)));
 
-        STATIC_REQUIRE(unwrap(vec.x) == base_t(11));
-        STATIC_REQUIRE(unwrap(vec.y) == base_t(9));
+        STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(11));
+        STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(9));
     }
 
     SECTION("operator=(const Vector2&)")
@@ -66,10 +63,10 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         phi::Vector2<TestType> other(base_t(0));
 
         phi::Vector2<TestType> vec = (other = base);
-        CHECK(unwrap(vec.x) == 2);
-        CHECK(unwrap(vec.y) == 4);
-        CHECK(unwrap(other.x) == 2);
-        CHECK(unwrap(other.y) == 4);
+        CHECK(phi::to_unsafe(vec.x) == 2);
+        CHECK(phi::to_unsafe(vec.y) == 4);
+        CHECK(phi::to_unsafe(other.x) == 2);
+        CHECK(phi::to_unsafe(other.y) == 4);
     }
 
     SECTION("operator=(Vector2&&)")
@@ -77,10 +74,10 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         phi::Vector2<TestType> base(base_t(0));
 
         phi::Vector2<TestType> vec = (base = phi::Vector2<TestType>(base_t(99), base_t(7)));
-        CHECK(unwrap(vec.x) == 99);
-        CHECK(unwrap(vec.y) == 7);
-        CHECK(unwrap(base.x) == 99);
-        CHECK(unwrap(base.y) == 7);
+        CHECK(phi::to_unsafe(vec.x) == 99);
+        CHECK(phi::to_unsafe(vec.y) == 7);
+        CHECK(phi::to_unsafe(base.x) == 99);
+        CHECK(phi::to_unsafe(base.y) == 7);
     }
 
     SECTION("operator+(const Vector2&)")
@@ -88,8 +85,8 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         CONSTEXPR_RUNTIME phi::Vector2<TestType> base(base_t(0), base_t(12));
 
         CONSTEXPR_RUNTIME phi::Vector2<TestType> vec = +base;
-        STATIC_REQUIRE(unwrap(vec.x) == base_t(0));
-        STATIC_REQUIRE(unwrap(vec.y) == base_t(12));
+        STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(0));
+        STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(12));
     }
 
     SECTION("operator+=(Vector2&, const Vector2&)")
@@ -98,10 +95,10 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         phi::Vector2<TestType> other(base_t(9), base_t(17));
 
         phi::Vector2<TestType> vec = (base += other);
-        CHECK(unwrap(base.x) == base_t(12));
-        CHECK(unwrap(base.y) == base_t(36));
-        CHECK(unwrap(vec.x) == base_t(12));
-        CHECK(unwrap(vec.y) == base_t(36));
+        CHECK(phi::to_unsafe(base.x) == base_t(12));
+        CHECK(phi::to_unsafe(base.y) == base_t(36));
+        CHECK(phi::to_unsafe(vec.x) == base_t(12));
+        CHECK(phi::to_unsafe(vec.y) == base_t(36));
     }
 
     SECTION("operator-=(Vector2&, const Vector2&)")
@@ -110,44 +107,43 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         phi::Vector2<TestType> other(base_t(10), base_t(15));
 
         phi::Vector2<TestType> vec = (base -= other);
-        CHECK(unwrap(base.x) == base_t(20));
-        CHECK(unwrap(base.y) == base_t(25));
-        CHECK(unwrap(vec.x) == base_t(20));
-        CHECK(unwrap(vec.y) == base_t(25));
+        CHECK(phi::to_unsafe(base.x) == base_t(20));
+        CHECK(phi::to_unsafe(base.y) == base_t(25));
+        CHECK(phi::to_unsafe(vec.x) == base_t(20));
+        CHECK(phi::to_unsafe(vec.y) == base_t(25));
     }
 
     SECTION("operator+(const Vector2&, const Vector2&)")
     {
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(14));
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> rhs(base_t(7), base_t(11));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(14));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> rhs(base_t(7), base_t(11));
 
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = lhs + rhs;
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> res = lhs + rhs;
 
-        PHI_UNUSED_PARAMETER(res);
-        STATIC_REQUIRE(unwrap(res.x) == base_t(10));
-        STATIC_REQUIRE(unwrap(res.y) == base_t(25));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.x) == base_t(10));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.y) == base_t(25));
     }
 
     SECTION("operator-(const Vector2&, const Vector2&)")
     {
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(100), base_t(45));
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> rhs(base_t(70), base_t(5));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(100), base_t(45));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> rhs(base_t(70), base_t(5));
 
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = lhs - rhs;
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> res = lhs - rhs;
 
-        STATIC_REQUIRE(unwrap(res.x) == base_t(30));
-        STATIC_REQUIRE(unwrap(res.y) == base_t(40));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.x) == base_t(30));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.y) == base_t(40));
     }
 
     SECTION("operator*(const Vector2&, rhs)")
     {
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(6));
-        CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(3), base_t(6));
+        EXT_CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
 
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs * rhs);
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs * rhs);
 
-        STATIC_REQUIRE(unwrap(res.x) == base_t(6));
-        STATIC_REQUIRE(unwrap(res.y) == base_t(12));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.x) == base_t(6));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.y) == base_t(12));
     }
 
     SECTION("operator*=(const Vector2&, rhs)")
@@ -156,21 +152,21 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         TestType               rhs(base_t(3));
 
         phi::Vector2<TestType> vec = (lhs *= rhs);
-        CHECK(unwrap(lhs.x) == base_t(6));
-        CHECK(unwrap(lhs.y) == base_t(36));
-        CHECK(unwrap(vec.x) == base_t(6));
-        CHECK(unwrap(vec.y) == base_t(36));
+        CHECK(phi::to_unsafe(lhs.x) == base_t(6));
+        CHECK(phi::to_unsafe(lhs.y) == base_t(36));
+        CHECK(phi::to_unsafe(vec.x) == base_t(6));
+        CHECK(phi::to_unsafe(vec.y) == base_t(36));
     }
 
     SECTION("operator/(const Vector2&, rhs)")
     {
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(6), base_t(12));
-        CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> lhs(base_t(6), base_t(12));
+        EXT_CONSTEXPR_RUNTIME TestType               rhs(base_t(2));
 
-        CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs / rhs);
+        EXT_CONSTEXPR_RUNTIME phi::Vector2<TestType> res = (lhs / rhs);
 
-        STATIC_REQUIRE(unwrap(res.x) == base_t(3));
-        STATIC_REQUIRE(unwrap(res.y) == base_t(6));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.x) == base_t(3));
+        EXT_STATIC_REQUIRE(phi::to_unsafe(res.y) == base_t(6));
     }
 
     SECTION("operator/=(const Vector2&, rhs)")
@@ -179,10 +175,10 @@ TEMPLATE_TEST_CASE("Vector2 templated", "[Math][Vector2]", char, signed char, un
         TestType               rhs(base_t(3));
 
         phi::Vector2<TestType> vec = (lhs /= rhs);
-        CHECK(unwrap(lhs.x) == base_t(3));
-        CHECK(unwrap(lhs.y) == base_t(4));
-        CHECK(unwrap(vec.x) == base_t(3));
-        CHECK(unwrap(vec.y) == base_t(4));
+        CHECK(phi::to_unsafe(lhs.x) == base_t(3));
+        CHECK(phi::to_unsafe(lhs.y) == base_t(4));
+        CHECK(phi::to_unsafe(vec.x) == base_t(3));
+        CHECK(phi::to_unsafe(vec.y) == base_t(4));
     }
 }
 
@@ -191,7 +187,7 @@ TEMPLATE_TEST_CASE("Vector2 integer types", "[Math][Vector2]", char, signed char
                    unsigned long long, phi::i8, phi::i16, phi::i32, phi::i64, phi::u8, phi::u16,
                    phi::u32, phi::u64)
 {
-    using base_t = unwrapped_t<TestType>;
+    using base_t = phi::make_unsafe_t<TestType>;
 
     SECTION("operator==(const Vector2&, const Vector2&)")
     {
@@ -266,6 +262,7 @@ TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
 
     SECTION("operator-(const Vector2&)")
     {
+        /*
         CONSTEXPR_RUNTIME phi::Vector2<phi::i32> b1(12, 32);
         CONSTEXPR_RUNTIME phi::Vector2<phi::i32> r1 = -b1;
 
@@ -289,6 +286,7 @@ TEST_CASE("Vector2 fixed types", "[Math][Vector2]")
 
         STATIC_REQUIRE(bool(r4.x == -8));
         STATIC_REQUIRE(bool(r4.y == 0));
+        */
     }
 }
 
@@ -301,27 +299,23 @@ TEMPLATE_TEST_CASE("Vector2 typedefs", "[Math][Vector2]", char, signed char, uns
                    phi::i64, phi::u8, phi::u16, phi::u32, phi::u64, phi::FloatingPoint<float>,
                    phi::FloatingPoint<double>, phi::FloatingPoint<long double>)
 {
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::this_type,
-                                phi::Vector2<TestType>>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::value_type, TestType>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::reference, TestType&>::value);
-    STATIC_REQUIRE(
-            std::is_same<typename phi::Vector2<TestType>::const_reference, const TestType&>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::pointer, TestType*>::value);
-    STATIC_REQUIRE(
-            std::is_same<typename phi::Vector2<TestType>::const_pointer, const TestType*>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::iterator, TestType*>::value);
-    STATIC_REQUIRE(
-            std::is_same<typename phi::Vector2<TestType>::const_iterator, const TestType*>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::reverse_iterator,
-                                std::reverse_iterator<TestType*>>::value);
-    STATIC_REQUIRE(std::is_same<typename phi::Vector2<TestType>::const_reverse_iterator,
-                                std::reverse_iterator<const TestType*>>::value);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::this_type, phi::Vector2<TestType>);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::value_type, TestType);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::reference, TestType&);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::const_reference, const TestType&);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::pointer, TestType*);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::const_pointer, const TestType*);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::iterator, TestType*);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::const_iterator, const TestType*);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::reverse_iterator,
+                    std::reverse_iterator<TestType*>);
+    CHECK_SAME_TYPE(typename phi::Vector2<TestType>::const_reverse_iterator,
+                    std::reverse_iterator<const TestType*>);
 }
 
 #define TEST_VEC2_TYPEDEF(vec_t, base_t)                                                           \
     STATIC_REQUIRE(sizeof(vec_t) == (sizeof(base_t) * 2));                                         \
-    STATIC_REQUIRE(std::is_same<vec_t::value_type, base_t>::value)
+    CHECK_SAME_TYPE(vec_t::value_type, base_t)
 
 TEST_CASE("Vector2 global typedefs", "[Math][Vector2]")
 {

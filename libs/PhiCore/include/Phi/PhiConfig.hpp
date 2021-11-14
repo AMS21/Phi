@@ -1,6 +1,7 @@
 #ifndef INCG_PHI_PHICONFIG_HPP
 #define INCG_PHI_PHICONFIG_HPP
 
+#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Glue.hpp"
 #include "Phi/Config/Platform.hpp"

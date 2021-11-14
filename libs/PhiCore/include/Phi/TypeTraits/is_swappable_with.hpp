@@ -3,22 +3,27 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/Algorithm/Swap.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/TypeTraits/is_not_same.hpp"
+#include "Phi/Core/Declval.hpp"
+#include "Phi/TypeTraits/is_same.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 #include "Phi/TypeTraits/nat.hpp"
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
     template <typename TypeT, typename OtherT = TypeT,
-              bool is_not_void = !is_void<TypeT>::value && !is_void<OtherT>::value>
+              bool IsNotVoid = !is_void<TypeT>::value && !is_void<OtherT>::value>
     struct is_swappable_with_impl
     {
         template <typename LhsT, typename RhsT>
-        static decltype(std::swap(std::declval<LhsT>(), std::declval<RhsT>())) test_swap(int);
+        static decltype(swap(declval<LhsT>(), declval<RhsT>())) test_swap(int);
 
         template <typename, typename>
         static nat test_swap(long);
@@ -31,7 +36,7 @@ namespace detail
     };
 
     template <typename TypeT, typename OtherT>
-    struct is_swappable_with_impl<TypeT, OtherT, false> : false_type
+    struct is_swappable_with_impl<TypeT, OtherT, false> : public false_type
     {};
 } // namespace detail
 
@@ -40,8 +45,12 @@ struct is_swappable_with
     : public bool_constant<detail::is_swappable_with_impl<TypeT, OtherT>::value>
 {};
 
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
 template <typename TypeT, typename OtherT>
-constexpr PHI_INLINE_VARIABLE bool is_swappable_with_v = is_swappable_with<TypeT, OtherT>::value;
+PHI_INLINE_VARIABLE constexpr bool is_swappable_with_v = is_swappable_with<TypeT, OtherT>::value;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

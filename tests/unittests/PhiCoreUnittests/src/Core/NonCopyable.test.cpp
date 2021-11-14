@@ -1,6 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
-#include <Phi/Config/Warning.hpp>
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Core/NonCopyable.hpp>
 #include <utility>
 

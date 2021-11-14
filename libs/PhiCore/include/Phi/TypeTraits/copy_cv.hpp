@@ -3,12 +3,17 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/TypeTraits/is_const.hpp"
 #include "Phi/TypeTraits/is_volatile.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename FromT, typename ToT, bool = is_const_v<FromT>, bool = is_volatile_v<FromT>>
+template <typename FromT, typename ToT, bool = is_const<FromT>::value,
+          bool = is_volatile<FromT>::value>
 struct copy_cv
 {
     using type = ToT;
@@ -31,6 +36,9 @@ struct copy_cv<FromT, ToT, true, true>
 {
     using type = const volatile ToT;
 };
+
+template <typename FromT, typename ToT>
+using copy_cv_t = typename copy_cv<FromT, ToT>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 

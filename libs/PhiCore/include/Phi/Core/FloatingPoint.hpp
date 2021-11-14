@@ -29,16 +29,23 @@ SOFTWARE.
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/TypeTraits/conditional.hpp"
+#include "Phi/TypeTraits/enable_if.hpp"
+#include "Phi/TypeTraits/integral_constant.hpp"
+#include "Phi/TypeTraits/is_unsafe_floating_point.hpp"
 #include <cmath>
 #include <functional>
 #include <iosfwd>
 #include <limits>
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -51,52 +58,51 @@ namespace detail
     // Floating point conversion
     template <typename FromT, typename ToT>
     struct is_safe_floating_point_conversion
-        : std::integral_constant<bool, std::is_floating_point<FromT>::value &&
-                                               std::is_floating_point<ToT>::value &&
-                                               sizeof(FromT) <= sizeof(ToT)>
+        : public bool_constant<is_unsafe_floating_point<FromT>::value &&
+                               is_unsafe_floating_point<ToT>::value && sizeof(FromT) <= sizeof(ToT)>
     {};
 
     template <typename FromT, typename ToT>
     using enable_safe_floating_point_conversion =
-            typename std::enable_if<is_safe_floating_point_conversion<FromT, ToT>::value>::type;
+            enable_if_t<is_safe_floating_point_conversion<FromT, ToT>::value>;
 
     template <typename FromT, typename ToT>
     using fallback_safe_floating_point_conversion =
-            typename std::enable_if<!is_safe_floating_point_conversion<FromT, ToT>::value>::type;
+            enable_if_t<!is_safe_floating_point_conversion<FromT, ToT>::value>;
 
     // Floating point comparison
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_comparison
-        : std::integral_constant<bool, is_safe_floating_point_conversion<LhsT, RhsT>::value ||
-                                               is_safe_floating_point_conversion<RhsT, LhsT>::value>
+        : public bool_constant<is_safe_floating_point_conversion<LhsT, RhsT>::value ||
+                               is_safe_floating_point_conversion<RhsT, LhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
     using enable_safe_floating_point_comparison =
-            typename std::enable_if<is_safe_floating_point_comparison<LhsT, RhsT>::value>::type;
+            enable_if_t<is_safe_floating_point_comparison<LhsT, RhsT>::value>;
 
     template <typename LhsT, typename RhsT>
     using fallback_safe_floating_point_comparison =
-            typename std::enable_if<!is_safe_floating_point_comparison<LhsT, RhsT>::value>::type;
+            enable_if_t<!is_safe_floating_point_comparison<LhsT, RhsT>::value>;
 
     // Floating point operation
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_operation
-        : std::integral_constant<bool, std::is_floating_point<LhsT>::value &&
-                                               std::is_floating_point<RhsT>::value>
+        : public bool_constant<is_unsafe_floating_point<LhsT>::value &&
+                               is_unsafe_floating_point<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
-    using floating_point_result_t = FloatingPoint<typename std::enable_if_t<
-            is_safe_floating_point_operation<LhsT, RhsT>::value,
-            typename std::conditional<sizeof(LhsT) < sizeof(RhsT), RhsT, LhsT>::type>>;
+    using floating_point_result_t =
+            FloatingPoint<enable_if_t<is_safe_floating_point_operation<LhsT, RhsT>::value,
+                                      conditional_t<sizeof(LhsT) < sizeof(RhsT), RhsT, LhsT>>>;
 } // namespace detail
 /// \endcond
 
 template <typename FloatT>
 class FloatingPoint
 {
-    static_assert(std::is_floating_point<FloatT>::value,
+    static_assert(is_unsafe_floating_point<FloatT>::value,
                   "[phi::FloatingPoint] must be a floating point type");
 
 public:
@@ -572,23 +578,6 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
 {
     return out << static_cast<FloatT>(f);
 }
-
-template <typename TypeT>
-struct is_floating_point
-    : std::integral_constant<bool,
-                             std::is_floating_point<TypeT>::value ||
-                                     std::is_same<FloatingPoint<float>,
-                                                  typename std::remove_cv<TypeT>::type>::value ||
-                                     std::is_same<FloatingPoint<double>,
-                                                  typename std::remove_cv<TypeT>::type>::value ||
-                                     std::is_same<FloatingPoint<long double>,
-                                                  typename std::remove_cv<TypeT>::type>::value>
-{};
-
-#if PHI_HAS_INLINE_VARIABLES()
-template <typename TypeT>
-constexpr static bool is_floating_point_v = is_floating_point<TypeT>::value;
-#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

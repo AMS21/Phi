@@ -3,31 +3,33 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Inline.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Types.hpp"
-#include <type_traits>
+#include "Phi/TypeTraits/integral_constant.hpp"
+#include "Phi/TypeTraits/is_signed.hpp"
+#include "Phi/TypeTraits/to_unsafe.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
     template <typename TypeT>
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT           value,
-                                                              std::false_type is_signed) noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(
+            TypeT value, PHI_UNUSED false_type is_signed) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_signed);
-
         return static_cast<std::int32_t>(TypeT(0) < value);
     }
 
     template <typename TypeT>
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT          value,
-                                                              std::true_type is_signed) noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(
+            TypeT value, PHI_UNUSED true_type is_signed) noexcept
     {
-        PHI_UNUSED_PARAMETER(is_signed);
-
         return static_cast<std::int32_t>((TypeT(0) < value) - (value < TypeT(0)));
     }
 } // namespace detail
@@ -35,7 +37,7 @@ namespace detail
 template <typename TypeT>
 PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum(TypeT value) noexcept
 {
-    return detail::signum_impl(value, std::is_signed<TypeT>());
+    return detail::signum_impl(to_unsafe(value), is_signed<TypeT>());
 }
 
 DETAIL_PHI_END_NAMESPACE()

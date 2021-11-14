@@ -3,19 +3,23 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename... Ts>
+    template <typename... TypesT>
     struct make_void
     {
         using type = void;
     };
 } // namespace detail
 
-template <typename... Ts>
-using void_t = typename detail::make_void<Ts...>::type;
+template <typename... TypesT>
+using void_t = typename detail::make_void<TypesT...>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 

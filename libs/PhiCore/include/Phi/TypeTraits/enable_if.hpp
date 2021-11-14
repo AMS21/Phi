@@ -3,9 +3,13 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <bool Boolean, typename TypeT = void>
+template <bool BooleanValue, typename TypeT = void>
 struct enable_if
 {};
 
@@ -15,8 +19,8 @@ struct enable_if<true, TypeT>
     using type = TypeT;
 };
 
-template <bool Boolean, typename TypeT = void>
-using enable_if_t = typename enable_if<Boolean, TypeT>::type;
+template <bool BooleanValue, typename TypeT = void>
+using enable_if_t = typename enable_if<BooleanValue, TypeT>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 

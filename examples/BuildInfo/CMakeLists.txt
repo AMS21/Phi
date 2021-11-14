@@ -1,6 +1,6 @@
 # Phi_BuildInfo
 
-project(Phi_BuildInfo LANGUAGES CXX)
+project(Phi_BuildInfo CXX)
 
 phi_add_executable(
   NAME

@@ -30,6 +30,11 @@ SOFTWARE.
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Boolean.hpp"
 #include "Phi/Core/FloatingPoint.hpp"
 #include "Phi/Core/Integer.hpp"
@@ -281,6 +286,9 @@ namespace detail
     }
 } // namespace detail
 
+PHI_EMCC_SUPPRESS_WARNING_PUSH()
+PHI_EMCC_SUPPRESS_WARNING("-Wreserved-identifier")
+
 inline namespace literals
 {
     template <char... DigitsT>
@@ -355,5 +363,7 @@ inline namespace literals
 } // namespace literals
 
 DETAIL_PHI_END_NAMESPACE()
+
+PHI_EMCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_TYPES_HPP

@@ -3,26 +3,21 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
+#include "Phi/CompilerSupport/Unused.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/Core/Nullptr.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/Math/Common.hpp"
-#include <cstddef>
 #include <string>
-
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
-#    if PHI_COMPILER_IS_ATLEAST(CLANG, 4, 0, 0) || PHI_COMPILER_IS_ATLEAST(GCC, 7, 0, 0) ||        \
-            PHI_COMPILER_IS_ATLEAST(MSVC, 19, 10, 0)
-#        define PHI_HAS_LIB_STRING_VIEW() 1
-#    else
-#        define PHI_HAS_LIB_STRING_VIEW() 0
-#    endif
-#else
-#    define PHI_HAS_LIB_STRING_VIEW() 0
-#endif
 
 #if PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
@@ -31,7 +26,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
-PHI_NODISCARD constexpr usize StringLength(CharT* string) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize StringLength(CharT* string) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to StringLength is not allowed. Use "
                                       "SafeStringLength if you intended to pass a nullptr.");
@@ -60,11 +55,11 @@ PHI_NODISCARD constexpr usize StringLength(std::basic_string_view<CharT, TraitsT
 }
 #endif
 
-template <typename CharT = std::nullptr_t>
-PHI_NODISCARD constexpr usize StringLength(std::nullptr_t) noexcept = delete;
+template <typename CharT = nullptr_t>
+PHI_NODISCARD constexpr usize StringLength(nullptr_t) noexcept = delete;
 
 template <typename CharT>
-PHI_NODISCARD constexpr usize StringLength(CharT* string, usize length) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize StringLength(CharT* string, usize length) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to StringLength is not allowed. Use "
                                       "SafeStringLength if you intended to pass a nullptr.");
@@ -94,11 +89,11 @@ PHI_NODISCARD constexpr usize StringLength(std::basic_string_view<CharT, TraitsT
 }
 #endif
 
-template <typename CharT = std::nullptr_t>
-PHI_NODISCARD constexpr usize StringLength(std::nullptr_t, usize) noexcept = delete;
+template <typename CharT = nullptr_t>
+PHI_NODISCARD constexpr usize StringLength(nullptr_t, usize) noexcept = delete;
 
 template <typename CharT>
-PHI_NODISCARD constexpr usize SafeStringLength(CharT* string) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize SafeStringLength(CharT* string) noexcept
 {
     if (string == nullptr)
     {
@@ -130,14 +125,14 @@ PHI_NODISCARD constexpr usize SafeStringLength(
 }
 #endif
 
-template <typename CharT = std::nullptr_t>
-PHI_NODISCARD constexpr usize SafeStringLength(std::nullptr_t) noexcept
+template <typename CharT = nullptr_t>
+PHI_NODISCARD constexpr usize SafeStringLength(nullptr_t) noexcept
 {
     return 0u;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr usize SafeStringLength(CharT* string, usize length) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize SafeStringLength(CharT* string, usize length) noexcept
 {
     if (string == nullptr)
     {
@@ -169,11 +164,9 @@ PHI_NODISCARD constexpr usize SafeStringLength(std::basic_string_view<CharT, Tra
 }
 #endif
 
-template <typename CharT = std::nullptr_t>
-PHI_NODISCARD constexpr usize SafeStringLength(std::nullptr_t, usize length) noexcept
+template <typename CharT = nullptr_t>
+PHI_NODISCARD constexpr usize SafeStringLength(nullptr_t, PHI_UNUSED usize length) noexcept
 {
-    PHI_UNUSED_PARAMETER(length);
-
     return 0u;
 }
 

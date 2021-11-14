@@ -2,30 +2,24 @@
 #include <Phi/Config/Compiler.hpp>
 #include <Phi/Config/FunctionLikeMacro.hpp>
 #include <Phi/Config/Platform.hpp>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
+#include <iostream>
 
 #define PRINT_COND(text, cond)                                                                     \
     PHI_BEGIN_MACRO()                                                                              \
     if (cond)                                                                                      \
     {                                                                                              \
-        logger->info(text ": true");                                                               \
+        std::cout << text << ": true\n";                                                           \
     }                                                                                              \
     else                                                                                           \
     {                                                                                              \
-        logger->error(text ": false");                                                             \
+        std::cout << text << ": false\n";                                                          \
     }                                                                                              \
     PHI_END_MACRO()
 
 int main()
 {
-    // Setup
-    auto logger = spdlog::stdout_color_st("out");
-
-    logger->set_pattern("%^%v%$");
-
     // Compiler
-    logger->trace("Compiler info");
+    std::cout << "Compiler info\n";
 
     PRINT_COND("Compiler is gcc", PHI_COMPILER_IS(GCC));
     PRINT_COND("Compiler is clang", PHI_COMPILER_IS(CLANG));
@@ -38,16 +32,17 @@ int main()
     PRINT_COND("Compiler is clang compat", PHI_COMPILER_IS(CLANG_COMPAT));
 
     // CPlusPlus
-    logger->trace("Enabled C++ standards");
+    std::cout << "Enabled C++ standards\n";
 
     PRINT_COND("C++-98 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(98));
     PRINT_COND("C++-11 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(11));
     PRINT_COND("C++-14 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(14));
     PRINT_COND("C++-17 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(17));
     PRINT_COND("C++-20 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(20));
+    PRINT_COND("C++-23 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(23));
 
     // Platform
-    logger->trace("Platform info");
+    std::cout << "Platform info\n";
 
     PRINT_COND("Platform is Windows", PHI_PLATFORM_IS(WINDOWS));
     PRINT_COND("Platform is Apple", PHI_PLATFORM_IS(APPLE));

@@ -3,11 +3,18 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/Core/Boolean.hpp"
+#include "Phi/Core/Move.hpp"
 #include "Phi/Core/Types.hpp"
 #include "Phi/Math/Vector2.hpp"
+#include "Phi/TypeTraits/is_integer.hpp"
+#include "Phi/TypeTraits/is_signed.hpp"
 #include <iterator>
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -31,7 +38,6 @@ public:
     using reverse_iterator       = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-public:
     constexpr Vector3(TypeT val_x, TypeT val_y, TypeT val_z) noexcept
         : x(val_x)
         , y(val_y)
@@ -51,8 +57,8 @@ public:
     {}
 
     constexpr Vector3(Vector2<TypeT>&& vec2, TypeT val_z) noexcept
-        : x(std::move(vec2.x))
-        , y(std::move(vec2.y))
+        : x(phi::move(vec2.x))
+        , y(phi::move(vec2.y))
         , z(val_z)
     {}
 
@@ -65,8 +71,8 @@ public:
 
     template <typename OtherT>
     constexpr Vector3(Vector2<OtherT>&& vec2, TypeT val_z) noexcept
-        : x(static_cast<TypeT>(std::move(vec2.x)))
-        , y(static_cast<TypeT>(std::move(vec2.y)))
+        : x(static_cast<TypeT>(phi::move(vec2.x)))
+        , y(static_cast<TypeT>(phi::move(vec2.y)))
         , z(val_z)
     {}
 
@@ -77,9 +83,9 @@ public:
     {}
 
     constexpr Vector3(Vector3<TypeT>&& other) noexcept
-        : x(std::move(other.x))
-        , y(std::move(other.y))
-        , z(std::move(other.z))
+        : x(phi::move(other.x))
+        , y(phi::move(other.y))
+        , z(phi::move(other.z))
     {}
 
     template <typename OtherT>
@@ -91,14 +97,14 @@ public:
 
     template <typename OtherT>
     constexpr Vector3(Vector3<OtherT>&& other) noexcept
-        : x(static_cast<TypeT>(std::move(other.x)))
-        , y(static_cast<TypeT>(std::move(other.y)))
-        , z(static_cast<TypeT>(std::move(other.z)))
+        : x(static_cast<TypeT>(phi::move(other.x)))
+        , y(static_cast<TypeT>(phi::move(other.y)))
+        , z(static_cast<TypeT>(phi::move(other.z)))
     {}
 
     // Operators
 
-    constexpr Vector3<TypeT>& operator=(const Vector3<TypeT>& other) noexcept
+    PHI_EXTENDED_CONSTEXPR Vector3<TypeT>& operator=(const Vector3<TypeT>& other) noexcept
     {
         x = other.x;
         y = other.y;
@@ -107,11 +113,11 @@ public:
         return *this;
     }
 
-    constexpr Vector3<TypeT>& operator=(Vector3<TypeT>&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR Vector3<TypeT>& operator=(Vector3<TypeT>&& other) noexcept
     {
-        x = std::move(other.x);
-        y = std::move(other.y);
-        z = std::move(other.z);
+        x = phi::move(other.x);
+        y = phi::move(other.y);
+        z = phi::move(other.z);
 
         return *this;
     }
@@ -133,7 +139,7 @@ constexpr Vector3<TypeT> operator+(const Vector3<TypeT>& rhs) noexcept
 template <typename TypeT>
 constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 {
-    static_assert(!detail::is_integer<TypeT>::value || std::is_signed<TypeT>::value,
+    static_assert(!is_integer<TypeT>::value || is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
 
     return Vector3<TypeT>(-rhs.x, -rhs.y, -rhs.z);
@@ -142,13 +148,14 @@ constexpr Vector3<TypeT> operator-(const Vector3<TypeT>& rhs) noexcept
 // Binary Operators
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator+(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+constexpr Vector3<LhsT> operator+(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator+=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator+=(Vector3<LhsT>&       lhs,
+                                                 const Vector3<RhsT>& rhs) noexcept
 {
     lhs.x += rhs.x;
     lhs.y += rhs.y;
@@ -158,13 +165,14 @@ constexpr Vector3<LhsT>& operator+=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator-(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+constexpr Vector3<LhsT> operator-(const Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator-=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator-=(Vector3<LhsT>&       lhs,
+                                                 const Vector3<RhsT>& rhs) noexcept
 {
     lhs.x -= rhs.x;
     lhs.y -= rhs.y;
@@ -174,13 +182,13 @@ constexpr Vector3<LhsT>& operator-=(Vector3<LhsT>& lhs, const Vector3<RhsT>& rhs
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator*(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+constexpr Vector3<LhsT> operator*(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     lhs.x *= rhs;
     lhs.y *= rhs;
@@ -190,13 +198,13 @@ constexpr Vector3<LhsT>& operator*=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcep
 }
 
 template <typename LhsT, typename RhsT>
-constexpr auto operator/(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+constexpr Vector3<LhsT> operator/(const Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     return Vector3<LhsT>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
 
 template <typename LhsT, typename RhsT>
-constexpr Vector3<LhsT>& operator/=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR Vector3<LhsT>& operator/=(Vector3<LhsT>& lhs, const RhsT& rhs) noexcept
 {
     lhs.x /= rhs;
     lhs.y /= rhs;

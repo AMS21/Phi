@@ -223,6 +223,22 @@
 #    define PHI_HAS_WARNING(warning) (0)
 #endif
 
+// is identifer / has keyword
+#if defined(__is_identifier)
+#    define PHI_IS_IDENTIFIER(identifer) __is_identifier(identifier)
+#    define PHI_HAS_KEYWORD(keyword)     !(__is_identifier(keyword))
+#else
+#    define PHI_IS_IDENTIFIER(keyword) (0)
+#    define PHI_HAS_KEYWORD(keyword)   (0)
+#endif
+
+// has include
+#if defined(__has_include)
+#    define PHI_HAS_INCLUDE(...) __has_include(__VA_ARGS__)
+#else
+#    define PHI_HAS_INCLUDE(...) (0)
+#endif
+
 // pragma
 #if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                             \
         PHI_COMPILER_IS_ATLEAST(ICC, 13, 0, 0)

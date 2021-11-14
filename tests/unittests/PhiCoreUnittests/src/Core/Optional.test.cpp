@@ -16,13 +16,16 @@
 // * https://github.com/TartanLlama/optional/blob/master/tests/relops.cpp
 // * https://github.com/TartanLlama/optional/blob/master/tests/swap.cpp
 
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
+#include "ConstexprHelper.hpp"
+#include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Config/Warning.hpp>
+#include <Phi/Core/Move.hpp>
 #include <Phi/Core/Optional.hpp>
+#include <Phi/TypeTraits/is_same.hpp>
 #include <string>
 #include <tuple>
-#include <utility>
 #include <vector>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -56,7 +59,7 @@ TEST_CASE("Optional Assigment value")
     o1 = phi::nullopt;
     REQUIRE(!o1);
 
-    o1 = std::move(o2);
+    o1 = phi::move(o2);
     REQUIRE(*o1 == 12);
 
     phi::Optional<short> o4 = 42;
@@ -64,7 +67,7 @@ TEST_CASE("Optional Assigment value")
     o1 = o4;
     REQUIRE(*o1 == 42);
 
-    o1 = std::move(o4);
+    o1 = phi::move(o4);
     REQUIRE(*o1 == 42);
 }
 
@@ -101,7 +104,7 @@ TEST_CASE("Optional assignment reference")
     o1 = phi::nullopt;
     REQUIRE(!o1);
 
-    o1 = std::move(o2);
+    o1 = phi::move(o2);
     REQUIRE(*o1 == 12);
 }
 
@@ -240,24 +243,24 @@ TEST_CASE("Optional constexpr")
 
     SECTION("value construct")
     {
-        constexpr phi::Optional<int> o1 = 42;
-        constexpr phi::Optional<int> o2{42};
-        constexpr phi::Optional<int> o3(42);
-        constexpr phi::Optional<int> o4 = {42};
-        constexpr int                i  = 42;
-        constexpr phi::Optional<int> o5 = std::move(i);
-        constexpr phi::Optional<int> o6{std::move(i)};
-        constexpr phi::Optional<int> o7(std::move(i));
-        constexpr phi::Optional<int> o8 = {std::move(i)};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o1 = 42;
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o2{42};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o3(42);
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o4 = {42};
+        EXT_CONSTEXPR_RUNTIME int                i  = 42;
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o5 = phi::move(i);
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o6{phi::move(i)};
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o7(phi::move(i));
+        EXT_CONSTEXPR_RUNTIME phi::Optional<int> o8 = {phi::move(i)};
 
-        STATIC_REQUIRE(*o1 == 42);
-        STATIC_REQUIRE(*o2 == 42);
-        STATIC_REQUIRE(*o3 == 42);
-        STATIC_REQUIRE(*o4 == 42);
-        STATIC_REQUIRE(*o5 == 42);
-        STATIC_REQUIRE(*o6 == 42);
-        STATIC_REQUIRE(*o7 == 42);
-        STATIC_REQUIRE(*o8 == 42);
+        EXT_STATIC_REQUIRE(*o1 == 42);
+        EXT_STATIC_REQUIRE(*o2 == 42);
+        EXT_STATIC_REQUIRE(*o3 == 42);
+        EXT_STATIC_REQUIRE(*o4 == 42);
+        EXT_STATIC_REQUIRE(*o5 == 42);
+        EXT_STATIC_REQUIRE(*o6 == 42);
+        EXT_STATIC_REQUIRE(*o7 == 42);
+        EXT_STATIC_REQUIRE(*o8 == 42);
     }
 }
 
@@ -286,7 +289,7 @@ TEST_CASE("Optional Constructors")
     phi::Optional<int> o5 = o1;
     REQUIRE(!o5);
 
-    phi::Optional<int> o6 = std::move(o3);
+    phi::Optional<int> o6 = phi::move(o3);
     REQUIRE(*o6 == 42);
 
     phi::Optional<short> o7 = 42;
@@ -295,7 +298,7 @@ TEST_CASE("Optional Constructors")
     phi::Optional<int> o8 = o7;
     REQUIRE(*o8 == 42);
 
-    phi::Optional<int> o9 = std::move(o7);
+    phi::Optional<int> o9 = phi::move(o7);
     REQUIRE(*o9 == 42);
 
     {
@@ -319,7 +322,7 @@ TEST_CASE("Optional Constructors")
 
     std::vector<foo> v;
     v.emplace_back();
-    phi::Optional<std::vector<foo>> ov = std::move(v);
+    phi::Optional<std::vector<foo>> ov = phi::move(v);
     REQUIRE(ov->size() == 1);
 }
 
@@ -345,17 +348,18 @@ constexpr phi::Optional<int> get_opt_int(int)
 
 TEST_CASE("Optional monadic operations", "[monadic]")
 {
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("map")
     { // lhs is empty
         phi::Optional<int> o1;
         auto               o1r = o1.map([](int i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o1r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o1r), phi::Optional<int>>::value));
         REQUIRE(!o1r);
 
         // lhs has value
         phi::Optional<int> o2  = 40;
         auto               o2r = o2.map([](int i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o2r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o2r), phi::Optional<int>>::value));
         REQUIRE(o2r.value() == 42);
 
         struct rval_call_map
@@ -369,26 +373,26 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         // ensure that function object is forwarded
         phi::Optional<int> o3  = 42;
         auto               o3r = o3.map(rval_call_map{});
-        STATIC_REQUIRE((std::is_same<decltype(o3r), phi::Optional<double>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o3r), phi::Optional<double>>::value));
         REQUIRE(o3r.value() == 42);
 
         // ensure that lhs is forwarded
         phi::Optional<int> o4  = 40;
-        auto               o4r = std::move(o4).map([](int&& i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o4r), phi::Optional<int>>::value));
+        auto               o4r = phi::move(o4).map([](int&& i) { return i + 2; });
+        STATIC_REQUIRE((phi::is_same<decltype(o4r), phi::Optional<int>>::value));
         REQUIRE(o4r.value() == 42);
 
         // ensure that lhs is const-propagated
         const phi::Optional<int> o5  = 40;
         auto                     o5r = o5.map([](const int& i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o5r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o5r), phi::Optional<int>>::value));
         REQUIRE(o5r.value() == 42);
 
         // test void return
         phi::Optional<int> o7  = 40;
         auto               f7  = [](const int&) { return; };
         auto               o7r = o7.map(f7);
-        STATIC_REQUIRE((std::is_same<decltype(o7r), phi::Optional<phi::monostate>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o7r), phi::Optional<phi::monostate>>::value));
         REQUIRE(o7r.has_value());
 
         // test each overload in turn
@@ -401,11 +405,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(o9r);
 
         phi::Optional<int> o12  = 42;
-        auto               o12r = std::move(o12).map([](int) { return 42; });
+        auto               o12r = phi::move(o12).map([](int) { return 42; });
         REQUIRE(*o12r == 42);
 
         phi::Optional<int> o13  = 42;
-        auto               o13r = std::move(o13).map([](int) { return; });
+        auto               o13r = phi::move(o13).map([](int) { return; });
         REQUIRE(o13r);
 
         const phi::Optional<int> o16  = 42;
@@ -417,11 +421,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(o17r);
 
         const phi::Optional<int> o20  = 42;
-        auto                     o20r = std::move(o20).map([](int) { return 42; });
+        auto                     o20r = phi::move(o20).map([](int) { return 42; });
         REQUIRE(*o20r == 42);
 
         const phi::Optional<int> o21  = 42;
-        auto                     o21r = std::move(o21).map([](int) { return; });
+        auto                     o21r = phi::move(o21).map([](int) { return; });
         REQUIRE(o21r);
 
         phi::Optional<int> o24  = phi::nullopt;
@@ -433,11 +437,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o25r);
 
         phi::Optional<int> o28  = phi::nullopt;
-        auto               o28r = std::move(o28).map([](int) { return 42; });
+        auto               o28r = phi::move(o28).map([](int) { return 42; });
         REQUIRE(!o28r);
 
         phi::Optional<int> o29  = phi::nullopt;
-        auto               o29r = std::move(o29).map([](int) { return; });
+        auto               o29r = phi::move(o29).map([](int) { return; });
         REQUIRE(!o29r);
 
         const phi::Optional<int> o32  = phi::nullopt;
@@ -449,18 +453,20 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o33r);
 
         const phi::Optional<int> o36  = phi::nullopt;
-        auto                     o36r = std::move(o36).map([](int) { return 42; });
+        auto                     o36r = phi::move(o36).map([](int) { return 42; });
         REQUIRE(!o36r);
 
         const phi::Optional<int> o37  = phi::nullopt;
-        auto                     o37r = std::move(o37).map([](int) { return; });
+        auto                     o37r = phi::move(o37).map([](int) { return; });
         REQUIRE(!o37r);
 
         // callable which returns a reference
+        /*
         phi::Optional<int> o38  = 42;
         auto               o38r = o38.map([](int& i) -> const int& { return i; });
         REQUIRE(o38r);
         REQUIRE(*o38r == 42);
+        */
 
         int                 i   = 42;
         phi::Optional<int&> o39 = i;
@@ -476,14 +482,14 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         STATIC_REQUIRE(*o16r == 42);
 
         constexpr phi::Optional<int> o20  = 42;
-        constexpr auto               o20r = std::move(o20).map(get_int);
+        constexpr auto               o20r = phi::move(o20).map(get_int);
         STATIC_REQUIRE(*o20r == 42);
 
         constexpr phi::Optional<int> o32  = phi::nullopt;
         constexpr auto               o32r = o32.map(get_int);
         STATIC_REQUIRE(!o32r);
         constexpr phi::Optional<int> o36  = phi::nullopt;
-        constexpr auto               o36r = std::move(o36).map(get_int);
+        constexpr auto               o36r = phi::move(o36).map(get_int);
         STATIC_REQUIRE(!o36r);
     }
 
@@ -491,13 +497,13 @@ TEST_CASE("Optional monadic operations", "[monadic]")
     { // lhs is empty
         phi::Optional<int> o1;
         auto               o1r = o1.transform([](int i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o1r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o1r), phi::Optional<int>>::value));
         REQUIRE(!o1r);
 
         // lhs has value
         phi::Optional<int> o2  = 40;
         auto               o2r = o2.transform([](int i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o2r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o2r), phi::Optional<int>>::value));
         REQUIRE(o2r.value() == 42);
 
         struct rval_call_transform
@@ -511,26 +517,26 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         // ensure that function object is forwarded
         phi::Optional<int> o3  = 42;
         auto               o3r = o3.transform(rval_call_transform{});
-        STATIC_REQUIRE((std::is_same<decltype(o3r), phi::Optional<double>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o3r), phi::Optional<double>>::value));
         REQUIRE(o3r.value() == 42);
 
         // ensure that lhs is forwarded
         phi::Optional<int> o4  = 40;
-        auto               o4r = std::move(o4).transform([](int&& i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o4r), phi::Optional<int>>::value));
+        auto               o4r = phi::move(o4).transform([](int&& i) { return i + 2; });
+        STATIC_REQUIRE((phi::is_same<decltype(o4r), phi::Optional<int>>::value));
         REQUIRE(o4r.value() == 42);
 
         // ensure that lhs is const-propagated
         const phi::Optional<int> o5  = 40;
         auto                     o5r = o5.transform([](const int& i) { return i + 2; });
-        STATIC_REQUIRE((std::is_same<decltype(o5r), phi::Optional<int>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o5r), phi::Optional<int>>::value));
         REQUIRE(o5r.value() == 42);
 
         // test void return
         phi::Optional<int> o7  = 40;
         auto               f7  = [](const int&) { return; };
         auto               o7r = o7.transform(f7);
-        STATIC_REQUIRE((std::is_same<decltype(o7r), phi::Optional<phi::monostate>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o7r), phi::Optional<phi::monostate>>::value));
         REQUIRE(o7r.has_value());
 
         // test each overload in turn
@@ -543,11 +549,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(o9r);
 
         phi::Optional<int> o12  = 42;
-        auto               o12r = std::move(o12).transform([](int) { return 42; });
+        auto               o12r = phi::move(o12).transform([](int) { return 42; });
         REQUIRE(*o12r == 42);
 
         phi::Optional<int> o13  = 42;
-        auto               o13r = std::move(o13).transform([](int) { return; });
+        auto               o13r = phi::move(o13).transform([](int) { return; });
         REQUIRE(o13r);
 
         const phi::Optional<int> o16  = 42;
@@ -559,11 +565,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(o17r);
 
         const phi::Optional<int> o20  = 42;
-        auto                     o20r = std::move(o20).transform([](int) { return 42; });
+        auto                     o20r = phi::move(o20).transform([](int) { return 42; });
         REQUIRE(*o20r == 42);
 
         const phi::Optional<int> o21  = 42;
-        auto                     o21r = std::move(o21).transform([](int) { return; });
+        auto                     o21r = phi::move(o21).transform([](int) { return; });
         REQUIRE(o21r);
 
         phi::Optional<int> o24  = phi::nullopt;
@@ -575,11 +581,11 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o25r);
 
         phi::Optional<int> o28  = phi::nullopt;
-        auto               o28r = std::move(o28).transform([](int) { return 42; });
+        auto               o28r = phi::move(o28).transform([](int) { return 42; });
         REQUIRE(!o28r);
 
         phi::Optional<int> o29  = phi::nullopt;
-        auto               o29r = std::move(o29).transform([](int) { return; });
+        auto               o29r = phi::move(o29).transform([](int) { return; });
         REQUIRE(!o29r);
 
         const phi::Optional<int> o32  = phi::nullopt;
@@ -591,18 +597,20 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o33r);
 
         const phi::Optional<int> o36  = phi::nullopt;
-        auto                     o36r = std::move(o36).transform([](int) { return 42; });
+        auto                     o36r = phi::move(o36).transform([](int) { return 42; });
         REQUIRE(!o36r);
 
         const phi::Optional<int> o37  = phi::nullopt;
-        auto                     o37r = std::move(o37).transform([](int) { return; });
+        auto                     o37r = phi::move(o37).transform([](int) { return; });
         REQUIRE(!o37r);
 
         // callable which returns a reference
+        /*
         phi::Optional<int> o38  = 42;
         auto               o38r = o38.transform([](int& i) -> const int& { return i; });
         REQUIRE(o38r);
         REQUIRE(*o38r == 42);
+        */
 
         int                 i   = 42;
         phi::Optional<int&> o39 = i;
@@ -618,14 +626,14 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         STATIC_REQUIRE(*o16r == 42);
 
         constexpr phi::Optional<int> o20  = 42;
-        constexpr auto               o20r = std::move(o20).transform(get_int);
+        constexpr auto               o20r = phi::move(o20).transform(get_int);
         STATIC_REQUIRE(*o20r == 42);
 
         constexpr phi::Optional<int> o32  = phi::nullopt;
         constexpr auto               o32r = o32.transform(get_int);
         STATIC_REQUIRE(!o32r);
         constexpr phi::Optional<int> o36  = phi::nullopt;
-        constexpr auto               o36r = std::move(o36).transform(get_int);
+        constexpr auto               o36r = phi::move(o36).transform(get_int);
         STATIC_REQUIRE(!o36r);
     }
 
@@ -634,25 +642,25 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         // lhs is empty
         phi::Optional<int> o1;
         auto               o1r = o1.and_then([](int) { return phi::Optional<float>{42}; });
-        STATIC_REQUIRE((std::is_same<decltype(o1r), phi::Optional<float>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o1r), phi::Optional<float>>::value));
         REQUIRE(!o1r);
 
         // lhs has value
         phi::Optional<int> o2  = 12;
         auto               o2r = o2.and_then([](int) { return phi::Optional<float>{42}; });
-        STATIC_REQUIRE((std::is_same<decltype(o2r), phi::Optional<float>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o2r), phi::Optional<float>>::value));
         REQUIRE(o2r.value() == 42.f);
 
         // lhs is empty, rhs returns empty
         phi::Optional<int> o3;
         auto               o3r = o3.and_then([](int) { return phi::Optional<float>{}; });
-        STATIC_REQUIRE((std::is_same<decltype(o3r), phi::Optional<float>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o3r), phi::Optional<float>>::value));
         REQUIRE(!o3r);
 
         // rhs returns empty
         phi::Optional<int> o4  = 12;
         auto               o4r = o4.and_then([](int) { return phi::Optional<float>{}; });
-        STATIC_REQUIRE((std::is_same<decltype(o4r), phi::Optional<float>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o4r), phi::Optional<float>>::value));
         REQUIRE(!o4r);
 
         struct rval_call_and_then
@@ -666,19 +674,19 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         // ensure that function object is forwarded
         phi::Optional<int> o5  = 42;
         auto               o5r = o5.and_then(rval_call_and_then{});
-        STATIC_REQUIRE((std::is_same<decltype(o5r), phi::Optional<double>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o5r), phi::Optional<double>>::value));
         REQUIRE(o5r.value() == 42);
 
         // ensure that lhs is forwarded
         phi::Optional<int> o6 = 42;
-        auto o6r = std::move(o6).and_then([](int&& i) { return phi::Optional<double>(i); });
-        STATIC_REQUIRE((std::is_same<decltype(o6r), phi::Optional<double>>::value));
+        auto o6r = phi::move(o6).and_then([](int&& i) { return phi::Optional<double>(i); });
+        STATIC_REQUIRE((phi::is_same<decltype(o6r), phi::Optional<double>>::value));
         REQUIRE(o6r.value() == 42);
 
         // ensure that function object is const-propagated
         const phi::Optional<int> o7 = 42;
         auto o7r = o7.and_then([](const int& i) { return phi::Optional<double>(i); });
-        STATIC_REQUIRE((std::is_same<decltype(o7r), phi::Optional<double>>::value));
+        STATIC_REQUIRE((phi::is_same<decltype(o7r), phi::Optional<double>>::value));
         REQUIRE(o7r.value() == 42);
 
         // test each overload in turn
@@ -687,7 +695,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(*o8r == 42);
 
         phi::Optional<int> o9  = 42;
-        auto               o9r = std::move(o9).and_then([](int) { return phi::make_optional(42); });
+        auto               o9r = phi::move(o9).and_then([](int) { return phi::make_optional(42); });
         REQUIRE(*o9r == 42);
 
         const phi::Optional<int> o10  = 42;
@@ -695,7 +703,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(*o10r == 42);
 
         const phi::Optional<int> o11 = 42;
-        auto o11r = std::move(o11).and_then([](int) { return phi::make_optional(42); });
+        auto o11r = phi::move(o11).and_then([](int) { return phi::make_optional(42); });
         REQUIRE(*o11r == 42);
 
         phi::Optional<int> o16  = phi::nullopt;
@@ -703,7 +711,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o16r);
 
         phi::Optional<int> o17 = phi::nullopt;
-        auto o17r = std::move(o17).and_then([](int) { return phi::make_optional(42); });
+        auto o17r = phi::move(o17).and_then([](int) { return phi::make_optional(42); });
         REQUIRE(!o17r);
 
         const phi::Optional<int> o18  = phi::nullopt;
@@ -711,12 +719,12 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o18r);
 
         const phi::Optional<int> o19 = phi::nullopt;
-        auto o19r = std::move(o19).and_then([](int) { return phi::make_optional(42); });
+        auto o19r = phi::move(o19).and_then([](int) { return phi::make_optional(42); });
         REQUIRE(!o19r);
 
         int                 i = 3;
         phi::Optional<int&> o20{i};
-        std::move(o20).and_then([](int& r) { return phi::Optional<int&>{++r}; });
+        phi::move(o20).and_then([](int& r) { return phi::Optional<int&>{++r}; });
         REQUIRE(o20);
         REQUIRE(i == 4);
     }
@@ -728,7 +736,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(*o10r == 42);
 
         constexpr phi::Optional<int> o11  = 42;
-        constexpr auto               o11r = std::move(o11).and_then(get_opt_int);
+        constexpr auto               o11r = phi::move(o11).and_then(get_opt_int);
         REQUIRE(*o11r == 42);
 
         constexpr phi::Optional<int> o18  = phi::nullopt;
@@ -736,9 +744,10 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         REQUIRE(!o18r);
 
         constexpr phi::Optional<int> o19  = phi::nullopt;
-        constexpr auto               o19r = std::move(o19).and_then(get_opt_int);
+        constexpr auto               o19r = phi::move(o19).and_then(get_opt_int);
         REQUIRE(!o19r);
     }
+#endif
 
     SECTION("or else")
     {
@@ -809,12 +818,14 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         {}
     };
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #1")
     {
         phi::Optional<foo> f = foo{};
         auto               l = [](auto&& x) { x.non_const(); };
         f.map(l);
     }
+#endif
 
     struct overloaded
     {
@@ -828,11 +839,15 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         }
     };
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #2")
     {
         phi::Optional<foo> f = foo{};
         auto               x = f.and_then(overloaded{});
+
+        PHI_UNUSED_VARIABLE(x);
     }
+#endif
 }
 
 struct takes_init_and_variadic
@@ -890,15 +905,17 @@ int& x(int& i)
     return i;
 }
 
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
 TEST_CASE("issue 14")
 {
     phi::Optional<bar> f = bar{};
     auto               v = f.map(&bar::v).map(x);
-    static_assert(std::is_same<decltype(v), phi::Optional<int&>>::value, "Must return a reference");
+    static_assert(phi::is_same<decltype(v), phi::Optional<int&>>::value, "Must return a reference");
     REQUIRE(f->i == 42);
     REQUIRE(*v == 42);
     REQUIRE((&f->i) == (&*v));
 }
+#endif
 
 struct fail_on_copy_self
 {
@@ -938,7 +955,7 @@ TEST_CASE("Make optional", "[make_optional]")
     auto o1 = phi::make_optional(42);
     auto o2 = phi::Optional<int>(42);
 
-    constexpr bool is_same = std::is_same<decltype(o1), phi::Optional<int>>::value;
+    constexpr bool is_same = phi::is_same<decltype(o1), phi::Optional<int>>::value;
     REQUIRE(is_same);
     REQUIRE(o1 == o2);
 
@@ -962,7 +979,7 @@ TEST_CASE("Make optional", "[make_optional]")
 
     auto i  = 42;
     auto o6 = phi::make_optional<int&>(i);
-    REQUIRE((std::is_same<decltype(o6), phi::Optional<int&>>::value));
+    REQUIRE((phi::is_same<decltype(o6), phi::Optional<int&>>::value));
     REQUIRE(o6);
     REQUIRE(*o6 == 42);
 }
@@ -1125,20 +1142,18 @@ TEST_CASE("Observers", "[observers]")
     REQUIRE(*o1 == o1.value());
     REQUIRE(o2.value_or(42) == 42);
     REQUIRE(o3.value() == 42);
-    auto success = std::is_same<decltype(o1.value()), int&>::value;
+    auto success = phi::is_same<decltype(o1.value()), int&>::value;
     REQUIRE(success);
-    success = std::is_same<decltype(o3.value()), const int&>::value;
+    success = phi::is_same<decltype(o3.value()), const int&>::value;
     REQUIRE(success);
-    success = std::is_same<decltype(std::move(o1).value()), int&&>::value;
+    success = phi::is_same<decltype(phi::move(o1).value()), int&&>::value;
     REQUIRE(success);
 
-#ifndef TL_OPTIONAL_NO_CONSTRR
-    success = std::is_same<decltype(std::move(o3).value()), const int&&>::value;
+    success = phi::is_same<decltype(phi::move(o3).value()), const int&&>::value;
     REQUIRE(success);
-#endif
 
     phi::Optional<move_detector> o4{phi::in_place};
-    move_detector                o5 = std::move(o4).value();
+    move_detector                o5 = phi::move(o4).value();
     REQUIRE(o4->been_moved);
     REQUIRE(!o5.been_moved);
 }

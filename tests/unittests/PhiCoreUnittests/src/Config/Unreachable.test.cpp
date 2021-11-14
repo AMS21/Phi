@@ -1,8 +1,6 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch.hpp>
 
 #include <Phi/Config/Unreachable.hpp>
-
-// file deepcode ignore CppDeadCode: It's the hole purpose of the unreachable macro
 
 static int func()
 {

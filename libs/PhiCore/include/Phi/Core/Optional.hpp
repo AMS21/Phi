@@ -5,20 +5,50 @@
 #ifndef INCG_PHI_CORE_OPTIONAL_HPP
 #define INCG_PHI_CORE_OPTIONAL_HPP
 
+#include "Phi/CompilerSupport/Constexpr.hpp"
+#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "Phi/Algorithm/Swap.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/CPlusPlus.hpp"
+#include "Phi/Core/AddressOf.hpp"
 #include "Phi/Core/Assert.hpp"
+#include "Phi/Core/Declval.hpp"
+#include "Phi/Core/Forward.hpp"
+#include "Phi/Core/Invoke.hpp"
+#include "Phi/Core/Move.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/conjunction.hpp"
+#include "Phi/TypeTraits/decay.hpp"
 #include "Phi/TypeTraits/enable_if.hpp"
 #include "Phi/TypeTraits/invoke_result.hpp"
+#include "Phi/TypeTraits/is_assignable.hpp"
+#include "Phi/TypeTraits/is_constructible.hpp"
+#include "Phi/TypeTraits/is_convertible.hpp"
+#include "Phi/TypeTraits/is_copy_assignable.hpp"
+#include "Phi/TypeTraits/is_copy_constructible.hpp"
+#include "Phi/TypeTraits/is_lvalue_reference.hpp"
+#include "Phi/TypeTraits/is_move_assignable.hpp"
+#include "Phi/TypeTraits/is_move_constructible.hpp"
+#include "Phi/TypeTraits/is_nothrow_move_assignable.hpp"
+#include "Phi/TypeTraits/is_nothrow_move_constructible.hpp"
 #include "Phi/TypeTraits/is_nothrow_swappable.hpp"
+#include "Phi/TypeTraits/is_scalar.hpp"
 #include "Phi/TypeTraits/is_swappable.hpp"
+#include "Phi/TypeTraits/is_trivially_copy_assignable.hpp"
+#include "Phi/TypeTraits/is_trivially_copy_constructible.hpp"
+#include "Phi/TypeTraits/is_trivially_destructible.hpp"
+#include "Phi/TypeTraits/is_trivially_move_assignable.hpp"
+#include "Phi/TypeTraits/is_trivially_move_constructible.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
+#include "Phi/TypeTraits/remove_const.hpp"
 #include "Phi/TypeTraits/void_t.hpp"
 #include <functional>
-#include <type_traits>
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -59,47 +89,45 @@ namespace detail
     using disable_if_ret_void = enable_if_t<!returns_void<TypeT&&, ArgsT...>::value>;
 
     template <typename TypeT, typename OtherT>
-    using enable_forward_value =
-            enable_if_t<std::is_constructible<TypeT, OtherT&&>::value &&
-                        !is_same<std::decay_t<OtherT>, in_place_t>::value &&
-                        !is_same<Optional<TypeT>, std::decay_t<OtherT>>::value>;
+    using enable_forward_value = enable_if_t<is_constructible<TypeT, OtherT&&>::value &&
+                                             !is_same<decay_t<OtherT>, in_place_t>::value &&
+                                             !is_same<Optional<TypeT>, decay_t<OtherT>>::value>;
 
     template <typename TypeT, typename OtherT>
     using enable_assign_forward =
-            enable_if_t<!is_same<Optional<TypeT>, std::decay_t<OtherT>>::value &&
-                        !conjunction<std::is_scalar<TypeT>::value,
-                                     is_same_v<TypeT, std::decay_t<OtherT>>>::value &&
-                        std::is_constructible<TypeT, OtherT>::value &&
-                        std::is_assignable<TypeT&, OtherT>::value>;
+            enable_if_t<!is_same<Optional<TypeT>, decay_t<OtherT>>::value &&
+                        !conjunction<is_scalar<TypeT>, is_same<TypeT, decay_t<OtherT>>>::value &&
+                        is_constructible<TypeT, OtherT>::value &&
+                        is_assignable<TypeT&, OtherT>::value>;
 
     template <typename TypeT, typename Type2T, typename OtherT>
     using enable_from_other =
-            enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
-                        !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
-                        !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
-                        !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
-                        !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
-                        !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
-                        !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
-                        !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
-                        !std::is_convertible<const Optional<Type2T>&&, TypeT>::value>;
+            enable_if_t<is_constructible<TypeT, OtherT>::value &&
+                        !is_constructible<TypeT, Optional<Type2T>&>::value &&
+                        !is_constructible<TypeT, Optional<Type2T>&&>::value &&
+                        !is_constructible<TypeT, const Optional<Type2T>&>::value &&
+                        !is_constructible<TypeT, const Optional<Type2T>&&>::value &&
+                        !is_convertible<Optional<Type2T>&, TypeT>::value &&
+                        !is_convertible<Optional<Type2T>&&, TypeT>::value &&
+                        !is_convertible<const Optional<Type2T>&, TypeT>::value &&
+                        !is_convertible<const Optional<Type2T>&&, TypeT>::value>;
 
     template <typename TypeT, typename Type2T, typename OtherT>
     using enable_assign_from_other =
-            enable_if_t<std::is_constructible<TypeT, OtherT>::value &&
-                        std::is_assignable<TypeT&, OtherT>::value &&
-                        !std::is_constructible<TypeT, Optional<Type2T>&>::value &&
-                        !std::is_constructible<TypeT, Optional<Type2T>&&>::value &&
-                        !std::is_constructible<TypeT, const Optional<Type2T>&>::value &&
-                        !std::is_constructible<TypeT, const Optional<Type2T>&&>::value &&
-                        !std::is_convertible<Optional<Type2T>&, TypeT>::value &&
-                        !std::is_convertible<Optional<Type2T>&&, TypeT>::value &&
-                        !std::is_convertible<const Optional<Type2T>&, TypeT>::value &&
-                        !std::is_convertible<const Optional<Type2T>&&, TypeT>::value &&
-                        !std::is_assignable<TypeT&, Optional<Type2T>&>::value &&
-                        !std::is_assignable<TypeT&, Optional<Type2T>&&>::value &&
-                        !std::is_assignable<TypeT&, const Optional<Type2T>&>::value &&
-                        !std::is_assignable<TypeT&, const Optional<Type2T>&&>::value>;
+            enable_if_t<is_constructible<TypeT, OtherT>::value &&
+                        is_assignable<TypeT&, OtherT>::value &&
+                        !is_constructible<TypeT, Optional<Type2T>&>::value &&
+                        !is_constructible<TypeT, Optional<Type2T>&&>::value &&
+                        !is_constructible<TypeT, const Optional<Type2T>&>::value &&
+                        !is_constructible<TypeT, const Optional<Type2T>&&>::value &&
+                        !is_convertible<Optional<Type2T>&, TypeT>::value &&
+                        !is_convertible<Optional<Type2T>&&, TypeT>::value &&
+                        !is_convertible<const Optional<Type2T>&, TypeT>::value &&
+                        !is_convertible<const Optional<Type2T>&&, TypeT>::value &&
+                        !is_assignable<TypeT&, Optional<Type2T>&>::value &&
+                        !is_assignable<TypeT&, Optional<Type2T>&&>::value &&
+                        !is_assignable<TypeT&, const Optional<Type2T>&>::value &&
+                        !is_assignable<TypeT&, const Optional<Type2T>&&>::value>;
 
     // Trait for checking if a type is a phi::Optional
     template <typename TypeT>
@@ -111,12 +139,12 @@ namespace detail
     {};
 
     template <typename TypeT>
-    using is_optional = is_optional_impl<std::decay_t<TypeT>>;
+    using is_optional = is_optional_impl<decay_t<TypeT>>;
 
     // The storage base manages the actual storage, and correctly propagates
     // trivial destruction from T. This case is for when T is not trivially
     // destructible.
-    template <typename TypeT, bool = ::std::is_trivially_destructible<TypeT>::value>
+    template <typename TypeT, bool = is_trivially_destructible<TypeT>::value>
     struct optional_storage_base
     {
         constexpr optional_storage_base() noexcept
@@ -126,7 +154,7 @@ namespace detail
 
         template <typename... ArgsT>
         constexpr optional_storage_base(in_place_t, ArgsT&&... args)
-            : m_Value(std::forward<ArgsT>(args)...)
+            : m_Value(phi::forward<ArgsT>(args)...)
             , m_has_value(true)
         {}
 
@@ -162,7 +190,7 @@ namespace detail
 
         template <typename... OtherT>
         constexpr optional_storage_base(in_place_t, OtherT&&... u)
-            : m_Value(std::forward<OtherT>(u)...)
+            : m_Value(phi::forward<OtherT>(u)...)
             , m_has_value(true)
         {}
 
@@ -196,7 +224,7 @@ namespace detail
         template <typename... ArgsT>
         void construct(ArgsT&&... args) noexcept
         {
-            new (std::addressof(this->m_Value)) TypeT(std::forward<ArgsT>(args)...);
+            new (phi::addressof(this->m_Value)) TypeT(phi::forward<ArgsT>(args)...);
             this->m_has_value = true;
         }
 
@@ -207,7 +235,7 @@ namespace detail
             {
                 if (rhs.has_value())
                 {
-                    this->m_Value = std::forward<OptT>(rhs).get();
+                    this->m_Value = phi::forward<OptT>(rhs).get();
                 }
                 else
                 {
@@ -218,7 +246,7 @@ namespace detail
 
             else if (rhs.has_value())
             {
-                construct(std::forward<OptT>(rhs).get());
+                construct(phi::forward<OptT>(rhs).get());
             }
         }
 
@@ -227,30 +255,30 @@ namespace detail
             return this->m_has_value;
         }
 
-        PHI_NODISCARD constexpr TypeT& get() &
+        PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& get() &
         {
             return this->m_Value;
         }
 
-        PHI_NODISCARD constexpr const TypeT& get() const&
+        PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& get() const&
         {
             return this->m_Value;
         }
 
-        PHI_NODISCARD constexpr TypeT&& get() &&
+        PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT&& get() &&
         {
-            return std::move(this->m_Value);
+            return phi::move(this->m_Value);
         }
 
-        PHI_NODISCARD constexpr const TypeT&& get() const&&
+        PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT&& get() const&&
         {
-            return std::move(this->m_Value);
+            return phi::move(this->m_Value);
         }
     };
 
     // This class manages conditionally having a trivial copy constructor
     // This specialization is for when T is trivially copy constructible
-    template <typename TypeT, bool = ::std::is_trivially_copy_constructible<TypeT>::value>
+    template <typename TypeT, bool = is_trivially_copy_constructible<TypeT>::value>
     struct optional_copy_base : optional_operations_base<TypeT>
     {
         using optional_operations_base<TypeT>::optional_operations_base;
@@ -284,7 +312,7 @@ namespace detail
     };
 
     // This class manages conditionally having a trivial move constructor.
-    template <typename TypeT, bool = std::is_trivially_move_constructible<TypeT>::value>
+    template <typename TypeT, bool = is_trivially_move_constructible<TypeT>::value>
     struct optional_move_base : optional_copy_base<TypeT>
     {
         using optional_copy_base<TypeT>::optional_copy_base;
@@ -299,11 +327,11 @@ namespace detail
         optional_move_base(const optional_move_base& rhs) = default;
 
         optional_move_base(optional_move_base&& rhs) noexcept(
-                std::is_nothrow_move_constructible<TypeT>::value)
+                is_nothrow_move_constructible<TypeT>::value)
         {
             if (rhs.has_value())
             {
-                this->construct(std::move(rhs.get()));
+                this->construct(phi::move(rhs.get()));
             }
             else
             {
@@ -315,9 +343,9 @@ namespace detail
     };
 
     // This class manages conditionally having a trivial copy assignment operator
-    template <typename TypeT, bool = std::is_trivially_copy_assignable<TypeT>::value&&
-                                              std::is_trivially_copy_constructible<TypeT>::value&&
-                                              std::is_trivially_destructible<TypeT>::value>
+    template <typename TypeT,
+              bool = is_trivially_copy_assignable<TypeT>::value&& is_trivially_copy_constructible<
+                      TypeT>::value&& is_trivially_destructible<TypeT>::value>
     struct optional_copy_assign_base : public optional_move_base<TypeT>
     {
         using optional_move_base<TypeT>::optional_move_base;
@@ -341,9 +369,9 @@ namespace detail
     };
 
     // This class manages conditionally having a trivial move assignment operator
-    template <typename TypeT, bool = std::is_trivially_destructible<TypeT>::value&&
-                                              std::is_trivially_move_constructible<TypeT>::value&&
-                                              std::is_trivially_move_assignable<TypeT>::value>
+    template <typename TypeT,
+              bool = is_trivially_destructible<TypeT>::value&& is_trivially_move_constructible<
+                      TypeT>::value&& is_trivially_move_assignable<TypeT>::value>
     struct optional_move_assign_base : public optional_copy_assign_base<TypeT>
     {
         using optional_copy_assign_base<TypeT>::optional_copy_assign_base;
@@ -362,18 +390,18 @@ namespace detail
         optional_move_assign_base& operator=(const optional_move_assign_base& rhs) = default;
 
         optional_move_assign_base& operator=(optional_move_assign_base&& rhs) noexcept(
-                std::is_nothrow_move_constructible<TypeT>::value&&
-                        std::is_nothrow_move_assignable<TypeT>::value)
+                is_nothrow_move_constructible<TypeT>::value&&
+                        is_nothrow_move_assignable<TypeT>::value)
         {
-            this->assign(std::move(rhs));
+            this->assign(phi::move(rhs));
             return *this;
         }
     };
 
     // optional_delete_ctor_base will conditionally delete copy and move
     // constructors depending on whether T is copy/move constructible
-    template <typename TypeT, bool EnableCopy = std::is_copy_constructible<TypeT>::value,
-              bool EnableMove = std::is_move_constructible<TypeT>::value>
+    template <typename TypeT, bool EnableCopy = is_copy_constructible<TypeT>::value,
+              bool EnableMove = is_move_constructible<TypeT>::value>
     struct optional_delete_ctor_base
     {
         optional_delete_ctor_base()                                     = default;
@@ -416,10 +444,10 @@ namespace detail
     // optional_delete_assign_base will conditionally delete copy and move
     // constructors depending on whether TypeT is copy/move constructible + assignable
     template <typename TypeT,
-              bool EnableCopy = (std::is_copy_constructible<TypeT>::value &&
-                                 std::is_copy_assignable<TypeT>::value),
-              bool EnableMove = (std::is_move_constructible<TypeT>::value &&
-                                 std::is_move_assignable<TypeT>::value)>
+              bool EnableCopy =
+                      (is_copy_constructible<TypeT>::value && is_copy_assignable<TypeT>::value),
+              bool EnableMove =
+                      (is_move_constructible<TypeT>::value && is_move_assignable<TypeT>::value)>
     struct optional_delete_assign_base
     {
         optional_delete_assign_base()                                       = default;
@@ -486,9 +514,9 @@ class Optional : private detail::optional_move_assign_base<TypeT>,
 {
     using base = detail::optional_move_assign_base<TypeT>;
 
-    static_assert(!std::is_same<TypeT, in_place_t>::value,
+    static_assert(!is_same<TypeT, in_place_t>::value,
                   "instantiation of Optional with in_place_t is ill-formed");
-    static_assert(!std::is_same<std::decay_t<TypeT>, nullopt_t>::value,
+    static_assert(!is_same<decay_t<TypeT>, nullopt_t>::value,
                   "instantiation of Optional with nullopt_t is ill-formed");
 
 public:
@@ -515,40 +543,38 @@ public:
 
     /// Constructs the stored value in-place using the given arguments.
     template <typename... ArgsT>
-    constexpr explicit Optional(
-            std::enable_if_t<std::is_constructible<TypeT, ArgsT...>::value, in_place_t>,
-            ArgsT&&... args)
-        : base(in_place, std::forward<ArgsT>(args)...)
+    constexpr explicit Optional(enable_if_t<is_constructible<TypeT, ArgsT...>::value, in_place_t>,
+                                ArgsT&&... args)
+        : base(in_place, phi::forward<ArgsT>(args)...)
     {}
 
     template <typename OtherT, typename... ArgsT>
-    constexpr explicit Optional(
-            std::enable_if_t<
-                    std::is_constructible<TypeT, std::initializer_list<OtherT>&, ArgsT&&...>::value,
-                    in_place_t>,
+    PHI_EXTENDED_CONSTEXPR explicit Optional(
+            enable_if_t<is_constructible<TypeT, std::initializer_list<OtherT>&, ArgsT&&...>::value,
+                        in_place_t>,
             std::initializer_list<OtherT> il, ArgsT&&... args)
     {
-        this->construct(il, std::forward<ArgsT>(args)...);
+        this->construct(il, phi::forward<ArgsT>(args)...);
     }
 
     /// Constructs the stored value with `u`.
-    template <typename OtherT                                                = TypeT,
-              std::enable_if_t<std::is_convertible<OtherT&&, TypeT>::value>* = nullptr,
-              detail::enable_forward_value<TypeT, OtherT>*                   = nullptr>
+    template <typename OtherT                                      = TypeT,
+              enable_if_t<is_convertible<OtherT&&, TypeT>::value>* = nullptr,
+              detail::enable_forward_value<TypeT, OtherT>*         = nullptr>
     constexpr Optional(OtherT&& other)
-        : base(in_place, std::forward<OtherT>(other))
+        : base(in_place, phi::forward<OtherT>(other))
     {}
 
-    template <typename OtherT                                                 = TypeT,
-              std::enable_if_t<!std::is_convertible<OtherT&&, TypeT>::value>* = nullptr,
-              detail::enable_forward_value<TypeT, OtherT>*                    = nullptr>
+    template <typename OtherT                                       = TypeT,
+              enable_if_t<!is_convertible<OtherT&&, TypeT>::value>* = nullptr,
+              detail::enable_forward_value<TypeT, OtherT>*          = nullptr>
     constexpr explicit Optional(OtherT&& other)
-        : base(in_place, std::forward<OtherT>(other))
+        : base(in_place, phi::forward<OtherT>(other))
     {}
 
     /// Converting copy constructor.
     template <typename OtherT, detail::enable_from_other<TypeT, OtherT, const OtherT&>* = nullptr,
-              std::enable_if_t<std::is_convertible<const OtherT&, TypeT>::value>* = nullptr>
+              enable_if_t<is_convertible<const OtherT&, TypeT>::value>* = nullptr>
     Optional(const Optional<OtherT>& rhs)
     {
         if (rhs.has_value())
@@ -558,7 +584,7 @@ public:
     }
 
     template <typename OtherT, detail::enable_from_other<TypeT, OtherT, const OtherT&>* = nullptr,
-              std::enable_if_t<!std::is_convertible<const OtherT&, TypeT>::value>* = nullptr>
+              enable_if_t<!is_convertible<const OtherT&, TypeT>::value>* = nullptr>
     explicit Optional(const Optional<OtherT>& rhs)
     {
         if (rhs.has_value())
@@ -569,22 +595,22 @@ public:
 
     /// Converting move constructor.
     template <typename OtherT, detail::enable_from_other<TypeT, OtherT, OtherT&&>* = nullptr,
-              std::enable_if_t<std::is_convertible<OtherT&&, TypeT>::value>* = nullptr>
+              enable_if_t<is_convertible<OtherT&&, TypeT>::value>* = nullptr>
     Optional(Optional<OtherT>&& rhs)
     {
         if (rhs.has_value())
         {
-            this->construct(std::move(*rhs));
+            this->construct(phi::move(*rhs));
         }
     }
 
     template <typename OtherT, detail::enable_from_other<TypeT, OtherT, OtherT&&>* = nullptr,
-              std::enable_if_t<!std::is_convertible<OtherT&&, TypeT>::value>* = nullptr>
+              enable_if_t<!is_convertible<OtherT&&, TypeT>::value>* = nullptr>
     explicit Optional(Optional<OtherT>&& rhs)
     {
         if (rhs.has_value())
         {
-            this->construct(std::move(*rhs));
+            this->construct(phi::move(*rhs));
         }
     }
 
@@ -624,11 +650,11 @@ public:
     {
         if (has_value())
         {
-            this->m_Value = std::forward<OtherT>(other);
+            this->m_Value = phi::forward<OtherT>(other);
         }
         else
         {
-            this->construct(std::forward<OtherT>(other));
+            this->construct(phi::forward<OtherT>(other));
         }
 
         return *this;
@@ -640,7 +666,7 @@ public:
     /// value in `*this`.
     template <typename OtherT,
               detail::enable_assign_from_other<TypeT, OtherT, const OtherT&>* = nullptr>
-    Optional& operator=(const Optional<OtherT>& rhs)
+    PHI_EXTENDED_CONSTEXPR Optional& operator=(const Optional<OtherT>& rhs)
     {
         if (has_value())
         {
@@ -668,13 +694,13 @@ public:
     /// Moves the value from `rhs` if there is one. Otherwise resets the stored
     /// value in `*this`.
     template <typename OtherT, detail::enable_assign_from_other<TypeT, OtherT, OtherT>* = nullptr>
-    Optional& operator=(Optional<OtherT>&& rhs)
+    PHI_EXTENDED_CONSTEXPR Optional& operator=(Optional<OtherT>&& rhs)
     {
         if (has_value())
         {
             if (rhs.has_value())
             {
-                this->m_Value = std::move(*rhs);
+                this->m_Value = phi::move(*rhs);
             }
             else
             {
@@ -684,7 +710,7 @@ public:
 
         if (rhs.has_value())
         {
-            this->construct(std::move(*rhs));
+            this->construct(phi::move(*rhs));
         }
 
         return *this;
@@ -693,23 +719,22 @@ public:
     /// Constructs the value in-place, destroying the current one if there is
     /// one.
     template <typename... ArgsT>
-    TypeT& emplace(ArgsT&&... args)
+    PHI_EXTENDED_CONSTEXPR TypeT& emplace(ArgsT&&... args)
     {
-        static_assert(std::is_constructible<TypeT, ArgsT&&...>::value,
+        static_assert(is_constructible<TypeT, ArgsT&&...>::value,
                       "TypeT must be constructible with ArgsT");
 
         *this = nullopt;
-        this->construct(std::forward<ArgsT>(args)...);
+        this->construct(phi::forward<ArgsT>(args)...);
         return value();
     }
 
     template <typename OtherT, typename... ArgsT>
-    std::enable_if_t<
-            std::is_constructible<TypeT, std::initializer_list<OtherT>&, ArgsT&&...>::value, TypeT&>
-    emplace(std::initializer_list<OtherT> il, ArgsT&&... args)
+    enable_if_t<is_constructible<TypeT, std::initializer_list<OtherT>&, ArgsT&&...>::value, TypeT&>
+            PHI_EXTENDED_CONSTEXPR emplace(std::initializer_list<OtherT> il, ArgsT&&... args)
     {
         *this = nullopt;
-        this->construct(il, std::forward<ArgsT>(args)...);
+        this->construct(il, phi::forward<ArgsT>(args)...);
         return value();
     }
 
@@ -719,10 +744,10 @@ public:
     /// If both have a value, the values are swapped.
     /// If one has a value, it is moved to the other and the movee is left
     /// valueless.
-    void swap(Optional& rhs) noexcept(
-            std::is_nothrow_move_constructible<TypeT>::value&& is_nothrow_swappable<TypeT>::value)
+    PHI_EXTENDED_CONSTEXPR void swap(Optional& rhs) noexcept(
+            is_nothrow_move_constructible<TypeT>::value&& is_nothrow_swappable<TypeT>::value)
     {
-        using std::swap;
+        using phi::swap;
         if (has_value())
         {
             if (rhs.has_value())
@@ -731,13 +756,13 @@ public:
             }
             else
             {
-                new (std::addressof(rhs.m_Value)) TypeT(std::move(this->m_Value));
+                new (phi::addressof(rhs.m_Value)) TypeT(phi::move(this->m_Value));
                 this->m_Value.TypeT::~TypeT();
             }
         }
         else if (rhs.has_value())
         {
-            new (std::addressof(this->m_Value)) TypeT(std::move(rhs.m_Value));
+            new (phi::addressof(this->m_Value)) TypeT(phi::move(rhs.m_Value));
             rhs.m_Value.TypeT::~TypeT();
         }
 
@@ -745,35 +770,35 @@ public:
     }
 
     /// Returns a pointer to the stored value
-    constexpr const TypeT* operator->() const
+    PHI_EXTENDED_CONSTEXPR TypeT* operator->()
     {
-        return std::addressof(this->m_Value);
+        return phi::addressof(this->m_Value);
     }
 
-    constexpr TypeT* operator->()
+    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const
     {
-        return std::addressof(this->m_Value);
+        return phi::addressof(this->m_Value);
     }
 
     /// Returns the stored value
-    constexpr TypeT& operator*() &
+    PHI_EXTENDED_CONSTEXPR TypeT& operator*() &
     {
         return this->m_Value;
     }
 
-    constexpr const TypeT& operator*() const&
+    PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const&
     {
         return this->m_Value;
     }
 
-    constexpr TypeT&& operator*() &&
+    PHI_EXTENDED_CONSTEXPR TypeT&& operator*() &&
     {
-        return std::move(this->m_Value);
+        return phi::move(this->m_Value);
     }
 
-    constexpr const TypeT&& operator*() const&&
+    PHI_EXTENDED_CONSTEXPR const TypeT&& operator*() const&&
     {
-        return std::move(this->m_Value);
+        return phi::move(this->m_Value);
     }
 
     /// Returns whether or not the Optional has a value
@@ -788,7 +813,7 @@ public:
     }
 
     /// Returns the contained value if there is one, otherwise throws bad_optional_access
-    constexpr TypeT& value() &
+    PHI_EXTENDED_CONSTEXPR TypeT& value() &
     {
         if (has_value())
         {
@@ -798,7 +823,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    PHI_NODISCARD constexpr const TypeT& value() const&
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& value() const&
     {
         if (has_value())
         {
@@ -808,21 +833,21 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    PHI_NODISCARD constexpr TypeT&& value() &&
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT&& value() &&
     {
         if (has_value())
         {
-            return std::move(this->m_Value);
+            return phi::move(this->m_Value);
         }
 
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    PHI_NODISCARD constexpr const TypeT&& value() const&&
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT&& value() const&&
     {
         if (has_value())
         {
-            return std::move(this->m_Value);
+            return phi::move(this->m_Value);
         }
 
         PHI_DBG_ASSERT_NOT_REACHED();
@@ -832,25 +857,23 @@ public:
     template <typename OtherT>
     constexpr TypeT value_or(OtherT&& other) const&
     {
-        static_assert(std::is_copy_constructible<TypeT>::value &&
-                              std::is_convertible<OtherT&&, TypeT>::value,
+        static_assert(is_copy_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be copy constructible and convertible from OtherT");
 
-        return has_value() ? **this : static_cast<TypeT>(std::forward<OtherT>(other));
+        return has_value() ? **this : static_cast<TypeT>(phi::forward<OtherT>(other));
     }
 
     template <typename OtherT>
     constexpr TypeT value_or(OtherT&& other) &&
     {
-        static_assert(std::is_move_constructible<TypeT>::value &&
-                              std::is_convertible<OtherT&&, TypeT>::value,
+        static_assert(is_move_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be move constructible and convertible from OtherT");
 
-        return has_value() ? **this : static_cast<TypeT>(std::forward<OtherT>(other));
+        return has_value() ? **this : static_cast<TypeT>(phi::forward<OtherT>(other));
     }
 
     /// Destroys the stored value if one exists, making the Optional empty
-    void reset() noexcept
+    PHI_EXTENDED_CONSTEXPR void reset() noexcept
     {
         if (has_value())
         {
@@ -859,227 +882,241 @@ public:
         }
     }
 
-    /// Carries out some operation which returns an Optional on the stored
-    /// object if there is one.
+/// Carries out some operation which returns an Optional on the stored
+/// object if there is one.
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename FuncT>
-    constexpr auto and_then(FuncT&& f) &
+    PHI_EXTENDED_CONSTEXPR auto and_then(FuncT&& f) &
     {
         using result = invoke_result_t<FuncT, TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : result(nullopt);
     }
 
     template <typename FuncT>
-    constexpr auto and_then(FuncT&& f) &&
+    PHI_EXTENDED_CONSTEXPR auto and_then(FuncT&& f) &&
     {
         using result = invoke_result_t<FuncT, TypeT&&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             result(nullopt);
     }
 
     template <typename FuncT>
-    constexpr auto and_then(FuncT&& f) const&
+    PHI_EXTENDED_CONSTEXPR auto and_then(FuncT&& f) const&
     {
         using result = invoke_result_t<FuncT, const TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : result(nullopt);
     }
 
     template <typename FuncT>
-    constexpr auto and_then(FuncT&& f) const&&
+    PHI_EXTENDED_CONSTEXPR auto and_then(FuncT&& f) const&&
     {
         using result = invoke_result_t<FuncT, const TypeT&&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             result(nullopt);
     }
 
     /// Carries out some operation on the stored object if there is one.
     template <typename FuncT>
-    constexpr auto map(FuncT&& f) &
+    PHI_EXTENDED_CONSTEXPR auto map(FuncT&& f) &
     {
-        return optional_map_impl(*this, std::forward<FuncT>(f));
+        return optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto map(FuncT&& f) &&
+    PHI_EXTENDED_CONSTEXPR auto map(FuncT&& f) &&
     {
-        return optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto map(FuncT&& f) const&
+    PHI_EXTENDED_CONSTEXPR auto map(FuncT&& f) const&
     {
-        return optional_map_impl(*this, std::forward<FuncT>(f));
+        return optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto map(FuncT&& f) const&&
+    PHI_EXTENDED_CONSTEXPR auto map(FuncT&& f) const&&
     {
-        return optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     /// Carries out some operation on the stored object if there is one.
     template <typename FuncT>
-    constexpr auto transform(FuncT&& f) &
+    PHI_EXTENDED_CONSTEXPR auto transform(FuncT&& f) &
     {
-        return optional_map_impl(*this, std::forward<FuncT>(f));
+        return optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto transform(FuncT&& f) &&
+    PHI_EXTENDED_CONSTEXPR auto transform(FuncT&& f) &&
     {
-        return optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto transform(FuncT&& f) const&
+    PHI_EXTENDED_CONSTEXPR auto transform(FuncT&& f) const&
     {
-        return optional_map_impl(*this, std::forward<FuncT>(f));
+        return optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
-    constexpr auto transform(FuncT&& f) const&&
+    PHI_EXTENDED_CONSTEXPR auto transform(FuncT&& f) const&&
     {
-        return optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
+#endif
 
     /// Calls `f` if the Optional is empty
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &
+    PHI_EXTENDED_CONSTEXPR Optional<TypeT> or_else(FuncT&& f) &
     {
         if (has_value())
         {
             return *this;
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &
+    constexpr Optional<TypeT> or_else(FuncT&& f) &
     {
-        return has_value() ? *this : std::forward<FuncT>(f)();
+        return has_value() ? *this : phi::forward<FuncT>(f)();
     }
 
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) &&
+    PHI_EXTENDED_CONSTEXPR Optional<TypeT> or_else(FuncT&& f) &&
     {
         if (has_value())
         {
-            return std::move(*this);
+            return phi::move(*this);
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &&
+    constexpr Optional<TypeT> or_else(FuncT&& f) &&
     {
-        return has_value() ? std::move(*this) : std::forward<FuncT>(f)();
+        return has_value() ? phi::move(*this) : phi::forward<FuncT>(f)();
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&
     {
         if (has_value())
         {
             return *this;
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) const&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&
     {
-        return has_value() ? *this : std::forward<FuncT>(f)();
+        return has_value() ? *this : phi::forward<FuncT>(f)();
     }
 
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&&
     {
         if (has_value())
         {
-            return std::move(*this);
+            return phi::move(*this);
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&&
     {
-        return has_value() ? std::move(*this) : std::forward<FuncT>(f)();
+        return has_value() ? phi::move(*this) : phi::forward<FuncT>(f)();
     }
+#endif
 
     /// Maps the stored value with `f` if there is one, otherwise returns `other`.
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& other) &
+    constexpr OtherT map_or(FuncT&& f, OtherT&& other) &
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(other);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(other);
     }
 
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& other) &&
+    constexpr OtherT map_or(FuncT&& f, OtherT&& other) &&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(other);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(other);
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    template <typename FuncT, typename OtherT>
+    constexpr OtherT map_or(FuncT&& f, OtherT&& other) const&
+    {
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(other);
     }
 
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& other) const&
+    constexpr OtherT map_or(FuncT&& f, OtherT&& other) const&&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(other);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(other);
     }
-
-    template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& other) const&&
-    {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(other);
-    }
+#endif
 
     /// Maps the stored value with `f` if there is one, otherwise calls
     /// `other` and returns the result.
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) &
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) &
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(other)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(other)();
     }
 
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) &&
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) &&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(other)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(other)();
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    template <typename FuncT, typename OtherT>
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) const&
+    {
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(other)();
     }
 
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) const&
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) const&&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(other)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(other)();
     }
-
-    template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& other) const&&
-    {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(other)();
-    }
+#endif
 
     /// Returns `other` if `*this` has a value, otherwise an empty Optional.
     template <typename OtherT>
-    constexpr Optional<typename std::decay<OtherT>::type> conjunction(OtherT&& other) const
+    constexpr Optional<typename decay<OtherT>::type> conjunction(OtherT&& other) const
     {
-        using result = Optional<std::decay_t<OtherT>>;
+        using result = Optional<decay_t<OtherT>>;
         return has_value() ? result{other} : result{nullopt};
     }
 
@@ -1089,45 +1126,53 @@ public:
         return has_value() ? *this : rhs;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&
     {
         return has_value() ? *this : rhs;
     }
+#endif
 
     PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &&
     {
-        return has_value() ? std::move(*this) : rhs;
+        return has_value() ? phi::move(*this) : rhs;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&&
     {
-        return has_value() ? std::move(*this) : rhs;
+        return has_value() ? phi::move(*this) : rhs;
     }
+#endif
 
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &
     {
-        return has_value() ? *this : std::move(rhs);
+        return has_value() ? *this : phi::move(rhs);
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&
     {
-        return has_value() ? *this : std::move(rhs);
+        return has_value() ? *this : phi::move(rhs);
     }
+#endif
 
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &&
     {
-        return has_value() ? std::move(*this) : std::move(rhs);
+        return has_value() ? phi::move(*this) : phi::move(rhs);
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&&
     {
-        return has_value() ? std::move(*this) : std::move(rhs);
+        return has_value() ? phi::move(*this) : phi::move(rhs);
     }
+#endif
 
     /// Takes the value out of the Optional, leaving it empty
     Optional take()
     {
-        Optional ret = std::move(*this);
+        Optional ret = phi::move(*this);
         reset();
         return ret;
     }
@@ -1314,8 +1359,8 @@ inline constexpr bool operator>=(const OtherT& lhs, const Optional<TypeT>& rhs)
     return rhs.has_value() ? lhs >= *rhs : true;
 }
 
-template <typename TypeT, std::enable_if_t<std::is_move_constructible<TypeT>::value>* = nullptr,
-          std::enable_if_t<is_swappable<TypeT>::value>* = nullptr>
+template <typename TypeT, enable_if_t<is_move_constructible<TypeT>::value>* = nullptr,
+          enable_if_t<is_swappable<TypeT>::value>* = nullptr>
 void swap(Optional<TypeT>& lhs, Optional<TypeT>& rhs) noexcept(noexcept(lhs.swap(rhs)))
 {
     return lhs.swap(rhs);
@@ -1328,26 +1373,26 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT = detail::i_am_secret, typename OtherT,
-          typename RetT  = std::conditional_t<std::is_same<TypeT, detail::i_am_secret>::value,
-                                             std::decay_t<OtherT>, TypeT>>
+          typename RetT =
+                  conditional_t<is_same<TypeT, detail::i_am_secret>::value, decay_t<OtherT>, TypeT>>
 inline constexpr Optional<RetT> make_optional(OtherT&& v)
 {
-    return Optional<RetT>(std::forward<OtherT>(v));
+    return Optional<RetT>(phi::forward<OtherT>(v));
 }
 
 template <typename TypeT, typename... ArgsT>
 inline constexpr Optional<TypeT> make_optional(ArgsT&&... args)
 {
-    return Optional<TypeT>(in_place, std::forward<ArgsT>(args)...);
+    return Optional<TypeT>(in_place, phi::forward<ArgsT>(args)...);
 }
 
 template <typename TypeT, typename OtherT, typename... ArgsT>
 inline constexpr Optional<TypeT> make_optional(std::initializer_list<OtherT> il, ArgsT&&... args)
 {
-    return Optional<TypeT>(in_place, il, std::forward<ArgsT>(args)...);
+    return Optional<TypeT>(in_place, il, phi::forward<ArgsT>(args)...);
 }
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
 template <typename TypeT>
 Optional(TypeT) -> Optional<TypeT>;
 #endif
@@ -1355,28 +1400,30 @@ Optional(TypeT) -> Optional<TypeT>;
 /// \exclude
 namespace detail
 {
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename OptT, typename FuncT,
-              typename RetT = decltype(invoke(std::declval<FuncT>(), *std::declval<OptT>())),
-              std::enable_if_t<!std::is_void<RetT>::value>* = nullptr>
-    constexpr auto optional_map_impl(OptT&& opt, FuncT&& func)
+              typename RetT = decltype(phi::invoke(phi::declval<FuncT>(), *phi::declval<OptT>())),
+              enable_if_t<!is_void<RetT>::value>* = nullptr>
+    PHI_EXTENDED_CONSTEXPR auto optional_map_impl(OptT&& opt, FuncT&& func)
     {
-        return opt.has_value() ? invoke(std::forward<FuncT>(func), *std::forward<OptT>(opt)) :
+        return opt.has_value() ? phi::invoke(phi::forward<FuncT>(func), *phi::forward<OptT>(opt)) :
                                  Optional<RetT>(nullopt);
     }
 
     template <typename OptT, typename FuncT,
-              typename RetT = decltype(invoke(std::declval<FuncT>(), *std::declval<OptT>())),
-              std::enable_if_t<std::is_void<RetT>::value>* = nullptr>
-    auto optional_map_impl(OptT&& opt, FuncT&& func)
+              typename RetT = decltype(phi::invoke(phi::declval<FuncT>(), *phi::declval<OptT>())),
+              enable_if_t<is_void<RetT>::value>* = nullptr>
+    PHI_EXTENDED_CONSTEXPR auto optional_map_impl(OptT&& opt, FuncT&& func)
     {
         if (opt.has_value())
         {
-            invoke(std::forward<FuncT>(func), *std::forward<OptT>(opt));
+            phi::invoke(phi::forward<FuncT>(func), *phi::forward<OptT>(opt));
             return make_optional(monostate{});
         }
 
         return Optional<monostate>(nullopt);
     }
+#endif
 } // namespace detail
 
 /// Specialization for when `T` is a reference. `Optional<T&>` acts similarly
@@ -1410,12 +1457,12 @@ public:
     constexpr Optional(Optional&& rhs) = default;
 
     /// Constructs the stored value with `u`.
-    template <typename OtherT                                                      = TypeT,
-              std::enable_if_t<!detail::is_optional<std::decay_t<OtherT>>::value>* = nullptr>
+    template <typename OtherT                                            = TypeT,
+              enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
     constexpr Optional(OtherT&& u) noexcept
-        : m_Value(std::addressof(u))
+        : m_Value(phi::addressof(u))
     {
-        static_assert(std::is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
+        static_assert(is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
     }
 
     template <typename OtherT>
@@ -1429,7 +1476,7 @@ public:
     /// Assignment to empty.
     ///
     /// Destroys the current value if there is one.
-    Optional& operator=(nullopt_t) noexcept
+    PHI_EXTENDED_CONSTEXPR Optional& operator=(nullopt_t) noexcept
     {
         m_Value = nullptr;
         return *this;
@@ -1442,12 +1489,12 @@ public:
     Optional& operator=(const Optional& rhs) = default;
 
     /// Rebinds this Optional to `u`.
-    template <typename OtherT                                                      = TypeT,
-              std::enable_if_t<!detail::is_optional<std::decay_t<OtherT>>::value>* = nullptr>
-    Optional& operator=(OtherT&& u)
+    template <typename OtherT                                            = TypeT,
+              enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
+    PHI_EXTENDED_CONSTEXPR Optional& operator=(OtherT&& u)
     {
-        static_assert(std::is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
-        m_Value = std::addressof(u);
+        static_assert(is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
+        m_Value = phi::addressof(u);
         return *this;
     }
 
@@ -1456,43 +1503,43 @@ public:
     /// Rebinds this Optional to the referee of `rhs` if there is one. Otherwise
     /// resets the stored value in `*this`.
     template <typename OtherT>
-    Optional& operator=(const Optional<OtherT>& rhs) noexcept
+    PHI_EXTENDED_CONSTEXPR Optional& operator=(const Optional<OtherT>& rhs) noexcept
     {
-        m_Value = std::addressof(rhs.value());
+        m_Value = phi::addressof(rhs.value());
         return *this;
     }
 
     /// Rebinds this Optional to `u`.
-    template <typename OtherT                                                      = TypeT,
-              std::enable_if_t<!detail::is_optional<std::decay_t<OtherT>>::value>* = nullptr>
-    Optional& emplace(OtherT&& u) noexcept
+    template <typename OtherT                                            = TypeT,
+              enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
+    PHI_EXTENDED_CONSTEXPR Optional& emplace(OtherT&& u) noexcept
     {
-        return *this = std::forward<OtherT>(u);
+        return *this = phi::forward<OtherT>(u);
     }
 
-    void swap(Optional& rhs) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(Optional& rhs) noexcept
     {
-        std::swap(m_Value, rhs.m_Value);
+        swap(m_Value, rhs.m_Value);
     }
 
     /// Returns a pointer to the stored value
-    constexpr const TypeT* operator->() const noexcept
+    PHI_EXTENDED_CONSTEXPR TypeT* operator->() noexcept
     {
         return m_Value;
     }
 
-    constexpr TypeT* operator->() noexcept
+    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const noexcept
     {
         return m_Value;
     }
 
     /// Returns the stored value
-    constexpr TypeT& operator*() noexcept
+    PHI_EXTENDED_CONSTEXPR TypeT& operator*() noexcept
     {
         return *m_Value;
     }
 
-    constexpr const TypeT& operator*() const noexcept
+    PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const noexcept
     {
         return *m_Value;
     }
@@ -1508,7 +1555,7 @@ public:
     }
 
     /// Returns the contained value if there is one, otherwise throws bad_optional_access
-    PHI_NODISCARD constexpr TypeT& value()
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& value()
     {
         if (has_value())
         {
@@ -1518,7 +1565,7 @@ public:
         PHI_DBG_ASSERT_NOT_REACHED();
     }
 
-    PHI_NODISCARD constexpr const TypeT& value() const
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& value() const
     {
         if (has_value())
         {
@@ -1532,39 +1579,38 @@ public:
     template <typename OtherT>
     PHI_NODISCARD constexpr TypeT value_or(OtherT&& u) const& noexcept
     {
-        static_assert(std::is_copy_constructible<TypeT>::value &&
-                              std::is_convertible<OtherT&&, TypeT>::value,
+        static_assert(is_copy_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be copy constructible and convertible from OtherT");
 
-        return has_value() ? **this : static_cast<TypeT>(std::forward<OtherT>(u));
+        return has_value() ? **this : static_cast<TypeT>(phi::forward<OtherT>(u));
     }
 
     /// \group value_or
     template <typename OtherT>
     PHI_NODISCARD constexpr TypeT value_or(OtherT&& u) && noexcept
     {
-        static_assert(std::is_move_constructible<TypeT>::value &&
-                              std::is_convertible<OtherT&&, TypeT>::value,
+        static_assert(is_move_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be move constructible and convertible from OtherT");
 
-        return has_value() ? **this : static_cast<TypeT>(std::forward<OtherT>(u));
+        return has_value() ? **this : static_cast<TypeT>(phi::forward<OtherT>(u));
     }
 
     /// Destroys the stored value if one exists, making the Optional empty
-    void reset() noexcept
+    PHI_EXTENDED_CONSTEXPR void reset() noexcept
     {
         m_Value = nullptr;
     }
 
-    /// Carries out some operation which returns an Optional on the stored
-    /// object if there is one.
+/// Carries out some operation which returns an Optional on the stored
+/// object if there is one.
+#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename FuncT>
     constexpr auto and_then(FuncT&& func) &
     {
         using result = invoke_result_t<FuncT, TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(func), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(func), **this) : result(nullopt);
     }
 
     template <typename FuncT>
@@ -1573,7 +1619,7 @@ public:
         using result = invoke_result_t<FuncT, TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : result(nullopt);
     }
 
     template <typename FuncT>
@@ -1582,7 +1628,7 @@ public:
         using result = invoke_result_t<FuncT, const TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : result(nullopt);
     }
 
     template <typename FuncT>
@@ -1591,192 +1637,201 @@ public:
         using result = invoke_result_t<FuncT, const TypeT&>;
         static_assert(detail::is_optional<result>::value, "FuncT must return an Optional");
 
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : result(nullopt);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : result(nullopt);
     }
 
     /// Carries out some operation on the stored object if there is one.
     template <typename FuncT>
     constexpr auto map(FuncT&& f) &
     {
-        return detail::optional_map_impl(*this, std::forward<FuncT>(f));
+        return detail::optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto map(FuncT&& f) &&
     {
-        return detail::optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return detail::optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto map(FuncT&& f) const&
     {
-        return detail::optional_map_impl(*this, std::forward<FuncT>(f));
+        return detail::optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto map(FuncT&& f) const&&
     {
-        return detail::optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return detail::optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     /// Carries out some operation on the stored object if there is one.
     template <typename FuncT>
     constexpr auto transform(FuncT&& f) &
     {
-        return detail::optional_map_impl(*this, std::forward<FuncT>(f));
+        return detail::optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto transform(FuncT&& f) &&
     {
-        return detail::optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return detail::optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto transform(FuncT&& f) const&
     {
-        return detail::optional_map_impl(*this, std::forward<FuncT>(f));
+        return detail::optional_map_impl(*this, phi::forward<FuncT>(f));
     }
 
     template <typename FuncT>
     constexpr auto transform(FuncT&& f) const&&
     {
-        return detail::optional_map_impl(std::move(*this), std::forward<FuncT>(f));
+        return detail::optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
+#endif
 
     /// Calls `f` if the Optional is empty
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &
+    PHI_EXTENDED_CONSTEXPR Optional<TypeT> or_else(FuncT&& f) &
     {
         if (has_value())
         {
             return *this;
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &
+    constexpr Optional<TypeT> or_else(FuncT&& f) &
     {
-        return has_value() ? *this : std::forward<FuncT>(f)();
+        return has_value() ? *this : phi::forward<FuncT>(f)();
     }
 
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) &&
+    PHI_EXTENDED_CONSTEXPR Optional<TypeT> or_else(FuncT&& f) &&
     {
         if (has_value())
         {
-            return std::move(*this);
+            return phi::move(*this);
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) &&
+    constexpr Optional<TypeT> or_else(FuncT&& f) &&
     {
-        return has_value() ? std::move(*this) : std::forward<FuncT>(f)();
+        return has_value() ? phi::move(*this) : phi::forward<FuncT>(f)();
     }
 
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&
+    PHI_EXTENDED_CONSTEXPR Optional<TypeT> or_else(FuncT&& f) const&
     {
         if (has_value())
         {
             return *this;
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> constexpr or_else(FuncT&& f) const&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&
     {
-        return has_value() ? *this : std::forward<FuncT>(f)();
+        return has_value() ? *this : phi::forward<FuncT>(f)();
     }
 
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&&
     {
         if (has_value())
         {
-            return std::move(*this);
+            return phi::move(*this);
         }
 
-        std::forward<FuncT>(f)();
+        phi::forward<FuncT>(f)();
         return nullopt;
     }
 
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
-    Optional<TypeT> or_else(FuncT&& f) const&&
+    constexpr Optional<TypeT> or_else(FuncT&& f) const&&
     {
-        return has_value() ? std::move(*this) : std::forward<FuncT>(f)();
+        return has_value() ? phi::move(*this) : phi::forward<FuncT>(f)();
     }
+#endif
 
     /// Maps the stored value with `f` if there is one, otherwise returns `u`
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& u) &
+    constexpr OtherT map_or(FuncT&& f, OtherT&& u) &
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(u);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : phi::forward<OtherT>(u);
     }
 
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& u) &&
+    constexpr OtherT map_or(FuncT&& f, OtherT&& u) &&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(u);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(u);
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    template <typename FuncT, typename OtherT>
+    constexpr OtherT map_or(FuncT&& f, OtherT&& u) const&
+    {
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) : phi::forward<OtherT>(u);
     }
 
     template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& u) const&
+    constexpr OtherT map_or(FuncT&& f, OtherT&& u) const&&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(u);
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(u);
     }
-
-    template <typename FuncT, typename OtherT>
-    OtherT map_or(FuncT&& f, OtherT&& u) const&&
-    {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(u);
-    }
+#endif
 
     /// Maps the stored value with `f` if there is one, otherwise calls
     /// `u` and returns the result.
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) &
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) &
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(u)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(u)();
     }
 
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) &&
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) &&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(u)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(u)();
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    template <typename FuncT, typename OtherT>
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) const&
+    {
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), **this) :
+                             phi::forward<OtherT>(u)();
     }
 
     template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) const&
+    constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) const&&
     {
-        return has_value() ? invoke(std::forward<FuncT>(f), **this) : std::forward<OtherT>(u)();
+        return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
+                             phi::forward<OtherT>(u)();
     }
-
-    template <typename FuncT, typename OtherT>
-    invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) const&&
-    {
-        return has_value() ? invoke(std::forward<FuncT>(f), std::move(**this)) :
-                             std::forward<OtherT>(u)();
-    }
+#endif
 
     /// Returns `u` if `*this` has a value, otherwise an empty Optional.
     template <typename OtherT>
-    constexpr Optional<typename std::decay<OtherT>::type> conjunction(OtherT&& u) const
+    constexpr Optional<typename decay<OtherT>::type> conjunction(OtherT&& u) const
     {
-        using result = Optional<std::decay_t<OtherT>>;
+        using result = Optional<decay_t<OtherT>>;
         return has_value() ? result{u} : result{nullopt};
     }
 
@@ -1786,45 +1841,49 @@ public:
         return has_value() ? *this : rhs;
     }
 
+    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &&
+    {
+        return has_value() ? phi::move(*this) : rhs;
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&
     {
         return has_value() ? *this : rhs;
     }
 
-    PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) &&
-    {
-        return has_value() ? std::move(*this) : rhs;
-    }
-
     PHI_NODISCARD constexpr Optional disjunction(const Optional& rhs) const&&
     {
-        return has_value() ? std::move(*this) : rhs;
+        return has_value() ? phi::move(*this) : rhs;
     }
+#endif
 
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &
     {
-        return has_value() ? *this : std::move(rhs);
-    }
-
-    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&
-    {
-        return has_value() ? *this : std::move(rhs);
+        return has_value() ? *this : phi::move(rhs);
     }
 
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) &&
     {
-        return has_value() ? std::move(*this) : std::move(rhs);
+        return has_value() ? phi::move(*this) : phi::move(rhs);
+    }
+
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&
+    {
+        return has_value() ? *this : phi::move(rhs);
     }
 
     PHI_NODISCARD constexpr Optional disjunction(Optional&& rhs) const&&
     {
-        return has_value() ? std::move(*this) : std::move(rhs);
+        return has_value() ? phi::move(*this) : phi::move(rhs);
     }
+#endif
 
     /// Takes the value out of the Optional, leaving it empty
-    Optional take()
+    PHI_EXTENDED_CONSTEXPR Optional take()
     {
-        Optional ret = std::move(*this);
+        Optional ret = phi::move(*this);
         reset();
         return ret;
     }
@@ -1841,14 +1900,14 @@ namespace std
     template <typename TypeT>
     struct hash<phi::Optional<TypeT>>
     {
-        std::size_t operator()(const phi::Optional<TypeT>& optional) const
+        size_t operator()(const phi::Optional<TypeT>& optional) const
         {
             if (!optional.has_value())
             {
                 return 0;
             }
 
-            return std::hash<std::remove_const_t<TypeT>>()(optional.value());
+            return std::hash<phi::remove_const_t<TypeT>>()(optional.value());
         }
     };
 } // namespace std

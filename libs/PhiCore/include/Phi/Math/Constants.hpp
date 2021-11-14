@@ -3,6 +3,10 @@
 
 #include "Phi/PhiConfig.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Nodiscard.hpp"
 #include "Phi/Config/Glue.hpp"
@@ -12,11 +16,23 @@
 
 #define DETAIL_PHI_DECLARE_CONSTANT(name, value)                                                   \
     template <typename TypeT>                                                                      \
-    constexpr PHI_INLINE_VARIABLE TypeT PHI_GLUE(name, _v) = unsafe_cast<TypeT>(value);            \
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr TypeT PHI_GLUE(name, _v)() noexcept                  \
+    {                                                                                              \
+        return ::phi::unsafe_cast<TypeT>(value);                                                   \
+    }                                                                                              \
                                                                                                    \
-    constexpr PHI_INLINE_VARIABLE f64 name                = PHI_GLUE(name, _v)<f64>;               \
-    constexpr PHI_INLINE_VARIABLE f64 PHI_GLUE(name, _64) = PHI_GLUE(name, _v)<f64>;               \
-    constexpr PHI_INLINE_VARIABLE f32 PHI_GLUE(name, _32) = PHI_GLUE(name, _v)<f32>
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr ::phi::f64 name() noexcept                           \
+    {                                                                                              \
+        return ::phi::PHI_GLUE(name, _v)<f64>();                                                   \
+    }                                                                                              \
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr ::phi::f64 PHI_GLUE(name, _64)() noexcept            \
+    {                                                                                              \
+        return ::phi::PHI_GLUE(name, _v)<f64>();                                                   \
+    }                                                                                              \
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr ::phi::f32 PHI_GLUE(name, _32)() noexcept            \
+    {                                                                                              \
+        return ::phi::PHI_GLUE(name, _v)<f32>();                                                   \
+    }
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
