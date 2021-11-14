@@ -105,7 +105,6 @@ TEST_CASE("type_identity")
     test_type_identity<int(&)[3]>();
     test_type_identity<int(&)[]>();
     test_type_identity<Class>();
-    test_type_identity<Struct>();
     test_type_identity<Union>();
     test_type_identity<NonEmptyUnion>();
     test_type_identity<Empty>();

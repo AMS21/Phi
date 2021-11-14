@@ -1,7 +1,6 @@
 #ifndef INCG_PHI_CORE_ALGORITHM_SWAP_HPP
 #define INCG_PHI_CORE_ALGORITHM_SWAP_HPP
 
-#include "Phi/CompilerSupport/Constexpr.hpp"
 #include "Phi/PhiConfig.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()

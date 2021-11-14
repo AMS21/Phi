@@ -89,7 +89,6 @@ TEST_CASE("remove_const")
     test_remove_const<char* [3], char* [3]>();
     test_remove_const<char*[], char*[]>();
     test_remove_const<Class, Class>();
-    test_remove_const<Struct, Struct>();
     test_remove_const<Union, Union>();
     test_remove_const<NonEmptyUnion, NonEmptyUnion>();
     test_remove_const<Empty, Empty>();

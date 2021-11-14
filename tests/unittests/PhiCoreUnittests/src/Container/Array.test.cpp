@@ -2,6 +2,7 @@
 
 #include "ConstexprHelper.hpp"
 #include "Noexcept.hpp"
+#include "Phi/Config/Warning.hpp"
 #include "SameType.hpp"
 #include "TestTypes.hpp"
 #include <Phi/Container/Array.hpp>
@@ -21,6 +22,11 @@ struct natural_alignment
     double      t3;
     long double t4;
 };
+
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-variable")
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-result")
 
 TEST_CASE("Array")
 {
@@ -684,3 +690,5 @@ TEST_CASE("Array")
         }
     }
 }
+
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()

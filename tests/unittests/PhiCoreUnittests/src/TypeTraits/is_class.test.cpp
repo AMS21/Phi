@@ -29,6 +29,7 @@
 #include <Phi/TypeTraits/is_unsafe_integral.hpp>
 #include <Phi/TypeTraits/is_unsafe_scalar.hpp>
 #include <Phi/TypeTraits/is_void.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -58,6 +59,8 @@ void test_is_class_impl()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
+    STATIC_REQUIRE_FALSE(phi::is_not_class<T>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
@@ -82,6 +85,14 @@ void test_is_class_impl()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_scalar_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+
+    STATIC_REQUIRE_FALSE(phi::is_not_class_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_class<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_class_v<T>);
 #endif
 }
 
@@ -95,19 +106,30 @@ void test_is_class()
 }
 
 template <typename T>
-void test_is_not_class()
+void test_is_not_class_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_class<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_class<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_class<const volatile T>::value);
+    STATIC_REQUIRE(phi::is_not_class<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_class_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_class_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_class_v<const volatile T>);
+    STATIC_REQUIRE(phi::is_not_class_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_class<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_class_v<T>);
+#endif
+}
+
+template <typename T>
+void test_is_not_class()
+{
+    test_is_not_class_impl<T>();
+    test_is_not_class_impl<const T>();
+    test_is_not_class_impl<volatile T>();
+    test_is_not_class_impl<const volatile T>();
 }
 
 TEST_CASE("is_class")
@@ -200,27 +222,16 @@ TEST_CASE("is_class")
     test_is_class<Class>();
     test_is_not_class<Class[]>();
     test_is_not_class<Class[2]>();
-    test_is_class<Struct>();
-    test_is_class<TemplateClass<void>>();
-    test_is_class<TemplateClass<int>>();
-    test_is_class<TemplateClass<Class>>();
-    test_is_class<TemplateClass<incomplete_type>>();
-    test_is_class<TemplateStruct<void>>();
-    test_is_class<TemplateStruct<int>>();
-    test_is_class<TemplateStruct<Class>>();
-    test_is_class<TemplateStruct<incomplete_type>>();
-    test_is_class<VariadicTemplateClass<>>();
-    test_is_class<VariadicTemplateClass<void>>();
-    test_is_class<VariadicTemplateClass<int>>();
-    test_is_class<VariadicTemplateClass<Class>>();
-    test_is_class<VariadicTemplateClass<incomplete_type>>();
-    test_is_class<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_is_class<VariadicTemplateStruct<>>();
-    test_is_class<VariadicTemplateStruct<void>>();
-    test_is_class<VariadicTemplateStruct<int>>();
-    test_is_class<VariadicTemplateStruct<Class>>();
-    test_is_class<VariadicTemplateStruct<incomplete_type>>();
-    test_is_class<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_is_class<Template<void>>();
+    test_is_class<Template<int>>();
+    test_is_class<Template<Class>>();
+    test_is_class<Template<incomplete_type>>();
+    test_is_class<VariadicTemplate<>>();
+    test_is_class<VariadicTemplate<void>>();
+    test_is_class<VariadicTemplate<int>>();
+    test_is_class<VariadicTemplate<Class>>();
+    test_is_class<VariadicTemplate<incomplete_type>>();
+    test_is_class<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_class<PublicDerviedFromTemplate<Base>>();
     test_is_class<PublicDerviedFromTemplate<Derived>>();
     test_is_class<PublicDerviedFromTemplate<Class>>();
@@ -239,10 +250,29 @@ TEST_CASE("is_class")
     test_is_class<Base>();
     test_is_class<Derived>();
     test_is_class<Abstract>();
+    test_is_class<PublicAbstract>();
+    test_is_class<PrivateAbstract>();
+    test_is_class<ProtectedAbstract>();
     test_is_class<AbstractTemplate<int>>();
     test_is_class<AbstractTemplate<double>>();
     test_is_class<AbstractTemplate<Class>>();
     test_is_class<AbstractTemplate<incomplete_type>>();
+    test_is_class<Final>();
+    test_is_class<PublicDestructor>();
+    test_is_class<ProtectedDestructor>();
+    test_is_class<PrivateDestructor>();
+    test_is_class<VirtualPublicDestructor>();
+    test_is_class<VirtualProtectedDestructor>();
+    test_is_class<VirtualPrivateDestructor>();
+    test_is_class<PurePublicDestructor>();
+    test_is_class<PureProtectedDestructor>();
+    test_is_class<PurePrivateDestructor>();
+    test_is_class<DeletedPublicDestructor>();
+    test_is_class<DeletedProtectedDestructor>();
+    test_is_class<DeletedPrivateDestructor>();
+    test_is_class<DeletedVirtualPublicDestructor>();
+    test_is_class<DeletedVirtualProtectedDestructor>();
+    test_is_class<DeletedVirtualPrivateDestructor>();
     test_is_class<Final>();
     test_is_not_class<Enum>();
     test_is_not_class<EnumSigned>();
@@ -253,7 +283,7 @@ TEST_CASE("is_class")
     test_is_not_class<FunctionPtr>();
     test_is_not_class<MemberObjectPtr>();
     test_is_not_class<MemberFunctionPtr>();
-    test_is_class<incomplete_type>(); // LWG#2582
+    test_is_class<incomplete_type>();
     test_is_class<IncompleteTemplate<void>>();
     test_is_class<IncompleteTemplate<int>>();
     test_is_class<IncompleteTemplate<Class>>();
@@ -312,6 +342,8 @@ TEST_CASE("is_class")
     test_is_class<TrapComma>();
     test_is_class<TrapCall>();
     test_is_class<TrapSelfAssign>();
+    test_is_class<TrapDeref>();
+    test_is_class<TrapArraySubscript>();
 
     test_is_not_class<void()>();
     test_is_not_class<void()&>();
@@ -319,12 +351,24 @@ TEST_CASE("is_class")
     test_is_not_class<void() const>();
     test_is_not_class<void() const&>();
     test_is_not_class<void() const&&>();
+    test_is_not_class<void() volatile>();
+    test_is_not_class<void() volatile&>();
+    test_is_not_class<void() volatile&&>();
+    test_is_not_class<void() const volatile>();
+    test_is_not_class<void() const volatile&>();
+    test_is_not_class<void() const volatile&&>();
     test_is_not_class<void() noexcept>();
     test_is_not_class<void()& noexcept>();
     test_is_not_class<void()&& noexcept>();
     test_is_not_class<void() const noexcept>();
     test_is_not_class<void() const& noexcept>();
     test_is_not_class<void() const&& noexcept>();
+    test_is_not_class<void() volatile noexcept>();
+    test_is_not_class<void() volatile& noexcept>();
+    test_is_not_class<void() volatile&& noexcept>();
+    test_is_not_class<void() const volatile noexcept>();
+    test_is_not_class<void() const volatile& noexcept>();
+    test_is_not_class<void() const volatile&& noexcept>();
 
     test_is_not_class<void(int)>();
     test_is_not_class<void(int)&>();
@@ -332,12 +376,24 @@ TEST_CASE("is_class")
     test_is_not_class<void(int) const>();
     test_is_not_class<void(int) const&>();
     test_is_not_class<void(int) const&&>();
+    test_is_not_class<void(int) volatile>();
+    test_is_not_class<void(int) volatile&>();
+    test_is_not_class<void(int) volatile&&>();
+    test_is_not_class<void(int) const volatile>();
+    test_is_not_class<void(int) const volatile&>();
+    test_is_not_class<void(int) const volatile&&>();
     test_is_not_class<void(int) noexcept>();
     test_is_not_class<void(int)& noexcept>();
     test_is_not_class<void(int)&& noexcept>();
     test_is_not_class<void(int) const noexcept>();
     test_is_not_class<void(int) const& noexcept>();
     test_is_not_class<void(int) const&& noexcept>();
+    test_is_not_class<void(int) volatile noexcept>();
+    test_is_not_class<void(int) volatile& noexcept>();
+    test_is_not_class<void(int) volatile&& noexcept>();
+    test_is_not_class<void(int) const volatile noexcept>();
+    test_is_not_class<void(int) const volatile& noexcept>();
+    test_is_not_class<void(int) const volatile&& noexcept>();
 
     test_is_not_class<void(...)>();
     test_is_not_class<void(...)&>();
@@ -345,12 +401,24 @@ TEST_CASE("is_class")
     test_is_not_class<void(...) const>();
     test_is_not_class<void(...) const&>();
     test_is_not_class<void(...) const&&>();
+    test_is_not_class<void(...) volatile>();
+    test_is_not_class<void(...) volatile&>();
+    test_is_not_class<void(...) volatile&&>();
+    test_is_not_class<void(...) const volatile>();
+    test_is_not_class<void(...) const volatile&>();
+    test_is_not_class<void(...) const volatile&&>();
     test_is_not_class<void(...) noexcept>();
     test_is_not_class<void(...)& noexcept>();
     test_is_not_class<void(...)&& noexcept>();
     test_is_not_class<void(...) const noexcept>();
     test_is_not_class<void(...) const& noexcept>();
     test_is_not_class<void(...) const&& noexcept>();
+    test_is_not_class<void(...) volatile noexcept>();
+    test_is_not_class<void(...) volatile& noexcept>();
+    test_is_not_class<void(...) volatile&& noexcept>();
+    test_is_not_class<void(...) const volatile noexcept>();
+    test_is_not_class<void(...) const volatile& noexcept>();
+    test_is_not_class<void(...) const volatile&& noexcept>();
 
     test_is_not_class<void(int, ...)>();
     test_is_not_class<void(int, ...)&>();
@@ -358,12 +426,24 @@ TEST_CASE("is_class")
     test_is_not_class<void(int, ...) const>();
     test_is_not_class<void(int, ...) const&>();
     test_is_not_class<void(int, ...) const&&>();
+    test_is_not_class<void(int, ...) volatile>();
+    test_is_not_class<void(int, ...) volatile&>();
+    test_is_not_class<void(int, ...) volatile&&>();
+    test_is_not_class<void(int, ...) const volatile>();
+    test_is_not_class<void(int, ...) const volatile&>();
+    test_is_not_class<void(int, ...) const volatile&&>();
     test_is_not_class<void(int, ...) noexcept>();
     test_is_not_class<void(int, ...)& noexcept>();
     test_is_not_class<void(int, ...)&& noexcept>();
     test_is_not_class<void(int, ...) const noexcept>();
     test_is_not_class<void(int, ...) const& noexcept>();
     test_is_not_class<void(int, ...) const&& noexcept>();
+    test_is_not_class<void(int, ...) volatile noexcept>();
+    test_is_not_class<void(int, ...) volatile& noexcept>();
+    test_is_not_class<void(int, ...) volatile&& noexcept>();
+    test_is_not_class<void(int, ...) const volatile noexcept>();
+    test_is_not_class<void(int, ...) const volatile& noexcept>();
+    test_is_not_class<void(int, ...) const volatile&& noexcept>();
 
     test_is_not_class<int()>();
     test_is_not_class<int()&>();
@@ -371,12 +451,24 @@ TEST_CASE("is_class")
     test_is_not_class<int() const>();
     test_is_not_class<int() const&>();
     test_is_not_class<int() const&&>();
+    test_is_not_class<int() volatile>();
+    test_is_not_class<int() volatile&>();
+    test_is_not_class<int() volatile&&>();
+    test_is_not_class<int() const volatile>();
+    test_is_not_class<int() const volatile&>();
+    test_is_not_class<int() const volatile&&>();
     test_is_not_class<int() noexcept>();
     test_is_not_class<int()& noexcept>();
     test_is_not_class<int()&& noexcept>();
     test_is_not_class<int() const noexcept>();
     test_is_not_class<int() const& noexcept>();
     test_is_not_class<int() const&& noexcept>();
+    test_is_not_class<int() volatile noexcept>();
+    test_is_not_class<int() volatile& noexcept>();
+    test_is_not_class<int() volatile&& noexcept>();
+    test_is_not_class<int() const volatile noexcept>();
+    test_is_not_class<int() const volatile& noexcept>();
+    test_is_not_class<int() const volatile&& noexcept>();
 
     test_is_not_class<int(int)>();
     test_is_not_class<int(int)&>();
@@ -384,12 +476,24 @@ TEST_CASE("is_class")
     test_is_not_class<int(int) const>();
     test_is_not_class<int(int) const&>();
     test_is_not_class<int(int) const&&>();
+    test_is_not_class<int(int) volatile>();
+    test_is_not_class<int(int) volatile&>();
+    test_is_not_class<int(int) volatile&&>();
+    test_is_not_class<int(int) const volatile>();
+    test_is_not_class<int(int) const volatile&>();
+    test_is_not_class<int(int) const volatile&&>();
     test_is_not_class<int(int) noexcept>();
     test_is_not_class<int(int)& noexcept>();
     test_is_not_class<int(int)&& noexcept>();
     test_is_not_class<int(int) const noexcept>();
     test_is_not_class<int(int) const& noexcept>();
     test_is_not_class<int(int) const&& noexcept>();
+    test_is_not_class<int(int) volatile noexcept>();
+    test_is_not_class<int(int) volatile& noexcept>();
+    test_is_not_class<int(int) volatile&& noexcept>();
+    test_is_not_class<int(int) const volatile noexcept>();
+    test_is_not_class<int(int) const volatile& noexcept>();
+    test_is_not_class<int(int) const volatile&& noexcept>();
 
     test_is_not_class<int(...)>();
     test_is_not_class<int(...)&>();
@@ -397,12 +501,24 @@ TEST_CASE("is_class")
     test_is_not_class<int(...) const>();
     test_is_not_class<int(...) const&>();
     test_is_not_class<int(...) const&&>();
+    test_is_not_class<int(...) volatile>();
+    test_is_not_class<int(...) volatile&>();
+    test_is_not_class<int(...) volatile&&>();
+    test_is_not_class<int(...) const volatile>();
+    test_is_not_class<int(...) const volatile&>();
+    test_is_not_class<int(...) const volatile&&>();
     test_is_not_class<int(...) noexcept>();
     test_is_not_class<int(...)& noexcept>();
     test_is_not_class<int(...)&& noexcept>();
     test_is_not_class<int(...) const noexcept>();
     test_is_not_class<int(...) const& noexcept>();
     test_is_not_class<int(...) const&& noexcept>();
+    test_is_not_class<int(...) volatile noexcept>();
+    test_is_not_class<int(...) volatile& noexcept>();
+    test_is_not_class<int(...) volatile&& noexcept>();
+    test_is_not_class<int(...) const volatile noexcept>();
+    test_is_not_class<int(...) const volatile& noexcept>();
+    test_is_not_class<int(...) const volatile&& noexcept>();
 
     test_is_not_class<int(int, ...)>();
     test_is_not_class<int(int, ...)&>();
@@ -410,12 +526,24 @@ TEST_CASE("is_class")
     test_is_not_class<int(int, ...) const>();
     test_is_not_class<int(int, ...) const&>();
     test_is_not_class<int(int, ...) const&&>();
+    test_is_not_class<int(int, ...) volatile>();
+    test_is_not_class<int(int, ...) volatile&>();
+    test_is_not_class<int(int, ...) volatile&&>();
+    test_is_not_class<int(int, ...) const volatile>();
+    test_is_not_class<int(int, ...) const volatile&>();
+    test_is_not_class<int(int, ...) const volatile&&>();
     test_is_not_class<int(int, ...) noexcept>();
     test_is_not_class<int(int, ...)& noexcept>();
     test_is_not_class<int(int, ...)&& noexcept>();
     test_is_not_class<int(int, ...) const noexcept>();
     test_is_not_class<int(int, ...) const& noexcept>();
     test_is_not_class<int(int, ...) const&& noexcept>();
+    test_is_not_class<int(int, ...) volatile noexcept>();
+    test_is_not_class<int(int, ...) volatile& noexcept>();
+    test_is_not_class<int(int, ...) volatile&& noexcept>();
+    test_is_not_class<int(int, ...) const volatile noexcept>();
+    test_is_not_class<int(int, ...) const volatile& noexcept>();
+    test_is_not_class<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_class<void (*)()>();
     test_is_not_class<void (*)() noexcept>();

@@ -2,6 +2,7 @@
 
 #include "TestTypes.hpp"
 #include <Phi/CompilerSupport/Char8_t.hpp>
+#include <Phi/Container/Array.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -29,6 +30,8 @@
 #include <Phi/TypeTraits/is_scalar.hpp>
 #include <Phi/TypeTraits/is_union.hpp>
 #include <Phi/TypeTraits/is_void.hpp>
+#include <array>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -58,6 +61,8 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
+    STATIC_REQUIRE_FALSE(phi::is_not_array<T>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE(phi::is_array_v<T>);
@@ -83,6 +88,12 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 #endif
+
+    // Standard compatbility
+    STATIC_REQUIRE(std::is_array<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_array_v<T>);
+#endif
 }
 
 template <typename T>
@@ -95,19 +106,30 @@ void test_is_array()
 }
 
 template <typename T>
-void test_is_not_array()
+void test_is_not_array_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_array<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_array<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_array<const volatile T>::value);
+    STATIC_REQUIRE(phi::is_not_array<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_array_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_array_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_array_v<const volatile T>);
+    STATIC_REQUIRE(phi::is_not_array_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_array<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_array_v<T>);
+#endif
+}
+
+template <typename T>
+void test_is_not_array()
+{
+    test_is_not_array_impl<T>();
+    test_is_not_array_impl<const T>();
+    test_is_not_array_impl<volatile T>();
+    test_is_not_array_impl<const volatile T>();
 }
 
 using array            = char[3];
@@ -129,7 +151,18 @@ TEST_CASE("is_array")
     test_is_array<incomplete_array>();
     test_is_array<incomplete_type[]>();
     test_is_array<incomplete_type[3]>();
+    test_is_array<int[1]>();
+    test_is_array<int[1][2]>();
+    test_is_array<int[1][2][3]>();
+    test_is_array<int[1][2][3][4]>();
+    test_is_array<int[1][2][3][4][5]>();
+    test_is_array<int[1][2][3][4][5][6]>();
+    test_is_array<int[1][2][3][4][5][6][7]>();
+    test_is_array<int[1][2][3][4][5][6][7][8]>();
+    test_is_array<int[1][2][3][4][5][6][7][8][9]>();
     test_is_array<int[1][2][3][4][5][6][7][8][9][10]>();
+    test_is_not_array<std::array<int, 3>>();
+    test_is_not_array<phi::Array<int, 3>>();
 
     test_is_not_array<void>();
     test_is_not_array<phi::nullptr_t>();
@@ -219,27 +252,16 @@ TEST_CASE("is_array")
     test_is_not_array<Class>();
     test_is_array<Class[]>();
     test_is_array<Class[2]>();
-    test_is_not_array<Struct>();
-    test_is_not_array<TemplateClass<void>>();
-    test_is_not_array<TemplateClass<int>>();
-    test_is_not_array<TemplateClass<Class>>();
-    test_is_not_array<TemplateClass<incomplete_type>>();
-    test_is_not_array<TemplateStruct<void>>();
-    test_is_not_array<TemplateStruct<int>>();
-    test_is_not_array<TemplateStruct<Class>>();
-    test_is_not_array<TemplateStruct<incomplete_type>>();
-    test_is_not_array<VariadicTemplateClass<>>();
-    test_is_not_array<VariadicTemplateClass<void>>();
-    test_is_not_array<VariadicTemplateClass<int>>();
-    test_is_not_array<VariadicTemplateClass<Class>>();
-    test_is_not_array<VariadicTemplateClass<incomplete_type>>();
-    test_is_not_array<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_is_not_array<VariadicTemplateStruct<>>();
-    test_is_not_array<VariadicTemplateStruct<void>>();
-    test_is_not_array<VariadicTemplateStruct<int>>();
-    test_is_not_array<VariadicTemplateStruct<Class>>();
-    test_is_not_array<VariadicTemplateStruct<incomplete_type>>();
-    test_is_not_array<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_is_not_array<Template<void>>();
+    test_is_not_array<Template<int>>();
+    test_is_not_array<Template<Class>>();
+    test_is_not_array<Template<incomplete_type>>();
+    test_is_not_array<VariadicTemplate<>>();
+    test_is_not_array<VariadicTemplate<void>>();
+    test_is_not_array<VariadicTemplate<int>>();
+    test_is_not_array<VariadicTemplate<Class>>();
+    test_is_not_array<VariadicTemplate<incomplete_type>>();
+    test_is_not_array<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_array<PublicDerviedFromTemplate<Base>>();
     test_is_not_array<PublicDerviedFromTemplate<Derived>>();
     test_is_not_array<PublicDerviedFromTemplate<Class>>();
@@ -258,10 +280,29 @@ TEST_CASE("is_array")
     test_is_not_array<Base>();
     test_is_not_array<Derived>();
     test_is_not_array<Abstract>();
+    test_is_not_array<PublicAbstract>();
+    test_is_not_array<PrivateAbstract>();
+    test_is_not_array<ProtectedAbstract>();
     test_is_not_array<AbstractTemplate<int>>();
     test_is_not_array<AbstractTemplate<double>>();
     test_is_not_array<AbstractTemplate<Class>>();
     test_is_not_array<AbstractTemplate<incomplete_type>>();
+    test_is_not_array<Final>();
+    test_is_not_array<PublicDestructor>();
+    test_is_not_array<ProtectedDestructor>();
+    test_is_not_array<PrivateDestructor>();
+    test_is_not_array<VirtualPublicDestructor>();
+    test_is_not_array<VirtualProtectedDestructor>();
+    test_is_not_array<VirtualPrivateDestructor>();
+    test_is_not_array<PurePublicDestructor>();
+    test_is_not_array<PureProtectedDestructor>();
+    test_is_not_array<PurePrivateDestructor>();
+    test_is_not_array<DeletedPublicDestructor>();
+    test_is_not_array<DeletedProtectedDestructor>();
+    test_is_not_array<DeletedPrivateDestructor>();
+    test_is_not_array<DeletedVirtualPublicDestructor>();
+    test_is_not_array<DeletedVirtualProtectedDestructor>();
+    test_is_not_array<DeletedVirtualPrivateDestructor>();
     test_is_not_array<Final>();
     test_is_not_array<Enum>();
     test_is_not_array<EnumSigned>();
@@ -272,7 +313,7 @@ TEST_CASE("is_array")
     test_is_not_array<FunctionPtr>();
     test_is_not_array<MemberObjectPtr>();
     test_is_not_array<MemberFunctionPtr>();
-    test_is_not_array<incomplete_type>(); // LWG#2582
+    test_is_not_array<incomplete_type>();
     test_is_not_array<IncompleteTemplate<void>>();
     test_is_not_array<IncompleteTemplate<int>>();
     test_is_not_array<IncompleteTemplate<Class>>();
@@ -331,6 +372,8 @@ TEST_CASE("is_array")
     test_is_not_array<TrapComma>();
     test_is_not_array<TrapCall>();
     test_is_not_array<TrapSelfAssign>();
+    test_is_not_array<TrapDeref>();
+    test_is_not_array<TrapArraySubscript>();
 
     test_is_not_array<void()>();
     test_is_not_array<void()&>();
@@ -338,12 +381,24 @@ TEST_CASE("is_array")
     test_is_not_array<void() const>();
     test_is_not_array<void() const&>();
     test_is_not_array<void() const&&>();
+    test_is_not_array<void() volatile>();
+    test_is_not_array<void() volatile&>();
+    test_is_not_array<void() volatile&&>();
+    test_is_not_array<void() const volatile>();
+    test_is_not_array<void() const volatile&>();
+    test_is_not_array<void() const volatile&&>();
     test_is_not_array<void() noexcept>();
     test_is_not_array<void()& noexcept>();
     test_is_not_array<void()&& noexcept>();
     test_is_not_array<void() const noexcept>();
     test_is_not_array<void() const& noexcept>();
     test_is_not_array<void() const&& noexcept>();
+    test_is_not_array<void() volatile noexcept>();
+    test_is_not_array<void() volatile& noexcept>();
+    test_is_not_array<void() volatile&& noexcept>();
+    test_is_not_array<void() const volatile noexcept>();
+    test_is_not_array<void() const volatile& noexcept>();
+    test_is_not_array<void() const volatile&& noexcept>();
 
     test_is_not_array<void(int)>();
     test_is_not_array<void(int)&>();
@@ -351,12 +406,24 @@ TEST_CASE("is_array")
     test_is_not_array<void(int) const>();
     test_is_not_array<void(int) const&>();
     test_is_not_array<void(int) const&&>();
+    test_is_not_array<void(int) volatile>();
+    test_is_not_array<void(int) volatile&>();
+    test_is_not_array<void(int) volatile&&>();
+    test_is_not_array<void(int) const volatile>();
+    test_is_not_array<void(int) const volatile&>();
+    test_is_not_array<void(int) const volatile&&>();
     test_is_not_array<void(int) noexcept>();
     test_is_not_array<void(int)& noexcept>();
     test_is_not_array<void(int)&& noexcept>();
     test_is_not_array<void(int) const noexcept>();
     test_is_not_array<void(int) const& noexcept>();
     test_is_not_array<void(int) const&& noexcept>();
+    test_is_not_array<void(int) volatile noexcept>();
+    test_is_not_array<void(int) volatile& noexcept>();
+    test_is_not_array<void(int) volatile&& noexcept>();
+    test_is_not_array<void(int) const volatile noexcept>();
+    test_is_not_array<void(int) const volatile& noexcept>();
+    test_is_not_array<void(int) const volatile&& noexcept>();
 
     test_is_not_array<void(...)>();
     test_is_not_array<void(...)&>();
@@ -364,12 +431,24 @@ TEST_CASE("is_array")
     test_is_not_array<void(...) const>();
     test_is_not_array<void(...) const&>();
     test_is_not_array<void(...) const&&>();
+    test_is_not_array<void(...) volatile>();
+    test_is_not_array<void(...) volatile&>();
+    test_is_not_array<void(...) volatile&&>();
+    test_is_not_array<void(...) const volatile>();
+    test_is_not_array<void(...) const volatile&>();
+    test_is_not_array<void(...) const volatile&&>();
     test_is_not_array<void(...) noexcept>();
     test_is_not_array<void(...)& noexcept>();
     test_is_not_array<void(...)&& noexcept>();
     test_is_not_array<void(...) const noexcept>();
     test_is_not_array<void(...) const& noexcept>();
     test_is_not_array<void(...) const&& noexcept>();
+    test_is_not_array<void(...) volatile noexcept>();
+    test_is_not_array<void(...) volatile& noexcept>();
+    test_is_not_array<void(...) volatile&& noexcept>();
+    test_is_not_array<void(...) const volatile noexcept>();
+    test_is_not_array<void(...) const volatile& noexcept>();
+    test_is_not_array<void(...) const volatile&& noexcept>();
 
     test_is_not_array<void(int, ...)>();
     test_is_not_array<void(int, ...)&>();
@@ -377,12 +456,24 @@ TEST_CASE("is_array")
     test_is_not_array<void(int, ...) const>();
     test_is_not_array<void(int, ...) const&>();
     test_is_not_array<void(int, ...) const&&>();
+    test_is_not_array<void(int, ...) volatile>();
+    test_is_not_array<void(int, ...) volatile&>();
+    test_is_not_array<void(int, ...) volatile&&>();
+    test_is_not_array<void(int, ...) const volatile>();
+    test_is_not_array<void(int, ...) const volatile&>();
+    test_is_not_array<void(int, ...) const volatile&&>();
     test_is_not_array<void(int, ...) noexcept>();
     test_is_not_array<void(int, ...)& noexcept>();
     test_is_not_array<void(int, ...)&& noexcept>();
     test_is_not_array<void(int, ...) const noexcept>();
     test_is_not_array<void(int, ...) const& noexcept>();
     test_is_not_array<void(int, ...) const&& noexcept>();
+    test_is_not_array<void(int, ...) volatile noexcept>();
+    test_is_not_array<void(int, ...) volatile& noexcept>();
+    test_is_not_array<void(int, ...) volatile&& noexcept>();
+    test_is_not_array<void(int, ...) const volatile noexcept>();
+    test_is_not_array<void(int, ...) const volatile& noexcept>();
+    test_is_not_array<void(int, ...) const volatile&& noexcept>();
 
     test_is_not_array<int()>();
     test_is_not_array<int()&>();
@@ -390,12 +481,24 @@ TEST_CASE("is_array")
     test_is_not_array<int() const>();
     test_is_not_array<int() const&>();
     test_is_not_array<int() const&&>();
+    test_is_not_array<int() volatile>();
+    test_is_not_array<int() volatile&>();
+    test_is_not_array<int() volatile&&>();
+    test_is_not_array<int() const volatile>();
+    test_is_not_array<int() const volatile&>();
+    test_is_not_array<int() const volatile&&>();
     test_is_not_array<int() noexcept>();
     test_is_not_array<int()& noexcept>();
     test_is_not_array<int()&& noexcept>();
     test_is_not_array<int() const noexcept>();
     test_is_not_array<int() const& noexcept>();
     test_is_not_array<int() const&& noexcept>();
+    test_is_not_array<int() volatile noexcept>();
+    test_is_not_array<int() volatile& noexcept>();
+    test_is_not_array<int() volatile&& noexcept>();
+    test_is_not_array<int() const volatile noexcept>();
+    test_is_not_array<int() const volatile& noexcept>();
+    test_is_not_array<int() const volatile&& noexcept>();
 
     test_is_not_array<int(int)>();
     test_is_not_array<int(int)&>();
@@ -403,12 +506,24 @@ TEST_CASE("is_array")
     test_is_not_array<int(int) const>();
     test_is_not_array<int(int) const&>();
     test_is_not_array<int(int) const&&>();
+    test_is_not_array<int(int) volatile>();
+    test_is_not_array<int(int) volatile&>();
+    test_is_not_array<int(int) volatile&&>();
+    test_is_not_array<int(int) const volatile>();
+    test_is_not_array<int(int) const volatile&>();
+    test_is_not_array<int(int) const volatile&&>();
     test_is_not_array<int(int) noexcept>();
     test_is_not_array<int(int)& noexcept>();
     test_is_not_array<int(int)&& noexcept>();
     test_is_not_array<int(int) const noexcept>();
     test_is_not_array<int(int) const& noexcept>();
     test_is_not_array<int(int) const&& noexcept>();
+    test_is_not_array<int(int) volatile noexcept>();
+    test_is_not_array<int(int) volatile& noexcept>();
+    test_is_not_array<int(int) volatile&& noexcept>();
+    test_is_not_array<int(int) const volatile noexcept>();
+    test_is_not_array<int(int) const volatile& noexcept>();
+    test_is_not_array<int(int) const volatile&& noexcept>();
 
     test_is_not_array<int(...)>();
     test_is_not_array<int(...)&>();
@@ -416,12 +531,24 @@ TEST_CASE("is_array")
     test_is_not_array<int(...) const>();
     test_is_not_array<int(...) const&>();
     test_is_not_array<int(...) const&&>();
+    test_is_not_array<int(...) volatile>();
+    test_is_not_array<int(...) volatile&>();
+    test_is_not_array<int(...) volatile&&>();
+    test_is_not_array<int(...) const volatile>();
+    test_is_not_array<int(...) const volatile&>();
+    test_is_not_array<int(...) const volatile&&>();
     test_is_not_array<int(...) noexcept>();
     test_is_not_array<int(...)& noexcept>();
     test_is_not_array<int(...)&& noexcept>();
     test_is_not_array<int(...) const noexcept>();
     test_is_not_array<int(...) const& noexcept>();
     test_is_not_array<int(...) const&& noexcept>();
+    test_is_not_array<int(...) volatile noexcept>();
+    test_is_not_array<int(...) volatile& noexcept>();
+    test_is_not_array<int(...) volatile&& noexcept>();
+    test_is_not_array<int(...) const volatile noexcept>();
+    test_is_not_array<int(...) const volatile& noexcept>();
+    test_is_not_array<int(...) const volatile&& noexcept>();
 
     test_is_not_array<int(int, ...)>();
     test_is_not_array<int(int, ...)&>();
@@ -429,12 +556,24 @@ TEST_CASE("is_array")
     test_is_not_array<int(int, ...) const>();
     test_is_not_array<int(int, ...) const&>();
     test_is_not_array<int(int, ...) const&&>();
+    test_is_not_array<int(int, ...) volatile>();
+    test_is_not_array<int(int, ...) volatile&>();
+    test_is_not_array<int(int, ...) volatile&&>();
+    test_is_not_array<int(int, ...) const volatile>();
+    test_is_not_array<int(int, ...) const volatile&>();
+    test_is_not_array<int(int, ...) const volatile&&>();
     test_is_not_array<int(int, ...) noexcept>();
     test_is_not_array<int(int, ...)& noexcept>();
     test_is_not_array<int(int, ...)&& noexcept>();
     test_is_not_array<int(int, ...) const noexcept>();
     test_is_not_array<int(int, ...) const& noexcept>();
     test_is_not_array<int(int, ...) const&& noexcept>();
+    test_is_not_array<int(int, ...) volatile noexcept>();
+    test_is_not_array<int(int, ...) volatile& noexcept>();
+    test_is_not_array<int(int, ...) volatile&& noexcept>();
+    test_is_not_array<int(int, ...) const volatile noexcept>();
+    test_is_not_array<int(int, ...) const volatile& noexcept>();
+    test_is_not_array<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_array<void (*)()>();
     test_is_not_array<void (*)() noexcept>();

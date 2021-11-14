@@ -83,7 +83,6 @@ TEST_CASE("is_aggregate")
 
     test_is_aggregate<bit_zero>();
     test_is_aggregate<Empty>();
-    test_is_aggregate<Struct>();
     test_is_aggregate<Class>();
     test_is_aggregate<Aggregate>();
     test_is_aggregate<Aggregate[]>();

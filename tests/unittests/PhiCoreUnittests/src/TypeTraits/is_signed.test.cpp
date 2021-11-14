@@ -50,7 +50,6 @@ TEST_CASE("is_signed", "[TypeTraits][is_signed]")
     test_is_not_signed<int&>();
     test_is_not_signed<int&&>();
     test_is_not_signed<Class>();
-    test_is_not_signed<Struct>();
     test_is_not_signed<int*>();
     test_is_not_signed<const int*>();
     test_is_not_signed<volatile int*>();

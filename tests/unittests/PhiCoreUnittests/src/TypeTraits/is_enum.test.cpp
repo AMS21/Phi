@@ -29,6 +29,7 @@
 #include <Phi/TypeTraits/is_scalar.hpp>
 #include <Phi/TypeTraits/is_union.hpp>
 #include <Phi/TypeTraits/is_void.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -58,6 +59,8 @@ void test_is_enum_impl()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
+    STATIC_REQUIRE_FALSE(phi::is_not_enum<T>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
@@ -82,6 +85,14 @@ void test_is_enum_impl()
     STATIC_REQUIRE(phi::is_scalar_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+
+    STATIC_REQUIRE_FALSE(phi::is_not_enum_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_enum<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_enum_v<T>);
 #endif
 }
 
@@ -95,19 +106,30 @@ void test_is_enum()
 }
 
 template <typename T>
-void test_is_not_enum()
+void test_is_not_enum_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_enum<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_enum<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_enum<const volatile T>::value);
+    STATIC_REQUIRE(phi::is_not_enum<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_enum_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_enum_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_enum_v<const volatile T>);
+    STATIC_REQUIRE(phi::is_not_enum_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_enum<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_enum_v<T>);
+#endif
+}
+
+template <typename T>
+void test_is_not_enum()
+{
+    test_is_not_enum_impl<T>();
+    test_is_not_enum_impl<const T>();
+    test_is_not_enum_impl<volatile T>();
+    test_is_not_enum_impl<const volatile T>();
 }
 
 TEST_CASE("is_enum")
@@ -200,27 +222,16 @@ TEST_CASE("is_enum")
     test_is_not_enum<Class>();
     test_is_not_enum<Class[]>();
     test_is_not_enum<Class[2]>();
-    test_is_not_enum<Struct>();
-    test_is_not_enum<TemplateClass<void>>();
-    test_is_not_enum<TemplateClass<int>>();
-    test_is_not_enum<TemplateClass<Class>>();
-    test_is_not_enum<TemplateClass<incomplete_type>>();
-    test_is_not_enum<TemplateStruct<void>>();
-    test_is_not_enum<TemplateStruct<int>>();
-    test_is_not_enum<TemplateStruct<Class>>();
-    test_is_not_enum<TemplateStruct<incomplete_type>>();
-    test_is_not_enum<VariadicTemplateClass<>>();
-    test_is_not_enum<VariadicTemplateClass<void>>();
-    test_is_not_enum<VariadicTemplateClass<int>>();
-    test_is_not_enum<VariadicTemplateClass<Class>>();
-    test_is_not_enum<VariadicTemplateClass<incomplete_type>>();
-    test_is_not_enum<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_is_not_enum<VariadicTemplateStruct<>>();
-    test_is_not_enum<VariadicTemplateStruct<void>>();
-    test_is_not_enum<VariadicTemplateStruct<int>>();
-    test_is_not_enum<VariadicTemplateStruct<Class>>();
-    test_is_not_enum<VariadicTemplateStruct<incomplete_type>>();
-    test_is_not_enum<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_is_not_enum<Template<void>>();
+    test_is_not_enum<Template<int>>();
+    test_is_not_enum<Template<Class>>();
+    test_is_not_enum<Template<incomplete_type>>();
+    test_is_not_enum<VariadicTemplate<>>();
+    test_is_not_enum<VariadicTemplate<void>>();
+    test_is_not_enum<VariadicTemplate<int>>();
+    test_is_not_enum<VariadicTemplate<Class>>();
+    test_is_not_enum<VariadicTemplate<incomplete_type>>();
+    test_is_not_enum<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_enum<PublicDerviedFromTemplate<Base>>();
     test_is_not_enum<PublicDerviedFromTemplate<Derived>>();
     test_is_not_enum<PublicDerviedFromTemplate<Class>>();
@@ -239,10 +250,29 @@ TEST_CASE("is_enum")
     test_is_not_enum<Base>();
     test_is_not_enum<Derived>();
     test_is_not_enum<Abstract>();
+    test_is_not_enum<PublicAbstract>();
+    test_is_not_enum<PrivateAbstract>();
+    test_is_not_enum<ProtectedAbstract>();
     test_is_not_enum<AbstractTemplate<int>>();
     test_is_not_enum<AbstractTemplate<double>>();
     test_is_not_enum<AbstractTemplate<Class>>();
     test_is_not_enum<AbstractTemplate<incomplete_type>>();
+    test_is_not_enum<Final>();
+    test_is_not_enum<PublicDestructor>();
+    test_is_not_enum<ProtectedDestructor>();
+    test_is_not_enum<PrivateDestructor>();
+    test_is_not_enum<VirtualPublicDestructor>();
+    test_is_not_enum<VirtualProtectedDestructor>();
+    test_is_not_enum<VirtualPrivateDestructor>();
+    test_is_not_enum<PurePublicDestructor>();
+    test_is_not_enum<PureProtectedDestructor>();
+    test_is_not_enum<PurePrivateDestructor>();
+    test_is_not_enum<DeletedPublicDestructor>();
+    test_is_not_enum<DeletedProtectedDestructor>();
+    test_is_not_enum<DeletedPrivateDestructor>();
+    test_is_not_enum<DeletedVirtualPublicDestructor>();
+    test_is_not_enum<DeletedVirtualProtectedDestructor>();
+    test_is_not_enum<DeletedVirtualPrivateDestructor>();
     test_is_not_enum<Final>();
     test_is_enum<Enum>();
     test_is_enum<EnumSigned>();
@@ -312,6 +342,8 @@ TEST_CASE("is_enum")
     test_is_not_enum<TrapComma>();
     test_is_not_enum<TrapCall>();
     test_is_not_enum<TrapSelfAssign>();
+    test_is_not_enum<TrapDeref>();
+    test_is_not_enum<TrapArraySubscript>();
 
     test_is_not_enum<void()>();
     test_is_not_enum<void()&>();
@@ -319,12 +351,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<void() const>();
     test_is_not_enum<void() const&>();
     test_is_not_enum<void() const&&>();
+    test_is_not_enum<void() volatile>();
+    test_is_not_enum<void() volatile&>();
+    test_is_not_enum<void() volatile&&>();
+    test_is_not_enum<void() const volatile>();
+    test_is_not_enum<void() const volatile&>();
+    test_is_not_enum<void() const volatile&&>();
     test_is_not_enum<void() noexcept>();
     test_is_not_enum<void()& noexcept>();
     test_is_not_enum<void()&& noexcept>();
     test_is_not_enum<void() const noexcept>();
     test_is_not_enum<void() const& noexcept>();
     test_is_not_enum<void() const&& noexcept>();
+    test_is_not_enum<void() volatile noexcept>();
+    test_is_not_enum<void() volatile& noexcept>();
+    test_is_not_enum<void() volatile&& noexcept>();
+    test_is_not_enum<void() const volatile noexcept>();
+    test_is_not_enum<void() const volatile& noexcept>();
+    test_is_not_enum<void() const volatile&& noexcept>();
 
     test_is_not_enum<void(int)>();
     test_is_not_enum<void(int)&>();
@@ -332,12 +376,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(int) const>();
     test_is_not_enum<void(int) const&>();
     test_is_not_enum<void(int) const&&>();
+    test_is_not_enum<void(int) volatile>();
+    test_is_not_enum<void(int) volatile&>();
+    test_is_not_enum<void(int) volatile&&>();
+    test_is_not_enum<void(int) const volatile>();
+    test_is_not_enum<void(int) const volatile&>();
+    test_is_not_enum<void(int) const volatile&&>();
     test_is_not_enum<void(int) noexcept>();
     test_is_not_enum<void(int)& noexcept>();
     test_is_not_enum<void(int)&& noexcept>();
     test_is_not_enum<void(int) const noexcept>();
     test_is_not_enum<void(int) const& noexcept>();
     test_is_not_enum<void(int) const&& noexcept>();
+    test_is_not_enum<void(int) volatile noexcept>();
+    test_is_not_enum<void(int) volatile& noexcept>();
+    test_is_not_enum<void(int) volatile&& noexcept>();
+    test_is_not_enum<void(int) const volatile noexcept>();
+    test_is_not_enum<void(int) const volatile& noexcept>();
+    test_is_not_enum<void(int) const volatile&& noexcept>();
 
     test_is_not_enum<void(...)>();
     test_is_not_enum<void(...)&>();
@@ -345,12 +401,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(...) const>();
     test_is_not_enum<void(...) const&>();
     test_is_not_enum<void(...) const&&>();
+    test_is_not_enum<void(...) volatile>();
+    test_is_not_enum<void(...) volatile&>();
+    test_is_not_enum<void(...) volatile&&>();
+    test_is_not_enum<void(...) const volatile>();
+    test_is_not_enum<void(...) const volatile&>();
+    test_is_not_enum<void(...) const volatile&&>();
     test_is_not_enum<void(...) noexcept>();
     test_is_not_enum<void(...)& noexcept>();
     test_is_not_enum<void(...)&& noexcept>();
     test_is_not_enum<void(...) const noexcept>();
     test_is_not_enum<void(...) const& noexcept>();
     test_is_not_enum<void(...) const&& noexcept>();
+    test_is_not_enum<void(...) volatile noexcept>();
+    test_is_not_enum<void(...) volatile& noexcept>();
+    test_is_not_enum<void(...) volatile&& noexcept>();
+    test_is_not_enum<void(...) const volatile noexcept>();
+    test_is_not_enum<void(...) const volatile& noexcept>();
+    test_is_not_enum<void(...) const volatile&& noexcept>();
 
     test_is_not_enum<void(int, ...)>();
     test_is_not_enum<void(int, ...)&>();
@@ -358,12 +426,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(int, ...) const>();
     test_is_not_enum<void(int, ...) const&>();
     test_is_not_enum<void(int, ...) const&&>();
+    test_is_not_enum<void(int, ...) volatile>();
+    test_is_not_enum<void(int, ...) volatile&>();
+    test_is_not_enum<void(int, ...) volatile&&>();
+    test_is_not_enum<void(int, ...) const volatile>();
+    test_is_not_enum<void(int, ...) const volatile&>();
+    test_is_not_enum<void(int, ...) const volatile&&>();
     test_is_not_enum<void(int, ...) noexcept>();
     test_is_not_enum<void(int, ...)& noexcept>();
     test_is_not_enum<void(int, ...)&& noexcept>();
     test_is_not_enum<void(int, ...) const noexcept>();
     test_is_not_enum<void(int, ...) const& noexcept>();
     test_is_not_enum<void(int, ...) const&& noexcept>();
+    test_is_not_enum<void(int, ...) volatile noexcept>();
+    test_is_not_enum<void(int, ...) volatile& noexcept>();
+    test_is_not_enum<void(int, ...) volatile&& noexcept>();
+    test_is_not_enum<void(int, ...) const volatile noexcept>();
+    test_is_not_enum<void(int, ...) const volatile& noexcept>();
+    test_is_not_enum<void(int, ...) const volatile&& noexcept>();
 
     test_is_not_enum<int()>();
     test_is_not_enum<int()&>();
@@ -371,12 +451,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<int() const>();
     test_is_not_enum<int() const&>();
     test_is_not_enum<int() const&&>();
+    test_is_not_enum<int() volatile>();
+    test_is_not_enum<int() volatile&>();
+    test_is_not_enum<int() volatile&&>();
+    test_is_not_enum<int() const volatile>();
+    test_is_not_enum<int() const volatile&>();
+    test_is_not_enum<int() const volatile&&>();
     test_is_not_enum<int() noexcept>();
     test_is_not_enum<int()& noexcept>();
     test_is_not_enum<int()&& noexcept>();
     test_is_not_enum<int() const noexcept>();
     test_is_not_enum<int() const& noexcept>();
     test_is_not_enum<int() const&& noexcept>();
+    test_is_not_enum<int() volatile noexcept>();
+    test_is_not_enum<int() volatile& noexcept>();
+    test_is_not_enum<int() volatile&& noexcept>();
+    test_is_not_enum<int() const volatile noexcept>();
+    test_is_not_enum<int() const volatile& noexcept>();
+    test_is_not_enum<int() const volatile&& noexcept>();
 
     test_is_not_enum<int(int)>();
     test_is_not_enum<int(int)&>();
@@ -384,12 +476,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<int(int) const>();
     test_is_not_enum<int(int) const&>();
     test_is_not_enum<int(int) const&&>();
+    test_is_not_enum<int(int) volatile>();
+    test_is_not_enum<int(int) volatile&>();
+    test_is_not_enum<int(int) volatile&&>();
+    test_is_not_enum<int(int) const volatile>();
+    test_is_not_enum<int(int) const volatile&>();
+    test_is_not_enum<int(int) const volatile&&>();
     test_is_not_enum<int(int) noexcept>();
     test_is_not_enum<int(int)& noexcept>();
     test_is_not_enum<int(int)&& noexcept>();
     test_is_not_enum<int(int) const noexcept>();
     test_is_not_enum<int(int) const& noexcept>();
     test_is_not_enum<int(int) const&& noexcept>();
+    test_is_not_enum<int(int) volatile noexcept>();
+    test_is_not_enum<int(int) volatile& noexcept>();
+    test_is_not_enum<int(int) volatile&& noexcept>();
+    test_is_not_enum<int(int) const volatile noexcept>();
+    test_is_not_enum<int(int) const volatile& noexcept>();
+    test_is_not_enum<int(int) const volatile&& noexcept>();
 
     test_is_not_enum<int(...)>();
     test_is_not_enum<int(...)&>();
@@ -397,12 +501,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<int(...) const>();
     test_is_not_enum<int(...) const&>();
     test_is_not_enum<int(...) const&&>();
+    test_is_not_enum<int(...) volatile>();
+    test_is_not_enum<int(...) volatile&>();
+    test_is_not_enum<int(...) volatile&&>();
+    test_is_not_enum<int(...) const volatile>();
+    test_is_not_enum<int(...) const volatile&>();
+    test_is_not_enum<int(...) const volatile&&>();
     test_is_not_enum<int(...) noexcept>();
     test_is_not_enum<int(...)& noexcept>();
     test_is_not_enum<int(...)&& noexcept>();
     test_is_not_enum<int(...) const noexcept>();
     test_is_not_enum<int(...) const& noexcept>();
     test_is_not_enum<int(...) const&& noexcept>();
+    test_is_not_enum<int(...) volatile noexcept>();
+    test_is_not_enum<int(...) volatile& noexcept>();
+    test_is_not_enum<int(...) volatile&& noexcept>();
+    test_is_not_enum<int(...) const volatile noexcept>();
+    test_is_not_enum<int(...) const volatile& noexcept>();
+    test_is_not_enum<int(...) const volatile&& noexcept>();
 
     test_is_not_enum<int(int, ...)>();
     test_is_not_enum<int(int, ...)&>();
@@ -410,12 +526,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<int(int, ...) const>();
     test_is_not_enum<int(int, ...) const&>();
     test_is_not_enum<int(int, ...) const&&>();
+    test_is_not_enum<int(int, ...) volatile>();
+    test_is_not_enum<int(int, ...) volatile&>();
+    test_is_not_enum<int(int, ...) volatile&&>();
+    test_is_not_enum<int(int, ...) const volatile>();
+    test_is_not_enum<int(int, ...) const volatile&>();
+    test_is_not_enum<int(int, ...) const volatile&&>();
     test_is_not_enum<int(int, ...) noexcept>();
     test_is_not_enum<int(int, ...)& noexcept>();
     test_is_not_enum<int(int, ...)&& noexcept>();
     test_is_not_enum<int(int, ...) const noexcept>();
     test_is_not_enum<int(int, ...) const& noexcept>();
     test_is_not_enum<int(int, ...) const&& noexcept>();
+    test_is_not_enum<int(int, ...) volatile noexcept>();
+    test_is_not_enum<int(int, ...) volatile& noexcept>();
+    test_is_not_enum<int(int, ...) volatile&& noexcept>();
+    test_is_not_enum<int(int, ...) const volatile noexcept>();
+    test_is_not_enum<int(int, ...) const volatile& noexcept>();
+    test_is_not_enum<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_enum<void (*)()>();
     test_is_not_enum<void (*)() noexcept>();

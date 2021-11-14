@@ -9,8 +9,9 @@
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/add_lvalue_reference.hpp>
+#include <type_traits>
 
-template <typename T, typename U = T>
+template <typename T, typename U = T&>
 void test_add_lvalue_reference()
 {
     CHECK_SAME_TYPE(U, typename phi::add_lvalue_reference<T>::type);
@@ -22,6 +23,16 @@ void test_add_lvalue_reference()
     CHECK_SAME_TYPE(const U, const phi::add_lvalue_reference_t<T>);
     CHECK_SAME_TYPE(volatile U, volatile phi::add_lvalue_reference_t<T>);
     CHECK_SAME_TYPE(const volatile U, const volatile phi::add_lvalue_reference_t<T>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<T>::type,
+                    typename std::add_lvalue_reference<T>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const T>::type,
+                    typename std::add_lvalue_reference<const T>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<volatile T>::type,
+                    typename std::add_lvalue_reference<volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const volatile T>::type,
+                    typename std::add_lvalue_reference<const volatile T>::type);
 }
 
 template <typename F>
@@ -29,6 +40,10 @@ void test_function0()
 {
     CHECK_SAME_TYPE(F&, typename phi::add_lvalue_reference<F>::type);
     CHECK_SAME_TYPE(F&, phi::add_lvalue_reference_t<F>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<F>::type,
+                    typename std::add_lvalue_reference<F>::type);
 }
 
 template <typename F>
@@ -36,6 +51,10 @@ void test_function1()
 {
     CHECK_SAME_TYPE(F, typename phi::add_lvalue_reference<F>::type);
     CHECK_SAME_TYPE(F, phi::add_lvalue_reference_t<F>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<F>::type,
+                    typename std::add_lvalue_reference<F>::type);
 }
 
 struct A; // incomplete
@@ -137,31 +156,18 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<Class, Class&>();
     test_add_lvalue_reference<Class[], Class(&)[]>();
     test_add_lvalue_reference<Class[2], Class(&)[2]>();
-    test_add_lvalue_reference<Struct, Struct&>();
-    test_add_lvalue_reference<TemplateClass<void>, TemplateClass<void>&>();
-    test_add_lvalue_reference<TemplateClass<int>, TemplateClass<int>&>();
-    test_add_lvalue_reference<TemplateClass<Class>, TemplateClass<Class>&>();
-    test_add_lvalue_reference<TemplateClass<incomplete_type>, TemplateClass<incomplete_type>&>();
-    test_add_lvalue_reference<TemplateStruct<void>, TemplateStruct<void>&>();
-    test_add_lvalue_reference<TemplateStruct<int>, TemplateStruct<int>&>();
-    test_add_lvalue_reference<TemplateStruct<Class>, TemplateStruct<Class>&>();
-    test_add_lvalue_reference<TemplateStruct<incomplete_type>, TemplateStruct<incomplete_type>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<>, VariadicTemplateClass<>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<void>, VariadicTemplateClass<void>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<int>, VariadicTemplateClass<int>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<Class>, VariadicTemplateClass<Class>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<incomplete_type>,
-                              VariadicTemplateClass<incomplete_type>&>();
-    test_add_lvalue_reference<VariadicTemplateClass<int, void, Class, volatile char[]>,
-                              VariadicTemplateClass<int, void, Class, volatile char[]>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<>, VariadicTemplateStruct<>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<void>, VariadicTemplateStruct<void>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<int>, VariadicTemplateStruct<int>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<Class>, VariadicTemplateStruct<Class>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<incomplete_type>,
-                              VariadicTemplateStruct<incomplete_type>&>();
-    test_add_lvalue_reference<VariadicTemplateStruct<int, void, Class, volatile char[]>,
-                              VariadicTemplateStruct<int, void, Class, volatile char[]>&>();
+    test_add_lvalue_reference<Template<void>, Template<void>&>();
+    test_add_lvalue_reference<Template<int>, Template<int>&>();
+    test_add_lvalue_reference<Template<Class>, Template<Class>&>();
+    test_add_lvalue_reference<Template<incomplete_type>, Template<incomplete_type>&>();
+    test_add_lvalue_reference<VariadicTemplate<>, VariadicTemplate<>&>();
+    test_add_lvalue_reference<VariadicTemplate<void>, VariadicTemplate<void>&>();
+    test_add_lvalue_reference<VariadicTemplate<int>, VariadicTemplate<int>&>();
+    test_add_lvalue_reference<VariadicTemplate<Class>, VariadicTemplate<Class>&>();
+    test_add_lvalue_reference<VariadicTemplate<incomplete_type>,
+                              VariadicTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<VariadicTemplate<int, void, Class, volatile char[]>,
+                              VariadicTemplate<int, void, Class, volatile char[]>&>();
     test_add_lvalue_reference<PublicDerviedFromTemplate<Base>, PublicDerviedFromTemplate<Base>&>();
     test_add_lvalue_reference<PublicDerviedFromTemplate<Derived>,
                               PublicDerviedFromTemplate<Derived>&>();
@@ -188,12 +194,30 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<Base, Base&>();
     test_add_lvalue_reference<Derived, Derived&>();
     test_add_lvalue_reference<Abstract, Abstract&>();
+    test_add_lvalue_reference<PublicAbstract>();
+    test_add_lvalue_reference<PrivateAbstract>();
+    test_add_lvalue_reference<ProtectedAbstract>();
     test_add_lvalue_reference<AbstractTemplate<int>, AbstractTemplate<int>&>();
     test_add_lvalue_reference<AbstractTemplate<double>, AbstractTemplate<double>&>();
     test_add_lvalue_reference<AbstractTemplate<Class>, AbstractTemplate<Class>&>();
     test_add_lvalue_reference<AbstractTemplate<incomplete_type>,
                               AbstractTemplate<incomplete_type>&>();
     test_add_lvalue_reference<Final, Final&>();
+    test_add_lvalue_reference<PublicDestructor>();
+    test_add_lvalue_reference<ProtectedDestructor>();
+    test_add_lvalue_reference<PrivateDestructor>();
+    test_add_lvalue_reference<VirtualPublicDestructor>();
+    test_add_lvalue_reference<VirtualProtectedDestructor>();
+    test_add_lvalue_reference<VirtualPrivateDestructor>();
+    test_add_lvalue_reference<PurePublicDestructor>();
+    test_add_lvalue_reference<PureProtectedDestructor>();
+    test_add_lvalue_reference<PurePrivateDestructor>();
+    test_add_lvalue_reference<DeletedPublicDestructor>();
+    test_add_lvalue_reference<DeletedProtectedDestructor>();
+    test_add_lvalue_reference<DeletedPrivateDestructor>();
+    test_add_lvalue_reference<DeletedVirtualPublicDestructor>();
+    test_add_lvalue_reference<DeletedVirtualProtectedDestructor>();
+    test_add_lvalue_reference<DeletedVirtualPrivateDestructor>();
     test_add_lvalue_reference<Enum, Enum&>();
     test_add_lvalue_reference<EnumSigned, EnumSigned&>();
     test_add_lvalue_reference<EnumUnsigned, EnumUnsigned&>();
@@ -264,6 +288,8 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<TrapComma, TrapComma&>();
     test_add_lvalue_reference<TrapCall, TrapCall&>();
     test_add_lvalue_reference<TrapSelfAssign, TrapSelfAssign&>();
+    test_add_lvalue_reference<TrapDeref>();
+    test_add_lvalue_reference<TrapArraySubscript>();
 
     // LWG 2101 specifically talks about add_lvalue_reference and functions.
     // The term of art is "a referenceable type", which a cv- or ref-qualified function is not.
@@ -276,12 +302,24 @@ TEST_CASE("add_lvalue_reference")
     test_function1<void() const>();
     test_function1<void() const&>();
     test_function1<void() const&&>();
+    test_function1<void() volatile>();
+    test_function1<void() volatile&>();
+    test_function1<void() volatile&&>();
+    test_function1<void() const volatile>();
+    test_function1<void() const volatile&>();
+    test_function1<void() const volatile&&>();
     test_function0<void() noexcept>();
     test_function1<void()& noexcept>();
     test_function1<void()&& noexcept>();
     test_function1<void() const noexcept>();
     test_function1<void() const& noexcept>();
     test_function1<void() const&& noexcept>();
+    test_function1<void() volatile noexcept>();
+    test_function1<void() volatile& noexcept>();
+    test_function1<void() volatile&& noexcept>();
+    test_function1<void() const volatile noexcept>();
+    test_function1<void() const volatile& noexcept>();
+    test_function1<void() const volatile&& noexcept>();
 
     test_function0<void(int)>();
     test_function1<void(int)&>();
@@ -289,12 +327,24 @@ TEST_CASE("add_lvalue_reference")
     test_function1<void(int) const>();
     test_function1<void(int) const&>();
     test_function1<void(int) const&&>();
+    test_function1<void(int) volatile>();
+    test_function1<void(int) volatile&>();
+    test_function1<void(int) volatile&&>();
+    test_function1<void(int) const volatile>();
+    test_function1<void(int) const volatile&>();
+    test_function1<void(int) const volatile&&>();
     test_function0<void(int) noexcept>();
     test_function1<void(int)& noexcept>();
     test_function1<void(int)&& noexcept>();
     test_function1<void(int) const noexcept>();
     test_function1<void(int) const& noexcept>();
     test_function1<void(int) const&& noexcept>();
+    test_function1<void(int) volatile noexcept>();
+    test_function1<void(int) volatile& noexcept>();
+    test_function1<void(int) volatile&& noexcept>();
+    test_function1<void(int) const volatile noexcept>();
+    test_function1<void(int) const volatile& noexcept>();
+    test_function1<void(int) const volatile&& noexcept>();
 
     test_function0<void(...)>();
     test_function1<void(...)&>();
@@ -302,12 +352,24 @@ TEST_CASE("add_lvalue_reference")
     test_function1<void(...) const>();
     test_function1<void(...) const&>();
     test_function1<void(...) const&&>();
+    test_function1<void(...) volatile>();
+    test_function1<void(...) volatile&>();
+    test_function1<void(...) volatile&&>();
+    test_function1<void(...) const volatile>();
+    test_function1<void(...) const volatile&>();
+    test_function1<void(...) const volatile&&>();
     test_function0<void(...) noexcept>();
     test_function1<void(...)& noexcept>();
     test_function1<void(...)&& noexcept>();
     test_function1<void(...) const noexcept>();
     test_function1<void(...) const& noexcept>();
     test_function1<void(...) const&& noexcept>();
+    test_function1<void(...) volatile noexcept>();
+    test_function1<void(...) volatile& noexcept>();
+    test_function1<void(...) volatile&& noexcept>();
+    test_function1<void(...) const volatile noexcept>();
+    test_function1<void(...) const volatile& noexcept>();
+    test_function1<void(...) const volatile&& noexcept>();
 
     test_function0<void(int, ...)>();
     test_function1<void(int, ...)&>();
@@ -315,12 +377,24 @@ TEST_CASE("add_lvalue_reference")
     test_function1<void(int, ...) const>();
     test_function1<void(int, ...) const&>();
     test_function1<void(int, ...) const&&>();
+    test_function1<void(int, ...) volatile>();
+    test_function1<void(int, ...) volatile&>();
+    test_function1<void(int, ...) volatile&&>();
+    test_function1<void(int, ...) const volatile>();
+    test_function1<void(int, ...) const volatile&>();
+    test_function1<void(int, ...) const volatile&&>();
     test_function0<void(int, ...) noexcept>();
     test_function1<void(int, ...)& noexcept>();
     test_function1<void(int, ...)&& noexcept>();
     test_function1<void(int, ...) const noexcept>();
     test_function1<void(int, ...) const& noexcept>();
     test_function1<void(int, ...) const&& noexcept>();
+    test_function1<void(int, ...) volatile noexcept>();
+    test_function1<void(int, ...) volatile& noexcept>();
+    test_function1<void(int, ...) volatile&& noexcept>();
+    test_function1<void(int, ...) const volatile noexcept>();
+    test_function1<void(int, ...) const volatile& noexcept>();
+    test_function1<void(int, ...) const volatile&& noexcept>();
 
     test_function0<int()>();
     test_function1<int()&>();

@@ -75,7 +75,6 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<const volatile int*>();
     test_is_nothrow_copy_constructible<int**>();
     test_is_nothrow_copy_constructible<Class>();
-    test_is_nothrow_copy_constructible<Struct>();
     test_is_nothrow_copy_constructible<Union>();
     test_is_nothrow_copy_constructible<NonEmptyUnion>();
     test_is_nothrow_copy_constructible<Empty>();

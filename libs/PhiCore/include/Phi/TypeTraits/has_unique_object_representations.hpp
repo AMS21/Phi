@@ -23,6 +23,12 @@ struct has_unique_object_representations : public bool_constant<__has_unique_obj
                                                    remove_cv_t<remove_all_extents_t<TypeT>>)>
 {};
 
+template <typename TypeT>
+struct has_no_unique_object_representations
+    : public bool_constant<!__has_unique_object_representations(
+              remove_cv_t<remove_all_extents_t<TypeT>>)>
+{};
+
 #else
 
 template <typename TypeT>
@@ -32,6 +38,14 @@ struct has_unique_object_representations : public false_type
                                        "support for intrinsic has_unique_object_representations");
 };
 
+template <typename TypeT>
+struct has_no_unique_object_representations : public false_type
+{
+    static_assert(always_false<TypeT>,
+                  "phi::has_no_unique_object_representations requires compiler "
+                  "support for intrinsic has_unique_object_representations");
+};
+
 #endif
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -39,6 +53,10 @@ struct has_unique_object_representations : public false_type
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool has_unique_object_representations_v =
         has_unique_object_representations<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool has_no_unique_object_representations_v =
+        has_no_unique_object_representations<TypeT>::value;
 
 #endif
 

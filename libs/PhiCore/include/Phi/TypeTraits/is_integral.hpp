@@ -19,10 +19,17 @@ struct is_integral
     : public bool_constant<is_safe_integral<TypeT>::value || is_unsafe_integral<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_integral : public bool_constant<!is_integral<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_integral_v = is_integral<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_integral_v = is_not_integral<TypeT>::value;
 
 #endif
 

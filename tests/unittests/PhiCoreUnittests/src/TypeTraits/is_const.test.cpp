@@ -66,7 +66,6 @@ TEST_CASE("is_const")
     test_is_const<char[]>();
 
     test_is_const<Class>();
-    test_is_const<Struct>();
     test_is_const<Empty>();
     test_is_const<NotEmpty>();
     test_is_const<Union>();

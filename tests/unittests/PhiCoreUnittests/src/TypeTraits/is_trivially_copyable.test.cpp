@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -146,7 +147,6 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable<char* [3]>();
     test_is_trivially_copyable<char*[]>();
     test_is_not_trivially_copyable<Class>();
-    test_is_not_trivially_copyable<Struct>();
     test_is_trivially_copyable<Union>();
     test_is_trivially_copyable<NonEmptyUnion>();
     test_is_trivially_copyable<Empty>();

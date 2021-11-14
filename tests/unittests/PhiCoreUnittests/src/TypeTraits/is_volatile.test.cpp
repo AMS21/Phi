@@ -103,7 +103,6 @@ TEST_CASE("is_volatile")
     test_is_volatile<char* [3]>();
     test_is_volatile<char*[]>();
     test_is_volatile<Class>();
-    test_is_volatile<Struct>();
     test_is_volatile<Union>();
     test_is_volatile<NonEmptyUnion>();
     test_is_volatile<Empty>();

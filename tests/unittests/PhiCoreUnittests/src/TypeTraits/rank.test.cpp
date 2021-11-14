@@ -103,7 +103,6 @@ TEST_CASE("rank")
     test_rank<char* [3], 1>();
     test_rank<char*[], 1>();
     test_rank<Class, 0>();
-    test_rank<Struct, 0>();
     test_rank<Union, 0>();
     test_rank<NonEmptyUnion, 0>();
     test_rank<Empty, 0>();

@@ -136,7 +136,6 @@ TEST_CASE("is_unscoped_enum")
     test_is_not_unscoped_enum<Class>();
     test_is_not_unscoped_enum<Class[]>();
     test_is_not_unscoped_enum<Class[5]>();
-    test_is_not_unscoped_enum<Struct>();
     test_is_not_unscoped_enum<Union>();
     test_is_not_unscoped_enum<NonEmptyUnion>();
     test_is_not_unscoped_enum<Empty>();

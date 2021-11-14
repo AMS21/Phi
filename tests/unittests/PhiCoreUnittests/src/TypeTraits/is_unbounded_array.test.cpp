@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -107,7 +108,6 @@ TEST_CASE("type_traits is_unbounded_array", "[Core][TypeTraits][is_unbounded_arr
     test_is_not_unbounded_array<char* [3]>();
     test_is_unbounded_array<char*[]>();
     test_is_not_unbounded_array<Class>();
-    test_is_not_unbounded_array<Struct>();
     test_is_not_unbounded_array<Union>();
     test_is_not_unbounded_array<NonEmptyUnion>();
     test_is_not_unbounded_array<Empty>();

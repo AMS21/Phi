@@ -154,7 +154,6 @@ TEST_CASE("is_void")
     test_void_t<int(&)[3]>();
     test_void_t<int(&)[]>();
     test_void_t<Class>();
-    test_void_t<Struct>();
     test_void_t<Union>();
     test_void_t<NonEmptyUnion>();
     test_void_t<Empty>();

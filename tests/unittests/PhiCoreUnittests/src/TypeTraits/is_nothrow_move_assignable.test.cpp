@@ -66,7 +66,6 @@ TEST_CASE("is_nothrow_move_assignable")
     test_is_not_nothrow_move_assignable<char[3]>();
     test_is_not_nothrow_move_assignable<char[]>();
     test_is_nothrow_move_assignable<Class>();
-    test_is_nothrow_move_assignable<Struct>();
     test_is_nothrow_move_assignable<Union>();
     test_is_nothrow_move_assignable<NonEmptyUnion>();
     test_is_nothrow_move_assignable<Empty>();

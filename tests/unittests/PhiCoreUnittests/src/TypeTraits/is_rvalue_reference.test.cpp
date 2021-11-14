@@ -74,7 +74,6 @@ TEST_CASE("is_rvalue_reference")
     test_is_not_rvalue_reference<char* [3]>();
     test_is_not_rvalue_reference<char*[]>();
     test_is_not_rvalue_reference<Class>();
-    test_is_not_rvalue_reference<Struct>();
     test_is_not_rvalue_reference<Union>();
     test_is_not_rvalue_reference<NonEmptyUnion>();
     test_is_not_rvalue_reference<Empty>();

@@ -9,15 +9,18 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_HAS_INTRINSIC_IS_ARRAY()
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_array : public bool_constant<__is_array(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_array : public bool_constant<!__is_array(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -25,9 +28,16 @@ struct is_array : public bool_constant<__is_array(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_array_v = __is_array(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_array_v = !__is_array(TypeT);
+
 #    endif
 
 #else
+
+#    include "Phi/Core/SizeT.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_array : public false_type
@@ -41,10 +51,17 @@ template <typename TypeT, size_t Size>
 struct is_array<TypeT[Size]> : public true_type
 {};
 
+template <typename TypeT>
+struct is_not_array : public bool_constant<!is_array<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_array_v = is_array<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_array_v = is_not_array<TypeT>::value;
 
 #    endif
 

@@ -104,7 +104,6 @@ TEST_CASE("remove_reference")
     test_remove_reference_ref<int(&)[3], int[3]>();
     test_remove_reference_ref<int(&)[], int[]>();
     test_remove_reference<Class, Class>();
-    test_remove_reference<Struct, Struct>();
     test_remove_reference<Union, Union>();
     test_remove_reference<NonEmptyUnion, NonEmptyUnion>();
     test_remove_reference<Empty, Empty>();

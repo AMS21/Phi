@@ -110,7 +110,6 @@ TEST_CASE("remove_all_extents")
     test_remove_all_extents<char* [3], char*>();
     test_remove_all_extents<char*[], char*>();
     test_remove_all_extents<Class, Class>();
-    test_remove_all_extents<Struct, Struct>();
     test_remove_all_extents<Union, Union>();
     test_remove_all_extents<NonEmptyUnion, NonEmptyUnion>();
     test_remove_all_extents<Empty, Empty>();

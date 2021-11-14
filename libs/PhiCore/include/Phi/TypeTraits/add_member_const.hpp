@@ -24,7 +24,7 @@ namespace detail
     template <typename TypeT>
     struct add_member_const_impl<TypeT, true>
     {
-        using type = TypeT const;
+        using type = const TypeT;
     };
 } // namespace detail
 

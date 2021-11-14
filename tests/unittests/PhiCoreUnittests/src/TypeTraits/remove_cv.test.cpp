@@ -89,7 +89,6 @@ TEST_CASE("remove_cv")
     test_remove_cv<char* [3], char* [3]>();
     test_remove_cv<char*[], char*[]>();
     test_remove_cv<Class, Class>();
-    test_remove_cv<Struct, Struct>();
     test_remove_cv<Union, Union>();
     test_remove_cv<NonEmptyUnion, NonEmptyUnion>();
     test_remove_cv<Empty, Empty>();

@@ -105,7 +105,6 @@ TEST_CASE("is_unsigned")
     test_is_not_unsigned<char* [3]>();
     test_is_not_unsigned<char*[]>();
     test_is_not_unsigned<Class>();
-    test_is_not_unsigned<Struct>();
     test_is_not_unsigned<Union>();
     test_is_not_unsigned<NonEmptyUnion>();
     test_is_not_unsigned<Empty>();

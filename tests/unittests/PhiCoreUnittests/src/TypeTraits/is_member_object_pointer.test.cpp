@@ -125,7 +125,6 @@ TEST_CASE("is_member_object_pointer")
     test_is_not_member_object_pointer<char[]>();
     test_is_not_member_object_pointer<Union>();
     test_is_not_member_object_pointer<Class>();
-    test_is_not_member_object_pointer<Struct>();
     test_is_not_member_object_pointer<NonEmptyUnion>();
     test_is_not_member_object_pointer<Enum>();
     test_is_not_member_object_pointer<EnumSigned>();

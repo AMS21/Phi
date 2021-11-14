@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -118,7 +119,6 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<char* [3]>();
     test_is_not_trivially_default_constructible<char*[]>();
     test_is_not_trivially_default_constructible<Class>();
-    test_is_not_trivially_default_constructible<Struct>();
     test_is_trivially_default_constructible<Union>();
     test_is_trivially_default_constructible<NonEmptyUnion>();
     test_is_trivially_default_constructible<Empty>();

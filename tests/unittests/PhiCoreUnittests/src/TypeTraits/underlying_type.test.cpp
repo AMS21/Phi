@@ -168,7 +168,6 @@ TEST_CASE("is_void")
     test_no_underlying_type<int(&)[3]>();
     test_no_underlying_type<int(&)[]>();
     test_no_underlying_type<Class>();
-    test_no_underlying_type<Struct>();
     test_no_underlying_type<Union>();
     test_no_underlying_type<NonEmptyUnion>();
     test_no_underlying_type<Empty>();

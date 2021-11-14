@@ -105,7 +105,6 @@ TEST_CASE("is_unsafe_integer")
     test_is_not_unsafe_integer<char* [3]>();
     test_is_not_unsafe_integer<char*[]>();
     test_is_not_unsafe_integer<Class>();
-    test_is_not_unsafe_integer<Struct>();
     test_is_not_unsafe_integer<Union>();
     test_is_not_unsafe_integer<NonEmptyUnion>();
     test_is_not_unsafe_integer<Empty>();

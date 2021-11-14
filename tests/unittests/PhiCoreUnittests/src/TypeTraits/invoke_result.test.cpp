@@ -1,12 +1,14 @@
 #include <catch2/catch.hpp>
 
 #include "SameType.hpp"
+#include <Phi/Config/CPlusPlus.hpp>
 #include <Phi/TypeTraits/integral_constant.hpp>
 #include <Phi/TypeTraits/invoke_result.hpp>
 #include <Phi/TypeTraits/is_invocable.hpp>
 #include <Phi/TypeTraits/is_same.hpp>
 #include <functional>
 #include <memory>
+#include <type_traits>
 
 struct S
 {
@@ -57,6 +59,12 @@ struct test_invoke_result<FnT(ArgsT...), RetT>
 
         CHECK_SAME_TYPE(RetT, typename phi::invoke_result<FnT, ArgsT...>::type);
         CHECK_SAME_TYPE(RetT, phi::invoke_result_t<FnT, ArgsT...>);
+
+        // Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+        CHECK_SAME_TYPE(typename phi::invoke_result<FnT, ArgsT...>::type,
+                        typename std::invoke_result<FnT, ArgsT...>::type);
+#endif
     }
 };
 
@@ -80,6 +88,11 @@ struct test_invoke_no_result<FnT(ArgsT...)>
 #endif
 
         STATIC_REQUIRE_FALSE(HasType<phi::invoke_result<FnT, ArgsT...>>::value);
+
+        // Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+        STATIC_REQUIRE_FALSE(HasType<std::invoke_result<FnT, ArgsT...>>::value);
+#endif
     }
 };
 
@@ -88,6 +101,11 @@ void test_no_result()
 {
     STATIC_REQUIRE_FALSE(HasType<phi::invoke_result<TypeT>>::value);
     test_invoke_no_result<TypeT>::call();
+
+    // Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(HasType<std::invoke_result<TypeT>>::value);
+#endif
 }
 
 TEST_CASE("invoke_result")

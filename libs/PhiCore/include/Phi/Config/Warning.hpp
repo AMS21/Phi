@@ -5,7 +5,7 @@
 #include "Phi/Config/Stringify.hpp"
 
 // Suppress warnings
-/* MSVC Warnings */
+// MSVC Warnings
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_MSVC_SUPPRESS_WARNING_PUSH()          PHI_PRAGMA(warning(push))
 #    define PHI_MSVC_SUPPRESS_WARNING(warning_number) PHI_PRAGMA(warning(disable : warning_number))
@@ -19,7 +19,7 @@
 #    define PHI_MSVC_SUPPRESS_WARNING_POP()              /* Nothing */
 #endif
 
-/* Clang/Emscripten Warnings */
+// Clang/Emscripten Warnings
 #if PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_CLANG_SUPPRESS_WARNING_PUSH()   PHI_PRAGMA(clang diagnostic push)
 #    define PHI_CLANG_SUPPRESS_WARNING(warning) PHI_PRAGMA(clang diagnostic ignored warning)
@@ -33,7 +33,7 @@
 #    define PHI_CLANG_SUPPRESS_WARNING_POP()              /* Nothing */
 #endif
 
-/* GCC Warnings */
+// GCC Warnings
 #if PHI_COMPILER_IS(GCC)
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 7, 0)
 #        define PHI_GCC_SUPPRESS_WARNING_PUSH() PHI_PRAGMA(GCC diagnostic push)
@@ -50,6 +50,32 @@
 #    define PHI_GCC_SUPPRESS_WARNING(warning)           /* Nothing */
 #    define PHI_GCC_SUPPRESS_WARNING_WITH_PUSH(warning) /* Nothing */
 #    define PHI_GCC_SUPPRESS_WARNING_POP()              /* Nothing */
+#endif
+
+// GCC and Clang warnings
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()                                              \
+        PHI_CLANG_SUPPRESS_WARNING_PUSH() PHI_GCC_SUPPRESS_WARNING_PUSH()
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING(warning)                                            \
+        PHI_CLANG_SUPPRESS_WARNING(warning) PHI_GCC_SUPPRESS_WARNING(warning)
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_WITH_PUSH(warning)                                  \
+        PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH(warning) PHI_GCC_SUPPRESS_WARNING_WITH_PUSH(warning)
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()                                               \
+        PHI_CLANG_SUPPRESS_WARNING_POP() PHI_GCC_SUPPRESS_WARNING_POP()
+#endif
+
+// Emscripten warnings
+#if PHI_COMPILER_IS(EMCC)
+#    define PHI_EMCC_SUPPRESS_WARNING_PUSH()   PHI_PRAGMA(clang diagnostic push)
+#    define PHI_EMCC_SUPPRESS_WARNING(warning) PHI_PRAGMA(clang diagnostic ignored warning)
+#    define PHI_EMCC_SUPPRESS_WARNING_WITH_PUSH(warning)                                           \
+        PHI_CLANG_SUPPRESS_WARNING_PUSH() PHI_CLANG_SUPPRESS_WARNING(warning)
+#    define PHI_EMCC_SUPPRESS_WARNING_POP() PHI_PRAGMA(clang diagnostic push)
+#else
+#    define PHI_EMCC_SUPPRESS_WARNING_PUSH()             /* Nothing */
+#    define PHI_EMCC_SUPPRESS_WARNING(warning)           /* Nothing */
+#    define PHI_EMCC_SUPPRESS_WARNING_WITH_PUSH(warning) /* Nothing */
+#    define PHI_EMCC_SUPPRESS_WARNING_POP()              /* Nothing */
 #endif
 
 // Compiler warning

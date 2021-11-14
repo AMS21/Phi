@@ -1,7 +1,10 @@
+#include "Phi/TypeTraits/conditional.hpp"
 #include <catch2/catch.hpp>
 
+#include <Phi/Config/CPlusPlus.hpp>
 #include <Phi/TypeTraits/conjunction.hpp>
 #include <Phi/TypeTraits/integral_constant.hpp>
+#include <type_traits>
 
 template <typename... ArgsT>
 void test_conjunction_true()
@@ -11,6 +14,11 @@ void test_conjunction_true()
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::conjunction_v<ArgsT...>);
 #endif
+
+// Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(phi::conjunction<ArgsT...>::value == std::conjunction<ArgsT...>::value);
+#endif
 }
 
 template <typename... ArgsT>
@@ -19,6 +27,11 @@ void test_conjunction_false()
     STATIC_REQUIRE_FALSE(phi::conjunction<ArgsT...>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::conjunction_v<ArgsT...>);
+#endif
+
+// Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(phi::conjunction<ArgsT...>::value == std::conjunction<ArgsT...>::value);
 #endif
 }
 

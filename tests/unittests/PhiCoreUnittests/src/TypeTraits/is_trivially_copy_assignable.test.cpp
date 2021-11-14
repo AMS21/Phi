@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -113,7 +114,6 @@ TEST_CASE("is_trivially_copy_assignable")
     test_is_not_trivially_copy_assignable<const Class>();
     test_is_not_trivially_copy_assignable<volatile Class>();
     test_is_not_trivially_copy_assignable<const volatile Class>();
-    test_is_trivially_copy_assignable<Struct>();
     test_is_trivially_copy_assignable<Union>();
     test_is_trivially_copy_assignable<NonEmptyUnion>();
     test_is_trivially_copy_assignable<Empty>();

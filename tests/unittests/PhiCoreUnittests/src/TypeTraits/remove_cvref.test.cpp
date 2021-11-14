@@ -89,7 +89,6 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<char* [3], char* [3]>();
     test_remove_cvref<char*[], char*[]>();
     test_remove_cvref<Class, Class>();
-    test_remove_cvref<Struct, Struct>();
     test_remove_cvref<Union, Union>();
     test_remove_cvref<NonEmptyUnion, NonEmptyUnion>();
     test_remove_cvref<Empty, Empty>();

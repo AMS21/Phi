@@ -51,7 +51,6 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int&&>();
     test_is_not_reference_wrapper<int*>();
     test_is_not_reference_wrapper<Class>();
-    test_is_not_reference_wrapper<Struct>();
     test_is_not_reference_wrapper<Empty>();
     test_is_not_reference_wrapper<NotEmpty>();
     test_is_not_reference_wrapper<Union>();

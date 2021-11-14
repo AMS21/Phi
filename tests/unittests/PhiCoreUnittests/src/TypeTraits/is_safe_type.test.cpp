@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -140,7 +141,6 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<char* [3]>();
     test_is_not_safe_type<char*[]>();
     test_is_not_safe_type<Class>();
-    test_is_not_safe_type<Struct>();
     test_is_not_safe_type<Union>();
     test_is_not_safe_type<NonEmptyUnion>();
     test_is_not_safe_type<Empty>();

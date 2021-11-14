@@ -46,122 +46,6 @@ struct A
     ~A();
 };
 
-using Function = void();
-
-struct PublicAbstract
-{
-    virtual ~PublicAbstract() = default;
-
-public:
-    virtual void foo() = 0;
-};
-
-struct ProtectedAbstract
-{
-    virtual ~ProtectedAbstract() = default;
-
-protected:
-    virtual void foo() = 0;
-};
-
-struct PrivateAbstract
-{
-    virtual ~PrivateAbstract() = default;
-
-private:
-    virtual void foo() = 0;
-};
-
-struct PublicDestructor
-{
-public:
-    ~PublicDestructor() = default;
-};
-
-struct ProtectedDestructor
-{
-protected:
-    ~ProtectedDestructor() = default;
-};
-
-struct PrivateDestructor
-{
-private:
-    ~PrivateDestructor() = default;
-};
-
-struct VirtualPublicDestructor
-{
-public:
-    virtual ~VirtualPublicDestructor() = default;
-};
-
-struct VirtualProtectedDestructor
-{
-protected:
-    virtual ~VirtualProtectedDestructor() = default;
-};
-
-struct VirtualPrivateDestructor
-{
-private:
-    virtual ~VirtualPrivateDestructor() = default;
-};
-
-struct PurePublicDestructor
-{
-public:
-    virtual ~PurePublicDestructor() = 0;
-};
-
-struct PureProtectedDestructor
-{
-protected:
-    virtual ~PureProtectedDestructor() = 0;
-};
-
-struct PurePrivateDestructor
-{
-private:
-    virtual ~PurePrivateDestructor() = 0;
-};
-
-struct DeletedPublicDestructor
-{
-public:
-    ~DeletedPublicDestructor() = delete;
-};
-
-struct DeletedProtectedDestructor
-{
-protected:
-    ~DeletedProtectedDestructor() = delete;
-};
-
-struct DeletedPrivateDestructor
-{
-private:
-    ~DeletedPrivateDestructor() = delete;
-};
-
-struct DeletedVirtualPublicDestructor
-{
-public:
-    virtual ~DeletedVirtualPublicDestructor() = delete;
-};
-
-struct DeletedVirtualProtectedDestructor
-{
-protected:
-    virtual ~DeletedVirtualProtectedDestructor() = delete;
-};
-
-struct DeletedVirtualPrivateDestructor
-{
-private:
-    virtual ~DeletedVirtualPrivateDestructor() = delete;
-};
-
 TEST_CASE("is_destructible")
 {
     test_is_destructible<phi::nullptr_t>();
@@ -185,7 +69,6 @@ TEST_CASE("is_destructible")
     test_is_destructible<int[3]>();
     test_is_destructible<int[4][3]>();
     test_is_destructible<Class>();
-    test_is_destructible<Struct>();
     test_is_destructible<NotEmpty>();
     test_is_destructible<NonEmptyUnion>();
     test_is_destructible<AbstractTemplate<int>>();

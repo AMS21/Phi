@@ -53,7 +53,6 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<char[3]>();
     test_is_not_abstract<char[]>();
     test_is_not_abstract<Class>();
-    test_is_not_abstract<Struct>();
     test_is_not_abstract<Union>();
     test_is_not_abstract<NonEmptyUnion>();
     test_is_not_abstract<Empty>();

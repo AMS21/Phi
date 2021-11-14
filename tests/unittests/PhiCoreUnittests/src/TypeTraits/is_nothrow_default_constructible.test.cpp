@@ -87,7 +87,6 @@ TEST_CASE("is_nothrow_default_constructible")
     test_is_nothrow_default_constructible<char[3]>();
     test_is_not_nothrow_default_constructible<char[]>();
     test_is_nothrow_default_constructible<Class>();
-    test_is_nothrow_default_constructible<Struct>();
     test_is_nothrow_default_constructible<Union>();
     test_is_nothrow_default_constructible<NonEmptyUnion>();
     test_is_nothrow_default_constructible<Empty>();

@@ -168,6 +168,12 @@ phi_check_cxx_source_compiles("int main() { return __is_same(int, int); }"
                               PHI_HAS_INTRINSIC_IS_SAME)
 phi_check_cxx_source_compiles("int main() { return __has_trivial_destructor(int); }"
                               PHI_HAS_INTRINSIC_HAS_TRIVIAL_DESTRUCTOR)
+phi_check_cxx_source_compiles("int main() { return __builtin_floorf(3.14); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FLOORF)
+phi_check_cxx_source_compiles("int main() { return __builtin_floor(3.14); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FLOOR)
+phi_check_cxx_source_compiles("int main() { return __builtin_floorl(3.14); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FLOORL)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

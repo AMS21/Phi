@@ -105,7 +105,6 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<char* [3]>();
     test_is_not_unsafe_arithmetic<char*[]>();
     test_is_not_unsafe_arithmetic<Class>();
-    test_is_not_unsafe_arithmetic<Struct>();
     test_is_not_unsafe_arithmetic<Union>();
     test_is_not_unsafe_arithmetic<NonEmptyUnion>();
     test_is_not_unsafe_arithmetic<Empty>();

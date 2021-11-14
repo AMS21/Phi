@@ -106,7 +106,6 @@ TEST_CASE("is_fundamental")
     test_is_not_fundamental<NotEmpty>();
     test_is_not_fundamental<Abstract>();
     test_is_not_fundamental<Class>();
-    test_is_not_fundamental<Struct>();
     test_is_not_fundamental<NonEmptyUnion>();
     test_is_not_fundamental<AbstractTemplate<int>>();
     test_is_not_fundamental<AbstractTemplate<double>>();

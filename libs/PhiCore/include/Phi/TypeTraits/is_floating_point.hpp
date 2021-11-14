@@ -8,7 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/TypeTraits//integral_constant.hpp"
+#include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_safe_floating_point.hpp"
 #include "Phi/TypeTraits/is_unsafe_floating_point.hpp"
 
@@ -19,10 +19,17 @@ struct is_floating_point : public bool_constant<is_safe_floating_point<TypeT>::v
                                                 is_unsafe_floating_point<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_floating_point : public bool_constant<!is_floating_point<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_floating_point_v = is_floating_point<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_floating_point_v = is_not_floating_point<TypeT>::value;
 
 #endif
 

@@ -108,7 +108,6 @@ TEST_CASE("remove_extent")
     test_remove_extent<char* [3], char*>();
     test_remove_extent<char*[], char*>();
     test_remove_extent<Class, Class>();
-    test_remove_extent<Struct, Struct>();
     test_remove_extent<Union, Union>();
     test_remove_extent<NonEmptyUnion, NonEmptyUnion>();
     test_remove_extent<Empty, Empty>();

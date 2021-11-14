@@ -99,7 +99,6 @@ TEST_CASE("is_move_constructible")
     test_is_move_constructible<void*>();
     test_is_move_constructible<Class>();
     test_is_move_constructible<const Class>();
-    test_is_move_constructible<Struct>();
     test_is_move_constructible<Empty>();
     test_is_move_constructible<Union>();
     test_is_move_constructible<NotEmpty>();

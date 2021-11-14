@@ -53,7 +53,6 @@ TEST_CASE("is_bounded_array")
     test_is_not_bounded_array<const volatile int*>();
     test_is_not_bounded_array<int**>();
     test_is_not_bounded_array<Class>();
-    test_is_not_bounded_array<Struct>();
     test_is_not_bounded_array<Empty>();
     test_is_not_bounded_array<NotEmpty>();
     test_is_not_bounded_array<Union>();

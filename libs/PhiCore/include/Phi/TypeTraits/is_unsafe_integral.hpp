@@ -7,18 +7,20 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Char8_t.hpp"
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/is_same_rcv.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_HAS_INTRINSIC_IS_INTEGRAL()
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_unsafe_integral : public bool_constant<__is_integral(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_unsafe_integral : public bool_constant<!__is_integral(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -26,9 +28,17 @@ struct is_unsafe_integral : public bool_constant<__is_integral(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_integral_v = __is_integral(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_integral_v = !__is_integral(TypeT);
+
 #    endif
 
 #else
+
+#    include "Phi/CompilerSupport/Char8_t.hpp"
+#    include "Phi/TypeTraits/is_same_rcv.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_unsafe_integral
@@ -43,10 +53,17 @@ struct is_unsafe_integral
                            is_same_rcv_v<TypeT, unsigned long long>>
 {};
 
+template <typename TypeT>
+struct is_not_unsafe_integral : public bool_constant<!is_unsafe_integral<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_integral_v = is_unsafe_integral<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_integral_v = is_not_unsafe_integral<TypeT>::value;
 
 #    endif
 

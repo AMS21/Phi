@@ -49,7 +49,6 @@ TEST_CASE("is_integer", "[TypeTraits][is_integer]")
     test_is_not_integer<int&>();
     test_is_not_integer<int&&>();
     test_is_not_integer<Class>();
-    test_is_not_integer<Struct>();
     test_is_not_integer<int*>();
     test_is_not_integer<const int*>();
     test_is_not_integer<volatile int*>();

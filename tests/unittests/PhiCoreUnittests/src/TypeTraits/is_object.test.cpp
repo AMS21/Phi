@@ -68,7 +68,6 @@ TEST_CASE("is_object")
     test_is_object<const volatile int*>();
     test_is_object<int**>();
     test_is_object<Class>();
-    test_is_object<Struct>();
     test_is_object<Empty>();
     test_is_object<NotEmpty>();
     test_is_object<Union>();

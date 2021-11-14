@@ -3,8 +3,9 @@
 #include "TestTypes.hpp"
 #include <Phi/TypeTraits/alignment_of.hpp>
 #include <cstdint>
+#include <type_traits>
 
-template <class T, unsigned A>
+template <typename T, unsigned A>
 void test_alignment_of()
 {
     constexpr unsigned alignof_result = alignof(T);
@@ -22,6 +23,9 @@ void test_alignment_of()
     STATIC_REQUIRE(phi::alignment_of_v<volatile T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<const volatile T> == A);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(phi::alignment_of<T>::value == std::alignment_of<T>::value);
 }
 
 TEST_CASE("alignment_of")
@@ -31,7 +35,6 @@ TEST_CASE("alignment_of")
     test_alignment_of<int&, 4>();
     test_alignment_of<int&&, 4>();
     test_alignment_of<Class, 1>();
-    test_alignment_of<Struct, 1>();
     test_alignment_of<Empty, 1>();
     test_alignment_of<int*, ptr_size>();
     test_alignment_of<const int*, ptr_size>();

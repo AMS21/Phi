@@ -37,54 +37,6 @@ void test_is_not_nothrow_destructible()
 #endif
 }
 
-struct PublicDestructor
-{
-public:
-    ~PublicDestructor() = default;
-};
-struct ProtectedDestructor
-{
-protected:
-    ~ProtectedDestructor() = default;
-};
-struct PrivateDestructor
-{
-private:
-    ~PrivateDestructor() = default;
-};
-
-struct VirtualPublicDestructor
-{
-public:
-    virtual ~VirtualPublicDestructor() = default;
-};
-struct VirtualProtectedDestructor
-{
-protected:
-    virtual ~VirtualProtectedDestructor() = default;
-};
-struct VirtualPrivateDestructor
-{
-private:
-    virtual ~VirtualPrivateDestructor() = default;
-};
-
-struct PurePublicDestructor
-{
-public:
-    virtual ~PurePublicDestructor() = 0;
-};
-struct PureProtectedDestructor
-{
-protected:
-    virtual ~PureProtectedDestructor() = 0;
-};
-struct PurePrivateDestructor
-{
-private:
-    virtual ~PurePrivateDestructor() = 0;
-};
-
 class A
 {
     virtual void foo() = 0;
@@ -137,7 +89,6 @@ TEST_CASE("is_nothrow_destructible")
     test_is_nothrow_destructible<char[3]>();
     test_is_not_nothrow_destructible<char[]>();
     test_is_nothrow_destructible<Class>();
-    test_is_nothrow_destructible<Struct>();
     test_is_nothrow_destructible<Union>();
     test_is_nothrow_destructible<NonEmptyUnion>();
     test_is_nothrow_destructible<Empty>();

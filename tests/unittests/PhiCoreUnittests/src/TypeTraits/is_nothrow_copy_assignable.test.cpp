@@ -68,7 +68,6 @@ TEST_CASE("is_nothrow_copy_assignable")
     test_is_nothrow_copy_assignable<const volatile int*>();
     test_is_nothrow_copy_assignable<int**>();
     test_is_nothrow_copy_assignable<Class>();
-    test_is_nothrow_copy_assignable<Struct>();
     test_is_nothrow_copy_assignable<Union>();
     test_is_nothrow_copy_assignable<NonEmptyUnion>();
     test_is_nothrow_copy_assignable<Empty>();

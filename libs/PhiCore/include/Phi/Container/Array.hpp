@@ -63,24 +63,24 @@ public:
         return at(pos);
     }
 
-    PHI_NODISCARD constexpr reference front() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference front() noexcept
     {
-        return m_Elements[0u];
+        return at(0u);
     }
 
-    PHI_NODISCARD constexpr const_reference front() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference front() const noexcept
     {
-        return m_Elements[0u];
+        return at(0u);
     }
 
-    PHI_NODISCARD constexpr reference back() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference back() noexcept
     {
-        return m_Elements[Size - 1u];
+        return at(Size - 1u);
     }
 
-    PHI_NODISCARD constexpr const_reference back() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference back() const noexcept
     {
-        return m_Elements[Size - 1u];
+        return at(Size - 1u);
     }
 
     PHI_NODISCARD constexpr pointer data() noexcept

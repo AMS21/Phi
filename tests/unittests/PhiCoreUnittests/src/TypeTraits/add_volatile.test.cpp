@@ -9,6 +9,7 @@
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/add_volatile.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -23,6 +24,15 @@ void test_add_volatile()
     CHECK_SAME_TYPE(phi::add_volatile_t<const T>, const volatile T);
     CHECK_SAME_TYPE(phi::add_volatile_t<volatile T>, volatile T);
     CHECK_SAME_TYPE(phi::add_volatile_t<const volatile T>, const volatile T);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_volatile<T>::type, typename std::add_volatile<T>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const T>::type,
+                    typename std::add_volatile<const T>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<volatile T>::type,
+                    typename std::add_volatile<volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const volatile T>::type,
+                    typename std::add_volatile<const volatile T>::type);
 }
 
 TEST_CASE("add_volatile")
@@ -115,27 +125,16 @@ TEST_CASE("add_volatile")
     test_add_volatile<Class>();
     test_add_volatile<Class[]>();
     test_add_volatile<Class[2]>();
-    test_add_volatile<Struct>();
-    test_add_volatile<TemplateClass<void>>();
-    test_add_volatile<TemplateClass<int>>();
-    test_add_volatile<TemplateClass<Class>>();
-    test_add_volatile<TemplateClass<incomplete_type>>();
-    test_add_volatile<TemplateStruct<void>>();
-    test_add_volatile<TemplateStruct<int>>();
-    test_add_volatile<TemplateStruct<Class>>();
-    test_add_volatile<TemplateStruct<incomplete_type>>();
-    test_add_volatile<VariadicTemplateClass<>>();
-    test_add_volatile<VariadicTemplateClass<void>>();
-    test_add_volatile<VariadicTemplateClass<int>>();
-    test_add_volatile<VariadicTemplateClass<Class>>();
-    test_add_volatile<VariadicTemplateClass<incomplete_type>>();
-    test_add_volatile<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_add_volatile<VariadicTemplateStruct<>>();
-    test_add_volatile<VariadicTemplateStruct<void>>();
-    test_add_volatile<VariadicTemplateStruct<int>>();
-    test_add_volatile<VariadicTemplateStruct<Class>>();
-    test_add_volatile<VariadicTemplateStruct<incomplete_type>>();
-    test_add_volatile<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_add_volatile<Template<void>>();
+    test_add_volatile<Template<int>>();
+    test_add_volatile<Template<Class>>();
+    test_add_volatile<Template<incomplete_type>>();
+    test_add_volatile<VariadicTemplate<>>();
+    test_add_volatile<VariadicTemplate<void>>();
+    test_add_volatile<VariadicTemplate<int>>();
+    test_add_volatile<VariadicTemplate<Class>>();
+    test_add_volatile<VariadicTemplate<incomplete_type>>();
+    test_add_volatile<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_volatile<PublicDerviedFromTemplate<Base>>();
     test_add_volatile<PublicDerviedFromTemplate<Derived>>();
     test_add_volatile<PublicDerviedFromTemplate<Class>>();
@@ -154,11 +153,29 @@ TEST_CASE("add_volatile")
     test_add_volatile<Base>();
     test_add_volatile<Derived>();
     test_add_volatile<Abstract>();
+    test_add_volatile<PublicAbstract>();
+    test_add_volatile<PrivateAbstract>();
+    test_add_volatile<ProtectedAbstract>();
     test_add_volatile<AbstractTemplate<int>>();
     test_add_volatile<AbstractTemplate<double>>();
     test_add_volatile<AbstractTemplate<Class>>();
     test_add_volatile<AbstractTemplate<incomplete_type>>();
     test_add_volatile<Final>();
+    test_add_volatile<PublicDestructor>();
+    test_add_volatile<ProtectedDestructor>();
+    test_add_volatile<PrivateDestructor>();
+    test_add_volatile<VirtualPublicDestructor>();
+    test_add_volatile<VirtualProtectedDestructor>();
+    test_add_volatile<VirtualPrivateDestructor>();
+    test_add_volatile<PurePublicDestructor>();
+    test_add_volatile<PureProtectedDestructor>();
+    test_add_volatile<PurePrivateDestructor>();
+    test_add_volatile<DeletedPublicDestructor>();
+    test_add_volatile<DeletedProtectedDestructor>();
+    test_add_volatile<DeletedPrivateDestructor>();
+    test_add_volatile<DeletedVirtualPublicDestructor>();
+    test_add_volatile<DeletedVirtualProtectedDestructor>();
+    test_add_volatile<DeletedVirtualPrivateDestructor>();
     test_add_volatile<Enum>();
     test_add_volatile<EnumSigned>();
     test_add_volatile<EnumUnsigned>();
@@ -227,6 +244,8 @@ TEST_CASE("add_volatile")
     test_add_volatile<TrapComma>();
     test_add_volatile<TrapCall>();
     test_add_volatile<TrapSelfAssign>();
+    test_add_volatile<TrapDeref>();
+    test_add_volatile<TrapArraySubscript>();
 
     test_add_volatile<void()>();
     test_add_volatile<void()&>();
@@ -234,12 +253,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<void() const>();
     test_add_volatile<void() const&>();
     test_add_volatile<void() const&&>();
+    test_add_volatile<void() volatile>();
+    test_add_volatile<void() volatile&>();
+    test_add_volatile<void() volatile&&>();
+    test_add_volatile<void() const volatile>();
+    test_add_volatile<void() const volatile&>();
+    test_add_volatile<void() const volatile&&>();
     test_add_volatile<void() noexcept>();
     test_add_volatile<void()& noexcept>();
     test_add_volatile<void()&& noexcept>();
     test_add_volatile<void() const noexcept>();
     test_add_volatile<void() const& noexcept>();
     test_add_volatile<void() const&& noexcept>();
+    test_add_volatile<void() volatile noexcept>();
+    test_add_volatile<void() volatile& noexcept>();
+    test_add_volatile<void() volatile&& noexcept>();
+    test_add_volatile<void() const volatile noexcept>();
+    test_add_volatile<void() const volatile& noexcept>();
+    test_add_volatile<void() const volatile&& noexcept>();
 
     test_add_volatile<void(int)>();
     test_add_volatile<void(int)&>();
@@ -247,12 +278,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(int) const>();
     test_add_volatile<void(int) const&>();
     test_add_volatile<void(int) const&&>();
+    test_add_volatile<void(int) volatile>();
+    test_add_volatile<void(int) volatile&>();
+    test_add_volatile<void(int) volatile&&>();
+    test_add_volatile<void(int) const volatile>();
+    test_add_volatile<void(int) const volatile&>();
+    test_add_volatile<void(int) const volatile&&>();
     test_add_volatile<void(int) noexcept>();
     test_add_volatile<void(int)& noexcept>();
     test_add_volatile<void(int)&& noexcept>();
     test_add_volatile<void(int) const noexcept>();
     test_add_volatile<void(int) const& noexcept>();
     test_add_volatile<void(int) const&& noexcept>();
+    test_add_volatile<void(int) volatile noexcept>();
+    test_add_volatile<void(int) volatile& noexcept>();
+    test_add_volatile<void(int) volatile&& noexcept>();
+    test_add_volatile<void(int) const volatile noexcept>();
+    test_add_volatile<void(int) const volatile& noexcept>();
+    test_add_volatile<void(int) const volatile&& noexcept>();
 
     test_add_volatile<void(...)>();
     test_add_volatile<void(...)&>();
@@ -260,12 +303,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(...) const>();
     test_add_volatile<void(...) const&>();
     test_add_volatile<void(...) const&&>();
+    test_add_volatile<void(...) volatile>();
+    test_add_volatile<void(...) volatile&>();
+    test_add_volatile<void(...) volatile&&>();
+    test_add_volatile<void(...) const volatile>();
+    test_add_volatile<void(...) const volatile&>();
+    test_add_volatile<void(...) const volatile&&>();
     test_add_volatile<void(...) noexcept>();
     test_add_volatile<void(...)& noexcept>();
     test_add_volatile<void(...)&& noexcept>();
     test_add_volatile<void(...) const noexcept>();
     test_add_volatile<void(...) const& noexcept>();
     test_add_volatile<void(...) const&& noexcept>();
+    test_add_volatile<void(...) volatile noexcept>();
+    test_add_volatile<void(...) volatile& noexcept>();
+    test_add_volatile<void(...) volatile&& noexcept>();
+    test_add_volatile<void(...) const volatile noexcept>();
+    test_add_volatile<void(...) const volatile& noexcept>();
+    test_add_volatile<void(...) const volatile&& noexcept>();
 
     test_add_volatile<void(int, ...)>();
     test_add_volatile<void(int, ...)&>();
@@ -273,12 +328,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(int, ...) const>();
     test_add_volatile<void(int, ...) const&>();
     test_add_volatile<void(int, ...) const&&>();
+    test_add_volatile<void(int, ...) volatile>();
+    test_add_volatile<void(int, ...) volatile&>();
+    test_add_volatile<void(int, ...) volatile&&>();
+    test_add_volatile<void(int, ...) const volatile>();
+    test_add_volatile<void(int, ...) const volatile&>();
+    test_add_volatile<void(int, ...) const volatile&&>();
     test_add_volatile<void(int, ...) noexcept>();
     test_add_volatile<void(int, ...)& noexcept>();
     test_add_volatile<void(int, ...)&& noexcept>();
     test_add_volatile<void(int, ...) const noexcept>();
     test_add_volatile<void(int, ...) const& noexcept>();
     test_add_volatile<void(int, ...) const&& noexcept>();
+    test_add_volatile<void(int, ...) volatile noexcept>();
+    test_add_volatile<void(int, ...) volatile& noexcept>();
+    test_add_volatile<void(int, ...) volatile&& noexcept>();
+    test_add_volatile<void(int, ...) const volatile noexcept>();
+    test_add_volatile<void(int, ...) const volatile& noexcept>();
+    test_add_volatile<void(int, ...) const volatile&& noexcept>();
 
     test_add_volatile<int()>();
     test_add_volatile<int()&>();
@@ -286,12 +353,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<int() const>();
     test_add_volatile<int() const&>();
     test_add_volatile<int() const&&>();
+    test_add_volatile<int() volatile>();
+    test_add_volatile<int() volatile&>();
+    test_add_volatile<int() volatile&&>();
+    test_add_volatile<int() const volatile>();
+    test_add_volatile<int() const volatile&>();
+    test_add_volatile<int() const volatile&&>();
     test_add_volatile<int() noexcept>();
     test_add_volatile<int()& noexcept>();
     test_add_volatile<int()&& noexcept>();
     test_add_volatile<int() const noexcept>();
     test_add_volatile<int() const& noexcept>();
     test_add_volatile<int() const&& noexcept>();
+    test_add_volatile<int() volatile noexcept>();
+    test_add_volatile<int() volatile& noexcept>();
+    test_add_volatile<int() volatile&& noexcept>();
+    test_add_volatile<int() const volatile noexcept>();
+    test_add_volatile<int() const volatile& noexcept>();
+    test_add_volatile<int() const volatile&& noexcept>();
 
     test_add_volatile<int(int)>();
     test_add_volatile<int(int)&>();
@@ -299,12 +378,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<int(int) const>();
     test_add_volatile<int(int) const&>();
     test_add_volatile<int(int) const&&>();
+    test_add_volatile<int(int) volatile>();
+    test_add_volatile<int(int) volatile&>();
+    test_add_volatile<int(int) volatile&&>();
+    test_add_volatile<int(int) const volatile>();
+    test_add_volatile<int(int) const volatile&>();
+    test_add_volatile<int(int) const volatile&&>();
     test_add_volatile<int(int) noexcept>();
     test_add_volatile<int(int)& noexcept>();
     test_add_volatile<int(int)&& noexcept>();
     test_add_volatile<int(int) const noexcept>();
     test_add_volatile<int(int) const& noexcept>();
     test_add_volatile<int(int) const&& noexcept>();
+    test_add_volatile<int(int) volatile noexcept>();
+    test_add_volatile<int(int) volatile& noexcept>();
+    test_add_volatile<int(int) volatile&& noexcept>();
+    test_add_volatile<int(int) const volatile noexcept>();
+    test_add_volatile<int(int) const volatile& noexcept>();
+    test_add_volatile<int(int) const volatile&& noexcept>();
 
     test_add_volatile<int(...)>();
     test_add_volatile<int(...)&>();
@@ -312,12 +403,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<int(...) const>();
     test_add_volatile<int(...) const&>();
     test_add_volatile<int(...) const&&>();
+    test_add_volatile<int(...) volatile>();
+    test_add_volatile<int(...) volatile&>();
+    test_add_volatile<int(...) volatile&&>();
+    test_add_volatile<int(...) const volatile>();
+    test_add_volatile<int(...) const volatile&>();
+    test_add_volatile<int(...) const volatile&&>();
     test_add_volatile<int(...) noexcept>();
     test_add_volatile<int(...)& noexcept>();
     test_add_volatile<int(...)&& noexcept>();
     test_add_volatile<int(...) const noexcept>();
     test_add_volatile<int(...) const& noexcept>();
     test_add_volatile<int(...) const&& noexcept>();
+    test_add_volatile<int(...) volatile noexcept>();
+    test_add_volatile<int(...) volatile& noexcept>();
+    test_add_volatile<int(...) volatile&& noexcept>();
+    test_add_volatile<int(...) const volatile noexcept>();
+    test_add_volatile<int(...) const volatile& noexcept>();
+    test_add_volatile<int(...) const volatile&& noexcept>();
 
     test_add_volatile<int(int, ...)>();
     test_add_volatile<int(int, ...)&>();
@@ -325,12 +428,24 @@ TEST_CASE("add_volatile")
     test_add_volatile<int(int, ...) const>();
     test_add_volatile<int(int, ...) const&>();
     test_add_volatile<int(int, ...) const&&>();
+    test_add_volatile<int(int, ...) volatile>();
+    test_add_volatile<int(int, ...) volatile&>();
+    test_add_volatile<int(int, ...) volatile&&>();
+    test_add_volatile<int(int, ...) const volatile>();
+    test_add_volatile<int(int, ...) const volatile&>();
+    test_add_volatile<int(int, ...) const volatile&&>();
     test_add_volatile<int(int, ...) noexcept>();
     test_add_volatile<int(int, ...)& noexcept>();
     test_add_volatile<int(int, ...)&& noexcept>();
     test_add_volatile<int(int, ...) const noexcept>();
     test_add_volatile<int(int, ...) const& noexcept>();
     test_add_volatile<int(int, ...) const&& noexcept>();
+    test_add_volatile<int(int, ...) volatile noexcept>();
+    test_add_volatile<int(int, ...) volatile& noexcept>();
+    test_add_volatile<int(int, ...) volatile&& noexcept>();
+    test_add_volatile<int(int, ...) const volatile noexcept>();
+    test_add_volatile<int(int, ...) const volatile& noexcept>();
+    test_add_volatile<int(int, ...) const volatile&& noexcept>();
 
     test_add_volatile<void (*)()>();
     test_add_volatile<void (*)() noexcept>();

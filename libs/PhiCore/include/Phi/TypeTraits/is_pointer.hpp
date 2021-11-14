@@ -11,14 +11,17 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Config/Compiler.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/remove_cv.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_HAS_INTRINSIC_IS_POINTER() && PHI_HAS_KEYWORD(__is_pointer)
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_pointer : public bool_constant<__is_pointer(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_pointer : public bool_constant<!__is_pointer(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -26,9 +29,16 @@ struct is_pointer : public bool_constant<__is_pointer(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_pointer_v = __is_pointer(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_pointer_v = !__is_pointer(TypeT);
+
 #    endif
 
 #else
+
+#    include "Phi/TypeTraits/remove_cv.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 /// \cond detail
 namespace detail
@@ -47,10 +57,17 @@ template <typename TypeT>
 struct is_pointer : public detail::is_pointer_impl<remove_cv_t<TypeT>>
 {};
 
+template <typename TypeT>
+struct is_not_pointer : public bool_constant<!is_pointer<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_pointer_v = is_pointer<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_pointer_v = is_not_pointer<TypeT>::value;
 
 #    endif
 

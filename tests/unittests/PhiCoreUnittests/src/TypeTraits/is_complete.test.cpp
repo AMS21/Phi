@@ -74,7 +74,6 @@ TEST_CASE("is_complete")
     test_is_complete<char[3][4]>();
     test_is_complete<char[3][4][5]>();
     test_is_complete<Class>();
-    test_is_complete<Struct>();
     test_is_complete<Union>();
     test_is_complete<NonEmptyUnion>();
     test_is_complete<bit_zero>();

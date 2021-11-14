@@ -9,6 +9,7 @@
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/add_const.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -23,6 +24,14 @@ void test_add_const()
     CHECK_SAME_TYPE(phi::add_const_t<const T>, const T);
     CHECK_SAME_TYPE(phi::add_const_t<volatile T>, const volatile T);
     CHECK_SAME_TYPE(phi::add_const_t<const volatile T>, const volatile T);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_const<T>::type, typename std::add_const<T>::type);
+    CHECK_SAME_TYPE(typename phi::add_const<const T>::type, typename std::add_const<const T>::type);
+    CHECK_SAME_TYPE(typename phi::add_const<volatile T>::type,
+                    typename std::add_const<volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_const<const volatile T>::type,
+                    typename std::add_const<const volatile T>::type);
 }
 
 TEST_CASE("add_const")
@@ -115,27 +124,16 @@ TEST_CASE("add_const")
     test_add_const<Class>();
     test_add_const<Class[]>();
     test_add_const<Class[2]>();
-    test_add_const<Struct>();
-    test_add_const<TemplateClass<void>>();
-    test_add_const<TemplateClass<int>>();
-    test_add_const<TemplateClass<Class>>();
-    test_add_const<TemplateClass<incomplete_type>>();
-    test_add_const<TemplateStruct<void>>();
-    test_add_const<TemplateStruct<int>>();
-    test_add_const<TemplateStruct<Class>>();
-    test_add_const<TemplateStruct<incomplete_type>>();
-    test_add_const<VariadicTemplateClass<>>();
-    test_add_const<VariadicTemplateClass<void>>();
-    test_add_const<VariadicTemplateClass<int>>();
-    test_add_const<VariadicTemplateClass<Class>>();
-    test_add_const<VariadicTemplateClass<incomplete_type>>();
-    test_add_const<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_add_const<VariadicTemplateStruct<>>();
-    test_add_const<VariadicTemplateStruct<void>>();
-    test_add_const<VariadicTemplateStruct<int>>();
-    test_add_const<VariadicTemplateStruct<Class>>();
-    test_add_const<VariadicTemplateStruct<incomplete_type>>();
-    test_add_const<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_add_const<Template<void>>();
+    test_add_const<Template<int>>();
+    test_add_const<Template<Class>>();
+    test_add_const<Template<incomplete_type>>();
+    test_add_const<VariadicTemplate<>>();
+    test_add_const<VariadicTemplate<void>>();
+    test_add_const<VariadicTemplate<int>>();
+    test_add_const<VariadicTemplate<Class>>();
+    test_add_const<VariadicTemplate<incomplete_type>>();
+    test_add_const<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_const<PublicDerviedFromTemplate<Base>>();
     test_add_const<PublicDerviedFromTemplate<Derived>>();
     test_add_const<PublicDerviedFromTemplate<Class>>();
@@ -154,10 +152,29 @@ TEST_CASE("add_const")
     test_add_const<Base>();
     test_add_const<Derived>();
     test_add_const<Abstract>();
+    test_add_const<PublicAbstract>();
+    test_add_const<PrivateAbstract>();
+    test_add_const<ProtectedAbstract>();
     test_add_const<AbstractTemplate<int>>();
     test_add_const<AbstractTemplate<double>>();
     test_add_const<AbstractTemplate<Class>>();
     test_add_const<AbstractTemplate<incomplete_type>>();
+    test_add_const<Final>();
+    test_add_const<PublicDestructor>();
+    test_add_const<ProtectedDestructor>();
+    test_add_const<PrivateDestructor>();
+    test_add_const<VirtualPublicDestructor>();
+    test_add_const<VirtualProtectedDestructor>();
+    test_add_const<VirtualPrivateDestructor>();
+    test_add_const<PurePublicDestructor>();
+    test_add_const<PureProtectedDestructor>();
+    test_add_const<PurePrivateDestructor>();
+    test_add_const<DeletedPublicDestructor>();
+    test_add_const<DeletedProtectedDestructor>();
+    test_add_const<DeletedPrivateDestructor>();
+    test_add_const<DeletedVirtualPublicDestructor>();
+    test_add_const<DeletedVirtualProtectedDestructor>();
+    test_add_const<DeletedVirtualPrivateDestructor>();
     test_add_const<Final>();
     test_add_const<Enum>();
     test_add_const<EnumSigned>();
@@ -227,6 +244,8 @@ TEST_CASE("add_const")
     test_add_const<TrapComma>();
     test_add_const<TrapCall>();
     test_add_const<TrapSelfAssign>();
+    test_add_const<TrapDeref>();
+    test_add_const<TrapArraySubscript>();
 
     test_add_const<void()>();
     test_add_const<void()&>();
@@ -234,12 +253,24 @@ TEST_CASE("add_const")
     test_add_const<void() const>();
     test_add_const<void() const&>();
     test_add_const<void() const&&>();
+    test_add_const<void() volatile>();
+    test_add_const<void() volatile&>();
+    test_add_const<void() volatile&&>();
+    test_add_const<void() const volatile>();
+    test_add_const<void() const volatile&>();
+    test_add_const<void() const volatile&&>();
     test_add_const<void() noexcept>();
     test_add_const<void()& noexcept>();
     test_add_const<void()&& noexcept>();
     test_add_const<void() const noexcept>();
     test_add_const<void() const& noexcept>();
     test_add_const<void() const&& noexcept>();
+    test_add_const<void() volatile noexcept>();
+    test_add_const<void() volatile& noexcept>();
+    test_add_const<void() volatile&& noexcept>();
+    test_add_const<void() const volatile noexcept>();
+    test_add_const<void() const volatile& noexcept>();
+    test_add_const<void() const volatile&& noexcept>();
 
     test_add_const<void(int)>();
     test_add_const<void(int)&>();
@@ -247,12 +278,24 @@ TEST_CASE("add_const")
     test_add_const<void(int) const>();
     test_add_const<void(int) const&>();
     test_add_const<void(int) const&&>();
+    test_add_const<void(int) volatile>();
+    test_add_const<void(int) volatile&>();
+    test_add_const<void(int) volatile&&>();
+    test_add_const<void(int) const volatile>();
+    test_add_const<void(int) const volatile&>();
+    test_add_const<void(int) const volatile&&>();
     test_add_const<void(int) noexcept>();
     test_add_const<void(int)& noexcept>();
     test_add_const<void(int)&& noexcept>();
     test_add_const<void(int) const noexcept>();
     test_add_const<void(int) const& noexcept>();
     test_add_const<void(int) const&& noexcept>();
+    test_add_const<void(int) volatile noexcept>();
+    test_add_const<void(int) volatile& noexcept>();
+    test_add_const<void(int) volatile&& noexcept>();
+    test_add_const<void(int) const volatile noexcept>();
+    test_add_const<void(int) const volatile& noexcept>();
+    test_add_const<void(int) const volatile&& noexcept>();
 
     test_add_const<void(...)>();
     test_add_const<void(...)&>();
@@ -260,12 +303,24 @@ TEST_CASE("add_const")
     test_add_const<void(...) const>();
     test_add_const<void(...) const&>();
     test_add_const<void(...) const&&>();
+    test_add_const<void(...) volatile>();
+    test_add_const<void(...) volatile&>();
+    test_add_const<void(...) volatile&&>();
+    test_add_const<void(...) const volatile>();
+    test_add_const<void(...) const volatile&>();
+    test_add_const<void(...) const volatile&&>();
     test_add_const<void(...) noexcept>();
     test_add_const<void(...)& noexcept>();
     test_add_const<void(...)&& noexcept>();
     test_add_const<void(...) const noexcept>();
     test_add_const<void(...) const& noexcept>();
     test_add_const<void(...) const&& noexcept>();
+    test_add_const<void(...) volatile noexcept>();
+    test_add_const<void(...) volatile& noexcept>();
+    test_add_const<void(...) volatile&& noexcept>();
+    test_add_const<void(...) const volatile noexcept>();
+    test_add_const<void(...) const volatile& noexcept>();
+    test_add_const<void(...) const volatile&& noexcept>();
 
     test_add_const<void(int, ...)>();
     test_add_const<void(int, ...)&>();
@@ -273,12 +328,24 @@ TEST_CASE("add_const")
     test_add_const<void(int, ...) const>();
     test_add_const<void(int, ...) const&>();
     test_add_const<void(int, ...) const&&>();
+    test_add_const<void(int, ...) volatile>();
+    test_add_const<void(int, ...) volatile&>();
+    test_add_const<void(int, ...) volatile&&>();
+    test_add_const<void(int, ...) const volatile>();
+    test_add_const<void(int, ...) const volatile&>();
+    test_add_const<void(int, ...) const volatile&&>();
     test_add_const<void(int, ...) noexcept>();
     test_add_const<void(int, ...)& noexcept>();
     test_add_const<void(int, ...)&& noexcept>();
     test_add_const<void(int, ...) const noexcept>();
     test_add_const<void(int, ...) const& noexcept>();
     test_add_const<void(int, ...) const&& noexcept>();
+    test_add_const<void(int, ...) volatile noexcept>();
+    test_add_const<void(int, ...) volatile& noexcept>();
+    test_add_const<void(int, ...) volatile&& noexcept>();
+    test_add_const<void(int, ...) const volatile noexcept>();
+    test_add_const<void(int, ...) const volatile& noexcept>();
+    test_add_const<void(int, ...) const volatile&& noexcept>();
 
     test_add_const<int()>();
     test_add_const<int()&>();
@@ -286,12 +353,24 @@ TEST_CASE("add_const")
     test_add_const<int() const>();
     test_add_const<int() const&>();
     test_add_const<int() const&&>();
+    test_add_const<int() volatile>();
+    test_add_const<int() volatile&>();
+    test_add_const<int() volatile&&>();
+    test_add_const<int() const volatile>();
+    test_add_const<int() const volatile&>();
+    test_add_const<int() const volatile&&>();
     test_add_const<int() noexcept>();
     test_add_const<int()& noexcept>();
     test_add_const<int()&& noexcept>();
     test_add_const<int() const noexcept>();
     test_add_const<int() const& noexcept>();
     test_add_const<int() const&& noexcept>();
+    test_add_const<int() volatile noexcept>();
+    test_add_const<int() volatile& noexcept>();
+    test_add_const<int() volatile&& noexcept>();
+    test_add_const<int() const volatile noexcept>();
+    test_add_const<int() const volatile& noexcept>();
+    test_add_const<int() const volatile&& noexcept>();
 
     test_add_const<int(int)>();
     test_add_const<int(int)&>();
@@ -299,12 +378,24 @@ TEST_CASE("add_const")
     test_add_const<int(int) const>();
     test_add_const<int(int) const&>();
     test_add_const<int(int) const&&>();
+    test_add_const<int(int) volatile>();
+    test_add_const<int(int) volatile&>();
+    test_add_const<int(int) volatile&&>();
+    test_add_const<int(int) const volatile>();
+    test_add_const<int(int) const volatile&>();
+    test_add_const<int(int) const volatile&&>();
     test_add_const<int(int) noexcept>();
     test_add_const<int(int)& noexcept>();
     test_add_const<int(int)&& noexcept>();
     test_add_const<int(int) const noexcept>();
     test_add_const<int(int) const& noexcept>();
     test_add_const<int(int) const&& noexcept>();
+    test_add_const<int(int) volatile noexcept>();
+    test_add_const<int(int) volatile& noexcept>();
+    test_add_const<int(int) volatile&& noexcept>();
+    test_add_const<int(int) const volatile noexcept>();
+    test_add_const<int(int) const volatile& noexcept>();
+    test_add_const<int(int) const volatile&& noexcept>();
 
     test_add_const<int(...)>();
     test_add_const<int(...)&>();
@@ -312,12 +403,24 @@ TEST_CASE("add_const")
     test_add_const<int(...) const>();
     test_add_const<int(...) const&>();
     test_add_const<int(...) const&&>();
+    test_add_const<int(...) volatile>();
+    test_add_const<int(...) volatile&>();
+    test_add_const<int(...) volatile&&>();
+    test_add_const<int(...) const volatile>();
+    test_add_const<int(...) const volatile&>();
+    test_add_const<int(...) const volatile&&>();
     test_add_const<int(...) noexcept>();
     test_add_const<int(...)& noexcept>();
     test_add_const<int(...)&& noexcept>();
     test_add_const<int(...) const noexcept>();
     test_add_const<int(...) const& noexcept>();
     test_add_const<int(...) const&& noexcept>();
+    test_add_const<int(...) volatile noexcept>();
+    test_add_const<int(...) volatile& noexcept>();
+    test_add_const<int(...) volatile&& noexcept>();
+    test_add_const<int(...) const volatile noexcept>();
+    test_add_const<int(...) const volatile& noexcept>();
+    test_add_const<int(...) const volatile&& noexcept>();
 
     test_add_const<int(int, ...)>();
     test_add_const<int(int, ...)&>();
@@ -325,12 +428,24 @@ TEST_CASE("add_const")
     test_add_const<int(int, ...) const>();
     test_add_const<int(int, ...) const&>();
     test_add_const<int(int, ...) const&&>();
+    test_add_const<int(int, ...) volatile>();
+    test_add_const<int(int, ...) volatile&>();
+    test_add_const<int(int, ...) volatile&&>();
+    test_add_const<int(int, ...) const volatile>();
+    test_add_const<int(int, ...) const volatile&>();
+    test_add_const<int(int, ...) const volatile&&>();
     test_add_const<int(int, ...) noexcept>();
     test_add_const<int(int, ...)& noexcept>();
     test_add_const<int(int, ...)&& noexcept>();
     test_add_const<int(int, ...) const noexcept>();
     test_add_const<int(int, ...) const& noexcept>();
     test_add_const<int(int, ...) const&& noexcept>();
+    test_add_const<int(int, ...) volatile noexcept>();
+    test_add_const<int(int, ...) volatile& noexcept>();
+    test_add_const<int(int, ...) volatile&& noexcept>();
+    test_add_const<int(int, ...) const volatile noexcept>();
+    test_add_const<int(int, ...) const volatile& noexcept>();
+    test_add_const<int(int, ...) const volatile&& noexcept>();
 
     test_add_const<void (*)()>();
     test_add_const<void (*)() noexcept>();

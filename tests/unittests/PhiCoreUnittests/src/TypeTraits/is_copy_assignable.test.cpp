@@ -46,7 +46,6 @@ TEST_CASE("is_copy_assignable")
     test_is_copy_assignable<NotEmpty>();
     test_is_copy_assignable<Empty>();
     test_is_copy_assignable<Class>();
-    test_is_copy_assignable<Struct>();
     test_is_copy_assignable<NonEmptyUnion>();
     test_is_copy_assignable<Enum>();
     test_is_copy_assignable<EnumSigned>();

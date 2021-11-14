@@ -1,38 +1,60 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/Config/CPlusPlus.hpp>
 #include <Phi/TypeTraits/has_unique_object_representations.hpp>
+#include <type_traits>
 
-template <class T>
-void test_has_unique_object_representations()
+template <typename T>
+void test_has_unique_object_representations_impl()
 {
     STATIC_REQUIRE(phi::has_unique_object_representations<T>::value);
-    STATIC_REQUIRE(phi::has_unique_object_representations<const T>::value);
-    STATIC_REQUIRE(phi::has_unique_object_representations<volatile T>::value);
-    STATIC_REQUIRE(phi::has_unique_object_representations<const volatile T>::value);
+    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_unique_object_representations_v<T>);
-    STATIC_REQUIRE(phi::has_unique_object_representations_v<const T>);
-    STATIC_REQUIRE(phi::has_unique_object_representations_v<volatile T>);
-    STATIC_REQUIRE(phi::has_unique_object_representations_v<const volatile T>);
+    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations_v<T>);
+#endif
+
+// Standard compatbility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::has_unique_object_representations<T>::value);
 #endif
 }
 
-template <class T>
-void test_has_not_has_unique_object_representations()
+template <typename T>
+void test_has_unique_object_representations()
 {
-    STATIC_REQUIRE(!phi::has_unique_object_representations<T>::value);
-    STATIC_REQUIRE(!phi::has_unique_object_representations<const T>::value);
-    STATIC_REQUIRE(!phi::has_unique_object_representations<volatile T>::value);
-    STATIC_REQUIRE(!phi::has_unique_object_representations<const volatile T>::value);
+    test_has_unique_object_representations_impl<T>();
+    test_has_unique_object_representations_impl<const T>();
+    test_has_unique_object_representations_impl<volatile T>();
+    test_has_unique_object_representations_impl<const volatile T>();
+}
+
+template <typename T>
+void test_has_no_unique_object_representations_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations<T>::value);
+    STATIC_REQUIRE(phi::has_no_unique_object_representations<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(!phi::has_unique_object_representations_v<T>);
-    STATIC_REQUIRE(!phi::has_unique_object_representations_v<const T>);
-    STATIC_REQUIRE(!phi::has_unique_object_representations_v<volatile T>);
-    STATIC_REQUIRE(!phi::has_unique_object_representations_v<const volatile T>);
+    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations_v<T>);
+    STATIC_REQUIRE(phi::has_no_unique_object_representations_v<T>);
 #endif
+
+// Standard compatbility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::has_unique_object_representations<T>::value);
+#endif
+}
+
+template <typename T>
+void test_has_no_unique_object_representations()
+{
+    test_has_no_unique_object_representations_impl<T>();
+    test_has_no_unique_object_representations_impl<const T>();
+    test_has_no_unique_object_representations_impl<volatile T>();
+    test_has_no_unique_object_representations_impl<const volatile T>();
 }
 
 union EmptyUnion
@@ -52,19 +74,19 @@ struct B
 
 TEST_CASE("has_unique_object_representation")
 {
-    test_has_not_has_unique_object_representations<void>();
-    test_has_not_has_unique_object_representations<Empty>();
-    test_has_not_has_unique_object_representations<EmptyUnion>();
-    test_has_not_has_unique_object_representations<NotEmpty>();
-    test_has_not_has_unique_object_representations<bit_zero>();
-    test_has_not_has_unique_object_representations<Abstract>();
-    test_has_not_has_unique_object_representations<B>();
+    test_has_no_unique_object_representations<void>();
+    test_has_no_unique_object_representations<Empty>();
+    test_has_no_unique_object_representations<EmptyUnion>();
+    test_has_no_unique_object_representations<NotEmpty>();
+    test_has_no_unique_object_representations<bit_zero>();
+    test_has_no_unique_object_representations<Abstract>();
+    test_has_no_unique_object_representations<B>();
 
     //  I would expect all three of these to have unique representations.
     //  I would also expect that there are systems where they do not.
-    //     test_has_not_has_unique_object_representations<int&>();
-    //     test_has_not_has_unique_object_representations<int *>();
-    //     test_has_not_has_unique_object_representations<double>();
+    //     test_has_no_unique_object_representations<int&>();
+    //     test_has_no_unique_object_representations<int *>();
+    //     test_has_no_unique_object_representations<double>();
 
     test_has_unique_object_representations<unsigned>();
     test_has_unique_object_representations<NonEmptyUnion>();

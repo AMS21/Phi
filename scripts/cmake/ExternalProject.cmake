@@ -35,7 +35,7 @@ function(phi_add_external_project)
     endif()
 
     # Set folder to external
-    if(${CMAKE_VERSION} VERSION_GREATER "3.12" OR NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+    if(NOT ${CMAKE_VERSION} VERSION_LESS "3.17" OR NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
       set_target_properties(${target} PROPERTIES FOLDER "External")
     endif()
   endforeach()

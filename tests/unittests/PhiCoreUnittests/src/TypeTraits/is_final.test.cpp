@@ -80,7 +80,6 @@ TEST_CASE("is_final")
     test_is_not_final<U1*>();
     test_is_not_final<U2*>();
     test_is_not_final<Class>();
-    test_is_not_final<Struct>();
     test_is_not_final<Empty>();
     test_is_not_final<NotEmpty>();
     test_is_not_final<Union>();

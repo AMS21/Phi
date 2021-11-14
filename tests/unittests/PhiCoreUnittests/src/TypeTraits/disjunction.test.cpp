@@ -1,7 +1,9 @@
 #include <catch2/catch.hpp>
 
+#include <Phi/Config/CPlusPlus.hpp>
 #include <Phi/TypeTraits/disjunction.hpp>
 #include <Phi/TypeTraits/integral_constant.hpp>
+#include <type_traits>
 
 template <typename... ArgsT>
 void test_disjunction_true()
@@ -10,6 +12,11 @@ void test_disjunction_true()
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::disjunction_v<ArgsT...>);
+#endif
+
+    // Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(phi::disjunction<ArgsT...>::value == std::disjunction<ArgsT...>::value);
 #endif
 }
 
@@ -20,6 +27,11 @@ void test_disjunction_false()
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::disjunction_v<ArgsT...>);
+#endif
+
+    // Standard compatibility
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(phi::disjunction<ArgsT...>::value == std::disjunction<ArgsT...>::value);
 #endif
 }
 

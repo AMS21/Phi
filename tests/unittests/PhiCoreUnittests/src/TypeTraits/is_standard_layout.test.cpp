@@ -1,12 +1,15 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/is_standard_layout.hpp>
+#include <vector>
 
 template <typename T>
 void test_is_standard_layout()
@@ -52,6 +55,9 @@ struct A
     int m;
 };
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
+
 struct B
 {
     int m1;
@@ -59,6 +65,8 @@ struct B
 private:
     int m2;
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 struct C
 {
@@ -130,7 +138,6 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<char* [3]>();
     test_is_standard_layout<char*[]>();
     test_is_standard_layout<Class>();
-    test_is_standard_layout<Struct>();
     test_is_standard_layout<Union>();
     test_is_standard_layout<NonEmptyUnion>();
     test_is_standard_layout<Empty>();

@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -96,7 +97,6 @@ TEST_CASE("is_scalar")
     test_is_not_scalar<char* [3]>();
     test_is_not_scalar<char*[]>();
     test_is_not_scalar<Class>();
-    test_is_not_scalar<Struct>();
     test_is_not_scalar<Union>();
     test_is_not_scalar<NonEmptyUnion>();
     test_is_not_scalar<Empty>();

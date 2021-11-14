@@ -73,7 +73,6 @@ TEST_CASE("is_default_constructible")
     test_is_default_constructible<NotEmpty>();
     test_is_default_constructible<bit_zero>();
     test_is_default_constructible<Class>();
-    test_is_default_constructible<Struct>();
     test_is_default_constructible<NonEmptyUnion>();
     test_is_default_constructible<AbstractTemplate<double>>();
     test_is_default_constructible<Enum>();

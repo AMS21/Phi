@@ -246,7 +246,6 @@ TEST_CASE("is_member_pointer")
     test_is_not_member_pointer<char[]>();
     test_is_not_member_pointer<int(int)>();
     test_is_not_member_pointer<Class>();
-    test_is_not_member_pointer<Struct>();
     test_is_not_member_pointer<Empty>();
     test_is_not_member_pointer<NotEmpty>();
     test_is_not_member_pointer<Union>();

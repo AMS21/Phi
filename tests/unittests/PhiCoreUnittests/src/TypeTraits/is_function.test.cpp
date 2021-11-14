@@ -29,6 +29,7 @@
 #include <Phi/TypeTraits/is_union.hpp>
 #include <Phi/TypeTraits/is_unsafe_floating_point.hpp>
 #include <Phi/TypeTraits/is_void.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -58,6 +59,8 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
+    STATIC_REQUIRE_FALSE(phi::is_not_function<T>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
@@ -82,6 +85,14 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+
+    STATIC_REQUIRE_FALSE(phi::is_not_function_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_function<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_function_v<T>);
 #endif
 };
 
@@ -95,20 +106,39 @@ void test_is_function()
 }
 
 template <typename T>
-void test_is_not_function()
+void test_is_not_function_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_function<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_function<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_function<const volatile T>::value);
+    STATIC_REQUIRE(phi::is_not_function<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_function_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_function_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_function_v<const volatile T>);
+    STATIC_REQUIRE(phi::is_not_function_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_function<T>::value);
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_function_v<T>);
+#endif
+}
+
+template <typename T>
+void test_is_not_function()
+{
+    test_is_not_function_impl<T>();
+    test_is_not_function_impl<const T>();
+    test_is_not_function_impl<volatile T>();
+    test_is_not_function_impl<const volatile T>();
 };
+
+void f()
+{}
+
+int g()
+{
+    return 0;
+}
 
 TEST_CASE("is_function")
 {
@@ -119,7 +149,8 @@ TEST_CASE("is_function")
     test_is_function<int(Abstract*)>();
     test_is_function<void(...)>();
     test_is_function<bool(...)>();
-    test_is_function<Function>();
+    test_is_function<decltype(f)>();
+    test_is_function<decltype(g)>();
 
     test_is_not_function<void>();
     test_is_not_function<phi::nullptr_t>();
@@ -209,27 +240,16 @@ TEST_CASE("is_function")
     test_is_not_function<Class>();
     test_is_not_function<Class[]>();
     test_is_not_function<Class[2]>();
-    test_is_not_function<Struct>();
-    test_is_not_function<TemplateClass<void>>();
-    test_is_not_function<TemplateClass<int>>();
-    test_is_not_function<TemplateClass<Class>>();
-    test_is_not_function<TemplateClass<incomplete_type>>();
-    test_is_not_function<TemplateStruct<void>>();
-    test_is_not_function<TemplateStruct<int>>();
-    test_is_not_function<TemplateStruct<Class>>();
-    test_is_not_function<TemplateStruct<incomplete_type>>();
-    test_is_not_function<VariadicTemplateClass<>>();
-    test_is_not_function<VariadicTemplateClass<void>>();
-    test_is_not_function<VariadicTemplateClass<int>>();
-    test_is_not_function<VariadicTemplateClass<Class>>();
-    test_is_not_function<VariadicTemplateClass<incomplete_type>>();
-    test_is_not_function<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_is_not_function<VariadicTemplateStruct<>>();
-    test_is_not_function<VariadicTemplateStruct<void>>();
-    test_is_not_function<VariadicTemplateStruct<int>>();
-    test_is_not_function<VariadicTemplateStruct<Class>>();
-    test_is_not_function<VariadicTemplateStruct<incomplete_type>>();
-    test_is_not_function<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_is_not_function<Template<void>>();
+    test_is_not_function<Template<int>>();
+    test_is_not_function<Template<Class>>();
+    test_is_not_function<Template<incomplete_type>>();
+    test_is_not_function<VariadicTemplate<>>();
+    test_is_not_function<VariadicTemplate<void>>();
+    test_is_not_function<VariadicTemplate<int>>();
+    test_is_not_function<VariadicTemplate<Class>>();
+    test_is_not_function<VariadicTemplate<incomplete_type>>();
+    test_is_not_function<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_function<PublicDerviedFromTemplate<Base>>();
     test_is_not_function<PublicDerviedFromTemplate<Derived>>();
     test_is_not_function<PublicDerviedFromTemplate<Class>>();
@@ -248,10 +268,29 @@ TEST_CASE("is_function")
     test_is_not_function<Base>();
     test_is_not_function<Derived>();
     test_is_not_function<Abstract>();
+    test_is_not_function<PublicAbstract>();
+    test_is_not_function<PrivateAbstract>();
+    test_is_not_function<ProtectedAbstract>();
     test_is_not_function<AbstractTemplate<int>>();
     test_is_not_function<AbstractTemplate<double>>();
     test_is_not_function<AbstractTemplate<Class>>();
     test_is_not_function<AbstractTemplate<incomplete_type>>();
+    test_is_not_function<Final>();
+    test_is_not_function<PublicDestructor>();
+    test_is_not_function<ProtectedDestructor>();
+    test_is_not_function<PrivateDestructor>();
+    test_is_not_function<VirtualPublicDestructor>();
+    test_is_not_function<VirtualProtectedDestructor>();
+    test_is_not_function<VirtualPrivateDestructor>();
+    test_is_not_function<PurePublicDestructor>();
+    test_is_not_function<PureProtectedDestructor>();
+    test_is_not_function<PurePrivateDestructor>();
+    test_is_not_function<DeletedPublicDestructor>();
+    test_is_not_function<DeletedProtectedDestructor>();
+    test_is_not_function<DeletedPrivateDestructor>();
+    test_is_not_function<DeletedVirtualPublicDestructor>();
+    test_is_not_function<DeletedVirtualProtectedDestructor>();
+    test_is_not_function<DeletedVirtualPrivateDestructor>();
     test_is_not_function<Final>();
     test_is_not_function<Enum>();
     test_is_not_function<EnumSigned>();
@@ -321,6 +360,8 @@ TEST_CASE("is_function")
     test_is_not_function<TrapComma>();
     test_is_not_function<TrapCall>();
     test_is_not_function<TrapSelfAssign>();
+    test_is_not_function<TrapDeref>();
+    test_is_not_function<TrapArraySubscript>();
 
     test_is_function<void()>();
     test_is_function<void()&>();

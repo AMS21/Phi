@@ -60,7 +60,6 @@ TEST_CASE("is_compound")
     test_is_compound<NotEmpty>();
     test_is_compound<Abstract>();
     test_is_compound<Class>();
-    test_is_compound<Struct>();
     test_is_compound<NonEmptyUnion>();
     test_is_compound<AbstractTemplate<int>>();
     test_is_compound<AbstractTemplate<double>>();

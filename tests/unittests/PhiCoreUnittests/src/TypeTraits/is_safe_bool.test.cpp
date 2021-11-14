@@ -91,7 +91,6 @@ TEST_CASE("is_safe_bool")
     test_is_not_safe_bool<char* [3]>();
     test_is_not_safe_bool<char*[]>();
     test_is_not_safe_bool<Class>();
-    test_is_not_safe_bool<Struct>();
     test_is_not_safe_bool<Union>();
     test_is_not_safe_bool<NonEmptyUnion>();
     test_is_not_safe_bool<Empty>();

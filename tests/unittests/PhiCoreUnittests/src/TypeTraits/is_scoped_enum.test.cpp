@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -116,7 +117,6 @@ TEST_CASE("type_traits is_scoped_enum", "[Core][TypeTraits][is_scoped_enum]")
     test_is_not_scoped_enum<char* [3]>();
     test_is_not_scoped_enum<char*[]>();
     test_is_not_scoped_enum<Class>();
-    test_is_not_scoped_enum<Struct>();
     test_is_not_scoped_enum<Union>();
     test_is_not_scoped_enum<NonEmptyUnion>();
     test_is_not_scoped_enum<Empty>();

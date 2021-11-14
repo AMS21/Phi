@@ -13,25 +13,12 @@ public:
     ~Class();
 };
 
-struct Struct
-{
-    ~Struct();
-};
-
 template <typename T>
-class TemplateClass
+class Template
 {};
 
 template <typename... Ts>
-class VariadicTemplateClass
-{};
-
-template <typename T>
-struct TemplateStruct
-{};
-
-template <typename... Ts>
-struct VariadicTemplateStruct
+class VariadicTemplate
 {};
 
 template <typename T>
@@ -85,6 +72,30 @@ class Abstract
     virtual ~Abstract() = 0;
 };
 
+struct PublicAbstract
+{
+    virtual ~PublicAbstract() = default;
+
+public:
+    virtual void foo() = 0;
+};
+
+struct ProtectedAbstract
+{
+    virtual ~ProtectedAbstract() = default;
+
+protected:
+    virtual void foo() = 0;
+};
+
+struct PrivateAbstract
+{
+    virtual ~PrivateAbstract() = default;
+
+private:
+    virtual void foo() = 0;
+};
+
 template <typename>
 struct AbstractTemplate
 {
@@ -99,6 +110,96 @@ struct AbstractTemplate<double>
 
 class Final final
 {};
+
+struct PublicDestructor
+{
+public:
+    ~PublicDestructor() = default;
+};
+
+struct ProtectedDestructor
+{
+protected:
+    ~ProtectedDestructor() = default;
+};
+
+struct PrivateDestructor
+{
+private:
+    ~PrivateDestructor() = default;
+};
+
+struct VirtualPublicDestructor
+{
+public:
+    virtual ~VirtualPublicDestructor() = default;
+};
+
+struct VirtualProtectedDestructor
+{
+protected:
+    virtual ~VirtualProtectedDestructor() = default;
+};
+
+struct VirtualPrivateDestructor
+{
+private:
+    virtual ~VirtualPrivateDestructor() = default;
+};
+
+struct PurePublicDestructor
+{
+public:
+    virtual ~PurePublicDestructor() = 0;
+};
+
+struct PureProtectedDestructor
+{
+protected:
+    virtual ~PureProtectedDestructor() = 0;
+};
+
+struct PurePrivateDestructor
+{
+private:
+    virtual ~PurePrivateDestructor() = 0;
+};
+
+struct DeletedPublicDestructor
+{
+public:
+    ~DeletedPublicDestructor() = delete;
+};
+
+struct DeletedProtectedDestructor
+{
+protected:
+    ~DeletedProtectedDestructor() = delete;
+};
+
+struct DeletedPrivateDestructor
+{
+private:
+    ~DeletedPrivateDestructor() = delete;
+};
+
+struct DeletedVirtualPublicDestructor
+{
+public:
+    virtual ~DeletedVirtualPublicDestructor() = delete;
+};
+
+struct DeletedVirtualProtectedDestructor
+{
+protected:
+    virtual ~DeletedVirtualProtectedDestructor() = delete;
+};
+
+struct DeletedVirtualPrivateDestructor
+{
+private:
+    virtual ~DeletedVirtualPrivateDestructor() = delete;
+};
 
 enum Enum
 {
@@ -338,6 +439,33 @@ struct TrapSelfAssign
         assert(&other != this);
 
         return *this;
+    }
+};
+
+struct TrapDeref
+{
+    template <typename T>
+    constexpr T operator*() noexcept
+    {
+        static_assert(phi::always_false<T>::value,
+                      "TrapDeref::operator*() must never be instantiated");
+    }
+
+    template <typename T>
+    constexpr T* operator->() noexcept
+    {
+        static_assert(phi::always_false<T>::value,
+                      "TrapDeref::operator->() must never be instantiated");
+    }
+};
+
+struct TrapArraySubscript
+{
+    template <typename T>
+    constexpr void operator[](PHI_UNUSED T x) noexcept
+    {
+        static_assert(phi::always_false<T>::value,
+                      "TrapArraySubscript::operator[] must never be instantiated");
     }
 };
 

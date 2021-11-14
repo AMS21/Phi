@@ -92,7 +92,6 @@ TEST_CASE("is_safe_arithmetic")
     test_is_not_safe_arithmetic<char* [3]>();
     test_is_not_safe_arithmetic<char*[]>();
     test_is_not_safe_arithmetic<Class>();
-    test_is_not_safe_arithmetic<Struct>();
     test_is_not_safe_arithmetic<Union>();
     test_is_not_safe_arithmetic<NonEmptyUnion>();
     test_is_not_safe_arithmetic<Empty>();

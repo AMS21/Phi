@@ -53,7 +53,6 @@ TEST_CASE("is_bool")
     test_is_not_bool<const volatile int*>();
     test_is_not_bool<int**>();
     test_is_not_bool<Class>();
-    test_is_not_bool<Struct>();
     test_is_not_bool<Empty>();
     test_is_not_bool<NotEmpty>();
     test_is_not_bool<Union>();

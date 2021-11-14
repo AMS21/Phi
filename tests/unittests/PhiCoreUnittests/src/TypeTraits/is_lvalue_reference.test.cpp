@@ -58,7 +58,6 @@ TEST_CASE("is_lvalue_reference")
     test_is_not_lvalue_reference<char[3]>();
     test_is_not_lvalue_reference<char[]>();
     test_is_not_lvalue_reference<Class>();
-    test_is_not_lvalue_reference<Struct>();
     test_is_not_lvalue_reference<Empty>();
     test_is_not_lvalue_reference<NotEmpty>();
     test_is_not_lvalue_reference<Union>();

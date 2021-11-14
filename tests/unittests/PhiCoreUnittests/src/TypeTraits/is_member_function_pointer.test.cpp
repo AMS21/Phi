@@ -3,8 +3,12 @@
 #include "TestTypes.hpp"
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/is_arithmetic.hpp>
+#include <Phi/TypeTraits/is_array.hpp>
+#include <Phi/TypeTraits/is_class.hpp>
 #include <Phi/TypeTraits/is_compound.hpp>
+#include <Phi/TypeTraits/is_floating_point.hpp>
 #include <Phi/TypeTraits/is_fundamental.hpp>
+#include <Phi/TypeTraits/is_integral.hpp>
 #include <Phi/TypeTraits/is_lvalue_reference.hpp>
 #include <Phi/TypeTraits/is_member_function_pointer.hpp>
 #include <Phi/TypeTraits/is_member_object_pointer.hpp>
@@ -13,6 +17,7 @@
 #include <Phi/TypeTraits/is_reference.hpp>
 #include <Phi/TypeTraits/is_rvalue_reference.hpp>
 #include <Phi/TypeTraits/is_scalar.hpp>
+#include <Phi/TypeTraits/is_union.hpp>
 
 template <typename T>
 void test_is_member_function_pointer_imp()
@@ -282,7 +287,6 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<char[3]>();
     test_is_not_member_function_pointer<char[]>();
     test_is_not_member_function_pointer<Class>();
-    test_is_not_member_function_pointer<Struct>();
     test_is_not_member_function_pointer<Empty>();
     test_is_not_member_function_pointer<NotEmpty>();
     test_is_not_member_function_pointer<Union>();

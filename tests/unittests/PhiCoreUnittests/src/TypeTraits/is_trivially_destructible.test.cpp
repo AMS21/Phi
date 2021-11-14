@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -12,6 +13,11 @@
 template <typename T>
 void test_is_trivially_destructible()
 {
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<volatile T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const volatile T>) == 1);
+
     STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<volatile T>::value);
@@ -28,6 +34,11 @@ void test_is_trivially_destructible()
 template <typename T>
 void test_is_not_trivially_destructible()
 {
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<volatile T>) == 1);
+    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const volatile T>) == 1);
+
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<volatile T>::value);
@@ -40,60 +51,6 @@ void test_is_not_trivially_destructible()
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible_v<const volatile T>);
 #endif
 }
-
-struct PublicDestructor
-{
-public:
-    ~PublicDestructor()
-    {}
-};
-struct ProtectedDestructor
-{
-protected:
-    ~ProtectedDestructor()
-    {}
-};
-struct PrivateDestructor
-{
-private:
-    ~PrivateDestructor()
-    {}
-};
-
-struct VirtualPublicDestructor
-{
-public:
-    virtual ~VirtualPublicDestructor()
-    {}
-};
-struct VirtualProtectedDestructor
-{
-protected:
-    virtual ~VirtualProtectedDestructor()
-    {}
-};
-struct VirtualPrivateDestructor
-{
-private:
-    virtual ~VirtualPrivateDestructor()
-    {}
-};
-
-struct PurePublicDestructor
-{
-public:
-    virtual ~PurePublicDestructor() = 0;
-};
-struct PureProtectedDestructor
-{
-protected:
-    virtual ~PureProtectedDestructor() = 0;
-};
-struct PurePrivateDestructor
-{
-private:
-    virtual ~PurePrivateDestructor() = 0;
-};
 
 struct A
 {
@@ -180,7 +137,6 @@ TEST_CASE("is_trivially_destructible")
     test_is_trivially_destructible<char* [3]>();
     test_is_not_trivially_destructible<char*[]>();
     test_is_not_trivially_destructible<Class>();
-    test_is_not_trivially_destructible<Struct>();
     test_is_trivially_destructible<Union>();
     test_is_trivially_destructible<NonEmptyUnion>();
     test_is_trivially_destructible<Empty>();

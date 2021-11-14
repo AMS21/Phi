@@ -100,7 +100,6 @@ TEST_CASE("is_arithmetic")
     test_is_not_arithmetic<NotEmpty>();
     test_is_not_arithmetic<Abstract>();
     test_is_not_arithmetic<Class>();
-    test_is_not_arithmetic<Struct>();
     test_is_not_arithmetic<NonEmptyUnion>();
     test_is_not_arithmetic<AbstractTemplate<int>>();
     test_is_not_arithmetic<AbstractTemplate<double>>();

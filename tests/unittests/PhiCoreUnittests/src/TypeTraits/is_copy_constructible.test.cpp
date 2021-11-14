@@ -61,7 +61,6 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<NotEmpty>();
     test_is_copy_constructible<bit_zero>();
     test_is_copy_constructible<Class>();
-    test_is_copy_constructible<Struct>();
     test_is_copy_constructible<NonEmptyUnion>();
     test_is_copy_constructible<Enum>();
     test_is_copy_constructible<EnumSigned>();

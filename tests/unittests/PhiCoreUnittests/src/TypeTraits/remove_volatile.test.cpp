@@ -89,7 +89,6 @@ TEST_CASE("remove_volatile")
     test_remove_volatile<char* [3], char* [3]>();
     test_remove_volatile<char*[], char*[]>();
     test_remove_volatile<Class, Class>();
-    test_remove_volatile<Struct, Struct>();
     test_remove_volatile<Union, Union>();
     test_remove_volatile<NonEmptyUnion, NonEmptyUnion>();
     test_remove_volatile<Empty, Empty>();

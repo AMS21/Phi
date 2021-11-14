@@ -9,6 +9,7 @@
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/TypeTraits/add_cv.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -23,6 +24,13 @@ void test_add_cv()
     CHECK_SAME_TYPE(phi::add_cv_t<const T>, const volatile T);
     CHECK_SAME_TYPE(phi::add_cv_t<volatile T>, const volatile T);
     CHECK_SAME_TYPE(phi::add_cv_t<const volatile T>, const volatile T);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
+    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, typename std::add_cv<const T>::type);
+    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, typename std::add_cv<volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type,
+                    typename std::add_cv<const volatile T>::type);
 }
 
 TEST_CASE("add_cv")
@@ -115,27 +123,16 @@ TEST_CASE("add_cv")
     test_add_cv<Class>();
     test_add_cv<Class[]>();
     test_add_cv<Class[2]>();
-    test_add_cv<Struct>();
-    test_add_cv<TemplateClass<void>>();
-    test_add_cv<TemplateClass<int>>();
-    test_add_cv<TemplateClass<Class>>();
-    test_add_cv<TemplateClass<incomplete_type>>();
-    test_add_cv<TemplateStruct<void>>();
-    test_add_cv<TemplateStruct<int>>();
-    test_add_cv<TemplateStruct<Class>>();
-    test_add_cv<TemplateStruct<incomplete_type>>();
-    test_add_cv<VariadicTemplateClass<>>();
-    test_add_cv<VariadicTemplateClass<void>>();
-    test_add_cv<VariadicTemplateClass<int>>();
-    test_add_cv<VariadicTemplateClass<Class>>();
-    test_add_cv<VariadicTemplateClass<incomplete_type>>();
-    test_add_cv<VariadicTemplateClass<int, void, Class, volatile char[]>>();
-    test_add_cv<VariadicTemplateStruct<>>();
-    test_add_cv<VariadicTemplateStruct<void>>();
-    test_add_cv<VariadicTemplateStruct<int>>();
-    test_add_cv<VariadicTemplateStruct<Class>>();
-    test_add_cv<VariadicTemplateStruct<incomplete_type>>();
-    test_add_cv<VariadicTemplateStruct<int, void, Class, volatile char[]>>();
+    test_add_cv<Template<void>>();
+    test_add_cv<Template<int>>();
+    test_add_cv<Template<Class>>();
+    test_add_cv<Template<incomplete_type>>();
+    test_add_cv<VariadicTemplate<>>();
+    test_add_cv<VariadicTemplate<void>>();
+    test_add_cv<VariadicTemplate<int>>();
+    test_add_cv<VariadicTemplate<Class>>();
+    test_add_cv<VariadicTemplate<incomplete_type>>();
+    test_add_cv<VariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_cv<PublicDerviedFromTemplate<Base>>();
     test_add_cv<PublicDerviedFromTemplate<Derived>>();
     test_add_cv<PublicDerviedFromTemplate<Class>>();
@@ -154,10 +151,29 @@ TEST_CASE("add_cv")
     test_add_cv<Base>();
     test_add_cv<Derived>();
     test_add_cv<Abstract>();
+    test_add_cv<PublicAbstract>();
+    test_add_cv<PrivateAbstract>();
+    test_add_cv<ProtectedAbstract>();
     test_add_cv<AbstractTemplate<int>>();
     test_add_cv<AbstractTemplate<double>>();
     test_add_cv<AbstractTemplate<Class>>();
     test_add_cv<AbstractTemplate<incomplete_type>>();
+    test_add_cv<Final>();
+    test_add_cv<PublicDestructor>();
+    test_add_cv<ProtectedDestructor>();
+    test_add_cv<PrivateDestructor>();
+    test_add_cv<VirtualPublicDestructor>();
+    test_add_cv<VirtualProtectedDestructor>();
+    test_add_cv<VirtualPrivateDestructor>();
+    test_add_cv<PurePublicDestructor>();
+    test_add_cv<PureProtectedDestructor>();
+    test_add_cv<PurePrivateDestructor>();
+    test_add_cv<DeletedPublicDestructor>();
+    test_add_cv<DeletedProtectedDestructor>();
+    test_add_cv<DeletedPrivateDestructor>();
+    test_add_cv<DeletedVirtualPublicDestructor>();
+    test_add_cv<DeletedVirtualProtectedDestructor>();
+    test_add_cv<DeletedVirtualPrivateDestructor>();
     test_add_cv<Final>();
     test_add_cv<Enum>();
     test_add_cv<EnumSigned>();
@@ -227,6 +243,8 @@ TEST_CASE("add_cv")
     test_add_cv<TrapComma>();
     test_add_cv<TrapCall>();
     test_add_cv<TrapSelfAssign>();
+    test_add_cv<TrapDeref>();
+    test_add_cv<TrapArraySubscript>();
 
     test_add_cv<void()>();
     test_add_cv<void()&>();
@@ -234,12 +252,24 @@ TEST_CASE("add_cv")
     test_add_cv<void() const>();
     test_add_cv<void() const&>();
     test_add_cv<void() const&&>();
+    test_add_cv<void() volatile>();
+    test_add_cv<void() volatile&>();
+    test_add_cv<void() volatile&&>();
+    test_add_cv<void() const volatile>();
+    test_add_cv<void() const volatile&>();
+    test_add_cv<void() const volatile&&>();
     test_add_cv<void() noexcept>();
     test_add_cv<void()& noexcept>();
     test_add_cv<void()&& noexcept>();
     test_add_cv<void() const noexcept>();
     test_add_cv<void() const& noexcept>();
     test_add_cv<void() const&& noexcept>();
+    test_add_cv<void() volatile noexcept>();
+    test_add_cv<void() volatile& noexcept>();
+    test_add_cv<void() volatile&& noexcept>();
+    test_add_cv<void() const volatile noexcept>();
+    test_add_cv<void() const volatile& noexcept>();
+    test_add_cv<void() const volatile&& noexcept>();
 
     test_add_cv<void(int)>();
     test_add_cv<void(int)&>();
@@ -247,12 +277,24 @@ TEST_CASE("add_cv")
     test_add_cv<void(int) const>();
     test_add_cv<void(int) const&>();
     test_add_cv<void(int) const&&>();
+    test_add_cv<void(int) volatile>();
+    test_add_cv<void(int) volatile&>();
+    test_add_cv<void(int) volatile&&>();
+    test_add_cv<void(int) const volatile>();
+    test_add_cv<void(int) const volatile&>();
+    test_add_cv<void(int) const volatile&&>();
     test_add_cv<void(int) noexcept>();
     test_add_cv<void(int)& noexcept>();
     test_add_cv<void(int)&& noexcept>();
     test_add_cv<void(int) const noexcept>();
     test_add_cv<void(int) const& noexcept>();
     test_add_cv<void(int) const&& noexcept>();
+    test_add_cv<void(int) volatile noexcept>();
+    test_add_cv<void(int) volatile& noexcept>();
+    test_add_cv<void(int) volatile&& noexcept>();
+    test_add_cv<void(int) const volatile noexcept>();
+    test_add_cv<void(int) const volatile& noexcept>();
+    test_add_cv<void(int) const volatile&& noexcept>();
 
     test_add_cv<void(...)>();
     test_add_cv<void(...)&>();
@@ -260,12 +302,24 @@ TEST_CASE("add_cv")
     test_add_cv<void(...) const>();
     test_add_cv<void(...) const&>();
     test_add_cv<void(...) const&&>();
+    test_add_cv<void(...) volatile>();
+    test_add_cv<void(...) volatile&>();
+    test_add_cv<void(...) volatile&&>();
+    test_add_cv<void(...) const volatile>();
+    test_add_cv<void(...) const volatile&>();
+    test_add_cv<void(...) const volatile&&>();
     test_add_cv<void(...) noexcept>();
     test_add_cv<void(...)& noexcept>();
     test_add_cv<void(...)&& noexcept>();
     test_add_cv<void(...) const noexcept>();
     test_add_cv<void(...) const& noexcept>();
     test_add_cv<void(...) const&& noexcept>();
+    test_add_cv<void(...) volatile noexcept>();
+    test_add_cv<void(...) volatile& noexcept>();
+    test_add_cv<void(...) volatile&& noexcept>();
+    test_add_cv<void(...) const volatile noexcept>();
+    test_add_cv<void(...) const volatile& noexcept>();
+    test_add_cv<void(...) const volatile&& noexcept>();
 
     test_add_cv<void(int, ...)>();
     test_add_cv<void(int, ...)&>();
@@ -273,12 +327,24 @@ TEST_CASE("add_cv")
     test_add_cv<void(int, ...) const>();
     test_add_cv<void(int, ...) const&>();
     test_add_cv<void(int, ...) const&&>();
+    test_add_cv<void(int, ...) volatile>();
+    test_add_cv<void(int, ...) volatile&>();
+    test_add_cv<void(int, ...) volatile&&>();
+    test_add_cv<void(int, ...) const volatile>();
+    test_add_cv<void(int, ...) const volatile&>();
+    test_add_cv<void(int, ...) const volatile&&>();
     test_add_cv<void(int, ...) noexcept>();
     test_add_cv<void(int, ...)& noexcept>();
     test_add_cv<void(int, ...)&& noexcept>();
     test_add_cv<void(int, ...) const noexcept>();
     test_add_cv<void(int, ...) const& noexcept>();
     test_add_cv<void(int, ...) const&& noexcept>();
+    test_add_cv<void(int, ...) volatile noexcept>();
+    test_add_cv<void(int, ...) volatile& noexcept>();
+    test_add_cv<void(int, ...) volatile&& noexcept>();
+    test_add_cv<void(int, ...) const volatile noexcept>();
+    test_add_cv<void(int, ...) const volatile& noexcept>();
+    test_add_cv<void(int, ...) const volatile&& noexcept>();
 
     test_add_cv<int()>();
     test_add_cv<int()&>();
@@ -286,12 +352,24 @@ TEST_CASE("add_cv")
     test_add_cv<int() const>();
     test_add_cv<int() const&>();
     test_add_cv<int() const&&>();
+    test_add_cv<int() volatile>();
+    test_add_cv<int() volatile&>();
+    test_add_cv<int() volatile&&>();
+    test_add_cv<int() const volatile>();
+    test_add_cv<int() const volatile&>();
+    test_add_cv<int() const volatile&&>();
     test_add_cv<int() noexcept>();
     test_add_cv<int()& noexcept>();
     test_add_cv<int()&& noexcept>();
     test_add_cv<int() const noexcept>();
     test_add_cv<int() const& noexcept>();
     test_add_cv<int() const&& noexcept>();
+    test_add_cv<int() volatile noexcept>();
+    test_add_cv<int() volatile& noexcept>();
+    test_add_cv<int() volatile&& noexcept>();
+    test_add_cv<int() const volatile noexcept>();
+    test_add_cv<int() const volatile& noexcept>();
+    test_add_cv<int() const volatile&& noexcept>();
 
     test_add_cv<int(int)>();
     test_add_cv<int(int)&>();
@@ -299,12 +377,24 @@ TEST_CASE("add_cv")
     test_add_cv<int(int) const>();
     test_add_cv<int(int) const&>();
     test_add_cv<int(int) const&&>();
+    test_add_cv<int(int) volatile>();
+    test_add_cv<int(int) volatile&>();
+    test_add_cv<int(int) volatile&&>();
+    test_add_cv<int(int) const volatile>();
+    test_add_cv<int(int) const volatile&>();
+    test_add_cv<int(int) const volatile&&>();
     test_add_cv<int(int) noexcept>();
     test_add_cv<int(int)& noexcept>();
     test_add_cv<int(int)&& noexcept>();
     test_add_cv<int(int) const noexcept>();
     test_add_cv<int(int) const& noexcept>();
     test_add_cv<int(int) const&& noexcept>();
+    test_add_cv<int(int) volatile noexcept>();
+    test_add_cv<int(int) volatile& noexcept>();
+    test_add_cv<int(int) volatile&& noexcept>();
+    test_add_cv<int(int) const volatile noexcept>();
+    test_add_cv<int(int) const volatile& noexcept>();
+    test_add_cv<int(int) const volatile&& noexcept>();
 
     test_add_cv<int(...)>();
     test_add_cv<int(...)&>();
@@ -312,12 +402,24 @@ TEST_CASE("add_cv")
     test_add_cv<int(...) const>();
     test_add_cv<int(...) const&>();
     test_add_cv<int(...) const&&>();
+    test_add_cv<int(...) volatile>();
+    test_add_cv<int(...) volatile&>();
+    test_add_cv<int(...) volatile&&>();
+    test_add_cv<int(...) const volatile>();
+    test_add_cv<int(...) const volatile&>();
+    test_add_cv<int(...) const volatile&&>();
     test_add_cv<int(...) noexcept>();
     test_add_cv<int(...)& noexcept>();
     test_add_cv<int(...)&& noexcept>();
     test_add_cv<int(...) const noexcept>();
     test_add_cv<int(...) const& noexcept>();
     test_add_cv<int(...) const&& noexcept>();
+    test_add_cv<int(...) volatile noexcept>();
+    test_add_cv<int(...) volatile& noexcept>();
+    test_add_cv<int(...) volatile&& noexcept>();
+    test_add_cv<int(...) const volatile noexcept>();
+    test_add_cv<int(...) const volatile& noexcept>();
+    test_add_cv<int(...) const volatile&& noexcept>();
 
     test_add_cv<int(int, ...)>();
     test_add_cv<int(int, ...)&>();
@@ -325,12 +427,24 @@ TEST_CASE("add_cv")
     test_add_cv<int(int, ...) const>();
     test_add_cv<int(int, ...) const&>();
     test_add_cv<int(int, ...) const&&>();
+    test_add_cv<int(int, ...) volatile>();
+    test_add_cv<int(int, ...) volatile&>();
+    test_add_cv<int(int, ...) volatile&&>();
+    test_add_cv<int(int, ...) const volatile>();
+    test_add_cv<int(int, ...) const volatile&>();
+    test_add_cv<int(int, ...) const volatile&&>();
     test_add_cv<int(int, ...) noexcept>();
     test_add_cv<int(int, ...)& noexcept>();
     test_add_cv<int(int, ...)&& noexcept>();
     test_add_cv<int(int, ...) const noexcept>();
     test_add_cv<int(int, ...) const& noexcept>();
     test_add_cv<int(int, ...) const&& noexcept>();
+    test_add_cv<int(int, ...) volatile noexcept>();
+    test_add_cv<int(int, ...) volatile& noexcept>();
+    test_add_cv<int(int, ...) volatile&& noexcept>();
+    test_add_cv<int(int, ...) const volatile noexcept>();
+    test_add_cv<int(int, ...) const volatile& noexcept>();
+    test_add_cv<int(int, ...) const volatile&& noexcept>();
 
     test_add_cv<void (*)()>();
     test_add_cv<void (*)() noexcept>();

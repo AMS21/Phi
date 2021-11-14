@@ -72,7 +72,6 @@ TEST_CASE("is_move_assignable")
     test_is_move_assignable<float>();
     test_is_move_assignable<double>();
     test_is_move_assignable<Class>();
-    test_is_move_assignable<Struct>();
     test_is_move_assignable<Empty>();
     test_is_move_assignable<NotEmpty>();
     test_is_move_assignable<Union>();

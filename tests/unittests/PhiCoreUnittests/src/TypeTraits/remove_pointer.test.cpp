@@ -114,7 +114,6 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int(&)[3], int(&)[3]>();
     test_remove_pointer<int(&)[], int(&)[]>();
     test_remove_pointer<Class, Class>();
-    test_remove_pointer<Struct, Struct>();
     test_remove_pointer<Union, Union>();
     test_remove_pointer<NonEmptyUnion, NonEmptyUnion>();
     test_remove_pointer<Empty, Empty>();

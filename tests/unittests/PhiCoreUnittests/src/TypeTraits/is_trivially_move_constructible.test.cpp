@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "TestTypes.hpp"
+#include <Phi/CompilerSupport/Char8_t.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
@@ -110,7 +111,6 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_not_trivially_move_constructible<char* [3]>();
     test_is_not_trivially_move_constructible<char*[]>();
     test_is_not_trivially_move_constructible<Class>();
-    test_is_not_trivially_move_constructible<Struct>();
     test_is_trivially_move_constructible<Union>();
     test_is_trivially_move_constructible<NonEmptyUnion>();
     test_is_trivially_move_constructible<Empty>();

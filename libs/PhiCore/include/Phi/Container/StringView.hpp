@@ -190,41 +190,53 @@ public:
 
     // Modifiers
 
-    PHI_EXTENDED_CONSTEXPR void clear() noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& clear() noexcept
     {
         m_Data = nullptr;
         m_Size = 0u;
+
+        return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void add_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& add_prefix(size_type count) noexcept
     {
         m_Data -= count.get();
         m_Size += count;
+
+        return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void add_postfix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& add_postfix(size_type count) noexcept
     {
         m_Size += count;
+
+        return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void remove_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& remove_prefix(size_type count) noexcept
     {
         PHI_DBG_ASSERT(count <= size(), "Cannot remove more than size");
 
         m_Data += count.get();
         m_Size -= count;
+
+        return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void remove_suffix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& remove_suffix(size_type count) noexcept
     {
         PHI_DBG_ASSERT(count <= size(), "Cannot remove more than size");
 
         m_Size -= count;
+
+        return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void resize(size_type new_size) noexcept
+    PHI_EXTENDED_CONSTEXPR BasicStringView& resize(size_type new_size) noexcept
     {
         m_Size = new_size;
+
+        return *this;
     }
 
     PHI_EXTENDED_CONSTEXPR void swap(BasicStringView& other) noexcept

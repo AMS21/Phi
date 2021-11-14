@@ -97,7 +97,6 @@ TEST_CASE("is_empty")
     test_is_not_empty<MemberFunctionPtr>();
 
     test_is_empty<Class>();
-    test_is_empty<Struct>();
     test_is_empty<Empty>();
     test_is_empty<EmptyBase>();
     test_is_empty<StaticMember>();
