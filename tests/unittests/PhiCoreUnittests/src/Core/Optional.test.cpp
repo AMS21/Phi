@@ -31,7 +31,9 @@
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-copy")
+#endif
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
 
