@@ -54,7 +54,7 @@ jobs:
           emcc --version
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.21.1
+        uses: lukka/get-cmake@v3.21.2
 
       - name: Configure build directory
         run: |
@@ -108,7 +108,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.21.1
+        uses: lukka/get-cmake@v3.21.2
 
       - name: Generate warnings
         run: |
