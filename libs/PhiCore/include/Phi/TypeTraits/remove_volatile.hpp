@@ -7,20 +7,20 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/CompilerSupport/Intrinsics/RemoveVolatile.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_REMOVE_VOLATILE()
+#if PHI_SUPPORTS_REMOVE_VOLATILE()
 
 template <typename TypeT>
 struct remove_volatile
 {
-    using type = __remove_volatile(TypeT);
+    using type = PHI_REMOVE_VOLATILE(TypeT);
 }
 
 template <typename TypeT>
-using remove_volatile_t = __remove_volatile(TypeT);
+using remove_volatile_t = PHI_REMOVE_VOLATILE(TypeT);
 
 #else
 

@@ -7,23 +7,23 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsBaseOf.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_class.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_BASE_OF()
+#if PHI_SUPPORTS_IS_BASE_OF()
 
 template <typename BaseT, typename DerivedT>
-struct is_base_of : public bool_constant<__is_base_of(BaseT, DerivedT)>
+struct is_base_of : public bool_constant<PHI_IS_BASE_OF(BaseT, DerivedT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename BaseT, typename DerivedT>
-PHI_INLINE_VARIABLE constexpr bool is_base_of_v = __is_base_of(BaseT, DerivedT);
+PHI_INLINE_VARIABLE constexpr bool is_base_of_v = PHI_IS_BASE_OF(BaseT, DerivedT);
 
 #    endif
 

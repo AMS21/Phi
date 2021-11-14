@@ -7,20 +7,20 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/CompilerSupport/Intrinsics/RemoveConst.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_REMOVE_CONST()
+#if PHI_SUPPORTS_REMOVE_CONST()
 
 template <typename TypeT>
 struct remove_const
 {
-    using type = __remove_const(TypeT);
+    using type = PHI_REMOVE_CONST(TypeT);
 };
 
 template <typename TypeT>
-using remove_const_t = __remove_const(TypeT);
+using remove_const_t = PHI_REMOVE_CONST(TypeT);
 
 #else
 

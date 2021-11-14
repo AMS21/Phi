@@ -7,14 +7,14 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/CompilerSupport/Intrinsics/UnderlyingType.hpp"
 #include "Phi/TypeTraits/always_false.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_enum.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_UNDERLYING_TYPE()
+#if PHI_SUPPORTS_UNDERLYING_TYPE()
 
 namespace detail
 {
@@ -28,7 +28,7 @@ namespace detail
     template <typename TypeT>
     struct underlying_type_impl<TypeT, true>
     {
-        using type = __underlying_type(TypeT);
+        using type = PHI_UNDERLYING_TYPE(TypeT);
     };
 } // namespace detail
 

@@ -7,12 +7,11 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/TypeTraits/detail/intrinsics.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsConstructible.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

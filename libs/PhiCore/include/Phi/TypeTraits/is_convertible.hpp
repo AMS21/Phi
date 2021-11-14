@@ -7,24 +7,24 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsConvertible.hpp"
 #include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_CONVERTIBLE_TO()
+#if PHI_SUPPORTS_IS_CONVERTIBLE()
 
 template <typename FromT, typename ToT>
-struct is_convertible : public bool_constant<__is_convertible_to(FromT, ToT)>
+struct is_convertible : public bool_constant<PHI_IS_CONVERTIBLE(FromT, ToT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_convertible_v = __is_convertible_to(FromT, ToT);
+PHI_INLINE_VARIABLE constexpr bool is_convertible_v = PHI_IS_CONVERTIBLE(FromT, ToT);
 
 #    endif
 

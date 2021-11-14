@@ -7,24 +7,24 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsMemberObjectPointer.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_member_function_pointer.hpp"
 #include "Phi/TypeTraits/is_member_pointer.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_MEMBER_OBJECT_POINTER()
+#if PHI_SUPPORTS_IS_MEMBER_OBJECT_POINTER()
 
 template <typename TypeT>
-struct is_member_object_pointer : public bool_constant<__is_member_object_pointer(TypeT)>
+struct is_member_object_pointer : public bool_constant<PHI_IS_MEMBER_OBJECT_POINTER(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v = __is_member_object_pointer(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v = PHI_IS_MEMBER_OBJECT_POINTER(TypeT);
 
 #    endif
 

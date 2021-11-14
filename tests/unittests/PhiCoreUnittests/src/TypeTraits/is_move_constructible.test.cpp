@@ -166,7 +166,7 @@ TEST_CASE("is_move_constructible")
 #endif
 
     // Incomplete types only work with the intrinsic functions
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_move_constructible<void>();
     test_is_not_move_constructible<const void>();
     test_is_not_move_constructible<volatile void>();

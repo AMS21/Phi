@@ -7,7 +7,6 @@
 #    pragma once
 #endif
 
-#include "Phi/TypeTraits/detail/intrinsics.hpp"
 #include "Phi/TypeTraits/detail/yes_no_type.hpp"
 
 #include "Phi/TypeTraits/add_const.hpp"

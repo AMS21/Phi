@@ -7,25 +7,25 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsMemberFunctionPointer.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_function.hpp"
 #include "Phi/TypeTraits/remove_cv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_MEMBER_FUNCTION_POINTER()
+#if PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER()
 
 template <typename TypeT>
-struct is_member_function_pointer : public bool_constant<__is_member_function_pointer(TypeT)>
+struct is_member_function_pointer : public bool_constant<PHI_IS_MEMBER_FUNCTION_POINTER(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_function_pointer_v =
-        __is_member_function_pointer(TypeT);
+        PHI_IS_MEMBER_FUNCTION_POINTER(TypeT);
 
 #    endif
 

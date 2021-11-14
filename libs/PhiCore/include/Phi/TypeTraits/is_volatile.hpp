@@ -7,22 +7,22 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsVolatile.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_VOLATILE()
+#if PHI_SUPPORTS_IS_VOLATILE()
 
 template <typename TypeT>
-struct is_volatile : bool_constant<__is_volatile(TypeT)>
+struct is_volatile : public bool_constant<PHI_IS_VOLATILE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_volatile_v = __is_volatile(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_volatile_v = PHI_IS_VOLATILE(TypeT);
 
 #    endif
 

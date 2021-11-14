@@ -7,22 +7,22 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsPolymorphic.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_POLYMORPHIC()
+#if PHI_SUPPORTS_IS_POLYMORPHIC()
 
 template <typename TypeT>
-struct is_polymorphic : public bool_constant<__is_polymorphic(TypeT)>
+struct is_polymorphic : public bool_constant<PHI_IS_POLYMORPHIC(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = __is_polymorphic(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = PHI_IS_POLYMORPHIC(TypeT);
 
 #    endif
 

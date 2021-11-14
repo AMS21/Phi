@@ -72,7 +72,7 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<AbstractTemplate<double>>();
 
     test_is_not_copy_constructible<char[3]>();
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     // Incomplete types only work with intrinsics
     test_is_not_copy_constructible<char[]>();
 #endif
@@ -81,7 +81,7 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<B>();
     test_is_not_copy_constructible<C>();
 
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE() && !PHI_HAS_BUG_GCC_102305()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE() && !PHI_HAS_BUG_GCC_102305()
     test_is_not_copy_constructible<AbstractTemplate<int>>();
 #endif
 }

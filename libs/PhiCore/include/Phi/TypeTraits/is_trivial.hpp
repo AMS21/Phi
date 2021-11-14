@@ -7,24 +7,24 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsTrivial.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_trivially_copyable.hpp"
 #include "Phi/TypeTraits/is_trivially_default_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_TRIVIAL()
+#if PHI_SUPPORTS_IS_TRIVIAL()
 
 template <typename TypeT>
-struct is_trivial : public bool_constant<__is_trivial(TypeT)>
+struct is_trivial : public bool_constant<PHI_IS_TRIVIAL(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivial_v = __is_trivial(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_trivial_v = PHI_IS_TRIVIAL(TypeT);
 
 #    endif
 

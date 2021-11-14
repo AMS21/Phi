@@ -7,29 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsEnum.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_ENUM()
+#if PHI_SUPPORTS_IS_ENUM()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_enum : public bool_constant<__is_enum(TypeT)>
+struct is_enum : public bool_constant<PHI_IS_ENUM(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_enum : public bool_constant<!__is_enum(TypeT)>
+struct is_not_enum : public bool_constant<!PHI_IS_ENUM(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_enum_v = __is_enum(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_enum_v = PHI_IS_ENUM(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_enum_v = !__is_enum(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_enum_v = !PHI_IS_ENUM(TypeT);
 
 #    endif
 

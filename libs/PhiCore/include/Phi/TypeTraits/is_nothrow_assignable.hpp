@@ -7,24 +7,24 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsNothrowAssignable.hpp"
 #include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_assignable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_NOTHROW_ASSIGNABLE()
+#if PHI_SUPPORTS_IS_NOTHROW_ASSIGNABLE()
 
 template <typename TypeT, typename ArgT>
-struct is_nothrow_assignable : public bool_constant<__is_nothrow_assignable(TypeT, ArgT)>
+struct is_nothrow_assignable : public bool_constant<PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v = __is_nothrow_assignable(TypeT, ArgT);
+PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v = PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT);
 
 #    endif
 

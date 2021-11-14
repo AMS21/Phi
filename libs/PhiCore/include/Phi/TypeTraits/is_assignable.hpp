@@ -7,16 +7,15 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsAssignable.hpp"
 #include "Phi/Core/Declval.hpp"
-#include "Phi/TypeTraits/detail/intrinsics.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_ASSIGNABLE()
+#if PHI_SUPPORTS_IS_ASSIGNABLE()
 
 template <typename TypeT, typename ArgT>
 struct is_assignable : public bool_constant<PHI_IS_ASSIGNABLE(TypeT, ArgT)>

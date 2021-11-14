@@ -7,29 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsArray.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_ARRAY()
+#if PHI_SUPPORTS_IS_ARRAY()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_array : public bool_constant<__is_array(TypeT)>
+struct is_array : public bool_constant<PHI_IS_ARRAY(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_array : public bool_constant<!__is_array(TypeT)>
+struct is_not_array : public bool_constant<!PHI_IS_ARRAY(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_array_v = __is_array(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_array_v = PHI_IS_ARRAY(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_array_v = !__is_array(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_array_v = !PHI_IS_ARRAY(TypeT);
 
 #    endif
 

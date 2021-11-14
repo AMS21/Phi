@@ -7,23 +7,23 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsTriviallyCopyable.hpp"
 #include "Phi/TypeTraits/always_false.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_TRIVIALLY_COPYABLE()
+#if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
 
 template <typename TypeT>
-struct is_trivially_copyable : public bool_constant<__is_trivially_copyable(TypeT)>
+struct is_trivially_copyable : public bool_constant<PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = __is_trivially_copyable(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 #    endif
 

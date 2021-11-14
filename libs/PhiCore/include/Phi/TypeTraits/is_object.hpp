@@ -7,33 +7,33 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsObject.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if !PHI_HAS_INTRINSIC_IS_OBJECT()
-#    include "Phi/TypeTraits/is_array.hpp"
-#    include "Phi/TypeTraits/is_class.hpp"
-#    include "Phi/TypeTraits/is_scalar.hpp"
-#    include "Phi/TypeTraits/is_union.hpp"
-#endif
+#if PHI_SUPPORTS_IS_OBJECT()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_OBJECT()
-
 template <typename TypeT>
-struct is_object : public bool_constant<__is_object(TypeT)>
+struct is_object : public bool_constant<PHI_IS_OBJECT(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_object_v = __is_object(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_object_v = PHI_IS_OBJECT(TypeT);
 
 #    endif
 
 #else
+
+#    include "Phi/TypeTraits/is_array.hpp"
+#    include "Phi/TypeTraits/is_class.hpp"
+#    include "Phi/TypeTraits/is_scalar.hpp"
+#    include "Phi/TypeTraits/is_union.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_object : public bool_constant<is_scalar_v<TypeT> || is_array_v<TypeT> ||

@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsNothrowConstructible.hpp"
 #include "Phi/Core/Declval.hpp"
 #include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
@@ -17,17 +17,18 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_NOTHROW_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_NOTHROW_CONSTRUCTIBLE()
 
 template <typename TypeT, typename... ArgsT>
-struct is_nothrow_constructible : public bool_constant<__is_nothrow_constructible(TypeT, ArgsT...)>
+struct is_nothrow_constructible
+    : public bool_constant<PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_constructible_v =
-        __is_nothrow_constructible(TypeT, ArgsT...);
+        PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 #    endif
 

@@ -7,29 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsClass.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_CLASS()
+#if PHI_SUPPORTS_IS_CLASS()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_class : public bool_constant<__is_class(TypeT)>
+struct is_class : public bool_constant<PHI_IS_CLASS(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_class : public bool_constant<!__is_class(TypeT)>
+struct is_not_class : public bool_constant<!PHI_IS_CLASS(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_class_v = __is_class(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_class_v = PHI_IS_CLASS(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_class_v = !__is_class(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_class_v = !PHI_IS_CLASS(TypeT);
 
 #    endif
 

@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsScalar.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 #if 0
@@ -16,13 +16,13 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_scalar : public bool_constant<__is_scalar(TypeT)>
+struct is_scalar : public bool_constant<PHI_IS_SCALAR(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_scalar_v = __is_scalar(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_scalar_v = PHI_IS_SCALAR(TypeT);
 
 #    endif
 

@@ -7,31 +7,31 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsVoid.hpp"
 #include "Phi/Config/Compiler.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_VOID() && PHI_HAS_KEYWORD(__is_void)
+#if PHI_SUPPORTS_IS_VOID()
 
 #    include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_void : public bool_constant<__is_void(TypeT)>
+struct is_void : public bool_constant<PHI_IS_VOID(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_void : public bool_constant<!__is_void(TypeT)>
+struct is_not_void : public bool_constant<!PHI_IS_VOID(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_void_v = __is_void(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_void_v = PHI_IS_VOID(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_void_v = !__is_void(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_void_v = !PHI_IS_VOID(TypeT);
 
 #    endif
 

@@ -7,29 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsUnion.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_UNION()
+#if PHI_SUPPORTS_IS_UNION()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_union : public bool_constant<__is_union(TypeT)>
+struct is_union : public bool_constant<PHI_IS_UNION(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_union : public bool_constant<!__is_union(TypeT)>
+struct is_not_union : public bool_constant<!PHI_IS_UNION(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_union_v = __is_union(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_union_v = PHI_IS_UNION(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_union_v = !__is_union(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_union_v = !PHI_IS_UNION(TypeT);
 
 #    endif
 

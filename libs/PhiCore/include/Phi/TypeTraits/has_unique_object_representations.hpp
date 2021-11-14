@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/HasUniqueObjectRepresentations.hpp"
 #include "Phi/TypeTraits/always_false.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/remove_all_extents.hpp"
@@ -16,16 +16,17 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
+#if PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
 
 template <typename TypeT>
-struct has_unique_object_representations : public bool_constant<__has_unique_object_representations(
-                                                   remove_cv_t<remove_all_extents_t<TypeT>>)>
+struct has_unique_object_representations
+    : public bool_constant<PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
+              remove_cv_t<remove_all_extents_t<TypeT>>)>
 {};
 
 template <typename TypeT>
 struct has_no_unique_object_representations
-    : public bool_constant<!__has_unique_object_representations(
+    : public bool_constant<!PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
               remove_cv_t<remove_all_extents_t<TypeT>>)>
 {};
 

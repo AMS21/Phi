@@ -7,14 +7,14 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsAggregate.hpp"
 #include "Phi/TypeTraits/always_false.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_AGGREGATE()
+#if PHI_SUPPORTS_IS_AGGREGATE()
 
 template <typename TypeT>
 struct is_aggregate : public bool_constant<__is_aggregate(TypeT)>

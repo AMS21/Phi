@@ -7,20 +7,20 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/CompilerSupport/Intrinsics/RemoveCV.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_REMOVE_CV()
+#if PHI_SUPPORTS_REMOVE_CV()
 
 template <typename TypeT>
 struct remove_cv
 {
-    using type = __remove_cv(TypeT);
+    using type = PHI_REMOVE_CV(TypeT);
 }
 
 template <typename TypeT>
-using remove_cv_t = __remove_cv(TypeT);
+using remove_cv_t = PHI_REMOVE_CV(TypeT);
 
 #else
 

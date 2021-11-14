@@ -7,23 +7,23 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsCompound.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_unsafe_fundamental.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_COMPOUND()
+#if PHI_SUPPORTS_IS_COMPOUND()
 
 template <typename TypeT>
-struct is_compound : public bool_constant<__is_compound(TypeT)>
+struct is_compound : public bool_constant<PHI_IS_COMPOUND(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_compound_v = __is_compound(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_compound_v = PHI_IS_COMPOUND(TypeT);
 
 #    endif
 

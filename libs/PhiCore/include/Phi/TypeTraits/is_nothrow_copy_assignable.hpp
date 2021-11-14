@@ -8,9 +8,29 @@
 #endif
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/TypeTraits/add_const.hpp"
-#include "Phi/TypeTraits/add_lvalue_reference.hpp"
-#include "Phi/TypeTraits/is_nothrow_assignable.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsNothrowCopyAssignable.hpp"
+
+#if PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE()
+
+#    include "Phi/TypeTraits/integral_constant.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct is_nothrow_copy_assignable : public bool_constant<PHI_IS_NOTHROW_COPY_ASSIGNABLE(TypeT)>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_assignable_v = PHI_IS_NOTHROW_COPY_ASSIGNABLE;
+
+#    endif
+#else
+
+#    include "Phi/TypeTraits/add_const.hpp"
+#    include "Phi/TypeTraits/add_lvalue_reference.hpp"
+#    include "Phi/TypeTraits/is_nothrow_assignable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -20,11 +40,13 @@ struct is_nothrow_copy_assignable
                                    add_lvalue_reference_t<add_const_t<TypeT>>>
 {};
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_assignable_v =
         is_nothrow_copy_assignable<TypeT>::value;
+
+#    endif
 
 #endif
 

@@ -7,22 +7,22 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsConst.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_CONST()
+#if PHI_SUPPORTS_IS_CONST()
 
 template <typename TypeT>
-struct is_const : public bool_constant<__is_const(TypeT)>
+struct is_const : public bool_constant<PHI_IS_CONST(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_const_v = __is_const(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_const_v = PHI_IS_CONST(TypeT);
 
 #    endif
 

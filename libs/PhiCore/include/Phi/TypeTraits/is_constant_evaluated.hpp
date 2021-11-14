@@ -7,15 +7,15 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsConstantEvaluated.hpp"
 #include "Phi/Config/Inline.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_ALWAYS_INLINE constexpr bool is_constant_evaluated() noexcept
 {
-#if PHI_HAS_INTRINSIC_BUILTIN_IS_CONSTANT_EVALUATED()
-    return __builtin_is_constant_evaluated();
+#if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
+    return PHI_IS_CONSTANT_EVALUATED();
 #else
     return false;
 #endif

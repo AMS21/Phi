@@ -7,30 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
-#include "Phi/Config/Compiler.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsPointer.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_POINTER() && PHI_HAS_KEYWORD(__is_pointer)
+#if PHI_SUPPORTS_IS_POINTER()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_pointer : public bool_constant<__is_pointer(TypeT)>
+struct is_pointer : public bool_constant<PHI_IS_POINTER(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_pointer : public bool_constant<!__is_pointer(TypeT)>
+struct is_not_pointer : public bool_constant<!PHI_IS_POINTER(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_pointer_v = __is_pointer(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_pointer_v = PHI_IS_POINTER(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_pointer_v = !__is_pointer(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_not_pointer_v = !PHI_IS_POINTER(TypeT);
 
 #    endif
 

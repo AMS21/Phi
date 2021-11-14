@@ -198,7 +198,7 @@ TEST_CASE("is_constructible")
     test_is_constructible<int&&, double&>();
     test_is_constructible<const int&, ImplicitTo<int&>&>();
     test_is_constructible<const int&, ImplicitTo<int&>>();
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_constructible<const int&, ExplicitTo<int&>&>();
     test_is_constructible<const int&, ExplicitTo<int&>>();
 #else
@@ -206,7 +206,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<const int&, ExplicitTo<int&>>();
 #endif
 
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_constructible<const int&, ExplicitTo<int&>>();
     test_is_constructible<const int&, ExplicitTo<int&>&>();
 #else
@@ -228,7 +228,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<const int&, ExplicitTo<int&&>>();
 #endif
 
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_constructible<int&&, ExplicitTo<int&&>>();
 #else
     test_is_not_constructible<int&&, ExplicitTo<int&&>>();

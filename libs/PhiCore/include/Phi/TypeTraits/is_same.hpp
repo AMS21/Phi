@@ -7,29 +7,29 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsSame.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_SAME()
+#if PHI_SUPPORTS_IS_SAME()
 
 template <typename LhsT, typename RhsT>
-struct is_same : public bool_constant<__is_same(LhsT, RhsT)>
+struct is_same : public bool_constant<PHI_IS_SAME(LhsT, RhsT)>
 {};
 
 template <typename LhsT, typename RhsT>
-struct is_not_same : public bool_constant<!__is_same(LhsT, RhsT)>
+struct is_not_same : public bool_constant<!PHI_IS_SAME(LhsT, RhsT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_same_v = __is_same(LhsT, RhsT);
+PHI_INLINE_VARIABLE constexpr bool is_same_v = PHI_IS_SAME(LhsT, RhsT);
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_same_v = !__is_same(LhsT, RhsT);
+PHI_INLINE_VARIABLE constexpr bool is_not_same_v = !PHI_IS_SAME(LhsT, RhsT);
 
 #    endif
 

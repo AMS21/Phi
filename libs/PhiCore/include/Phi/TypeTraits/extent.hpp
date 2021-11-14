@@ -9,21 +9,22 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/ArrayExtent.hpp"
 #include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_ARRAY_EXTENT()
+#if PHI_SUPPORTS_ARRAY_EXTENT()
 
 template <typename TypeT, unsigned Dimension = 0u>
-struct extent : public integral_constant<size_t, __array_extent(TypeT, Dimension)>
+struct extent : public integral_constant<size_t, PHI_ARRAY_EXTENT(TypeT, Dimension)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, unsigned Dimension = 0u>
-PHI_INLINE_VARIABLE constexpr size_t extent_v = __array_extent(TypeT, Dimension);
+PHI_INLINE_VARIABLE constexpr size_t extent_v = PHI_ARRAY_EXTENT(TypeT, Dimension);
 
 #    endif
 

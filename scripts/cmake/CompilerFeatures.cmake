@@ -174,6 +174,60 @@ phi_check_cxx_source_compiles("int main() { return __builtin_floor(3.14); }"
                               PHI_HAS_INTRINSIC_BUILTIN_FLOOR)
 phi_check_cxx_source_compiles("int main() { return __builtin_floorl(3.14); }"
                               PHI_HAS_INTRINSIC_BUILTIN_FLOORL)
+phi_check_cxx_source_compiles("int main() { return __array_rank(int[2]); }"
+                              PHI_HAS_INTRINSIC_ARRAY_RANK)
+phi_check_cxx_source_compiles("int main() { return __has_nothrow_assign(int); }"
+                              PHI_HAS_INTRINSIC_HAS_NOTHROW_ASSIGN)
+phi_check_cxx_source_compiles("int main() { return __has_nothrow_move_assign(int); }"
+                              PHI_HAS_INTRINSIC_HAS_NOTHROW_MOVE_ASSIGN)
+phi_check_cxx_source_compiles("int main() { return __has_nothrow_copy(int); }"
+                              PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY)
+phi_check_cxx_source_compiles("int main() { return __has_nothrow_constructor(int); }"
+                              PHI_HAS_INTRINSIC_HAS_NOTHROW_CONSTRUCTOR)
+phi_check_cxx_source_compiles("int main() { return __has_nothrow_move_constructor(int); }"
+                              PHI_HAS_INTRINSIC_HAS_NOTHROW_MOVE_CONSTRUCTOR)
+phi_check_cxx_source_compiles("int main() { return __has_trivial_assign(int); }"
+                              PHI_HAS_INTRINSIC_HAS_TRIVIAL_ASSIGN)
+phi_check_cxx_source_compiles("int main() { return __has_trivial_move_assign(int); }"
+                              PHI_HAS_INTRINSIC_HAS_TRIVIAL_MOVE_ASSIGN)
+phi_check_cxx_source_compiles("int main() { return __has_trivial_copy(int); }"
+                              PHI_HAS_INTRINSIC_HAS_TRIVIAL_COPY)
+phi_check_cxx_source_compiles("int main() { return __has_trivial_constructor(int); }"
+                              PHI_HAS_INTRINSIC_HAS_TRIVIAL_CONSTRUCTOR)
+phi_check_cxx_source_compiles("int main() { return __has_trivial_move_constructor(int); }"
+                              PHI_HAS_INTRINSIC_HAS_TRIVIAL_MOVE_CONSTRUCTOR)
+phi_check_cxx_source_compiles("int main() { return __is_arithmetic(int); }"
+                              PHI_HAS_INTRINSIC_IS_ARITHMETIC)
+phi_check_cxx_source_compiles("int main() { return __is_complete_type(int); }"
+                              PHI_HAS_INTRINSIC_IS_COMPLETE_TYPE)
+phi_check_cxx_source_compiles("int main() { return __is_convertible(int, int); }"
+                              PHI_HAS_INTRINSIC_IS_CONVERTIBLE)
+phi_check_cxx_source_compiles("int main() { return __is_function(int); }"
+                              PHI_HAS_INTRINSIC_IS_FUNCTION)
+phi_check_cxx_source_compiles("int main() { return __is_fundamental(int); }"
+                              PHI_HAS_INTRINSIC_IS_FUNDAMENTAL)
+phi_check_cxx_source_compiles("int main() { return __is_nothrow_destructible(int); }"
+                              PHI_HAS_INTRINSIC_IS_NOTHROW_DESTRUCTIBLE)
+phi_check_cxx_source_compiles("int main() { return __is_same_as(int, int); }"
+                              PHI_HAS_INTRINSIC_IS_SAME_AS)
+phi_check_cxx_source_compiles("int main() { return __is_lvalue_expr(3); }"
+                              PHI_HAS_INTRINSIC_IS_LVALUE_EXPR)
+phi_check_cxx_source_compiles("int main() { return __is_rvalue_expr(3); }"
+                              PHI_HAS_INTRINSIC_IS_RVALUE_EXPR)
+phi_check_cxx_source_compiles("int main() { return __has_assign(int); }"
+                              PHI_HAS_INTRINSIC_HAS_ASSIGN)
+phi_check_cxx_source_compiles("int main() { return __has_copy(int); }" PHI_HAS_INTRINSIC_HAS_COPY)
+phi_check_cxx_source_compiles("int main() { return __is_signed(int); }" PHI_HAS_INTRINSIC_IS_SIGNED)
+phi_check_cxx_source_compiles("int main() { return __is_unsigned(int); }"
+                              PHI_HAS_INTRINSIC_IS_UNSIGNED)
+phi_check_cxx_source_compiles("int main() { return __is_pod(int); }" PHI_HAS_INTRINSIC_IS_POD)
+phi_check_cxx_source_compiles("int main() { return __is_floating_point(float); }"
+                              PHI_HAS_INTRINSIC_IS_FLOATING_POINT)
+phi_check_cxx_source_compiles("int main() { return __is_sealed(int); }" PHI_HAS_INTRINSIC_IS_SEALED)
+phi_check_cxx_source_compiles("int main() { return __is_literal(int); }"
+                              PHI_HAS_INTRINSIC_IS_LITERAL)
+phi_check_cxx_source_compiles("int main() { return __is_literal_type(int); }"
+                              PHI_HAS_INTRINSIC_IS_LITERAL_TYPE)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

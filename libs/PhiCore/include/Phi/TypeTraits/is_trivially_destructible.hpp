@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/CompilerSupport/Intrinsics/IsTriviallyDestructible.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_destructible.hpp"
 #include "Phi/TypeTraits/is_reference.hpp"
@@ -17,16 +17,17 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_INTRINSIC_IS_TRIVIALLY_DESTRUCTIBLE()
+#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
 
 template <typename TypeT>
-struct is_trivially_destructible : public bool_constant<__is_trivially_destructible(TypeT)>
+struct is_trivially_destructible : public bool_constant<PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v = __is_trivially_destructible(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v =
+        PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT);
 
 #    endif
 

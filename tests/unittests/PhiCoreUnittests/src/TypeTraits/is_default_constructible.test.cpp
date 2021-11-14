@@ -123,7 +123,7 @@ TEST_CASE("is_default_constructible")
 #endif
 
     // Incomplete types only work with the intrinsics
-#if PHI_TYPE_TRAITS_USE_INTRINSIC_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_default_constructible<char[]>();
     test_is_not_default_constructible<char[][3]>();
 #endif
