@@ -85,7 +85,9 @@ TEST_CASE("is_nothrow_default_constructible")
     test_is_nothrow_default_constructible<const volatile int*>();
     test_is_nothrow_default_constructible<int**>();
     test_is_nothrow_default_constructible<char[3]>();
+#if PHI_SUPPORTS_IS_NOTHROW_CONSTRUCTIBLE()
     test_is_not_nothrow_default_constructible<char[]>();
+#endif
     test_is_nothrow_default_constructible<Class>();
     test_is_nothrow_default_constructible<Union>();
     test_is_nothrow_default_constructible<NonEmptyUnion>();

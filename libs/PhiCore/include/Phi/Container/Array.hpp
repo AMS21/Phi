@@ -83,72 +83,72 @@ public:
         return at(Size - 1u);
     }
 
-    PHI_NODISCARD constexpr pointer data() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR pointer data() noexcept
     {
         return m_Elements;
     }
 
-    PHI_NODISCARD constexpr const_pointer data() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_pointer data() const noexcept
     {
         return m_Elements;
     }
 
-    PHI_NODISCARD constexpr iterator begin() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator begin() noexcept
     {
         return iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator begin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator begin() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator cbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cbegin() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr iterator end() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator end() noexcept
     {
         return iterator(data() + Size);
     }
 
-    PHI_NODISCARD constexpr const_iterator end() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator end() const noexcept
     {
         return const_iterator(data() + Size);
     }
 
-    PHI_NODISCARD constexpr const_iterator cend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cend() const noexcept
     {
         return const_iterator(data() + Size);
     }
 
-    PHI_NODISCARD constexpr reverse_iterator rbegin() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reverse_iterator rbegin() noexcept
     {
         return reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator rbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator rbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr reverse_iterator rend() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reverse_iterator rend() noexcept
     {
         return reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator rend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator rend() const noexcept
     {
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crend() const noexcept
     {
         return const_reverse_iterator(begin());
     }
@@ -247,72 +247,72 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr pointer data() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR pointer data() noexcept
     {
         return nullptr;
     }
 
-    PHI_NODISCARD constexpr const_pointer data() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_pointer data() const noexcept
     {
         return nullptr;
     }
 
-    PHI_NODISCARD constexpr iterator begin() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator begin() noexcept
     {
         return iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator begin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator begin() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator cbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cbegin() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr iterator end() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator end() noexcept
     {
         return iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator end() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator end() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator cend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cend() const noexcept
     {
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr reverse_iterator rbegin() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reverse_iterator rbegin() noexcept
     {
         return reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator rbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator rbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr reverse_iterator rend() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reverse_iterator rend() noexcept
     {
         return reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator rend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator rend() const noexcept
     {
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crend() const noexcept
     {
         return const_reverse_iterator(begin());
     }

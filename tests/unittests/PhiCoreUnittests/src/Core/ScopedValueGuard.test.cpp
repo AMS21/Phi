@@ -1,6 +1,10 @@
+#include "Phi/Config/Warning.hpp"
 #include <catch2/catch.hpp>
 
 #include <Phi/Core/ScopedValueGuard.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEST_CASE("ScopedValueGuard", "[Core][ScopedValueGuard]")
 {
@@ -261,3 +265,5 @@ TEST_CASE("make_armed_scoped_value_guard default",
         CHECK(i == 0);
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

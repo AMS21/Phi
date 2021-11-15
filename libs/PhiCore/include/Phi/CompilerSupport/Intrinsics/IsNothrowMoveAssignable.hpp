@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 
-#if PHI_HAS_INTRINSIC_HAS_NOTHROW_MOVE_ASSIGN()
+#if PHI_HAS_INTRINSIC_HAS_NOTHROW_MOVE_ASSIGN() && PHI_COMPILER_IS(MSVC)
 #    define PHI_IS_NOTHROW_MOVE_ASSIGNABLE(type)      __has_nothrow_move_assign(type)
 #    define PHI_SUPPORTS_IS_NOTHROW_MOVE_ASSIGNABLE() 1
 #else

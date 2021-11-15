@@ -35,14 +35,15 @@ struct has_no_unique_object_representations
 template <typename TypeT>
 struct has_unique_object_representations : public false_type
 {
-    static_assert(always_false<TypeT>, "phi::has_unique_object_representations requires compiler "
-                                       "support for intrinsic has_unique_object_representations");
+    static_assert(always_false<TypeT>::value,
+                  "phi::has_unique_object_representations requires compiler "
+                  "support for intrinsic has_unique_object_representations");
 };
 
 template <typename TypeT>
 struct has_no_unique_object_representations : public false_type
 {
-    static_assert(always_false<TypeT>,
+    static_assert(always_false<TypeT>::value,
                   "phi::has_no_unique_object_representations requires compiler "
                   "support for intrinsic has_unique_object_representations");
 };

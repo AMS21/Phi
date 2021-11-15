@@ -13,42 +13,36 @@
 template <typename T>
 void test_is_trivially_destructible()
 {
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<volatile T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const volatile T>) == 1);
-
+#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<volatile T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivially_destructible_v<T>);
     STATIC_REQUIRE(phi::is_trivially_destructible_v<const T>);
     STATIC_REQUIRE(phi::is_trivially_destructible_v<volatile T>);
     STATIC_REQUIRE(phi::is_trivially_destructible_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_trivially_destructible()
 {
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<volatile T>) == 1);
-    STATIC_REQUIRE(sizeof(phi::is_trivially_destructible<const volatile T>) == 1);
-
+#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible_v<const volatile T>);
+#    endif
 #endif
 }
 

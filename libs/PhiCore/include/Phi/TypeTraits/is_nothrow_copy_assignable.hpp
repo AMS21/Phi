@@ -23,7 +23,8 @@ struct is_nothrow_copy_assignable : public bool_constant<PHI_IS_NOTHROW_COPY_ASS
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_assignable_v = PHI_IS_NOTHROW_COPY_ASSIGNABLE;
+PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_assignable_v =
+        PHI_IS_NOTHROW_COPY_ASSIGNABLE(TypeT);
 
 #    endif
 #else

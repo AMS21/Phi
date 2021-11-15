@@ -40,8 +40,9 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 template <typename TypeT, typename... ArgsT>
 struct is_trivially_constructible : public false_type
 {
-    static_assert(always_false<TypeT>, "phi::is_trivially_constructible requires compiler support "
-                                       "for intrinsic __is_trivially_constructible");
+    static_assert(always_false<TypeT>::value,
+                  "phi::is_trivially_constructible requires compiler support "
+                  "for intrinsic __is_trivially_constructible");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

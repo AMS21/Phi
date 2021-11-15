@@ -1,11 +1,15 @@
-#include "Phi/Core/Forward.hpp"
+#include "Phi/Config/Warning.hpp"
 #include <catch2/catch.hpp>
 
 #include <Phi/Config/Compiler.hpp>
+#include <Phi/Core/Forward.hpp>
 #include <Phi/Core/Monitor.hpp>
 #include <thread>
 #include <utility>
 #include <vector>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 struct A
 {
@@ -116,3 +120,5 @@ TEST_CASE("Monitor", "[Core][Monitor]")
 #endif
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

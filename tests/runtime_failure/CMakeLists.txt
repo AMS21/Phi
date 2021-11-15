@@ -30,27 +30,9 @@ runtime_failure_test(NAME "Container_StringViewCopy" SOURCE "src/Container/Strin
 runtime_failure_test(NAME "Container_StringViewSubstr" SOURCE "src/Container/StringView.substr.fail.cpp" CONFIGURATIONS Debug)
 
 # Core
-if (PHI_HAS_EXTENSION_VARIADIC_MACRO_ZERO_ARGS)
-runtime_failure_test(NAME "Core_AssertNoArgs" SOURCE "src/Core/Assert.NoArgs.fail.cpp")
-runtime_failure_test(NAME "Core_AssertNoArgsRegex" SOURCE "src/Core/Assert.NoArgs.fail.cpp" REGEX
-                     "ASSERTION VIOLATION")
-endif()
 runtime_failure_test(NAME "Core_AssertWithArgs" SOURCE "src/Core/Assert.WithArgs.fail.cpp")
 runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE "src/Core/Assert.WithArgs.fail.cpp"
                      REGEX "[ASSERT FAILED]")
-                     if (PHI_HAS_EXTENSION_VARIADIC_MACRO_ZERO_ARGS)
-runtime_failure_test(NAME "Core_DbgAssertNoArgs" SOURCE "src/Core/DbgAssert.NoArgs.fail.cpp"
-                     CONFIGURATIONS Debug)
-runtime_failure_test(
-  NAME
-  "Core_DbgAssertNoArgsRegex"
-  SOURCE
-  "src/Core/DbgAssert.NoArgs.fail.cpp"
-  REGEX
-  "ASSERTION VIOLATION"
-  CONFIGURATIONS
-  Debug)
-endif()
 runtime_failure_test(NAME "Core_DbgAssertWithArgsRegex" SOURCE
                      "src/Core/DbgAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(
@@ -71,9 +53,9 @@ runtime_failure_test(NAME "Core_NotNullObserverPtr_AssignNullptr" SOURCE
                      "src/Core/NotNullObserverPtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_ObserverPtr_ReleaseFromNullptr" SOURCE
                      "src/Core/ObserverPtr.release_from_null.fail.cpp" CONFIGURATIONS DEBUG)
-runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_star" SOURCE
+runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptrOperatorStar" SOURCE
                      "src/Core/ObserverPtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptr_operator_arrow" SOURCE
+runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptrOperatorArrow" SOURCE
                      "src/Core/ObserverPtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
 runtime_failure_test(NAME "Core_ScopePtr_DereferenceNullptrOperatorStar" SOURCE
                      "src/Core/ScopePtr.deref_null.fail.cpp" CONFIGURATIONS Debug)

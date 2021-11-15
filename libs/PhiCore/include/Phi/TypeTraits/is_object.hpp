@@ -36,8 +36,8 @@ PHI_INLINE_VARIABLE constexpr bool is_object_v = PHI_IS_OBJECT(TypeT);
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_object : public bool_constant<is_scalar_v<TypeT> || is_array_v<TypeT> ||
-                                        is_union_v<TypeT> || is_class_v<TypeT>>
+struct is_object : public bool_constant<is_scalar<TypeT>::value || is_array<TypeT>::value ||
+                                        is_union<TypeT>::value || is_class<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -52,7 +52,7 @@ struct is_convertible
     : bool_constant<(decltype(detail::test_returnable<ToT>(0))::
                              value&& decltype(detail::test_implicitly_convertible<FromT, ToT>(
                                      0))::value) ||
-                    (is_void_v<FromT> && is_void_v<ToT>)>
+                    (is_void<FromT>::value && is_void<ToT>::value)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

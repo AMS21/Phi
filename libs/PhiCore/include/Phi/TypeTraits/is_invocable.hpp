@@ -8,6 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
+#include "Phi/Config/Warning.hpp"
 #include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/conditional.hpp"
 #include "Phi/TypeTraits/decay.hpp"
@@ -21,6 +22,9 @@
 #include "Phi/TypeTraits/is_same.hpp"
 #include "Phi/TypeTraits/is_void.hpp"
 #include "Phi/TypeTraits/nat.hpp"
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -280,5 +284,7 @@ PHI_INLINE_VARIABLE constexpr bool is_nothrow_invocable_r_v =
 #endif
 
 DETAIL_PHI_END_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_TYPE_TRAITS_INVOCABLE_HPP

@@ -1,9 +1,13 @@
+#include "Phi/Config/Warning.hpp"
 #include <catch2/catch.hpp>
 
 #include <Phi/Config/Glue.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Types.hpp>
 #include <Phi/Math/Constants.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEMPLATE_TEST_CASE("Constants typed", "[Math][Constants]", float, double, long double,
                    phi::FloatingPoint<float>, phi::FloatingPoint<double>,
@@ -61,3 +65,5 @@ TEST_CASE("Constants", "[Math][Constant]")
     TEST_CONSTANT(phi::golden_ratio, 1.0);
     TEST_CONSTANT(phi::cos_one_over_two, 0.0);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

@@ -39,6 +39,9 @@ PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
+#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE() && PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
 
 TEST_CASE("Optional Assigment value")
 {
@@ -350,7 +353,7 @@ constexpr phi::Optional<int> get_opt_int(int)
 
 TEST_CASE("Optional monadic operations", "[monadic]")
 {
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("map")
     { // lhs is empty
         phi::Optional<int> o1;
@@ -749,7 +752,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         constexpr auto               o19r = phi::move(o19).and_then(get_opt_int);
         REQUIRE(!o19r);
     }
-#endif
+#    endif
 
     SECTION("or else")
     {
@@ -820,14 +823,14 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         {}
     };
 
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #1")
     {
         phi::Optional<foo> f = foo{};
         auto               l = [](auto&& x) { x.non_const(); };
         f.map(l);
     }
-#endif
+#    endif
 
     struct overloaded
     {
@@ -841,7 +844,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
         }
     };
 
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #2")
     {
         phi::Optional<foo> f = foo{};
@@ -849,7 +852,7 @@ TEST_CASE("Optional monadic operations", "[monadic]")
 
         PHI_UNUSED_VARIABLE(x);
     }
-#endif
+#    endif
 }
 
 struct takes_init_and_variadic
@@ -907,7 +910,7 @@ int& x(int& i)
     return i;
 }
 
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
 TEST_CASE("issue 14")
 {
     phi::Optional<bar> f = bar{};
@@ -917,7 +920,7 @@ TEST_CASE("issue 14")
     REQUIRE(*v == 42);
     REQUIRE((&f->i) == (&*v));
 }
-#endif
+#    endif
 
 struct fail_on_copy_self
 {
@@ -1010,7 +1013,7 @@ TEST_CASE("Noexcept", "[noexcept]")
     SECTION("swap")
     {
         //TODO see why this fails
-#if !defined(_MSC_VER) || _MSC_VER > 1900
+#    if !defined(_MSC_VER) || _MSC_VER > 1900
         REQUIRE(noexcept(swap(o1, o2)) == noexcept(o1.swap(o2)));
 
         struct nothrow_swappable
@@ -1039,13 +1042,13 @@ TEST_CASE("Noexcept", "[noexcept]")
 
         REQUIRE(noexcept(ont.swap(ont)));
         REQUIRE(!noexcept(ot.swap(ot)));
-#endif
+#    endif
     }
 
     SECTION("constructors")
     {
         //TODO see why this fails
-#if !defined(_MSC_VER) || _MSC_VER > 1900
+#    if !defined(_MSC_VER) || _MSC_VER > 1900
         REQUIRE(noexcept(phi::Optional<int>{}));
         REQUIRE(noexcept(phi::Optional<int>{phi::nullopt}));
 
@@ -1065,7 +1068,7 @@ TEST_CASE("Noexcept", "[noexcept]")
 
         REQUIRE(std::is_nothrow_move_constructible<nothrow_opt>::value);
         REQUIRE(!std::is_nothrow_move_constructible<throw_opt>::value);
-#endif
+#    endif
     }
 
     SECTION("assignment")
@@ -1344,6 +1347,8 @@ TEST_CASE("Swap null intialized with value", "[swap.nullopt_value]")
     CHECK(o1.value() == 42);
     CHECK(!o2.has_value());
 }
+
+#endif
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()

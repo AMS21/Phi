@@ -1,11 +1,16 @@
 #include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Boolean.hpp>
 #include <Phi/Core/FloatingPoint.hpp>
 #include <Phi/Core/Integer.hpp>
 #include <Phi/Core/Move.hpp>
 #include <Phi/TypeTraits/to_unsafe.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEST_CASE("to_unsafe")
 {
@@ -30,3 +35,5 @@ TEST_CASE("to_unsafe")
     STATIC_REQUIRE(phi::to_unsafe(c) == 3.0);
     STATIC_REQUIRE(phi::to_unsafe(phi::move(c)) == 3.0);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

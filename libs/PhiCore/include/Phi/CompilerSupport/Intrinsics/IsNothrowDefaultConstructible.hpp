@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 
-#if PHI_HAS_INTRINSIC_HAS_NOTHROW_CONSTRUCTOR()
+#if PHI_HAS_INTRINSIC_HAS_NOTHROW_CONSTRUCTOR() && PHI_COMPILER_IS(MSVC)
 #    define PHI_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE(type)      __has_nothrow_constructor(type)
 #    define PHI_SUPPORTS_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE() 1
 #else

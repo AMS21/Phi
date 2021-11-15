@@ -13,32 +13,36 @@
 template <typename T>
 void test_is_trivially_copyable()
 {
+#if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
     STATIC_REQUIRE(phi::is_trivially_copyable<const T>::value);
     STATIC_REQUIRE(phi::is_trivially_copyable<volatile T>::value);
     STATIC_REQUIRE(phi::is_trivially_copyable<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivially_copyable_v<T>);
     STATIC_REQUIRE(phi::is_trivially_copyable_v<const T>);
     STATIC_REQUIRE(phi::is_trivially_copyable_v<volatile T>);
     STATIC_REQUIRE(phi::is_trivially_copyable_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_trivially_copyable()
 {
+#if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<const volatile T>);
+#    endif
 #endif
 }
 

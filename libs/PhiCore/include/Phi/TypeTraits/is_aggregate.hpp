@@ -30,7 +30,7 @@ PHI_INLINE_VARIABLE constexpr bool is_aggregate_v = __is_aggregate(TypeT);
 template <typename TypeT>
 struct is_aggregate : public false_type
 {
-    static_assert(always_false<TypeT>,
+    static_assert(always_false<TypeT>::value,
                   "phi::is_aggregate requires compiler support for intrinsic __is_aggregate");
 };
 

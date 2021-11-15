@@ -3,6 +3,7 @@
 
 #include <Phi/CompilerSupport/Constexpr.hpp>
 #include <Phi/CompilerSupport/Unused.hpp>
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Nullptr.hpp>
 #include <Phi/TypeTraits/always_false.hpp>
 #include <cassert>
@@ -275,6 +276,9 @@ struct NonConstructible
     NonConstructible& operator=(NonConstructible&&) = delete;
 };
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wattributes")
+
 class Tracked
 {
     enum class State
@@ -350,7 +354,7 @@ public:
         m_Value = new_val;
     }
 
-    [[nodiscard]] PHI_CONSTEXPR_DESTRUCTOR int value() const noexcept
+    [[nodiscard]] PHI_EXTENDED_CONSTEXPR int value() const noexcept
     {
         assert(m_State != State::Destroyed);
         assert(m_State != State::MovedFrom);
@@ -363,6 +367,8 @@ private:
     // Use volatile to force the compiler to not optimize away any assignments
     volatile State m_State;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 struct TrapConstructible
 {

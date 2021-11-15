@@ -25,6 +25,9 @@ static const A csource() noexcept
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
 PHI_EXTENDED_CONSTEXPR bool test_constexpr_forward()
 {
     int       x  = 42;
@@ -73,3 +76,5 @@ TEST_CASE("forward")
     STATIC_REQUIRE(phi::forward<int>(42) == 42);
     STATIC_REQUIRE(phi::forward<const int&>(i3) == 42);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

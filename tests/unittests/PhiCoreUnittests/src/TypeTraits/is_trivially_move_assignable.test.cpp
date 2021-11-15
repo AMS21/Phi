@@ -13,18 +13,22 @@
 template <typename T>
 void test_is_trivially_move_assignable()
 {
+#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()
     STATIC_REQUIRE(phi::is_trivially_move_assignable<T>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivially_move_assignable_v<T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_trivially_move_assignable()
 {
+#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_move_assignable<T>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_move_assignable_v<T>);
+#    endif
 #endif
 }
 

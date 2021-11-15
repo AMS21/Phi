@@ -63,13 +63,14 @@ namespace detail
 
 template <typename TypeT, typename... ArgsT>
 struct is_nothrow_constructible
-    : detail::is_nothrow_constructible_impl<is_constructible_v<TypeT, ArgsT...>,
-                                            is_reference_v<TypeT>, TypeT, ArgsT...>
+    : detail::is_nothrow_constructible_impl<is_constructible<TypeT, ArgsT...>::value,
+                                            is_reference<TypeT>::value, TypeT, ArgsT...>
 {};
 
 template <typename TypeT, size_t Dimension>
 struct is_nothrow_constructible<TypeT[Dimension]>
-    : detail::is_nothrow_constructible_impl<is_constructible_v<TypeT>, is_reference_v<TypeT>, TypeT>
+    : detail::is_nothrow_constructible_impl<is_constructible<TypeT>::value,
+                                            is_reference<TypeT>::value, TypeT>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

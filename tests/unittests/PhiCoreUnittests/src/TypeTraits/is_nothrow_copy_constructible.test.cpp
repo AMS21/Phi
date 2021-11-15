@@ -17,7 +17,7 @@ void test_is_nothrow_copy_constructible()
 #endif
 }
 
-template <class T>
+template <typename T>
 void test_is_not_nothrow_copy_constructible()
 {
     STATIC_REQUIRE_FALSE(phi::is_nothrow_copy_constructible<T>::value);

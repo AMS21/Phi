@@ -32,8 +32,9 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = PHI_IS_TRIVIALLY_CO
 template <typename TypeT>
 struct is_trivially_copyable : public false_type
 {
-    static_assert(always_false<TypeT>, "phi::is_trivially_copyable requires compiler support for "
-                                       "instrinci __is_trivilly_copyable");
+    static_assert(always_false<TypeT>::value,
+                  "phi::is_trivially_copyable requires compiler support for "
+                  "instrincic __is_trivilly_copyable");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

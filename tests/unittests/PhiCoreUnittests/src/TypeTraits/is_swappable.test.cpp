@@ -68,7 +68,12 @@ namespace MyNS
 
     struct DeletedSwap
     {
+#if PHI_COMPILER_IS_BELOW(GCC, 5, 0, 0)
+        // For some reason gcc before version 5.0 don't compile with the friend declaration...
+        void swap(DeletedSwap&, DeletedSwap&) = delete;
+#else
         friend void swap(DeletedSwap&, DeletedSwap&) = delete;
+#endif
     };
 } // namespace MyNS
 
@@ -101,8 +106,10 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int() const>();
     test_is_not_swappable<int()&>();
 
+#if !PHI_COMPILER_IS_BELOW(GCC, 5, 0, 0)
     // test that a deleted swap is correctly handled.
     test_is_not_swappable<DeletedSwap>();
+#endif
 
     // test that a swap with ambiguous overloads is handled correctly.
     test_is_not_swappable<MyNS2::AmbiguousSwap>();

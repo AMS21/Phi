@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "ConstexprHelper.hpp"
+#include "Phi/Config/Warning.hpp"
 #include <Phi/Core/ScopePtr.hpp>
 #include <Phi/Math/Vector2.hpp>
 #include <type_traits>
@@ -12,6 +13,9 @@ struct A
         return true;
     }
 };
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 TEST_CASE("ScopePtr", "[Core][ScopePtr]")
 {
@@ -567,3 +571,5 @@ TEST_CASE("NotNullScopePtr", "[Core][ScopePtr][NotNullScopePtr]")
         CHECK((vec2_ptr->y == 12));
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

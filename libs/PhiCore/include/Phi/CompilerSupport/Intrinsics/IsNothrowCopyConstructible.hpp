@@ -8,8 +8,9 @@
 #endif
 
 #include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/Config/Compiler.hpp"
 
-#if PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY()
+#if PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY() && PHI_COMPILER_IS(MSVC)
 #    define PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(type)      __has_nothrow_copy(type)
 #    define PHI_SUPPORTS_IS_NOTHROW_COPY_CONSTRUCTIBLE() 1
 #else

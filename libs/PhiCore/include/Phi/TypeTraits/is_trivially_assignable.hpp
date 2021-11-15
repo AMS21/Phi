@@ -33,8 +33,9 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = PHI_IS_TRIVIALLY_
 template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public false_type
 {
-    static_assert(always_false<TypeT>, "phi::is_trivially_assignable requires compiler support for "
-                                       "intrinsic __is_trivially_assignable");
+    static_assert(always_false<TypeT>::value,
+                  "phi::is_trivially_assignable requires compiler support for "
+                  "intrinsic __is_trivially_assignable");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

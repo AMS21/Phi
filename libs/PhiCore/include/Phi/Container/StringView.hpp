@@ -57,7 +57,7 @@ public:
 
     // Constants
     // TODO: For some reason using size_type instead of size_t causes a linker error in StringView.test.cpp when compiling with GCC
-    static PHI_CONSTEXPR_AND_CONST size_t npos = std::numeric_limits<size_t>::max();
+    static constexpr size_t npos = std::numeric_limits<size_t>::max();
 
     // Constructors
     constexpr BasicStringView() noexcept
@@ -820,6 +820,9 @@ using WStringView   = BasicStringView<wchar_t>;
 using U8StringView  = BasicStringView<char8_t>;
 using U16StringView = BasicStringView<char16_t>;
 using U32StringView = BasicStringView<char32_t>;
+
+template <typename CharT, typename TraitsT>
+constexpr size_t BasicStringView<CharT, TraitsT>::npos;
 
 DETAIL_PHI_END_NAMESPACE()
 

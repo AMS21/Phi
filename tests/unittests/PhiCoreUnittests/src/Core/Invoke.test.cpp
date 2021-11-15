@@ -1,5 +1,6 @@
 #include <catch2/catch.hpp>
 
+#include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Declval.hpp>
 #include <Phi/Core/Forward.hpp>
 #include <Phi/Core/Invoke.hpp>
@@ -7,6 +8,10 @@
 #include <Phi/TypeTraits/is_same.hpp>
 #include <functional>
 #include <type_traits>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 struct NonCopyable
 {
@@ -392,3 +397,5 @@ TEST_CASE("invoke basic test")
 {
     //REQUIRE(phi::invoke(foo, 101) == 42);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

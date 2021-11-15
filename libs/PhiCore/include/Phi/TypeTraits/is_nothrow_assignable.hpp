@@ -47,7 +47,7 @@ namespace detail
 
 template <typename TypeT, typename ArgT>
 struct is_nothrow_assignable
-    : public detail::is_nothrow_assignable_impl<is_assignable_v<TypeT, ArgT>, TypeT, ArgT>
+    : public detail::is_nothrow_assignable_impl<is_assignable<TypeT, ArgT>::value, TypeT, ArgT>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

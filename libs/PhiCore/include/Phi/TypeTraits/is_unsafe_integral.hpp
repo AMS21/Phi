@@ -42,15 +42,15 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_unsafe_integral
-    : public bool_constant<is_same_rcv_v<TypeT, bool> || is_same_rcv_v<TypeT, char> ||
-                           is_same_rcv_v<TypeT, signed char> ||
-                           is_same_rcv_v<TypeT, unsigned char> || is_same_rcv_v<TypeT, char8_t> ||
-                           is_same_rcv_v<TypeT, char16_t> || is_same_rcv_v<TypeT, char32_t> ||
-                           is_same_rcv_v<TypeT, wchar_t> || is_same_rcv_v<TypeT, short> ||
-                           is_same_rcv_v<TypeT, unsigned short> || is_same_rcv_v<TypeT, int> ||
-                           is_same_rcv_v<TypeT, unsigned> || is_same_rcv_v<TypeT, long> ||
-                           is_same_rcv_v<TypeT, unsigned long> || is_same_rcv_v<TypeT, long long> ||
-                           is_same_rcv_v<TypeT, unsigned long long>>
+    : public bool_constant<
+              is_same_rcv<TypeT, bool>::value || is_same_rcv<TypeT, char>::value ||
+              is_same_rcv<TypeT, signed char>::value || is_same_rcv<TypeT, unsigned char>::value ||
+              is_same_rcv<TypeT, char8_t>::value || is_same_rcv<TypeT, char16_t>::value ||
+              is_same_rcv<TypeT, char32_t>::value || is_same_rcv<TypeT, wchar_t>::value ||
+              is_same_rcv<TypeT, short>::value || is_same_rcv<TypeT, unsigned short>::value ||
+              is_same_rcv<TypeT, int>::value || is_same_rcv<TypeT, unsigned>::value ||
+              is_same_rcv<TypeT, long>::value || is_same_rcv<TypeT, unsigned long>::value ||
+              is_same_rcv<TypeT, long long>::value || is_same_rcv<TypeT, unsigned long long>::value>
 {};
 
 template <typename TypeT>
