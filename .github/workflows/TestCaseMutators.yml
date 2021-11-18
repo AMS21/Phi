@@ -70,7 +70,7 @@ jobs:
       - name: Run mull
         run: |
           cd build
-          find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; | tee --append mull_report.log'
+          find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; | tee --append mull_report.log
 
           # Remove duplicate entries
           sort mull_report.log | uniq -d > mull_report_filtered.log
