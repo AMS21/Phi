@@ -6,7 +6,7 @@ include(Testing)
 
 function(runtime_failure_test)
   # Commandline
-  cmake_parse_arguments(rtf "" "NAME;SOURCE;REGEX" "CONFIGURATIONS" ${ARGN})
+  cmake_parse_arguments(rtf "" "NAME;SOURCE;REGEX;LIB" "CONFIGURATIONS" ${ARGN})
 
   # Check required arguments
   if(NOT DEFINED rtf_NAME)
@@ -24,7 +24,12 @@ function(runtime_failure_test)
   set_target_properties(${TEST_NAME} PROPERTIES FOLDER "Tests/RuntimeFailure")
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
-  target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/runtime_failure/include")
+  target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/support/runtime_failure")
+
+  # Link to additional lib
+  if(DEFINED rtf_LIB)
+    target_link_libraries(${TEST_NAME} PRIVATE ${rtf_LIB})
+  endif()
 
   # Add test
   phi_add_test(TARGET ${TEST_NAME} CONFIGURATIONS "${rtf_CONFIGURATIONS}")
@@ -39,7 +44,7 @@ endfunction(runtime_failure_test)
 
 function(compile_failure_test)
   # Commandline
-  cmake_parse_arguments(ctf "" "NAME;SOURCE" "CONFIGURATIONS" ${ARGN})
+  cmake_parse_arguments(ctf "" "NAME;SOURCE;LIB" "CONFIGURATIONS" ${ARGN})
 
   # Check required arguments
   if(NOT DEFINED ctf_NAME)
@@ -61,6 +66,11 @@ function(compile_failure_test)
                FOLDER "Tests/CompileTimeFailure")
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
+
+  # Link to additional lib
+  if(DEFINED ctf_LIB)
+    target_link_libraries(${TEST_NAME} PRIVATE ${ctf_LIB})
+  endif()
 
   # Add test
   if(DEFINED rtf_CONFIGURATIONS)

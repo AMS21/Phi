@@ -1,0 +1,75 @@
+#include "Phi/Config/Warning.hpp"
+#include <Phi/Test/TestMacros.hpp>
+
+#include <Phi/Config/Glue.hpp>
+#include <Phi/Core/FloatingPoint.hpp>
+#include <Phi/Core/Types.hpp>
+#include <Phi/Math/Constants.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
+#define TEST_CONSTANT(name, val)                                                                   \
+    STATIC_REQUIRE(bool(name() > (val)));                                                          \
+    STATIC_REQUIRE(bool(PHI_GLUE(name, _64()) > PHI_GLUE(val, L)));                                \
+    STATIC_REQUIRE(bool(PHI_GLUE(name, _32()) > PHI_GLUE(val, f)))
+
+template <typename T>
+void test_constant()
+{
+    STATIC_REQUIRE(bool(phi::e_v<T>() > T(2.0f)));
+    STATIC_REQUIRE(bool(phi::pi_v<T>() > T(3.0f)));
+    STATIC_REQUIRE(bool(phi::two_pi_v<T>() > T(6.0f)));
+    STATIC_REQUIRE(bool(phi::sqrt_pi_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::half_pi_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::three_over_two_pi_v<T>() > T(4.0f)));
+    STATIC_REQUIRE(bool(phi::quarter_pi_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::one_over_pi_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::one_over_two_pi_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::two_over_pi_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::four_over_pi_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::two_over_sqrt_pi_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::one_over_sqrt_two_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::sqrt_half_pi_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::sqrt_two_pi_v<T>() > T(2.0f)));
+    STATIC_REQUIRE(bool(phi::sqrt_two_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::sqrt_three_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::deg2rad_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::rad2deg_v<T>() > T(0.0f)));
+    STATIC_REQUIRE(bool(phi::golden_ratio_v<T>() > T(1.0f)));
+    STATIC_REQUIRE(bool(phi::cos_one_over_two_v<T>() > T(0.0f)));
+}
+
+TEST_CASE("Constants")
+{
+    test_constant<float>();
+    test_constant<double>();
+    test_constant<long double>();
+    test_constant<phi::FloatingPoint<float>>();
+    test_constant<phi::FloatingPoint<double>>();
+    test_constant<phi::FloatingPoint<long double>>();
+
+    TEST_CONSTANT(phi::e, 2.0);
+    TEST_CONSTANT(phi::pi, 3.0);
+    TEST_CONSTANT(phi::two_pi, 6.0);
+    TEST_CONSTANT(phi::sqrt_pi, 1.0);
+    TEST_CONSTANT(phi::half_pi, 1.0);
+    TEST_CONSTANT(phi::three_over_two_pi, 4.0);
+    TEST_CONSTANT(phi::quarter_pi, 0.0);
+    TEST_CONSTANT(phi::one_over_pi, 0.0);
+    TEST_CONSTANT(phi::one_over_two_pi, 0.0);
+    TEST_CONSTANT(phi::two_over_pi, 0.0);
+    TEST_CONSTANT(phi::four_over_pi, 1.0);
+    TEST_CONSTANT(phi::two_over_sqrt_pi, 1.0);
+    TEST_CONSTANT(phi::one_over_sqrt_two, 0.0);
+    TEST_CONSTANT(phi::sqrt_half_pi, 1.0);
+    TEST_CONSTANT(phi::sqrt_two_pi, 2.0);
+    TEST_CONSTANT(phi::sqrt_two, 1.0);
+    TEST_CONSTANT(phi::sqrt_three, 1.0);
+    TEST_CONSTANT(phi::deg2rad, 0.0);
+    TEST_CONSTANT(phi::rad2deg, 0.0);
+    TEST_CONSTANT(phi::golden_ratio, 1.0);
+    TEST_CONSTANT(phi::cos_one_over_two, 0.0);
+}
+
+PHI_GCC_SUPPRESS_WARNING_POP()

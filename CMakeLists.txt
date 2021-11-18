@@ -134,21 +134,10 @@ if(EXISTS "${LOC_PATH}")
   )
 endif()
 
-# Check external directory
-if(NOT IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/external/Catch2/src")
-  phi_error(
-    "The external dependencies repositories are missing! "
-    "You probably did not clone the project with --recursive flag. It is possible to recover "
-    "by calling \"git submodule update --init --recursive\"")
-endif()
-
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Find required system libs
 find_package(Threads REQUIRED)
-
-# Load external dependencies
-add_subdirectory(external)
 
 # Load libs
 add_subdirectory(libs)
