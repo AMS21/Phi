@@ -228,6 +228,84 @@ phi_check_cxx_source_compiles("int main() { return __is_literal(int); }"
                               PHI_HAS_INTRINSIC_IS_LITERAL)
 phi_check_cxx_source_compiles("int main() { return __is_literal_type(int); }"
                               PHI_HAS_INTRINSIC_IS_LITERAL_TYPE)
+phi_check_cxx_source_compiles("int main() { return __builtin_LINE(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_LINE)
+phi_check_cxx_source_compiles("int main() { return __builtin_COLUMN(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_COLUMN)
+phi_check_cxx_source_compiles("int main() { const char* f =  __builtin_FUNCTION(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FUNCTION)
+phi_check_cxx_source_compiles("int main() { const char* f = __builtin_FILE(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FILE)
+phi_check_cxx_source_compiles("int main() { double d = __builtin_huge_val(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_HUGE_VAL)
+phi_check_cxx_source_compiles("int main() { float d = __builtin_huge_valf(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_HUGE_VALF)
+phi_check_cxx_source_compiles("int main() { long double d = __builtin_huge_vall(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_HUGE_VALL)
+phi_check_cxx_source_compiles("int main() { double d = __builtin_inf(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_INF)
+phi_check_cxx_source_compiles("int main() { float d = __builtin_inff(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_INFF)
+phi_check_cxx_source_compiles("int main() { long double d = __builtin_infl(); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_INFL)
+phi_check_cxx_source_compiles("int main() { int i == __builtin_isinf_sign(0.0); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_ISINF_SIGN)
+phi_check_cxx_source_compiles("int main() { double d = __builtin_nan(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NAN)
+phi_check_cxx_source_compiles("int main() { float f = __builtin_nanf(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NANF)
+phi_check_cxx_source_compiles("int main() { long double l = __builtin_nanl(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NANL)
+phi_check_cxx_source_compiles("int main() { double d = __builtin_nans(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NANS)
+phi_check_cxx_source_compiles("int main() { float f = __builtin_nansf(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NANSF)
+phi_check_cxx_source_compiles("int main() { long double l = __builtin_nansl(\"\"); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_NANSL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ffs(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FFS)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ffsl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FFSL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ffsll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_FFSLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clz(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLZ)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clzl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLZL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clzll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLZLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ctz(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CTZ)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ctzl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CTZL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_ctzll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CTZLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clrsb(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLRSB)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clrsbl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLRSBL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_clrsbll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_CLRSBLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_popcount(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_POPCOUNT)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_popcountl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_POPCOUNTL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_popcountll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_POPCOUNTLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_parity(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_PARITY)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_parityl(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_PARITYL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_parityll(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_PARITYLL)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap16(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_BSWAP16)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap32(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_BSWAP32)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap64(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_BSWAP64)
+phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap128(1); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_BSWAP128)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
@@ -267,6 +345,8 @@ phi_check_cxx_source_compiles("void f(__attribute((unused)) int a) {} int main()
                               PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED)
 phi_check_cxx_source_compiles("int main() { int i = 0 / 0; float f = 0.0 / 0.0; }"
                               PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT)
+phi_check_cxx_source_compiles("int main() { return __builtin_constant_p(1); }"
+                              PHI_HAS_EXTENSION_BUILTIN_CONSTANT_P)
 
 # Bugs
 phi_check_cxx_source_compiles(
