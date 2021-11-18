@@ -199,7 +199,7 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
 
           # Run include-what-you-use
-          iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns > iwyu.log
+          iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
 
           # Filter out correct includes and generated code
           cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
