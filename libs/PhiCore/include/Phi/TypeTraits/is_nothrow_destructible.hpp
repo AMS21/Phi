@@ -9,6 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/Core/Declval.hpp"
+#include "Phi/Core/SizeT.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_destructible.hpp"
 
@@ -34,7 +35,7 @@ struct is_nothrow_destructible
     : public detail::is_nothrow_destructible_impl<is_destructible<TypeT>::value, TypeT>
 {};
 
-template <typename TypeT, std::size_t Dimension>
+template <typename TypeT, size_t Dimension>
 struct is_nothrow_destructible<TypeT[Dimension]> : public is_nothrow_destructible<TypeT>
 {};
 

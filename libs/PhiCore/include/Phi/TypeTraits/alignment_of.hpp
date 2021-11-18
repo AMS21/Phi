@@ -20,7 +20,7 @@ struct alignment_of : public integral_constant<size_t, alignof(TypeT)>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr std::size_t alignment_of_v = alignment_of<TypeT>::value;
+PHI_INLINE_VARIABLE constexpr size_t alignment_of_v = alignment_of<TypeT>::value;
 
 #endif
 
