@@ -40,8 +40,6 @@ namespace test
         void CheckImpl(bool value, const char* expression, const char* file,
                        unsigned long long line_number)
         {
-            std::cout << "CheckImpl with " << value << '\n';
-
             if (!value)
             {
                 PrintFailure(expression, file, line_number);
