@@ -19,6 +19,7 @@ endfunction()
 # C++-11 Features
 phi_check_cxx_source_compiles("int main() { constexpr int i = 3; return i; }"
                               PHI_HAS_FEATURE_CONSTEXPR)
+phi_check_cxx_source_compiles("[[noreturn]] void f(); int main() { }" PHI_HAS_FEATURE_NORETURN)
 
 # C++-14 Features
 phi_check_cxx_source_compiles("int main() { int i = 0b1; }" PHI_HAS_FEATURE_BINARY_LITERALS)
@@ -347,6 +348,11 @@ phi_check_cxx_source_compiles("int main() { int i = 0 / 0; float f = 0.0 / 0.0; 
                               PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT)
 phi_check_cxx_source_compiles("int main() { return __builtin_constant_p(1); }"
                               PHI_HAS_EXTENSION_BUILTIN_CONSTANT_P)
+phi_check_cxx_source_compiles("_Noreturn void f(); int main(){ }" PHI_HAS_EXTENSION_NORETURN)
+phi_check_cxx_source_compiles("__attribute__ ((noreturn)) void fatal (); int main() {}"
+                              PHI_HAS_EXTENSION_ATTRIBUTE_NORETURN)
+phi_check_cxx_source_compiles("__declspec(noreturn) void f(); int main() {}"
+                              PHI_HAS_EXTENSION_DECLSPEC_NORETURN)
 
 # Bugs
 phi_check_cxx_source_compiles(
