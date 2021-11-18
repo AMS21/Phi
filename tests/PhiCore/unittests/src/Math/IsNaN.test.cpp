@@ -13,6 +13,15 @@ using sl = phi::FloatingPoint<long double>;
 
 TEST_CASE("IsNaN")
 {
+    // Test if the compiler floats support NaN values
+    // See godbolt link for an example: https://godbolt.org/z/vWM8zdn97
+    volatile float n1 = NAN;
+    if (n1 == n1 || !std::numeric_limits<float>::has_quiet_NaN ||
+        !std::numeric_limits<float>::has_signaling_NaN)
+    {
+        return;
+    }
+
     // Float
     CHECK(phi::IsNaN(std::nanf("")));
     CHECK(phi::IsNaN(std::nanf("0")));
@@ -22,6 +31,8 @@ TEST_CASE("IsNaN")
     CHECK(phi::IsNaN(0.0f / 0.0f));
 #endif
     CHECK(phi::IsNaN(INFINITY - INFINITY));
+    CHECK(phi::IsNaN(INFINITY * 0.0f));
+    CHECK(phi::IsNaN(std::numeric_limits<float>::infinity() * 0.0f));
     STATIC_REQUIRE(phi::IsNaN(NAN));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<float>::quiet_NaN()));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<float>::signaling_NaN()));
@@ -51,6 +62,7 @@ TEST_CASE("IsNaN")
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
     CHECK(phi::IsNaN(0.0 / 0.0));
 #endif
+    CHECK(phi::IsNaN(std::numeric_limits<double>::infinity() * 0.0));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<double>::quiet_NaN()));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<double>::signaling_NaN()));
 
@@ -77,6 +89,7 @@ TEST_CASE("IsNaN")
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
     CHECK(phi::IsNaN(0.0L / 0.0L));
 #endif
+    CHECK(phi::IsNaN(std::numeric_limits<long double>::infinity() * 0.0L));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<long double>::quiet_NaN()));
     STATIC_REQUIRE(phi::IsNaN(std::numeric_limits<long double>::signaling_NaN()));
 
@@ -105,6 +118,8 @@ TEST_CASE("IsNaN")
 #endif
     CHECK(phi::IsNaN(sf(INFINITY - INFINITY)));
     CHECK(phi::IsNaN(sf(NAN)));
+    CHECK(phi::IsNaN(sf(INFINITY) * sf(0.0f)));
+    CHECK(phi::IsNaN(std::numeric_limits<sf>::infinity() * sf(0.0f)));
     STATIC_REQUIRE(phi::IsNaN(sf(std::numeric_limits<float>::quiet_NaN())));
     STATIC_REQUIRE(phi::IsNaN(sf(std::numeric_limits<float>::signaling_NaN())));
 
@@ -133,6 +148,7 @@ TEST_CASE("IsNaN")
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
     CHECK(phi::IsNaN(sd(0.0 / 0.0)));
 #endif
+    CHECK(phi::IsNaN(std::numeric_limits<sd>::infinity() * sd(0.0)));
     STATIC_REQUIRE(phi::IsNaN(sd(std::numeric_limits<double>::quiet_NaN())));
     STATIC_REQUIRE(phi::IsNaN(sd(std::numeric_limits<double>::signaling_NaN())));
 
@@ -159,6 +175,7 @@ TEST_CASE("IsNaN")
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
     CHECK(phi::IsNaN(sl(0.0L / 0.0L)));
 #endif
+    CHECK(phi::IsNaN(std::numeric_limits<sl>::infinity() * sl(0.0L)));
     STATIC_REQUIRE(phi::IsNaN(sl(std::numeric_limits<long double>::quiet_NaN())));
     STATIC_REQUIRE(phi::IsNaN(sl(std::numeric_limits<long double>::signaling_NaN())));
 
