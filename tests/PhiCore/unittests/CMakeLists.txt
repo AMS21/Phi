@@ -51,6 +51,7 @@ file(
   "src/Core/ScopeGuard.test.cpp"
   "src/Core/ScopePtr.test.cpp"
   "src/Core/SizeT.test.cpp"
+  "src/Core/source_location.test.cpp"
   "src/Core/StopWatch.test.cpp"
   "src/Core/Types.test.cpp"
   # Math
