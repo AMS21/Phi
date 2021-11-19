@@ -9,13 +9,11 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsAssignable.hpp"
-#include "Phi/Core/Declval.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
-#include "Phi/TypeTraits/is_void.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_ASSIGNABLE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename ArgT>
 struct is_assignable : public bool_constant<PHI_IS_ASSIGNABLE(TypeT, ArgT)>
@@ -29,6 +27,11 @@ PHI_INLINE_VARIABLE constexpr bool is_assignable_v = PHI_IS_ASSIGNABLE(TypeT, Ar
 #    endif
 
 #else
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+#    include "Phi/Core/Declval.hpp"
+#    include "Phi/TypeTraits/is_void.hpp"
 
 namespace detail
 {
