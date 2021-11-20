@@ -3,6 +3,7 @@
 #include "TestTypes.hpp"
 #include <Phi/Config/Compiler.hpp>
 #include <Phi/TypeTraits/is_constructible.hpp>
+#include <type_traits>
 
 struct A
 {
@@ -53,58 +54,32 @@ struct ExplicitTo
     explicit operator To();
 };
 
-template <typename T>
+template <typename T, typename... ArgsT>
 void test_is_constructible()
 {
-    STATIC_REQUIRE(phi::is_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_constructible<T, ArgsT...>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<T, ArgsT...>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_constructible<T, ArgsT...>::value);
 }
 
-template <typename T, typename A0>
-void test_is_constructible()
-{
-    STATIC_REQUIRE(phi::is_constructible<T, A0>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_constructible_v<T, A0>);
-#endif
-}
-
-template <typename T, typename A0, typename A1>
-void test_is_constructible()
-{
-    STATIC_REQUIRE(phi::is_constructible<T, A0, A1>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_constructible_v<T, A0, A1>);
-#endif
-}
-
-template <typename T, typename A0, typename A1, typename A2>
-void test_is_constructible()
-{
-    STATIC_REQUIRE(phi::is_constructible<T, A0, A1, A2>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_constructible_v<T, A0, A1, A2>);
-#endif
-}
-
-template <typename T>
+template <typename T, typename... ArgsT>
 void test_is_not_constructible()
 {
-    STATIC_REQUIRE_FALSE(phi::is_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_constructible<T, ArgsT...>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_constructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_constructible_v<T, ArgsT...>);
 #endif
-}
 
-template <typename T, typename A0>
-void test_is_not_constructible()
-{
-    STATIC_REQUIRE_FALSE(phi::is_constructible<T, A0>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, A0>);
-#endif
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_constructible<T, ArgsT...>::value);
 }
 
 TEST_CASE("is_constructible")

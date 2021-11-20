@@ -19,10 +19,17 @@ template <typename TypeT, typename ArgT>
 struct is_assignable : public bool_constant<PHI_IS_ASSIGNABLE(TypeT, ArgT)>
 {};
 
+template <typename TypeT, typename ArgT>
+struct is_not_assignable : public bool_constant<!PHI_IS_ASSIGNABLE(TypeT, ArgT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_assignable_v = PHI_IS_ASSIGNABLE(TypeT, ArgT);
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE constexpr bool is_not_assignable_v = !PHI_IS_ASSIGNABLE(TypeT, ArgT);
 
 #    endif
 
@@ -61,10 +68,17 @@ template <typename TypeT, typename ArgT>
 struct is_assignable : public detail::is_assignable_imp<TypeT, ArgT>
 {};
 
+template <typename TypeT, typename ArgT>
+struct is_not_assignable : public bool_constant<!is_assignable<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_assignable_v = is_assignable<TypeT, ArgT>::value;
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE constexpr bool is_not_assignable_v = is_not_assignable<TypeT, ArgT>::value;
 
 #    endif
 

@@ -1,76 +1,82 @@
 #include <Phi/Test/TestMacros.hpp>
 
 #include <Phi/TypeTraits/is_base_of.hpp>
+#include <type_traits>
+
+template <typename T, typename U>
+void test_is_base_of_impl()
+{
+    STATIC_REQUIRE(phi::is_base_of<T, U>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_base_of<T, U>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_base_of_v<T, U>);
+    STATIC_REQUIRE_FALSE(phi::is_not_base_of_v<T, U>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_base_of<T, U>::value);
+}
 
 template <typename T, typename U>
 void test_is_base_of()
 {
     // is_base_of
-    STATIC_REQUIRE(phi::is_base_of<T, U>::value);
-    STATIC_REQUIRE(phi::is_base_of<T, const U>::value);
-    STATIC_REQUIRE(phi::is_base_of<T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_base_of<T, const volatile U>::value);
+    test_is_base_of_impl<T, U>();
+    test_is_base_of_impl<T, const U>();
+    test_is_base_of_impl<T, volatile U>();
+    test_is_base_of_impl<T, const volatile U>();
 
-    STATIC_REQUIRE(phi::is_base_of<const T, U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const T, const U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const T, const volatile U>::value);
+    test_is_base_of_impl<const T, U>();
+    test_is_base_of_impl<const T, const U>();
+    test_is_base_of_impl<const T, volatile U>();
+    test_is_base_of_impl<const T, const volatile U>();
 
-    STATIC_REQUIRE(phi::is_base_of<volatile T, U>::value);
-    STATIC_REQUIRE(phi::is_base_of<volatile T, const U>::value);
-    STATIC_REQUIRE(phi::is_base_of<volatile T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_base_of<volatile T, const volatile U>::value);
+    test_is_base_of_impl<volatile T, U>();
+    test_is_base_of_impl<volatile T, const U>();
+    test_is_base_of_impl<volatile T, volatile U>();
+    test_is_base_of_impl<volatile T, const volatile U>();
 
-    STATIC_REQUIRE(phi::is_base_of<const volatile T, U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const volatile T, const U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const volatile T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_base_of<const volatile T, const volatile U>::value);
-
-    // is_base_of_v
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_base_of_v<T, U>);
-    STATIC_REQUIRE(phi::is_base_of_v<T, const U>);
-    STATIC_REQUIRE(phi::is_base_of_v<T, volatile U>);
-    STATIC_REQUIRE(phi::is_base_of_v<T, const volatile U>);
-
-    STATIC_REQUIRE(phi::is_base_of_v<const T, U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const T, const U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const T, volatile U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const T, const volatile U>);
-
-    STATIC_REQUIRE(phi::is_base_of_v<volatile T, U>);
-    STATIC_REQUIRE(phi::is_base_of_v<volatile T, const U>);
-    STATIC_REQUIRE(phi::is_base_of_v<volatile T, volatile U>);
-    STATIC_REQUIRE(phi::is_base_of_v<volatile T, const volatile U>);
-
-    STATIC_REQUIRE(phi::is_base_of_v<const volatile T, U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const volatile T, const U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const volatile T, volatile U>);
-    STATIC_REQUIRE(phi::is_base_of_v<const volatile T, const volatile U>);
-#endif
+    test_is_base_of_impl<const volatile T, U>();
+    test_is_base_of_impl<const volatile T, const U>();
+    test_is_base_of_impl<const volatile T, volatile U>();
+    test_is_base_of_impl<const volatile T, const volatile U>();
 }
 
 template <typename T, typename U>
 void test_is_not_base_of()
 {
     STATIC_REQUIRE_FALSE(phi::is_base_of<T, U>::value);
+    STATIC_REQUIRE(phi::is_not_base_of<T, U>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
+    STATIC_REQUIRE(phi::is_not_base_of_v<T, U>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_base_of<T, U>::value);
 }
 
 struct B
 {};
+
 struct B1 : B
 {};
+
 struct B2 : B
 {};
+
 struct D : private B1, private B2
 {};
+
 union U0;
+
 union U1
 {};
+
 struct I0; // incomplete
+
 struct I1
 {};
 

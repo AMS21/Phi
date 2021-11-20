@@ -1,5 +1,5 @@
-#ifndef INCG_PHI_CORE_TYPE_TRAITS_IS_COMPELTE_HPP
-#define INCG_PHI_CORE_TYPE_TRAITS_IS_COMPELTE_HPP
+#ifndef INCG_PHI_CORE_TYPE_TRAITS_IS_COMPLETE_HPP
+#define INCG_PHI_CORE_TYPE_TRAITS_IS_COMPLETE_HPP
 
 #include "Phi/PhiConfig.hpp"
 
@@ -49,13 +49,20 @@ template <typename TypeT>
 struct is_complete<TypeT&> : public is_complete<TypeT>
 {};
 
+template <typename TypeT>
+struct is_not_complete : public bool_constant<!is_complete<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_complete_v = is_complete<TypeT>::value;
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_complete_v = is_not_complete<TypeT>::value;
+
 #endif
 
 DETAIL_PHI_END_NAMESPACE()
 
-#endif // INCG_PHI_CORE_TYPE_TRAITS_IS_COMPELTE_HPP
+#endif // INCG_PHI_CORE_TYPE_TRAITS_IS_COMPLETE_HPP

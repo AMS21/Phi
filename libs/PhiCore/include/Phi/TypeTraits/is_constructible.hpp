@@ -19,10 +19,17 @@ template <typename TypeT, typename... ArgsT>
 struct is_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
+template <typename TypeT, typename... ArgsT>
+struct is_not_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
+
+template <typename TypeT, typename... ArgsT>
+PHI_INLINE_VARIABLE constexpr bool is_not_constructible_v = !PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 #    endif
 
@@ -111,14 +118,22 @@ template <>
 struct is_constructible<void volatile> : public false_type
 {};
 
-template <typename T>
-struct is_constructible<T> : public is_default_constructible<T>
+template <typename TypeT>
+struct is_constructible<TypeT> : public is_default_constructible<TypeT>
+{};
+
+template <typename T, typename... ArgsT>
+struct is_not_constructible<T> : public boolbool_constant<!is_constructible<TypeT, ArgsT...>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_constructible_v = is_constructible<TypeT, ArgsT...>::value;
+
+template <typename TypeT, typename... ArgsT>
+PHI_INLINE_VARIABLE constexpr bool is_not_constructible_v =
+        is_not_constructible<TypeT, ArgsT...>::value;
 
 #    endif
 

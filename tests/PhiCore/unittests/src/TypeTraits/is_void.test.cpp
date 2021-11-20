@@ -196,8 +196,6 @@ TEST_CASE("is_void")
     test_is_not_void<void*>();
     test_is_not_void<char[3]>();
     test_is_not_void<char[]>();
-    test_is_not_void<char[3]>();
-    test_is_not_void<char[]>();
     test_is_not_void<char* [3]>();
     test_is_not_void<char*[]>();
     test_is_not_void<int(*)[3]>();
