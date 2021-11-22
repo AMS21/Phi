@@ -3,29 +3,50 @@
 #include "TestTypes.hpp"
 #include <Phi/Config/Compiler.hpp>
 #include <Phi/TypeTraits/is_copy_constructible.hpp>
+#include <type_traits>
+
+template <typename T>
+void test_is_copy_constructible_impl()
+{
+    STATIC_REQUIRE(phi::is_copy_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_copy_constructible<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_copy_constructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_copy_constructible_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_copy_constructible<T>::value);
+}
 
 template <typename T>
 void test_is_copy_constructible()
 {
-    STATIC_REQUIRE(phi::is_copy_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_copy_constructible<const T>::value);
+    test_is_copy_constructible_impl<T>();
+    test_is_copy_constructible_impl<const T>();
+}
+
+template <typename T>
+void test_is_not_copy_constructible_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_copy_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_not_copy_constructible<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_copy_constructible_v<T>);
-    STATIC_REQUIRE(phi::is_copy_constructible_v<const T>);
+    STATIC_REQUIRE_FALSE(phi::is_copy_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_not_copy_constructible_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_copy_constructible<T>::value);
 }
 
 template <typename T>
 void test_is_not_copy_constructible()
 {
-    STATIC_REQUIRE_FALSE(phi::is_copy_constructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_copy_constructible<const T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_copy_constructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_copy_constructible_v<const T>);
-#endif
+    test_is_not_copy_constructible_impl<T>();
+    test_is_not_copy_constructible_impl<const T>();
 }
 
 struct A

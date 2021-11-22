@@ -42,8 +42,7 @@ struct has_unique_object_representations : public false_type
 template <typename TypeT>
 struct has_no_unique_object_representations : public false_type
 {
-    static_assert(false_t<TypeT>::value, false_t_unique_object_representations requires compiler
-                  "
+    static_assert(false_t<TypeT>::value, phi::has_no_unique_object_representations requires compiler
                   "support for intrinsic has_unique_object_representations");
 };
 

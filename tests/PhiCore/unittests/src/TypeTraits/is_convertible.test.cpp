@@ -1,81 +1,84 @@
 #include <Phi/Test/TestMacros.hpp>
 
 #include <Phi/TypeTraits/is_convertible.hpp>
+#include <type_traits>
+
+template <typename T, typename U>
+void test_is_convertible_impl()
+{
+    STATIC_REQUIRE(phi::is_convertible<T, U>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_convertible<T, U>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_convertible_v<T, U>);
+    STATIC_REQUIRE_FALSE(phi::is_not_convertible_v<T, U>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_convertible<T, U>::value);
+}
 
 template <typename T, typename U>
 void test_is_convertible()
 {
-    // is_convertible
-    STATIC_REQUIRE(phi::is_convertible<T, U>::value);
-    STATIC_REQUIRE(phi::is_convertible<T, const U>::value);
-    STATIC_REQUIRE(phi::is_convertible<T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_convertible<T, const volatile U>::value);
+    test_is_convertible_impl<T, U>();
+    test_is_convertible_impl<T, const U>();
+    test_is_convertible_impl<T, volatile U>();
+    test_is_convertible_impl<T, const volatile U>();
 
-    STATIC_REQUIRE(phi::is_convertible<const T, U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const T, const U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const T, const volatile U>::value);
+    test_is_convertible_impl<const T, U>();
+    test_is_convertible_impl<const T, const U>();
+    test_is_convertible_impl<const T, volatile U>();
+    test_is_convertible_impl<const T, const volatile U>();
 
-    STATIC_REQUIRE(phi::is_convertible<const volatile T, U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const volatile T, const U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const volatile T, volatile U>::value);
-    STATIC_REQUIRE(phi::is_convertible<const volatile T, const volatile U>::value);
+    test_is_convertible_impl<volatile T, U>();
+    test_is_convertible_impl<volatile T, const U>();
+    test_is_convertible_impl<volatile T, volatile U>();
+    test_is_convertible_impl<volatile T, const volatile U>();
 
-    // is_convertible_v
+    test_is_convertible_impl<const volatile T, U>();
+    test_is_convertible_impl<const volatile T, const U>();
+    test_is_convertible_impl<const volatile T, volatile U>();
+    test_is_convertible_impl<const volatile T, const volatile U>();
+}
+
+template <typename T, typename U>
+void test_is_not_convertible_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_convertible<T, U>::value);
+    STATIC_REQUIRE(phi::is_not_convertible<T, U>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_convertible_v<T, U>);
-    STATIC_REQUIRE(phi::is_convertible_v<T, const U>);
-    STATIC_REQUIRE(phi::is_convertible_v<T, volatile U>);
-    STATIC_REQUIRE(phi::is_convertible_v<T, const volatile U>);
-
-    STATIC_REQUIRE(phi::is_convertible_v<const T, U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const T, const U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const T, volatile U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const T, const volatile U>);
-
-    STATIC_REQUIRE(phi::is_convertible_v<const volatile T, U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const volatile T, const U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const volatile T, volatile U>);
-    STATIC_REQUIRE(phi::is_convertible_v<const volatile T, const volatile U>);
+    STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, U>);
+    STATIC_REQUIRE(phi::is_not_convertible_v<T, U>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_convertible<T, U>::value);
 }
 
 template <typename T, typename U>
 void test_is_not_convertible()
 {
-    // is_convertible
-    STATIC_REQUIRE_FALSE(phi::is_convertible<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<T, const U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<T, volatile U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<T, const volatile U>::value);
+    test_is_not_convertible_impl<T, U>();
+    test_is_not_convertible_impl<T, const U>();
+    test_is_not_convertible_impl<T, volatile U>();
+    test_is_not_convertible_impl<T, const volatile U>();
 
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const T, const U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const T, volatile U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const T, const volatile U>::value);
+    test_is_not_convertible_impl<const T, U>();
+    test_is_not_convertible_impl<const T, const U>();
+    test_is_not_convertible_impl<const T, volatile U>();
+    test_is_not_convertible_impl<const T, const volatile U>();
 
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const volatile T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const volatile T, const U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const volatile T, volatile U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<const volatile T, const volatile U>::value);
+    test_is_not_convertible_impl<volatile T, U>();
+    test_is_not_convertible_impl<volatile T, const U>();
+    test_is_not_convertible_impl<volatile T, volatile U>();
+    test_is_not_convertible_impl<volatile T, const volatile U>();
 
-    // is_convertible_v
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, const U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, volatile U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<T, const volatile U>);
-
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const T, const U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const T, volatile U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const T, const volatile U>);
-
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, const U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, volatile U>);
-    STATIC_REQUIRE_FALSE(phi::is_convertible_v<const volatile T, const volatile U>);
-#endif
+    test_is_not_convertible_impl<const volatile T, U>();
+    test_is_not_convertible_impl<const volatile T, const U>();
+    test_is_not_convertible_impl<const volatile T, volatile U>();
+    test_is_not_convertible_impl<const volatile T, const volatile U>();
 }
 
 using Function      = void();

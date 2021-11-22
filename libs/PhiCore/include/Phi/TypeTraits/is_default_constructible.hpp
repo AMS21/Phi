@@ -24,10 +24,17 @@ template <typename TypeT>
 struct is_default_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_default_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_default_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_default_constructible_v = !PHI_IS_CONSTRUCTIBLE(TypeT);
 
 #    endif
 
@@ -117,11 +124,19 @@ template <>
 struct is_default_constructible<void const volatile> : public false_type
 {};
 
+template <typename TypeT>
+struct is_not_default_constructible : public bool_constant<!is_default_constructible<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_default_constructible_v =
         is_default_constructible<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_default_constructible_v =
+        is_not_default_constructible<TypeT>::value;
 
 #    endif
 
