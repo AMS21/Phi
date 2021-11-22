@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/Core/Assert.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include <cstdint>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -63,7 +63,7 @@ struct source_location
     template <typename TypeT = void>
     static constexpr source_location current() noexcept
     {
-        static_assert(always_false<TypeT>::value,
+        static_assert(false_t<TypeT>::value,
                       "phi::source_location requires compiler support for current.");
 
         source_location loc;

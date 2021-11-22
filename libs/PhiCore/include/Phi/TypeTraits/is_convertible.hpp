@@ -49,9 +49,8 @@ namespace detail
 
 template <typename FromT, typename ToT>
 struct is_convertible
-    : bool_constant<(decltype(detail::test_returnable<ToT>(0))::
-                             value&& decltype(detail::test_implicitly_convertible<FromT, ToT>(
-                                     0))::value) ||
+    : bool_constant<(decltype(detail::test_returnable<ToT>(0))::value &&
+                     decltype(detail::test_implicitly_convertible<FromT, ToT>(0))::value) ||
                     (is_void<FromT>::value && is_void<ToT>::value)>
 {};
 

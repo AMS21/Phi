@@ -289,7 +289,7 @@ public:
         // Ugly C++-11 compatible version of the same code
         return TraitsT::compare(data(), other.data(), std::min(size().get(), other.size().get())) !=
                                0 ?
-                                        TraitsT::compare(data(), other.data(),
+                       TraitsT::compare(data(), other.data(),
                                         std::min(size().get(), other.size().get())) :
                size() == other.size() ? 0 :
                size() < other.size()  ? -1 :

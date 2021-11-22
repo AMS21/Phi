@@ -10,7 +10,7 @@
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsTriviallyConstructible.hpp"
 #include "Phi/Config/Warning.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -40,7 +40,7 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 template <typename TypeT, typename... ArgsT>
 struct is_trivially_constructible : public false_type
 {
-    static_assert(always_false<TypeT>::value,
+    static_assert(false_t<TypeT>::value,
                   "phi::is_trivially_constructible requires compiler support "
                   "for intrinsic __is_trivially_constructible");
 };

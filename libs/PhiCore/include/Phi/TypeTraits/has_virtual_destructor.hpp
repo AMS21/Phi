@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/HasVirtualDestructor.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -39,16 +39,15 @@ PHI_INLINE_VARIABLE constexpr bool has_no_virtual_destructor_v = !PHI_HAS_VIRTUA
 template <typename TypeT>
 struct has_virtual_destructor : public false_type
 {
-    static_assert(always_false<TypeT>, "phi::has_virtual_destructor requires compiler support for "
-                                       "intrinsic has_virtual_destructor");
+    static_assert(false_t<TypeT>, "phi::has_virtual_destructor requires compiler support for "
+                                  "intrinsic has_virtual_destructor");
 };
 
 template <typename TypeT>
 struct has_no_virtual_destructor : public false_type
 {
-    static_assert(always_false<TypeT>,
-                  "phi::has_no_virtual_destructor requires compiler support for "
-                  "intrinsic has_virtual_destructor");
+    static_assert(false_t<TypeT>, "phi::has_no_virtual_destructor requires compiler support for "
+                                  "intrinsic has_virtual_destructor");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

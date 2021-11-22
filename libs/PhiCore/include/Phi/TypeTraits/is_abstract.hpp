@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsAbstract.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -38,13 +38,13 @@ PHI_INLINE_VARIABLE constexpr bool is_not_abstract_v = !PHI_IS_ABSTRACT(TypeT);
 template <typename TypeT>
 struct is_abstract : public false_type
 {
-    static_assert(always_false<TypeT>::value, "phi::is_abstract requires compiler support");
+    static_assert(false_t<TypeT>::value, "phi::is_abstract requires compiler support");
 };
 
 template <typename TypeT>
 struct is_not_abstract : public false_type
 {
-    static_assert(always_false<TypeT>::value, "phi::is_not_abstract requires compiler support");
+    static_assert(false_t<TypeT>::value, "phi::is_not_abstract requires compiler support");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -76,7 +76,6 @@ file(
   "include/Phi/TypeTraits/add_rvalue_reference.hpp"
   "include/Phi/TypeTraits/add_volatile.hpp"
   "include/Phi/TypeTraits/alignment_of.hpp"
-  "include/Phi/TypeTraits/always_false.hpp"
   "include/Phi/TypeTraits/bool_pack.hpp"
   "include/Phi/TypeTraits/conditional.hpp"
   "include/Phi/TypeTraits/conjunction.hpp"

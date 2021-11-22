@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsTriviallyCopyable.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -32,9 +32,8 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = PHI_IS_TRIVIALLY_CO
 template <typename TypeT>
 struct is_trivially_copyable : public false_type
 {
-    static_assert(always_false<TypeT>::value,
-                  "phi::is_trivially_copyable requires compiler support for "
-                  "instrincic __is_trivilly_copyable");
+    static_assert(false_t<TypeT>::value, "phi::is_trivially_copyable requires compiler support for "
+                                         "instrincic __is_trivilly_copyable");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsFinal.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -32,7 +32,7 @@ PHI_INLINE_VARIABLE constexpr bool is_final_v = PHI_IS_FINAL(TypeT);
 template <typename TypeT>
 struct is_final : public false_type
 {
-    static_assert(always_false<TypeT>,
+    static_assert(false_t<TypeT>,
                   "phi::is_final requires compiler support for intrinsic __is_final");
 };
 

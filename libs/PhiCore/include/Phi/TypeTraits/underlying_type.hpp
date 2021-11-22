@@ -8,7 +8,7 @@
 #endif
 
 #include "Phi/CompilerSupport/Intrinsics/UnderlyingType.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/is_enum.hpp"
 
@@ -41,7 +41,7 @@ struct underlying_type : public detail::underlying_type_impl<TypeT, is_enum<Type
 template <typename TypeT>
 struct underlying_type
 {
-    static_assert(always_false<TypeT>,
+    static_assert(false_t<TypeT>,
                   "phi::underlying_type requires compiler support for intrinsic underlying_type");
 };
 

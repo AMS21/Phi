@@ -5,7 +5,7 @@
 #include <Phi/CompilerSupport/Unused.hpp>
 #include <Phi/Config/Warning.hpp>
 #include <Phi/Core/Nullptr.hpp>
-#include <Phi/TypeTraits/always_false.hpp>
+#include <Phi/TypeTraits/false_t.hpp>
 #include <cassert>
 
 class Class
@@ -383,7 +383,7 @@ struct TrapConstructible
     template <typename... ArgsT>
     constexpr TrapConstructible(PHI_UNUSED ArgsT&&... args) noexcept
     {
-        static_assert(phi::always_false<ArgsT...>::value,
+        static_assert(phi::false_t<ArgsT...>::value,
                       "TrapConstructible constructor must not be used");
     }
 };
@@ -393,7 +393,7 @@ struct TrapImplicitConversion
     template <typename TypeT>
     constexpr operator TypeT() noexcept
     {
-        static_assert(phi::always_false<TypeT>::value,
+        static_assert(phi::false_t<TypeT>::value,
                       "TrapImplicitConversion::operator TypeT, must never be instantiated");
     }
 };
@@ -403,14 +403,14 @@ struct TrapComma
     template <typename TypeT>
     friend constexpr void operator,(const TrapComma&, TypeT&&) noexcept
     {
-        static_assert(phi::always_false<TypeT>::value,
+        static_assert(phi::false_t<TypeT>::value,
                       "TrapComma::operator, must never be instantiated");
     }
 
     template <typename TypeT>
     friend constexpr void operator,(TypeT&&, const TrapComma&) noexcept
     {
-        static_assert(phi::always_false<TypeT>::value,
+        static_assert(phi::false_t<TypeT>::value,
                       "TrapComma::operator, must never be instantiated");
     }
 };
@@ -420,7 +420,7 @@ struct TrapCall
     template <typename... ArgsT>
     constexpr void operator()(ArgsT&&...) noexcept
     {
-        static_assert(phi::always_false<ArgsT...>::value,
+        static_assert(phi::false_t<ArgsT...>::value,
                       "TrapCall::operator() must never be instantiated");
     }
 };
@@ -453,15 +453,13 @@ struct TrapDeref
     template <typename T>
     constexpr T operator*() noexcept
     {
-        static_assert(phi::always_false<T>::value,
-                      "TrapDeref::operator*() must never be instantiated");
+        static_assert(phi::false_t<T>::value, "TrapDeref::operator*() must never be instantiated");
     }
 
     template <typename T>
     constexpr T* operator->() noexcept
     {
-        static_assert(phi::always_false<T>::value,
-                      "TrapDeref::operator->() must never be instantiated");
+        static_assert(phi::false_t<T>::value, "TrapDeref::operator->() must never be instantiated");
     }
 };
 
@@ -470,7 +468,7 @@ struct TrapArraySubscript
     template <typename T>
     constexpr void operator[](PHI_UNUSED T x) noexcept
     {
-        static_assert(phi::always_false<T>::value,
+        static_assert(phi::false_t<T>::value,
                       "TrapArraySubscript::operator[] must never be instantiated");
     }
 };

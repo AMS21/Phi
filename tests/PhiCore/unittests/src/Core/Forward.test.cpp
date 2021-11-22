@@ -46,8 +46,8 @@ TEST_CASE("forward")
     ((void)ca); // Prevent unused warning
 
     CHECK_SAME_TYPE(decltype(phi::forward<A&>(a)), A&);
-    CHECK_SAME_TYPE(decltype(phi::forward<A>(a)), A&&);
-    CHECK_SAME_TYPE(decltype(phi::forward<A>(source())), A&&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(a)), A &&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(source())), A &&);
     CHECK_NOEXCEPT(phi::forward<A&>(a));
     CHECK_NOEXCEPT(phi::forward<A>(a));
     CHECK_NOEXCEPT(phi::forward<A>(source()));

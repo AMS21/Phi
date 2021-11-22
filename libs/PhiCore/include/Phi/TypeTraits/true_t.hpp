@@ -1,5 +1,5 @@
-#ifndef INCG_PHI_CORE_TYPE_TRAITS_ALWAYS_FALSE_HPP
-#define INCG_PHI_CORE_TYPE_TRAITS_ALWAYS_FALSE_HPP
+#ifndef INCG_PHI_CORE_TYPE_TRAITS_TRUE_T_HPP
+#define INCG_PHI_CORE_TYPE_TRAITS_TRUE_T_HPP
 
 #include "Phi/PhiConfig.hpp"
 
@@ -13,16 +13,16 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename... TypesT>
-struct always_false : public bool_constant<false>
+struct true_t : public bool_constant<true>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename... TypesT>
-constexpr PHI_INLINE_VARIABLE bool always_false_v = false;
+constexpr PHI_INLINE_VARIABLE bool true_v = true;
 
 #endif
 
 DETAIL_PHI_END_NAMESPACE()
 
-#endif // INCG_PHI_CORE_TYPE_TRAITS_ALWAYS_FALSE_HPP
+#endif // INCG_PHI_CORE_TYPE_TRAITS_TRUE_T_HPP

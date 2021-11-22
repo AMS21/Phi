@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/HasUniqueObjectRepresentations.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 #include "Phi/TypeTraits/remove_all_extents.hpp"
 #include "Phi/TypeTraits/remove_cv.hpp"
@@ -35,16 +35,15 @@ struct has_no_unique_object_representations
 template <typename TypeT>
 struct has_unique_object_representations : public false_type
 {
-    static_assert(always_false<TypeT>::value,
-                  "phi::has_unique_object_representations requires compiler "
-                  "support for intrinsic has_unique_object_representations");
+    static_assert(false_t<TypeT>::value, "phi::has_unique_object_representations requires compiler "
+                                         "support for intrinsic has_unique_object_representations");
 };
 
 template <typename TypeT>
 struct has_no_unique_object_representations : public false_type
 {
-    static_assert(always_false<TypeT>::value,
-                  "phi::has_no_unique_object_representations requires compiler "
+    static_assert(false_t<TypeT>::value, false_t_unique_object_representations requires compiler
+                  "
                   "support for intrinsic has_unique_object_representations");
 };
 

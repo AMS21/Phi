@@ -275,53 +275,53 @@ TEST_CASE("is_invocable")
             STATIC_REQUIRE(phi::is_invocable<Fn, CT&>::value);
         }
     }
-    {     // INVOKE bullet 7
-        { // Function pointer
-            using Fp = void (*)(Tag&, int);
-            test_is_invocable<Fp, Tag&, int>();
-            test_is_invocable<Fp, DerFromTag&, int>();
-            test_is_not_invocable<Fp, const Tag&, int>();
-            test_is_not_invocable<Fp>();
-            test_is_not_invocable<Fp, Tag&>();
-        }
-        {
-            // Function reference
-            using Fp = void (&)(Tag&, int);
-            test_is_invocable<Fp, Tag&, int>();
-            test_is_invocable<Fp, DerFromTag&, int>();
-            test_is_not_invocable<Fp, const Tag&, int>();
-            test_is_not_invocable<Fp>();
-            test_is_not_invocable<Fp, Tag&>();
-        }
-        {
-            // Function object
-            using Fn = NotCallableWithInt;
-            test_is_invocable<Fn, Tag>();
-            test_is_not_invocable<Fn, int>();
-        }
-    }
-    {
-        // Check that the conversion to the return type is properly checked
-        using Fn = int (*)();
-        test_is_invocable_r<Implicit, Fn>();
-        test_is_invocable_r<double, Fn>();
-        test_is_invocable_r<const volatile void, Fn>();
-        test_is_not_invocable_r<Explicit, Fn>();
-    }
-    {
-        // Check for is_invocable_v
-        using Fn = void (*)();
-        test_is_invocable<Fn>();
-        test_is_not_invocable<Fn, int>();
-    }
-    {
-        // Check for is_invocable_r_v
-        using Fn = void (*)();
-        test_is_invocable_r<void, Fn>();
-        test_is_not_invocable_r<int, Fn>();
+    { // INVOKE bullet 7
+     {// Function pointer
+      using Fp = void(*)(Tag&, int);
+    test_is_invocable<Fp, Tag&, int>();
+    test_is_invocable<Fp, DerFromTag&, int>();
+    test_is_not_invocable<Fp, const Tag&, int>();
+    test_is_not_invocable<Fp>();
+    test_is_not_invocable<Fp, Tag&>();
+}
+{
+    // Function reference
+    using Fp = void (&)(Tag&, int);
+    test_is_invocable<Fp, Tag&, int>();
+    test_is_invocable<Fp, DerFromTag&, int>();
+    test_is_not_invocable<Fp, const Tag&, int>();
+    test_is_not_invocable<Fp>();
+    test_is_not_invocable<Fp, Tag&>();
+}
+{
+    // Function object
+    using Fn = NotCallableWithInt;
+    test_is_invocable<Fn, Tag>();
+    test_is_not_invocable<Fn, int>();
+}
+}
+{
+    // Check that the conversion to the return type is properly checked
+    using Fn = int (*)();
+    test_is_invocable_r<Implicit, Fn>();
+    test_is_invocable_r<double, Fn>();
+    test_is_invocable_r<const volatile void, Fn>();
+    test_is_not_invocable_r<Explicit, Fn>();
+}
+{
+    // Check for is_invocable_v
+    using Fn = void (*)();
+    test_is_invocable<Fn>();
+    test_is_not_invocable<Fn, int>();
+}
+{
+    // Check for is_invocable_r_v
+    using Fn = void (*)();
+    test_is_invocable_r<void, Fn>();
+    test_is_not_invocable_r<int, Fn>();
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-        STATIC_REQUIRE(phi::is_invocable_r_v<void, Fn>);
-        STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<int, Fn>);
+    STATIC_REQUIRE(phi::is_invocable_r_v<void, Fn>);
+    STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<int, Fn>);
 #endif
-    }
+}
 }

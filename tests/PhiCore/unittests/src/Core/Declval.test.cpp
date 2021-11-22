@@ -12,7 +12,7 @@ class A
 TEST_CASE("declval")
 {
     CHECK_SAME_TYPE(decltype(phi::declval<int>()), int&&);
-    CHECK_SAME_TYPE(decltype(phi::declval<A>()), A&&);
+    CHECK_SAME_TYPE(decltype(phi::declval<A>()), A &&);
     CHECK_SAME_TYPE(decltype(phi::declval<void>()), void);
     CHECK_NOEXCEPT(phi::declval<int>());
     CHECK_NOEXCEPT(phi::declval<A>());

@@ -3,7 +3,7 @@
 template <typename TypeT>
 void func()
 {
-    static_assert(phi::always_false<TypeT>, "TWO_PHASE_LOOKUP_FAILURE");
+    static_assert(phi::false_t<TypeT>, "TWO_PHASE_LOOKUP_FAILURE");
 }
 
 template <>

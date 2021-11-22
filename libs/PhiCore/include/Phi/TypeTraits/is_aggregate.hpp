@@ -37,21 +37,21 @@ PHI_INLINE_VARIABLE constexpr bool is_not_aggregate_v = !PHI_IS_AGGREGATE(remove
 
 #else
 
-#    include "Phi/TypeTraits/always_false.hpp"
+#    include "Phi/TypeTraits/false_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_aggregate : public false_type
 {
-    static_assert(always_false<TypeT>::value,
+    static_assert(false_t<TypeT>::value,
                   "phi::is_aggregate requires compiler support for intrinsic __is_aggregate");
 };
 
 template <typename TypeT>
 struct is_not_aggregate : public false_type
 {
-    static_assert(always_false<TypeT>::value,
+    static_assert(false_t<TypeT>::value,
                   "phi::is_not_aggregate requires compiler support for intrinsic __is_aggregate");
 };
 

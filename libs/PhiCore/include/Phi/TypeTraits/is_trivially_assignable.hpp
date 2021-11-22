@@ -9,7 +9,7 @@
 
 #include "Phi/CompilerSupport/InlineVariables.hpp"
 #include "Phi/CompilerSupport/Intrinsics/IsTriviallyAssignable.hpp"
-#include "Phi/TypeTraits/always_false.hpp"
+#include "Phi/TypeTraits/false_t.hpp"
 #include "Phi/TypeTraits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -33,7 +33,7 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = PHI_IS_TRIVIALLY_
 template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public false_type
 {
-    static_assert(always_false<TypeT>::value,
+    static_assert(false_t<TypeT>::value,
                   "phi::is_trivially_assignable requires compiler support for "
                   "intrinsic __is_trivially_assignable");
 };
