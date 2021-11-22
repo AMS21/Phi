@@ -289,6 +289,9 @@ namespace detail
 PHI_EMCC_SUPPRESS_WARNING_PUSH()
 PHI_EMCC_SUPPRESS_WARNING("-Wreserved-identifier")
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
+
 inline namespace literals
 {
     template <char... DigitsT>
@@ -364,6 +367,7 @@ inline namespace literals
 
 DETAIL_PHI_END_NAMESPACE()
 
+PHI_CLANG_SUPPRESS_WARNING_POP()
 PHI_EMCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_TYPES_HPP
