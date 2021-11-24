@@ -27,6 +27,7 @@ SOFTWARE.
 #include <Phi/Test/TestMacros.hpp>
 
 #include "ConstexprHelper.hpp"
+#include "Phi/Config/Warning.hpp"
 #include <Phi/Config/Compiler.hpp>
 #include <Phi/Core/NamedType.hpp>
 #include <cmath>
@@ -39,6 +40,11 @@ SOFTWARE.
 #include <vector>
 
 // Usage examples
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wambiguous-reversed-operator")
+#endif
 
 using Meter =
         phi::NamedType<unsigned long long, struct MeterParameter, phi::Addable, phi::Comparable>;
@@ -1024,3 +1030,7 @@ TEST_CASE("PostDecrementable constexpr")
     using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PostDecrementable>;
     EXT_STATIC_REQUIRE((StrongInt { 1 } --).get() == 1);
 }
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif

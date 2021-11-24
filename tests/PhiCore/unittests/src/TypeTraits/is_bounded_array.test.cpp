@@ -50,7 +50,7 @@ void test_is_not_bounded_array_impl()
 
 // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    STATIC_REQUIRE(std::is_bounded_array<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_bounded_array<T>::value);
 #endif
 }
 

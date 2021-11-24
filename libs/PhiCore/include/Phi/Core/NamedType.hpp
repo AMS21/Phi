@@ -399,16 +399,20 @@ struct PHI_EBCO Comparable : CRTP<TypeT, Comparable>
     }
 
 #if PHI_COMPILER_IS(MSVC)
+
     PHI_NODISCARD constexpr bool operator==(const TypeT& other) const
     {
         return !(*this < other) && !(other.get() < this->underlying().get());
     }
+
 #else
+
     PHI_NODISCARD friend constexpr bool operator==(const Comparable<TypeT>& self,
                                                    const TypeT&             other)
     {
         return !(self < other) && !(other.get() < self.underlying().get());
     }
+
 #endif
 
     PHI_NODISCARD constexpr bool operator!=(const TypeT& other) const
