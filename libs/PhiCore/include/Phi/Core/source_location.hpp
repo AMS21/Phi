@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "Phi/Container/StringView.hpp"
 #include "Phi/CompilerSupport/Features.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/TypeTraits/false_t.hpp"
@@ -86,7 +87,17 @@ struct source_location
         return m_FileName;
     }
 
+    [[nodiscard]] constexpr StringView file_name_view() const noexcept
+    {
+        return m_FileName;
+    }
+
     [[nodiscard]] constexpr const char* function_name() const noexcept
+    {
+        return m_FunctionName;
+    }
+
+    [[nodiscard]] constexpr StringView function_name_view() const noexcept
     {
         return m_FunctionName;
     }

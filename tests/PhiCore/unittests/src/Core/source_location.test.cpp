@@ -39,7 +39,9 @@ TEST_CASE("source_location")
         phi::source_location loc;
 
         CHECK(phi::StringEquals(loc.file_name(), ""));
+        CHECK(loc.file_name_view().is_empty());
         CHECK(phi::StringEquals(loc.function_name(), ""));
+        CHECK(loc.function_name_view().is_empty());
         CHECK(loc.line() == 0);
         CHECK(loc.column() == 0);
     }
@@ -49,7 +51,9 @@ TEST_CASE("source_location")
         phi::source_location loc("my_file.cpp", "test_function", 42, 21);
 
         CHECK(phi::StringEquals(loc.file_name(), "my_file.cpp"));
+        CHECK(loc.file_name_view() == "my_file.cpp");
         CHECK(phi::StringEquals(loc.function_name(), "test_function"));
+        CHECK(loc.function_name_view() == "test_function");
         CHECK(loc.line() == 42);
         CHECK(loc.column() == 21);
     }
@@ -117,6 +121,7 @@ TEST_CASE("test g")
 
     //CHECK(phi::StringEquals(g_loc.file_name(), "source_location.test.cpp"));
     CHECK(phi::StringEquals(g_loc.function_name(), "g"));
+    CHECK(g_loc.function_name_view() == "g");
     CHECK(g_loc.line() == 1);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
     CHECK(g_loc.column() == 25);
@@ -136,7 +141,9 @@ TEST_CASE("test h")
     phi::source_location h_loc = h();
 
     CHECK(phi::StringEquals(h_loc.file_name(), "test_file.cpp"));
+    CHECK(h_loc.file_name_view() == "test_file.cpp");
     CHECK(phi::StringEquals(h_loc.function_name(), "h"));
+    CHECK(h_loc.function_name_view() == "h");
     CHECK(h_loc.line() == 2);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
     CHECK(h_loc.column() == 25);
