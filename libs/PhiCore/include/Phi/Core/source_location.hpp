@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "Phi/Container/StringView.hpp"
 #include "Phi/CompilerSupport/Features.hpp"
+#include "Phi/Container/StringView.hpp"
 #include "Phi/Core/Assert.hpp"
 #include "Phi/TypeTraits/false_t.hpp"
 #include <cstdint>

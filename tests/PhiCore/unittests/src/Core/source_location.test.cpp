@@ -1,12 +1,16 @@
+#include "TestTypes.hpp"
 #include <Phi/Test/TestMacros.hpp>
 
 #include <Phi/Algorithm/StringEquals.hpp>
 #include <Phi/Core/source_location.hpp>
+#include <Phi/TypeTraits/is_nothrow_default_constructible.hpp>
+#include <Phi/TypeTraits/is_nothrow_destructible.hpp>
 #include <Phi/TypeTraits/is_nothrow_move_assignable.hpp>
 #include <Phi/TypeTraits/is_nothrow_move_constructible.hpp>
 #include <Phi/TypeTraits/is_nothrow_swappable.hpp>
 #include <Phi/TypeTraits/is_trivially_copy_assignable.hpp>
 #include <Phi/TypeTraits/is_trivially_copy_constructible.hpp>
+#include <Phi/TypeTraits/is_trivially_destructible.hpp>
 #include <Phi/TypeTraits/is_trivially_move_assignable.hpp>
 #include <Phi/TypeTraits/is_trivially_move_constructible.hpp>
 
@@ -21,15 +25,18 @@ TEST_CASE("source_location")
 {
     SECTION("traits")
     {
+        STATIC_REQUIRE(phi::is_nothrow_default_constructible<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_move_assignable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_move_constructible<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_swappable<phi::source_location>::value);
+        STATIC_REQUIRE(phi::is_nothrow_destructible<phi::source_location>::value);
 
         // trivial
         STATIC_REQUIRE(phi::is_trivially_copy_assignable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_trivially_copy_constructible<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_trivially_move_assignable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_trivially_move_constructible<phi::source_location>::value);
+        STATIC_REQUIRE(phi::is_trivially_destructible<phi::source_location>::value);
 
         CHECK_SAME_TYPE(phi::source_location::this_type, phi::source_location);
     }
@@ -74,6 +81,31 @@ TEST_CASE("source_location")
 #    endif
     }
 #endif
+
+    SECTION("noexcept")
+    {
+        CHECK_NOEXCEPT(phi::source_location());
+        CHECK_NOEXCEPT(phi::source_location("file.cpp", "function", 3, 1));
+        CHECK_NOEXCEPT(phi::source_location::current());
+        CHECK_NOEXCEPT(phi::source_location().line());
+        CHECK_NOEXCEPT(phi::source_location().column());
+        CHECK_NOEXCEPT(phi::source_location().file_name());
+        CHECK_NOEXCEPT(phi::source_location().file_name_view());
+        CHECK_NOEXCEPT(phi::source_location().function_name());
+        CHECK_NOEXCEPT(phi::source_location().function_name_view());
+    }
+
+    SECTION("Constexpr")
+    {
+        constexpr phi::source_location l = phi::source_location("file.cpp", "function", 3, 1);
+
+        STATIC_REQUIRE(phi::StringEquals(l.file_name(), "file.cpp"));
+        //STATIC_REQUIRE(l.file_name_view() == "file.cpp");
+        STATIC_REQUIRE(phi::StringEquals(l.function_name(), "function"));
+        //STATIC_REQUIRE(l.function_name_view() == "function");
+        STATIC_REQUIRE(l.line() == 3);
+        STATIC_REQUIRE(l.column() == 1);
+    }
 
     SECTION("PHI_SOURCE_LOCATION_CURRENT")
     {
