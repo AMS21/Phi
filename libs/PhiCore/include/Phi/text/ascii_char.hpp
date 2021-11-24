@@ -1,7 +1,6 @@
 #ifndef INCG_PHI_CORE_TEXT_ASCII_CHAR_HPP
 #define INCG_PHI_CORE_TEXT_ASCII_CHAR_HPP
 
-#include "Phi/Core/FlatPtr.hpp"
 #include "Phi/PhiConfig.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
@@ -21,6 +20,8 @@ public:
 
     // Constructor
     ascii_char() = default;
+
+    ~ascii_char() = default;
 
     constexpr ascii_char(char c) noexcept
         : m_Char{static_cast<value_type>(c)}
@@ -195,27 +196,114 @@ public:
         return ac;
     }
 
-    friend ascii_char operator-(const ascii_char& ac) = delete;
+    friend constexpr ascii_char operator-(const ascii_char& ac) noexcept
+    {
+        return ascii_char{static_cast<ascii_char::value_type>(-ac.m_Char)};
+    }
 
     friend constexpr ascii_char& operator++(ascii_char& ac) noexcept
     {
         PHI_DBG_ASSERT(ac.m_Char < 127,
-                       "Increment would result in unrepresentable ascii character");
+                       "Pre-increment would result in unrepresentable ascii character");
 
         ac.m_Char += 1;
         return ac;
     }
 
+    friend constexpr ascii_char operator++(ascii_char& ac, int) noexcept
+    {
+        PHI_DBG_ASSERT(ac.m_Char < 127,
+                       "Post-increment would result in unrepresentable ascii character");
+
+        ascii_char old_val = ac;
+        ac.m_Char += 1;
+        return old_val;
+    }
+
     friend constexpr ascii_char& operator--(ascii_char& ac) noexcept
     {
         PHI_DBG_ASSERT(ac.m_Char > 0,
-                       "Decrement would result in unrepresentable asci000i character");
+                       "Pre-decrement would result in unrepresentable ascii character");
 
         ac.m_Char -= 1;
         return ac;
     }
 
+    friend constexpr ascii_char operator--(ascii_char& ac, int) noexcept
+    {
+        PHI_DBG_ASSERT(ac.m_Char > 0,
+                       "Post-decrement would result in unrepresentable ascii character");
+
+        ascii_char old_val = ac;
+        ac.m_Char -= 1;
+        return old_val;
+    }
+
     // Binary operators
+    friend constexpr ascii_char operator+(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+                       "Addition would result in unrepresentable ascii character");
+
+        return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char + rhs.m_Char)};
+    }
+
+    friend constexpr ascii_char& operator+=(ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+                       "Addition would result in unrepresentable ascii character");
+
+        lhs.m_Char += rhs.m_Char;
+        return lhs;
+    }
+
+    friend constexpr ascii_char operator-(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+                       "Addition would result in unrepresentable ascii character");
+
+        return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char - rhs.m_Char)};
+    }
+
+    friend constexpr ascii_char& operator-=(ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+                       "Addition would result in unrepresentable ascii character");
+
+        lhs.m_Char -= rhs.m_Char;
+        return lhs;
+    }
+
+    // Comparision operator
+    friend constexpr Boolean operator==(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char == rhs.m_Char;
+    }
+
+    friend constexpr Boolean operator!=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char != rhs.m_Char;
+    }
+
+    friend constexpr Boolean operator<(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char < rhs.m_Char;
+    }
+
+    friend constexpr Boolean operator<=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char <= rhs.m_Char;
+    }
+
+    friend constexpr Boolean operator>(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char > rhs.m_Char;
+    }
+
+    friend constexpr Boolean operator>=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    {
+        return lhs.m_Char >= rhs.m_Char;
+    }
 
 private:
     value_type m_Char;
