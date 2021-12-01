@@ -93,7 +93,7 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: '3.x'
 
@@ -149,7 +149,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: '3.x'
 
@@ -224,7 +224,7 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v2.2.2
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: '3.x'
 
