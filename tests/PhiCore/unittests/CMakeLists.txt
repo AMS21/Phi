@@ -6,6 +6,7 @@ file(
   GLOB
   TEST_SOURCES
   # Algorithm
+  "src/Algorithm/compare.test.cpp"
   "src/Algorithm/Exchange.test.cpp"
   "src/Algorithm/StringLength.test.cpp"
   "src/Algorithm/Swap.test.cpp"

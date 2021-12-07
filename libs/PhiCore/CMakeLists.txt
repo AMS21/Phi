@@ -9,6 +9,7 @@ file(
   GLOB
   PHI_CORE_HEADERS
   # Algorithm
+  "include/Phi/Algorithm/compare.hpp"
   "include/Phi/Algorithm/StringCompare.hpp"
   "include/Phi/Algorithm/StringEquals.hpp"
   "include/Phi/Algorithm/StringLength.hpp"
