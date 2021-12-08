@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include <phi/compiler_support/counter.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
 #include <phi/preprocessor/glue.hpp>
@@ -43,11 +44,7 @@ DETAIL_PHI_END_NAMESPACE()
 
 extern int main();
 
-#if defined(__COUNTER__) // not standard and may be missing for some compilers
-#    define GET_TEST_CASE_NAME() PHI_GLUE(phi_test_function_, __COUNTER__)
-#else // __COUNTER__
-#    define GET_TEST_CASE_NAME() PHI_GLUE(phi_test_function_, __LINE__)
-#endif // __COUNTER__
+#define GET_TEST_CASE_NAME() PHI_GLUE(phi_test_function_, PHI_COUNTER())
 
 #define DEFINE_TEST_CASE(name)                                                                     \
     static void name();                                                                            \

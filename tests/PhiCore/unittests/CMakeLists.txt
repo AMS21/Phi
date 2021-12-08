@@ -15,6 +15,7 @@ file(
   "src/compiler_support/assume.test.cpp"
   "src/compiler_support/char8_t.test.cpp"
   "src/compiler_support/compiler.test.cpp"
+  "src/compiler_support/counter.test.cpp"
   "src/compiler_support/current_function.test.cpp"
   "src/compiler_support/inline.test.cpp"
   "src/compiler_support/likely.test.cpp"

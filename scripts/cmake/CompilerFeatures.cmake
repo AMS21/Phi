@@ -357,6 +357,7 @@ phi_check_cxx_source_compiles("__attribute__ ((noreturn)) void fatal (); int mai
                               PHI_HAS_EXTENSION_ATTRIBUTE_NORETURN)
 phi_check_cxx_source_compiles("__declspec(noreturn) void f(); int main() {}"
                               PHI_HAS_EXTENSION_DECLSPEC_NORETURN)
+phi_check_cxx_source_compiles("int main() { return __COUNTER__; }" PHI_HAS_EXTENSION_COUNTER)
 
 # Bugs
 phi_check_cxx_source_compiles(

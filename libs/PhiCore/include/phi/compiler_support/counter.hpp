@@ -1,0 +1,16 @@
+#ifndef INCG_PHI_CORE_COMPILER_SUPPORT_COUNTER_HPP
+#define INCG_PHI_CORE_COMPILER_SUPPORT_COUNTER_HPP
+
+#include "phi/phi_config.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#if PHI_HAS_EXTENSION_COUNTER()
+#    define PHI_COUNTER() __COUNTER__
+#else
+#    define PHI_COUNTER() __LINE__
+#endif
+
+#endif // INCG_PHI_CORE_COMPILER_SUPPORT_COUNTER_HPP
