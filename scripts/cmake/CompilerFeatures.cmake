@@ -2,17 +2,10 @@ phi_include_guard()
 
 include(CheckCXXSourceCompiles)
 include(CheckTypeSize)
+include(internal/PhiCheckCXXSourceCompiles)
 
 # Set compile flags
 set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag}")
-
-function(phi_check_cxx_source_compiles source var)
-  check_cxx_source_compiles("${source}" ${var})
-
-  if(NOT ${var})
-    phi_set_cache_value(NAME ${var} VALUE "0")
-  endif()
-endfunction()
 
 # Features
 

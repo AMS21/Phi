@@ -2,7 +2,7 @@
 
 phi_include_guard()
 
-include("CMakeParseArguments")
+include(CMakeParseArguments)
 
 function(phi_add_external_project)
   cmake_parse_arguments(ext "" "PROJECT" "TARGETS" ${ARGN})
