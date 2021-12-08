@@ -57,6 +57,7 @@ file(
   "src/math/signum.test.cpp"
   "src/math/vector2.test.cpp"
   # preprocessor
+  "src/preprocessor/bool.test.cpp"
   "src/preprocessor/function_like_macro.test.cpp"
   "src/preprocessor/glue.test.cpp"
   "src/preprocessor/source_line.test.cpp"

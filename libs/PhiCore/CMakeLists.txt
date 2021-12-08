@@ -175,6 +175,7 @@ file(
   "include/phi/math/vector2.hpp"
   "include/phi/math/vector3.hpp"
   # preprocessor
+  "include/phi/preprocessor/bool.hpp"
   "include/phi/preprocessor/function_like_macro.hpp"
   "include/phi/preprocessor/glue.hpp"
   "include/phi/preprocessor/source_line.hpp"
