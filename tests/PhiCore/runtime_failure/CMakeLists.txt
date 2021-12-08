@@ -2,76 +2,83 @@ project("PhiCoreTestRuntimeFailure" CXX)
 
 include(TestFail)
 
-# Selftest
-runtime_failure_test(NAME "Selftest_Abort" SOURCE "src/Selftest/Abort.fail.cpp")
-runtime_failure_test(NAME "Selftest_Configuration" SOURCE "src/Selftest/Configuration.fail.cpp"
-                     CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Selftest_Exit" SOURCE "src/Selftest/Exit.fail.cpp")
-runtime_failure_test(NAME "Selftest_Regex" SOURCE "src/Selftest/Regex.fail.cpp" REGEX
+# selftest
+runtime_failure_test(NAME "selftest_abort" SOURCE "src/selftest/abort.fail.cpp")
+runtime_failure_test(NAME "selftest_configuration" SOURCE "src/selftest/configuration.fail.cpp"
+                    )
+runtime_failure_test(NAME "selftest_exit" SOURCE "src/selftest/exit.fail.cpp")
+runtime_failure_test(NAME "selftest_regex" SOURCE "src/selftest/regex.fail.cpp" REGEX
                      "TEST_STRING_WHICH_INDICATES_TEST_FAILURE")
-runtime_failure_test(NAME "Selftest_ReturnOne" SOURCE "src/Selftest/ReturnOne.fail.cpp")
-runtime_failure_test(NAME "Selftest_Terminate" SOURCE "src/Selftest/Terminate.fail.cpp")
-runtime_failure_test(NAME "Selftest_UnhandledException" SOURCE
-                     "src/Selftest/UnhandledException.fail.cpp")
+runtime_failure_test(NAME "selftest_return_one" SOURCE "src/selftest/return_one.fail.cpp")
+runtime_failure_test(NAME "selftest_terminate" SOURCE "src/selftest/terminate.fail.cpp")
+runtime_failure_test(NAME "selftest_unhandled_exception" SOURCE
+                     "src/selftest/unhandled_exception.fail.cpp")
 
-# Algorithm
-runtime_failure_test(NAME "Algorithm_StringLengthNullptr" SOURCE "src/Algorithm/StringLength.nullptr.fail.cpp" CONFIGURATIONS Debug)
+# algorithm
+## string_length
+runtime_failure_test(NAME "algorithm_string_length_nullptr" SOURCE "src/algorithm/string_length/nullptr.fail.cpp")
 
-# Container
-runtime_failure_test(NAME "Container_StringViewConstructWithNullptr" SOURCE "src/Container/StringView.construct_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewConstructWithNullptrAndSize" SOURCE "src/Container/StringView.construct_nullptr2.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewConstructWithZeroSize" SOURCE "src/Container/StringView.construct_zero_size.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewTooShortString" SOURCE "src/Container/StringView.short_string.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewAtOnEmpty" SOURCE "src/Container/StringView.empty_at.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewBackOnEmpty" SOURCE "src/Container/StringView.empty_back.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewFrontOnEmpty" SOURCE "src/Container/StringView.empty_front.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewInvalidElementAccess" SOURCE "src/Container/StringView.invalid_element.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewRemovePrefix" SOURCE "src/Container/StringView.remove_prefix.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewRemoveSuffix" SOURCE "src/Container/StringView.remove_suffix.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewCopy" SOURCE "src/Container/StringView.copy.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Container_StringViewSubstr" SOURCE "src/Container/StringView.substr.fail.cpp" CONFIGURATIONS Debug)
+# container
+## string_view
+runtime_failure_test(NAME "container_string_view_ConstructWithNullptr" SOURCE "src/container/string_view/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "container_string_view_ConstructWithNullptrAndSize" SOURCE "src/container/string_view/construct_nullptr2.fail.cpp")
+runtime_failure_test(NAME "container_string_view_ConstructWithZeroSize" SOURCE "src/container/string_view/construct_zero_size.fail.cpp")
+runtime_failure_test(NAME "container_string_view_TooShortString" SOURCE "src/container/string_view/short_string.fail.cpp")
+runtime_failure_test(NAME "container_string_view_AtOnEmpty" SOURCE "src/container/string_view/empty_at.fail.cpp")
+runtime_failure_test(NAME "container_string_view_BackOnEmpty" SOURCE "src/container/string_view/empty_back.fail.cpp")
+runtime_failure_test(NAME "container_string_view_FrontOnEmpty" SOURCE "src/container/string_view/empty_front.fail.cpp")
+runtime_failure_test(NAME "container_string_view_InvalidElementAccess" SOURCE "src/container/string_view/invalid_element.fail.cpp")
+runtime_failure_test(NAME "container_string_view_RemovePrefix" SOURCE "src/container/string_view/remove_prefix.fail.cpp")
+runtime_failure_test(NAME "container_string_view_RemoveSuffix" SOURCE "src/container/string_view/remove_suffix.fail.cpp")
+runtime_failure_test(NAME "container_string_view_Copy" SOURCE "src/container/string_view/copy.fail.cpp")
+runtime_failure_test(NAME "container_string_view_Substr" SOURCE "src/container/string_view/substr.fail.cpp")
 
-# Core
-runtime_failure_test(NAME "Core_AssertWithArgs" SOURCE "src/Core/Assert.WithArgs.fail.cpp")
-runtime_failure_test(NAME "Core_AssertWithArgsRegex" SOURCE "src/Core/Assert.WithArgs.fail.cpp"
+# core
+## assert
+runtime_failure_test(NAME "core_assert_with_args" SOURCE "src/core/assert/assert_no_args.fail.cpp")
+runtime_failure_test(NAME "core_assert_with_args_regex" SOURCE "src/core/assert/assert_no_args.fail.cpp"
                      REGEX "[ASSERT FAILED]")
-runtime_failure_test(NAME "Core_DbgAssertWithArgsRegex" SOURCE
-                     "src/Core/DbgAssert.WithArgs.fail.cpp" CONFIGURATIONS Debug)
+runtime_failure_test(NAME "core_assert_not_reached" SOURCE "src/core/assert/assert_not_reached.fail.cpp")
+runtime_failure_test(NAME "core_dbg_assert_with_args_regex" SOURCE
+                     "src/core/assert/dbg_assert_with_args.fail.cpp")
 runtime_failure_test(
   NAME
-  "Core_DbgAssertWithArgs"
+  "core_dbg_assert_with_args"
   SOURCE
-  "src/Core/DbgAssert.WithArgs.fail.cpp"
+  "src/core/assert/dbg_assert_with_args.fail.cpp"
   REGEX
-  "[DBG ASSERT FAILED]"
-  CONFIGURATIONS
-  Debug)
-runtime_failure_test(NAME "Core_AssertNotReached" SOURCE "src/Core/AssertNotReached.fail.cpp")
-runtime_failure_test(NAME "Core_DbgAssertNotReached" SOURCE "src/Core/DbgAssertNotReached.fail.cpp"
-                     CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_FlatPtr_ReleaseFromNullptr" SOURCE "src/Core/FlatPtr.release_from_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullFlatPtr_AssignNullptr" SOURCE "src/Core/NotNullFlatPtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullObserverPtr_AssignNullptr" SOURCE
-                     "src/Core/NotNullObserverPtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ObserverPtr_ReleaseFromNullptr" SOURCE
-                     "src/Core/ObserverPtr.release_from_null.fail.cpp" CONFIGURATIONS DEBUG)
-runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptrOperatorStar" SOURCE
-                     "src/Core/ObserverPtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ObserverPtr_DereferenceNullptrOperatorArrow" SOURCE
-                     "src/Core/ObserverPtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ScopePtr_DereferenceNullptrOperatorStar" SOURCE
-                     "src/Core/ScopePtr.deref_null.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ScopePtr_DereferenceNullptrOperatorArrow" SOURCE
-                     "src/Core/ScopePtr.deref_null2.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_ScopePtr_ReleaseFromNullptr" SOURCE
-                     "src/Core/ScopePtr.release_from_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullScopePtr_AssignNullptr" SOURCE
-                     "src/Core/NotNullScopePtr.assign_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullScopePtr_ConstructWithNullptr" SOURCE
-                     "src/Core/NotNullScopePtr.construct_nullptr.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullScopePtr_AccessAfterLeakPtrCall" SOURCE
-                     "src/Core/NotNullScopePtr.get_after_leak.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullScopePtr_AccessAfterMoved" SOURCE
-                     "src/Core/NotNullScopePtr.get_after_move.fail.cpp" CONFIGURATIONS Debug)
-runtime_failure_test(NAME "Core_NotNullScopePtr_ResetNullptr" SOURCE
-                     "src/Core/NotNullScopePtr.reset_nullptr.fail.cpp" CONFIGURATIONS Debug)
+  "[DBG ASSERT FAILED]")
+runtime_failure_test(NAME "core_dbg_assert_not_reached" SOURCE "src/core/assert/dbg_assert_not_reached.fail.cpp"
+                    )
+
+## flat_ptr
+runtime_failure_test(NAME "core_flat_ptr_release_from_nullptr" SOURCE "src/core/flat_ptr/release_from_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_flat_ptr_not_null_assign_nullptr" SOURCE "src/core/flat_ptr/not_null_assign_nullptr.fail.cpp")
+
+## observer_ptr
+runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
+"src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_release_from_nullptr" SOURCE
+"src/core/observer_ptr/release_from_null.fail.cpp" CONFIGURATIONS DEBUG)
+runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" SOURCE
+"src/core/observer_ptr/deref_null.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow" SOURCE
+"src/core/observer_ptr/deref_null2.fail.cpp")
+
+## scope_ptr
+runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star" SOURCE
+                     "src/core/scope_ptr/deref_null.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_arrow" SOURCE
+                     "src/core/scope_ptr/deref_null2.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_release_from_nullptr" SOURCE
+                     "src/core/scope_ptr/release_from_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_not_null_assign_nullptr" SOURCE
+                     "src/core/scope_ptr/not_null_assign_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_ConstructWithNullptr" SOURCE
+                     "src/core/scope_ptr/not_null_construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_AccessAfterLeakPtrCall" SOURCE
+                     "src/core/scope_ptr/not_null_get_after_leak.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_AccessAfterMoved" SOURCE
+                     "src/core/scope_ptr/not_null_get_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_ResetNullptr" SOURCE
+                     "src/core/scope_ptr/not_null_reset_nullptr.fail.cpp")

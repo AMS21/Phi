@@ -379,8 +379,8 @@ check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE BUILTIN_TYPES_ONLY LANGUA
 check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 
 # configure file
-configure_file("scripts/cmake/Features.hpp.in"
-               "generated_files/include/Phi/CompilerSupport/Features.hpp")
-configure_file("scripts/cmake/TypeSystem.hpp.in"
-               "generated_files/include/Phi/CompilerSupport/TypeSystem.hpp")
+configure_file("scripts/cmake/features.hpp.in"
+               "generated_files/include/phi/compiler_support/features.hpp")
+configure_file("scripts/cmake/type_system.hpp.in"
+               "generated_files/include/phi/compiler_support/type_system.hpp")
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated_files/include)

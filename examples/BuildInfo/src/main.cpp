@@ -1,7 +1,7 @@
-#include <Phi/Config/CPlusPlus.hpp>
-#include <Phi/Config/Compiler.hpp>
-#include <Phi/Config/FunctionLikeMacro.hpp>
-#include <Phi/Config/Platform.hpp>
+#include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/cpp_standard.hpp>
+#include <phi/compiler_support/platform.hpp>
+#include <phi/preprocessor/function_like_macro.hpp>
 #include <iostream>
 
 #define PRINT_COND(text, cond)                                                                     \

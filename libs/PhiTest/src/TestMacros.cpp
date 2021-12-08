@@ -1,7 +1,7 @@
-#include "Phi/Test/TestMacros.hpp"
+#include "phi/test/test_macros.hpp"
 
-#include <Phi/Config/Warning.hpp>
-#include <Phi/PhiConfig.hpp>
+#include <phi/compiler_support/warning.hpp>
+#include <phi/phi_config.hpp>
 #include <cstdlib>
 #include <forward_list>
 #include <iostream>

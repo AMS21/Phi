@@ -1,4 +1,4 @@
-#include <Phi/Test/TestMacros.hpp>
+#include <phi/test/test_macros.hpp>
 
 #include <iostream>
 
