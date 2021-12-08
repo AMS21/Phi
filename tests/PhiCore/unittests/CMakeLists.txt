@@ -60,6 +60,8 @@ file(
   "src/preprocessor/bool.test.cpp"
   "src/preprocessor/function_like_macro.test.cpp"
   "src/preprocessor/glue.test.cpp"
+  "src/preprocessor/if_else.test.cpp"
+  "src/preprocessor/if.test.cpp"
   "src/preprocessor/source_line.test.cpp"
   "src/preprocessor/stringify.test.cpp"
   "src/preprocessor/versioning.test.cpp"

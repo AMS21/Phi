@@ -178,6 +178,8 @@ file(
   "include/phi/preprocessor/bool.hpp"
   "include/phi/preprocessor/function_like_macro.hpp"
   "include/phi/preprocessor/glue.hpp"
+  "include/phi/preprocessor/if_else.hpp"
+  "include/phi/preprocessor/if.hpp"
   "include/phi/preprocessor/source_line.hpp"
   "include/phi/preprocessor/stringify.hpp"
   "include/phi/preprocessor/versioning.hpp"
