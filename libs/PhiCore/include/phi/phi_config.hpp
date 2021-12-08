@@ -35,7 +35,7 @@
 // clang-format on
 /// \endcond
 
-#if !defined(NDEBUG) || defined(_DEBUG)
+#if !defined(PHI_DEBUG) && (!defined(NDEBUG) || defined(_DEBUG))
 #    define PHI_DEBUG
 #endif
 
