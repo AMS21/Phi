@@ -73,6 +73,4 @@ int main(void) { return 0; }]=])
   foreach(v IN LISTS _locale_vars)
     set(ENV{${v}} ${_locale_vars_saved_${v}})
   endforeach()
-
-  phi_set_cache_value(NAME ${_var} VALUE "0")
 endfunction ()

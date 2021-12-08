@@ -112,7 +112,7 @@ function(phi_check_source_compiles _lang _source _var)
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_FAIL "Failed")
       endif()
-      set(${_var} "" CACHE INTERNAL "Test ${_var}")
+      set(${_var} "0" CACHE INTERNAL "Test ${_var}")
       file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Performing ${_lang_textual} SOURCE FILE Test ${_var} failed with the following output:\n"
         "${OUTPUT}\n"
