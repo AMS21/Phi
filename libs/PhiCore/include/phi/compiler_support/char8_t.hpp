@@ -3,6 +3,10 @@
 
 #include "phi/phi_config.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/warning.hpp"
 
