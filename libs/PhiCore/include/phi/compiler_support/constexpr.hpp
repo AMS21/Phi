@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/features.hpp"
+#include "phi/preprocessor/if.hpp"
 
 // Support for C++-11 constexpr
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2235.pdf
@@ -17,12 +18,14 @@
 #    define PHI_CONSTEXPR_OR_INLINE       constexpr
 #    define PHI_CONSTEXPR_OR_STATIC       constexpr
 #    define PHI_CONSTEXPR_OR(alternative) constexpr
+#    define PHI_CONSTEXPR_IF(cond)        PHI_IF(cond, constexpr)
 #else
 #    define PHI_CONSTEXPR                 /* Nothing */
 #    define PHI_CONSTEXPR_OR_CONST        const
 #    define PHI_CONSTEXPR_OR_INLINE       inline
 #    define PHI_CONSTEXPR_OR_STATIC       static
 #    define PHI_CONSTEXPR_OR(alternative) alternative
+#    define PHI_CONSTEXPR_IF(cond)        /* Nothing */
 #endif
 
 // Support for C++-14 extended constexpr
@@ -33,12 +36,14 @@
 #    define PHI_EXTENDED_CONSTEXPR_OR_INLINE       constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR_STATIC       constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR(alternative) constexpr
+#    define PHI_EXTENDED_CONSTEXPR_IF(condition)   PHI_IF(cond, constexpr)
 #else
 #    define PHI_EXTENDED_CONSTEXPR                 /* Nothing */
 #    define PHI_EXTENDED_CONSTEXPR_OR_CONST        const
 #    define PHI_EXTENDED_CONSTEXPR_OR_INLINE       inline
 #    define PHI_EXTENDED_CONSTEXPR_OR_STATIC       static
 #    define PHI_EXTENDED_CONSTEXPR_OR(alternative) alternative
+#    define PHI_EXTENDED_CONSTEXPR_IF(condition)   /* Nothing */
 #endif
 
 // constexpr and const
