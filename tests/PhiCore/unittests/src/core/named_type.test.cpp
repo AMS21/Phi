@@ -41,20 +41,15 @@ SOFTWARE.
 
 // Usage examples
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wambiguous-reversed-operator")
-#endif
-
 using Meter =
-        phi::NamedType<unsigned long long, struct MeterParameter, phi::Addable, phi::Comparable>;
+        phi::named_type<unsigned long long, struct MeterParameter, phi::addable, phi::comparable>;
 constexpr Meter operator"" _meter(unsigned long long value)
 {
     return Meter(value);
 }
 
-using Width  = phi::NamedType<Meter, struct WidthParameter>;
-using Height = phi::NamedType<Meter, struct HeightParameter>;
+using Width  = phi::named_type<Meter, struct WidthParameter>;
+using Height = phi::named_type<Meter, struct HeightParameter>;
 
 class Rectangle
 {
@@ -84,7 +79,7 @@ TEST_CASE("Basic usage")
     REQUIRE(r.getHeight().get() == 12);
 }
 
-using NameRef = phi::NamedType<std::string&, struct NameRefParameter>;
+using NameRef = phi::named_type<std::string&, struct NameRefParameter>;
 
 void changeValue(NameRef name)
 {
@@ -100,7 +95,7 @@ TEST_CASE("Passing a strong reference")
 
 TEST_CASE("Construction of NamedType::ref from the underlying type")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag>;
     auto addOne     = [](StrongInt::reference si) { ++(si.get()); };
 
     int i = 42;
@@ -110,7 +105,7 @@ TEST_CASE("Construction of NamedType::ref from the underlying type")
 
 TEST_CASE("Implicit conversion of NamedType to NamedType::ref")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag>;
     auto addOne     = [](StrongInt::reference si) { ++(si.get()); };
 
     StrongInt i(42);
@@ -142,7 +137,7 @@ UserProvided::UserProvided() = default;
 
 TEST_CASE("Default construction")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag>;
     StrongInt strongInt;
     strongInt.get() = 42;
     REQUIRE(strongInt.get() == 42);
@@ -151,23 +146,23 @@ TEST_CASE("Default construction")
     //Default constructible
     STATIC_REQUIRE(std::is_default_constructible<StrongInt>::value);
     using StrongNonDefaultConstructible =
-            phi::NamedType<NonDefaultConstructible, struct StrongNonDefaultConstructibleTag>;
+            phi::named_type<NonDefaultConstructible, struct StrongNonDefaultConstructibleTag>;
     STATIC_REQUIRE_FALSE(std::is_default_constructible<StrongNonDefaultConstructible>::value);
 
     //Trivially constructible
     STATIC_REQUIRE(std::is_trivially_constructible<StrongInt>::value);
-    using StrongUserProvided = phi::NamedType<UserProvided, struct StrongUserProvidedTag>;
+    using StrongUserProvided = phi::named_type<UserProvided, struct StrongUserProvidedTag>;
     STATIC_REQUIRE_FALSE(std::is_trivially_constructible<StrongUserProvided>::value);
 
     //Nothrow constructible
     STATIC_REQUIRE(std::is_nothrow_constructible<StrongInt>::value);
     using StrongPotentiallyThrowing =
-            phi::NamedType<PotentiallyThrowing, struct StrongPotentiallyThrowingTag>;
+            phi::named_type<PotentiallyThrowing, struct StrongPotentiallyThrowingTag>;
     STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<StrongPotentiallyThrowing>::value);
 }
 
 template <typename Function>
-using Comparator = phi::NamedType<Function, struct ComparatorParameter>;
+using Comparator = phi::named_type<Function, struct ComparatorParameter>;
 
 template <typename Function>
 std::string performAction(Comparator<Function> comp)
@@ -183,7 +178,7 @@ TEST_CASE("Strong generic type")
 
 TEST_CASE("Addable")
 {
-    using AddableType = phi::NamedType<int, struct AddableTag, phi::Addable>;
+    using AddableType = phi::named_type<int, struct AddableTag, phi::addable>;
     AddableType s1(12);
     AddableType s2(10);
     REQUIRE((s1 + s2).get() == 22);
@@ -192,7 +187,7 @@ TEST_CASE("Addable")
 
 TEST_CASE("Addable constexpr")
 {
-    using AddableType = phi::NamedType<int, struct AddableTag, phi::Addable>;
+    using AddableType = phi::named_type<int, struct AddableTag, phi::addable>;
     constexpr AddableType s1(12);
     constexpr AddableType s2(10);
     EXT_STATIC_REQUIRE((s1 + s2).get() == 22);
@@ -201,7 +196,7 @@ TEST_CASE("Addable constexpr")
 
 TEST_CASE("BinaryAddable")
 {
-    using BinaryAddableType = phi::NamedType<int, struct BinaryAddableTag, phi::BinaryAddable>;
+    using BinaryAddableType = phi::named_type<int, struct BinaryAddableTag, phi::binary_addable>;
     BinaryAddableType s1(12);
     BinaryAddableType s2(10);
     REQUIRE((s1 + s2).get() == 22);
@@ -209,7 +204,7 @@ TEST_CASE("BinaryAddable")
 
 TEST_CASE("BinaryAddable constexpr")
 {
-    using BinaryAddableType = phi::NamedType<int, struct BinaryAddableTag, phi::BinaryAddable>;
+    using BinaryAddableType = phi::named_type<int, struct BinaryAddableTag, phi::binary_addable>;
 
     constexpr BinaryAddableType s1(12);
     constexpr BinaryAddableType s2(10);
@@ -221,21 +216,21 @@ TEST_CASE("BinaryAddable constexpr")
 
 TEST_CASE("UnaryAddable")
 {
-    using UnaryAddableType = phi::NamedType<int, struct UnaryAddableTag, phi::UnaryAddable>;
+    using UnaryAddableType = phi::named_type<int, struct UnaryAddableTag, phi::unary_addable>;
     UnaryAddableType s1(12);
     REQUIRE((+s1).get() == 12);
 }
 
 TEST_CASE("UnaryAddable constexpr")
 {
-    using UnaryAddableType = phi::NamedType<int, struct UnaryAddableTag, phi::UnaryAddable>;
+    using UnaryAddableType = phi::named_type<int, struct UnaryAddableTag, phi::unary_addable>;
     constexpr UnaryAddableType s1(12);
     EXT_STATIC_REQUIRE((+s1).get() == 12);
 }
 
 TEST_CASE("Subtractable")
 {
-    using SubtractableType = phi::NamedType<int, struct SubtractableTag, phi::Subtractable>;
+    using SubtractableType = phi::named_type<int, struct SubtractableTag, phi::subtractable>;
     SubtractableType s1(12);
     SubtractableType s2(10);
     REQUIRE((s1 - s2).get() == 2);
@@ -244,7 +239,7 @@ TEST_CASE("Subtractable")
 
 TEST_CASE("Subtractable constexpr")
 {
-    using SubtractableType = phi::NamedType<int, struct SubtractableTag, phi::Subtractable>;
+    using SubtractableType = phi::named_type<int, struct SubtractableTag, phi::subtractable>;
     constexpr SubtractableType s1(12);
     constexpr SubtractableType s2(10);
     EXT_STATIC_REQUIRE((s1 - s2).get() == 2);
@@ -254,7 +249,7 @@ TEST_CASE("Subtractable constexpr")
 TEST_CASE("BinarySubtractable")
 {
     using BinarySubtractableType =
-            phi::NamedType<int, struct BinarySubtractableTag, phi::BinarySubtractable>;
+            phi::named_type<int, struct BinarySubtractableTag, phi::binary_subtractable>;
     BinarySubtractableType s1(12);
     BinarySubtractableType s2(10);
     REQUIRE((s1 - s2).get() == 2);
@@ -263,7 +258,7 @@ TEST_CASE("BinarySubtractable")
 TEST_CASE("BinarySubtractable constexpr")
 {
     using BinarySubtractableType =
-            phi::NamedType<int, struct BinarySubtractableTag, phi::BinarySubtractable>;
+            phi::named_type<int, struct BinarySubtractableTag, phi::binary_subtractable>;
 
     constexpr BinarySubtractableType s1(12);
     constexpr BinarySubtractableType s2(10);
@@ -276,7 +271,7 @@ TEST_CASE("BinarySubtractable constexpr")
 TEST_CASE("UnarySubtractable")
 {
     using UnarySubtractableType =
-            phi::NamedType<int, struct UnarySubtractableTag, phi::UnarySubtractable>;
+            phi::named_type<int, struct UnarySubtractableTag, phi::unary_subtractable>;
     UnarySubtractableType s(12);
     REQUIRE((-s).get() == -12);
 }
@@ -284,14 +279,14 @@ TEST_CASE("UnarySubtractable")
 TEST_CASE("UnarySubtractable constexpr")
 {
     using UnarySubtractableType =
-            phi::NamedType<int, struct UnarySubtractableTag, phi::UnarySubtractable>;
+            phi::named_type<int, struct UnarySubtractableTag, phi::unary_subtractable>;
     constexpr UnarySubtractableType s(12);
     EXT_STATIC_REQUIRE((-s).get() == -12);
 }
 
 TEST_CASE("Multiplicable")
 {
-    using MultiplicableType = phi::NamedType<int, struct MultiplicableTag, phi::Multiplicable>;
+    using MultiplicableType = phi::named_type<int, struct MultiplicableTag, phi::multiplicable>;
     MultiplicableType s1(12);
     MultiplicableType s2(10);
     REQUIRE((s1 * s2).get() == 120);
@@ -301,7 +296,7 @@ TEST_CASE("Multiplicable")
 
 TEST_CASE("Multiplicable constexpr")
 {
-    using MultiplicableType = phi::NamedType<int, struct MultiplicableTag, phi::Multiplicable>;
+    using MultiplicableType = phi::named_type<int, struct MultiplicableTag, phi::multiplicable>;
 
     constexpr MultiplicableType s1(12);
     constexpr MultiplicableType s2(10);
@@ -313,7 +308,7 @@ TEST_CASE("Multiplicable constexpr")
 
 TEST_CASE("Divisible")
 {
-    using DivisibleType = phi::NamedType<int, struct DivisibleTag, phi::Divisible>;
+    using DivisibleType = phi::named_type<int, struct DivisibleTag, phi::divisible>;
     DivisibleType s1(120);
     DivisibleType s2(10);
     REQUIRE((s1 / s2).get() == 12);
@@ -323,7 +318,7 @@ TEST_CASE("Divisible")
 
 TEST_CASE("Divisible constexpr")
 {
-    using DivisibleType = phi::NamedType<int, struct DivisibleTag, phi::Divisible>;
+    using DivisibleType = phi::named_type<int, struct DivisibleTag, phi::divisible>;
 
     constexpr DivisibleType s1(120);
     constexpr DivisibleType s2(10);
@@ -335,7 +330,7 @@ TEST_CASE("Divisible constexpr")
 
 TEST_CASE("Modulable")
 {
-    using ModulableType = phi::NamedType<int, struct ModulableTag, phi::Modulable>;
+    using ModulableType = phi::named_type<int, struct ModulableTag, phi::modulable>;
     ModulableType s1(5);
     ModulableType s2(2);
     CHECK((s1 % s2).get() == 1);
@@ -345,7 +340,7 @@ TEST_CASE("Modulable")
 
 TEST_CASE("Modulable constexpr")
 {
-    using ModulableType = phi::NamedType<int, struct ModulableTag, phi::Modulable>;
+    using ModulableType = phi::named_type<int, struct ModulableTag, phi::modulable>;
 
     constexpr ModulableType s1(5);
     constexpr ModulableType s2(2);
@@ -358,7 +353,7 @@ TEST_CASE("Modulable constexpr")
 TEST_CASE("BitWiseInvertable")
 {
     using BitWiseInvertableType =
-            phi::NamedType<int, struct BitWiseInvertableTag, phi::BitWiseInvertable>;
+            phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
     BitWiseInvertableType s1(13);
     CHECK((~s1).get() == (~13));
 }
@@ -366,14 +361,15 @@ TEST_CASE("BitWiseInvertable")
 TEST_CASE("BitWiseInvertable constexpr")
 {
     using BitWiseInvertableType =
-            phi::NamedType<int, struct BitWiseInvertableTag, phi::BitWiseInvertable>;
+            phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
     constexpr BitWiseInvertableType s1(13);
     EXT_STATIC_REQUIRE((~s1).get() == (~13));
 }
 
 TEST_CASE("BitWiseAndable")
 {
-    using BitWiseAndableType = phi::NamedType<int, struct BitWiseAndableTag, phi::BitWiseAndable>;
+    using BitWiseAndableType =
+            phi::named_type<int, struct BitWiseAndableTag, phi::bit_wise_andable>;
     BitWiseAndableType s1(2);
     BitWiseAndableType s2(64);
     CHECK((s1 & s2).get() == (2 & 64));
@@ -383,7 +379,8 @@ TEST_CASE("BitWiseAndable")
 
 TEST_CASE("BitWiseAndable constexpr")
 {
-    using BitWiseAndableType = phi::NamedType<int, struct BitWiseAndableTag, phi::BitWiseAndable>;
+    using BitWiseAndableType =
+            phi::named_type<int, struct BitWiseAndableTag, phi::bit_wise_andable>;
 
     constexpr BitWiseAndableType s1(2);
     constexpr BitWiseAndableType s2(64);
@@ -395,7 +392,7 @@ TEST_CASE("BitWiseAndable constexpr")
 
 TEST_CASE("BitWiseOrable")
 {
-    using BitWiseOrableType = phi::NamedType<int, struct BitWiseOrableTag, phi::BitWiseOrable>;
+    using BitWiseOrableType = phi::named_type<int, struct BitWiseOrableTag, phi::bit_wise_orable>;
     BitWiseOrableType s1(2);
     BitWiseOrableType s2(64);
     CHECK((s1 | s2).get() == (2 | 64));
@@ -405,7 +402,7 @@ TEST_CASE("BitWiseOrable")
 
 TEST_CASE("BitWiseOrable constexpr")
 {
-    using BitWiseOrableType = phi::NamedType<int, struct BitWiseOrableTag, phi::BitWiseOrable>;
+    using BitWiseOrableType = phi::named_type<int, struct BitWiseOrableTag, phi::bit_wise_orable>;
 
     constexpr BitWiseOrableType s1(2);
     constexpr BitWiseOrableType s2(64);
@@ -417,7 +414,8 @@ TEST_CASE("BitWiseOrable constexpr")
 
 TEST_CASE("BitWiseXorable")
 {
-    using BitWiseXorableType = phi::NamedType<int, struct BitWiseXorableTag, phi::BitWiseXorable>;
+    using BitWiseXorableType =
+            phi::named_type<int, struct BitWiseXorableTag, phi::bit_wise_xorable>;
     BitWiseXorableType s1(2);
     BitWiseXorableType s2(64);
     CHECK((s1 ^ s2).get() == (2 ^ 64));
@@ -427,7 +425,8 @@ TEST_CASE("BitWiseXorable")
 
 TEST_CASE("BitWiseXorable constexpr")
 {
-    using BitWiseXorableType = phi::NamedType<int, struct BitWiseXorableTag, phi::BitWiseXorable>;
+    using BitWiseXorableType =
+            phi::named_type<int, struct BitWiseXorableTag, phi::bit_wise_xorable>;
     constexpr BitWiseXorableType s1(2);
     constexpr BitWiseXorableType s2(64);
     EXT_STATIC_REQUIRE((s1 ^ s2).get() == 66);
@@ -439,7 +438,7 @@ TEST_CASE("BitWiseXorable constexpr")
 TEST_CASE("BitWiseLeftShiftable")
 {
     using BitWiseLeftShiftableType =
-            phi::NamedType<int, struct BitWiseLeftShiftableTag, phi::BitWiseLeftShiftable>;
+            phi::named_type<int, struct BitWiseLeftShiftableTag, phi::bit_wise_left_shiftable>;
     BitWiseLeftShiftableType s1(2);
     BitWiseLeftShiftableType s2(3);
     CHECK((s1 << s2).get() == (2 << 3));
@@ -450,7 +449,7 @@ TEST_CASE("BitWiseLeftShiftable")
 TEST_CASE("BitWiseLeftShiftable constexpr")
 {
     using BitWiseLeftShiftableType =
-            phi::NamedType<int, struct BitWiseLeftShiftableTag, phi::BitWiseLeftShiftable>;
+            phi::named_type<int, struct BitWiseLeftShiftableTag, phi::bit_wise_left_shiftable>;
     constexpr BitWiseLeftShiftableType s1(2);
     constexpr BitWiseLeftShiftableType s2(3);
     EXT_STATIC_REQUIRE((s1 << s2).get() == (2 << 3));
@@ -462,7 +461,7 @@ TEST_CASE("BitWiseLeftShiftable constexpr")
 TEST_CASE("BitWiseRightShiftable")
 {
     using BitWiseRightShiftableType =
-            phi::NamedType<int, struct BitWiseRightShiftableTag, phi::BitWiseRightShiftable>;
+            phi::named_type<int, struct BitWiseRightShiftableTag, phi::bit_wise_right_shiftable>;
     BitWiseRightShiftableType s1(2);
     BitWiseRightShiftableType s2(3);
     CHECK((s1 >> s2).get() == (2 >> 3));
@@ -473,7 +472,7 @@ TEST_CASE("BitWiseRightShiftable")
 TEST_CASE("BitWiseRightShiftable constexpr")
 {
     using BitWiseRightShiftableType =
-            phi::NamedType<int, struct BitWiseRightShiftableTag, phi::BitWiseRightShiftable>;
+            phi::named_type<int, struct BitWiseRightShiftableTag, phi::bit_wise_right_shiftable>;
     constexpr BitWiseRightShiftableType s1(2);
     constexpr BitWiseRightShiftableType s2(3);
     EXT_STATIC_REQUIRE((s1 >> s2).get() == (2 >> 3));
@@ -540,7 +539,7 @@ TEST_CASE("ConvertibleWithOperator")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::ImplicitlyConvertibleTo<B>::templ>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
     StrongA strongA(A(42));
     B       b = strongA;
     REQUIRE(b.x == 42);
@@ -568,7 +567,7 @@ TEST_CASE("ConvertibleWithOperator constexpr")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::ImplicitlyConvertibleTo<B>::templ>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
     EXT_CONSTEXPR_RUNTIME StrongA strongA(A(42));
     EXT_CONSTEXPR_RUNTIME B       b = strongA;
     EXT_STATIC_REQUIRE(b.x == 42);
@@ -592,7 +591,7 @@ TEST_CASE("ConvertibleWithConstructor")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::ImplicitlyConvertibleTo<B>::templ>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
     StrongA strongA(A(42));
     B       b = strongA;
     REQUIRE(b.x == 42);
@@ -616,7 +615,7 @@ TEST_CASE("ConvertibleWithConstructor constexpr")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::ImplicitlyConvertibleTo<B>::templ>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
     EXT_CONSTEXPR_RUNTIME StrongA strongA(A(42));
     EXT_CONSTEXPR_RUNTIME B       b = strongA;
     EXT_STATIC_REQUIRE(b.x == 42);
@@ -624,7 +623,7 @@ TEST_CASE("ConvertibleWithConstructor constexpr")
 
 TEST_CASE("ConvertibleToItself")
 {
-    using MyInt = phi::NamedType<int, struct MyIntTag, phi::ImplicitlyConvertibleTo<int>::templ>;
+    using MyInt = phi::named_type<int, struct MyIntTag, phi::implicitly_convertible_to<int>::templ>;
     MyInt myInt(42);
     int   i = myInt;
     REQUIRE(i == 42);
@@ -632,7 +631,7 @@ TEST_CASE("ConvertibleToItself")
 
 TEST_CASE("ConvertibleToItself constexpr")
 {
-    using MyInt = phi::NamedType<int, struct MyIntTag, phi::ImplicitlyConvertibleTo<int>::templ>;
+    using MyInt = phi::named_type<int, struct MyIntTag, phi::implicitly_convertible_to<int>::templ>;
     EXT_CONSTEXPR_RUNTIME MyInt myInt(42);
     EXT_CONSTEXPR_RUNTIME int   i = myInt;
     EXT_STATIC_REQUIRE(i == 42);
@@ -641,7 +640,7 @@ TEST_CASE("ConvertibleToItself constexpr")
 TEST_CASE("Hash")
 {
     using SerialNumber =
-            phi::NamedType<std::string, struct SerialNumberTag, phi::Comparable, phi::Hashable>;
+            phi::named_type<std::string, struct SerialNumberTag, phi::comparable, phi::hashable>;
 
     std::unordered_map<SerialNumber, int> hashMap = {{SerialNumber{"AA11"}, 10},
                                                      {SerialNumber{"BB22"}, 20}};
@@ -683,7 +682,7 @@ TEST_CASE("Function callable")
     using A              = testFunctionCallable_A;
     auto functionTakingA = [](A const& a) { return a.x; };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::FunctionCallable>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::function_callable>;
     StrongA       strongA(A(42));
     const StrongA constStrongA(A(42));
     REQUIRE(functionTakingA(strongA) == 42);
@@ -707,8 +706,8 @@ struct testFunctionCallable_B
     int x;
 };
 
-constexpr testFunctionCallable_B operator+(testFunctionCallable_B const& a1,
-                                           testFunctionCallable_B const& a2)
+constexpr testFunctionCallable_B operator+(const testFunctionCallable_B& a1,
+                                           const testFunctionCallable_B& a2)
 {
     return testFunctionCallable_B(a1.x + a2.x);
 }
@@ -727,7 +726,7 @@ TEST_CASE("Function callable constexpr")
 {
     using B = testFunctionCallable_B;
 
-    using StrongB = phi::NamedType<B, struct StrongATag, phi::FunctionCallable>;
+    using StrongB = phi::named_type<B, struct StrongATag, phi::function_callable>;
     constexpr StrongB constStrongB(B(42));
     EXT_STATIC_REQUIRE(functionTakingB(StrongB(B(42))) == 42);
     EXT_STATIC_REQUIRE(functionTakingB(constStrongB) == 42);
@@ -759,7 +758,7 @@ TEST_CASE("Method callable")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::MethodCallable>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::method_callable>;
     StrongA       strongA(A(42));
     const StrongA constStrongA(A((42)));
     REQUIRE(strongA->method() == 42);
@@ -790,7 +789,7 @@ TEST_CASE("Method callable constexpr")
         int x;
     };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::MethodCallable>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::method_callable>;
     EXT_CONSTEXPR_RUNTIME const StrongA constStrongA(A((42)));
     EXT_STATIC_REQUIRE(StrongA(A(42))->method() == 42);
     EXT_STATIC_REQUIRE(constStrongA->constMethod() == 42);
@@ -822,7 +821,7 @@ TEST_CASE("Callable")
 
     auto functionTakingA = [](A const& a) { return a.constMethod(); };
 
-    using StrongA = phi::NamedType<A, struct StrongATag, phi::Callable>;
+    using StrongA = phi::named_type<A, struct StrongATag, phi::callable>;
     StrongA       strongA(A(42));
     const StrongA constStrongA(A(42));
     REQUIRE(functionTakingA(strongA) == 42);
@@ -832,10 +831,10 @@ TEST_CASE("Callable")
 
 TEST_CASE("Named arguments")
 {
-    using FirstName = phi::NamedType<std::string, struct FirstNameTag>;
-    using LastName  = phi::NamedType<std::string, struct LastNameTag>;
-    static const FirstName::Argument firstName;
-    static const LastName::Argument  lastName;
+    using FirstName = phi::named_type<std::string, struct FirstNameTag>;
+    using LastName  = phi::named_type<std::string, struct LastNameTag>;
+    static const FirstName::argument firstName;
+    static const LastName::argument  lastName;
     auto getFullName = [](FirstName const& firstName_, LastName const& lastName_) //
     {
         return firstName_.get() + lastName_.get(); //
@@ -847,8 +846,8 @@ TEST_CASE("Named arguments")
 
 TEST_CASE("Named arguments with bracket constructor")
 {
-    using Numbers = phi::NamedType<std::vector<int>, struct NumbersTag>;
-    static const Numbers::Argument numbers;
+    using Numbers = phi::named_type<std::vector<int>, struct NumbersTag>;
+    static const Numbers::argument numbers;
     auto getNumbers = [](Numbers const& numbers_) { return numbers_.get(); };
 
     auto vec = getNumbers(numbers = {1, 2, 3});
@@ -860,11 +859,11 @@ TEST_CASE("Empty base class optimization")
     REQUIRE(sizeof(Meter) == sizeof(double));
 }
 
-using strong_int = phi::NamedType<int, struct IntTag>;
+using strong_int = phi::named_type<int, struct IntTag>;
 
 TEST_CASE("constexpr")
 {
-    using strong_bool = phi::NamedType<bool, struct BoolTag>;
+    using strong_bool = phi::named_type<bool, struct BoolTag>;
 
     EXT_STATIC_REQUIRE(strong_bool{true}.get());
 }
@@ -882,7 +881,7 @@ struct throw_on_construction
     }
 };
 
-using C = phi::NamedType<throw_on_construction, struct throwTag>;
+using C = phi::named_type<throw_on_construction, struct throwTag>;
 
 TEST_CASE("noexcept")
 {
@@ -895,7 +894,7 @@ TEST_CASE("noexcept")
 
 TEST_CASE("Arithmetic")
 {
-    using strong_arithmetic = phi::NamedType<int, struct ArithmeticTag, phi::Arithmetic>;
+    using strong_arithmetic = phi::named_type<int, struct ArithmeticTag, phi::arithmetic>;
     strong_arithmetic a{1};
     strong_arithmetic b{2};
 
@@ -923,7 +922,7 @@ TEST_CASE("Arithmetic")
 
 TEST_CASE("Printable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::Printable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::printable>;
 
     std::ostringstream oss;
     oss << StrongInt(42);
@@ -932,7 +931,7 @@ TEST_CASE("Printable")
 
 TEST_CASE("Dereferencable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::Dereferencable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferencable>;
 
     {
         StrongInt a{1};
@@ -964,7 +963,7 @@ TEST_CASE("Dereferencable")
 
 TEST_CASE("Dereferencable constexpr")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::Dereferencable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferencable>;
 
     EXT_CONSTEXPR_RUNTIME StrongInt a{28};
     EXT_STATIC_REQUIRE(*a == 28);
@@ -973,7 +972,7 @@ TEST_CASE("Dereferencable constexpr")
 
 TEST_CASE("PreIncrementable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PreIncrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_incrementable>;
     StrongInt a{1};
     StrongInt b = ++a;
     CHECK(a.get() == 2);
@@ -982,13 +981,13 @@ TEST_CASE("PreIncrementable")
 
 TEST_CASE("PreIncrementable constexpr")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PreIncrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_incrementable>;
     EXT_STATIC_REQUIRE((++StrongInt{1}).get() == 2);
 }
 
 TEST_CASE("PostIncrementable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PostIncrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_incrementable>;
     StrongInt a{1};
     StrongInt b = a++;
     CHECK(a.get() == 2);
@@ -997,13 +996,13 @@ TEST_CASE("PostIncrementable")
 
 TEST_CASE("PostIncrementable constexpr")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PostIncrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_incrementable>;
     EXT_STATIC_REQUIRE((StrongInt { 1 } ++).get() == 1);
 }
 
 TEST_CASE("PreDecrementable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PreDecrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_decrementable>;
     StrongInt a{1};
     StrongInt b = --a;
     CHECK(a.get() == 0);
@@ -1012,13 +1011,13 @@ TEST_CASE("PreDecrementable")
 
 TEST_CASE("PreDecrementable constexpr")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PreDecrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_decrementable>;
     EXT_STATIC_REQUIRE((--StrongInt{1}).get() == 0);
 }
 
 TEST_CASE("PostDecrementable")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PostDecrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_decrementable>;
     StrongInt a{1};
     StrongInt b = a--;
     CHECK(a.get() == 0);
@@ -1027,10 +1026,6 @@ TEST_CASE("PostDecrementable")
 
 TEST_CASE("PostDecrementable constexpr")
 {
-    using StrongInt = phi::NamedType<int, struct StrongIntTag, phi::PostDecrementable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_decrementable>;
     EXT_STATIC_REQUIRE((StrongInt { 1 } --).get() == 1);
 }
-
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
-PHI_CLANG_SUPPRESS_WARNING_POP()
-#endif

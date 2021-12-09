@@ -67,25 +67,25 @@ SOFTWARE.
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-class PHI_EBCO NamedType : public SkillsT<NamedType<TypeT, ParameterT, SkillsT...>>...
+class PHI_EBCO named_type : public SkillsT<named_type<TypeT, ParameterT, SkillsT...>>...
 {
 public:
-    using this_type       = phi::NamedType<TypeT, ParameterT, SkillsT...>;
+    using this_type       = phi::named_type<TypeT, ParameterT, SkillsT...>;
     using underlying_type = TypeT;
-    using reference       = NamedType<TypeT&, ParameterT, SkillsT...>;
-    using const_reference = NamedType<const TypeT&, ParameterT, SkillsT...>;
-    using pointer         = NamedType<remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
-    using const_pointer   = NamedType<const remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
+    using reference       = named_type<TypeT&, ParameterT, SkillsT...>;
+    using const_reference = named_type<const TypeT&, ParameterT, SkillsT...>;
+    using pointer         = named_type<remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
+    using const_pointer   = named_type<const remove_reference_t<TypeT>*, ParameterT, SkillsT...>;
 
-    NamedType() = default;
+    named_type() = default;
 
-    explicit constexpr NamedType(const TypeT& value) noexcept(
+    explicit constexpr named_type(const TypeT& value) noexcept(
             is_nothrow_copy_constructible<TypeT>::value)
         : m_Value(value)
     {}
 
     template <typename OtherT = TypeT, typename = enable_if_t<!is_reference<OtherT>::value, void>>
-    explicit constexpr NamedType(TypeT&& value) noexcept(
+    explicit constexpr named_type(TypeT&& value) noexcept(
             is_nothrow_move_constructible<TypeT>::value)
         : m_Value(phi::move(value))
     {}
@@ -106,28 +106,28 @@ public:
         return reference(m_Value);
     }
 
-    struct Argument
+    struct argument
     {
         PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 
-        NamedType operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
+        named_type operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
-            return NamedType(phi::forward<TypeT>(value));
+            return named_type(phi::forward<TypeT>(value));
         }
 
         template <typename OtherT>
-        NamedType operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
+        named_type operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
-            return NamedType(phi::forward<OtherT>(value));
+            return named_type(phi::forward<OtherT>(value));
         }
 
         PHI_GCC_SUPPRESS_WARNING_POP()
 
-        Argument()                = default;
-        Argument(Argument const&) = delete;
-        Argument(Argument&&)      = delete;
-        Argument& operator=(Argument const&) = delete;
-        Argument& operator=(Argument&&) = delete;
+        argument()                = default;
+        argument(argument const&) = delete;
+        argument(argument&&)      = delete;
+        argument& operator=(argument const&) = delete;
+        argument& operator=(argument&&) = delete;
     };
 
 private:
@@ -143,7 +143,7 @@ PHI_NODISCARD constexpr StrongTypeT<TypeT> make_named(const TypeT& value)
 PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 
 template <typename TypeT>
-struct PHI_EBCO PreIncrementable : crtp<TypeT, PreIncrementable>
+struct PHI_EBCO pre_incrementable : public crtp<TypeT, pre_incrementable>
 {
     PHI_EXTENDED_CONSTEXPR TypeT& operator++()
     {
@@ -153,7 +153,7 @@ struct PHI_EBCO PreIncrementable : crtp<TypeT, PreIncrementable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO PostIncrementable : crtp<TypeT, PostIncrementable>
+struct PHI_EBCO post_incrementable : public crtp<TypeT, post_incrementable>
 {
     PHI_EXTENDED_CONSTEXPR TypeT operator++(int)
     {
@@ -162,7 +162,7 @@ struct PHI_EBCO PostIncrementable : crtp<TypeT, PostIncrementable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO PreDecrementable : crtp<TypeT, PreDecrementable>
+struct PHI_EBCO pre_decrementable : public crtp<TypeT, pre_decrementable>
 {
     PHI_EXTENDED_CONSTEXPR TypeT& operator--()
     {
@@ -172,7 +172,7 @@ struct PHI_EBCO PreDecrementable : crtp<TypeT, PreDecrementable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO PostDecrementable : crtp<TypeT, PostDecrementable>
+struct PHI_EBCO post_decrementable : public crtp<TypeT, post_decrementable>
 {
     PHI_EXTENDED_CONSTEXPR TypeT operator--(int)
     {
@@ -183,7 +183,7 @@ struct PHI_EBCO PostDecrementable : crtp<TypeT, PostDecrementable>
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
-struct PHI_EBCO BinaryAddable : crtp<TypeT, BinaryAddable>
+struct PHI_EBCO binary_addable : public crtp<TypeT, binary_addable>
 {
     PHI_NODISCARD constexpr TypeT operator+(const TypeT& other) const
     {
@@ -198,7 +198,7 @@ struct PHI_EBCO BinaryAddable : crtp<TypeT, BinaryAddable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO UnaryAddable : crtp<TypeT, UnaryAddable>
+struct PHI_EBCO unary_addable : public crtp<TypeT, unary_addable>
 {
     PHI_NODISCARD constexpr TypeT operator+() const
     {
@@ -207,15 +207,14 @@ struct PHI_EBCO UnaryAddable : crtp<TypeT, UnaryAddable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO Addable : BinaryAddable<TypeT>, UnaryAddable<TypeT>
+struct PHI_EBCO addable : public binary_addable<TypeT>, unary_addable<TypeT>
 {
-    using BinaryAddable<TypeT>::operator+;
-
-    using UnaryAddable<TypeT>::operator+;
+    using binary_addable<TypeT>::operator+;
+    using unary_addable<TypeT>:: operator+;
 };
 
 template <typename TypeT>
-struct PHI_EBCO BinarySubtractable : crtp<TypeT, BinarySubtractable>
+struct PHI_EBCO binary_subtractable : public crtp<TypeT, binary_subtractable>
 {
     PHI_NODISCARD constexpr TypeT operator-(const TypeT& other) const
     {
@@ -230,7 +229,7 @@ struct PHI_EBCO BinarySubtractable : crtp<TypeT, BinarySubtractable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO UnarySubtractable : crtp<TypeT, UnarySubtractable>
+struct PHI_EBCO unary_subtractable : public crtp<TypeT, unary_subtractable>
 {
     PHI_NODISCARD constexpr TypeT operator-() const
     {
@@ -239,15 +238,14 @@ struct PHI_EBCO UnarySubtractable : crtp<TypeT, UnarySubtractable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO Subtractable : BinarySubtractable<TypeT>, UnarySubtractable<TypeT>
+struct PHI_EBCO subtractable : public binary_subtractable<TypeT>, unary_subtractable<TypeT>
 {
-    using UnarySubtractable<TypeT>::operator-;
-
-    using BinarySubtractable<TypeT>::operator-;
+    using unary_subtractable<TypeT>:: operator-;
+    using binary_subtractable<TypeT>::operator-;
 };
 
 template <typename TypeT>
-struct PHI_EBCO Multiplicable : crtp<TypeT, Multiplicable>
+struct PHI_EBCO multiplicable : public crtp<TypeT, multiplicable>
 {
     PHI_NODISCARD constexpr TypeT operator*(const TypeT& other) const
     {
@@ -262,7 +260,7 @@ struct PHI_EBCO Multiplicable : crtp<TypeT, Multiplicable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO Divisible : crtp<TypeT, Divisible>
+struct PHI_EBCO divisible : public crtp<TypeT, divisible>
 {
     PHI_NODISCARD constexpr TypeT operator/(const TypeT& other) const
     {
@@ -277,7 +275,7 @@ struct PHI_EBCO Divisible : crtp<TypeT, Divisible>
 };
 
 template <typename TypeT>
-struct PHI_EBCO Modulable : crtp<TypeT, Modulable>
+struct PHI_EBCO modulable : public crtp<TypeT, modulable>
 {
     PHI_NODISCARD constexpr TypeT operator%(const TypeT& other) const
     {
@@ -292,7 +290,7 @@ struct PHI_EBCO Modulable : crtp<TypeT, Modulable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseInvertable : crtp<TypeT, BitWiseInvertable>
+struct PHI_EBCO bit_wise_invertable : public crtp<TypeT, bit_wise_invertable>
 {
     PHI_NODISCARD constexpr TypeT operator~() const
     {
@@ -301,7 +299,7 @@ struct PHI_EBCO BitWiseInvertable : crtp<TypeT, BitWiseInvertable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseAndable : crtp<TypeT, BitWiseAndable>
+struct PHI_EBCO bit_wise_andable : public crtp<TypeT, bit_wise_andable>
 {
     PHI_NODISCARD constexpr TypeT operator&(const TypeT& other) const
     {
@@ -316,7 +314,7 @@ struct PHI_EBCO BitWiseAndable : crtp<TypeT, BitWiseAndable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseOrable : crtp<TypeT, BitWiseOrable>
+struct PHI_EBCO bit_wise_orable : public crtp<TypeT, bit_wise_orable>
 {
     PHI_NODISCARD constexpr TypeT operator|(const TypeT& other) const
     {
@@ -331,7 +329,7 @@ struct PHI_EBCO BitWiseOrable : crtp<TypeT, BitWiseOrable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseXorable : crtp<TypeT, BitWiseXorable>
+struct PHI_EBCO bit_wise_xorable : public crtp<TypeT, bit_wise_xorable>
 {
     PHI_NODISCARD constexpr TypeT operator^(const TypeT& other) const
     {
@@ -346,7 +344,7 @@ struct PHI_EBCO BitWiseXorable : crtp<TypeT, BitWiseXorable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseLeftShiftable : crtp<TypeT, BitWiseLeftShiftable>
+struct PHI_EBCO bit_wise_left_shiftable : public crtp<TypeT, bit_wise_left_shiftable>
 {
     PHI_NODISCARD constexpr TypeT operator<<(const TypeT& other) const
     {
@@ -361,7 +359,7 @@ struct PHI_EBCO BitWiseLeftShiftable : crtp<TypeT, BitWiseLeftShiftable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO BitWiseRightShiftable : crtp<TypeT, BitWiseRightShiftable>
+struct PHI_EBCO bit_wise_right_shiftable : public crtp<TypeT, bit_wise_right_shiftable>
 {
     PHI_NODISCARD constexpr TypeT operator>>(const TypeT& other) const
     {
@@ -376,57 +374,45 @@ struct PHI_EBCO BitWiseRightShiftable : crtp<TypeT, BitWiseRightShiftable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO Comparable : crtp<TypeT, Comparable>
+struct PHI_EBCO comparable : public crtp<TypeT, comparable>
 {
-    PHI_NODISCARD constexpr bool operator<(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator<(const comparable<TypeT>& other) const
     {
-        return this->underlying().get() < other.get();
+        return this->underlying().get() < other.underlying().get();
     }
 
-    PHI_NODISCARD constexpr bool operator>(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator>(const comparable<TypeT>& other) const
     {
-        return other.get() < this->underlying().get();
+        return other.underlying().get() < this->underlying().get();
     }
 
-    PHI_NODISCARD constexpr bool operator<=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator<=(const comparable<TypeT>& other) const
     {
-        return !(other.get() < this->underlying().get());
+        return !(other < *this);
     }
 
-    PHI_NODISCARD constexpr bool operator>=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator>=(const comparable<TypeT>& other) const
     {
         return !(*this < other);
     }
 
-#if PHI_COMPILER_IS(MSVC)
-
-    PHI_NODISCARD constexpr bool operator==(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator==(const comparable<TypeT>& other) const
     {
-        return !(*this < other) && !(other.get() < this->underlying().get());
+        return !(*this < other) && !(other < *this);
     }
 
-#else
-
-    PHI_NODISCARD friend constexpr bool operator==(const Comparable<TypeT>& self,
-                                                   const TypeT&             other)
-    {
-        return !(self < other) && !(other.get() < self.underlying().get());
-    }
-
-#endif
-
-    PHI_NODISCARD constexpr bool operator!=(const TypeT& other) const
+    PHI_NODISCARD constexpr bool operator!=(const comparable<TypeT>& other) const
     {
         return !(*this == other);
     }
 };
 
 template <typename TypeT>
-struct PHI_EBCO Dereferencable;
+struct PHI_EBCO dereferencable;
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-struct PHI_EBCO Dereferencable<NamedType<TypeT, ParameterT, SkillsT...>>
-    : crtp<NamedType<TypeT, ParameterT, SkillsT...>, Dereferencable>
+struct PHI_EBCO dereferencable<named_type<TypeT, ParameterT, SkillsT...>>
+    : public crtp<named_type<TypeT, ParameterT, SkillsT...>, dereferencable>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& operator*() &
     {
@@ -440,7 +426,7 @@ struct PHI_EBCO Dereferencable<NamedType<TypeT, ParameterT, SkillsT...>>
 };
 
 template <typename DestinationT>
-struct PHI_EBCO ImplicitlyConvertibleTo
+struct PHI_EBCO implicitly_convertible_to
 {
     template <typename TypeT>
     struct templ : public crtp<TypeT, templ>
@@ -453,7 +439,7 @@ struct PHI_EBCO ImplicitlyConvertibleTo
 };
 
 template <typename TypeT>
-struct PHI_EBCO Printable : crtp<TypeT, Printable>
+struct PHI_EBCO printable : public crtp<TypeT, printable>
 {
     static constexpr bool is_printable = true;
 
@@ -466,27 +452,27 @@ struct PHI_EBCO Printable : crtp<TypeT, Printable>
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT, typename CharT,
           typename CharTraitsT>
-typename enable_if<NamedType<TypeT, ParameterT, SkillsT...>::is_printable,
+typename enable_if<named_type<TypeT, ParameterT, SkillsT...>::is_printable,
                    std::basic_ostream<CharT, CharTraitsT>&>::type
-operator<<(std::basic_ostream<CharT, CharTraitsT>&         stream,
-           NamedType<TypeT, ParameterT, SkillsT...> const& object)
+operator<<(std::basic_ostream<CharT, CharTraitsT>&          stream,
+           named_type<TypeT, ParameterT, SkillsT...> const& object)
 {
     object.print(stream);
     return stream;
 }
 
 template <typename TypeT>
-struct PHI_EBCO Hashable
+struct PHI_EBCO hashable
 {
     static constexpr bool is_hashable = true;
 };
 
 template <typename NamedTypeT>
-struct PHI_EBCO FunctionCallable;
+struct PHI_EBCO function_callable;
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-struct PHI_EBCO FunctionCallable<NamedType<TypeT, ParameterT, SkillsT...>>
-    : crtp<NamedType<TypeT, ParameterT, SkillsT...>, FunctionCallable>
+struct PHI_EBCO function_callable<named_type<TypeT, ParameterT, SkillsT...>>
+    : public crtp<named_type<TypeT, ParameterT, SkillsT...>, function_callable>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR operator TypeT&()
     {
@@ -500,11 +486,11 @@ struct PHI_EBCO FunctionCallable<NamedType<TypeT, ParameterT, SkillsT...>>
 };
 
 template <typename NamedTypeT>
-struct PHI_EBCO MethodCallable;
+struct PHI_EBCO method_callable;
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
-    : crtp<NamedType<TypeT, ParameterT, SkillsT...>, MethodCallable>
+struct PHI_EBCO method_callable<named_type<TypeT, ParameterT, SkillsT...>>
+    : public crtp<named_type<TypeT, ParameterT, SkillsT...>, method_callable>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR remove_reference_t<TypeT>* operator->()
     {
@@ -518,41 +504,46 @@ struct PHI_EBCO MethodCallable<NamedType<TypeT, ParameterT, SkillsT...>>
 };
 
 template <typename NamedTypeT>
-struct PHI_EBCO Callable : FunctionCallable<NamedTypeT>, MethodCallable<NamedTypeT>
+struct PHI_EBCO callable : public function_callable<NamedTypeT>, method_callable<NamedTypeT>
 {};
 
 template <typename TypeT>
-struct PHI_EBCO Arithmetic : PreIncrementable<TypeT>,
-                             PostIncrementable<TypeT>,
-                             PreDecrementable<TypeT>,
-                             PostDecrementable<TypeT>,
-                             Addable<TypeT>,
-                             Subtractable<TypeT>,
-                             Multiplicable<TypeT>,
-                             Divisible<TypeT>,
-                             Modulable<TypeT>,
-                             BitWiseInvertable<TypeT>,
-                             BitWiseAndable<TypeT>,
-                             BitWiseOrable<TypeT>,
-                             BitWiseXorable<TypeT>,
-                             BitWiseLeftShiftable<TypeT>,
-                             BitWiseRightShiftable<TypeT>,
-                             Comparable<TypeT>,
-                             Printable<TypeT>,
-                             Hashable<TypeT>
-{};
+struct PHI_EBCO arithmetic : public pre_incrementable<TypeT>,
+                             post_incrementable<TypeT>,
+                             pre_decrementable<TypeT>,
+                             post_decrementable<TypeT>,
+                             addable<TypeT>,
+                             subtractable<TypeT>,
+                             multiplicable<TypeT>,
+                             divisible<TypeT>,
+                             modulable<TypeT>,
+                             bit_wise_invertable<TypeT>,
+                             bit_wise_andable<TypeT>,
+                             bit_wise_orable<TypeT>,
+                             bit_wise_xorable<TypeT>,
+                             bit_wise_left_shiftable<TypeT>,
+                             bit_wise_right_shiftable<TypeT>,
+                             comparable<TypeT>,
+                             printable<TypeT>,
+                             hashable<TypeT>
+{
+    using post_incrementable<TypeT>::operator++;
+    using pre_incrementable<TypeT>:: operator++;
+    using post_decrementable<TypeT>::operator--;
+    using pre_decrementable<TypeT>:: operator--;
+};
 
 DETAIL_PHI_END_NAMESPACE()
 
 namespace std
 {
     template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-    struct hash<phi::NamedType<TypeT, ParameterT, SkillsT...>>
+    struct hash<phi::named_type<TypeT, ParameterT, SkillsT...>>
     {
-        using NamedType       = phi::NamedType<TypeT, ParameterT, SkillsT...>;
-        using checkIfHashable = typename enable_if<NamedType::is_hashable, void>::type;
+        using named_type      = phi::named_type<TypeT, ParameterT, SkillsT...>;
+        using checkIfHashable = typename enable_if<named_type::is_hashable, void>::type;
 
-        size_t operator()(const NamedType& value) const noexcept
+        size_t operator()(const named_type& value) const noexcept
         {
             static_assert(noexcept(std::hash<TypeT>()(value.get())),
                           "hash fuction should not throw");
@@ -560,7 +551,6 @@ namespace std
             return std::hash<TypeT>()(value.get());
         }
     };
-
 } // namespace std
 
 #undef PHI_EBCO
