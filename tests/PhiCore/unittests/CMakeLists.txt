@@ -47,6 +47,7 @@ file(
   "src/core/scope_ptr.test.cpp"
   "src/core/scoped_value_guard.test.cpp"
   "src/core/size_t.test.cpp"
+  "src/core/sized_types.test.cpp"
   "src/core/source_location.test.cpp"
   "src/core/stop_watch.test.cpp"
   "src/core/types.test.cpp"

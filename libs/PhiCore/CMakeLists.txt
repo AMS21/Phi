@@ -162,6 +162,7 @@ file(
   "include/phi/core/scope_ptr.hpp"
   "include/phi/core/scoped_value_guard.hpp"
   "include/phi/core/size_t.hpp"
+  "include/phi/core/sized_types.hpp"
   "include/phi/core/source_location.hpp"
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/types.hpp"
