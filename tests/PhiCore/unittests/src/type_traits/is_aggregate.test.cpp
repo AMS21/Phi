@@ -201,15 +201,9 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<VariadicTemplate<Class>>();
     test_is_aggregate<VariadicTemplate<incomplete_type>>();
     test_is_aggregate<VariadicTemplate<int, void, Class, volatile char[]>>();
-#if PHI_COMPILER_IS(CLANG)
     test_is_aggregate<PublicDerviedFromTemplate<Base>>();
     test_is_aggregate<PublicDerviedFromTemplate<Derived>>();
     test_is_aggregate<PublicDerviedFromTemplate<Class>>();
-#elif PHI_COMPILER_IS(GCC)
-    test_is_not_aggregate<PublicDerviedFromTemplate<Base>>();
-    test_is_not_aggregate<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_aggregate<PublicDerviedFromTemplate<Class>>();
-#endif
     test_is_not_aggregate<PrivateDerviedFromTemplate<Base>>();
     test_is_not_aggregate<PrivateDerviedFromTemplate<Derived>>();
     test_is_not_aggregate<PrivateDerviedFromTemplate<Class>>();
@@ -223,11 +217,7 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<bit_zero>();
     test_is_aggregate<bit_one>();
     test_is_aggregate<Base>();
-#if PHI_COMPILER_IS(CLANG)
     test_is_aggregate<Derived>();
-#elif PHI_COMPILER_IS(GCC)
-    test_is_not_aggregate<Derived>();
-#endif
     test_is_not_aggregate<Abstract>();
     test_is_not_aggregate<PublicAbstract>();
     test_is_not_aggregate<PrivateAbstract>();
@@ -300,25 +290,15 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int Class::*const volatile&&>();
     test_is_not_aggregate<float Class::*const volatile&&>();
     test_is_not_aggregate<void * Class::*const volatile&&>();
-#if PHI_COMPILER_IS(CLANG)
     test_is_not_aggregate<NonCopyable>();
     test_is_not_aggregate<NonMoveable>();
     test_is_not_aggregate<NonConstructible>();
-#elif PHI_COMPILER_IS(GCC)
-    test_is_aggregate<NonCopyable>();
-    test_is_aggregate<NonMoveable>();
-    test_is_aggregate<NonConstructible>();
-#endif
     test_is_not_aggregate<Tracked>();
     test_is_not_aggregate<TrapConstructible>();
     test_is_aggregate<TrapImplicitConversion>();
     test_is_aggregate<TrapComma>();
     test_is_aggregate<TrapCall>();
-#if PHI_COMPILER_IS(CLANG)
     test_is_not_aggregate<TrapSelfAssign>();
-#elif PHI_COMPILER_IS(GCC)
-    test_is_aggregate<TrapSelfAssign>();
-#endif
     test_is_aggregate<TrapDeref>();
     test_is_aggregate<TrapArraySubscript>();
 

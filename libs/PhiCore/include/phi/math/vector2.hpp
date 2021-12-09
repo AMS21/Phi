@@ -65,6 +65,8 @@ public:
         , y(static_cast<TypeT>(move(other.y)))
     {}
 
+    ~vector2() = default;
+
     // Operators
 
     PHI_EXTENDED_CONSTEXPR vector2<TypeT>& operator=(const vector2<TypeT>& other) noexcept
