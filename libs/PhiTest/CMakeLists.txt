@@ -7,7 +7,7 @@ endif()
 
 file(GLOB PHI_TEST_HEADERS "src/phi/test/test_macros.hpp")
 
-file(GLOB PHI_TEST_SOURCES "src/TestMacros.cpp")
+file(GLOB PHI_TEST_SOURCES "src/test_macros.cpp")
 
 phi_add_library(
   NAME
