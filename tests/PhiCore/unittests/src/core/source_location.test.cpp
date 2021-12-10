@@ -143,7 +143,7 @@ TEST_CASE("test f")
 
 phi::source_location g()
 {
-#line 1
+#line 1000
     return TEST_CURRENT();
 }
 
@@ -154,7 +154,7 @@ TEST_CASE("test g")
     //CHECK(phi::string_equals(g_loc.file_name(), "source_location.test.cpp"));
     CHECK(phi::string_equals(g_loc.function_name(), "g"));
     CHECK(g_loc.function_name_view() == "g");
-    CHECK(g_loc.line() == 1);
+    CHECK(g_loc.line() == 1000);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
     CHECK(g_loc.column() == 25);
 #else
@@ -164,7 +164,7 @@ TEST_CASE("test g")
 
 phi::source_location h()
 {
-#line 2 "test_file.cpp"
+#line 1000 "test_file.cpp"
     return TEST_CURRENT();
 }
 
@@ -176,7 +176,7 @@ TEST_CASE("test h")
     CHECK(h_loc.file_name_view() == "test_file.cpp");
     CHECK(phi::string_equals(h_loc.function_name(), "h"));
     CHECK(h_loc.function_name_view() == "h");
-    CHECK(h_loc.line() == 2);
+    CHECK(h_loc.line() == 1000);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
     CHECK(h_loc.column() == 25);
 #else
