@@ -33,12 +33,6 @@ TEST_CASE("is_nan")
         return;
     }
 
-    // Don't run NaN tests for emscripten for now
-    // TODO: Wait for https://github.com/emscripten-core/emscripten/issues/15743 to be resolved
-#if PHI_COMPILER_IS(EMCC)
-    return;
-#endif
-
     // Float
     test_is_nan(std::nanf(""));
     test_is_nan(std::nanf("0"));
