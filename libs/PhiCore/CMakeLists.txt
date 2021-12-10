@@ -166,6 +166,15 @@ file(
   "include/phi/core/source_location.hpp"
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/types.hpp"
+  # iterator
+  "include/phi/iterator/advance.hpp"
+  "include/phi/iterator/back_insert_iterator.hpp"
+  "include/phi/iterator/back_inserter.hpp"
+  "include/phi/iterator/begin.hpp"
+  "include/phi/iterator/data.hpp"
+  "include/phi/iterator/distance.hpp"
+  "include/phi/iterator/iterator_tags.hpp"
+  "include/phi/iterator/iterator_traits.hpp"
   # math
   "include/phi/math/abs.hpp"
   "include/phi/math/common.hpp"
