@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <forward_list>
 #include <iostream>
-#include <memory>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")

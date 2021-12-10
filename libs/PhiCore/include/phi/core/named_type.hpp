@@ -54,7 +54,8 @@ SOFTWARE.
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
 #include "phi/type_traits/is_reference.hpp"
 #include "phi/type_traits/remove_reference.hpp"
-#include <memory>
+#include <functional>
+#include <iosfwd>
 #include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio.
