@@ -1,12 +1,6 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_UNUSED_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_UNUSED_HPP
 
-#include "phi/phi_config.hpp"
-
-#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
-#    pragma once
-#endif
-
 #include "phi/compiler_support/features.hpp"
 
 #if PHI_HAS_FEATURE_MAYBE_UNUSED()
