@@ -8,6 +8,7 @@
 #define INCG_PHI_CORE_COMPILER_SUPPORT_COMPILER_HPP
 
 #include "phi/preprocessor/glue.hpp"
+#include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp" // PHI_VERSION_CREATE
 
 #if defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC)
@@ -198,6 +199,11 @@
 #    define PHI_CURRENT_COMPILER_VERSION_MINOR() PHI_COMPILER_VERSION_MINOR(0)
 #    define PHI_CURRENT_COMPILER_VERSION_PATCH() PHI_COMPILER_VERSION_PATCH(0)
 #endif
+
+#define PHI_CURRENT_COMPILER_VERSION_STR()                                                         \
+    PHI_STRINGIFY(PHI_CURRENT_COMPILER_VERSION_MAJOR())                                            \
+    "." PHI_STRINGIFY(PHI_CURRENT_COMPILER_VERSION_MINOR()) "." PHI_STRINGIFY(                     \
+            PHI_CURRENT_COMPILER_VERSION_MINOR())
 
 // has attribute
 #if defined(__has_attribute)

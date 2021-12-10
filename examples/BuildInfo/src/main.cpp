@@ -26,6 +26,9 @@ int main()
     // Compiler
     std::cout << "Compiler info\n";
 
+    PRINT_VAL("Compiler name", PHI_COMPILER_NAME());
+    PRINT_VAL("Compiler version", PHI_CURRENT_COMPILER_VERSION_STR());
+
     PRINT_COND("Compiler is gcc", PHI_COMPILER_IS(GCC));
     PRINT_COND("Compiler is clang", PHI_COMPILER_IS(CLANG));
     PRINT_COND("Compiler is MSVC", PHI_COMPILER_IS(MSVC));
