@@ -109,7 +109,7 @@ jobs:
         uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./build-clang/coverage.info
+          file: ./build-clang/coverage.profdata
           flags: linux,clang,${{ matrix.build_type }}
           name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
