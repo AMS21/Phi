@@ -290,7 +290,9 @@ PHI_EMCC_SUPPRESS_WARNING_PUSH()
 PHI_EMCC_SUPPRESS_WARNING("-Wreserved-identifier")
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
+#endif
 
 inline namespace literals
 {

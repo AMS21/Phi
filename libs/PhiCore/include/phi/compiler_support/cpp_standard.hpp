@@ -20,6 +20,9 @@
 // For some reason GCC-8 - GCC-10 use 201709 for C++-20
 // See: https://godbolt.org/z/86a93zjYo
 #    define PHI_CPLUSPLUS_20() (201709L)
+#elif PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+// Clang version before clang-10 uses 201707 for C++-20
+#    define PHI_CPLUSPLUS_20() (201707L)
 #else
 // C++-20 standard from feburary 2020
 #    define PHI_CPLUSPLUS_20() (202002L)

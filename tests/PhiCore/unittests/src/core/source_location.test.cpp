@@ -115,7 +115,11 @@ TEST_CASE("source_location")
         //CHECK(phi::string_equals(loc.function_name(), "phi_test_function"));
         CHECK(loc.line() == __LINE__ - 4);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+        CHECK(loc.column() == 36);
+#    else
         CHECK(loc.column() == 64);
+#    endif
 #else
         CHECK(loc.column() == 0);
 #endif
@@ -135,7 +139,11 @@ TEST_CASE("test f")
     CHECK(phi::string_equals(f_loc.function_name(), "f"));
     CHECK(f_loc.line() == __LINE__ - 9);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    CHECK(f_loc.column() == 12);
+#    else
     CHECK(f_loc.column() == 25);
+#    endif
 #else
     CHECK(f_loc.column() == 0);
 #endif
@@ -156,7 +164,11 @@ TEST_CASE("test g")
     CHECK(g_loc.function_name_view() == "g");
     CHECK(g_loc.line() == 1000);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    CHECK(g_loc.column() == 9);
+#    else
     CHECK(g_loc.column() == 25);
+#    endif
 #else
     CHECK(g_loc.column() == 0);
 #endif
@@ -178,7 +190,11 @@ TEST_CASE("test h")
     CHECK(h_loc.function_name_view() == "h");
     CHECK(h_loc.line() == 1000);
 #if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    CHECK(h_loc.column() == 9);
+#    else
     CHECK(h_loc.column() == 25);
+#    endif
 #else
     CHECK(h_loc.column() == 0);
 #endif
