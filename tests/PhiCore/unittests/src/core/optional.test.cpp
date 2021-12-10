@@ -1042,7 +1042,9 @@ TEST_CASE("Noexcept", "[noexcept]")
         phi::optional<throw_swappable>   ot;
 
         REQUIRE(noexcept(ont.swap(ont)));
+#        if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
         REQUIRE(!noexcept(ot.swap(ot)));
+#        endif
 #    endif
     }
 

@@ -290,15 +290,25 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int Class::*const volatile&&>();
     test_is_not_aggregate<float Class::*const volatile&&>();
     test_is_not_aggregate<void * Class::*const volatile&&>();
+#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+    test_is_aggregate<NonCopyable>();
+    test_is_aggregate<NonMoveable>();
+    test_is_aggregate<NonConstructible>();
+#else
     test_is_not_aggregate<NonCopyable>();
     test_is_not_aggregate<NonMoveable>();
     test_is_not_aggregate<NonConstructible>();
+#endif
     test_is_not_aggregate<Tracked>();
     test_is_not_aggregate<TrapConstructible>();
     test_is_aggregate<TrapImplicitConversion>();
     test_is_aggregate<TrapComma>();
     test_is_aggregate<TrapCall>();
+#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+    test_is_aggregate<TrapSelfAssign>();
+#else
     test_is_not_aggregate<TrapSelfAssign>();
+#endif
     test_is_aggregate<TrapDeref>();
     test_is_aggregate<TrapArraySubscript>();
 
