@@ -5,16 +5,34 @@
 
 // C++-98 standard from november 1997
 #define PHI_CPLUSPLUS_98() (199711L)
+
 // C++-11 standard from march 2011
 #define PHI_CPLUSPLUS_11() (201103L)
+
 // C++-14 standard from february 2014
 #define PHI_CPLUSPLUS_14() (201402L)
+
 // C++-17 standard from march 2017
 #define PHI_CPLUSPLUS_17() (201703L)
+
+// C++-20
+#if PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0)
+// For some reason GCC-8 - GCC-10 use 201709 for C++-20
+// See: https://godbolt.org/z/86a93zjYo
+#    define PHI_CPLUSPLUS_20() (201709L)
+#else
 // C++-20 standard from feburary 2020
-#define PHI_CPLUSPLUS_20() (202002L)
+#    define PHI_CPLUSPLUS_20() (202002L)
+#endif
+
+// C++-23
+#if PHI_COMPILER_IS(GCC)
+#    define PHI_CPLUSPLUS_23() (202100L)
+#else
 // C++-23 standard (Working draft)
-#define PHI_CPLUSPLUS_23() (202101L)
+#    define PHI_CPLUSPLUS_23() (202101L)
+#endif
+
 // Latest C++ standard
 #define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_23()
 

@@ -16,6 +16,11 @@
     }                                                                                              \
     PHI_END_MACRO()
 
+#define PRINT_VAL(text, val)                                                                       \
+    PHI_BEGIN_MACRO()                                                                              \
+    std::cout << text << ": " << val << '\n';                                                      \
+    PHI_END_MACRO()
+
 int main()
 {
     // Compiler
@@ -33,6 +38,8 @@ int main()
 
     // CPlusPlus
     std::cout << "Enabled C++ standards\n";
+    PRINT_VAL("PHI_CPP_STANDARD", PHI_CPP_STANDARD());
+    PRINT_VAL("PHI_CPLUSPLUS_LATEST", PHI_CPLUSPLUS_LATEST());
 
     PRINT_COND("C++-98 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(98));
     PRINT_COND("C++-11 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(11));
