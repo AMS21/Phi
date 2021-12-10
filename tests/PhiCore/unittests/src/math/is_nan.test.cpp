@@ -3,9 +3,20 @@
 #include <phi/compiler_support/features.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/math/is_nan.hpp>
+#include <phi/type_traits/to_safe.hpp>
+#include <phi/type_traits/to_unsafe.hpp>
 #include <cfloat>
 #include <cmath>
 #include <limits>
+
+template <typename T>
+void test_is_nan(T val)
+{
+    CHECK(phi::is_nan(val));
+
+    // Standard compatibility
+    CHECK(std::isnan(phi::to_unsafe(val)));
+}
 
 using sf = phi::floating_point<float>;
 using sd = phi::floating_point<double>;
@@ -22,17 +33,23 @@ TEST_CASE("is_nan")
         return;
     }
 
-    // Float
-    CHECK(phi::is_nan(std::nanf("")));
-    CHECK(phi::is_nan(std::nanf("0")));
-    CHECK(phi::is_nan(std::nanf("1")));
-    CHECK(phi::is_nan(std::nanf("21")));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(0.0f / 0.0f));
+    // Don't run NaN tests for emscripten for now
+    // TODO: Wait for https://github.com/emscripten-core/emscripten/issues/15743 to be resolved
+#if PHI_COMPILER_IS(EMCC)
+    return;
 #endif
-    CHECK(phi::is_nan(INFINITY - INFINITY));
-    CHECK(phi::is_nan(INFINITY * 0.0f));
-    CHECK(phi::is_nan(std::numeric_limits<float>::infinity() * 0.0f));
+
+    // Float
+    test_is_nan(std::nanf(""));
+    test_is_nan(std::nanf("0"));
+    test_is_nan(std::nanf("1"));
+    test_is_nan(std::nanf("21"));
+#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
+    test_is_nan(0.0f / 0.0f);
+#endif
+    test_is_nan(INFINITY - INFINITY);
+    test_is_nan(INFINITY * 0.0f);
+    test_is_nan(std::numeric_limits<float>::infinity() * 0.0f);
     STATIC_REQUIRE(phi::is_nan(NAN));
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<float>::quiet_NaN()));
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<float>::signaling_NaN()));
@@ -55,14 +72,14 @@ TEST_CASE("is_nan")
     STATIC_REQUIRE_FALSE(phi::is_nan(std::numeric_limits<float>::round_error()));
 
     // double
-    CHECK(phi::is_nan(std::nan("")));
-    CHECK(phi::is_nan(std::nan("0")));
-    CHECK(phi::is_nan(std::nan("1")));
-    CHECK(phi::is_nan(std::nan("21")));
+    test_is_nan(std::nan(""));
+    test_is_nan(std::nan("0"));
+    test_is_nan(std::nan("1"));
+    test_is_nan(std::nan("21"));
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(0.0 / 0.0));
+    test_is_nan(0.0 / 0.0);
 #endif
-    CHECK(phi::is_nan(std::numeric_limits<double>::infinity() * 0.0));
+    test_is_nan(std::numeric_limits<double>::infinity() * 0.0);
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<double>::quiet_NaN()));
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<double>::signaling_NaN()));
 
@@ -82,14 +99,14 @@ TEST_CASE("is_nan")
     STATIC_REQUIRE_FALSE(phi::is_nan(std::numeric_limits<double>::round_error()));
 
     // long double
-    CHECK(phi::is_nan(std::nanl("")));
-    CHECK(phi::is_nan(std::nanl("0")));
-    CHECK(phi::is_nan(std::nanl("1")));
-    CHECK(phi::is_nan(std::nanl("21")));
+    test_is_nan(std::nanl(""));
+    test_is_nan(std::nanl("0"));
+    test_is_nan(std::nanl("1"));
+    test_is_nan(std::nanl("21"));
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(0.0L / 0.0L));
+    test_is_nan(0.0L / 0.0L);
 #endif
-    CHECK(phi::is_nan(std::numeric_limits<long double>::infinity() * 0.0L));
+    test_is_nan(std::numeric_limits<long double>::infinity() * 0.0L);
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<long double>::quiet_NaN()));
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<long double>::signaling_NaN()));
 
@@ -109,17 +126,17 @@ TEST_CASE("is_nan")
     STATIC_REQUIRE_FALSE(phi::is_nan(std::numeric_limits<long double>::round_error()));
 
     // floating_point<float>
-    CHECK(phi::is_nan(sf(std::nanf(""))));
-    CHECK(phi::is_nan(sf(std::nanf("0"))));
-    CHECK(phi::is_nan(sf(std::nanf("1"))));
-    CHECK(phi::is_nan(sf(std::nanf("21"))));
+    test_is_nan(sf(std::nanf("")));
+    test_is_nan(sf(std::nanf("0")));
+    test_is_nan(sf(std::nanf("1")));
+    test_is_nan(sf(std::nanf("21")));
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(sf(0.0f / 0.0f)));
+    test_is_nan(sf(0.0f / 0.0f));
 #endif
-    CHECK(phi::is_nan(sf(INFINITY - INFINITY)));
-    CHECK(phi::is_nan(sf(NAN)));
-    CHECK(phi::is_nan(sf(INFINITY) * sf(0.0f)));
-    CHECK(phi::is_nan(std::numeric_limits<sf>::infinity() * sf(0.0f)));
+    test_is_nan(sf(INFINITY - INFINITY));
+    test_is_nan(sf(NAN));
+    test_is_nan(sf(INFINITY) * sf(0.0f));
+    test_is_nan(std::numeric_limits<sf>::infinity() * sf(0.0f));
     STATIC_REQUIRE(phi::is_nan(sf(std::numeric_limits<float>::quiet_NaN())));
     STATIC_REQUIRE(phi::is_nan(sf(std::numeric_limits<float>::signaling_NaN())));
 
@@ -141,14 +158,14 @@ TEST_CASE("is_nan")
     STATIC_REQUIRE_FALSE(phi::is_nan(sf(std::numeric_limits<float>::round_error())));
 
     // floating_point<double>
-    CHECK(phi::is_nan(sd(std::nan(""))));
-    CHECK(phi::is_nan(sd(std::nan("0"))));
-    CHECK(phi::is_nan(sd(std::nan("1"))));
-    CHECK(phi::is_nan(sd(std::nan("21"))));
+    test_is_nan(sd(std::nan("")));
+    test_is_nan(sd(std::nan("0")));
+    test_is_nan(sd(std::nan("1")));
+    test_is_nan(sd(std::nan("21")));
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(sd(0.0 / 0.0)));
+    test_is_nan(sd(0.0 / 0.0));
 #endif
-    CHECK(phi::is_nan(std::numeric_limits<sd>::infinity() * sd(0.0)));
+    test_is_nan(std::numeric_limits<sd>::infinity() * sd(0.0));
     STATIC_REQUIRE(phi::is_nan(sd(std::numeric_limits<double>::quiet_NaN())));
     STATIC_REQUIRE(phi::is_nan(sd(std::numeric_limits<double>::signaling_NaN())));
 
@@ -168,14 +185,14 @@ TEST_CASE("is_nan")
     STATIC_REQUIRE_FALSE(phi::is_nan(sd(std::numeric_limits<double>::round_error())));
 
     // floating_point<long double>
-    CHECK(phi::is_nan(sl(std::nanl(""))));
-    CHECK(phi::is_nan(sl(std::nanl("0"))));
-    CHECK(phi::is_nan(sl(std::nanl("1"))));
-    CHECK(phi::is_nan(sl(std::nanl("21"))));
+    test_is_nan(sl(std::nanl("")));
+    test_is_nan(sl(std::nanl("0")));
+    test_is_nan(sl(std::nanl("1")));
+    test_is_nan(sl(std::nanl("21")));
 #if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    CHECK(phi::is_nan(sl(0.0L / 0.0L)));
+    test_is_nan(sl(0.0L / 0.0L));
 #endif
-    CHECK(phi::is_nan(std::numeric_limits<sl>::infinity() * sl(0.0L)));
+    test_is_nan(std::numeric_limits<sl>::infinity() * sl(0.0L));
     STATIC_REQUIRE(phi::is_nan(sl(std::numeric_limits<long double>::quiet_NaN())));
     STATIC_REQUIRE(phi::is_nan(sl(std::numeric_limits<long double>::signaling_NaN())));
 
