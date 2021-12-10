@@ -27,7 +27,6 @@ set_project_warnings(phi_internal_project_options)
 
 # Compiler optimizations
 include(CompilerOptimizations)
-set_project_optimizations(phi_project_options)
 
 # sanitizer options if supported by compiler
 include(Sanitizers)
