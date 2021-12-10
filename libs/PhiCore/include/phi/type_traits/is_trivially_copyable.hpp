@@ -20,10 +20,17 @@ template <typename TypeT>
 struct is_trivially_copyable : public bool_constant<PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_trivially_copyable : public bool_constant<!PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = PHI_IS_TRIVIALLY_COPYABLE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_copyable_v = !PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 #    endif
 
@@ -36,10 +43,22 @@ struct is_trivially_copyable : public false_type
                                          "instrincic __is_trivilly_copyable");
 };
 
+template <typename TypeT>
+struct is_not_trivially_copyable : public false_type
+{
+    static_assert(false_t<TypeT>::value,
+                  "phi::is_not_trivially_copyable requires compiler support for "
+                  "instrincic __is_trivilly_copyable");
+};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_copyable_v = is_trivially_copyable<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_copyable_v =
+        is_not_trivially_copyable<TypeT>::value;
 
 #    endif
 
