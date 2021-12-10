@@ -96,9 +96,11 @@ TEST_CASE("is_nothrow_default_constructible")
     test_is_nothrow_default_constructible<bit_zero>();
     test_is_nothrow_default_constructible<bit_one>();
     test_is_not_nothrow_default_constructible<Abstract>();
+#if PHI_COMPILER_IS_ATLEAST(GCC, 11, 0, 0) || PHI_COMPILER_IS_NOT(GCC)
     test_is_not_nothrow_default_constructible<AbstractTemplate<int>>();
     test_is_nothrow_default_constructible<AbstractTemplate<double>>();
     test_is_not_nothrow_default_constructible<AbstractTemplate<Class>>();
+#endif
     test_is_nothrow_default_constructible<Enum>();
     test_is_nothrow_default_constructible<EnumSigned>();
     test_is_nothrow_default_constructible<EnumUnsigned>();
