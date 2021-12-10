@@ -363,9 +363,8 @@ public:
     }
 
 private:
-    int m_Value;
-    // Use volatile to force the compiler to not optimize away any assignments
-    volatile State m_State;
+    int   m_Value;
+    State m_State;
 };
 
 PHI_GCC_SUPPRESS_WARNING_POP()
