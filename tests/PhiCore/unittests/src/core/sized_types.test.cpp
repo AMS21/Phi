@@ -9,6 +9,8 @@
 
 #define SIZE_IN_BITS(x) (sizeof(x) * CHAR_BIT)
 
+// TODO: MSVC and Apple seem to disagree with us on the actual type of some of these here
+
 TEST_CASE("sized_types")
 {
     SECTION("int8_t")
@@ -111,7 +113,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast16_t) >= 16);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast16_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast16_t>::value);
-#if PHI_PLATFORM_IS_NOT(APPLE)
+#if PHI_PLATFORM_IS_NOT(APPLE) && PHI_COMPILER_IS_NOT(MSVC)
         CHECK_SAME_TYPE(phi::int_fast16_t, std::int_fast16_t);
 #endif
     }
@@ -121,7 +123,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast32_t) >= 32);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast32_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast32_t>::value);
-#if PHI_PLATFORM_IS_NOT(APPLE)
+#if PHI_PLATFORM_IS_NOT(APPLE) && PHI_COMPILER_IS_NOT(MSVC)
         CHECK_SAME_TYPE(phi::int_fast32_t, std::int_fast32_t);
 #endif
     }
@@ -149,7 +151,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast16_t) >= 16);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast16_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast16_t>::value);
-#if PHI_PLATFORM_IS_NOT(APPLE)
+#if PHI_PLATFORM_IS_NOT(APPLE) && PHI_COMPILER_IS_NOT(MSVC)
         CHECK_SAME_TYPE(phi::uint_fast16_t, std::uint_fast16_t);
 #endif
     }
@@ -159,7 +161,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast32_t) >= 32);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast32_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast32_t>::value);
-#if PHI_PLATFORM_IS_NOT(APPLE)
+#if PHI_PLATFORM_IS_NOT(APPLE) && PHI_COMPILER_IS_NOT(MSVC)
         CHECK_SAME_TYPE(phi::uint_fast32_t, std::uint_fast32_t);
 #endif
     }
@@ -203,7 +205,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_least64_t) >= 64);
         STATIC_REQUIRE(phi::is_signed<phi::int_least64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_least64_t>::value);
-#if PHI_PLATFORM_IS_NOT(APPLE)
+#if PHI_PLATFORM_IS_NOT(APPLE) && PHI_COMPILER_IS_NOT(MSVC)
         CHECK_SAME_TYPE(phi::int_least64_t, std::int_least64_t);
 #endif
     }
