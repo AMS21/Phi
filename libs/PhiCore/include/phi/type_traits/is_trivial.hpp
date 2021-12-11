@@ -7,11 +7,15 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivial.hpp"
+#include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
+#include "phi/compiler_support/intrinsics/is_trivially_copyable.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 
-#if PHI_SUPPORTS_IS_TRIVIAL()
+// MSVC's implementation of is_trivial seems broken
+#if PHI_SUPPORTS_IS_TRIVIAL() && PHI_COMPILER_IS_NOT(MSVC)
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -30,6 +34,32 @@ PHI_INLINE_VARIABLE constexpr bool is_trivial_v = PHI_IS_TRIVIAL(TypeT);
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v = !PHI_IS_TRIVIAL(TypeT);
+
+#    endif
+
+#elif PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE() && PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct is_trivial : public bool_constant<PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) &&
+                                         PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) ||
+                                             !PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_trivial_v = PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) &&
+                                                  PHI_IS_TRIVIALLY_COPYABLE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v =
+        !PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) || !PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 #    endif
 
