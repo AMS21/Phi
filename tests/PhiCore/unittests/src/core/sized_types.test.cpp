@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/platform.hpp>
 #include <phi/core/sized_types.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
@@ -39,7 +40,10 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int64_t) == 64);
         STATIC_REQUIRE(phi::is_signed<phi::int64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int64_t>::value);
+
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::int64_t, std::int64_t);
+#endif
     }
 
     SECTION("intmax_t")
@@ -80,7 +84,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint64_t) == 64);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint64_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint64_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint64_t, std::uint64_t);
+#endif
     }
 
     SECTION("uintmax_t")
@@ -105,7 +111,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast16_t) >= 16);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast16_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast16_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::int_fast16_t, std::int_fast16_t);
+#endif
     }
 
     SECTION("int_fast32_t")
@@ -113,7 +121,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast32_t) >= 32);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast32_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast32_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::int_fast32_t, std::int_fast32_t);
+#endif
     }
 
     SECTION("int_fast64_t")
@@ -121,7 +131,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast64_t) >= 64);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast64_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::int_fast64_t, std::int_fast64_t);
+#endif
     }
 
     SECTION("uint_fast8_t")
@@ -137,7 +149,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast16_t) >= 16);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast16_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast16_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint_fast16_t, std::uint_fast16_t);
+#endif
     }
 
     SECTION("uint_fast32_t")
@@ -145,7 +159,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast32_t) >= 32);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast32_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast32_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint_fast32_t, std::uint_fast32_t);
+#endif
     }
 
     SECTION("uint_fast64_t")
@@ -153,7 +169,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast64_t) >= 64);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast64_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast64_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint_fast64_t, std::uint_fast64_t);
+#endif
     }
 
     SECTION("int_least8_t")
@@ -185,7 +203,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_least64_t) >= 64);
         STATIC_REQUIRE(phi::is_signed<phi::int_least64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_least64_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::int_least64_t, std::int_least64_t);
+#endif
     }
 
     SECTION("uint_least8_t")
@@ -193,7 +213,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_least8_t) >= 8);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_least8_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_least8_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint_least8_t, std::uint_least8_t);
+#endif
     }
 
     SECTION("uint_least16_t")
