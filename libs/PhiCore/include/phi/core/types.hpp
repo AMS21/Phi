@@ -38,50 +38,53 @@ SOFTWARE.
 #include "phi/core/boolean.hpp"
 #include "phi/core/floating_point.hpp"
 #include "phi/core/integer.hpp"
-#include <cmath>
-#include <cstddef>
+#include "phi/core/size_t.hpp"
+#include "phi/core/sized_types.hpp"
+#include "phi/type_traits/is_same.hpp"
+#include "phi/type_traits/is_signed.hpp"
+#include "phi/type_traits/is_unsigned.hpp"
+#include "phi/type_traits/make_signed.hpp"
 #include <cstdint>
 #include <limits>
-#include <type_traits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 // integer
-using i8  = integer<std::int8_t>;
-using u8  = integer<std::uint8_t>;
-using i16 = integer<std::int16_t>;
-using u16 = integer<std::uint16_t>;
-using i32 = integer<std::int32_t>;
-using u32 = integer<std::uint32_t>;
-using i64 = integer<std::int64_t>;
-using u64 = integer<std::uint64_t>;
+using i8  = integer<int8_t>;
+using u8  = integer<uint8_t>;
+using i16 = integer<int16_t>;
+using u16 = integer<uint16_t>;
+using i32 = integer<int32_t>;
+using u32 = integer<uint32_t>;
+using i64 = integer<int64_t>;
+using u64 = integer<uint64_t>;
 
-using i8_fast  = integer<std::int_fast8_t>;
-using u8_fast  = integer<std::uint_fast8_t>;
-using i16_fast = integer<std::int_fast16_t>;
-using u16_fast = integer<std::uint_fast16_t>;
-using i32_fast = integer<std::int_fast32_t>;
-using u32_fast = integer<std::uint_fast32_t>;
-using i64_fast = integer<std::int_fast64_t>;
-using u64_fast = integer<std::uint_fast64_t>;
+using i8_fast  = integer<int_fast8_t>;
+using u8_fast  = integer<uint_fast8_t>;
+using i16_fast = integer<int_fast16_t>;
+using u16_fast = integer<uint_fast16_t>;
+using i32_fast = integer<int_fast32_t>;
+using u32_fast = integer<uint_fast32_t>;
+using i64_fast = integer<int_fast64_t>;
+using u64_fast = integer<uint_fast64_t>;
 
-using i8_least  = integer<std::int_least8_t>;
-using u8_least  = integer<std::uint_least8_t>;
-using i16_least = integer<std::int_least16_t>;
-using u16_least = integer<std::uint_least16_t>;
-using i32_least = integer<std::int_least32_t>;
-using u32_least = integer<std::uint_least32_t>;
-using i64_least = integer<std::int_least64_t>;
-using u64_least = integer<std::uint_least64_t>;
+using i8_least  = integer<int_least8_t>;
+using u8_least  = integer<uint_least8_t>;
+using i16_least = integer<int_least16_t>;
+using u16_least = integer<uint_least16_t>;
+using i32_least = integer<int_least32_t>;
+using u32_least = integer<uint_least32_t>;
+using i64_least = integer<int_least64_t>;
+using u64_least = integer<uint_least64_t>;
 
-using isize = integer<std::make_signed<std::size_t>::type>;
-using usize = integer<std::size_t>;
+using isize = integer<make_signed<size_t>::type>;
+using usize = integer<size_t>;
 
 using ptrdiff = integer<std::ptrdiff_t>;
 
 // Floating point
-using f32 = floating_point<float>;
-using f64 = floating_point<double>;
+using f32 = floating_point<float32>;
+using f64 = floating_point<float64>;
 
 namespace detail
 {
@@ -95,13 +98,13 @@ namespace detail
     };
 
     template <typename ResultT, typename... TailT>
-    struct conditional_impl<std::true_type, ResultT, TailT...>
+    struct conditional_impl<true_type, ResultT, TailT...>
     {
         using type = ResultT;
     };
 
     template <typename ResultT, typename... TailT>
-    struct conditional_impl<std::false_type, ResultT, TailT...>
+    struct conditional_impl<false_type, ResultT, TailT...>
     {
         using type = typename conditional_impl<TailT...>::type;
     };
@@ -123,16 +126,15 @@ namespace detail
 
     template <char CharT>
     using digit_category =
-            conditional<std::integral_constant<bool, CharT >= '0' && CharT <= '9'>, decimal_digit,
-                        std::integral_constant<bool, CharT >= 'a' && CharT <= 'f'>,
-                        lower_hexadecimal_digit,
-                        std::integral_constant<bool, CharT >= 'A' && CharT <= 'F'>,
-                        upper_hexadecimal_digit, no_digit>;
+            conditional<bool_constant<CharT >= '0' && CharT <= '9'>, decimal_digit,
+                        bool_constant<CharT >= 'a' && CharT <= 'f'>, lower_hexadecimal_digit,
+                        bool_constant<CharT >= 'A' && CharT <= 'F'>, upper_hexadecimal_digit,
+                        no_digit>;
 
     template <char CharT, typename CatT>
     struct to_digit_impl
     {
-        static_assert(!std::is_same<CatT, no_digit>::value, "invalid character, expected digit");
+        static_assert(!is_same<CatT, no_digit>::value, "invalid character, expected digit");
     };
 
     template <char CharT>
@@ -265,7 +267,7 @@ namespace detail
     constexpr TypeT validate_value()
     {
         static_assert(sizeof(TypeT) <= sizeof(OtherT) &&
-                              std::is_signed<OtherT>::value == std::is_signed<TypeT>::value,
+                              is_signed<OtherT>::value == is_signed<TypeT>::value,
                       "mismatched types");
         static_assert(OtherT(std::numeric_limits<TypeT>::min()) <= Value &&
                               Value <= OtherT(std::numeric_limits<TypeT>::max()),
@@ -299,71 +301,71 @@ inline namespace literals
     template <char... DigitsT>
     constexpr i8 operator"" _i8()
     {
-        return i8(detail::parse_signed<std::int8_t, DigitsT...>());
+        return i8(detail::parse_signed<int8_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr u8 operator"" _u8()
     {
-        return u8(detail::parse_unsigned<std::uint8_t, DigitsT...>());
+        return u8(detail::parse_unsigned<uint8_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr i16 operator"" _i16()
     {
-        return int16_t(detail::parse_signed<std::int16_t, DigitsT...>());
+        return int16_t(detail::parse_signed<int16_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr u16 operator"" _u16()
     {
-        return u16(detail::parse_unsigned<std::uint16_t, DigitsT...>());
+        return u16(detail::parse_unsigned<uint16_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr i32 operator"" _i32()
     {
-        return i32(detail::parse_signed<std::int32_t, DigitsT...>());
+        return i32(detail::parse_signed<int32_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr u32 operator"" _u32()
     {
-        return u32(detail::parse_unsigned<std::uint32_t, DigitsT...>());
+        return u32(detail::parse_unsigned<uint32_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr i64 operator"" _i64()
     {
-        return i64(detail::parse_signed<std::int64_t, DigitsT...>());
+        return i64(detail::parse_signed<int64_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr u64 operator"" _u64()
     {
-        return u64(detail::parse_unsigned<std::uint64_t, DigitsT...>());
+        return u64(detail::parse_unsigned<uint64_t, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr isize operator"" _isize()
     {
-        return isize(detail::parse_signed<std::make_signed<std::size_t>::type, DigitsT...>());
+        return isize(detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>());
     }
 
     template <char... DigitsT>
     constexpr usize operator"" _usize()
     {
-        return usize(detail::parse_unsigned<std::size_t, DigitsT...>());
+        return usize(detail::parse_unsigned<size_t, DigitsT...>());
     }
 
     constexpr f32 operator"" _f32(long double val)
     {
-        return f32(static_cast<std::float_t>(val));
+        return f32(static_cast<float32>(val));
     }
 
     constexpr f64 operator"" _f64(long double val)
     {
-        return f64(static_cast<std::double_t>(val));
+        return f64(static_cast<float64>(val));
     }
 } // namespace literals
 
