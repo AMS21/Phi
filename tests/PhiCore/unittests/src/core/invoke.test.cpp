@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
@@ -12,6 +13,9 @@
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
+// TODO: Make tests work with MSVC
+#if PHI_COMPILER_IS_NOT(MSVC)
 
 struct NonCopyable
 {
@@ -397,5 +401,7 @@ TEST_CASE("invoke basic test")
 {
     //REQUIRE(phi::invoke(foo, 101) == 42);
 }
+
+#endif
 
 PHI_GCC_SUPPRESS_WARNING_POP()
