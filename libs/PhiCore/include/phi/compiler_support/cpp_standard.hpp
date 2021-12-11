@@ -31,6 +31,8 @@
 // C++-23
 #if PHI_COMPILER_IS(GCC)
 #    define PHI_CPLUSPLUS_23() (202100L)
+#elif PHI_COMPILER_IS(MSVC)
+#    define PHI_CPLUSPLUS_23() (202004L)
 #else
 // C++-23 standard (Working draft)
 #    define PHI_CPLUSPLUS_23() (202101L)
