@@ -62,6 +62,11 @@
         PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH(warning) PHI_GCC_SUPPRESS_WARNING_WITH_PUSH(warning)
 #    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()                                               \
         PHI_CLANG_SUPPRESS_WARNING_POP() PHI_GCC_SUPPRESS_WARNING_POP()
+#else
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()             /* Nothing */
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING(warning)           /* Nothing */
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_WITH_PUSH(warning) /* Nothing */
+#    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()              /* Nothing */
 #endif
 
 // Emscripten warnings
