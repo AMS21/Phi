@@ -157,7 +157,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<phi::floating_point<long double>>();
 
 #if PHI_COMPILER_IS(MSVC)
-    test_is_not_standard_layout<std::vector<int>>();
+    //test_is_standard_layout<std::vector<int>>();
 #else
     test_is_standard_layout<std::vector<int>>();
 #endif

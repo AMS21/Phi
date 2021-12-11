@@ -8,6 +8,7 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_trivial.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -95,6 +96,22 @@ TEST_CASE("is_trivial")
     test_is_trivial<char32_t>();
     test_is_trivial<wchar_t>();
 
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<phi::boolean>();
+    test_is_not_trivial<phi::integer<signed char>>();
+    test_is_not_trivial<phi::integer<unsigned char>>();
+    test_is_not_trivial<phi::integer<short>>();
+    test_is_not_trivial<phi::integer<unsigned short>>();
+    test_is_not_trivial<phi::integer<int>>();
+    test_is_not_trivial<phi::integer<unsigned int>>();
+    test_is_not_trivial<phi::integer<long>>();
+    test_is_not_trivial<phi::integer<unsigned long>>();
+    test_is_not_trivial<phi::integer<long long>>();
+    test_is_not_trivial<phi::integer<unsigned long long>>();
+    test_is_not_trivial<phi::floating_point<float>>();
+    test_is_not_trivial<phi::floating_point<double>>();
+    test_is_not_trivial<phi::floating_point<long double>>();
+#else
     test_is_trivial<phi::boolean>();
     test_is_trivial<phi::integer<signed char>>();
     test_is_trivial<phi::integer<unsigned char>>();
@@ -109,6 +126,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<phi::floating_point<float>>();
     test_is_trivial<phi::floating_point<double>>();
     test_is_trivial<phi::floating_point<long double>>();
+#endif
 
     test_is_not_trivial<std::vector<int>>();
     test_is_not_trivial<phi::scope_ptr<int>>();
@@ -139,9 +157,17 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<const volatile int*&&>();
     test_is_trivial<void*>();
     test_is_trivial<char[3]>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<char[]>();
+#else
     test_is_trivial<char[]>();
+#endif
     test_is_trivial<char* [3]>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<char*[]>();
+#else
     test_is_trivial<char*[]>();
+#endif
     test_is_trivial<int(*)[3]>();
     test_is_trivial<int(*)[]>();
     test_is_not_trivial<int(&)[3]>();
@@ -149,9 +175,17 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int(&&)[3]>();
     test_is_not_trivial<int(&&)[]>();
     test_is_trivial<char[3][2]>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<char[][2]>();
+#else
     test_is_trivial<char[][2]>();
+#endif
     test_is_trivial<char* [3][2]>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<char*[][2]>();
+#else
     test_is_trivial<char*[][2]>();
+#endif
     test_is_trivial<int(*)[3][2]>();
     test_is_trivial<int(*)[][2]>();
     test_is_not_trivial<int(&)[3][2]>();
@@ -198,17 +232,28 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<AbstractTemplate<incomplete_type>>();
     test_is_trivial<Final>();
     test_is_trivial<PublicDestructor>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<ProtectedDestructor>();
+    test_is_not_trivial<PrivateDestructor>();
+#else
     test_is_trivial<ProtectedDestructor>();
     test_is_trivial<PrivateDestructor>();
+#endif
     test_is_not_trivial<VirtualPublicDestructor>();
     test_is_not_trivial<VirtualProtectedDestructor>();
     test_is_not_trivial<VirtualPrivateDestructor>();
     test_is_not_trivial<PurePublicDestructor>();
     test_is_not_trivial<PureProtectedDestructor>();
     test_is_not_trivial<PurePrivateDestructor>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<DeletedPublicDestructor>();
+    test_is_not_trivial<DeletedProtectedDestructor>();
+    test_is_not_trivial<DeletedPrivateDestructor>();
+#else
     test_is_trivial<DeletedPublicDestructor>();
     test_is_trivial<DeletedProtectedDestructor>();
     test_is_trivial<DeletedPrivateDestructor>();
+#endif
     test_is_not_trivial<DeletedVirtualPublicDestructor>();
     test_is_not_trivial<DeletedVirtualProtectedDestructor>();
     test_is_not_trivial<DeletedVirtualPrivateDestructor>();
@@ -262,9 +307,14 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<void * Class::*const volatile&&>();
     test_is_trivial<NonCopyable>();
     test_is_trivial<NonMoveable>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivial<NonConstructible>();
+#else
     test_is_trivial<NonConstructible>();
+#endif
     test_is_not_trivial<Tracked>();
-#if PHI_COMPILER_IS(GCC) // TODO: Investigate by clang and GCC disagree here
+#if PHI_COMPILER_IS(GCC) ||                                                                        \
+        PHI_COMPILER_IS(MSVC) // TODO: Investigate by clang, GCC and MSVC disagree here
     test_is_trivial<TrapConstructible>();
 #else
     test_is_not_trivial<TrapConstructible>();

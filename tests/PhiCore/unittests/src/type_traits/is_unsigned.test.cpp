@@ -74,7 +74,11 @@ TEST_CASE("is_unsigned")
     test_is_unsigned<char8_t>();
     test_is_unsigned<char16_t>();
     test_is_unsigned<char32_t>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_unsigned<wchar_t>();
+#else
     test_is_not_unsigned<wchar_t>();
+#endif
 
     test_is_unsigned<phi::boolean>();
     test_is_not_unsigned<phi::integer<signed char>>();

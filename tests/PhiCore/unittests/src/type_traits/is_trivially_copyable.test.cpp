@@ -264,9 +264,15 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<PurePublicDestructor>();
     test_is_not_trivially_copyable<PureProtectedDestructor>();
     test_is_not_trivially_copyable<PurePrivateDestructor>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivially_copyable<DeletedPublicDestructor>();
+    test_is_not_trivially_copyable<DeletedProtectedDestructor>();
+    test_is_not_trivially_copyable<DeletedPrivateDestructor>();
+#else
     test_is_trivially_copyable<DeletedPublicDestructor>();
     test_is_trivially_copyable<DeletedProtectedDestructor>();
     test_is_trivially_copyable<DeletedPrivateDestructor>();
+#endif
     test_is_not_trivially_copyable<DeletedVirtualPublicDestructor>();
     test_is_not_trivially_copyable<DeletedVirtualProtectedDestructor>();
     test_is_not_trivially_copyable<DeletedVirtualPrivateDestructor>();
@@ -320,7 +326,11 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<void * Class::*const volatile&&>();
     test_is_trivially_copyable<NonCopyable>();
     test_is_trivially_copyable<NonMoveable>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_trivially_copyable<NonConstructible>();
+#else
     test_is_trivially_copyable<NonConstructible>();
+#endif
     test_is_not_trivially_copyable<Tracked>();
     test_is_trivially_copyable<TrapConstructible>();
     test_is_trivially_copyable<TrapImplicitConversion>();
