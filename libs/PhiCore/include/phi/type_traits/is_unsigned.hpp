@@ -32,10 +32,17 @@ template <typename TypeT>
 struct is_unsigned : public detail::is_unsigned_impl<remove_cv_t<make_unsafe_t<TypeT>>>
 {};
 
+template <typename TypeT>
+struct is_not_unsigned : public bool_constant<!is_unsigned<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsigned_v = is_unsigned<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsigned_v = is_not_unsigned<TypeT>::value;
 
 #endif
 
