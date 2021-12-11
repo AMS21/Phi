@@ -71,12 +71,16 @@ namespace detail
     {
         using type = long long;
     };
+
+    template <typename TypeT>
+    using make_signed_impl_t = typename make_signed_impl<TypeT>::type;
 } // namespace detail
 
 template <typename TypeT>
 struct make_signed
 {
-    using type = copy_cv<TypeT, detail::make_signed_impl<remove_cv_t<TypeT>>>;
+    using type = typename copy_cv<
+            TypeT, typename detail::make_signed_impl<typename remove_cv<TypeT>::type>::type>::type;
 };
 
 template <typename TypeT>
