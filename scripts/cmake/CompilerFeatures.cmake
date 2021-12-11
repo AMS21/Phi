@@ -353,6 +353,14 @@ phi_check_cxx_source_compiles("__attribute__ ((noreturn)) void fatal (); int mai
 phi_check_cxx_source_compiles("__declspec(noreturn) void f(); int main() {}"
                               PHI_HAS_EXTENSION_DECLSPEC_NORETURN)
 phi_check_cxx_source_compiles("int main() { return __COUNTER__; }" PHI_HAS_EXTENSION_COUNTER)
+phi_check_cxx_source_compiles("int main() { __int8 i; }" PHI_HAS_EXTENSION_INT8)
+phi_check_cxx_source_compiles("int main() { __int16 i; }" PHI_HAS_EXTENSION_INT16)
+phi_check_cxx_source_compiles("int main() { __int32 i; }" PHI_HAS_EXTENSION_INT32)
+phi_check_cxx_source_compiles("int main() { __int64 i; }" PHI_HAS_EXTENSION_INT64)
+phi_check_cxx_source_compiles("int main() { __int128 i; }" PHI_HAS_EXTENSION_INT128)
+phi_check_cxx_source_compiles("int main() { _Float16 f; }" PHI_HAS_EXTENSION_FLOAT16)
+phi_check_cxx_source_compiles("int main() { __float128 f; }" PHI_HAS_EXTENSION_FLOAT128)
+phi_check_cxx_source_compiles("int main() { __fp16 f; }" PHI_HAS_EXTENSION_FP16)
 
 # Bugs
 phi_check_cxx_source_compiles(
