@@ -222,6 +222,12 @@ if(PHI_COMPILER_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.4")
   list(FILTER _DisableWarningAvailible EXCLUDE REGEX "-wd[0-9]+")
 endif()
 
+# Emscriptens warning suppression for some reason doesn't work correctly so we disable all
+if(PHI_PLATFORM_EMSCRIPTEN)
+  set(_WarningsAvailible "-Wundef")
+  set(_DisableWarningAvailible "${_DisableWarningAvailible};-Wno-assume")
+endif()
+
 # from here:
 #
 # https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
