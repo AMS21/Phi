@@ -11,35 +11,51 @@
 #include <vector>
 
 template <typename T>
-void test_is_trivial()
+void test_is_trivial_impl()
 {
     STATIC_REQUIRE(phi::is_trivial<T>::value);
-    STATIC_REQUIRE(phi::is_trivial<const T>::value);
-    STATIC_REQUIRE(phi::is_trivial<volatile T>::value);
-    STATIC_REQUIRE(phi::is_trivial<const volatile T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivial<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivial_v<T>);
-    STATIC_REQUIRE(phi::is_trivial_v<const T>);
-    STATIC_REQUIRE(phi::is_trivial_v<volatile T>);
-    STATIC_REQUIRE(phi::is_trivial_v<const volatile T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivial_v<T>);
 #endif
+
+    // Standard compatibility
+    STATIC_REQUIRE(std::is_trivial<T>::value);
+}
+
+template <typename T>
+void test_is_not_trivial_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_trivial<T>::value);
+    STATIC_REQUIRE(phi::is_not_trivial<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_trivial_v<T>);
+    STATIC_REQUIRE(phi::is_not_trivial_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_trivial<T>::value);
+}
+
+template <typename T>
+void test_is_trivial()
+{
+    test_is_trivial_impl<T>();
+    test_is_trivial_impl<const T>();
+    test_is_trivial_impl<volatile T>();
+    test_is_trivial_impl<const volatile T>();
 }
 
 template <typename T>
 void test_is_not_trivial()
 {
-    STATIC_REQUIRE_FALSE(phi::is_trivial<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_trivial<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_trivial<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_trivial<const volatile T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_trivial_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_trivial_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_trivial_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_trivial_v<const volatile T>);
-#endif
+    test_is_not_trivial_impl<T>();
+    test_is_not_trivial_impl<const T>();
+    test_is_not_trivial_impl<volatile T>();
+    test_is_not_trivial_impl<const volatile T>();
 }
 
 struct A
@@ -113,53 +129,424 @@ TEST_CASE("is_trivial")
     test_is_trivial<const int**>();
     test_is_trivial<volatile int**>();
     test_is_trivial<const volatile int**>();
+    test_is_not_trivial<int*&>();
+    test_is_not_trivial<const int*&>();
+    test_is_not_trivial<volatile int*&>();
+    test_is_not_trivial<const volatile int*&>();
+    test_is_not_trivial<int*&&>();
+    test_is_not_trivial<const int*&&>();
+    test_is_not_trivial<volatile int*&&>();
+    test_is_not_trivial<const volatile int*&&>();
     test_is_trivial<void*>();
     test_is_trivial<char[3]>();
     test_is_trivial<char[]>();
     test_is_trivial<char* [3]>();
     test_is_trivial<char*[]>();
+    test_is_trivial<int(*)[3]>();
+    test_is_trivial<int(*)[]>();
+    test_is_not_trivial<int(&)[3]>();
+    test_is_not_trivial<int(&)[]>();
+    test_is_not_trivial<int(&&)[3]>();
+    test_is_not_trivial<int(&&)[]>();
+    test_is_trivial<char[3][2]>();
+    test_is_trivial<char[][2]>();
+    test_is_trivial<char* [3][2]>();
+    test_is_trivial<char*[][2]>();
+    test_is_trivial<int(*)[3][2]>();
+    test_is_trivial<int(*)[][2]>();
+    test_is_not_trivial<int(&)[3][2]>();
+    test_is_not_trivial<int(&)[][2]>();
+    test_is_not_trivial<int(&&)[3][2]>();
+    test_is_not_trivial<int(&&)[][2]>();
     test_is_not_trivial<Class>();
+    test_is_not_trivial<Class[]>();
+    test_is_not_trivial<Class[2]>();
+    test_is_trivial<Template<void>>();
+    test_is_trivial<Template<int>>();
+    test_is_trivial<Template<Class>>();
+    test_is_trivial<Template<incomplete_type>>();
+    test_is_trivial<VariadicTemplate<>>();
+    test_is_trivial<VariadicTemplate<void>>();
+    test_is_trivial<VariadicTemplate<int>>();
+    test_is_trivial<VariadicTemplate<Class>>();
+    test_is_trivial<VariadicTemplate<incomplete_type>>();
+    test_is_trivial<VariadicTemplate<int, void, Class, volatile char[]>>();
+    test_is_trivial<PublicDerviedFromTemplate<Base>>();
+    test_is_trivial<PublicDerviedFromTemplate<Derived>>();
+    test_is_not_trivial<PublicDerviedFromTemplate<Class>>();
+    test_is_trivial<PrivateDerviedFromTemplate<Base>>();
+    test_is_trivial<PrivateDerviedFromTemplate<Derived>>();
+    test_is_not_trivial<PrivateDerviedFromTemplate<Class>>();
+    test_is_trivial<ProtectedDerviedFromTemplate<Base>>();
+    test_is_trivial<ProtectedDerviedFromTemplate<Derived>>();
+    test_is_not_trivial<ProtectedDerviedFromTemplate<Class>>();
     test_is_trivial<Union>();
     test_is_trivial<NonEmptyUnion>();
     test_is_trivial<Empty>();
     test_is_not_trivial<NotEmpty>();
     test_is_trivial<bit_zero>();
     test_is_trivial<bit_one>();
+    test_is_trivial<Base>();
+    test_is_trivial<Derived>();
     test_is_not_trivial<Abstract>();
+    test_is_not_trivial<PublicAbstract>();
+    test_is_not_trivial<PrivateAbstract>();
+    test_is_not_trivial<ProtectedAbstract>();
     test_is_not_trivial<AbstractTemplate<int>>();
     test_is_trivial<AbstractTemplate<double>>();
     test_is_not_trivial<AbstractTemplate<Class>>();
+    test_is_not_trivial<AbstractTemplate<incomplete_type>>();
     test_is_trivial<Final>();
+    test_is_trivial<PublicDestructor>();
+    test_is_trivial<ProtectedDestructor>();
+    test_is_trivial<PrivateDestructor>();
+    test_is_not_trivial<VirtualPublicDestructor>();
+    test_is_not_trivial<VirtualProtectedDestructor>();
+    test_is_not_trivial<VirtualPrivateDestructor>();
+    test_is_not_trivial<PurePublicDestructor>();
+    test_is_not_trivial<PureProtectedDestructor>();
+    test_is_not_trivial<PurePrivateDestructor>();
+    test_is_trivial<DeletedPublicDestructor>();
+    test_is_trivial<DeletedProtectedDestructor>();
+    test_is_trivial<DeletedPrivateDestructor>();
+    test_is_not_trivial<DeletedVirtualPublicDestructor>();
+    test_is_not_trivial<DeletedVirtualProtectedDestructor>();
+    test_is_not_trivial<DeletedVirtualPrivateDestructor>();
     test_is_trivial<Enum>();
     test_is_trivial<EnumSigned>();
     test_is_trivial<EnumUnsigned>();
     test_is_trivial<EnumClass>();
+    test_is_trivial<EnumStruct>();
     test_is_not_trivial<Function>();
     test_is_trivial<FunctionPtr>();
     test_is_trivial<MemberObjectPtr>();
     test_is_trivial<MemberFunctionPtr>();
     test_is_trivial<int Class::*>();
     test_is_trivial<float Class::*>();
+    test_is_trivial<void * Class::*>();
+    test_is_trivial<int * Class::*>();
+    test_is_not_trivial<int Class::*&>();
+    test_is_not_trivial<float Class::*&>();
+    test_is_not_trivial<void * Class::*&>();
+    test_is_not_trivial<int * Class::*&>();
+    test_is_not_trivial<int Class::*&&>();
+    test_is_not_trivial<float Class::*&&>();
+    test_is_not_trivial<void * Class::*&&>();
+    test_is_not_trivial<int * Class::*&&>();
+    test_is_trivial<int Class::*const>();
+    test_is_trivial<float Class::*const>();
+    test_is_trivial<void * Class::*const>();
+    test_is_not_trivial<int Class::*const&>();
+    test_is_not_trivial<float Class::*const&>();
+    test_is_not_trivial<void * Class::*const&>();
+    test_is_not_trivial<int Class::*const&&>();
+    test_is_not_trivial<float Class::*const&&>();
+    test_is_not_trivial<void * Class::*const&&>();
+    test_is_trivial<int Class::*volatile>();
+    test_is_trivial<float Class::*volatile>();
+    test_is_trivial<void * Class::*volatile>();
+    test_is_not_trivial<int Class::*volatile&>();
+    test_is_not_trivial<float Class::*volatile&>();
+    test_is_not_trivial<void * Class::*volatile&>();
+    test_is_not_trivial<int Class::*volatile&&>();
+    test_is_not_trivial<float Class::*volatile&&>();
+    test_is_not_trivial<void * Class::*volatile&&>();
+    test_is_trivial<int Class::*const volatile>();
+    test_is_trivial<float Class::*const volatile>();
+    test_is_trivial<void * Class::*const volatile>();
+    test_is_not_trivial<int Class::*const volatile&>();
+    test_is_not_trivial<float Class::*const volatile&>();
+    test_is_not_trivial<void * Class::*const volatile&>();
+    test_is_not_trivial<int Class::*const volatile&&>();
+    test_is_not_trivial<float Class::*const volatile&&>();
+    test_is_not_trivial<void * Class::*const volatile&&>();
+    test_is_trivial<NonCopyable>();
+    test_is_trivial<NonMoveable>();
+    test_is_trivial<NonConstructible>();
+    test_is_not_trivial<Tracked>();
+#if PHI_COMPILER_IS(GCC) // TODO: Investigate by clang and GCC disagree here
+    test_is_trivial<TrapConstructible>();
+#else
+    test_is_not_trivial<TrapConstructible>();
+#endif
+    test_is_trivial<TrapImplicitConversion>();
+    test_is_trivial<TrapComma>();
+    test_is_trivial<TrapCall>();
+    test_is_not_trivial<TrapSelfAssign>();
+    test_is_trivial<TrapDeref>();
+    test_is_trivial<TrapArraySubscript>();
 
     test_is_not_trivial<void()>();
+    test_is_not_trivial<void()&>();
+    test_is_not_trivial<void() &&>();
+    test_is_not_trivial<void() const>();
+    test_is_not_trivial<void() const&>();
+    test_is_not_trivial<void() const&&>();
+    test_is_not_trivial<void() volatile>();
+    test_is_not_trivial<void() volatile&>();
+    test_is_not_trivial<void() volatile&&>();
+    test_is_not_trivial<void() const volatile>();
+    test_is_not_trivial<void() const volatile&>();
+    test_is_not_trivial<void() const volatile&&>();
     test_is_not_trivial<void() noexcept>();
+    test_is_not_trivial<void()& noexcept>();
+    test_is_not_trivial<void()&& noexcept>();
+    test_is_not_trivial<void() const noexcept>();
+    test_is_not_trivial<void() const& noexcept>();
+    test_is_not_trivial<void() const&& noexcept>();
+    test_is_not_trivial<void() volatile noexcept>();
+    test_is_not_trivial<void() volatile& noexcept>();
+    test_is_not_trivial<void() volatile&& noexcept>();
+    test_is_not_trivial<void() const volatile noexcept>();
+    test_is_not_trivial<void() const volatile& noexcept>();
+    test_is_not_trivial<void() const volatile&& noexcept>();
+
     test_is_not_trivial<void(int)>();
+    test_is_not_trivial<void(int)&>();
+    test_is_not_trivial<void(int) &&>();
+    test_is_not_trivial<void(int) const>();
+    test_is_not_trivial<void(int) const&>();
+    test_is_not_trivial<void(int) const&&>();
+    test_is_not_trivial<void(int) volatile>();
+    test_is_not_trivial<void(int) volatile&>();
+    test_is_not_trivial<void(int) volatile&&>();
+    test_is_not_trivial<void(int) const volatile>();
+    test_is_not_trivial<void(int) const volatile&>();
+    test_is_not_trivial<void(int) const volatile&&>();
     test_is_not_trivial<void(int) noexcept>();
+    test_is_not_trivial<void(int)& noexcept>();
+    test_is_not_trivial<void(int)&& noexcept>();
+    test_is_not_trivial<void(int) const noexcept>();
+    test_is_not_trivial<void(int) const& noexcept>();
+    test_is_not_trivial<void(int) const&& noexcept>();
+    test_is_not_trivial<void(int) volatile noexcept>();
+    test_is_not_trivial<void(int) volatile& noexcept>();
+    test_is_not_trivial<void(int) volatile&& noexcept>();
+    test_is_not_trivial<void(int) const volatile noexcept>();
+    test_is_not_trivial<void(int) const volatile& noexcept>();
+    test_is_not_trivial<void(int) const volatile&& noexcept>();
 
     test_is_not_trivial<void(...)>();
+    test_is_not_trivial<void(...)&>();
+    test_is_not_trivial<void(...) &&>();
+    test_is_not_trivial<void(...) const>();
+    test_is_not_trivial<void(...) const&>();
+    test_is_not_trivial<void(...) const&&>();
+    test_is_not_trivial<void(...) volatile>();
+    test_is_not_trivial<void(...) volatile&>();
+    test_is_not_trivial<void(...) volatile&&>();
+    test_is_not_trivial<void(...) const volatile>();
+    test_is_not_trivial<void(...) const volatile&>();
+    test_is_not_trivial<void(...) const volatile&&>();
     test_is_not_trivial<void(...) noexcept>();
+    test_is_not_trivial<void(...)& noexcept>();
+    test_is_not_trivial<void(...)&& noexcept>();
+    test_is_not_trivial<void(...) const noexcept>();
+    test_is_not_trivial<void(...) const& noexcept>();
+    test_is_not_trivial<void(...) const&& noexcept>();
+    test_is_not_trivial<void(...) volatile noexcept>();
+    test_is_not_trivial<void(...) volatile& noexcept>();
+    test_is_not_trivial<void(...) volatile&& noexcept>();
+    test_is_not_trivial<void(...) const volatile noexcept>();
+    test_is_not_trivial<void(...) const volatile& noexcept>();
+    test_is_not_trivial<void(...) const volatile&& noexcept>();
+
     test_is_not_trivial<void(int, ...)>();
+    test_is_not_trivial<void(int, ...)&>();
+    test_is_not_trivial<void(int, ...) &&>();
+    test_is_not_trivial<void(int, ...) const>();
+    test_is_not_trivial<void(int, ...) const&>();
+    test_is_not_trivial<void(int, ...) const&&>();
+    test_is_not_trivial<void(int, ...) volatile>();
+    test_is_not_trivial<void(int, ...) volatile&>();
+    test_is_not_trivial<void(int, ...) volatile&&>();
+    test_is_not_trivial<void(int, ...) const volatile>();
+    test_is_not_trivial<void(int, ...) const volatile&>();
+    test_is_not_trivial<void(int, ...) const volatile&&>();
     test_is_not_trivial<void(int, ...) noexcept>();
+    test_is_not_trivial<void(int, ...)& noexcept>();
+    test_is_not_trivial<void(int, ...)&& noexcept>();
+    test_is_not_trivial<void(int, ...) const noexcept>();
+    test_is_not_trivial<void(int, ...) const& noexcept>();
+    test_is_not_trivial<void(int, ...) const&& noexcept>();
+    test_is_not_trivial<void(int, ...) volatile noexcept>();
+    test_is_not_trivial<void(int, ...) volatile& noexcept>();
+    test_is_not_trivial<void(int, ...) volatile&& noexcept>();
+    test_is_not_trivial<void(int, ...) const volatile noexcept>();
+    test_is_not_trivial<void(int, ...) const volatile& noexcept>();
+    test_is_not_trivial<void(int, ...) const volatile&& noexcept>();
+
+    test_is_not_trivial<int()>();
+    test_is_not_trivial<int()&>();
+    test_is_not_trivial<int() &&>();
+    test_is_not_trivial<int() const>();
+    test_is_not_trivial<int() const&>();
+    test_is_not_trivial<int() const&&>();
+    test_is_not_trivial<int() volatile>();
+    test_is_not_trivial<int() volatile&>();
+    test_is_not_trivial<int() volatile&&>();
+    test_is_not_trivial<int() const volatile>();
+    test_is_not_trivial<int() const volatile&>();
+    test_is_not_trivial<int() const volatile&&>();
+    test_is_not_trivial<int() noexcept>();
+    test_is_not_trivial<int()& noexcept>();
+    test_is_not_trivial<int()&& noexcept>();
+    test_is_not_trivial<int() const noexcept>();
+    test_is_not_trivial<int() const& noexcept>();
+    test_is_not_trivial<int() const&& noexcept>();
+    test_is_not_trivial<int() volatile noexcept>();
+    test_is_not_trivial<int() volatile& noexcept>();
+    test_is_not_trivial<int() volatile&& noexcept>();
+    test_is_not_trivial<int() const volatile noexcept>();
+    test_is_not_trivial<int() const volatile& noexcept>();
+    test_is_not_trivial<int() const volatile&& noexcept>();
+
+    test_is_not_trivial<int(int)>();
+    test_is_not_trivial<int(int)&>();
+    test_is_not_trivial<int(int) &&>();
+    test_is_not_trivial<int(int) const>();
+    test_is_not_trivial<int(int) const&>();
+    test_is_not_trivial<int(int) const&&>();
+    test_is_not_trivial<int(int) volatile>();
+    test_is_not_trivial<int(int) volatile&>();
+    test_is_not_trivial<int(int) volatile&&>();
+    test_is_not_trivial<int(int) const volatile>();
+    test_is_not_trivial<int(int) const volatile&>();
+    test_is_not_trivial<int(int) const volatile&&>();
+    test_is_not_trivial<int(int) noexcept>();
+    test_is_not_trivial<int(int)& noexcept>();
+    test_is_not_trivial<int(int)&& noexcept>();
+    test_is_not_trivial<int(int) const noexcept>();
+    test_is_not_trivial<int(int) const& noexcept>();
+    test_is_not_trivial<int(int) const&& noexcept>();
+    test_is_not_trivial<int(int) volatile noexcept>();
+    test_is_not_trivial<int(int) volatile& noexcept>();
+    test_is_not_trivial<int(int) volatile&& noexcept>();
+    test_is_not_trivial<int(int) const volatile noexcept>();
+    test_is_not_trivial<int(int) const volatile& noexcept>();
+    test_is_not_trivial<int(int) const volatile&& noexcept>();
+
+    test_is_not_trivial<int(...)>();
+    test_is_not_trivial<int(...)&>();
+    test_is_not_trivial<int(...) &&>();
+    test_is_not_trivial<int(...) const>();
+    test_is_not_trivial<int(...) const&>();
+    test_is_not_trivial<int(...) const&&>();
+    test_is_not_trivial<int(...) volatile>();
+    test_is_not_trivial<int(...) volatile&>();
+    test_is_not_trivial<int(...) volatile&&>();
+    test_is_not_trivial<int(...) const volatile>();
+    test_is_not_trivial<int(...) const volatile&>();
+    test_is_not_trivial<int(...) const volatile&&>();
+    test_is_not_trivial<int(...) noexcept>();
+    test_is_not_trivial<int(...)& noexcept>();
+    test_is_not_trivial<int(...)&& noexcept>();
+    test_is_not_trivial<int(...) const noexcept>();
+    test_is_not_trivial<int(...) const& noexcept>();
+    test_is_not_trivial<int(...) const&& noexcept>();
+    test_is_not_trivial<int(...) volatile noexcept>();
+    test_is_not_trivial<int(...) volatile& noexcept>();
+    test_is_not_trivial<int(...) volatile&& noexcept>();
+    test_is_not_trivial<int(...) const volatile noexcept>();
+    test_is_not_trivial<int(...) const volatile& noexcept>();
+    test_is_not_trivial<int(...) const volatile&& noexcept>();
+
+    test_is_not_trivial<int(int, ...)>();
+    test_is_not_trivial<int(int, ...)&>();
+    test_is_not_trivial<int(int, ...) &&>();
+    test_is_not_trivial<int(int, ...) const>();
+    test_is_not_trivial<int(int, ...) const&>();
+    test_is_not_trivial<int(int, ...) const&&>();
+    test_is_not_trivial<int(int, ...) volatile>();
+    test_is_not_trivial<int(int, ...) volatile&>();
+    test_is_not_trivial<int(int, ...) volatile&&>();
+    test_is_not_trivial<int(int, ...) const volatile>();
+    test_is_not_trivial<int(int, ...) const volatile&>();
+    test_is_not_trivial<int(int, ...) const volatile&&>();
+    test_is_not_trivial<int(int, ...) noexcept>();
+    test_is_not_trivial<int(int, ...)& noexcept>();
+    test_is_not_trivial<int(int, ...)&& noexcept>();
+    test_is_not_trivial<int(int, ...) const noexcept>();
+    test_is_not_trivial<int(int, ...) const& noexcept>();
+    test_is_not_trivial<int(int, ...) const&& noexcept>();
+    test_is_not_trivial<int(int, ...) volatile noexcept>();
+    test_is_not_trivial<int(int, ...) volatile& noexcept>();
+    test_is_not_trivial<int(int, ...) volatile&& noexcept>();
+    test_is_not_trivial<int(int, ...) const volatile noexcept>();
+    test_is_not_trivial<int(int, ...) const volatile& noexcept>();
+    test_is_not_trivial<int(int, ...) const volatile&& noexcept>();
 
     test_is_trivial<void (*)()>();
     test_is_trivial<void (*)() noexcept>();
+
     test_is_trivial<void (*)(int)>();
     test_is_trivial<void (*)(int) noexcept>();
 
     test_is_trivial<void (*)(...)>();
     test_is_trivial<void (*)(...) noexcept>();
+
     test_is_trivial<void (*)(int, ...)>();
     test_is_trivial<void (*)(int, ...) noexcept>();
+
+    test_is_trivial<int (*)()>();
+    test_is_trivial<int (*)() noexcept>();
+
+    test_is_trivial<int (*)(int)>();
+    test_is_trivial<int (*)(int) noexcept>();
+
+    test_is_trivial<int (*)(...)>();
+    test_is_trivial<int (*)(...) noexcept>();
+
+    test_is_trivial<int (*)(int, ...)>();
+    test_is_trivial<int (*)(int, ...) noexcept>();
+
+    test_is_not_trivial<void (&)()>();
+    test_is_not_trivial<void (&)() noexcept>();
+
+    test_is_not_trivial<void (&)(int)>();
+    test_is_not_trivial<void (&)(int) noexcept>();
+
+    test_is_not_trivial<void (&)(...)>();
+    test_is_not_trivial<void (&)(...) noexcept>();
+
+    test_is_not_trivial<void (&)(int, ...)>();
+    test_is_not_trivial<void (&)(int, ...) noexcept>();
+
+    test_is_not_trivial<int (&)()>();
+    test_is_not_trivial<int (&)() noexcept>();
+
+    test_is_not_trivial<int (&)(int)>();
+    test_is_not_trivial<int (&)(int) noexcept>();
+
+    test_is_not_trivial<int (&)(...)>();
+    test_is_not_trivial<int (&)(...) noexcept>();
+
+    test_is_not_trivial<int (&)(int, ...)>();
+    test_is_not_trivial<int (&)(int, ...) noexcept>();
+
+    test_is_not_trivial<void(&&)()>();
+    test_is_not_trivial<void(&&)() noexcept>();
+
+    test_is_not_trivial<void(&&)(int)>();
+    test_is_not_trivial<void(&&)(int) noexcept>();
+
+    test_is_not_trivial<void(&&)(...)>();
+    test_is_not_trivial<void(&&)(...) noexcept>();
+
+    test_is_not_trivial<void(&&)(int, ...)>();
+    test_is_not_trivial<void(&&)(int, ...) noexcept>();
+
+    test_is_not_trivial<int(&&)()>();
+    test_is_not_trivial<int(&&)() noexcept>();
+
+    test_is_not_trivial<int(&&)(int)>();
+    test_is_not_trivial<int(&&)(int) noexcept>();
+
+    test_is_not_trivial<int(&&)(...)>();
+    test_is_not_trivial<int(&&)(...) noexcept>();
+
+    test_is_not_trivial<int(&&)(int, ...)>();
+    test_is_not_trivial<int(&&)(int, ...) noexcept>();
 
     test_is_trivial<void (Class::*)()>();
     test_is_trivial<void (Class::*)()&>();
@@ -167,7 +554,6 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (Class::*)() const>();
     test_is_trivial<void (Class::*)() const&>();
     test_is_trivial<void (Class::*)() const&&>();
-
     test_is_trivial<void (Class::*)() noexcept>();
     test_is_trivial<void (Class::*)()& noexcept>();
     test_is_trivial<void (Class::*)()&& noexcept>();
@@ -181,7 +567,6 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (Class::*)(int) const>();
     test_is_trivial<void (Class::*)(int) const&>();
     test_is_trivial<void (Class::*)(int) const&&>();
-
     test_is_trivial<void (Class::*)(int) noexcept>();
     test_is_trivial<void (Class::*)(int)& noexcept>();
     test_is_trivial<void (Class::*)(int)&& noexcept>();
@@ -195,11 +580,75 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (Class::*)(...) const>();
     test_is_trivial<void (Class::*)(...) const&>();
     test_is_trivial<void (Class::*)(...) const&&>();
-
     test_is_trivial<void (Class::*)(...) noexcept>();
     test_is_trivial<void (Class::*)(...)& noexcept>();
     test_is_trivial<void (Class::*)(...)&& noexcept>();
     test_is_trivial<void (Class::*)(...) const noexcept>();
     test_is_trivial<void (Class::*)(...) const& noexcept>();
     test_is_trivial<void (Class::*)(...) const&& noexcept>();
+
+    test_is_trivial<void (Class::*)(int, ...)>();
+    test_is_trivial<void (Class::*)(int, ...)&>();
+    test_is_trivial<void (Class::*)(int, ...) &&>();
+    test_is_trivial<void (Class::*)(int, ...) const>();
+    test_is_trivial<void (Class::*)(int, ...) const&>();
+    test_is_trivial<void (Class::*)(int, ...) const&&>();
+    test_is_trivial<void (Class::*)(int, ...) noexcept>();
+    test_is_trivial<void (Class::*)(int, ...)& noexcept>();
+    test_is_trivial<void (Class::*)(int, ...)&& noexcept>();
+    test_is_trivial<void (Class::*)(int, ...) const noexcept>();
+    test_is_trivial<void (Class::*)(int, ...) const& noexcept>();
+    test_is_trivial<void (Class::*)(int, ...) const&& noexcept>();
+
+    test_is_trivial<int (Class::*)()>();
+    test_is_trivial<int (Class::*)()&>();
+    test_is_trivial<int (Class::*)() &&>();
+    test_is_trivial<int (Class::*)() const>();
+    test_is_trivial<int (Class::*)() const&>();
+    test_is_trivial<int (Class::*)() const&&>();
+    test_is_trivial<int (Class::*)() noexcept>();
+    test_is_trivial<int (Class::*)()& noexcept>();
+    test_is_trivial<int (Class::*)()&& noexcept>();
+    test_is_trivial<int (Class::*)() const noexcept>();
+    test_is_trivial<int (Class::*)() const& noexcept>();
+    test_is_trivial<int (Class::*)() const&& noexcept>();
+
+    test_is_trivial<int (Class::*)(int)>();
+    test_is_trivial<int (Class::*)(int)&>();
+    test_is_trivial<int (Class::*)(int) &&>();
+    test_is_trivial<int (Class::*)(int) const>();
+    test_is_trivial<int (Class::*)(int) const&>();
+    test_is_trivial<int (Class::*)(int) const&&>();
+    test_is_trivial<int (Class::*)(int) noexcept>();
+    test_is_trivial<int (Class::*)(int)& noexcept>();
+    test_is_trivial<int (Class::*)(int)&& noexcept>();
+    test_is_trivial<int (Class::*)(int) const noexcept>();
+    test_is_trivial<int (Class::*)(int) const& noexcept>();
+    test_is_trivial<int (Class::*)(int) const&& noexcept>();
+
+    test_is_trivial<int (Class::*)(...)>();
+    test_is_trivial<int (Class::*)(...)&>();
+    test_is_trivial<int (Class::*)(...) &&>();
+    test_is_trivial<int (Class::*)(...) const>();
+    test_is_trivial<int (Class::*)(...) const&>();
+    test_is_trivial<int (Class::*)(...) const&&>();
+    test_is_trivial<int (Class::*)(...) noexcept>();
+    test_is_trivial<int (Class::*)(...)& noexcept>();
+    test_is_trivial<int (Class::*)(...)&& noexcept>();
+    test_is_trivial<int (Class::*)(...) const noexcept>();
+    test_is_trivial<int (Class::*)(...) const& noexcept>();
+    test_is_trivial<int (Class::*)(...) const&& noexcept>();
+
+    test_is_trivial<int (Class::*)(int, ...)>();
+    test_is_trivial<int (Class::*)(int, ...)&>();
+    test_is_trivial<int (Class::*)(int, ...) &&>();
+    test_is_trivial<int (Class::*)(int, ...) const>();
+    test_is_trivial<int (Class::*)(int, ...) const&>();
+    test_is_trivial<int (Class::*)(int, ...) const&&>();
+    test_is_trivial<int (Class::*)(int, ...) noexcept>();
+    test_is_trivial<int (Class::*)(int, ...)& noexcept>();
+    test_is_trivial<int (Class::*)(int, ...)&& noexcept>();
+    test_is_trivial<int (Class::*)(int, ...) const noexcept>();
+    test_is_trivial<int (Class::*)(int, ...) const& noexcept>();
+    test_is_trivial<int (Class::*)(int, ...) const&& noexcept>();
 }
