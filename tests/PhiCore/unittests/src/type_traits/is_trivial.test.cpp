@@ -313,8 +313,8 @@ TEST_CASE("is_trivial")
     test_is_trivial<NonConstructible>();
 #endif
     test_is_not_trivial<Tracked>();
-#if PHI_COMPILER_IS(GCC) ||                                                                        \
-        PHI_COMPILER_IS(MSVC) // TODO: Investigate by clang, GCC and MSVC disagree here
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    // TODO: Investigate by clang, GCC and MSVC disagree here so much
     test_is_trivial<TrapConstructible>();
 #else
     test_is_not_trivial<TrapConstructible>();
