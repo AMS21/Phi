@@ -46,7 +46,7 @@ TEST_CASE("is_nan")
     test_is_nan(INFINITY * 0.0f);
     test_is_nan(std::numeric_limits<float>::infinity() * 0.0f);
 #if PHI_PLATFORM_IS(WINDOWS)
-    test_is_nan(phi::is_nan(NAN));
+    test_is_nan(NAN);
 #else
     STATIC_REQUIRE(phi::is_nan(NAN));
 #endif
