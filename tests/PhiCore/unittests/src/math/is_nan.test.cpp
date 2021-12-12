@@ -4,7 +4,6 @@
 #include <phi/compiler_support/platform.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/math/is_nan.hpp>
-#include <phi/type_traits/to_safe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
 #include <cfloat>
 #include <cmath>
