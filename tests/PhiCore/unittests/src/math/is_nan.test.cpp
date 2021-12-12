@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/features.hpp>
+#include <phi/compiler_support/platform.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/math/is_nan.hpp>
 #include <phi/type_traits/to_safe.hpp>
@@ -44,7 +45,11 @@ TEST_CASE("is_nan")
     test_is_nan(INFINITY - INFINITY);
     test_is_nan(INFINITY * 0.0f);
     test_is_nan(std::numeric_limits<float>::infinity() * 0.0f);
+#if PHI_PLATFORM_IS(WINDOWS)
+    test_is_nan(phi::is_nan(NAN));
+#else
     STATIC_REQUIRE(phi::is_nan(NAN));
+#endif
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<float>::quiet_NaN()));
     STATIC_REQUIRE(phi::is_nan(std::numeric_limits<float>::signaling_NaN()));
 
