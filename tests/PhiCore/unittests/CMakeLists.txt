@@ -44,6 +44,7 @@ file(
   "src/core/not_null.test.cpp"
   "src/core/observer_ptr.test.cpp"
   "src/core/optional.test.cpp"
+  "src/core/ptrdiff_t.test.cpp"
   "src/core/scope_guard.test.cpp"
   "src/core/scope_ptr.test.cpp"
   "src/core/scoped_value_guard.test.cpp"

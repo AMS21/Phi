@@ -38,13 +38,13 @@ SOFTWARE.
 #include "phi/core/boolean.hpp"
 #include "phi/core/floating_point.hpp"
 #include "phi/core/integer.hpp"
+#include "phi/core/ptrdiff_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/sized_types.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/is_unsigned.hpp"
 #include "phi/type_traits/make_signed.hpp"
-#include <cstdint>
 #include <limits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -80,7 +80,7 @@ using u64_least = integer<uint_least64_t>;
 using isize = integer<make_signed<size_t>::type>;
 using usize = integer<size_t>;
 
-using ptrdiff = integer<std::ptrdiff_t>;
+using ptrdiff = integer<ptrdiff_t>;
 
 // Floating point
 using f32 = floating_point<float32>;

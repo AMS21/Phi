@@ -159,6 +159,7 @@ file(
   "include/phi/core/nullptr_t.hpp"
   "include/phi/core/observer_ptr.hpp"
   "include/phi/core/optional.hpp"
+  "include/phi/core/ptrdiff_t.hpp"
   "include/phi/core/scope_guard.hpp"
   "include/phi/core/scope_ptr.hpp"
   "include/phi/core/scoped_value_guard.hpp"
