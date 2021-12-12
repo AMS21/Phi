@@ -1,8 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/core/ptrdiff_t.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsafe_integral.hpp>
-#include <phi/core/ptrdiff_t.hpp>
 #include <cstddef>
 
 TEST_CASE("ptrdiff_t")
