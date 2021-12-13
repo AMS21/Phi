@@ -247,6 +247,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_least64_t) >= 64);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_least64_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_least64_t>::value);
+#if PHI_PLATFORM_IS_NOT(APPLE)
         CHECK_SAME_TYPE(phi::uint_least64_t, std::uint_least64_t);
+#endif
     }
 }
