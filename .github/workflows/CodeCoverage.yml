@@ -15,6 +15,7 @@ jobs:
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 
@@ -125,6 +126,7 @@ jobs:
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 
@@ -220,6 +222,7 @@ jobs:
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 
