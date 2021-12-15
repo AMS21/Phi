@@ -115,10 +115,10 @@ jobs:
           fail_ci_if_error: true
 
   macos:
-    runs-on: macos-latest
+    runs-on: macos-11
     env:
-      GCC_VERSION: "10"
-      XCODE_VERSION: "12.4"
+      GCC_VERSION: "11"
+      XCODE_VERSION: "13.2"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
       CTEST_PARALLEL_LEVEL: "2"
