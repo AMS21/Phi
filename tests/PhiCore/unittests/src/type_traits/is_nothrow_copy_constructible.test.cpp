@@ -68,7 +68,11 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<wchar_t>();
 
     test_is_nothrow_copy_constructible<int&>();
+#if PHI_PLATFORM_IS(WINDOWS) && PHI_COMPILER_IS(CLANG)
+    test_is_nothrow_copy_constructible<int&&>();
+#else
     test_is_not_nothrow_copy_constructible<int&&>();
+#endif
     test_is_nothrow_copy_constructible<int*>();
     test_is_nothrow_copy_constructible<const int*>();
     test_is_nothrow_copy_constructible<volatile int*>();
@@ -81,7 +85,11 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<NotEmpty>();
     test_is_nothrow_copy_constructible<bit_zero>();
     test_is_nothrow_copy_constructible<bit_one>();
+#if PHI_PLATFORM_IS(WINDOWS) && PHI_COMPILER_IS(CLANG)
+    test_is_nothrow_copy_constructible<Abstract>();
+#else
     test_is_not_nothrow_copy_constructible<Abstract>();
+#endif
 #if PHI_COMPILER_IS_ATLEAST(GCC, 11, 0, 0) || PHI_COMPILER_IS_NOT(GCC)
     test_is_not_nothrow_copy_constructible<AbstractTemplate<int>>();
     test_is_nothrow_copy_constructible<AbstractTemplate<double>>();

@@ -290,8 +290,12 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int Class::*const volatile&&>();
     test_is_not_aggregate<float Class::*const volatile&&>();
     test_is_not_aggregate<void * Class::*const volatile&&>();
-#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) || PHI_COMPILER_IS(APPLECLANG)
+#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
     test_is_aggregate<NonCopyable>();
+    test_is_aggregate<NonMoveable>();
+    test_is_aggregate<NonConstructible>();
+#elif PHI_COMPILER_IS(APPLECLANG)
+    test_is_not_aggregate<NonCopyable>();
     test_is_aggregate<NonMoveable>();
     test_is_aggregate<NonConstructible>();
 #else
