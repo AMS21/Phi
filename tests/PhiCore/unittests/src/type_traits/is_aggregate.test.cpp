@@ -294,10 +294,6 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<NonCopyable>();
     test_is_aggregate<NonMoveable>();
     test_is_aggregate<NonConstructible>();
-#elif PHI_COMPILER_IS(APPLECLANG)
-    test_is_not_aggregate<NonCopyable>();
-    test_is_aggregate<NonMoveable>();
-    test_is_aggregate<NonConstructible>();
 #else
     test_is_not_aggregate<NonCopyable>();
     test_is_not_aggregate<NonMoveable>();
