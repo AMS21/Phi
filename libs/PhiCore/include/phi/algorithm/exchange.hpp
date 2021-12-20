@@ -10,11 +10,14 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
+#include "phi/type_traits/is_nothrow_assignable.hpp"
+#include "phi/type_traits/is_nothrow_move_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename OtherT = TypeT>
-PHI_EXTENDED_CONSTEXPR inline TypeT exchange(TypeT& obj, OtherT&& new_value) // TODO: Noexcept?
+PHI_EXTENDED_CONSTEXPR inline TypeT exchange(TypeT& obj, OtherT&& new_value) noexcept(
+        is_nothrow_move_constructible<TypeT>::value&& is_nothrow_assignable<TypeT, OtherT>::value)
 {
     TypeT old_value = phi::move(obj);
     obj             = phi::forward<OtherT>(new_value);
