@@ -114,6 +114,7 @@ file(
   "src/type_traits/is_copy_assignable.test.cpp"
   "src/type_traits/is_copy_constructible.test.cpp"
   "src/type_traits/is_default_constructible.test.cpp"
+  "src/type_traits/is_derived_from.test.cpp"
   "src/type_traits/is_destructible.test.cpp"
   "src/type_traits/is_empty.test.cpp"
   "src/type_traits/is_enum.test.cpp"

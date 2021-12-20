@@ -246,6 +246,7 @@ file(
   "include/phi/type_traits/is_copy_assignable.hpp"
   "include/phi/type_traits/is_copy_constructible.hpp"
   "include/phi/type_traits/is_default_constructible.hpp"
+  "include/phi/type_traits/is_derived_from.hpp"
   "include/phi/type_traits/is_destructible.hpp"
   "include/phi/type_traits/is_empty.hpp"
   "include/phi/type_traits/is_enum.hpp"
