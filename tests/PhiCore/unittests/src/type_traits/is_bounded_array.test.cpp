@@ -24,7 +24,8 @@ void test_is_bounded_array_impl()
 #endif
 
 // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE(std::is_bounded_array<T>::value);
 #endif
 }
@@ -50,7 +51,8 @@ void test_is_not_bounded_array_impl()
 #endif
 
 // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE_FALSE(std::is_bounded_array<T>::value);
 #endif
 }

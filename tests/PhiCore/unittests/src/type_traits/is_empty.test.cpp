@@ -83,7 +83,11 @@ TEST_CASE("is_empty")
     test_is_not_empty<VirtualBase>();
     test_is_not_empty<NotEmptyBase>();
     test_is_not_empty<NonStaticMember>();
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    test_is_empty<bit_one>();
+#else
     test_is_not_empty<bit_one>();
+#endif
     test_is_not_empty<NonEmptyUnion>();
     test_is_not_empty<Abstract>();
     test_is_not_empty<AbstractTemplate<int>>();
