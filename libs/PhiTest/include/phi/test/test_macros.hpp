@@ -78,6 +78,7 @@ extern int main();
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     static_assert(static_cast<bool>(__VA_ARGS__), "PHI_STATIC_REQUIRE: " #__VA_ARGS__ " was "      \
                                                   "false");                                        \
+    REQUIRE(__VA_ARGS__);                                                                          \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     PHI_END_MACRO()
 
@@ -86,6 +87,7 @@ extern int main();
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     static_assert(!static_cast<bool>(__VA_ARGS__),                                                 \
                   "PHI_STATIC_REQUIRE_FALSE: " #__VA_ARGS__ " was true");                          \
+    REQUIRE_FALSE(__VA_ARGS__);                                                                    \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     PHI_END_MACRO()
 
