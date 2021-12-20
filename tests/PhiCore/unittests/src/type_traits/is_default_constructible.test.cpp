@@ -22,6 +22,21 @@ void test_is_default_constructible_impl()
 }
 
 template <typename T>
+void test_is_not_default_constructible_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_not_default_constructible<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_not_default_constructible_v<T>);
+#endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_default_constructible<T>::value);
+}
+
+template <typename T>
 void test_is_default_constructible()
 {
     test_is_default_constructible_impl<T>();
@@ -33,17 +48,10 @@ void test_is_default_constructible()
 template <typename T>
 void test_is_not_default_constructible()
 {
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<const volatile T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<const volatile T>);
-#endif
+    test_is_not_default_constructible_impl<T>();
+    test_is_not_default_constructible_impl<const T>();
+    test_is_not_default_constructible_impl<volatile T>();
+    test_is_not_default_constructible_impl<const volatile T>();
 }
 
 class NoDefaultConstructor
@@ -64,8 +72,11 @@ class B
 
 TEST_CASE("is_default_constructible")
 {
-    test_is_default_constructible<phi::nullptr_t>();
     test_is_default_constructible<A>();
+    test_is_not_default_constructible<B>();
+    test_is_not_default_constructible<NoDefaultConstructor>();
+
+    test_is_default_constructible<phi::nullptr_t>();
     test_is_default_constructible<Union>();
     test_is_default_constructible<Empty>();
     test_is_default_constructible<int>();
@@ -97,8 +108,6 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<int&&>();
 
     test_is_not_default_constructible<Abstract>();
-    test_is_not_default_constructible<NoDefaultConstructor>();
-    test_is_not_default_constructible<B>();
 
     test_is_not_default_constructible<void()>();
     test_is_not_default_constructible<void() const>();
