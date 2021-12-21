@@ -204,9 +204,11 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<AbstractTemplate<int>>();
 #endif
     test_is_copy_constructible<AbstractTemplate<double>>();
+#if PHI_COMPILER_IS_NOT(GCC)
     test_is_not_copy_constructible<AbstractTemplate<Class>>();
-#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
+#    if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_copy_constructible<AbstractTemplate<incomplete_type>>();
+#    endif
 #endif
     test_is_copy_constructible<Final>();
     test_is_copy_constructible<PublicDestructor>();
