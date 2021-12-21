@@ -90,7 +90,7 @@ TEST_CASE("is_nothrow_copy_constructible")
 #else
     test_is_not_nothrow_copy_constructible<Abstract>();
 #endif
-#if PHI_COMPILER_IS_ATLEAST(GCC, 11, 0, 0) || PHI_COMPILER_IS_NOT(GCC)
+#if !PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0) && !(PHI_PLATFORM_IS(WINDOWS) && PHI_COMPILER_IS(CLANG))
     test_is_not_nothrow_copy_constructible<AbstractTemplate<int>>();
     test_is_nothrow_copy_constructible<AbstractTemplate<double>>();
     test_is_not_nothrow_copy_constructible<AbstractTemplate<Class>>();
