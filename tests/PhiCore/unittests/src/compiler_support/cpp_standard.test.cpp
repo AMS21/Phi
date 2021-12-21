@@ -24,6 +24,6 @@ TEST_CASE("PHI_CPLUSPLUS_X")
 
 TEST_CASE("PHI_CPP_STANDARD")
 {
-    STATIC_REQUIRE(is_any_standard());
+    STATIC_REQUIRE(is_any_standard() || PHI_CPP_STANDARD() == 0);
     STATIC_REQUIRE(PHI_CPP_STANDARD());
 }
