@@ -49,7 +49,7 @@ extern int main();
 #define DEFINE_TEST_CASE(name)                                                                     \
     static void name();                                                                            \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors")                                  \
-    static ::phi::test::detail::RegisterTestCase PHI_GLUE(name, _register){&(name)};               \
+    static const ::phi::test::detail::RegisterTestCase PHI_GLUE(name, _register){&(name)};         \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     static void name()
 
