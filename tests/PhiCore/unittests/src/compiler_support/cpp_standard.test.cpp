@@ -9,6 +9,13 @@ constexpr bool is_any_standard()
            PHI_CPP_STANDARD() == PHI_CPLUSPLUS_20() || PHI_CPP_STANDARD() == PHI_CPLUSPLUS_23();
 }
 
+constexpr bool is_any_short_standard()
+{
+    return PHI_CPP_STANDARD_SHORT() == 98 || PHI_CPP_STANDARD_SHORT() == 11 ||
+           PHI_CPP_STANDARD_SHORT() == 14 || PHI_CPP_STANDARD_SHORT() == 17 ||
+           PHI_CPP_STANDARD_SHORT() == 20 || PHI_CPP_STANDARD_SHORT() == 23;
+}
+
 TEST_CASE("PHI_CPLUSPLUS_X")
 {
     STATIC_REQUIRE(PHI_CPLUSPLUS_98());
@@ -26,4 +33,10 @@ TEST_CASE("PHI_CPP_STANDARD")
 {
     STATIC_REQUIRE(is_any_standard() || PHI_CPP_STANDARD() == 0);
     STATIC_REQUIRE(PHI_CPP_STANDARD());
+}
+
+TEST_CASE("PHI_CPP_STANDARD_SHORT")
+{
+    STATIC_REQUIRE(is_any_short_standard() || PHI_CPP_STANDARD_SHORT() == 0);
+    STATIC_REQUIRE(PHI_CPP_STANDARD_SHORT());
 }
