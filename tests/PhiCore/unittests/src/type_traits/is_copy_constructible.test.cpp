@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
