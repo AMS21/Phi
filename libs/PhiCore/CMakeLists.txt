@@ -175,8 +175,11 @@ file(
   "include/phi/iterator/begin.hpp"
   "include/phi/iterator/data.hpp"
   "include/phi/iterator/distance.hpp"
+  "include/phi/iterator/empty.hpp"
+  "include/phi/iterator/end.hpp"
   "include/phi/iterator/iterator_tags.hpp"
   "include/phi/iterator/iterator_traits.hpp"
+  "include/phi/iterator/reverse_iterator.hpp"
   # math
   "include/phi/math/abs.hpp"
   "include/phi/math/common.hpp"
