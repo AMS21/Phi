@@ -59,7 +59,7 @@ TEST_CASE("alignment_of")
 #endif
     test_alignment_of<unsigned, 4>();
 
-#if PHI_COMPILER_IS(CLANG) && PHI_PLATFORM_IS(WINDOWS)
+#if PHI_COMPILER_IS(WINCLANG)
 #else
     test_alignment_of<FunctionPtr, ptr_size>();
     test_alignment_of<MemberObjectPtr, ptr_size>();

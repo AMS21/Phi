@@ -7,6 +7,7 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_COMPILER_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_COMPILER_HPP
 
+#include "phi/compiler_support/platform.hpp"
 #include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp" // PHI_VERSION_CREATE
@@ -77,6 +78,17 @@
 #    define PHI_CLANG_VERSION_MAJOR() __clang_major__
 #    define PHI_CLANG_VERSION_MINOR() __clang_minor__
 #    define PHI_CLANG_VERSION_PATCH() __clang_patchlevel__
+#    if PHI_PLATFORM_IS(WINDOWS)
+#        define PHI_COMPILER_WINCLANG()      1
+#        define PHI_WINCLANG_VERSION_MAJOR() __clang_major__
+#        define PHI_WINCLANG_VERSION_MINOR() __clang_minor__
+#        define PHI_WINCLANG_VERSION_PATCH() __clang_patchlevel__
+#    else
+#        define PHI_COMPILER_WINCLANG()      0
+#        define PHI_WINCLANG_VERSION_MAJOR() 0
+#        define PHI_WINCLANG_VERSION_MINOR() 0
+#        define PHI_WINCLANG_VERSION_PATCH() 0
+#    endif
 #else
 #    define PHI_COMPILER_CLANG()      0
 #    define PHI_CLANG_VERSION_MAJOR() 0
@@ -181,6 +193,12 @@
 #    define PHI_CURRENT_COMPILER_VERSION_MAJOR() PHI_COMPILER_VERSION_MAJOR(APPLECLANG)
 #    define PHI_CURRENT_COMPILER_VERSION_MINOR() PHI_COMPILER_VERSION_MINOR(APPLECLANG)
 #    define PHI_CURRENT_COMPILER_VERSION_PATCH() PHI_COMPILER_VERSION_PATCH(APPLECLANG)
+#elif PHI_COMPILER_WINCLANG()
+#    define PHI_COMPILER_NAME()                  "WinClang"
+#    define PHI_CURRENT_COMPILER_VERSION()       PHI_COMPILER_VERSION(WINCLANG)
+#    define PHI_CURRENT_COMPILER_VERSION_MAJOR() PHI_COMPILER_VERSION_MAJOR(WINCLANG)
+#    define PHI_CURRENT_COMPILER_VERSION_MINOR() PHI_COMPILER_VERSION_MINOR(WINCLANG)
+#    define PHI_CURRENT_COMPILER_VERSION_PATCH() PHI_COMPILER_VERSION_PATCH(WINCLANG)
 #elif PHI_COMPILER_IS(CLANG)
 #    define PHI_COMPILER_NAME()                  "Clang"
 #    define PHI_CURRENT_COMPILER_VERSION()       PHI_COMPILER_VERSION(CLANG)

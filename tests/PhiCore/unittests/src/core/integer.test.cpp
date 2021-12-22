@@ -66,7 +66,7 @@ void test_integer_layout()
     STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
 
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
-#if PHI_PLATFORM_IS(WINDOWS) && PHI_COMPILER_IS(CLANG)
+#if PHI_COMPILER_IS(WINCLANG)
     // TODO: Why does clang on windows think the type is nothrow default constructible?
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<T>::value);
 #else

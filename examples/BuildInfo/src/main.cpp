@@ -31,6 +31,8 @@ int main()
 
     PRINT_COND("Compiler is gcc", PHI_COMPILER_IS(GCC));
     PRINT_COND("Compiler is clang", PHI_COMPILER_IS(CLANG));
+    PRINT_COND("Compiler is appleclang", PHI_COMPILER_IS(APPLECLANG));
+    PRINT_COND("Compiler is winclang", PHI_COMPILER_IS(WINCLANG));
     PRINT_COND("Compiler is MSVC", PHI_COMPILER_IS(MSVC));
     PRINT_COND("Compiler is ICC", PHI_COMPILER_IS(ICC));
     PRINT_COND("Compiler is emcc", PHI_COMPILER_IS(EMCC));
