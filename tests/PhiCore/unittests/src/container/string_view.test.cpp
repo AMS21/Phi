@@ -132,7 +132,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.begin() == nullptr);
+#if PHI_COMPILER_IS_NOT(MSVC)
         EXT_STATIC_REQUIRE(test_view.begin() == str);
+#endif
     }
 
     SECTION("end")
