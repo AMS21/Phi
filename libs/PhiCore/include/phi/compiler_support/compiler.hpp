@@ -78,22 +78,23 @@
 #    define PHI_CLANG_VERSION_MAJOR() __clang_major__
 #    define PHI_CLANG_VERSION_MINOR() __clang_minor__
 #    define PHI_CLANG_VERSION_PATCH() __clang_patchlevel__
-#    if PHI_PLATFORM_IS(WINDOWS)
-#        define PHI_COMPILER_WINCLANG()      1
-#        define PHI_WINCLANG_VERSION_MAJOR() __clang_major__
-#        define PHI_WINCLANG_VERSION_MINOR() __clang_minor__
-#        define PHI_WINCLANG_VERSION_PATCH() __clang_patchlevel__
-#    else
-#        define PHI_COMPILER_WINCLANG()      0
-#        define PHI_WINCLANG_VERSION_MAJOR() 0
-#        define PHI_WINCLANG_VERSION_MINOR() 0
-#        define PHI_WINCLANG_VERSION_PATCH() 0
-#    endif
 #else
 #    define PHI_COMPILER_CLANG()      0
 #    define PHI_CLANG_VERSION_MAJOR() 0
 #    define PHI_CLANG_VERSION_MINOR() 0
 #    define PHI_CLANG_VERSION_PATCH() 0
+#endif
+
+#if PHI_COMPILER_CLANG() && PHI_PLATFORM_IS(WINDOWS)
+#    define PHI_COMPILER_WINCLANG()      1
+#    define PHI_WINCLANG_VERSION_MAJOR() __clang_major__
+#    define PHI_WINCLANG_VERSION_MINOR() __clang_minor__
+#    define PHI_WINCLANG_VERSION_PATCH() __clang_patchlevel__
+#else
+#    define PHI_COMPILER_WINCLANG()      0
+#    define PHI_WINCLANG_VERSION_MAJOR() 0
+#    define PHI_WINCLANG_VERSION_MINOR() 0
+#    define PHI_WINCLANG_VERSION_PATCH() 0
 #endif
 
 #if (defined(__GNUC__) || defined(__GNUG__)) &&                                                    \
