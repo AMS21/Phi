@@ -368,6 +368,7 @@ phi_add_library(
   Phi::Core
   PUBLIC_LINK_LIBRARIES
   Threads::Threads
+  Phi::ProjectOptions
   PRIVATE_LINK_LIBRARIES
   Phi::InternalProjectOptions
   PUBLIC_INCLUDE_DIRS
