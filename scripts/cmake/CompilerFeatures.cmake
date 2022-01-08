@@ -387,4 +387,5 @@ configure_file("scripts/cmake/features.hpp.in"
                "generated_files/include/phi/compiler_support/features.hpp")
 configure_file("scripts/cmake/type_system.hpp.in"
                "generated_files/include/phi/compiler_support/type_system.hpp")
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated_files/include)
+target_include_directories(phi_project_options
+                           INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/generated_files/include")
