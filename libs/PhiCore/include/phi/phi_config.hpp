@@ -70,15 +70,6 @@
 #    define PHI_API
 #endif
 
-// Logging
-#ifndef PHI_CONFIG_NO_LOG
-#    define PHI_CONFIG_ENABLE_LOGGING
-#    define PHI_CONFIG_ENABLE_INTERNAL_LOGGING
-#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
-#else
-#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
-#endif
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_UNUSED constexpr const static std::uint32_t VersionMajor{PHI_VERSION_MAJOR()};
