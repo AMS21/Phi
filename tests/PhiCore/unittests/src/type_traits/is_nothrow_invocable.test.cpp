@@ -1,8 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
-#include <phi/compiler_support/features.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
+#include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_invocable.hpp>
 #include <vector>
 

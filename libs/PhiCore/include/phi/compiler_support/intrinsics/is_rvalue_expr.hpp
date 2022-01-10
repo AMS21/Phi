@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_RVALUE_EXPR()
 #    define PHI_IS_RVALUE_EXPR(expr)      __is_rvalue_expr(expr)

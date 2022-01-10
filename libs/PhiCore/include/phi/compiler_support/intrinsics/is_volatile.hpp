@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_VOLATILE()
 #    define PHI_IS_VOLATILE(type)      __is_volatile(type)

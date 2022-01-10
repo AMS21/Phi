@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY() && PHI_COMPILER_IS(MSVC)
 #    define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      __has_nothrow_assign(type)

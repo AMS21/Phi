@@ -8,8 +8,8 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_object.hpp"
 

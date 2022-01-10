@@ -382,10 +382,10 @@ check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT BUILTIN_TYPES_ONLY LANGUAGE
 check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 
+set(GENERATED_FILES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/PhiCore/include/phi/generated")
+
 # configure file
 configure_file("scripts/cmake/features.hpp.in"
-               "generated_files/include/phi/compiler_support/features.hpp")
+               "${GENERATED_FILES_DIR}/compiler_support/features.hpp")
 configure_file("scripts/cmake/type_system.hpp.in"
-               "generated_files/include/phi/compiler_support/type_system.hpp")
-target_include_directories(phi_project_options
-                           INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/generated_files/include")
+               "${GENERATED_FILES_DIR}/compiler_support/type_system.hpp")

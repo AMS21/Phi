@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_HAS_VIRTUAL_DESTRUCTOR()
 #    define PHI_HAS_VIRTUAL_DESTRUCTOR(obj)       __has_virtual_destructor(obj)

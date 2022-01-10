@@ -2,9 +2,9 @@
 #define INCG_PHI_PHICONFIG_HPP
 
 #include "phi/compiler_support/compiler.hpp"
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/platform.hpp"
 #include "phi/compiler_support/unused.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp"

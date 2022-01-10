@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_STANDARD_LAYOUT()
 #    define PHI_IS_STANDARD_LAYOUT(type)      __is_standard_layout(type)

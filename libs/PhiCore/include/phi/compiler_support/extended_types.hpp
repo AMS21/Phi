@@ -1,7 +1,7 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_TYPES_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_TYPES_HPP
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once

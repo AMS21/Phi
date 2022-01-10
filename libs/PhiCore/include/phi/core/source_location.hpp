@@ -7,9 +7,9 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
 #include "phi/container/string_view.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/false_t.hpp"
 #include <cstdint>
 

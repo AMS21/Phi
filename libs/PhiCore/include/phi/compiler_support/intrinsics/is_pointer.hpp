@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/compiler.hpp"
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_POINTER() && PHI_HAS_KEYWORD(__is_pointer) &&                             \
         !PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)

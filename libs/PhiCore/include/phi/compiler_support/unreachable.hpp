@@ -1,7 +1,7 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_UNREACHABLE_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_UNREACHABLE_HPP
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/preprocessor/function_like_macro.hpp"
 
 #if PHI_HAS_EXTENSION_BUILTIN_UNREACHABLE()

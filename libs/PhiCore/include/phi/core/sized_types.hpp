@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/type_system.hpp"
+#include "phi/generated/compiler_support/type_system.hpp"
 #include <climits> // CHAR_BIT
 
 DETAIL_PHI_BEGIN_NAMESPACE()

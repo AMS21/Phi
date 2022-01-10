@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/preprocessor/if.hpp"
 
 // Support for C++-11 constexpr

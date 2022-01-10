@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 // clang-format off
 #if PHI_HAS_FEATURE_ATTRIBUTE_DEPRECATED()

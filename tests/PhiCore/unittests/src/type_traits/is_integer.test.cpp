@@ -1,11 +1,11 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
-#include <phi/compiler_support/features.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
 #include <phi/core/nullptr_t.hpp>
+#include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_integer.hpp>
 
 struct A; // incomplete
