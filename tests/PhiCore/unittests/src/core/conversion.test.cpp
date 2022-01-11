@@ -5,6 +5,7 @@
 #include <phi/core/conversion.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
+#include <phi/core/sized_types.hpp>
 #include <phi/core/types.hpp>
 #include <phi/phi_config.hpp>
 
@@ -40,15 +41,15 @@ void test_unsafe_cast_from_float()
 template <typename T>
 void test_unsafe_cast_from_integer()
 {
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(std::int8_t(5))) == T(5));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(std::int16_t(7))) == T(7));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(std::int32_t(16))) == T(16));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(std::int64_t(32))) == T(32));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(phi::int8_t(5))) == T(5));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(phi::int16_t(7))) == T(7));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(phi::int32_t(16))) == T(16));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(phi::int64_t(32))) == T(32));
 
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(std::uint8_t(1))) == T(1));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(std::uint16_t(3))) == T(3));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(std::uint32_t(12))) == T(12));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(std::uint64_t(27))) == T(27));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(phi::uint8_t(1))) == T(1));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(phi::uint16_t(3))) == T(3));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(phi::uint32_t(12))) == T(12));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(phi::uint64_t(27))) == T(27));
 }
 
 template <typename T>
@@ -63,26 +64,26 @@ void test_unsafe_cast_to_integer()
     STATIC_REQUIRE(phi::unsafe_cast<T>(vt(32)).get() == vt(32));
 
     // from unsafe types
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::int8_t(0)).get() == vt(0));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::int16_t(1)).get() == vt(1));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::int32_t(2)).get() == vt(2));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::int64_t(3)).get() == vt(3));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int8_t(0)).get() == vt(0));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int16_t(1)).get() == vt(1));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int32_t(2)).get() == vt(2));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int64_t(3)).get() == vt(3));
 
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::uint8_t(4)).get() == vt(4));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::uint16_t(5)).get() == vt(5));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::uint32_t(6)).get() == vt(6));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(std::uint64_t(7)).get() == vt(7));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint8_t(4)).get() == vt(4));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint16_t(5)).get() == vt(5));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint32_t(6)).get() == vt(6));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint64_t(7)).get() == vt(7));
 
     // Fron safe type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(std::int8_t(0))).get() == vt(0));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(std::int16_t(1))).get() == vt(1));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(std::int32_t(2))).get() == vt(2));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(std::int64_t(3))).get() == vt(3));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(phi::int8_t(0))).get() == vt(0));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(phi::int16_t(1))).get() == vt(1));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(phi::int32_t(2))).get() == vt(2));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(phi::int64_t(3))).get() == vt(3));
 
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(std::uint8_t(4))).get() == vt(4));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(std::uint16_t(5))).get() == vt(5));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(std::uint32_t(6))).get() == vt(6));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(std::uint64_t(7))).get() == vt(7));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(phi::uint8_t(4))).get() == vt(4));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(phi::uint16_t(5))).get() == vt(5));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(phi::uint32_t(6))).get() == vt(6));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(phi::uint64_t(7))).get() == vt(7));
 }
 
 template <typename T>
@@ -114,15 +115,15 @@ void test_unsafe_cast_to_float()
 template <typename T>
 void test_narrow_cast()
 {
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::int8_t(1)) == T(1));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::int16_t(2)) == T(2));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::int32_t(3)) == T(3));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::int64_t(4)) == T(4));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int8_t(1)) == T(1));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int16_t(2)) == T(2));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int32_t(3)) == T(3));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int64_t(4)) == T(4));
 
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::uint8_t(1)) == T(1));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::uint16_t(2)) == T(2));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::uint32_t(3)) == T(3));
-    STATIC_REQUIRE(phi::narrow_cast<T>(std::uint64_t(4)) == T(4));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint8_t(1)) == T(1));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint16_t(2)) == T(2));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint32_t(3)) == T(3));
+    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint64_t(4)) == T(4));
 }
 
 TEST_CASE("unsafe_cast")
@@ -150,28 +151,28 @@ TEST_CASE("unsafe_cast")
 
         // integer
         // Signed -> Signed
-        STATIC_REQUIRE(phi::unsafe_cast<std::int8_t>(std::int8_t(-1)) == std::int8_t(-1));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int16_t>(std::int16_t(-2)) == std::int16_t(-2));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int32_t>(std::int32_t(-3)) == std::int32_t(-3));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int64_t>(std::int64_t(-4)) == std::int64_t(-4));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int8_t>(phi::int8_t(-1)) == phi::int8_t(-1));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int16_t>(phi::int16_t(-2)) == phi::int16_t(-2));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int32_t>(phi::int32_t(-3)) == phi::int32_t(-3));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int64_t>(phi::int64_t(-4)) == phi::int64_t(-4));
 
         // Unsigned -> Unsigned
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint8_t>(std::uint8_t(1)) == std::uint8_t(1));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint16_t>(std::uint16_t(2)) == std::uint16_t(2));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint32_t>(std::uint32_t(3)) == std::uint32_t(3));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint64_t>(std::uint64_t(4)) == std::uint64_t(4));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint8_t>(phi::uint8_t(1)) == phi::uint8_t(1));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint16_t>(phi::uint16_t(2)) == phi::uint16_t(2));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint32_t>(phi::uint32_t(3)) == phi::uint32_t(3));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint64_t>(phi::uint64_t(4)) == phi::uint64_t(4));
 
         // Signed -> Unsigned
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint8_t>(std::int8_t(1)) == std::uint8_t(1));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint16_t>(std::int16_t(2)) == std::uint16_t(2));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint32_t>(std::int32_t(3)) == std::uint32_t(3));
-        STATIC_REQUIRE(phi::unsafe_cast<std::uint64_t>(std::int64_t(4)) == std::uint64_t(4));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint8_t>(phi::int8_t(1)) == phi::uint8_t(1));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint16_t>(phi::int16_t(2)) == phi::uint16_t(2));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint32_t>(phi::int32_t(3)) == phi::uint32_t(3));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::uint64_t>(phi::int64_t(4)) == phi::uint64_t(4));
 
         // Unsigned -> Signed
-        STATIC_REQUIRE(phi::unsafe_cast<std::int8_t>(std::uint8_t(1)) == std::int8_t(1));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int16_t>(std::uint16_t(2)) == std::int16_t(2));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int32_t>(std::uint32_t(3)) == std::int32_t(3));
-        STATIC_REQUIRE(phi::unsafe_cast<std::int64_t>(std::uint64_t(4)) == std::int64_t(4));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int8_t>(phi::uint8_t(1)) == phi::int8_t(1));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int16_t>(phi::uint16_t(2)) == phi::int16_t(2));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int32_t>(phi::uint32_t(3)) == phi::int32_t(3));
+        STATIC_REQUIRE(phi::unsafe_cast<phi::int64_t>(phi::uint64_t(4)) == phi::int64_t(4));
 
         // Bool
         STATIC_REQUIRE(phi::unsafe_cast<bool>(true));
@@ -191,15 +192,15 @@ TEST_CASE("unsafe_cast")
 
     SECTION("unsafe_cast from integer")
     {
-        test_unsafe_cast_from_integer<std::int8_t>();
-        test_unsafe_cast_from_integer<std::int16_t>();
-        test_unsafe_cast_from_integer<std::int32_t>();
-        test_unsafe_cast_from_integer<std::int64_t>();
+        test_unsafe_cast_from_integer<phi::int8_t>();
+        test_unsafe_cast_from_integer<phi::int16_t>();
+        test_unsafe_cast_from_integer<phi::int32_t>();
+        test_unsafe_cast_from_integer<phi::int64_t>();
 
-        test_unsafe_cast_from_integer<std::uint8_t>();
-        test_unsafe_cast_from_integer<std::uint16_t>();
-        test_unsafe_cast_from_integer<std::uint32_t>();
-        test_unsafe_cast_from_integer<std::uint64_t>();
+        test_unsafe_cast_from_integer<phi::uint8_t>();
+        test_unsafe_cast_from_integer<phi::uint16_t>();
+        test_unsafe_cast_from_integer<phi::uint32_t>();
+        test_unsafe_cast_from_integer<phi::uint64_t>();
     }
 
     SECTION("unsafe_cast to integer")
@@ -224,15 +225,15 @@ TEST_CASE("unsafe_cast")
 
     SECTION("narrow_cast")
     {
-        test_narrow_cast<std::int8_t>();
-        test_narrow_cast<std::int16_t>();
-        test_narrow_cast<std::int32_t>();
-        test_narrow_cast<std::int64_t>();
+        test_narrow_cast<phi::int8_t>();
+        test_narrow_cast<phi::int16_t>();
+        test_narrow_cast<phi::int32_t>();
+        test_narrow_cast<phi::int64_t>();
 
-        test_narrow_cast<std::uint8_t>();
-        test_narrow_cast<std::uint16_t>();
-        test_narrow_cast<std::uint32_t>();
-        test_narrow_cast<std::uint64_t>();
+        test_narrow_cast<phi::uint8_t>();
+        test_narrow_cast<phi::uint16_t>();
+        test_narrow_cast<phi::uint32_t>();
+        test_narrow_cast<phi::uint64_t>();
     }
 }
 
