@@ -27,6 +27,7 @@ file(
   "src/container/array.test.cpp"
   "src/container/string_view.test.cpp"
   # core
+  "src/core/address_of.test.cpp"
   "src/core/as_const.test.cpp"
   "src/core/assert.test.cpp"
   "src/core/boolean.test.cpp"
