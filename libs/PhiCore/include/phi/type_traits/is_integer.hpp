@@ -19,10 +19,17 @@ struct is_integer
     : public bool_constant<is_safe_integer<TypeT>::value || is_unsafe_integer<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_integer : public bool_constant<!is_integer<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_integer_v = is_integer<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_integer_v = is_not_integer<TypeT>::value;
 
 #endif
 
