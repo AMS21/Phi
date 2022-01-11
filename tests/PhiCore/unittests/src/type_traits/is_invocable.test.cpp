@@ -43,8 +43,11 @@ template <typename FunctionT, typename... ArgsT>
 void test_is_invocable()
 {
     STATIC_REQUIRE(phi::is_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_invocable<FunctionT, ArgsT...>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_invocable_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_invocable_v<FunctionT, ArgsT...>);
 #endif
 }
 
@@ -52,8 +55,11 @@ template <typename FunctionT, typename... ArgsT>
 void test_is_not_invocable()
 {
     STATIC_REQUIRE_FALSE(phi::is_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_invocable<FunctionT, ArgsT...>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_invocable_v<FunctionT, ArgsT...>);
 #endif
 }
 
@@ -61,8 +67,11 @@ template <typename ReturnT, typename FunctionT, typename... ArgsT>
 void test_is_invocable_r()
 {
     STATIC_REQUIRE(phi::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
 #endif
 }
 
@@ -70,8 +79,11 @@ template <typename ReturnT, typename FunctionT, typename... ArgsT>
 void test_is_not_invocable_r()
 {
     STATIC_REQUIRE_FALSE(phi::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
 #endif
 }
 
@@ -267,12 +279,12 @@ TEST_CASE("is_invocable")
             using DT = DerFromTag*;
             using CT = const Tag*;
             using ST = std::unique_ptr<Tag>;
-            STATIC_REQUIRE(phi::is_invocable<Fn, T&>::value);
-            STATIC_REQUIRE(phi::is_invocable<Fn, DT&>::value);
-            STATIC_REQUIRE(phi::is_invocable<Fn, const T&>::value);
-            STATIC_REQUIRE(phi::is_invocable<Fn, T&&>::value);
-            STATIC_REQUIRE(phi::is_invocable<Fn, ST>::value);
-            STATIC_REQUIRE(phi::is_invocable<Fn, CT&>::value);
+            test_is_invocable<Fn, T&>();
+            test_is_invocable<Fn, DT&>();
+            test_is_invocable<Fn, const T&>();
+            test_is_invocable<Fn, T&&>();
+            test_is_invocable<Fn, ST>();
+            test_is_invocable<Fn, CT&>();
         }
     }
     { // INVOKE bullet 7
@@ -319,9 +331,5 @@ TEST_CASE("is_invocable")
     using Fn = void (*)();
     test_is_invocable_r<void, Fn>();
     test_is_not_invocable_r<int, Fn>();
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_invocable_r_v<void, Fn>);
-    STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<int, Fn>);
-#endif
 }
 }
