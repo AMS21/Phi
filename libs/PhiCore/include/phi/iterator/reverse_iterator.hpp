@@ -61,7 +61,7 @@ public:
     PHI_EXTENDED_CONSTEXPR
     pointer operator->() const
     {
-        return addressof(operator*());
+        return address_of(operator*());
     }
 
     PHI_EXTENDED_CONSTEXPR reference operator[](difference_type n) const

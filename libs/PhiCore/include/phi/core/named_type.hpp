@@ -495,12 +495,12 @@ struct PHI_EBCO method_callable<named_type<TypeT, ParameterT, SkillsT...>>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR remove_reference_t<TypeT>* operator->()
     {
-        return addressof(this->underlying().get());
+        return address_of(this->underlying().get());
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const remove_reference_t<TypeT>* operator->() const
     {
-        return addressof(this->underlying().get());
+        return address_of(this->underlying().get());
     }
 };
 

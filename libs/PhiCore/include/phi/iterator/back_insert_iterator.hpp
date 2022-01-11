@@ -25,7 +25,7 @@ public:
     using iterator_category = output_iterator_tag;
 
     constexpr explicit back_insert_iterator(ContainerT& c) noexcept
-        : m_Container(addressof(c))
+        : m_Container(address_of(c))
     {}
 
     constexpr back_insert_iterator<ContainerT>& operator=(

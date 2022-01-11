@@ -16,7 +16,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::type addressof(
+PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::type address_of(
         TypeT& arg) noexcept
 {
 #if PHI_HAS_INTRINSIC_BUILTIN_ADDRESS_OF()
@@ -28,14 +28,14 @@ PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::typ
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr typename enable_if<!is_object<TypeT>::value, TypeT*>::type addressof(
+PHI_NODISCARD constexpr typename enable_if<!is_object<TypeT>::value, TypeT*>::type address_of(
         TypeT& arg) noexcept
 {
     return &arg;
 }
 
 template <typename TypeT>
-const TypeT* addressof(const TypeT&&) = delete;
+const TypeT* address_of(const TypeT&&) = delete;
 
 DETAIL_PHI_END_NAMESPACE()
 

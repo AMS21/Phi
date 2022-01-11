@@ -224,7 +224,7 @@ namespace detail
         template <typename... ArgsT>
         void construct(ArgsT&&... args) noexcept
         {
-            new (phi::addressof(this->m_Value)) TypeT(phi::forward<ArgsT>(args)...);
+            new (phi::address_of(this->m_Value)) TypeT(phi::forward<ArgsT>(args)...);
             this->m_has_value = true;
         }
 
@@ -756,13 +756,13 @@ public:
             }
             else
             {
-                new (phi::addressof(rhs.m_Value)) TypeT(phi::move(this->m_Value));
+                new (phi::address_of(rhs.m_Value)) TypeT(phi::move(this->m_Value));
                 this->m_Value.TypeT::~TypeT();
             }
         }
         else if (rhs.has_value())
         {
-            new (phi::addressof(this->m_Value)) TypeT(phi::move(rhs.m_Value));
+            new (phi::address_of(this->m_Value)) TypeT(phi::move(rhs.m_Value));
             rhs.m_Value.TypeT::~TypeT();
         }
 
@@ -772,12 +772,12 @@ public:
     /// Returns a pointer to the stored value
     PHI_EXTENDED_CONSTEXPR TypeT* operator->()
     {
-        return phi::addressof(this->m_Value);
+        return phi::address_of(this->m_Value);
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const
     {
-        return phi::addressof(this->m_Value);
+        return phi::address_of(this->m_Value);
     }
 
     /// Returns the stored value
@@ -1446,7 +1446,7 @@ public:
     template <typename OtherT                                            = TypeT,
               enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
     constexpr optional(OtherT&& u) noexcept
-        : m_Value(phi::addressof(u))
+        : m_Value(phi::address_of(u))
     {
         static_assert(is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
     }
@@ -1480,7 +1480,7 @@ public:
     PHI_EXTENDED_CONSTEXPR optional& operator=(OtherT&& u)
     {
         static_assert(is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
-        m_Value = phi::addressof(u);
+        m_Value = phi::address_of(u);
         return *this;
     }
 
@@ -1491,7 +1491,7 @@ public:
     template <typename OtherT>
     PHI_EXTENDED_CONSTEXPR optional& operator=(const optional<OtherT>& rhs) noexcept
     {
-        m_Value = phi::addressof(rhs.value());
+        m_Value = phi::address_of(rhs.value());
         return *this;
     }
 
