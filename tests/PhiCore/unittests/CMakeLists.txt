@@ -218,19 +218,6 @@ if (${CMAKE_VERSION} VERSION_GREATER "3.7")
   source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 endif()
 
-foreach(file IN ITEMS ${TEST_SOURCES})
-  get_filename_component(file_name "${file}" NAME_WE)
-  set(normal_name "Phi_Unittest_${file_name}")
-  set(no_intrinsic_name "Phi_Unittest_${file_name}_NoIntrinsic")
-
-  # Normal test
-  phi_add_executable(NAME ${normal_name} SOURCES ${file} FOLDER "Tests/PhiCore/Unittests" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
-  phi_enable_static_analyzers(${normal_name})
-  phi_add_test(TARGET ${normal_name})
-
-  # No intrinsic test
-  #phi_add_executable(NAME ${no_intrinsic_name} SOURCES ${file} FOLDER "Tests/PhiCore/Unittests/NoIntrinsics" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core phi::Test PRIVATE_INCLUDE_DIRS "include")
-  #target_compile_definitions(${no_intrinsic_name} PRIVATE PHI_CONFIG_NO_INTRINSICS)
-  #phi_enable_static_analyzers(${no_intrinsic_name})
-  #phi_add_test(TARGET ${no_intrinsic_name})
-endforeach()
+phi_add_executable(NAME "PhiCoreUnittests" SOURCES ${TEST_SOURCES} FOLDER "Tests/PhiCore" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
+phi_enable_static_analyzers("PhiCoreUnittests")
+phi_add_test(TARGET "PhiCoreUnittests")

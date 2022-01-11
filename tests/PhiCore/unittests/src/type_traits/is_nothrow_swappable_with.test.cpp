@@ -3,7 +3,7 @@
 #include <phi/type_traits/is_nothrow_swappable_with.hpp>
 #include <phi/type_traits/is_swappable_with.hpp>
 
-namespace MyNS
+namespace is_nothrow_swappable_with_ns
 {
     struct A
     {
@@ -41,7 +41,7 @@ namespace MyNS
     void swap(M&&, M&&) noexcept
     {}
 
-} // namespace MyNS
+} // namespace is_nothrow_swappable_with_ns
 
 template <typename LhsT, typename RhsT>
 void test_is_nothrow_swappable_with()
@@ -66,7 +66,7 @@ void test_is_not_nothrow_swappable_with()
 
 TEST_CASE("is_nothrow_swappable_with")
 {
-    using namespace MyNS;
+    using namespace is_nothrow_swappable_with_ns;
 
     test_is_nothrow_swappable_with<int&, int&>();
     test_is_not_nothrow_swappable_with<int&&, int&&>();

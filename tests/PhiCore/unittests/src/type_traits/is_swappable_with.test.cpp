@@ -20,7 +20,7 @@ void test_is_not_swappable_with()
 #endif
 }
 
-namespace MyNS
+namespace is_swappable_with_ns
 {
     struct A
     {
@@ -58,11 +58,11 @@ namespace MyNS
     void swap(M&&, M&&)
     {}
 
-} // namespace MyNS
+} // namespace is_swappable_with_ns
 
 TEST_CASE("is_swappable_with")
 {
-    using namespace MyNS;
+    using namespace is_swappable_with_ns;
     {
         // Test that is_swappable_with doesn't apply an lvalue reference
         // to the type. Instead it is up to the user.

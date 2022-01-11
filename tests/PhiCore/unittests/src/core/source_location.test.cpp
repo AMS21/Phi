@@ -122,7 +122,7 @@ TEST_CASE("source_location")
     }
 }
 
-phi::source_location f()
+static phi::source_location f()
 {
     return TEST_CURRENT();
 }
@@ -141,7 +141,7 @@ TEST_CASE("test f")
 #endif
 }
 
-phi::source_location g()
+static phi::source_location g()
 {
 #line 1000
     return TEST_CURRENT();
@@ -162,7 +162,7 @@ TEST_CASE("test g")
 #endif
 }
 
-phi::source_location h()
+static phi::source_location h()
 {
 #line 1000 "test_file.cpp"
     return TEST_CURRENT();

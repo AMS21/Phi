@@ -21,7 +21,7 @@ void test_is_not_swappable()
 #endif
 }
 
-namespace MyNS
+namespace is_swappable_ns
 {
     // Make the test types non-copyable so that generic std::swap is not valid.
     struct A
@@ -75,9 +75,9 @@ namespace MyNS
         friend void swap(DeletedSwap&, DeletedSwap&) = delete;
 #endif
     };
-} // namespace MyNS
+} // namespace is_swappable_ns
 
-namespace MyNS2
+namespace is_swappable_ns_2
 {
     struct AmbiguousSwap
     {};
@@ -86,11 +86,11 @@ namespace MyNS2
     void swap(T&, T&)
     {}
 
-} // end namespace MyNS2
+} // namespace is_swappable_ns_2
 
 TEST_CASE("is_swappable")
 {
-    using namespace MyNS;
+    using namespace is_swappable_ns;
 
     // Test that is_swappable applies an lvalue reference to the type.
     test_is_swappable<A>();
@@ -112,5 +112,5 @@ TEST_CASE("is_swappable")
 #endif
 
     // test that a swap with ambiguous overloads is handled correctly.
-    test_is_not_swappable<MyNS2::AmbiguousSwap>();
+    test_is_not_swappable<is_swappable_ns_2::AmbiguousSwap>();
 }

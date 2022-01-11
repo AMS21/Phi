@@ -2,10 +2,10 @@
 
 #include <phi/compiler_support/inline.hpp>
 
-PHI_ALWAYS_INLINE void f()
+PHI_ALWAYS_INLINE static void f()
 {}
 
-PHI_NEVER_INLINE void g()
+PHI_NEVER_INLINE static void g()
 {}
 
 TEST_CASE("Inline")

@@ -19,7 +19,7 @@ void test_true_t()
 }
 
 template <typename TypeT>
-void func()
+static void func()
 {
     static_assert(!phi::true_t<TypeT>::value, "Failure");
 }
