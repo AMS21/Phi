@@ -40,14 +40,15 @@ PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(Fr
 namespace detail
 {
     template <typename TypeT>
-    auto test_returnable(int) -> decltype(void(static_cast<TypeT (*)()>(nullptr)), true_type{});
+    auto test_returnable(int)
+            -> decltype(static_cast<void>(static_cast<TypeT (*)()>(nullptr)), true_type{});
 
     template <typename>
     auto test_returnable(...) -> false_type;
 
     template <typename FromT, typename ToT>
     auto test_implicitly_convertible(int)
-            -> decltype(void(declval<void (&)(ToT)>()(declval<FromT>())), true_type{});
+            -> decltype(static_cast<void>(declval<void (&)(ToT)>()(declval<FromT>())), true_type{});
 
     template <typename, typename>
     auto test_implicitly_convertible(...) -> false_type;
