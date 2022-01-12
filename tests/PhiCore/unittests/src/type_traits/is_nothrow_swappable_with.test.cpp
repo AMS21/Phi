@@ -1,7 +1,11 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits/is_nothrow_swappable_with.hpp>
 #include <phi/type_traits/is_swappable_with.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 namespace is_nothrow_swappable_with_ns
 {
@@ -114,3 +118,5 @@ TEST_CASE("is_nothrow_swappable_with")
         test_is_not_nothrow_swappable_with<const volatile void, const volatile void>();
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

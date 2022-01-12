@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/decay.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_base_of.hpp"
@@ -18,6 +19,9 @@
 #include "phi/type_traits/nat.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 namespace detail
 {
@@ -219,6 +223,8 @@ namespace detail
                            typename invokable_r_impl<void, FunctionPointerT, ArgsT...>::ResultT>
     {};
 } // namespace detail
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

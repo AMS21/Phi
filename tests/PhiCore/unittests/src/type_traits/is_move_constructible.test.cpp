@@ -270,10 +270,10 @@ TEST_CASE("is_move_constructible")
 #if !PHI_HAS_BUG_GCC_102305()
     // Test GCC bug 102305 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
     test_is_not_move_constructible_cv<AbstractTemplate<int>>();
-#endif
     test_is_move_constructible_c<AbstractTemplate<double>>();
     test_is_not_move_constructible_cv<AbstractTemplate<Class>>();
     test_is_not_move_constructible_cv<AbstractTemplate<incomplete_type>>();
+#endif
     test_is_move_constructible_c<Final>();
     test_is_move_constructible_c<PublicDestructor>();
     test_is_not_move_constructible_cv<ProtectedDestructor>();
