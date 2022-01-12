@@ -58,11 +58,19 @@ template <typename FromT, typename ToT>
 struct is_nothrow_convertible : public detail::is_nothrow_convertible_impl<FromT, ToT>
 {};
 
+template <typename FromT, typename ToT>
+struct is_not_nothrow_convertible : public bool_constant<!is_nothrow_convertible<FromT, ToT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_convertible_v =
         is_nothrow_convertible<FromT, ToT>::value;
+
+template <typename FromT, typename ToT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_convertible_v =
+        is_not_nothrow_convertible<FromT, ToT>::value;
 
 #endif
 
