@@ -1,24 +1,39 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/type_traits/is_convertible.hpp>
 #include <phi/type_traits/is_nothrow_convertible.hpp>
+#include <type_traits>
 
-template <typename LhsT, typename RhsT>
+template <typename FromT, typename ToT>
 void test_is_nothrow_convertible()
 {
-    STATIC_REQUIRE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE(phi::is_convertible<FromT, ToT>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_convertible_v<LhsT, RhsT>);
+    STATIC_REQUIRE(phi::is_nothrow_convertible_v<FromT, ToT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_convertible_v<FromT, ToT>);
 #endif
+
+    // Standard compatbililty
+    STATIC_REQUIRE(std::is_nothrow_convertible<FromT, ToT>::value);
 }
 
-template <typename LhsT, typename RhsT>
+template <typename FromT, typename ToT>
 void test_is_not_nothrow_convertible()
 {
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_convertible<FromT, ToT>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible_v<LhsT, RhsT>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible_v<FromT, ToT>);
+    STATIC_REQUIRE(phi::is_not_nothrow_convertible_v<FromT, ToT>);
 #endif
+
+    // Standard compatbililty
+    STATIC_REQUIRE_FALSE(std::is_nothrow_convertible<FromT, ToT>::value);
 }
 
 struct A
@@ -81,8 +96,8 @@ TEST_CASE("is_nothrow_convertible")
     test_is_not_nothrow_convertible<int[5], double[10]>();
     test_is_not_nothrow_convertible<int[10], A[10]>();
 
-    typedef void V();
-    typedef int  I();
+    using V = void();
+    using I = int();
     test_is_not_nothrow_convertible<V, V>();
     test_is_not_nothrow_convertible<V, I>();
 }
