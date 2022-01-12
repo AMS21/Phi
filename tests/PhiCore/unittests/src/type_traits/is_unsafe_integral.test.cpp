@@ -7,17 +7,80 @@
 #include <phi/core/integer.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
+#include <phi/type_traits/is_arithmetic.hpp>
+#include <phi/type_traits/is_array.hpp>
+#include <phi/type_traits/is_bool.hpp>
+#include <phi/type_traits/is_class.hpp>
+#include <phi/type_traits/is_compound.hpp>
+#include <phi/type_traits/is_enum.hpp>
+#include <phi/type_traits/is_function.hpp>
+#include <phi/type_traits/is_fundamental.hpp>
+#include <phi/type_traits/is_integer.hpp>
+#include <phi/type_traits/is_lvalue_reference.hpp>
+#include <phi/type_traits/is_member_function_pointer.hpp>
+#include <phi/type_traits/is_member_object_pointer.hpp>
+#include <phi/type_traits/is_member_pointer.hpp>
+#include <phi/type_traits/is_null_pointer.hpp>
+#include <phi/type_traits/is_object.hpp>
+#include <phi/type_traits/is_pointer.hpp>
+#include <phi/type_traits/is_reference.hpp>
+#include <phi/type_traits/is_rvalue_reference.hpp>
+#include <phi/type_traits/is_scalar.hpp>
+#include <phi/type_traits/is_union.hpp>
+#include <phi/type_traits/is_unsafe_floating_point.hpp>
 #include <phi/type_traits/is_unsafe_integral.hpp>
+#include <phi/type_traits/is_unsafe_scalar.hpp>
+#include <phi/type_traits/is_void.hpp>
 #include <type_traits>
 #include <vector>
 
 template <typename T>
 void test_is_unsafe_integral_impl()
 {
+    STATIC_REQUIRE(phi::is_unsafe_arithmetic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+    STATIC_REQUIRE(phi::is_object<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+    STATIC_REQUIRE(phi::is_unsafe_scalar<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
+
     STATIC_REQUIRE(phi::is_unsafe_integral<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_unsafe_integral<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_arithmetic_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+    STATIC_REQUIRE(phi::is_object_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+    STATIC_REQUIRE(phi::is_unsafe_scalar_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+
     STATIC_REQUIRE(phi::is_unsafe_integral_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_unsafe_integral_v<T>);
 #endif
