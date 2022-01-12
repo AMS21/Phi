@@ -44,7 +44,7 @@ struct is_lvalue_reference<TypeT&> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_lvalue_reference : public bool_bool_constant<!is_lvalue_reference<TypeT>::value>
+struct is_not_lvalue_reference : public bool_constant<!is_lvalue_reference<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
