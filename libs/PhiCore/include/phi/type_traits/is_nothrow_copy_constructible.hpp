@@ -9,10 +9,9 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_copy_constructible.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_COPY_CONSTRUCTIBLE()
-
-#    include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -21,11 +20,20 @@ struct is_nothrow_copy_constructible
     : public bool_constant<PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_nothrow_copy_constructible
+    : public bool_constant<!PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_constructible_v =
         PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_copy_constructible_v =
+        !PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(TypeT);
 
 #    endif
 
@@ -39,7 +47,13 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_nothrow_copy_constructible
-    : public is_nothrow_constructible<TypeT, add_lvalue_reference_t<add_const_t<TypeT>>>
+    : public is_nothrow_constructible<
+              TypeT, typename add_lvalue_reference<typename add_const<TypeT>::type>::type>
+{};
+
+template <typename TypeT>
+struct is_not_nothrow_copy_constructible
+    : public bool_constant<!is_nothrow_copy_constructible<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -47,6 +61,10 @@ struct is_nothrow_copy_constructible
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_copy_constructible_v =
         is_nothrow_copy_constructible<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_copy_constructible_v =
+        is_not_nothrow_copy_constructible<TypeT>::value;
 
 #    endif
 
