@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/warning.hpp"
 #include "phi/generated/compiler_support/type_system.hpp"
 #include <climits> // CHAR_BIT
 
@@ -116,6 +117,9 @@ namespace detail
 #    error "No float of size 64 found!"
 #endif
 
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wunused-const-variable")
+
     // Optional float128
 #if PHI_TYPE_SYSTEM_SIZEOF_FLOAT() * CHAR_BIT == 128
     static constexpr const bool has_float128 = true;
@@ -130,6 +134,9 @@ namespace detail
     static constexpr const bool has_float128 = false;
     using float128                           = void;
 #endif
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+
 } // namespace detail
 
 using int8_t  = detail::signed_int8;
