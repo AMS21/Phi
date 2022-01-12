@@ -218,7 +218,10 @@ TEST_CASE("is_empty")
     test_is_empty<AbstractTemplate<double>>();
     test_is_not_empty<AbstractTemplate<Class>>();
     test_is_not_empty<AbstractTemplate<incomplete_type>>();
+    // Final can only be tests with the intrinsic version
+#if PHI_SUPPORTS_IS_EMPTY()
     test_is_empty<Final>();
+#endif
     test_is_empty<PublicDestructor>();
     test_is_empty<ProtectedDestructor>();
     test_is_empty<PrivateDestructor>();

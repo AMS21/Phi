@@ -67,7 +67,7 @@ struct is_empty : public detail::is_empty_impl<TypeT>
 {};
 
 template <typename TypeT>
-struct is_not_empty : public bool_bool_constant<!is_empty<TypeT>::value>
+struct is_not_empty : public bool_constant<!is_empty<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
