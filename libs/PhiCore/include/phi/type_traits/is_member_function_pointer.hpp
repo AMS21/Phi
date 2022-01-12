@@ -45,11 +45,11 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT>
-    struct is_member_function_pointer_impl : false_type
+    struct is_member_function_pointer_impl : public false_type
     {};
 
     template <typename TypeT, typename OtherT>
-    struct is_member_function_pointer_impl<TypeT OtherT::*> : is_function<TypeT>
+    struct is_member_function_pointer_impl<TypeT OtherT::*> : public is_function<TypeT>
     {};
 } // namespace detail
 

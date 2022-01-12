@@ -42,16 +42,16 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT>
-    struct is_member_pointer_impl : false_type
+    struct is_member_pointer_impl : public false_type
     {};
 
     template <typename TypeT, typename OtherT>
-    struct is_member_pointer_impl<TypeT OtherT::*> : true_type
+    struct is_member_pointer_impl<TypeT OtherT::*> : public true_type
     {};
 } // namespace detail
 
 template <typename TypeT>
-struct is_member_pointer : public detail::is_member_pointer_impl<remove_cv_t<TypeT>>
+struct is_member_pointer : public detail::is_member_pointer_impl<typename remove_cv<TypeT>::type>
 {};
 
 template <typename TypeT>
