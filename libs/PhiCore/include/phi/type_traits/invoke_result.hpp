@@ -7,8 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/core/declval.hpp"
-#include "phi/type_traits/is_invocable.hpp"
+#include "phi/type_traits/detail/invoke_impl.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

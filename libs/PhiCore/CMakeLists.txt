@@ -202,6 +202,7 @@ file(
   "include/phi/ascii_char.hpp"
   "include/phi/char_traits.hpp"
   # type_traits/detail
+  "include/phi/type_traits/detail/invoke_impl.hpp"
   "include/phi/type_traits/detail/yes_no_type.hpp"
   # type_traits
   "include/phi/type_traits/add_const.hpp"
@@ -260,6 +261,8 @@ file(
   "include/phi/type_traits/is_fundamental.hpp"
   "include/phi/type_traits/is_integer.hpp"
   "include/phi/type_traits/is_integral.hpp"
+  "include/phi/type_traits/is_invocable_r.hpp"
+  "include/phi/type_traits/is_invocable.hpp"
   "include/phi/type_traits/is_lvalue_reference.hpp"
   "include/phi/type_traits/is_member_function_pointer.hpp"
   "include/phi/type_traits/is_member_object_pointer.hpp"
@@ -273,6 +276,8 @@ file(
   "include/phi/type_traits/is_nothrow_copy_constructible.hpp"
   "include/phi/type_traits/is_nothrow_default_constructible.hpp"
   "include/phi/type_traits/is_nothrow_destructible.hpp"
+  "include/phi/type_traits/is_nothrow_invocable_r.hpp"
+  "include/phi/type_traits/is_nothrow_invocable.hpp"
   "include/phi/type_traits/is_nothrow_move_assignable.hpp"
   "include/phi/type_traits/is_nothrow_move_constructible.hpp"
   "include/phi/type_traits/is_nothrow_swappable_with.hpp"

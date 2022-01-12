@@ -4,6 +4,7 @@
 #include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/invoke_result.hpp>
 #include <phi/type_traits/is_invocable.hpp>
+#include <phi/type_traits/is_invocable_r.hpp>
 #include <phi/type_traits/is_same.hpp>
 #include <functional>
 #include <memory>

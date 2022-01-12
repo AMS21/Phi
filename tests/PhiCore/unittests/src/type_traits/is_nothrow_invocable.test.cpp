@@ -4,6 +4,7 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_invocable.hpp>
+#include <phi/type_traits/is_nothrow_invocable.hpp>
 #include <vector>
 
 struct Tag
@@ -46,13 +47,6 @@ constexpr bool throws_invocable()
     return phi::is_invocable<Fn, Args...>::value && !phi::is_nothrow_invocable<Fn, Args...>::value;
 }
 
-template <typename Ret, typename Fn, typename... Args>
-constexpr bool throws_invocable_r()
-{
-    return phi::is_invocable_r<Ret, Fn, Args...>::value &&
-           !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value;
-}
-
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
 
@@ -87,6 +81,30 @@ void test_noexcept_function_pointers()
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+template <typename FunctionT, typename... ArgsT>
+void test_is_nothrow_invocable()
+{
+    STATIC_REQUIRE(phi::is_nothrow_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+#endif
+}
+
+template <typename FunctionT, typename... ArgsT>
+void test_is_not_nothrow_invocable()
+{
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+#endif
+}
+
 TEST_CASE("is_nothrow_invocable")
 {
 #if PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE()
@@ -96,117 +114,73 @@ TEST_CASE("is_nothrow_invocable")
 #endif
     //  Non-callable things
     {
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<const void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<volatile void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<const volatile void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<phi::nullptr_t>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<double>::value);
+        test_is_not_nothrow_invocable<void>();
+        test_is_not_nothrow_invocable<const void>();
+        test_is_not_nothrow_invocable<volatile void>();
+        test_is_not_nothrow_invocable<const volatile void>();
+        test_is_not_nothrow_invocable<phi::nullptr_t>();
+        test_is_not_nothrow_invocable<int>();
+        test_is_not_nothrow_invocable<double>();
 
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int[]>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int[3]>::value);
+        test_is_not_nothrow_invocable<int[]>();
+        test_is_not_nothrow_invocable<int[3]>();
 
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int*>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<const int*>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int const*>::value);
+        test_is_not_nothrow_invocable<int*>();
+        test_is_not_nothrow_invocable<const int*>();
+        test_is_not_nothrow_invocable<int const*>();
 
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int&>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<const int&>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int&&>::value);
+        test_is_not_nothrow_invocable<int&>();
+        test_is_not_nothrow_invocable<const int&>();
+        test_is_not_nothrow_invocable<int&&>();
 
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, std::vector<int>>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, std::vector<int*>>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, std::vector<int**>>::value);
+        test_is_not_nothrow_invocable<int, std::vector<int>>();
+        test_is_not_nothrow_invocable<int, std::vector<int*>>();
+        test_is_not_nothrow_invocable<int, std::vector<int**>>();
 
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<AbominableFunc>::value);
-
-        //  with parameters
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, int>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, double, float>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<int, char, float, double>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Sink, AbominableFunc>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Sink, void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Sink, const volatile void>::value);
-
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, const void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, volatile void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, const volatile void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, phi::nullptr_t>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, double>::value);
-
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int[]>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int[3]>::value);
-
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int*>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, const int*>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int const*>::value);
-
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int&>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, const int&>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int&&>::value);
-
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, std::vector<int>>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, std::vector<int*>>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, std::vector<int**>>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, AbominableFunc>::value);
+        test_is_not_nothrow_invocable<int, AbominableFunc>();
 
         //  with parameters
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int, int>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int, double, float>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<int, int, char, float, double>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, Sink, AbominableFunc>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, Sink, void>::value);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, Sink, const volatile void>::value);
+        test_is_not_nothrow_invocable<int, int>();
+        test_is_not_nothrow_invocable<int, double, float>();
+        test_is_not_nothrow_invocable<int, char, float, double>();
+        test_is_not_nothrow_invocable<Sink, AbominableFunc>();
+        test_is_not_nothrow_invocable<Sink, void>();
+        test_is_not_nothrow_invocable<Sink, const void>();
+        test_is_not_nothrow_invocable<Sink, volatile void>();
+        test_is_not_nothrow_invocable<Sink, const volatile void>();
     }
 
     {
         // Check that the conversion to the return type is properly checked
         using Fn = CallObject<true, int>;
-        STATIC_REQUIRE(phi::is_nothrow_invocable_r<Implicit, Fn>::value);
-        STATIC_REQUIRE(phi::is_nothrow_invocable_r<double, Fn>::value);
-        STATIC_REQUIRE(phi::is_nothrow_invocable_r<const volatile void, Fn>::value);
-        STATIC_REQUIRE(throws_invocable_r<ThrowsImplicit, Fn>());
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Fn(), Explicit>());
+        test_is_not_nothrow_invocable<Fn(), Explicit>();
     }
     {
         // Check that the conversion to the parameters is properly checked
         using Fn = CallObject<true, void, const Implicit&, const ThrowsImplicit&>;
-        STATIC_REQUIRE(phi::is_nothrow_invocable<Fn, Implicit&, ThrowsImplicit&>::value);
-        STATIC_REQUIRE(phi::is_nothrow_invocable<Fn, int, ThrowsImplicit&>::value);
+        test_is_nothrow_invocable<Fn, Implicit&, ThrowsImplicit&>();
+        test_is_nothrow_invocable<Fn, int, ThrowsImplicit&>();
         STATIC_REQUIRE(throws_invocable<Fn, int, int>());
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Fn>::value);
+        test_is_not_nothrow_invocable<Fn>();
     }
     {
         // Check that the noexcept-ness of function objects is checked.
         using Fn  = CallObject<true, void>;
         using Fn2 = CallObject<false, void>;
-        STATIC_REQUIRE(phi::is_nothrow_invocable<Fn>::value);
+        test_is_nothrow_invocable<Fn>();
         STATIC_REQUIRE(throws_invocable<Fn2>());
     }
     {
         // Check that PMD derefs are noexcept
         using Fn = int Tag::*;
-        STATIC_REQUIRE(phi::is_nothrow_invocable<Fn, Tag&>::value);
-        STATIC_REQUIRE(phi::is_nothrow_invocable_r<Implicit, Fn, Tag&>::value);
-        STATIC_REQUIRE(throws_invocable_r<ThrowsImplicit, Fn, Tag&>());
+        test_is_nothrow_invocable<Fn, Tag&>();
     }
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     {
         // Check for is_nothrow_invocable_v
         using Fn = CallObject<true, int>;
-        STATIC_REQUIRE(phi::is_nothrow_invocable_v<Fn>);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<Fn, int>);
+        test_is_nothrow_invocable<Fn>();
+        test_is_not_nothrow_invocable<Fn, int>();
     }
-    {
-        // Check for is_nothrow_invocable_r_v
-        using Fn = CallObject<true, int>;
-        STATIC_REQUIRE(phi::is_nothrow_invocable_r_v<void, Fn>);
-        STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<int, Fn, int>);
-    }
-#endif
 
     test_noexcept_function_pointers();
 }
