@@ -71,8 +71,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 #    include "phi/type_traits/is_trivially_default_constructible.hpp"
 
 template <typename TypeT>
-struct is_trivial : public bool_constant<is_trivially_copyable_v<TypeT> &&
-                                         is_trivially_default_constructible_v<TypeT>>
+struct is_trivial : public bool_constant<is_trivially_copyable<TypeT>::value &&
+                                         is_trivially_default_constructible<TypeT>::value>
 {};
 
 template <typename TypeT>
