@@ -50,43 +50,43 @@ namespace detail
 {
     struct is_constructible_imp
     {
-        template <typename T, typename... TheArgs, typename = decltype(T(declval<TheArgs>()...))>
+        template <typename TypeT, typename... ArgsT, typename = decltype(T(declval<ArgsT>()...))>
 
         static yes_type test(int);
         template <typename, typename...>
 
         static no_type test(...);
 
-        template <typename T, typename Arg, typename = decltype(::new T(declval<Arg>()))>
+        template <typename TypeT, typename ArgT, typename = decltype(::new TypeT(declval<ArgT>()))>
         static yes_type test1(int);
 
         template <typename, typename>
         static no_type test1(...);
 
-        template <typename T>
-        static yes_type ref_test(T);
+        template <typename TypeT>
+        static yes_type ref_test(TypeT);
 
-        template <typename T>
+        template <typename TypeT>
         static no_type ref_test(...);
     };
 } // namespace detail
 
-template <typename T, typename... ArgsT>
+template <typename TypeT, typename... ArgsT>
 struct is_constructible
-    : public bool_constant<sizeof(detail::is_constructible_imp::test<T, ArgsT...>(0)) ==
+    : public bool_constant<sizeof(detail::is_constructible_imp::test<TypeT, ArgsT...>(0)) ==
                            detail::sizeof_yes_type>
 {
-    static_assert(is_complete<T>::value || is_void<T>::value,
+    static_assert(is_complete<TypeT>::value || is_void<TypeT>::value,
                   "The target type must be complete in order to test for constructibility");
 };
 
-template <typename T, typename ArgT>
-struct is_constructible<T, ArgT>
-    : public bool_constant<is_destructible<T>::value &&
-                           sizeof(detail::is_constructible_imp::test1<T, ArgT>(0)) ==
+template <typename TypeT, typename ArgT>
+struct is_constructible<TypeT, ArgT>
+    : public bool_constant<is_destructible<TypeT>::value &&
+                           sizeof(detail::is_constructible_imp::test1<TypeT, ArgT>(0)) ==
                                    detail::sizeof_yes_type>
 {
-    static_assert(is_complete<T>::value || is_void<T>::value,
+    static_assert(is_complete<TypeT>::value || is_void<TypeT>::value,
                   "The target type must be complete in order to test for constructibility");
 };
 
@@ -122,8 +122,8 @@ template <typename TypeT>
 struct is_constructible<TypeT> : public is_default_constructible<TypeT>
 {};
 
-template <typename T, typename... ArgsT>
-struct is_not_constructible<T> : public boolbool_constant<!is_constructible<TypeT, ArgsT...>::value>
+template <typename TypeT, typename... ArgsT>
+struct is_not_constructible : public bool_constant<!is_constructible<TypeT, ArgsT...>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
