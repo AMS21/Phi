@@ -9,12 +9,11 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_copyable.hpp"
-#include "phi/type_traits/false_t.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 
-DETAIL_PHI_BEGIN_NAMESPACE()
-
 #if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_trivially_copyable : public bool_constant<PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
@@ -36,20 +35,47 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivially_copyable_v = !PHI_IS_TRIVIAL
 
 #else
 
-template <typename TypeT>
-struct is_trivially_copyable : public false_type
+#    include "phi/type_traits/is_copy_assignable.hpp"
+#    include "phi/type_traits/is_copy_constructible.hpp"
+#    include "phi/type_traits/is_move_assignable.hpp"
+#    include "phi/type_traits/is_move_constructible.hpp"
+#    include "phi/type_traits/is_trivially_copy_assignable.hpp"
+#    include "phi/type_traits/is_trivially_copy_constructible.hpp"
+#    include "phi/type_traits/is_trivially_destructible.hpp"
+#    include "phi/type_traits/is_trivially_move_assignable.hpp"
+#    include "phi/type_traits/is_trivially_move_constructible.hpp"
+#    include "phi/type_traits/remove_all_extents.hpp"
+#    include "phi/type_traits/remove_const.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+namespace detail
 {
-    static_assert(false_t<TypeT>::value, "phi::is_trivially_copyable requires compiler support for "
-                                         "instrincic __is_trivilly_copyable");
-};
+    template <typename TypeT>
+    struct is_trivially_copyable_impl
+        : public bool_constant<
+                  (is_trivially_copy_assignable<TypeT>::value ||
+                   !is_copy_assignable<TypeT>::value) &&
+                  (is_trivially_copy_constructible<TypeT>::value ||
+                   !is_copy_constructible<TypeT>::value) &&
+                  (is_trivially_move_assignable<TypeT>::value ||
+                   !is_move_assignable<TypeT>::value) &&
+                  (is_trivially_move_constructible<TypeT>::value ||
+                   !is_move_constructible<TypeT>::value) &&
+                  (is_copy_assignable<TypeT>::value || is_copy_constructible<TypeT>::value ||
+                   is_move_assignable<TypeT>::value || is_move_constructible<TypeT>::value) &&
+                  (is_trivially_destructible<TypeT>::value)>
+    {};
+} // namespace detail
 
 template <typename TypeT>
-struct is_not_trivially_copyable : public false_type
-{
-    static_assert(false_t<TypeT>::value,
-                  "phi::is_not_trivially_copyable requires compiler support for "
-                  "instrincic __is_trivilly_copyable");
-};
+struct is_trivially_copyable
+    : public detail::is_trivially_copyable_impl<remove_all_extents_t<remove_const_t<TypeT>>>
+{};
+
+template <typename TypeT>
+struct is_not_trivially_copyable : public bool_constant<!is_trivially_copyable<TypeT>::value>
+{};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
