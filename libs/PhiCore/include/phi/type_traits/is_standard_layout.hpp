@@ -41,7 +41,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_standard_layout_v = !PHI_IS_STANDARD_L
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_standard_layout : public bool_constant<is_scalar_v<remove_all_extents_t<TypeT>>>
+struct is_standard_layout : public bool_constant<is_scalar<remove_all_extents_t<TypeT>>::value>
 {};
 
 template <typename TypeT>
