@@ -7,10 +7,14 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wtype-limits")
 
 class ascii_char
 {
@@ -206,7 +210,7 @@ public:
         PHI_DBG_ASSERT(ac.m_Char < 127,
                        "Pre-increment would result in unrepresentable ascii character");
 
-        ac.m_Char += 1;
+        ac.m_Char = static_cast<value_type>(ac.m_Char + 1u);
         return ac;
     }
 
@@ -216,7 +220,7 @@ public:
                        "Post-increment would result in unrepresentable ascii character");
 
         ascii_char old_val = ac;
-        ac.m_Char += 1;
+        ac.m_Char          = static_cast<value_type>(ac.m_Char + 1u);
         return old_val;
     }
 
@@ -225,7 +229,7 @@ public:
         PHI_DBG_ASSERT(ac.m_Char > 0,
                        "Pre-decrement would result in unrepresentable ascii character");
 
-        ac.m_Char -= 1;
+        ac.m_Char = static_cast<value_type>(ac.m_Char - 1u);
         return ac;
     }
 
@@ -235,7 +239,7 @@ public:
                        "Post-decrement would result in unrepresentable ascii character");
 
         ascii_char old_val = ac;
-        ac.m_Char -= 1;
+        ac.m_Char          = static_cast<value_type>(ac.m_Char - 1u);
         return old_val;
     }
 
@@ -253,7 +257,7 @@ public:
         PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
-        lhs.m_Char += rhs.m_Char;
+        lhs.m_Char = static_cast<value_type>(lhs.m_Char + rhs.m_Char);
         return lhs;
     }
 
@@ -270,7 +274,7 @@ public:
         PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
-        lhs.m_Char -= rhs.m_Char;
+        lhs.m_Char = static_cast<value_type>(lhs.m_Char - rhs.m_Char);
         return lhs;
     }
 
@@ -308,6 +312,8 @@ public:
 private:
     value_type m_Char;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

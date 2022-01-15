@@ -8,9 +8,13 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/size_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-const-variable")
 
 namespace detail
 {
@@ -30,6 +34,8 @@ namespace detail
 
     PHI_INLINE_VARIABLE constexpr phi::size_t sizeof_no_type = sizeof(no_type);
 } // namespace detail
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

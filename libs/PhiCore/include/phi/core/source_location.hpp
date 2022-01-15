@@ -50,7 +50,7 @@ struct source_location
 #    endif
                                                      ) noexcept
     {
-        source_location location
+        return source_location
         {
             file, function, line,
 #    if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
@@ -59,8 +59,6 @@ struct source_location
                     0
 #    endif
         };
-
-        return location;
     }
 #else
     template <typename TypeT = void>
@@ -69,8 +67,7 @@ struct source_location
         static_assert(false_t<TypeT>::value,
                       "phi::source_location requires compiler support for current.");
 
-        source_location loc;
-        return loc;
+        return {};
     }
 #endif
 

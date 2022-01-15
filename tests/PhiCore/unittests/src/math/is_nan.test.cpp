@@ -1,3 +1,4 @@
+#include "phi/compiler_support/warning.hpp"
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/platform.hpp>
@@ -36,6 +37,9 @@ using sl = phi::floating_point<long double>;
 
 TEST_CASE("is_nan")
 {
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+
     // Test if the compiler floats support NaN values
     // See godbolt link for an example: https://godbolt.org/z/vWM8zdn97
     volatile float n1 = NAN;
@@ -44,6 +48,8 @@ TEST_CASE("is_nan")
     {
         return;
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
     // Float
     test_is_nan(std::nanf(""));

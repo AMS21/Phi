@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_safe_floating_point.hpp"
 #include "phi/type_traits/is_unsafe_floating_point.hpp"
@@ -15,6 +16,9 @@
 // Implementation comparison: https://godbolt.org/z/Y7j1oPb5e
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 template <typename FloatT>
 PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_nan(
@@ -29,6 +33,8 @@ PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool>
 {
     return is_nan<typename FloatT::value_type>(val.get());
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

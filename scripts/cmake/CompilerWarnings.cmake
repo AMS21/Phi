@@ -72,7 +72,6 @@ set(phi_warning_flags
     -Wvector-operation-performance
     -Wvla
     -Wzero-as-null-pointer-constant
-    -fanalyzer # GCC analyzer
     # MSVC
     /Wall # Baseline reasonable warnings
     /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data
