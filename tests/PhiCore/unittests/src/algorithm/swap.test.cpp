@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/algorithm/swap.hpp>
+#include <phi/core/declval.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_same.hpp>
 

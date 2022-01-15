@@ -13,7 +13,7 @@
 template <typename T>
 void test_is_trivially_destructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE(phi::is_trivially_destructible<volatile T>::value);
@@ -31,7 +31,7 @@ void test_is_trivially_destructible()
 template <typename T>
 void test_is_not_trivially_destructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_destructible<volatile T>::value);

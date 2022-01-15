@@ -12,6 +12,12 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+#    define PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 1
+#else
+#    define PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 0
+#endif
+
 template <typename TypeT>
 struct is_nothrow_move_constructible
     : public is_nothrow_constructible<TypeT, add_rvalue_reference_t<TypeT>>

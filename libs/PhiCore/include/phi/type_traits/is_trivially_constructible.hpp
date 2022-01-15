@@ -17,6 +17,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE()
 
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE() 1
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
@@ -36,6 +38,8 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_constructible_v =
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 #else
+
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE() 0
 
 template <typename TypeT, typename... ArgsT>
 struct is_trivially_constructible : public false_type

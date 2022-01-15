@@ -15,7 +15,7 @@
 #include <type_traits>
 #include <vector>
 
-template <typename, class = phi::void_t<>>
+template <typename, typename = phi::void_t<>>
 struct has_type_member : public phi::false_type
 {};
 
@@ -27,6 +27,7 @@ struct has_type_member<T, phi::void_t<typename phi::underlying_type<T>::type>>
 template <typename T, typename U>
 void test_underlying_type_impl()
 {
+#if PHI_HAS_WORKING_UNDERLYING_TYPE()
     STATIC_REQUIRE(has_type_member<T>::value);
 
     CHECK_SAME_TYPE(typename phi::underlying_type<T>::type, U);
@@ -34,6 +35,7 @@ void test_underlying_type_impl()
 
     // Standard compatbililty
     CHECK_SAME_TYPE(typename std::underlying_type<T>::type, U);
+#endif
 }
 
 template <typename T, typename U>
@@ -48,10 +50,12 @@ void test_underlying_type()
 template <typename T>
 void test_no_underlying_type()
 {
+#if PHI_HAS_WORKING_UNDERLYING_TYPE()
     STATIC_REQUIRE_FALSE(has_type_member<T>::value);
     STATIC_REQUIRE_FALSE(has_type_member<const T>::value);
     STATIC_REQUIRE_FALSE(has_type_member<volatile T>::value);
     STATIC_REQUIRE_FALSE(has_type_member<const volatile T>::value);
+#endif
 }
 
 enum E

@@ -13,32 +13,36 @@
 template <typename T>
 void test_is_scalar()
 {
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE(phi::is_scalar<T>::value);
     STATIC_REQUIRE(phi::is_scalar<const T>::value);
     STATIC_REQUIRE(phi::is_scalar<volatile T>::value);
     STATIC_REQUIRE(phi::is_scalar<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_scalar_v<T>);
     STATIC_REQUIRE(phi::is_scalar_v<const T>);
     STATIC_REQUIRE(phi::is_scalar_v<volatile T>);
     STATIC_REQUIRE(phi::is_scalar_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_scalar()
 {
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scalar<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scalar<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scalar<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<const volatile T>);
+#    endif
 #endif
 }
 

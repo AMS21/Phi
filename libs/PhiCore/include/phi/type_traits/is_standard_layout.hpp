@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_STANDARD_LAYOUT()
 
+#    define PHI_HAS_WORKING_IS_STANDARD_LAYOUT() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -37,6 +39,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_standard_layout_v = !PHI_IS_STANDARD_L
 
 #    include "phi/type_traits/is_scalar.hpp"
 #    include "phi/type_traits/remove_all_extents.hpp"
+
+#    if PHI_HAS_WORKING_IS_SCALAR()
+#        define PHI_HAS_WORKING_IS_STANDARD_LAYOUT() 1
+#    else
+#        define PHI_HAS_WORKING_IS_STANDARD_LAYOUT() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

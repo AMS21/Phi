@@ -13,32 +13,36 @@
 template <typename T>
 void test_is_scoped_enum()
 {
+#if PHI_HAS_WORKING_IS_SCOPED_ENUM()
     STATIC_REQUIRE(phi::is_scoped_enum<T>::value);
     STATIC_REQUIRE(phi::is_scoped_enum<const T>::value);
     STATIC_REQUIRE(phi::is_scoped_enum<volatile T>::value);
     STATIC_REQUIRE(phi::is_scoped_enum<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_scoped_enum_v<T>);
     STATIC_REQUIRE(phi::is_scoped_enum_v<const T>);
     STATIC_REQUIRE(phi::is_scoped_enum_v<volatile T>);
     STATIC_REQUIRE(phi::is_scoped_enum_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_scoped_enum()
 {
+#if PHI_HAS_WORKING_IS_SCOPED_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<const volatile T>);
+#    endif
 #endif
 }
 

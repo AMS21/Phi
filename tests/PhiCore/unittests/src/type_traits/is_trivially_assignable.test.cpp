@@ -5,8 +5,9 @@
 template <typename T, typename U>
 void test_is_trivially_assignable()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE()
     STATIC_REQUIRE(phi::is_trivially_assignable<T, U>::value);
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivially_assignable_v<T, U>);
 #    endif
@@ -16,8 +17,9 @@ void test_is_trivially_assignable()
 template <typename T, typename U>
 void test_is_not_trivially_assignable()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_assignable<T, U>::value);
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_assignable_v<T, U>);
 #    endif

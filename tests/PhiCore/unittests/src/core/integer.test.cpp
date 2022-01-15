@@ -61,16 +61,26 @@ void test_integer_layout()
 {
     STATIC_REQUIRE(sizeof(T) == sizeof(typename T::value_type));
 
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     STATIC_REQUIRE(phi::is_standard_layout<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
+#endif
 
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
-#if PHI_COMPILER_IS(WINCLANG)
+#endif
+#if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
+#    if PHI_COMPILER_IS(WINCLANG)
     // TODO: Why does clang on windows think the type is nothrow default constructible?
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<T>::value);
-#else
+#    else
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<T>::value);
+#    endif
 #endif
 
     STATIC_REQUIRE(phi::is_copy_assignable<T>::value);

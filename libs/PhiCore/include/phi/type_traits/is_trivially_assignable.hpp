@@ -16,6 +16,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()
 
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE() 1
+
 template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public bool_constant<PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT, ArgT)>
 {};
@@ -29,6 +31,8 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = PHI_IS_TRIVIALLY_
 #    endif
 
 #else
+
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE() 0
 
 template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public false_type

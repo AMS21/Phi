@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -13,16 +14,18 @@
 template <typename T>
 void test_is_empty_impl()
 {
+#if PHI_HAS_WORKING_IS_EMPTY()
     STATIC_REQUIRE(phi::is_empty<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_empty<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_empty_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_empty_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_empty<T>::value);
+#endif
 }
 
 template <typename T>
@@ -37,16 +40,18 @@ void test_is_empty()
 template <typename T>
 void test_is_not_empty_impl()
 {
+#if PHI_HAS_WORKING_IS_EMPTY()
     STATIC_REQUIRE_FALSE(phi::is_empty<T>::value);
     STATIC_REQUIRE(phi::is_not_empty<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_empty_v<T>);
     STATIC_REQUIRE(phi::is_not_empty_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_empty<T>::value);
+#endif
 }
 
 template <typename T>

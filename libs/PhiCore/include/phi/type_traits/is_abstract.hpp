@@ -16,6 +16,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_ABSTRACT()
 
+#    define PHI_HAS_WORKING_IS_ABSTRACT() 1
+
 template <typename TypeT>
 struct is_abstract : public bool_constant<PHI_IS_ABSTRACT(TypeT)>
 {};
@@ -33,7 +35,10 @@ template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_abstract_v = !PHI_IS_ABSTRACT(TypeT);
 
 #    endif
+
 #else
+
+#    define PHI_HAS_WORKING_IS_ABSTRACT() 0
 
 template <typename TypeT>
 struct is_abstract : public false_type

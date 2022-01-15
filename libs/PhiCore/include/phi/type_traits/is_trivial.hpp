@@ -17,6 +17,8 @@
 // MSVC's implementation of is_trivial seems broken
 #if PHI_SUPPORTS_IS_TRIVIAL() && PHI_COMPILER_IS_NOT(MSVC)
 
+#    define PHI_HAS_WORKING_IS_TRIVIAL() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -38,6 +40,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v = !PHI_IS_TRIVIAL(TypeT);
 #    endif
 
 #elif PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE() && PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
+
+#    define PHI_HAS_WORKING_IS_TRIVIAL() 1
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -65,10 +69,17 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v =
 
 #else
 
-DETAIL_PHI_BEGIN_NAMESPACE()
-
 #    include "phi/type_traits/is_trivially_copyable.hpp"
 #    include "phi/type_traits/is_trivially_default_constructible.hpp"
+
+#    if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE() &&                                                 \
+            PHI_HAS_WORKING_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_TRIVIAL() 1
+#    else
+#        define PHI_HAS_WORKING_IS_TRIVIAL() 0
+#    endif
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_trivial : public bool_constant<is_trivially_copyable<TypeT>::value &&

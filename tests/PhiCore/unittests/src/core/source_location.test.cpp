@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "constexpr_helper.hpp"
 #include "test_types.hpp"
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/core/source_location.hpp>
@@ -25,18 +26,26 @@ TEST_CASE("source_location")
 {
     SECTION("traits")
     {
+#if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
         STATIC_REQUIRE(phi::is_nothrow_default_constructible<phi::source_location>::value);
+#endif
         STATIC_REQUIRE(phi::is_nothrow_move_assignable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_move_constructible<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_swappable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_nothrow_destructible<phi::source_location>::value);
 
         // trivial
-        STATIC_REQUIRE(phi::is_trivially_copy_assignable<phi::source_location>::value);
+#if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
         STATIC_REQUIRE(phi::is_trivially_copy_constructible<phi::source_location>::value);
-        STATIC_REQUIRE(phi::is_trivially_move_assignable<phi::source_location>::value);
         STATIC_REQUIRE(phi::is_trivially_move_constructible<phi::source_location>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE()
+        STATIC_REQUIRE(phi::is_trivially_copy_assignable<phi::source_location>::value);
+        STATIC_REQUIRE(phi::is_trivially_move_assignable<phi::source_location>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
         STATIC_REQUIRE(phi::is_trivially_destructible<phi::source_location>::value);
+#endif
 
         CHECK_SAME_TYPE(phi::source_location::this_type, phi::source_location);
     }
@@ -85,7 +94,7 @@ TEST_CASE("source_location")
     SECTION("noexcept")
     {
         CHECK_NOEXCEPT(phi::source_location());
-        CHECK_NOEXCEPT(phi::source_location("file.cpp", "function", 3, 1));
+        CHECK_NOEXCEPT(phi::source_location("file.cpp", "function", 3u, 1u));
         CHECK_NOEXCEPT(phi::source_location::current());
         CHECK_NOEXCEPT(phi::source_location().line());
         CHECK_NOEXCEPT(phi::source_location().column());
@@ -97,14 +106,14 @@ TEST_CASE("source_location")
 
     SECTION("Constexpr")
     {
-        constexpr phi::source_location l = phi::source_location("file.cpp", "function", 3, 1);
+        constexpr phi::source_location l = phi::source_location{"file.cpp", "function", 3u, 1u};
 
-        STATIC_REQUIRE(phi::string_equals(l.file_name(), "file.cpp"));
-        //STATIC_REQUIRE(l.file_name_view() == "file.cpp");
-        STATIC_REQUIRE(phi::string_equals(l.function_name(), "function"));
-        //STATIC_REQUIRE(l.function_name_view() == "function");
-        STATIC_REQUIRE(l.line() == 3);
-        STATIC_REQUIRE(l.column() == 1);
+        EXT_STATIC_REQUIRE(phi::string_equals(l.file_name(), "file.cpp"));
+        //EXT_STATIC_REQUIRE(l.file_name_view() == "file.cpp");
+        EXT_STATIC_REQUIRE(phi::string_equals(l.function_name(), "function"));
+        //EXT_STATIC_REQUIRE(l.function_name_view() == "function");
+        STATIC_REQUIRE(l.line() == 3u);
+        STATIC_REQUIRE(l.column() == 1u);
     }
 
     SECTION("PHI_SOURCE_LOCATION_CURRENT")

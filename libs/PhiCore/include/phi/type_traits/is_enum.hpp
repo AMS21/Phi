@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_ENUM()
 
+#    define PHI_HAS_WORKING_IS_ENUM() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -45,6 +47,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_enum_v = !PHI_IS_ENUM(TypeT);
 #    include "phi/type_traits/is_reference.hpp"
 #    include "phi/type_traits/is_union.hpp"
 #    include "phi/type_traits/is_void.hpp"
+
+#    if PHI_HAS_WORKING_IS_UNION()
+#        define PHI_HAS_WORKING_IS_ENUM() 1
+#    else
+#        define PHI_HAS_WORKING_IS_ENUM() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

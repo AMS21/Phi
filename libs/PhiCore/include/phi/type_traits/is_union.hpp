@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_UNION()
 
+#    define PHI_HAS_WORKING_IS_UNION() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -36,6 +38,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_union_v = !PHI_IS_UNION(TypeT);
 #else
 
 #    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_IS_UNION() 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

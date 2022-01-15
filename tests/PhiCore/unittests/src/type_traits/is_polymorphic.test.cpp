@@ -3,7 +3,7 @@
 #include "test_types.hpp"
 #include <phi/type_traits/is_polymorphic.hpp>
 
-template <class T>
+template <typename T>
 void test_is_polymorphic()
 {
     STATIC_REQUIRE(phi::is_polymorphic<T>::value);

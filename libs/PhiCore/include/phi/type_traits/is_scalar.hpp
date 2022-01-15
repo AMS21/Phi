@@ -13,6 +13,8 @@
 
 #if 0
 
+#    define PHI_HAS_WORKING_IS_SCALAR() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -33,6 +35,12 @@ PHI_INLINE_VARIABLE constexpr bool is_scalar_v = PHI_IS_SCALAR(TypeT);
 #    include "phi/type_traits/is_member_pointer.hpp"
 #    include "phi/type_traits/is_null_pointer.hpp"
 #    include "phi/type_traits/is_pointer.hpp"
+
+#    if PHI_HAS_WORKING_IS_ENUM()
+#        define PHI_HAS_WORKING_IS_SCALAR() 1
+#    else
+#        define PHI_HAS_WORKING_IS_SCALAR() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

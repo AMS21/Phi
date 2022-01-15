@@ -14,6 +14,8 @@
 
 #    include "phi/type_traits/integral_constant.hpp"
 
+#    define PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -32,6 +34,12 @@ PHI_INLINE_VARIABLE constexpr bool is_nothrow_default_constructible_v =
 #else
 
 #    include "phi/type_traits/is_nothrow_constructible.hpp"
+
+#    if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

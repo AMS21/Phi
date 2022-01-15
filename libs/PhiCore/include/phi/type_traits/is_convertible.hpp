@@ -9,13 +9,11 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_convertible.hpp"
-#include "phi/core/declval.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_void.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_CONVERTIBLE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename FromT, typename ToT>
 struct is_convertible : public bool_constant<PHI_IS_CONVERTIBLE(FromT, ToT)>
@@ -36,6 +34,15 @@ PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(Fr
 #    endif
 
 #else
+
+#    include "phi/compiler_support/warning.hpp"
+#    include "phi/core/declval.hpp"
+#    include "phi/type_traits/is_void.hpp"
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
@@ -65,6 +72,8 @@ struct is_convertible
 template <typename FromT, typename ToT>
 struct is_not_convertible : public bool_constant<!is_convertible<FromT, ToT>::value>
 {};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 

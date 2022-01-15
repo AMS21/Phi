@@ -10,14 +10,12 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_destructible.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_destructible.hpp"
-#include "phi/type_traits/is_reference.hpp"
-#include "phi/type_traits/is_scalar.hpp"
-#include "phi/type_traits/remove_all_extents.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_HAS_INTRINSIC_IS_TRIVIALLY_DESTRUCTIBLE()
+
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() 1
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_trivially_destructible : public bool_constant<__is_trivially_destructible(TypeT)>
@@ -31,6 +29,12 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v = __is_trivially_
 #    endif
 
 #elif PHI_HAS_INTRINSIC_HAS_TRIVIAL_DESTRUCTOR()
+
+#    include "phi/type_traits/is_destructible.hpp"
+
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() 1
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_trivially_destructible
@@ -46,6 +50,14 @@ PHI_INLINE_VARIABLE constexpr bool is_trivially_destructible_v =
 #    endif
 
 #else
+
+#    include "phi/type_traits/is_reference.hpp"
+#    include "phi/type_traits/is_scalar.hpp"
+#    include "phi/type_traits/remove_all_extents.hpp"
+
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() PHI_HAS_WORKING_IS_SCALAR()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {

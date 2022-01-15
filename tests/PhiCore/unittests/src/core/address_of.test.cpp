@@ -62,15 +62,23 @@ struct B
     int n;
 };
 
+#if PHI_SUPPORTS_ADDRESS_OF()
+#    define STATIC_REQUIRE_ADR(...) STATIC_REQUIRE(__VA_ARGS__)
+#    define CONSTEXPR_ADR           constexpr
+#else
+#    define STATIC_REQUIRE_ADR(...) REQUIRE(__VA_ARGS__)
+#    define CONSTEXPR_ADR
+#endif
+
 constexpr int    i = 0;
 constexpr double d = 0.0;
 constexpr B      a{};
 
 TEST_CASE("address_of - constexpr")
 {
-    STATIC_REQUIRE(phi::address_of(i) == &i);
-    STATIC_REQUIRE(phi::address_of(d) == &d);
+    STATIC_REQUIRE_ADR(phi::address_of(i) == &i);
+    STATIC_REQUIRE_ADR(phi::address_of(d) == &d);
 
-    constexpr const B* ap = phi::address_of(a);
-    STATIC_REQUIRE(&ap->n == &a.n);
+    CONSTEXPR_ADR const B* ap = phi::address_of(a);
+    STATIC_REQUIRE_ADR(&ap->n == &a.n);
 }

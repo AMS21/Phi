@@ -14,6 +14,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_MOVE_CONSTRUCTIBLE() PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
+
 template <typename TypeT>
 struct is_move_constructible
     : public is_constructible<TypeT, typename add_rvalue_reference<TypeT>::type>

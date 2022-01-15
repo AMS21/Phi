@@ -8,32 +8,36 @@
 template <typename T>
 void test_is_nothrow_default_constructible()
 {
+#if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<T>::value);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<const T>::value);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<volatile T>::value);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_default_constructible_v<T>);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible_v<const T>);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible_v<volatile T>);
     STATIC_REQUIRE(phi::is_nothrow_default_constructible_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_nothrow_default_constructible()
 {
+#if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible_v<const volatile T>);
+#    endif
 #endif
 }
 

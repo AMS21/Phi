@@ -16,14 +16,14 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_SUPPORTS_IS_UNION()
+#if PHI_HAS_WORKING_IS_OBJECT()
 
 template <typename TypeT>
 PHI_NODISCARD constexpr typename enable_if<is_object<TypeT>::value, TypeT*>::type address_of(
         TypeT& arg) noexcept
 {
 #    if PHI_SUPPORTS_ADDRESS_OF()
-    return __builtin_addressof(arg);
+    return PHI_ADDRESS_OF(arg);
 #    else
     return reinterpret_cast<TypeT*>(
             &const_cast<char&>(reinterpret_cast<const volatile char&>(arg)));

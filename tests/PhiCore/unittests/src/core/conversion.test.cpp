@@ -13,6 +13,12 @@
 #    define TEST_BUGGED_MSVC
 #endif
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() || !defined(PHI_DEBUG)
+#    define TEST_NARROW_CAST(...) STATIC_REQUIRE(__VA_ARGS__)
+#else
+#    define TEST_NARROW_CAST(...) REQUIRE(__VA_ARGS__)
+#endif
+
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
@@ -115,15 +121,15 @@ void test_unsafe_cast_to_float()
 template <typename T>
 void test_narrow_cast()
 {
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int8_t(1)) == T(1));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int16_t(2)) == T(2));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int32_t(3)) == T(3));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::int64_t(4)) == T(4));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::int8_t(1)) == T(1));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::int16_t(2)) == T(2));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::int32_t(3)) == T(3));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::int64_t(4)) == T(4));
 
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint8_t(1)) == T(1));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint16_t(2)) == T(2));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint32_t(3)) == T(3));
-    STATIC_REQUIRE(phi::narrow_cast<T>(phi::uint64_t(4)) == T(4));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::uint8_t(1)) == T(1));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::uint16_t(2)) == T(2));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::uint32_t(3)) == T(3));
+    TEST_NARROW_CAST(phi::narrow_cast<T>(phi::uint64_t(4)) == T(4));
 }
 
 TEST_CASE("unsafe_cast")

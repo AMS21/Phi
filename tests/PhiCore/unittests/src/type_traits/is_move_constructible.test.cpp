@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -14,31 +15,35 @@
 template <typename T>
 void test_is_move_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_MOVE_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_move_constructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_move_constructible<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_move_constructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_move_constructible_v<T>);
-#endif
+#    endif
 
     // Standard compatibililty
     STATIC_REQUIRE(std::is_move_constructible<T>::value);
+#endif
 }
 
 template <typename T>
 void test_is_not_move_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_MOVE_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_move_constructible<T>::value);
     STATIC_REQUIRE(phi::is_not_move_constructible<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_move_constructible_v<T>);
     STATIC_REQUIRE(phi::is_not_move_constructible_v<T>);
-#endif
+#    endif
 
     // Standard compatibililty
     STATIC_REQUIRE_FALSE(std::is_move_constructible<T>::value);
+#endif
 }
 
 template <typename T>

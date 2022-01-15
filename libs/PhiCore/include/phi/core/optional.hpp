@@ -51,6 +51,17 @@
 #include <functional>
 #include <utility>
 
+#if PHI_HAS_WORKING_IS_CONSTRUCTIBLE() && PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE() &&             \
+        PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() &&                                             \
+        PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE() &&                                          \
+        PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() &&                                       \
+        PHI_HAS_WORKING_IS_TRIVIALLY_COPY_ASSIGNABLE() &&                                          \
+        PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE() &&                                       \
+        PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE() && PHI_HAS_WORKING_IS_MOVE_CONSTRUCTIBLE() &&   \
+        PHI_HAS_WORKING_IS_SCALAR() && PHI_HAS_WORKING_IS_INVOCABLE()
+
+#    define PHI_HAS_WORKING_OPTIONAL() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 /// Used to represent an optional with no data; essentially a bool
@@ -884,7 +895,7 @@ public:
 
 /// Carries out some operation which returns an optional on the stored
 /// object if there is one.
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename FuncT>
     PHI_EXTENDED_CONSTEXPR auto and_then(FuncT&& f) &
     {
@@ -972,7 +983,7 @@ public:
     {
         return optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
-#endif
+#    endif
 
     /// Calls `f` if the optional is empty
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
@@ -1378,15 +1389,15 @@ inline constexpr optional<TypeT> make_optional(std::initializer_list<OtherT> il,
     return optional<TypeT>(in_place, il, phi::forward<ArgsT>(args)...);
 }
 
-#if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
+#    if PHI_HAS_FEATURE_DEDUCTION_GUIDES()
 template <typename TypeT>
 optional(TypeT) -> optional<TypeT>;
-#endif
+#    endif
 
 /// \exclude
 namespace detail
 {
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename OptT, typename FuncT,
               typename RetT = decltype(phi::invoke(phi::declval<FuncT>(), *phi::declval<OptT>())),
               enable_if_t<!is_void<RetT>::value>* = nullptr>
@@ -1409,7 +1420,7 @@ namespace detail
 
         return optional<monostate>(nullopt);
     }
-#endif
+#    endif
 } // namespace detail
 
 /// Specialization for when `T` is a reference. `optional<T&>` acts similarly
@@ -1589,7 +1600,7 @@ public:
 
 /// Carries out some operation which returns an optional on the stored
 /// object if there is one.
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     template <typename FuncT>
     constexpr auto and_then(FuncT&& func) &
     {
@@ -1675,7 +1686,7 @@ public:
     {
         return detail::optional_map_impl(phi::move(*this), phi::forward<FuncT>(f));
     }
-#endif
+#    endif
 
     /// Calls `f` if the optional is empty
     template <typename FuncT, detail::enable_if_ret_void<FuncT>* = nullptr>
@@ -1726,7 +1737,7 @@ public:
         return nullopt;
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     template <typename FuncT, detail::disable_if_ret_void<FuncT>* = nullptr>
     constexpr optional<TypeT> or_else(FuncT&& f) const&
     {
@@ -1750,7 +1761,7 @@ public:
     {
         return has_value() ? phi::move(*this) : phi::forward<FuncT>(f)();
     }
-#endif
+#    endif
 
     /// Maps the stored value with `f` if there is one, otherwise returns `u`
     template <typename FuncT, typename OtherT>
@@ -1766,7 +1777,7 @@ public:
                              phi::forward<OtherT>(u);
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     template <typename FuncT, typename OtherT>
     constexpr OtherT map_or(FuncT&& f, OtherT&& u) const&
     {
@@ -1779,7 +1790,7 @@ public:
         return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
                              phi::forward<OtherT>(u);
     }
-#endif
+#    endif
 
     /// Maps the stored value with `f` if there is one, otherwise calls
     /// `u` and returns the result.
@@ -1797,7 +1808,7 @@ public:
                              phi::forward<OtherT>(u)();
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     template <typename FuncT, typename OtherT>
     constexpr invoke_result_t<OtherT> map_or_else(FuncT&& f, OtherT&& u) const&
     {
@@ -1811,7 +1822,7 @@ public:
         return has_value() ? phi::invoke(phi::forward<FuncT>(f), phi::move(**this)) :
                              phi::forward<OtherT>(u)();
     }
-#endif
+#    endif
 
     /// Returns `u` if `*this` has a value, otherwise an empty optional.
     template <typename OtherT>
@@ -1832,7 +1843,7 @@ public:
         return has_value() ? phi::move(*this) : rhs;
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr optional disjunction(const optional& rhs) const&
     {
         return has_value() ? *this : rhs;
@@ -1842,7 +1853,7 @@ public:
     {
         return has_value() ? phi::move(*this) : rhs;
     }
-#endif
+#    endif
 
     PHI_NODISCARD constexpr optional disjunction(optional&& rhs) &
     {
@@ -1854,7 +1865,7 @@ public:
         return has_value() ? phi::move(*this) : phi::move(rhs);
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr optional disjunction(optional&& rhs) const&
     {
         return has_value() ? *this : phi::move(rhs);
@@ -1864,7 +1875,7 @@ public:
     {
         return has_value() ? phi::move(*this) : phi::move(rhs);
     }
-#endif
+#    endif
 
     /// Takes the value out of the optional, leaving it empty
     PHI_EXTENDED_CONSTEXPR optional take()
@@ -1877,6 +1888,22 @@ public:
 private:
     TypeT* m_Value;
 };
+
+#else
+
+#    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_OPTIONAL() 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+class optional
+{
+    static_assert(false_t<TypeT>::value, "phi::optional: Requires compiler support");
+};
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

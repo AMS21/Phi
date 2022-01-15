@@ -14,6 +14,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE() PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE()
+
 template <typename TypeT>
 struct is_trivially_move_assignable
     : public is_trivially_assignable<typename add_lvalue_reference<TypeT>::type,

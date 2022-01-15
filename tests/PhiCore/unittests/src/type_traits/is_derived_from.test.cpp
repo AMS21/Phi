@@ -40,24 +40,28 @@ enum class ScopedEnumeration : int
 template <typename From, typename To>
 void test_is_derived_from_impl()
 {
+#if PHI_HAS_WORKING_IS_DERIVED_FROM()
     STATIC_REQUIRE(phi::is_derived_from<From, To>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_derived_from<From, To>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_derived_from_v<From, To>);
     STATIC_REQUIRE_FALSE(phi::is_not_derived_from_v<From, To>);
+#    endif
 #endif
 }
 
 template <typename From, typename To>
 void test_is_not_derived_from_impl()
 {
+#if PHI_HAS_WORKING_IS_DERIVED_FROM()
     STATIC_REQUIRE_FALSE(phi::is_derived_from<From, To>::value);
     STATIC_REQUIRE(phi::is_not_derived_from<From, To>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_derived_from_v<From, To>);
     STATIC_REQUIRE(phi::is_not_derived_from_v<From, To>);
+#    endif
 #endif
 }
 

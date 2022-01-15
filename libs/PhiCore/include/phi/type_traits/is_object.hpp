@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_OBJECT()
 
+#    define PHI_HAS_WORKING_IS_OBJECT() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -32,6 +34,12 @@ PHI_INLINE_VARIABLE constexpr bool is_object_v = PHI_IS_OBJECT(TypeT);
 #    include "phi/type_traits/is_class.hpp"
 #    include "phi/type_traits/is_scalar.hpp"
 #    include "phi/type_traits/is_union.hpp"
+
+#    if PHI_HAS_WORKING_IS_UNION()
+#        define PHI_HAS_WORKING_IS_OBJECT() 1
+#    else
+#        define PHI_HAS_WORKING_IS_OBJECT() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/warning.hpp"
+#include "phi/core/declval.hpp"
 #include "phi/type_traits/decay.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_base_of.hpp"
@@ -19,6 +20,12 @@
 #include "phi/type_traits/nat.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+#if PHI_HAS_WORKING_IS_BASE_OF()
+#    define PHI_HAS_WORKING_IS_INVOCABLE() 1
+#else
+#    define PHI_HAS_WORKING_IS_INVOCABLE() 0
+#endif
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")

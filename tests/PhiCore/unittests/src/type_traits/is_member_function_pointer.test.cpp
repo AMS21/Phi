@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -33,8 +34,12 @@ void test_is_member_function_pointer_imp()
     STATIC_REQUIRE(phi::is_member_function_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_member_function_pointer<T>::value);
     STATIC_REQUIRE(phi::is_member_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE(phi::is_scalar<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_compound<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
@@ -48,9 +53,15 @@ void test_is_member_function_pointer_imp()
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_integer<T>::value);
 
@@ -58,8 +69,12 @@ void test_is_member_function_pointer_imp()
     STATIC_REQUIRE(phi::is_member_function_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_member_function_pointer_v<T>);
     STATIC_REQUIRE(phi::is_member_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE(phi::is_scalar_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_compound_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
@@ -73,9 +88,15 @@ void test_is_member_function_pointer_imp()
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_integer_v<T>);
 #endif

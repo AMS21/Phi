@@ -45,7 +45,7 @@ void test_is_not_unbounded_array()
 class A
 {};
 
-TEST_CASE("type_traits is_unbounded_array", "[Core][TypeTraits][is_unbounded_array]")
+TEST_CASE("is_unbounded_array")
 {
     test_is_not_unbounded_array<void>();
     test_is_not_unbounded_array<phi::nullptr_t>();

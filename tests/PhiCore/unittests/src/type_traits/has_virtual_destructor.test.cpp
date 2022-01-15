@@ -14,16 +14,18 @@
 template <typename T>
 void test_has_virtual_destructor_impl()
 {
+#if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
     STATIC_REQUIRE(phi::has_virtual_destructor<T>::value);
     STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::has_virtual_destructor<T>::value);
+#endif
 }
 
 template <typename T>
@@ -38,16 +40,18 @@ void test_has_virtual_destructor()
 template <typename T>
 void test_has_no_virtual_destructor_impl()
 {
+#if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<T>::value);
     STATIC_REQUIRE(phi::has_no_virtual_destructor<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE(phi::has_no_virtual_destructor_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::has_virtual_destructor<T>::value);
+#endif
 }
 
 template <typename T>

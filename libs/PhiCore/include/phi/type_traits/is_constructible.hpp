@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
 
+#    define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename... ArgsT>
@@ -43,6 +45,12 @@ DETAIL_PHI_END_NAMESPACE()
 #    include "phi/type_traits/is_default_constructible.hpp"
 #    include "phi/type_traits/is_destructible.hpp"
 #    include "phi/type_traits/is_void.hpp"
+
+#    if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

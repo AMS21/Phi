@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -14,31 +15,35 @@
 template <typename T>
 void test_is_default_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_default_constructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_default_constructible<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_default_constructible_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_default_constructible_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_default_constructible<T>::value);
+#endif
 }
 
 template <typename T>
 void test_is_not_default_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
     STATIC_REQUIRE(phi::is_not_default_constructible<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<T>);
     STATIC_REQUIRE(phi::is_not_default_constructible_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_default_constructible<T>::value);
+#endif
 }
 
 template <typename T>
@@ -75,11 +80,23 @@ class B
     B();
 };
 
+struct C
+{
+    C() = default;
+};
+
+struct D
+{
+    D() = delete;
+};
+
 TEST_CASE("is_default_constructible")
 {
     test_is_default_constructible<A>();
     test_is_not_default_constructible<B>();
     test_is_not_default_constructible<NoDefaultConstructor>();
+    test_is_default_constructible<C>();
+    test_is_not_default_constructible<D>();
 
     test_is_not_default_constructible<void>();
     test_is_default_constructible<phi::nullptr_t>();

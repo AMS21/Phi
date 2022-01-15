@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -23,6 +24,7 @@
 #include <phi/type_traits/is_null_pointer.hpp>
 #include <phi/type_traits/is_object.hpp>
 #include <phi/type_traits/is_pointer.hpp>
+#include <phi/type_traits/is_reference.hpp>
 #include <phi/type_traits/is_referenceable.hpp>
 #include <phi/type_traits/is_rvalue_reference.hpp>
 #include <phi/type_traits/is_scalar.hpp>
@@ -37,9 +39,13 @@ void test_is_lvalue_reference_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_integer<T>::value);
@@ -48,13 +54,19 @@ void test_is_lvalue_reference_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
     STATIC_REQUIRE(phi::is_reference<T>::value);
     STATIC_REQUIRE(phi::is_referenceable<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
@@ -74,9 +86,13 @@ void test_is_lvalue_reference_impl()
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_integer_v<T>);
@@ -85,13 +101,19 @@ void test_is_lvalue_reference_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE(phi::is_reference_v<T>);
     STATIC_REQUIRE(phi::is_referenceable_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 

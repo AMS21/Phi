@@ -12,6 +12,12 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_BASE_OF()
+#    define PHI_HAS_WORKING_IS_DERIVED_FROM() 1
+#else
+#    define PHI_HAS_WORKING_IS_DERIVED_FROM() 0
+#endif
+
 template <typename DerivedT, typename BaseT>
 struct is_derived_from
     : public bool_constant<is_base_of<BaseT, DerivedT>::value &&

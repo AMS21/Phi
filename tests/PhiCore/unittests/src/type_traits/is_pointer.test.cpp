@@ -28,8 +28,12 @@ template <typename T>
 void test_is_pointer_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<T>::value);
@@ -39,15 +43,21 @@ void test_is_pointer_impl()
     STATIC_REQUIRE(phi::is_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
     STATIC_REQUIRE_FALSE(phi::is_not_pointer<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<T>);
@@ -57,7 +67,9 @@ void test_is_pointer_impl()
     STATIC_REQUIRE(phi::is_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 
     STATIC_REQUIRE_FALSE(phi::is_not_pointer_v<T>);

@@ -14,31 +14,35 @@
 template <typename T>
 void test_is_trivial_impl()
 {
+#if PHI_HAS_WORKING_IS_TRIVIAL()
     STATIC_REQUIRE(phi::is_trivial<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_trivial<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_trivial_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_trivial_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_trivial<T>::value);
+#endif
 }
 
 template <typename T>
 void test_is_not_trivial_impl()
 {
+#if PHI_HAS_WORKING_IS_TRIVIAL()
     STATIC_REQUIRE_FALSE(phi::is_trivial<T>::value);
     STATIC_REQUIRE(phi::is_not_trivial<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_trivial_v<T>);
     STATIC_REQUIRE(phi::is_not_trivial_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_trivial<T>::value);
+#endif
 }
 
 template <typename T>

@@ -1,38 +1,42 @@
 #include <phi/test/test_macros.hpp>
 
-#include "phi/compiler_support/char8_t.hpp"
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/type_traits/is_object.hpp>
 
 template <typename T>
 void test_is_object()
 {
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object<T>::value);
     STATIC_REQUIRE(phi::is_object<const T>::value);
     STATIC_REQUIRE(phi::is_object<volatile T>::value);
     STATIC_REQUIRE(phi::is_object<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_object_v<T>);
     STATIC_REQUIRE(phi::is_object_v<const T>);
     STATIC_REQUIRE(phi::is_object_v<volatile T>);
     STATIC_REQUIRE(phi::is_object_v<const volatile T>);
+#    endif
 #endif
 }
 
 template <typename T>
 void test_is_not_object()
 {
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_object<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_object<volatile T>::value);
     STATIC_REQUIRE_FALSE(phi::is_object<const volatile T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_object_v<const T>);
     STATIC_REQUIRE_FALSE(phi::is_object_v<volatile T>);
     STATIC_REQUIRE_FALSE(phi::is_object_v<const volatile T>);
+#    endif
 #endif
 }
 

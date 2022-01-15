@@ -29,6 +29,8 @@ SOFTWARE.
 #include "constexpr_helper.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/intrinsics/address_of.hpp>
+#include <phi/compiler_support/intrinsics/is_union.hpp>
 #include <phi/core/named_type.hpp>
 #include <cmath>
 #include <iomanip>
@@ -38,6 +40,12 @@ SOFTWARE.
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+
+#if PHI_SUPPORTS_ADDRESS_OF() || PHI_SUPPORTS_IS_UNION()
+#    define STATIC_REQUIRE_ADR(...) EXT_STATIC_REQUIRE(__VA_ARGS__)
+#else
+#    define STATIC_REQUIRE_ADR(...) REQUIRE(__VA_ARGS__)
+#endif
 
 // Usage examples
 
@@ -791,8 +799,8 @@ TEST_CASE("Method callable constexpr")
 
     using StrongA = phi::named_type<A, struct StrongATag, phi::method_callable>;
     EXT_CONSTEXPR_RUNTIME const StrongA constStrongA(A((42)));
-    EXT_STATIC_REQUIRE(StrongA(A(42))->method() == 42);
-    EXT_STATIC_REQUIRE(constStrongA->constMethod() == 42);
+    STATIC_REQUIRE_ADR(StrongA(A(42))->method() == 42);
+    STATIC_REQUIRE_ADR(constStrongA->constMethod() == 42);
 }
 
 TEST_CASE("Callable")

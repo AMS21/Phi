@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_NOTHROW_COPY_CONSTRUCTIBLE()
 
+#    define PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -42,6 +44,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_copy_constructible_v =
 #    include "phi/type_traits/add_const.hpp"
 #    include "phi/type_traits/add_lvalue_reference.hpp"
 #    include "phi/type_traits/is_nothrow_constructible.hpp"
+
+#    if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

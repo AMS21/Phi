@@ -13,7 +13,7 @@
 template <typename T>
 void test_is_trivially_copy_constructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_copy_constructible<T>::value);
     STATIC_REQUIRE(phi::is_trivially_copy_constructible<const T>::value);
 
@@ -27,7 +27,7 @@ void test_is_trivially_copy_constructible()
 template <typename T>
 void test_is_not_trivially_copy_constructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible<const T>::value);
 

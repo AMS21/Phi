@@ -2,7 +2,6 @@
 #define INCG_PHI_CORE_CONVERSION_HPP
 
 #include "phi/phi_config.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
@@ -16,6 +15,7 @@
 #include "phi/core/floating_point.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/integer.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_safe_type.hpp"
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/remove_reference.hpp"

@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_NOTHROW_CONSTRUCTIBLE()
 
+#    define PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename... ArgsT>
@@ -43,6 +45,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_constructible_v =
 #    include "phi/core/size_t.hpp"
 #    include "phi/type_traits/is_constructible.hpp"
 #    include "phi/type_traits/is_reference.hpp"
+
+#    if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -12,6 +12,9 @@
 #include "phi/type_traits/add_lvalue_reference.hpp"
 #include "phi/type_traits/is_trivially_constructible.hpp"
 
+#define PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()                                          \
+    PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>

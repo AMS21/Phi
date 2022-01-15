@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/type_traits/is_nothrow_destructible.hpp>
 
@@ -37,6 +38,9 @@ void test_is_not_nothrow_destructible()
 #endif
 }
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+
 class A
 {
     virtual void foo() = 0;
@@ -51,6 +55,8 @@ struct C
 {
     ~C() noexcept;
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_nothrow_destructible")
 {

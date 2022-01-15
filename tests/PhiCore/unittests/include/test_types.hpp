@@ -8,6 +8,9 @@
 #include <phi/type_traits/false_t.hpp>
 #include <cassert>
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wused-but-marked-unused")
+
 class Class
 {
 public:
@@ -403,33 +406,41 @@ struct TrapImplicitConversion
     {
         static_assert(phi::false_t<TypeT>::value,
                       "TrapImplicitConversion::operator TypeT, must never be instantiated");
+
+        return TypeT{};
     }
 };
 
 struct TrapComma
 {
     template <typename TypeT>
-    friend constexpr void operator,(const TrapComma&, TypeT&&) noexcept
+    friend constexpr bool operator,(const TrapComma&, TypeT&&) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "TrapComma::operator, must never be instantiated");
+
+        return false;
     }
 
     template <typename TypeT>
-    friend constexpr void operator,(TypeT&&, const TrapComma&) noexcept
+    friend constexpr bool operator,(TypeT&&, const TrapComma&) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "TrapComma::operator, must never be instantiated");
+
+        return false;
     }
 };
 
 struct TrapCall
 {
     template <typename... ArgsT>
-    constexpr void operator()(ArgsT&&...) noexcept
+    constexpr bool operator()(ArgsT&&...) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "TrapCall::operator() must never be instantiated");
+
+        return false;
     }
 };
 
@@ -462,23 +473,28 @@ struct TrapDeref
     constexpr T operator*() noexcept
     {
         static_assert(phi::false_t<T>::value, "TrapDeref::operator*() must never be instantiated");
+        return T{};
     }
 
     template <typename T>
     constexpr T* operator->() noexcept
     {
         static_assert(phi::false_t<T>::value, "TrapDeref::operator->() must never be instantiated");
+        return T{};
     }
 };
 
 struct TrapArraySubscript
 {
     template <typename T>
-    constexpr void operator[](PHI_UNUSED T x) noexcept
+    constexpr bool operator[](PHI_UNUSED T x) noexcept
     {
         static_assert(phi::false_t<T>::value,
                       "TrapArraySubscript::operator[] must never be instantiated");
+        return false;
     }
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_UNITTEST_TESTTYPES_HPP

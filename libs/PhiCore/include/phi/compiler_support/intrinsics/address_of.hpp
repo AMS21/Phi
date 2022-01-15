@@ -10,7 +10,7 @@
 #include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_BUILTIN_ADDRESS_OF()
-#    define PHI_ADDRESS_OF(obj)       __builtin_address_of(obj)
+#    define PHI_ADDRESS_OF(obj)       __builtin_addressof(obj)
 #    define PHI_SUPPORTS_ADDRESS_OF() 1
 #else
 #    define PHI_ADDRESS_OF(obj)       0

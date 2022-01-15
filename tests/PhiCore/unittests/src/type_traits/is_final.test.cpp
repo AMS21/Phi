@@ -1,6 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -31,7 +33,7 @@ union U2 final
 template <typename T>
 void test_is_final_impl()
 {
-#if PHI_HAS_INTRINSIC_IS_FINAL()
+#if PHI_HAS_WORKING_IS_FINAL()
     STATIC_REQUIRE(phi::is_final<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_final<T>::value);
 
@@ -41,7 +43,9 @@ void test_is_final_impl()
 #    endif
 
     // Standard compatibility
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_final<T>::value);
+#    endif
 #endif
 }
 
@@ -57,7 +61,7 @@ void test_is_final()
 template <typename T>
 void test_is_not_final_impl()
 {
-#if PHI_HAS_INTRINSIC_IS_FINAL()
+#if PHI_HAS_WORKING_IS_FINAL()
     STATIC_REQUIRE_FALSE(phi::is_final<T>::value);
     STATIC_REQUIRE(phi::is_not_final<T>::value);
 
@@ -66,8 +70,10 @@ void test_is_not_final_impl()
     STATIC_REQUIRE(phi::is_not_final_v<T>);
 #    endif
 
-    // Standard compatibility
+// Standard compatibility
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_final<T>::value);
+#    endif
 #endif
 }
 

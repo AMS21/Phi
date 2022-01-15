@@ -15,31 +15,35 @@
 template <typename T>
 void test_is_standard_layout_impl()
 {
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     STATIC_REQUIRE(phi::is_standard_layout<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_standard_layout<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_standard_layout_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_standard_layout_v<T>);
-#endif
+#    endif
 
     // Standard compatbilility
     STATIC_REQUIRE(std::is_standard_layout<T>::value);
+#endif
 }
 
 template <typename T>
 void test_is_not_standard_layout_impl()
 {
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     STATIC_REQUIRE_FALSE(phi::is_standard_layout<T>::value);
     STATIC_REQUIRE(phi::is_not_standard_layout<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_standard_layout_v<T>);
     STATIC_REQUIRE(phi::is_not_standard_layout_v<T>);
-#endif
+#    endif
 
     // Standard compatbilility
     STATIC_REQUIRE_FALSE(std::is_standard_layout<T>::value);
+#endif
 }
 
 template <typename T>

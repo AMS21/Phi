@@ -15,6 +15,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#    define PHI_HAS_WORKING_IS_FINAL() 1
+
 template <typename TypeT>
 struct is_final : public bool_constant<PHI_IS_FINAL(TypeT)>
 {};
@@ -36,6 +38,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_final_v = !PHI_IS_FINAL(TypeT);
 #else
 
 #    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_IS_FINAL() 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

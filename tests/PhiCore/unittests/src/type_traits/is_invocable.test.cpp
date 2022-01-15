@@ -3,6 +3,7 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/type_traits/is_invocable.hpp>
 #include <memory>
+#include <type_traits>
 #include <vector>
 
 struct Tag
@@ -42,24 +43,38 @@ struct Sink
 template <typename FunctionT, typename... ArgsT>
 void test_is_invocable()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE(phi::is_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_invocable<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_invocable_v<FunctionT, ArgsT...>);
+#    endif
+
+    // Standard compatbililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_invocable<FunctionT, ArgsT...>::value);
+#    endif
 #endif
 }
 
 template <typename FunctionT, typename... ArgsT>
 void test_is_not_invocable()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE_FALSE(phi::is_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_invocable<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_invocable_v<FunctionT, ArgsT...>);
+#    endif
+
+// Standard compatbililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_invocable<FunctionT, ArgsT...>::value);
+#    endif
 #endif
 }
 

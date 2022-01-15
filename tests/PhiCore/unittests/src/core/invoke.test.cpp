@@ -15,7 +15,7 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
 // TODO: Make tests work with MSVC
-#if PHI_COMPILER_IS_NOT(MSVC)
+#if PHI_COMPILER_IS_NOT(MSVC) && PHI_HAS_WORKING_IS_INVOCABLE()
 
 struct NonCopyable
 {

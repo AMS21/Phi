@@ -15,6 +15,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#    define PHI_HAS_WORKING_IS_EMPTY() 1
+
 template <typename TypeT>
 struct is_empty : public bool_constant<PHI_IS_EMPTY(TypeT)>
 {};
@@ -38,6 +40,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_empty_v = !PHI_IS_EMPTY(TypeT);
 #    include "phi/compiler_support/intrinsics/is_final.hpp"
 #    include "phi/type_traits/is_class.hpp"
 #    include "phi/type_traits/is_final.hpp"
+
+#    if PHI_HAS_WORKING_IS_CLASS()
+#        define PHI_HAS_WORKING_IS_EMPTY() 1
+#    else
+#        define PHI_HAS_WORKING_IS_EMPTY() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -67,7 +75,7 @@ namespace detail
 template <typename TypeT>
 struct is_empty : public detail::is_empty_impl<TypeT>
 {
-#    if PHI_SUPPORTS_IS_FINAL()
+#    if PHI_HAS_WORKING_IS_FINAL()
     static_assert(
             is_not_final<TypeT>::value,
             "phi::is_empty: The non intrinsic version cannot handle classes declared as final");

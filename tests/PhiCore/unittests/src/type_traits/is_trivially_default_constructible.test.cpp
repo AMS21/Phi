@@ -13,7 +13,7 @@
 template <typename T>
 void test_is_trivially_default_constructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_default_constructible<T>::value);
     STATIC_REQUIRE(phi::is_trivially_default_constructible<const T>::value);
     STATIC_REQUIRE(phi::is_trivially_default_constructible<volatile T>::value);
@@ -31,7 +31,7 @@ void test_is_trivially_default_constructible()
 template <typename T>
 void test_is_not_trivially_default_constructible()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_default_constructible<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_default_constructible<const T>::value);
     STATIC_REQUIRE_FALSE(phi::is_trivially_default_constructible<volatile T>::value);

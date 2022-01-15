@@ -27,7 +27,7 @@ struct SD : public S
 struct NotDerived
 {};
 
-template <class Tp>
+template <typename Tp>
 struct Voider
 {
     using type = void;
@@ -49,21 +49,23 @@ struct test_invoke_result<FnT(ArgsT...), RetT>
 {
     static void call()
     {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
         STATIC_REQUIRE(phi::is_invocable<FnT, ArgsT...>::value);
         STATIC_REQUIRE(phi::is_invocable_r<RetT, FnT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
         STATIC_REQUIRE(phi::is_invocable_v<FnT, ArgsT...>);
         STATIC_REQUIRE(phi::is_invocable_r_v<RetT, FnT, ArgsT...>);
-#endif
+#    endif
 
         CHECK_SAME_TYPE(RetT, typename phi::invoke_result<FnT, ArgsT...>::type);
         CHECK_SAME_TYPE(RetT, phi::invoke_result_t<FnT, ArgsT...>);
 
         // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
         CHECK_SAME_TYPE(typename phi::invoke_result<FnT, ArgsT...>::type,
                         typename std::invoke_result<FnT, ArgsT...>::type);
+#    endif
 #endif
     }
 };
@@ -82,16 +84,18 @@ struct test_invoke_no_result<FnT(ArgsT...)>
 {
     static void call()
     {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
         STATIC_REQUIRE_FALSE(phi::is_invocable<FnT, ArgsT...>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
         STATIC_REQUIRE_FALSE(phi::is_invocable_v<FnT, ArgsT...>);
-#endif
+#    endif
 
         STATIC_REQUIRE_FALSE(HasType<phi::invoke_result<FnT, ArgsT...>>::value);
 
         // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
         STATIC_REQUIRE_FALSE(HasType<std::invoke_result<FnT, ArgsT...>>::value);
+#    endif
 #endif
     }
 };
@@ -99,12 +103,14 @@ struct test_invoke_no_result<FnT(ArgsT...)>
 template <typename TypeT>
 void test_no_result()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE_FALSE(HasType<phi::invoke_result<TypeT>>::value);
     test_invoke_no_result<TypeT>::call();
 
     // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(HasType<std::invoke_result<TypeT>>::value);
+#    endif
 #endif
 }
 

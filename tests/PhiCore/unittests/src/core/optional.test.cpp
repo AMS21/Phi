@@ -19,6 +19,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
@@ -42,7 +43,7 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
-#if PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE() && PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#if PHI_HAS_WORKING_OPTIONAL()
 
 TEST_CASE("optional Assigment value")
 {

@@ -15,10 +15,16 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_ENUM() && PHI_HAS_WORKING_UNDERLYING_TYPE()
+#    define PHI_HAS_WORKING_IS_UNSCOPED_ENUM() 1
+#else
+#    define PHI_HAS_WORKING_IS_UNSCOPED_ENUM() 0
+#endif
+
 namespace detail
 {
     template <typename TypeT, bool IsEnum>
-    struct is_unscoped_enum_impl : false_type
+    struct is_unscoped_enum_impl : public false_type
     {};
 
     template <typename TypeT>

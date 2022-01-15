@@ -8,17 +8,19 @@
 template <typename T>
 void test_has_unique_object_representations_impl()
 {
+#if PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
     STATIC_REQUIRE(phi::has_unique_object_representations<T>::value);
     STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_unique_object_representations_v<T>);
     STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations_v<T>);
-#endif
+#    endif
 
 // Standard compatbility
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::has_unique_object_representations<T>::value);
+#    endif
 #endif
 }
 
@@ -34,17 +36,19 @@ void test_has_unique_object_representations()
 template <typename T>
 void test_has_no_unique_object_representations_impl()
 {
+#if PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
     STATIC_REQUIRE_FALSE(phi::has_unique_object_representations<T>::value);
     STATIC_REQUIRE(phi::has_no_unique_object_representations<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::has_unique_object_representations_v<T>);
     STATIC_REQUIRE(phi::has_no_unique_object_representations_v<T>);
-#endif
+#    endif
 
 // Standard compatbility
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::has_unique_object_representations<T>::value);
+#    endif
 #endif
 }
 

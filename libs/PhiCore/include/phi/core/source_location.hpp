@@ -9,9 +9,9 @@
 
 #include "phi/container/string_view.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/sized_types.hpp"
 #include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/false_t.hpp"
-#include <cstdint>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -26,25 +26,27 @@ struct source_location
         , m_Column(0)
     {}
 
-    constexpr source_location(const char* file, const char* function, std::uint_least32_t line,
-                              std::uint_least32_t column) noexcept
+    constexpr source_location(const char* file, const char* function, uint_least32_t line,
+                              uint_least32_t column) noexcept
         : m_FileName(file)
         , m_FunctionName(function)
         , m_LineNumber(line)
         , m_Column(column)
     {
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         PHI_DBG_ASSERT(file != nullptr, "Don't pass nullptr to phi::source_location");
         PHI_DBG_ASSERT(function != nullptr, "Don't pass nullptr to phi::source_location");
+#endif
     }
 
 #if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \
         PHI_HAS_INTRINSIC_BUILTIN_LINE()
-    static constexpr source_location current(const char*         file     = __builtin_FILE(),
-                                             const char*         function = __builtin_FUNCTION(),
-                                             std::uint_least32_t line     = __builtin_LINE()
+    static constexpr source_location current(const char*    file     = __builtin_FILE(),
+                                             const char*    function = __builtin_FUNCTION(),
+                                             uint_least32_t line     = __builtin_LINE()
 #    if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
                                                      ,
-                                             std::uint_least32_t column = __builtin_COLUMN()
+                                             uint_least32_t column = __builtin_COLUMN()
 #    endif
                                                      ) noexcept
     {
@@ -87,7 +89,7 @@ struct source_location
         return m_FileName;
     }
 
-    [[nodiscard]] constexpr string_view file_name_view() const noexcept
+    [[nodiscard]] PHI_EXTENDED_CONSTEXPR string_view file_name_view() const noexcept
     {
         return m_FileName;
     }
@@ -97,7 +99,7 @@ struct source_location
         return m_FunctionName;
     }
 
-    [[nodiscard]] constexpr string_view function_name_view() const noexcept
+    [[nodiscard]] PHI_EXTENDED_CONSTEXPR string_view function_name_view() const noexcept
     {
         return m_FunctionName;
     }

@@ -13,6 +13,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()                                          \
+    PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
+
 template <typename TypeT>
 struct is_trivially_move_constructible
     : public is_trivially_constructible<TypeT, typename add_rvalue_reference<TypeT>::type>

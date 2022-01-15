@@ -2,6 +2,7 @@
 
 #include <phi/core/nullptr_t.hpp>
 #include <phi/type_traits/is_invocable_r.hpp>
+#include <vector>
 
 struct Tag
 {};

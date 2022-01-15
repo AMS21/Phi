@@ -18,7 +18,9 @@ void test_is_nothrow_convertible()
 #endif
 
     // Standard compatbililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE(std::is_nothrow_convertible<FromT, ToT>::value);
+#endif
 }
 
 template <typename FromT, typename ToT>
@@ -32,8 +34,10 @@ void test_is_not_nothrow_convertible()
     STATIC_REQUIRE(phi::is_not_nothrow_convertible_v<FromT, ToT>);
 #endif
 
-    // Standard compatbililty
+// Standard compatbililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE_FALSE(std::is_nothrow_convertible<FromT, ToT>::value);
+#endif
 }
 
 struct A

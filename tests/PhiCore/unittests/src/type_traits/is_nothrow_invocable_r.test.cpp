@@ -44,31 +44,39 @@ struct Sink
 template <typename Ret, typename Fn, typename... Args>
 constexpr bool throws_invocable_r()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     return phi::is_invocable_r<Ret, Fn, Args...>::value &&
            !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value;
+#else
+    return true;
+#endif
 }
 
 template <typename FunctionT, typename... ArgsT>
 void test_is_nothrow_invocable_r()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
+#    endif
 #endif
 }
 
 template <typename FunctionT, typename... ArgsT>
 void test_is_not_nothrow_invocable_r()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
+#    endif
 #endif
 }
 

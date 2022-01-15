@@ -49,6 +49,7 @@ constexpr bool throws_invocable()
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
 
 // FIXME(EricWF) Don't test the where noexcept is *not* part of the type system
 // once implementations have caught up.
@@ -61,14 +62,16 @@ void test_noexcept_function_pointers()
         static void bar() noexcept
         {}
     };
-#if !PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE()
+
+#if PHI_HAS_WORKING_IS_INVOCABLE()
+#    if !PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE()
     {
         // Check that PMF's and function pointers *work*. is_nothrow_invocable will always
         // return false because 'noexcept' is not part of the function type.
         STATIC_REQUIRE(throws_invocable<decltype(&Dummy::foo), Dummy&>());
         STATIC_REQUIRE(throws_invocable<decltype(&Dummy::bar)>());
     }
-#else
+#    else
     {
         // Check that PMF's and function pointers actually work and that
         // is_nothrow_invocable returns true for noexcept PMF's and function
@@ -76,6 +79,7 @@ void test_noexcept_function_pointers()
         STATIC_REQUIRE(phi::is_nothrow_invocable<decltype(&Dummy::foo), Dummy&>::value);
         STATIC_REQUIRE(phi::is_nothrow_invocable<decltype(&Dummy::bar)>::value);
     }
+#    endif
 #endif
 }
 
@@ -84,24 +88,28 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 template <typename FunctionT, typename... ArgsT>
 void test_is_nothrow_invocable()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE(phi::is_nothrow_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+#    endif
 #endif
 }
 
 template <typename FunctionT, typename... ArgsT>
 void test_is_not_nothrow_invocable()
 {
+#if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+#    endif
 #endif
 }
 

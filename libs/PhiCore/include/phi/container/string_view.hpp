@@ -48,10 +48,14 @@ public:
     // Static checks
     static_assert(!is_array<value_type>::value,
                   "phi::basic_string_view: Character type must not be an array");
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     static_assert(is_standard_layout<value_type>::value,
                   "phi::basic_string_view: Character type must be standard-layout");
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIAL()
     static_assert(is_trivial<value_type>::value,
                   "phi::basic_string_view: Character type must be trivial");
+#endif
     static_assert(is_same<value_type, typename traits_type::char_type>::value,
                   "phi::basic_string_view: CharT must be the same type as traits_type::char_type");
 

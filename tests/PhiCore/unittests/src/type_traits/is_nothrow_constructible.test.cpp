@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -13,33 +14,37 @@
 template <typename T, typename... Args>
 void test_is_nothrow_constructible()
 {
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_nothrow_constructible<T, Args...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<T, Args...>::value);
     STATIC_REQUIRE(phi::is_constructible<T, Args...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_constructible_v<T, Args...>);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<T, Args...>);
     STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
-#endif
+#    endif
 
     // Standard compatibililty
     STATIC_REQUIRE(std::is_nothrow_constructible<T, Args...>::value);
+#endif
 }
 
 template <typename T, typename... Args>
 void test_is_not_nothrow_constructible()
 {
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<T, Args...>::value);
     STATIC_REQUIRE(phi::is_not_nothrow_constructible<T, Args...>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible_v<T, Args...>);
     STATIC_REQUIRE(phi::is_not_nothrow_constructible_v<T, Args...>);
-#endif
+#    endif
 
     // Standard compatibililty
     STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<T, Args...>::value);
+#endif
 }
 
 struct A

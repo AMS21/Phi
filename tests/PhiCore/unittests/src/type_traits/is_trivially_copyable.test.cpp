@@ -14,7 +14,7 @@
 template <typename T>
 void test_is_trivially_copyable_impl()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable<T>::value);
 
@@ -22,16 +22,16 @@ void test_is_trivially_copyable_impl()
     STATIC_REQUIRE(phi::is_trivially_copyable_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable_v<T>);
 #    endif
-#endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_trivially_copyable<T>::value);
+#endif
 }
 
 template <typename T>
 void test_is_not_trivially_copyable_impl()
 {
-#if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<T>::value);
     STATIC_REQUIRE(phi::is_not_trivially_copyable<T>::value);
 
@@ -39,10 +39,10 @@ void test_is_not_trivially_copyable_impl()
     STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<T>);
     STATIC_REQUIRE(phi::is_not_trivially_copyable_v<T>);
 #    endif
-#endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_trivially_copyable<T>::value);
+#endif
 }
 
 template <typename T>
@@ -84,7 +84,6 @@ void test_is_trivially_copyable_gcc_compat_volatile()
     test_is_not_trivially_copyable<T>();
 #else
     test_is_trivially_copyable<T>();
-
 #endif
 }
 

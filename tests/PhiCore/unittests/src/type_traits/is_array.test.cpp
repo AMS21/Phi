@@ -40,9 +40,13 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
     STATIC_REQUIRE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_fundamental<T>::value);
@@ -53,12 +57,18 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
     STATIC_REQUIRE_FALSE(phi::is_not_array<T>::value);
@@ -67,9 +77,13 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_fundamental_v<T>);
@@ -80,12 +94,18 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 #endif
 

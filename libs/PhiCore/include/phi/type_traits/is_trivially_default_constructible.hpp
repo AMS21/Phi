@@ -10,6 +10,12 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/is_trivially_constructible.hpp"
 
+#if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE() 1
+#else
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE() 0
+#endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>

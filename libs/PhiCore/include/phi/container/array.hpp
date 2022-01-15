@@ -332,12 +332,12 @@ public:
         return 0u;
     }
 
-    constexpr void fill(PHI_UNUSED const TypeT& value) noexcept
+    PHI_EXTENDED_CONSTEXPR void fill(PHI_UNUSED const TypeT& value) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot fill zero-sized array of type 'const T'");
     }
 
-    constexpr void swap(PHI_UNUSED array& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(PHI_UNUSED array& other) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }

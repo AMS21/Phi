@@ -14,16 +14,18 @@
 template <typename T>
 void test_is_abstract_impl()
 {
+#if PHI_HAS_WORKING_IS_ABSTRACT()
     STATIC_REQUIRE(phi::is_abstract<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_abstract<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_abstract_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_abstract_v<T>);
-#endif
+#    endif
 
     // Stndard compatbility
     STATIC_REQUIRE(std::is_abstract<T>::value);
+#endif
 }
 
 template <typename T>
@@ -38,16 +40,18 @@ void test_is_abstract()
 template <typename T>
 void test_is_not_abstract_impl()
 {
+#if PHI_HAS_WORKING_IS_ABSTRACT()
     STATIC_REQUIRE_FALSE(phi::is_abstract<T>::value);
     STATIC_REQUIRE(phi::is_not_abstract<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_abstract_v<T>);
     STATIC_REQUIRE(phi::is_not_abstract_v<T>);
-#endif
+#    endif
 
     // Standard compatbility
     STATIC_REQUIRE_FALSE(std::is_abstract<T>::value);
+#endif
 }
 
 template <typename T>

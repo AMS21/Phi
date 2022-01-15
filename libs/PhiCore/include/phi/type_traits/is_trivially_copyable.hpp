@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
 
+#    define PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -46,6 +48,17 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivially_copyable_v = !PHI_IS_TRIVIAL
 #    include "phi/type_traits/is_trivially_move_constructible.hpp"
 #    include "phi/type_traits/remove_all_extents.hpp"
 #    include "phi/type_traits/remove_const.hpp"
+
+#    if PHI_HAS_WORKING_IS_COPY_CONSTRUCTIBLE() && PHI_HAS_WORKING_IS_MOVE_CONSTRUCTIBLE() &&      \
+            PHI_HAS_WORKING_IS_TRIVIALLY_COPY_ASSIGNABLE() &&                                      \
+            PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE() &&                                   \
+            PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() &&                                         \
+            PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE() &&                                      \
+            PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
+#        define PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
