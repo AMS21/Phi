@@ -8,9 +8,35 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/intrinsics/is_function.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_const.hpp"
-#include "phi/type_traits/is_reference.hpp"
+
+#if PHI_SUPPORTS_IS_FUNCTION()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct is_function : public bool_constant<PHI_IS_FUNCTION(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_function : public bool_constant<!PHI_IS_FUNCTION(TypeT)>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_function_v = PHI_IS_FUNCTION(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_function_v = !PHI_IS_FUNCTION(TypeT);
+
+#    endif
+
+#else
+
+#    include "phi/type_traits/is_const.hpp"
+#    include "phi/type_traits/is_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -23,13 +49,15 @@ template <typename TypeT>
 struct is_not_function : public bool_constant<!is_function<TypeT>::value>
 {};
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_function_v = is_function<TypeT>::value;
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_function_v = is_not_function<TypeT>::value;
+
+#    endif
 
 #endif
 
