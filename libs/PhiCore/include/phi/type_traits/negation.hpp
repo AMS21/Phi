@@ -13,7 +13,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BoolT>
-struct negation : bool_constant<!bool(BoolT::value)>
+struct negation : public bool_constant<!bool(BoolT::value)>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

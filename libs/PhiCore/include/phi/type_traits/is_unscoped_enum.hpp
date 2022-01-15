@@ -37,10 +37,17 @@ template <typename TypeT>
 struct is_unscoped_enum : public detail::is_unscoped_enum_impl<TypeT, is_enum<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_unscoped_enum : public bool_constant<!is_unscoped_enum<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unscoped_enum_v = is_unscoped_enum<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unscoped_enum_v = is_not_unscoped_enum<TypeT>::value;
 
 #endif
 

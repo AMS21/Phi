@@ -37,10 +37,17 @@ template <typename TypeT>
 struct is_scoped_enum : public detail::is_scoped_enum_impl<TypeT, is_enum<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_scoped_enum : public bool_constant<!is_scoped_enum<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scoped_enum_v = is_scoped_enum<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_scoped_enum_v = is_not_scoped_enum<TypeT>::value;
 
 #endif
 

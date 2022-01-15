@@ -21,10 +21,17 @@ template <typename TypeT>
 struct is_object : public bool_constant<PHI_IS_OBJECT(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_object : public bool_constant<!PHI_IS_OBJECT(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_object_v = PHI_IS_OBJECT(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_object_v = !PHI_IS_OBJECT(TypeT);
 
 #    endif
 
@@ -48,10 +55,17 @@ struct is_object : public bool_constant<is_scalar<TypeT>::value || is_array<Type
                                         is_union<TypeT>::value || is_class<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_object : public bool_constant<!is_object<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_object_v = is_object<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_object_v = is_not_object<TypeT>::value;
 
 #    endif
 

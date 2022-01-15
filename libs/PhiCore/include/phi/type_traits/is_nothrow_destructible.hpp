@@ -47,11 +47,19 @@ template <typename TypeT>
 struct is_nothrow_destructible<TypeT&&> : public true_type
 {};
 
+template <typename TypeT>
+struct is_not_nothrow_destructible : public bool_constant<!is_nothrow_destructible<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v =
         is_nothrow_destructible<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
+        is_not_nothrow_destructible<TypeT>::value;
 
 #endif
 

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_same_rcv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -18,10 +19,17 @@ template <typename TypeT>
 struct is_safe_bool : public is_same_rcv<TypeT, boolean>
 {};
 
+template <typename TypeT>
+struct is_not_safe_bool : public bool_constant<!is_safe_bool<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_bool_v = is_safe_bool<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_safe_bool_v = is_not_safe_bool<TypeT>::value;
 
 #endif
 

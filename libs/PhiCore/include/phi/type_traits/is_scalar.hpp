@@ -21,10 +21,17 @@ template <typename TypeT>
 struct is_scalar : public bool_constant<PHI_IS_SCALAR(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_scalar : public bool_constant<!PHI_IS_SCALAR(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scalar_v = PHI_IS_SCALAR(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_scalar_v = !PHI_IS_SCALAR(TypeT);
 
 #    endif
 
@@ -51,10 +58,17 @@ struct is_scalar
                            is_null_pointer<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_scalar : public bool_constant<!is_scalar<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_scalar_v = is_scalar<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_scalar_v = is_not_scalar<TypeT>::value;
 
 #    endif
 

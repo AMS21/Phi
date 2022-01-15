@@ -45,10 +45,18 @@ struct is_swappable_with
     : public bool_constant<detail::is_swappable_with_impl<TypeT, OtherT>::value>
 {};
 
+template <typename TypeT, typename OtherT>
+struct is_not_swappable_with : public bool_constant<!is_swappable_with<TypeT, OtherT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename OtherT>
 PHI_INLINE_VARIABLE constexpr bool is_swappable_with_v = is_swappable_with<TypeT, OtherT>::value;
+
+template <typename TypeT, typename OtherT>
+PHI_INLINE_VARIABLE constexpr bool is_not_swappable_with_v =
+        is_not_swappable_with<TypeT, OtherT>::value;
 
 #endif
 

@@ -39,13 +39,22 @@ struct is_nothrow_swappable_with
     : public bool_constant<detail::is_nothrow_swappable_with_impl<TypeT, OtherT>::value>
 {};
 
+template <typename TypeT, typename OtherT>
+struct is_not_nothrow_swappable_with
+    : public bool_constant<!is_nothrow_swappable_with<TypeT, OtherT>::value>
+{};
+
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename OtherT>
-constexpr PHI_INLINE_VARIABLE bool is_nothrow_swappable_with_v =
+PHI_INLINE_VARIABLE constexpr bool is_nothrow_swappable_with_v =
         is_nothrow_swappable_with<TypeT, OtherT>::value;
+
+template <typename TypeT, typename OtherT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_swappable_with_v =
+        is_not_nothrow_swappable_with<TypeT, OtherT>::value;
 
 #endif
 

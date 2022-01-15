@@ -22,11 +22,19 @@ template <typename TypeT, typename ArgT>
 struct is_trivially_assignable : public bool_constant<PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT, ArgT)>
 {};
 
+template <typename TypeT, typename ArgT>
+struct is_not_trivially_assignable : public bool_constant<!PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT, ArgT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT,
                                                                                            ArgT);
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_assignable_v =
+        !PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT, ArgT);
 
 #    endif
 
@@ -42,11 +50,23 @@ struct is_trivially_assignable : public false_type
                   "intrinsic __is_trivially_assignable");
 };
 
+template <typename TypeT, typename ArgT>
+struct is_not_trivially_assignable : public false_type
+{
+    static_assert(false_t<TypeT>::value,
+                  "phi::is_not_trivially_assignable requires compiler support for "
+                  "intrinsic __is_trivially_assignable");
+};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v =
         is_trivially_assignable<TypeT, ArgT>::value;
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_assignable_v =
+        is_not_trivially_assignable<TypeT, ArgT>::value;
 
 #    endif
 

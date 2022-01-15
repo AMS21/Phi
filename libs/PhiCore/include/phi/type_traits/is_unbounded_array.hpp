@@ -20,10 +20,17 @@ template <typename TypeT>
 struct is_unbounded_array<TypeT[]> : public true_type
 {};
 
+template <typename TypeT>
+struct is_not_unbounded_array : public bool_constant<!is_unbounded_array<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unbounded_array_v = is_unbounded_array<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unbounded_array_v = is_not_unbounded_array<TypeT>::value;
 
 #endif
 

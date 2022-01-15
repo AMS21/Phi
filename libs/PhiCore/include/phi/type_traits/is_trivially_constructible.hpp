@@ -27,11 +27,20 @@ struct is_trivially_constructible
     : public bool_constant<PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
+template <typename TypeT, typename... ArgsT>
+struct is_not_trivially_constructible
+    : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_constructible_v =
         PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...);
+
+template <typename TypeT, typename... ArgsT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_constructible_v =
+        !PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 #    endif
 
@@ -49,10 +58,22 @@ struct is_trivially_constructible : public false_type
                   "for intrinsic __is_trivially_constructible");
 };
 
+template <typename TypeT, typename... ArgsT>
+struct is_not_trivially_constructible : public false_type
+{
+    static_assert(false_t<TypeT>::value,
+                  "phi::is_not_trivially_constructible requires compiler support "
+                  "for intrinsic __is_trivially_constructible");
+};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_trivially_constructible_v =
+        is_trivially_constructible<TypeT, ArgsT...>::value;
+
+template <typename TypeT, typename... ArgsT>
+PHI_INLINE_VARIABLE constexpr bool is_not_trivially_constructible_v =
         is_trivially_constructible<TypeT, ArgsT...>::value;
 
 #    endif

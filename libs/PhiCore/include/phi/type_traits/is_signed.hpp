@@ -29,10 +29,17 @@ template <typename TypeT>
 struct is_signed : public detail::is_signed_impl<remove_cv_t<make_unsafe_t<TypeT>>>
 {};
 
+template <typename TypeT>
+struct is_not_signed : public bool_constant<!is_signed<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_signed_v = is_signed<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_signed_v = is_not_signed<TypeT>::value;
 
 #endif
 

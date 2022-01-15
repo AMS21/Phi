@@ -47,6 +47,7 @@ template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr size_t rank_v = rank<TypeT>::value;
 
 #    endif
+
 #endif
 
 DETAIL_PHI_END_NAMESPACE()
