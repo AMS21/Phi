@@ -215,6 +215,7 @@ file(
   "src/type_traits/void_t.test.cpp"
   # Base
   "src/PhiConfig.test.cpp"
+  "src/type_traits.test.cpp"
   )
 
 if (${CMAKE_VERSION} VERSION_GREATER "3.7")

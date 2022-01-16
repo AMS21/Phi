@@ -97,7 +97,7 @@
 #include "phi/type_traits/is_safe_arithmetic.hpp"
 #include "phi/type_traits/is_safe_bool.hpp"
 #include "phi/type_traits/is_safe_floating_point.hpp"
-#include "phi/type_traits/is_safe_fundamental..hpp"
+#include "phi/type_traits/is_safe_fundamental.hpp"
 #include "phi/type_traits/is_safe_integer.hpp"
 #include "phi/type_traits/is_safe_integral.hpp"
 #include "phi/type_traits/is_safe_scalar.hpp"

@@ -18,6 +18,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_SAFE_SCALAR() PHI_HAS_WORKING_IS_ENUM()
+
 template <typename TypeT>
 struct is_safe_scalar
     : public bool_constant<is_safe_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
