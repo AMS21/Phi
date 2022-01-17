@@ -41,7 +41,7 @@ template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_floating_point_v = is_safe_floating_point<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_safe_flating_point_v =
+PHI_INLINE_VARIABLE constexpr bool is_not_safe_floating_point_v =
         is_not_safe_floating_point<TypeT>::value;
 
 #endif
