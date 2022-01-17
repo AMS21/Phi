@@ -29,13 +29,13 @@ function(phi_check_source_compiles _lang _source _var)
       set(_lang_textual "Objective-C++")
       set(_lang_ext "mm")
     else()
-      message (SEND_ERROR "check_source_compiles: ${_lang}: unknown language.")
+      message(SEND_ERROR "check_source_compiles: ${_lang}: unknown language.")
       return()
     endif()
 
-    get_property (_supported_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
-    if (NOT _lang IN_LIST _supported_languages)
-      message (SEND_ERROR "check_source_compiles: ${_lang}: needs to be enabled before use.")
+    get_property(_supported_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+    if(NOT _lang IN_LIST _supported_languages)
+      message(SEND_ERROR "check_source_compiles: ${_lang}: needs to be enabled before use.")
       return()
     endif()
 
@@ -60,37 +60,36 @@ function(phi_check_source_compiles _lang _source _var)
     endif()
 
     if(CMAKE_REQUIRED_LINK_OPTIONS)
-      set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LINK_OPTIONS
-        LINK_OPTIONS ${CMAKE_REQUIRED_LINK_OPTIONS})
+      set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LINK_OPTIONS LINK_OPTIONS
+                                                         ${CMAKE_REQUIRED_LINK_OPTIONS})
     else()
       set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LINK_OPTIONS)
     endif()
     if(CMAKE_REQUIRED_LIBRARIES)
-      set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LIBRARIES
-        LINK_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES})
+      set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LIBRARIES LINK_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES})
     else()
       set(CHECK_${LANG}_SOURCE_COMPILES_ADD_LIBRARIES)
     endif()
     if(CMAKE_REQUIRED_INCLUDES)
       set(CHECK_${LANG}_SOURCE_COMPILES_ADD_INCLUDES
-        "-DINCLUDE_DIRECTORIES:STRING=${CMAKE_REQUIRED_INCLUDES}")
+          "-DINCLUDE_DIRECTORIES:STRING=${CMAKE_REQUIRED_INCLUDES}")
     else()
       set(CHECK_${LANG}_SOURCE_COMPILES_ADD_INCLUDES)
     endif()
     file(WRITE "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.${_SRC_EXT}"
-      "${_source}\n")
+         "${_source}\n")
 
     if(NOT CMAKE_REQUIRED_QUIET)
       message(CHECK_START "Performing Test ${_var}")
     endif()
-    try_compile(${_var}
-      ${CMAKE_BINARY_DIR}
+    try_compile(
+      ${_var} ${CMAKE_BINARY_DIR}
       ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.${_SRC_EXT}
-      COMPILE_DEFINITIONS -D${_var} ${CMAKE_REQUIRED_DEFINITIONS}
-      ${CHECK_${LANG}_SOURCE_COMPILES_ADD_LINK_OPTIONS}
-      ${CHECK_${LANG}_SOURCE_COMPILES_ADD_LIBRARIES}
+      COMPILE_DEFINITIONS
+        -D${_var} ${CMAKE_REQUIRED_DEFINITIONS} ${CHECK_${LANG}_SOURCE_COMPILES_ADD_LINK_OPTIONS}
+        ${CHECK_${LANG}_SOURCE_COMPILES_ADD_LIBRARIES}
       CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${CMAKE_REQUIRED_FLAGS}
-      "${CHECK_${LANG}_SOURCE_COMPILES_ADD_INCLUDES}"
+                  "${CHECK_${LANG}_SOURCE_COMPILES_ADD_INCLUDES}"
       OUTPUT_VARIABLE OUTPUT)
 
     foreach(_regex ${_FAIL_REGEX})
@@ -100,11 +99,14 @@ function(phi_check_source_compiles _lang _source _var)
     endforeach()
 
     if(${_var})
-      set(${_var} 1 CACHE INTERNAL "Test ${_var}")
+      set(${_var}
+          1
+          CACHE INTERNAL "Test ${_var}")
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_PASS "Success")
       endif()
-      file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
+      file(
+        APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
         "Performing ${_lang_textual} SOURCE FILE Test ${_var} succeeded with the following output:\n"
         "${OUTPUT}\n"
         "Source file was:\n${_source}\n")
@@ -112,11 +114,13 @@ function(phi_check_source_compiles _lang _source _var)
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_FAIL "Failed")
       endif()
-      set(${_var} "0" CACHE INTERNAL "Test ${_var}")
-      file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+      set(${_var}
+          "0"
+          CACHE INTERNAL "Test ${_var}")
+      file(
+        APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Performing ${_lang_textual} SOURCE FILE Test ${_var} failed with the following output:\n"
-        "${OUTPUT}\n"
-        "Source file was:\n${_source}\n")
+        "${OUTPUT}\n" "Source file was:\n${_source}\n")
     endif()
   endif()
 endfunction()

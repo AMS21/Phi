@@ -1,6 +1,7 @@
 project("PhiCoreTestUnittests" CXX)
 
-file(GLOB TEST_HEADERS "include/constexpr_helper.hpp" "include/Noexcept.hpp" "include/SameType.hpp" "include/test_types.hpp")
+file(GLOB TEST_HEADERS "include/constexpr_helper.hpp" "include/Noexcept.hpp" "include/SameType.hpp"
+     "include/test_types.hpp")
 
 file(
   GLOB
@@ -215,33 +216,83 @@ file(
   "src/type_traits/void_t.test.cpp"
   # Base
   "src/PhiConfig.test.cpp"
-  "src/type_traits.test.cpp"
-  )
+  "src/type_traits.test.cpp")
 
-if (${CMAKE_VERSION} VERSION_GREATER "3.7")
+if(${CMAKE_VERSION} VERSION_GREATER "3.7")
   source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 endif()
 
-phi_add_executable(NAME "PhiCoreUnittests" SOURCES ${TEST_SOURCES} FOLDER "Tests/PhiCore" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
+phi_add_executable(
+  NAME
+  "PhiCoreUnittests"
+  SOURCES
+  ${TEST_SOURCES}
+  FOLDER
+  "Tests/PhiCore"
+  PRIVATE_LINK_LIBRARIES
+  Phi::InternalProjectOptions
+  Phi::Core
+  Phi::Test
+  PRIVATE_INCLUDE_DIRS
+  "include")
 phi_enable_static_analyzers("PhiCoreUnittests")
 phi_add_test(TARGET "PhiCoreUnittests")
 
-phi_add_executable(NAME "PhiCoreUnittestsNoIntrinsics" SOURCES ${TEST_SOURCES} FOLDER "Test/PhiCore" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
+phi_add_executable(
+  NAME
+  "PhiCoreUnittestsNoIntrinsics"
+  SOURCES
+  ${TEST_SOURCES}
+  FOLDER
+  "Test/PhiCore"
+  PRIVATE_LINK_LIBRARIES
+  Phi::InternalProjectOptions
+  Phi::Core
+  Phi::Test
+  PRIVATE_INCLUDE_DIRS
+  "include")
 phi_enable_static_analyzers("PhiCoreUnittestsNoIntrinsics")
 target_compile_definitions("PhiCoreUnittestsNoIntrinsics" PRIVATE "PHI_CONFIG_NO_INTRINSICS")
 phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics")
 
 # Test with all supported standard version
 foreach(std IN ITEMS ${phi_supported_standards})
-if (DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
-phi_add_executable(NAME "PhiCoreUnittests${std}" SOURCES ${TEST_SOURCES} FOLDER "Tests/PhiCore" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
-phi_add_test(TARGET "PhiCoreUnittests${std}")
-target_compile_options("PhiCoreUnittests${std}" PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
+  if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
+    phi_add_executable(
+      NAME
+      "PhiCoreUnittests${std}"
+      SOURCES
+      ${TEST_SOURCES}
+      FOLDER
+      "Tests/PhiCore"
+      PRIVATE_LINK_LIBRARIES
+      Phi::InternalProjectOptions
+      Phi::Core
+      Phi::Test
+      PRIVATE_INCLUDE_DIRS
+      "include")
+    phi_add_test(TARGET "PhiCoreUnittests${std}")
+    target_compile_options("PhiCoreUnittests${std}"
+                           PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
 
-phi_add_executable(NAME "PhiCoreUnittestsNoIntrinsics${std}" SOURCES ${TEST_SOURCES} FOLDER "Test/PhiCore" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
-target_compile_definitions("PhiCoreUnittestsNoIntrinsics${std}" PRIVATE "PHI_CONFIG_NO_INTRINSICS")
-phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics${std}")
-target_compile_options("PhiCoreUnittestsNoIntrinsics${std}" PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
-endif()
+    phi_add_executable(
+      NAME
+      "PhiCoreUnittestsNoIntrinsics${std}"
+      SOURCES
+      ${TEST_SOURCES}
+      FOLDER
+      "Test/PhiCore"
+      PRIVATE_LINK_LIBRARIES
+      Phi::InternalProjectOptions
+      Phi::Core
+      Phi::Test
+      PRIVATE_INCLUDE_DIRS
+      "include")
+    target_compile_definitions("PhiCoreUnittestsNoIntrinsics${std}"
+                               PRIVATE "PHI_CONFIG_NO_INTRINSICS")
+    phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics${std}")
+    target_compile_options("PhiCoreUnittestsNoIntrinsics${std}"
+                           PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
+  endif()
 
 endforeach()

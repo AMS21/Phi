@@ -16,8 +16,9 @@ function(phi_check_compiler_flag _lang _flag _var)
                          FAIL_REGEX "-Werror=.* argument .* is not valid for C\\+\\+")
   elseif(_lang STREQUAL "CUDA")
     set(_lang_src "__host__ int main() { return 0; }")
-    set(_lang_fail_regex FAIL_REGEX "command[ -]line option .* is valid for .* but not for C\\+\\+" # Host GNU
-                         FAIL_REGEX "argument unused during compilation: .*") # Clang
+    set(_lang_fail_regex
+        FAIL_REGEX "command[ -]line option .* is valid for .* but not for C\\+\\+" # Host GNU
+        FAIL_REGEX "argument unused during compilation: .*") # Clang
   elseif(_lang STREQUAL "Fortran")
     set(_lang_src "       program test\n       stop\n       end program")
     set(_lang_fail_regex FAIL_REGEX "command[ -]line option .* is valid for .* but not for Fortran")
@@ -25,31 +26,35 @@ function(phi_check_compiler_flag _lang _flag _var)
     set(_lang_src "__host__ int main() { return 0; }")
     set(_lang_fail_regex FAIL_REGEX "argument unused during compilation: .*") # Clang
   elseif(_lang STREQUAL "OBJC")
-    set(_lang_src [=[
+    set(_lang_src
+        [=[
 #ifndef __OBJC__
 #  error "Not an Objective-C compiler"
 #endif
 int main(void) { return 0; }]=])
-    set(_lang_fail_regex FAIL_REGEX "command[ -]line option .* is valid for .* but not for Objective-C" # GNU
-                         FAIL_REGEX "argument unused during compilation: .*") # Clang
+    set(_lang_fail_regex
+        FAIL_REGEX "command[ -]line option .* is valid for .* but not for Objective-C" # GNU
+        FAIL_REGEX "argument unused during compilation: .*") # Clang
   elseif(_lang STREQUAL "OBJCXX")
-    set(_lang_src [=[
+    set(_lang_src
+        [=[
 #ifndef __OBJC__
 #  error "Not an Objective-C++ compiler"
 #endif
 int main(void) { return 0; }]=])
-    set(_lang_fail_regex FAIL_REGEX "command[ -]line option .* is valid for .* but not for Objective-C\\+\\+" # GNU
-                         FAIL_REGEX "argument unused during compilation: .*") # Clang
+    set(_lang_fail_regex
+        FAIL_REGEX "command[ -]line option .* is valid for .* but not for Objective-C\\+\\+" # GNU
+        FAIL_REGEX "argument unused during compilation: .*") # Clang
   elseif(_lang STREQUAL "ISPC")
     set(_lang_src "float func(uniform int32, float a) { return a / 2.25; }")
   else()
-    message (SEND_ERROR "check_compiler_flag: ${_lang}: unknown language.")
+    message(SEND_ERROR "check_compiler_flag: ${_lang}: unknown language.")
     return()
   endif()
 
-  get_property (_supported_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
-  if (NOT _lang IN_LIST _supported_languages)
-    message (SEND_ERROR "check_compiler_flag: ${_lang}: needs to be enabled before use.")
+  get_property(_supported_languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  if(NOT _lang IN_LIST _supported_languages)
+    message(SEND_ERROR "check_compiler_flag: ${_lang}: needs to be enabled before use.")
     return()
   endif()
 
@@ -63,14 +68,9 @@ int main(void) { return 0; }]=])
   endforeach()
 
   phi_check_compiler_flag_common_patterns(_common_patterns)
-  phi_check_source_compiles(${_lang}
-    "${_lang_src}"
-    ${_var}
-    ${_lang_fail_regex}
-    ${_common_patterns}
-    )
+  phi_check_source_compiles(${_lang} "${_lang_src}" ${_var} ${_lang_fail_regex} ${_common_patterns})
 
   foreach(v IN LISTS _locale_vars)
     set(ENV{${v}} ${_locale_vars_saved_${v}})
   endforeach()
-endfunction ()
+endfunction()
