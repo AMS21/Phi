@@ -380,8 +380,9 @@ constexpr boolean operator>=(const array<TypeT, Size>& lhs, const array<TypeT, S
 }
 
 template <typename TypeT, size_t Size>
-PHI_EXTENDED_CONSTEXPR void swap(array<TypeT, Size>& lhs, array<TypeT, Size>& rhs) noexcept(
-        is_nothrow_swappable<TypeT>::value)
+PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(
+        array<TypeT, Size>& lhs,
+        array<TypeT, Size>& rhs) noexcept(is_nothrow_swappable<TypeT>::value)
 {
     lhs.swap(rhs);
 }

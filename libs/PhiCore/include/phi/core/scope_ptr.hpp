@@ -278,6 +278,12 @@ constexpr boolean operator!=(nullptr_t, const scope_ptr<RhsT>& rhs) noexcept
     return rhs.get() != nullptr;
 }
 
+template <typename TypeT>
+PHI_EXTENDED_CONSTEXPR void swap(scope_ptr<TypeT>& lhs, scope_ptr<TypeT>& rhs) noexcept
+{
+    lhs.swap(rhs);
+}
+
 /* not_null_scope_ptr */
 
 template <typename TypeT>
