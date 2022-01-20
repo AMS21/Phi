@@ -13,8 +13,10 @@ struct nat
 {
     nat()           = delete;
     nat(const nat&) = delete;
+    nat(nat&&)      = delete;
     nat& operator=(const nat&) = delete;
-    ~nat()                     = delete;
+    nat& operator=(nat&&) = delete;
+    ~nat()                = delete;
 };
 
 DETAIL_PHI_END_NAMESPACE()

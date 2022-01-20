@@ -10,9 +10,9 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
+#include "phi/type_traits/detail/nat.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_void.hpp"
-#include "phi/type_traits/nat.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

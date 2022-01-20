@@ -10,6 +10,7 @@
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/type_traits/decay.hpp"
+#include "phi/type_traits/detail/nat.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_base_of.hpp"
 #include "phi/type_traits/is_convertible.hpp"
@@ -17,7 +18,6 @@
 #include "phi/type_traits/is_member_object_pointer.hpp"
 #include "phi/type_traits/is_reference_wrapper.hpp"
 #include "phi/type_traits/is_void.hpp"
-#include "phi/type_traits/nat.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

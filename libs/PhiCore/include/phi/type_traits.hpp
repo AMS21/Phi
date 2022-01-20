@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/type_traits/detail/invoke_impl.hpp"
+#include "phi/type_traits/detail/nat.hpp"
 #include "phi/type_traits/detail/yes_no_type.hpp"
 
 #include "phi/type_traits/add_const.hpp"
@@ -141,7 +142,6 @@
 #include "phi/type_traits/make_signed.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/make_unsigned.hpp"
-#include "phi/type_traits/nat.hpp"
 #include "phi/type_traits/negation.hpp"
 #include "phi/type_traits/rank.hpp"
 #include "phi/type_traits/remove_all_extents.hpp"
