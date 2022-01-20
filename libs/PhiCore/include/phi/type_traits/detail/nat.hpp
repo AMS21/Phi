@@ -9,7 +9,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-struct nat
+struct nat final
 {
     nat()           = delete;
     nat(const nat&) = delete;
