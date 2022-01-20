@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_arithmetic.hpp"
+#include "phi/type_traits/is_unsafe_arithmetic.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 
@@ -16,7 +16,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, bool = is_arithmetic<TypeT>::value>
+    template <typename TypeT, bool = is_unsafe_arithmetic<TypeT>::value>
     struct is_signed_impl : public bool_constant<TypeT(-1) < TypeT(0)>
     {};
 

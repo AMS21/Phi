@@ -562,7 +562,7 @@ TEST_CASE("type_traits")
     STATIC_REQUIRE_FALSE(phi::is_safe_integral_v<int>);
 #endif
 
-// is_safe_scalar
+    // is_safe_scalar
 #if PHI_HAS_WORKING_IS_SAFE_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_safe_scalar<int>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -570,10 +570,34 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_safe_signed_integer
+    STATIC_REQUIRE_FALSE(phi::is_safe_signed_integer<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_safe_signed_integer_v<int>);
+#endif
+
+    // is_safe_signed
+    STATIC_REQUIRE_FALSE(phi::is_safe_signed<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_safe_signed_v<int>);
+#endif
+
     // is_safe_type
     STATIC_REQUIRE_FALSE(phi::is_safe_type<int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_safe_type_v<int>);
+#endif
+
+    // is_safe_unsigned_integer
+    STATIC_REQUIRE_FALSE(phi::is_safe_unsigned_integer<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_safe_unsigned_integer_v<int>);
+#endif
+
+    // is_safe_unsigned
+    STATIC_REQUIRE_FALSE(phi::is_safe_unsigned<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_safe_unsigned_v<int>);
 #endif
 
     // is_same
@@ -626,6 +650,12 @@ TEST_CASE("type_traits")
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_scoped_enum_v<EnumClass>);
 #    endif
+#endif
+
+    // is_signed_integer
+    STATIC_REQUIRE(phi::is_signed_integer<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_signed_integer_v<int>);
 #endif
 
     // is_signed
@@ -792,10 +822,34 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_unsafe_signed_integer
+    STATIC_REQUIRE(phi::is_unsafe_signed_integer<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_signed_integer_v<int>);
+#endif
+
+    // is_unsafe_signed
+    STATIC_REQUIRE(phi::is_unsafe_signed<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_signed_v<int>);
+#endif
+
     // is_unsafe_type
     STATIC_REQUIRE(phi::is_unsafe_type<int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_unsafe_type_v<int>);
+#endif
+
+    // is_unsafe_unsigned_integer
+    STATIC_REQUIRE(phi::is_unsafe_unsigned_integer<unsigned int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_unsigned_integer_v<unsigned int>);
+#endif
+
+    // is_unsafe_signed
+    STATIC_REQUIRE(phi::is_unsafe_unsigned_integer<unsigned>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_unsigned_integer_v<unsigned>);
 #endif
 
     // is_unscoped_enum
@@ -804,6 +858,12 @@ TEST_CASE("type_traits")
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_unscoped_enum_v<Enum>);
 #    endif
+#endif
+
+    // is_unsigned_integer
+    STATIC_REQUIRE(phi::is_unsigned_integer<unsigned>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsigned_integer_v<unsigned>);
 #endif
 
     // is_unsigned
