@@ -42,18 +42,6 @@ struct S
     explicit operator T() const;
 };
 
-template <typename To>
-struct ImplicitTo
-{
-    operator To();
-};
-
-template <typename To>
-struct ExplicitTo
-{
-    explicit operator To();
-};
-
 template <typename T, typename... ArgsT>
 void test_is_constructible()
 {

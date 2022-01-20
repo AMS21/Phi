@@ -173,28 +173,28 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<Template<void>>();
     test_is_copy_constructible<Template<int>>();
     test_is_copy_constructible<Template<Class>>();
-    test_is_copy_constructible<Template<incomplete_type>>();
+    test_is_copy_constructible<Template<IncompleteType>>();
     test_is_copy_constructible<VariadicTemplate<>>();
     test_is_copy_constructible<VariadicTemplate<void>>();
     test_is_copy_constructible<VariadicTemplate<int>>();
     test_is_copy_constructible<VariadicTemplate<Class>>();
-    test_is_copy_constructible<VariadicTemplate<incomplete_type>>();
+    test_is_copy_constructible<VariadicTemplate<IncompleteType>>();
     test_is_copy_constructible<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_copy_constructible<PublicDerviedFromTemplate<Base>>();
-    test_is_copy_constructible<PublicDerviedFromTemplate<Derived>>();
-    test_is_copy_constructible<PublicDerviedFromTemplate<Class>>();
-    test_is_copy_constructible<PrivateDerviedFromTemplate<Base>>();
-    test_is_copy_constructible<PrivateDerviedFromTemplate<Derived>>();
-    test_is_copy_constructible<PrivateDerviedFromTemplate<Class>>();
-    test_is_copy_constructible<ProtectedDerviedFromTemplate<Base>>();
-    test_is_copy_constructible<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_copy_constructible<ProtectedDerviedFromTemplate<Class>>();
+    test_is_copy_constructible<PublicDerivedFromTemplate<Base>>();
+    test_is_copy_constructible<PublicDerivedFromTemplate<Derived>>();
+    test_is_copy_constructible<PublicDerivedFromTemplate<Class>>();
+    test_is_copy_constructible<PrivateDerivedFromTemplate<Base>>();
+    test_is_copy_constructible<PrivateDerivedFromTemplate<Derived>>();
+    test_is_copy_constructible<PrivateDerivedFromTemplate<Class>>();
+    test_is_copy_constructible<ProtectedDerivedFromTemplate<Base>>();
+    test_is_copy_constructible<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_copy_constructible<ProtectedDerivedFromTemplate<Class>>();
     test_is_copy_constructible<Union>();
     test_is_copy_constructible<NonEmptyUnion>();
     test_is_copy_constructible<Empty>();
     test_is_copy_constructible<NotEmpty>();
-    test_is_copy_constructible<bit_zero>();
-    test_is_copy_constructible<bit_one>();
+    test_is_copy_constructible<BitZero>();
+    test_is_copy_constructible<BitOne>();
     test_is_copy_constructible<Base>();
     test_is_copy_constructible<Derived>();
     test_is_not_copy_constructible<Abstract>();
@@ -208,7 +208,7 @@ TEST_CASE("is_copy_constructible")
 #if PHI_COMPILER_IS_NOT(GCC)
     test_is_not_copy_constructible<AbstractTemplate<Class>>();
 #    if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
-    test_is_not_copy_constructible<AbstractTemplate<incomplete_type>>();
+    test_is_not_copy_constructible<AbstractTemplate<IncompleteType>>();
 #    endif
 #endif
     test_is_copy_constructible<Final>();

@@ -26,15 +26,19 @@ class VariadicTemplate
 {};
 
 template <typename T>
-struct PublicDerviedFromTemplate : public T
+struct PublicDerivedFromTemplate : public T
 {};
 
 template <typename T>
-struct PrivateDerviedFromTemplate : private T
+struct PrivateDerivedFromTemplate : private T
 {};
 
 template <typename T>
-struct ProtectedDerviedFromTemplate : protected T
+struct ProtectedDerivedFromTemplate : protected T
+{};
+
+template <typename T>
+struct VirtualDerivedFromTemplate : virtual T
 {};
 
 class Empty
@@ -46,6 +50,14 @@ public:
     virtual ~NotEmpty();
 };
 
+struct NonTrivial
+{
+    NonTrivial();
+    NonTrivial(const NonTrivial&);
+    NonTrivial& operator=(const NonTrivial&);
+    ~NonTrivial();
+};
+
 union Union
 {};
 
@@ -55,12 +67,18 @@ union NonEmptyUnion
     unsigned y;
 };
 
-struct bit_zero
+union NonTrivialUnion
+{
+    int        i;
+    NonTrivial n;
+};
+
+struct BitZero
 {
     int : 0;
 };
 
-struct bit_one
+struct BitOne
 {
     int : 1;
 };
@@ -70,6 +88,19 @@ struct Base
 
 struct Derived : public Base
 {};
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+
+class Polymorphic
+{
+    virtual void rotate(int);
+};
+
+class DerivedPolymorphic : public Polymorphic
+{};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 class Abstract
 {
@@ -112,7 +143,39 @@ template <>
 struct AbstractTemplate<double>
 {};
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+
+struct PublicAbstractDeletedDestructor
+{
+    ~PublicAbstractDeletedDestructor() = delete;
+
+public:
+    virtual void foo() = 0;
+};
+
+struct ProtectedAbstractDeletedDestructor
+{
+    ~ProtectedAbstractDeletedDestructor() = delete;
+
+protected:
+    virtual void foo() = 0;
+};
+
+struct PrivateAbstractDeletedDestructor
+{
+    ~PrivateAbstractDeletedDestructor() = delete;
+
+private:
+    virtual void foo() = 0;
+};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
 class Final final
+{};
+
+class FinalDerived final : public Base
 {};
 
 struct PublicDestructor
@@ -205,6 +268,312 @@ private:
     virtual ~DeletedVirtualPrivateDestructor() = delete;
 };
 
+struct ExplicitClass
+{
+    ExplicitClass(double&);
+    explicit ExplicitClass(int&);
+    ExplicitClass(double&, int&, double&);
+};
+
+struct NothrowExplicitClass
+{
+    NothrowExplicitClass(double&) noexcept;
+    explicit NothrowExplicitClass(int&) noexcept;
+    NothrowExplicitClass(double&, int&, double&) noexcept;
+};
+
+struct ThrowExplicitClass
+{
+    ThrowExplicitClass(double&) noexcept(false);
+    explicit ThrowExplicitClass(int&) noexcept(false);
+    ThrowExplicitClass(double&, int&, double&) noexcept(false);
+};
+
+struct ThrowDefaultClass
+{
+    ThrowDefaultClass() noexcept(false);
+};
+
+struct ThrowCopyConsClass
+{
+    ThrowCopyConsClass(const ThrowCopyConsClass&) noexcept(false);
+};
+
+struct ThrowMoveConsClass
+{
+    ThrowMoveConsClass(ThrowMoveConsClass&&) noexcept(false);
+};
+
+struct NoexceptExplicitClass
+{
+    NoexceptExplicitClass(double&) noexcept(true);
+    explicit NoexceptExplicitClass(int&) noexcept(true);
+    NoexceptExplicitClass(double&, int&, double&) noexcept(true);
+};
+
+struct ExceptExplicitClass
+{
+    ExceptExplicitClass(double&) noexcept(false);
+    explicit ExceptExplicitClass(int&) noexcept(false);
+    ExceptExplicitClass(double&, int&, double&) noexcept(false);
+};
+
+struct NoexceptDefaultClass
+{
+    NoexceptDefaultClass() noexcept(true);
+};
+
+struct ExceptDefaultClass
+{
+    ExceptDefaultClass() noexcept(false);
+};
+
+struct NoexceptCopyConsClass
+{
+    NoexceptCopyConsClass(const NoexceptCopyConsClass&) noexcept(true);
+};
+
+struct ExceptCopyConsClass
+{
+    ExceptCopyConsClass(const ExceptCopyConsClass&) noexcept(false);
+};
+
+struct NoexceptMoveConsClass
+{
+    NoexceptMoveConsClass(NoexceptMoveConsClass&&) noexcept(true);
+    NoexceptMoveConsClass& operator=(NoexceptMoveConsClass&&) = default;
+};
+
+struct ExceptMoveConsClass
+{
+    ExceptMoveConsClass(ExceptMoveConsClass&&) noexcept(false);
+};
+
+struct NoexceptCopyAssignClass
+{
+    NoexceptCopyAssignClass& operator=(const NoexceptCopyAssignClass&) noexcept(true);
+};
+
+struct ExceptCopyAssignClass
+{
+    ExceptCopyAssignClass& operator=(const ExceptCopyAssignClass&) noexcept(false);
+};
+
+struct NoexceptMoveAssignClass
+{
+    NoexceptMoveAssignClass(NoexceptMoveAssignClass&&) = default;
+    NoexceptMoveAssignClass& operator                  =(NoexceptMoveAssignClass&&) noexcept(true);
+};
+
+struct ExceptMoveAssignClass
+{
+    ExceptMoveAssignClass& operator=(ExceptMoveAssignClass&&) noexcept(false);
+};
+
+struct DeletedCopyAssignClass
+{
+    DeletedCopyAssignClass& operator=(const DeletedCopyAssignClass&) = delete;
+};
+
+struct DeletedMoveAssignClass
+{
+    DeletedMoveAssignClass& operator=(DeletedMoveAssignClass&&) = delete;
+};
+
+struct NoexceptMoveConsNoexceptMoveAssignClass
+{
+    NoexceptMoveConsNoexceptMoveAssignClass(NoexceptMoveConsNoexceptMoveAssignClass&&) noexcept(
+            true);
+
+    NoexceptMoveConsNoexceptMoveAssignClass& operator=(
+            NoexceptMoveConsNoexceptMoveAssignClass&&) noexcept(true);
+};
+
+struct ExceptMoveConsNoexceptMoveAssignClass
+{
+    ExceptMoveConsNoexceptMoveAssignClass(ExceptMoveConsNoexceptMoveAssignClass&&) noexcept(false);
+
+    ExceptMoveConsNoexceptMoveAssignClass& operator=(
+            ExceptMoveConsNoexceptMoveAssignClass&&) noexcept(true);
+};
+
+struct NoexceptMoveConsExceptMoveAssignClass
+{
+    NoexceptMoveConsExceptMoveAssignClass(NoexceptMoveConsExceptMoveAssignClass&&) noexcept(true);
+
+    NoexceptMoveConsExceptMoveAssignClass& operator=(
+            NoexceptMoveConsExceptMoveAssignClass&&) noexcept(false);
+};
+
+struct ExceptMoveConsExceptMoveAssignClass
+{
+    ExceptMoveConsExceptMoveAssignClass(ExceptMoveConsExceptMoveAssignClass&&) noexcept(false);
+
+    ExceptMoveConsExceptMoveAssignClass& operator=(ExceptMoveConsExceptMoveAssignClass&&) noexcept(
+            false);
+};
+
+template <typename To>
+struct ImplicitTo
+{
+    operator To();
+};
+
+template <typename To>
+struct DeletedImplicitTo
+{
+    operator To() = delete;
+};
+
+template <typename To>
+struct ExplicitTo
+{
+    explicit operator To();
+};
+
+template <typename To>
+struct DeletedExplicitTo
+{
+    explicit operator To() = delete;
+};
+
+struct Ellipsis
+{
+    Ellipsis(...)
+    {}
+};
+
+struct DeletedEllipsis
+{
+    DeletedEllipsis(...) = delete;
+};
+
+struct CopyConsOnlyType
+{
+    CopyConsOnlyType(int)
+    {}
+    CopyConsOnlyType(CopyConsOnlyType&&)      = delete;
+    CopyConsOnlyType(const CopyConsOnlyType&) = default;
+    CopyConsOnlyType& operator=(const CopyConsOnlyType&) = delete;
+    CopyConsOnlyType& operator=(CopyConsOnlyType&&) = delete;
+};
+
+struct MoveConsOnlyType
+{
+    MoveConsOnlyType(int)
+    {}
+    MoveConsOnlyType(const MoveConsOnlyType&) = delete;
+    MoveConsOnlyType(MoveConsOnlyType&&)      = default;
+    MoveConsOnlyType& operator=(const MoveConsOnlyType&) = delete;
+    MoveConsOnlyType& operator=(MoveConsOnlyType&&) = delete;
+};
+
+struct OverloadedOperators
+{
+    int foo()
+    {
+        return 1;
+    }
+
+    int foo_c() const
+    {
+        return 2;
+    }
+
+    int foo_v() volatile
+    {
+        return 3;
+    }
+
+    int foo_cv() const volatile
+    {
+        return 4;
+    }
+};
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
+
+struct PublicIntMember
+{
+public:
+    int member;
+};
+
+struct ProtectedIntMember
+{
+protected:
+    int member;
+};
+
+struct PrivateIntMember
+{
+private:
+    int member;
+};
+
+struct PublicStaticIntMember
+{
+public:
+    static int member;
+};
+
+struct ProtectedStaticIntMember
+{
+protected:
+    static int member;
+};
+
+struct PrivateStaticIntMember
+{
+private:
+    static int member;
+};
+
+template <typename T>
+struct PublicTemplateMember
+{
+public:
+    T member;
+};
+
+template <typename T>
+struct ProtectedTemplateMember
+{
+protected:
+    T member;
+};
+
+template <typename T>
+struct PrivateTemplateMember
+{
+private:
+    T member;
+};
+
+template <typename T>
+struct PublicStaticTemplateMember
+{
+public:
+    static T member;
+};
+
+template <typename T>
+struct ProtectedStaticTemplateMember
+{
+protected:
+    static T member;
+};
+
+template <typename T>
+struct PrivateStaticTemplateMember
+{
+private:
+    static T member;
+};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
 enum Enum
 {
     zero,
@@ -233,14 +602,6 @@ enum struct EnumStruct
     one
 };
 
-struct incomplete_type;
-
-template <typename T>
-struct IncompleteTemplate;
-
-template <typename... Ts>
-struct IncompleteVariadicTemplate;
-
 using Function = void();
 
 using FunctionPtr = void (*)();
@@ -248,6 +609,36 @@ using FunctionPtr = void (*)();
 using MemberObjectPtr = int Class::*;
 
 using MemberFunctionPtr = void (Class::*)();
+
+auto Lambda = []() {};
+
+auto LambdaNoexcept = []() noexcept {};
+
+auto LambdaThrows = []() noexcept(false) {};
+
+using LambdaType = decltype(Lambda);
+
+using LambdaNoexceptType = decltype(LambdaNoexcept);
+
+using LambdaThrowsType = decltype(LambdaThrows);
+
+struct IncompleteType;
+
+template <typename T>
+struct IncompleteTemplate;
+
+template <typename... Ts>
+struct IncompleteVariadicTemplate;
+
+union IncompleteUnion;
+
+enum IncompleteEnumSigned : int;
+
+enum IncompleteEnumUnsigned : unsigned int;
+
+enum class IncompleteEnumClass;
+
+enum struct IncompleteEnumStruct;
 
 struct NonCopyable
 {
@@ -277,6 +668,17 @@ struct NonConstructible
 
     NonConstructible& operator=(const NonConstructible&) = delete;
     NonConstructible& operator=(NonConstructible&&) = delete;
+};
+
+struct NonDestructible
+{
+    NonDestructible()                       = default;
+    ~NonDestructible()                      = delete;
+    NonDestructible(const NonDestructible&) = default;
+    NonDestructible(NonDestructible&&)      = default;
+
+    NonDestructible& operator=(const NonDestructible&) = default;
+    NonDestructible& operator=(NonDestructible&&) = default;
 };
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()

@@ -160,38 +160,38 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<Template<void>, Template<void>&>();
     test_add_lvalue_reference<Template<int>, Template<int>&>();
     test_add_lvalue_reference<Template<Class>, Template<Class>&>();
-    test_add_lvalue_reference<Template<incomplete_type>, Template<incomplete_type>&>();
+    test_add_lvalue_reference<Template<IncompleteType>, Template<IncompleteType>&>();
     test_add_lvalue_reference<VariadicTemplate<>, VariadicTemplate<>&>();
     test_add_lvalue_reference<VariadicTemplate<void>, VariadicTemplate<void>&>();
     test_add_lvalue_reference<VariadicTemplate<int>, VariadicTemplate<int>&>();
     test_add_lvalue_reference<VariadicTemplate<Class>, VariadicTemplate<Class>&>();
-    test_add_lvalue_reference<VariadicTemplate<incomplete_type>,
-                              VariadicTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<VariadicTemplate<IncompleteType>,
+                              VariadicTemplate<IncompleteType>&>();
     test_add_lvalue_reference<VariadicTemplate<int, void, Class, volatile char[]>,
                               VariadicTemplate<int, void, Class, volatile char[]>&>();
-    test_add_lvalue_reference<PublicDerviedFromTemplate<Base>, PublicDerviedFromTemplate<Base>&>();
-    test_add_lvalue_reference<PublicDerviedFromTemplate<Derived>,
-                              PublicDerviedFromTemplate<Derived>&>();
-    test_add_lvalue_reference<PublicDerviedFromTemplate<Class>,
-                              PublicDerviedFromTemplate<Class>&>();
-    test_add_lvalue_reference<PrivateDerviedFromTemplate<Base>,
-                              PrivateDerviedFromTemplate<Base>&>();
-    test_add_lvalue_reference<PrivateDerviedFromTemplate<Derived>,
-                              PrivateDerviedFromTemplate<Derived>&>();
-    test_add_lvalue_reference<PrivateDerviedFromTemplate<Class>,
-                              PrivateDerviedFromTemplate<Class>&>();
-    test_add_lvalue_reference<ProtectedDerviedFromTemplate<Base>,
-                              ProtectedDerviedFromTemplate<Base>&>();
-    test_add_lvalue_reference<ProtectedDerviedFromTemplate<Derived>,
-                              ProtectedDerviedFromTemplate<Derived>&>();
-    test_add_lvalue_reference<ProtectedDerviedFromTemplate<Class>,
-                              ProtectedDerviedFromTemplate<Class>&>();
+    test_add_lvalue_reference<PublicDerivedFromTemplate<Base>, PublicDerivedFromTemplate<Base>&>();
+    test_add_lvalue_reference<PublicDerivedFromTemplate<Derived>,
+                              PublicDerivedFromTemplate<Derived>&>();
+    test_add_lvalue_reference<PublicDerivedFromTemplate<Class>,
+                              PublicDerivedFromTemplate<Class>&>();
+    test_add_lvalue_reference<PrivateDerivedFromTemplate<Base>,
+                              PrivateDerivedFromTemplate<Base>&>();
+    test_add_lvalue_reference<PrivateDerivedFromTemplate<Derived>,
+                              PrivateDerivedFromTemplate<Derived>&>();
+    test_add_lvalue_reference<PrivateDerivedFromTemplate<Class>,
+                              PrivateDerivedFromTemplate<Class>&>();
+    test_add_lvalue_reference<ProtectedDerivedFromTemplate<Base>,
+                              ProtectedDerivedFromTemplate<Base>&>();
+    test_add_lvalue_reference<ProtectedDerivedFromTemplate<Derived>,
+                              ProtectedDerivedFromTemplate<Derived>&>();
+    test_add_lvalue_reference<ProtectedDerivedFromTemplate<Class>,
+                              ProtectedDerivedFromTemplate<Class>&>();
     test_add_lvalue_reference<Union, Union&>();
     test_add_lvalue_reference<NonEmptyUnion, NonEmptyUnion&>();
     test_add_lvalue_reference<Empty, Empty&>();
     test_add_lvalue_reference<NotEmpty, NotEmpty&>();
-    test_add_lvalue_reference<bit_zero, bit_zero&>();
-    test_add_lvalue_reference<bit_one, bit_one&>();
+    test_add_lvalue_reference<BitZero, BitZero&>();
+    test_add_lvalue_reference<BitOne, BitOne&>();
     test_add_lvalue_reference<Base, Base&>();
     test_add_lvalue_reference<Derived, Derived&>();
     test_add_lvalue_reference<Abstract, Abstract&>();
@@ -201,8 +201,8 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<AbstractTemplate<int>, AbstractTemplate<int>&>();
     test_add_lvalue_reference<AbstractTemplate<double>, AbstractTemplate<double>&>();
     test_add_lvalue_reference<AbstractTemplate<Class>, AbstractTemplate<Class>&>();
-    test_add_lvalue_reference<AbstractTemplate<incomplete_type>,
-                              AbstractTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<AbstractTemplate<IncompleteType>,
+                              AbstractTemplate<IncompleteType>&>();
     test_add_lvalue_reference<Final, Final&>();
     test_add_lvalue_reference<PublicDestructor>();
     test_add_lvalue_reference<ProtectedDestructor>();
@@ -225,20 +225,20 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<EnumClass, EnumClass&>();
     test_add_lvalue_reference<EnumStruct, EnumStruct&>();
     test_add_lvalue_reference<MemberObjectPtr, MemberObjectPtr&>();
-    test_add_lvalue_reference<incomplete_type, incomplete_type&>();
+    test_add_lvalue_reference<IncompleteType, IncompleteType&>();
     test_add_lvalue_reference<IncompleteTemplate<void>, IncompleteTemplate<void>&>();
     test_add_lvalue_reference<IncompleteTemplate<int>, IncompleteTemplate<int>&>();
     test_add_lvalue_reference<IncompleteTemplate<Class>, IncompleteTemplate<Class>&>();
-    test_add_lvalue_reference<IncompleteTemplate<incomplete_type>,
-                              IncompleteTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<IncompleteTemplate<IncompleteType>,
+                              IncompleteTemplate<IncompleteType>&>();
     test_add_lvalue_reference<IncompleteVariadicTemplate<>, IncompleteVariadicTemplate<>&>();
     test_add_lvalue_reference<IncompleteVariadicTemplate<void>,
                               IncompleteVariadicTemplate<void>&>();
     test_add_lvalue_reference<IncompleteVariadicTemplate<int>, IncompleteVariadicTemplate<int>&>();
     test_add_lvalue_reference<IncompleteVariadicTemplate<Class>,
                               IncompleteVariadicTemplate<Class>&>();
-    test_add_lvalue_reference<IncompleteVariadicTemplate<incomplete_type>,
-                              IncompleteVariadicTemplate<incomplete_type>&>();
+    test_add_lvalue_reference<IncompleteVariadicTemplate<IncompleteType>,
+                              IncompleteVariadicTemplate<IncompleteType>&>();
     test_add_lvalue_reference<IncompleteVariadicTemplate<int, void, Class, volatile char[]>,
                               IncompleteVariadicTemplate<int, void, Class, volatile char[]>&>();
     test_add_lvalue_reference<int Class::*, int Class::*&>();

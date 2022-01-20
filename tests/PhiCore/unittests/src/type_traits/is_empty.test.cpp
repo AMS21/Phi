@@ -187,31 +187,31 @@ TEST_CASE("is_empty")
     test_is_empty<Template<void>>();
     test_is_empty<Template<int>>();
     test_is_empty<Template<Class>>();
-    test_is_empty<Template<incomplete_type>>();
+    test_is_empty<Template<IncompleteType>>();
     test_is_empty<VariadicTemplate<>>();
     test_is_empty<VariadicTemplate<void>>();
     test_is_empty<VariadicTemplate<int>>();
     test_is_empty<VariadicTemplate<Class>>();
-    test_is_empty<VariadicTemplate<incomplete_type>>();
+    test_is_empty<VariadicTemplate<IncompleteType>>();
     test_is_empty<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_empty<PublicDerviedFromTemplate<Base>>();
-    test_is_empty<PublicDerviedFromTemplate<Derived>>();
-    test_is_empty<PublicDerviedFromTemplate<Class>>();
-    test_is_empty<PrivateDerviedFromTemplate<Base>>();
-    test_is_empty<PrivateDerviedFromTemplate<Derived>>();
-    test_is_empty<PrivateDerviedFromTemplate<Class>>();
-    test_is_empty<ProtectedDerviedFromTemplate<Base>>();
-    test_is_empty<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_empty<ProtectedDerviedFromTemplate<Class>>();
+    test_is_empty<PublicDerivedFromTemplate<Base>>();
+    test_is_empty<PublicDerivedFromTemplate<Derived>>();
+    test_is_empty<PublicDerivedFromTemplate<Class>>();
+    test_is_empty<PrivateDerivedFromTemplate<Base>>();
+    test_is_empty<PrivateDerivedFromTemplate<Derived>>();
+    test_is_empty<PrivateDerivedFromTemplate<Class>>();
+    test_is_empty<ProtectedDerivedFromTemplate<Base>>();
+    test_is_empty<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_empty<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_empty<Union>();
     test_is_not_empty<NonEmptyUnion>();
     test_is_empty<Empty>();
     test_is_not_empty<NotEmpty>();
-    test_is_empty<bit_zero>();
+    test_is_empty<BitZero>();
 #if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
-    test_is_empty<bit_one>();
+    test_is_empty<BitOne>();
 #else
-    test_is_not_empty<bit_one>();
+    test_is_not_empty<BitOne>();
 #endif
     test_is_empty<Base>();
     test_is_empty<Derived>();
@@ -222,7 +222,7 @@ TEST_CASE("is_empty")
     test_is_not_empty<AbstractTemplate<int>>();
     test_is_empty<AbstractTemplate<double>>();
     test_is_not_empty<AbstractTemplate<Class>>();
-    test_is_not_empty<AbstractTemplate<incomplete_type>>();
+    test_is_not_empty<AbstractTemplate<IncompleteType>>();
     // Final can only be tests with the intrinsic version
 #if PHI_SUPPORTS_IS_EMPTY()
     test_is_empty<Final>();

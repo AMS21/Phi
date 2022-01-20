@@ -1,7 +1,7 @@
-#include "phi/compiler_support/warning.hpp"
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/platform.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/math/is_nan.hpp>

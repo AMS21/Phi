@@ -82,7 +82,7 @@ TEST_CASE("has_unique_object_representation")
     test_has_no_unique_object_representations<Empty>();
     test_has_no_unique_object_representations<EmptyUnion>();
     test_has_no_unique_object_representations<NotEmpty>();
-    test_has_no_unique_object_representations<bit_zero>();
+    test_has_no_unique_object_representations<BitZero>();
     test_has_no_unique_object_representations<Abstract>();
     test_has_no_unique_object_representations<B>();
 

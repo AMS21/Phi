@@ -198,34 +198,34 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<Template<void>>();
     test_is_aggregate<Template<int>>();
     test_is_aggregate<Template<Class>>();
-    test_is_aggregate<Template<incomplete_type>>();
+    test_is_aggregate<Template<IncompleteType>>();
     test_is_aggregate<VariadicTemplate<>>();
     test_is_aggregate<VariadicTemplate<void>>();
     test_is_aggregate<VariadicTemplate<int>>();
     test_is_aggregate<VariadicTemplate<Class>>();
-    test_is_aggregate<VariadicTemplate<incomplete_type>>();
+    test_is_aggregate<VariadicTemplate<IncompleteType>>();
     test_is_aggregate<VariadicTemplate<int, void, Class, volatile char[]>>();
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    test_is_aggregate<PublicDerviedFromTemplate<Base>>();
-    test_is_aggregate<PublicDerviedFromTemplate<Derived>>();
-    test_is_aggregate<PublicDerviedFromTemplate<Class>>();
+    test_is_aggregate<PublicDerivedFromTemplate<Base>>();
+    test_is_aggregate<PublicDerivedFromTemplate<Derived>>();
+    test_is_aggregate<PublicDerivedFromTemplate<Class>>();
 #else
-    test_is_not_aggregate<PublicDerviedFromTemplate<Base>>();
-    test_is_not_aggregate<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_aggregate<PublicDerviedFromTemplate<Class>>();
+    test_is_not_aggregate<PublicDerivedFromTemplate<Base>>();
+    test_is_not_aggregate<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_aggregate<PublicDerivedFromTemplate<Class>>();
 #endif
-    test_is_not_aggregate<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_aggregate<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_aggregate<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_aggregate<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_aggregate<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_aggregate<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_aggregate<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_aggregate<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_aggregate<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_aggregate<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_aggregate<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_aggregate<ProtectedDerivedFromTemplate<Class>>();
     test_is_aggregate<Union>();
     test_is_aggregate<NonEmptyUnion>();
     test_is_aggregate<Empty>();
     test_is_not_aggregate<NotEmpty>();
-    test_is_aggregate<bit_zero>();
-    test_is_aggregate<bit_one>();
+    test_is_aggregate<BitZero>();
+    test_is_aggregate<BitOne>();
     test_is_aggregate<Base>();
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     test_is_aggregate<Derived>();
@@ -239,7 +239,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<AbstractTemplate<int>>();
     test_is_aggregate<AbstractTemplate<double>>();
     test_is_not_aggregate<AbstractTemplate<Class>>();
-    test_is_not_aggregate<AbstractTemplate<incomplete_type>>();
+    test_is_not_aggregate<AbstractTemplate<IncompleteType>>();
     test_is_aggregate<Final>();
     test_is_aggregate<PublicDestructor>();
     test_is_aggregate<ProtectedDestructor>();

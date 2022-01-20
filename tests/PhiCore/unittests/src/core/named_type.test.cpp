@@ -27,10 +27,10 @@ SOFTWARE.
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/intrinsics/address_of.hpp>
 #include <phi/compiler_support/intrinsics/is_union.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/named_type.hpp>
 #include <cmath>
 #include <iomanip>

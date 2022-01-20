@@ -1,7 +1,7 @@
-#include "phi/compiler_support/warning.hpp"
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/monitor.hpp>
 #include <thread>

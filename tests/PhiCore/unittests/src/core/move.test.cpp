@@ -1,9 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-
-#include "phi/compiler_support/warning.hpp"
-
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
 
 class move_only

@@ -1,7 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/conversion.hpp>

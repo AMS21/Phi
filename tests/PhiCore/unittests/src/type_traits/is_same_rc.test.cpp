@@ -225,11 +225,11 @@ TEST_CASE("is_same_rc")
     test_is_same_rc<const volatile int*, const volatile int*>();
     test_is_same_rc<Class, Class>();
     test_is_same_rc<A, A>();
-    test_is_same_rc<incomplete_type, incomplete_type>();
+    test_is_same_rc<IncompleteType, IncompleteType>();
     test_is_same_rc<Empty, Empty>();
     test_is_same_rc<NotEmpty, NotEmpty>();
     test_is_same_rc<Union, Union>();
-    test_is_same_rc<bit_zero, bit_zero>();
+    test_is_same_rc<BitZero, BitZero>();
     test_is_same_rc<Abstract, Abstract>();
     test_is_same_rc<Enum, Enum>();
     test_is_same_rc<EnumSigned, EnumSigned>();
