@@ -15,6 +15,11 @@
 
 #    define PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE() 1
 
+#    include "phi/compiler_support/warning.hpp"
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -38,6 +43,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_default_constructible_v =
         !PHI_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE(TypeT);
 
 #    endif
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #else
 

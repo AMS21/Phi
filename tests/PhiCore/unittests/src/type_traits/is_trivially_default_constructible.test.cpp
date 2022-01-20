@@ -169,7 +169,11 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int(&&)[][2]>();
     test_is_not_trivially_default_constructible<Class>();
     test_is_not_trivially_default_constructible<Class[]>();
+#if PHI_COMPILER_IS(GCC)
+    test_is_trivially_default_constructible<Class[2]>();
+#else
     test_is_not_trivially_default_constructible<Class[2]>();
+#endif
     test_is_trivially_default_constructible<Template<void>>();
     test_is_trivially_default_constructible<Template<int>>();
     test_is_trivially_default_constructible<Template<Class>>();

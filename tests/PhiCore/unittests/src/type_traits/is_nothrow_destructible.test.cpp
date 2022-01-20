@@ -66,6 +66,8 @@ void test_is_not_nothrow_destructible()
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
 class A
 {
@@ -92,6 +94,7 @@ struct E
     ~E() = delete;
 };
 
+PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_nothrow_destructible")
