@@ -4,7 +4,7 @@
 #include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/is_same_rv.hpp>
 
-template <typename T, class U>
+template <typename T, typename U>
 void test_is_same_rv()
 {
     // is_same_rv

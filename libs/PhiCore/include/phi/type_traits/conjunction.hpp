@@ -18,11 +18,11 @@ struct conjunction : public true_type
 {};
 
 template <typename B1>
-struct conjunction<B1> : B1
+struct conjunction<B1> : public B1
 {};
 
 template <typename B1, typename... Bn>
-struct conjunction<B1, Bn...> : conditional_t<bool(B1::value), conjunction<Bn...>, B1>
+struct conjunction<B1, Bn...> : public conditional_t<bool(B1::value), conjunction<Bn...>, B1>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

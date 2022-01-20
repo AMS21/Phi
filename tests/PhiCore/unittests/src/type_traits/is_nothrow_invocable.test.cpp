@@ -5,6 +5,7 @@
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_invocable.hpp>
 #include <phi/type_traits/is_nothrow_invocable.hpp>
+#include <type_traits>
 #include <vector>
 
 struct Tag
@@ -44,7 +45,14 @@ struct Sink
 template <typename Fn, typename... Args>
 constexpr bool throws_invocable()
 {
-    return phi::is_invocable<Fn, Args...>::value && !phi::is_nothrow_invocable<Fn, Args...>::value;
+    return phi::is_invocable<Fn, Args...>::value && !phi::is_not_invocable<Fn, Args...>::value &&
+           !phi::is_nothrow_invocable<Fn, Args...>::value &&
+           phi::is_not_nothrow_invocable<Fn, Args...>::value
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+           && std::is_invocable<Fn, Args...>::value &&
+           !std::is_nothrow_invocable<Fn, Args...>::value
+#endif
+            ;
 }
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -77,7 +85,30 @@ void test_noexcept_function_pointers()
         // is_nothrow_invocable returns true for noexcept PMF's and function
         // pointers.
         STATIC_REQUIRE(phi::is_nothrow_invocable<decltype(&Dummy::foo), Dummy&>::value);
+        STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable<decltype(&Dummy::foo), Dummy&>::value);
+        STATIC_REQUIRE(phi::is_invocable<decltype(&Dummy::foo), Dummy&>::value);
+
         STATIC_REQUIRE(phi::is_nothrow_invocable<decltype(&Dummy::bar)>::value);
+        STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable<decltype(&Dummy::bar)>::value);
+        STATIC_REQUIRE(phi::is_invocable<decltype(&Dummy::bar)>::value);
+
+#        if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+        STATIC_REQUIRE(phi::is_nothrow_invocable_v<decltype(&Dummy::foo), Dummy&>);
+        STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_v<decltype(&Dummy::foo), Dummy&>);
+        STATIC_REQUIRE(phi::is_invocable_v<decltype(&Dummy::foo), Dummy&>);
+
+        STATIC_REQUIRE(phi::is_nothrow_invocable_v<decltype(&Dummy::bar)>);
+        STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_v<decltype(&Dummy::bar)>);
+        STATIC_REQUIRE(phi::is_invocable_v<decltype(&Dummy::bar)>);
+#        endif
+
+        // Standard compatbililty
+#        if PHI_CPP_STANDARD_IS_ATLEAST(17)
+        STATIC_REQUIRE(std::is_nothrow_invocable<decltype(&Dummy::foo), Dummy&>::value);
+        STATIC_REQUIRE(std::is_nothrow_invocable<decltype(&Dummy::bar)>::value);
+        STATIC_REQUIRE(std::is_invocable<decltype(&Dummy::foo), Dummy&>::value);
+        STATIC_REQUIRE(std::is_invocable<decltype(&Dummy::bar)>::value);
+#        endif
     }
 #    endif
 #endif
@@ -91,10 +122,18 @@ void test_is_nothrow_invocable()
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE(phi::is_nothrow_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_invocable<FunctionT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_invocable_v<FunctionT, ArgsT...>);
+#    endif
+
+    // Standard compatbililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_nothrow_invocable<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(std::is_invocable<FunctionT, ArgsT...>::value);
 #    endif
 #endif
 }
@@ -109,6 +148,11 @@ void test_is_not_nothrow_invocable()
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
+#    endif
+
+    // Standard compatbililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_nothrow_invocable<FunctionT, ArgsT...>::value);
 #    endif
 #endif
 }

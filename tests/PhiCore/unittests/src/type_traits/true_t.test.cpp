@@ -37,12 +37,12 @@ TEST_CASE("true_t")
     test_true_t<phi::f64>();
     test_true_t<CustomClass>();
 
-    STATIC_REQUIRE(phi::true_t<>::value);
-    STATIC_REQUIRE(phi::true_t<int>::value);
-    STATIC_REQUIRE(phi::true_t<int, int>::value);
-    STATIC_REQUIRE(phi::true_t<int, int, int>::value);
-    STATIC_REQUIRE(phi::true_t<int, int, int, int>::value);
-    STATIC_REQUIRE(phi::true_t<int, int, int, int, int>::value);
+    test_true_t<>();
+    test_true_t<int>();
+    test_true_t<int, int>();
+    test_true_t<int, int, int>();
+    test_true_t<int, int, int, int>();
+    test_true_t<int, int, int, int, int>();
 
     func<int>();
 }

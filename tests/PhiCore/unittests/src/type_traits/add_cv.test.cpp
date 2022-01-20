@@ -11,25 +11,26 @@
 #include <type_traits>
 #include <vector>
 
+template <typename T, typename U>
+void test_add_cv_impl()
+{
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, U);
+    CHECK_SAME_TYPE(phi::add_cv_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, phi::add_cv_t<T>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename std::add_cv<T>::type, U);
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
+    CHECK_SAME_TYPE(phi::add_cv_t<T>, typename std::add_cv<T>::type);
+}
+
 template <typename T>
 void test_add_cv()
 {
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type, const volatile T);
-
-    CHECK_SAME_TYPE(phi::add_cv_t<T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<const T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<volatile T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<const volatile T>, const volatile T);
-
-    // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, typename std::add_cv<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, typename std::add_cv<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type,
-                    typename std::add_cv<const volatile T>::type);
+    test_add_cv_impl<T, const volatile T>();
+    test_add_cv_impl<const T, const volatile T>();
+    test_add_cv_impl<volatile T, const volatile T>();
+    test_add_cv_impl<const volatile T, const volatile T>();
 }
 
 TEST_CASE("add_cv")

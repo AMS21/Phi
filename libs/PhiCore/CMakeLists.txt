@@ -203,6 +203,7 @@ file(
   "include/phi/char_traits.hpp"
   # type_traits/detail
   "include/phi/type_traits/detail/invoke_impl.hpp"
+  "include/phi/type_traits/detail/nat.hpp"
   "include/phi/type_traits/detail/yes_no_type.hpp"
   # type_traits
   "include/phi/type_traits/add_const.hpp"
@@ -213,7 +214,6 @@ file(
   "include/phi/type_traits/add_rvalue_reference.hpp"
   "include/phi/type_traits/add_volatile.hpp"
   "include/phi/type_traits/alignment_of.hpp"
-  "include/phi/type_traits/bool_pack.hpp"
   "include/phi/type_traits/conditional.hpp"
   "include/phi/type_traits/conjunction.hpp"
   "include/phi/type_traits/copy_const.hpp"
@@ -337,7 +337,6 @@ file(
   "include/phi/type_traits/make_signed.hpp"
   "include/phi/type_traits/make_unsafe.hpp"
   "include/phi/type_traits/make_unsigned.hpp"
-  "include/phi/type_traits/nat.hpp"
   "include/phi/type_traits/negation.hpp"
   "include/phi/type_traits/rank.hpp"
   "include/phi/type_traits/remove_all_extents.hpp"

@@ -5,6 +5,7 @@
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_invocable_r.hpp>
 #include <phi/type_traits/is_nothrow_invocable_r.hpp>
+#include <type_traits>
 #include <vector>
 
 struct Tag
@@ -46,7 +47,14 @@ constexpr bool throws_invocable_r()
 {
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     return phi::is_invocable_r<Ret, Fn, Args...>::value &&
-           !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value;
+           !phi::is_not_invocable_r<Ret, Fn, Args...>::value &&
+           !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value &&
+           phi::is_not_nothrow_invocable_r<Ret, Fn, Args...>::value
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+           && std::is_invocable_r<Ret, Fn, Args...>::value &&
+           !std::is_nothrow_invocable_r<Ret, Fn, Args...>::value
+#    endif
+            ;
 #else
     return true;
 #endif
@@ -58,10 +66,18 @@ void test_is_nothrow_invocable_r()
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_r<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_invocable_r<FunctionT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_invocable_r_v<FunctionT, ArgsT...>);
+#    endif
+
+    // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_invocable_r<FunctionT, ArgsT...>::value);
+    STATIC_REQUIRE(std::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 #    endif
 #endif
 }
@@ -76,6 +92,11 @@ void test_is_not_nothrow_invocable_r()
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
+#    endif
+
+    // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 #    endif
 #endif
 }

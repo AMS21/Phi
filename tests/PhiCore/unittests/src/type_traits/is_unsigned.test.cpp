@@ -8,6 +8,8 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
+#include <phi/type_traits/make_unsafe.hpp>
+#include <type_traits>
 #include <vector>
 
 template <typename T>
@@ -20,6 +22,8 @@ void test_is_unsigned_impl()
     STATIC_REQUIRE(phi::is_unsigned_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_unsigned_v<T>);
 #endif
+
+    STATIC_REQUIRE(std::is_unsigned<phi::make_unsafe_t<T>>::value);
 }
 
 template <typename T>
@@ -32,6 +36,8 @@ void test_is_not_unsigned_impl()
     STATIC_REQUIRE_FALSE(phi::is_unsigned_v<T>);
     STATIC_REQUIRE(phi::is_not_unsigned_v<T>);
 #endif
+
+    STATIC_REQUIRE_FALSE(std::is_unsigned<phi::make_unsafe_t<T>>::value);
 }
 
 template <typename T>

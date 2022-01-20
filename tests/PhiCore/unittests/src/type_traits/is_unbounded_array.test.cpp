@@ -8,38 +8,57 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_unbounded_array.hpp>
+#include <type_traits>
 #include <vector>
+
+template <typename T>
+void test_is_unbounded_array_impl()
+{
+    STATIC_REQUIRE(phi::is_unbounded_array<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_unbounded_array<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unbounded_array_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_unbounded_array_v<T>);
+#endif
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+    STATIC_REQUIRE(std::is_unbounded_array<T>::value);
+#endif
+}
+
+template <typename T>
+void test_is_not_unbounded_array_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_unbounded_array<T>::value);
+    STATIC_REQUIRE(phi::is_not_unbounded_array<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_unbounded_array_v<T>);
+    STATIC_REQUIRE(phi::is_not_unbounded_array_v<T>);
+#endif
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+    STATIC_REQUIRE_FALSE(std::is_unbounded_array<T>::value);
+#endif
+}
 
 template <typename T>
 void test_is_unbounded_array()
 {
-    STATIC_REQUIRE(phi::is_unbounded_array<T>::value);
-    STATIC_REQUIRE(phi::is_unbounded_array<const T>::value);
-    STATIC_REQUIRE(phi::is_unbounded_array<volatile T>::value);
-    STATIC_REQUIRE(phi::is_unbounded_array<const volatile T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_unbounded_array_v<T>);
-    STATIC_REQUIRE(phi::is_unbounded_array_v<const T>);
-    STATIC_REQUIRE(phi::is_unbounded_array_v<volatile T>);
-    STATIC_REQUIRE(phi::is_unbounded_array_v<const volatile T>);
-#endif
+    test_is_unbounded_array_impl<T>();
+    test_is_unbounded_array_impl<const T>();
+    test_is_unbounded_array_impl<volatile T>();
+    test_is_unbounded_array_impl<const volatile T>();
 }
 
 template <typename T>
 void test_is_not_unbounded_array()
 {
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array<const volatile T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_unbounded_array_v<const volatile T>);
-#endif
+    test_is_not_unbounded_array_impl<T>();
+    test_is_not_unbounded_array_impl<const T>();
+    test_is_not_unbounded_array_impl<volatile T>();
+    test_is_not_unbounded_array_impl<const volatile T>();
 }
 
 class A
@@ -103,55 +122,431 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<const int**>();
     test_is_not_unbounded_array<volatile int**>();
     test_is_not_unbounded_array<const volatile int**>();
+    test_is_not_unbounded_array<int*&>();
+    test_is_not_unbounded_array<const int*&>();
+    test_is_not_unbounded_array<volatile int*&>();
+    test_is_not_unbounded_array<const volatile int*&>();
+    test_is_not_unbounded_array<int*&&>();
+    test_is_not_unbounded_array<const int*&&>();
+    test_is_not_unbounded_array<volatile int*&&>();
+    test_is_not_unbounded_array<const volatile int*&&>();
     test_is_not_unbounded_array<void*>();
     test_is_not_unbounded_array<char[3]>();
     test_is_unbounded_array<char[]>();
     test_is_not_unbounded_array<char* [3]>();
     test_is_unbounded_array<char*[]>();
+    test_is_not_unbounded_array<int(*)[3]>();
+    test_is_not_unbounded_array<int(*)[]>();
+    test_is_not_unbounded_array<int(&)[3]>();
+    test_is_not_unbounded_array<int(&)[]>();
+    test_is_not_unbounded_array<int(&&)[3]>();
+    test_is_not_unbounded_array<int(&&)[]>();
+    test_is_not_unbounded_array<char[3][2]>();
+    test_is_unbounded_array<char[][2]>();
+    test_is_not_unbounded_array<char* [3][2]>();
+    test_is_unbounded_array<char*[][2]>();
+    test_is_not_unbounded_array<int(*)[3][2]>();
+    test_is_not_unbounded_array<int(*)[][2]>();
+    test_is_not_unbounded_array<int(&)[3][2]>();
+    test_is_not_unbounded_array<int(&)[][2]>();
+    test_is_not_unbounded_array<int(&&)[3][2]>();
+    test_is_not_unbounded_array<int(&&)[][2]>();
     test_is_not_unbounded_array<Class>();
+    test_is_unbounded_array<Class[]>();
+    test_is_not_unbounded_array<Class[2]>();
+    test_is_not_unbounded_array<Template<void>>();
+    test_is_not_unbounded_array<Template<int>>();
+    test_is_not_unbounded_array<Template<Class>>();
+    test_is_not_unbounded_array<Template<incomplete_type>>();
+    test_is_not_unbounded_array<VariadicTemplate<>>();
+    test_is_not_unbounded_array<VariadicTemplate<void>>();
+    test_is_not_unbounded_array<VariadicTemplate<int>>();
+    test_is_not_unbounded_array<VariadicTemplate<Class>>();
+    test_is_not_unbounded_array<VariadicTemplate<incomplete_type>>();
+    test_is_not_unbounded_array<VariadicTemplate<int, void, Class, volatile char[]>>();
+    test_is_not_unbounded_array<PublicDerviedFromTemplate<Base>>();
+    test_is_not_unbounded_array<PublicDerviedFromTemplate<Derived>>();
+    test_is_not_unbounded_array<PublicDerviedFromTemplate<Class>>();
+    test_is_not_unbounded_array<PrivateDerviedFromTemplate<Base>>();
+    test_is_not_unbounded_array<PrivateDerviedFromTemplate<Derived>>();
+    test_is_not_unbounded_array<PrivateDerviedFromTemplate<Class>>();
+    test_is_not_unbounded_array<ProtectedDerviedFromTemplate<Base>>();
+    test_is_not_unbounded_array<ProtectedDerviedFromTemplate<Derived>>();
+    test_is_not_unbounded_array<ProtectedDerviedFromTemplate<Class>>();
     test_is_not_unbounded_array<Union>();
     test_is_not_unbounded_array<NonEmptyUnion>();
     test_is_not_unbounded_array<Empty>();
     test_is_not_unbounded_array<NotEmpty>();
     test_is_not_unbounded_array<bit_zero>();
     test_is_not_unbounded_array<bit_one>();
+    test_is_not_unbounded_array<Base>();
+    test_is_not_unbounded_array<Derived>();
     test_is_not_unbounded_array<Abstract>();
+    test_is_not_unbounded_array<PublicAbstract>();
+    test_is_not_unbounded_array<PrivateAbstract>();
+    test_is_not_unbounded_array<ProtectedAbstract>();
     test_is_not_unbounded_array<AbstractTemplate<int>>();
     test_is_not_unbounded_array<AbstractTemplate<double>>();
     test_is_not_unbounded_array<AbstractTemplate<Class>>();
     test_is_not_unbounded_array<AbstractTemplate<incomplete_type>>();
     test_is_not_unbounded_array<Final>();
+    test_is_not_unbounded_array<PublicDestructor>();
+    test_is_not_unbounded_array<ProtectedDestructor>();
+    test_is_not_unbounded_array<PrivateDestructor>();
+    test_is_not_unbounded_array<VirtualPublicDestructor>();
+    test_is_not_unbounded_array<VirtualProtectedDestructor>();
+    test_is_not_unbounded_array<VirtualPrivateDestructor>();
+    test_is_not_unbounded_array<PurePublicDestructor>();
+    test_is_not_unbounded_array<PureProtectedDestructor>();
+    test_is_not_unbounded_array<PurePrivateDestructor>();
+    test_is_not_unbounded_array<DeletedPublicDestructor>();
+    test_is_not_unbounded_array<DeletedProtectedDestructor>();
+    test_is_not_unbounded_array<DeletedPrivateDestructor>();
+    test_is_not_unbounded_array<DeletedVirtualPublicDestructor>();
+    test_is_not_unbounded_array<DeletedVirtualProtectedDestructor>();
+    test_is_not_unbounded_array<DeletedVirtualPrivateDestructor>();
     test_is_not_unbounded_array<Enum>();
     test_is_not_unbounded_array<EnumSigned>();
     test_is_not_unbounded_array<EnumUnsigned>();
     test_is_not_unbounded_array<EnumClass>();
+    test_is_not_unbounded_array<EnumStruct>();
     test_is_not_unbounded_array<Function>();
     test_is_not_unbounded_array<FunctionPtr>();
     test_is_not_unbounded_array<MemberObjectPtr>();
     test_is_not_unbounded_array<MemberFunctionPtr>();
     test_is_not_unbounded_array<incomplete_type>();
+    test_is_not_unbounded_array<IncompleteTemplate<void>>();
+    test_is_not_unbounded_array<IncompleteTemplate<int>>();
+    test_is_not_unbounded_array<IncompleteTemplate<Class>>();
+    test_is_not_unbounded_array<IncompleteTemplate<incomplete_type>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<void>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<int>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<Class>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unbounded_array<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_unbounded_array<int Class::*>();
     test_is_not_unbounded_array<float Class::*>();
+    test_is_not_unbounded_array<void * Class::*>();
+    test_is_not_unbounded_array<int * Class::*>();
+    test_is_not_unbounded_array<int Class::*&>();
+    test_is_not_unbounded_array<float Class::*&>();
+    test_is_not_unbounded_array<void * Class::*&>();
+    test_is_not_unbounded_array<int * Class::*&>();
+    test_is_not_unbounded_array<int Class::*&&>();
+    test_is_not_unbounded_array<float Class::*&&>();
+    test_is_not_unbounded_array<void * Class::*&&>();
+    test_is_not_unbounded_array<int * Class::*&&>();
+    test_is_not_unbounded_array<int Class::*const>();
+    test_is_not_unbounded_array<float Class::*const>();
+    test_is_not_unbounded_array<void * Class::*const>();
+    test_is_not_unbounded_array<int Class::*const&>();
+    test_is_not_unbounded_array<float Class::*const&>();
+    test_is_not_unbounded_array<void * Class::*const&>();
+    test_is_not_unbounded_array<int Class::*const&&>();
+    test_is_not_unbounded_array<float Class::*const&&>();
+    test_is_not_unbounded_array<void * Class::*const&&>();
+    test_is_not_unbounded_array<int Class::*volatile>();
+    test_is_not_unbounded_array<float Class::*volatile>();
+    test_is_not_unbounded_array<void * Class::*volatile>();
+    test_is_not_unbounded_array<int Class::*volatile&>();
+    test_is_not_unbounded_array<float Class::*volatile&>();
+    test_is_not_unbounded_array<void * Class::*volatile&>();
+    test_is_not_unbounded_array<int Class::*volatile&&>();
+    test_is_not_unbounded_array<float Class::*volatile&&>();
+    test_is_not_unbounded_array<void * Class::*volatile&&>();
+    test_is_not_unbounded_array<int Class::*const volatile>();
+    test_is_not_unbounded_array<float Class::*const volatile>();
+    test_is_not_unbounded_array<void * Class::*const volatile>();
+    test_is_not_unbounded_array<int Class::*const volatile&>();
+    test_is_not_unbounded_array<float Class::*const volatile&>();
+    test_is_not_unbounded_array<void * Class::*const volatile&>();
+    test_is_not_unbounded_array<int Class::*const volatile&&>();
+    test_is_not_unbounded_array<float Class::*const volatile&&>();
+    test_is_not_unbounded_array<void * Class::*const volatile&&>();
+    test_is_not_unbounded_array<NonCopyable>();
+    test_is_not_unbounded_array<NonMoveable>();
+    test_is_not_unbounded_array<NonConstructible>();
+    test_is_not_unbounded_array<Tracked>();
+    test_is_not_unbounded_array<TrapConstructible>();
+    test_is_not_unbounded_array<TrapImplicitConversion>();
+    test_is_not_unbounded_array<TrapComma>();
+    test_is_not_unbounded_array<TrapCall>();
+    test_is_not_unbounded_array<TrapSelfAssign>();
+    test_is_not_unbounded_array<TrapDeref>();
+    test_is_not_unbounded_array<TrapArraySubscript>();
 
     test_is_not_unbounded_array<void()>();
+    test_is_not_unbounded_array<void()&>();
+    test_is_not_unbounded_array<void() &&>();
+    test_is_not_unbounded_array<void() const>();
+    test_is_not_unbounded_array<void() const&>();
+    test_is_not_unbounded_array<void() const&&>();
+    test_is_not_unbounded_array<void() volatile>();
+    test_is_not_unbounded_array<void() volatile&>();
+    test_is_not_unbounded_array<void() volatile&&>();
+    test_is_not_unbounded_array<void() const volatile>();
+    test_is_not_unbounded_array<void() const volatile&>();
+    test_is_not_unbounded_array<void() const volatile&&>();
     test_is_not_unbounded_array<void() noexcept>();
+    test_is_not_unbounded_array<void()& noexcept>();
+    test_is_not_unbounded_array<void()&& noexcept>();
+    test_is_not_unbounded_array<void() const noexcept>();
+    test_is_not_unbounded_array<void() const& noexcept>();
+    test_is_not_unbounded_array<void() const&& noexcept>();
+    test_is_not_unbounded_array<void() volatile noexcept>();
+    test_is_not_unbounded_array<void() volatile& noexcept>();
+    test_is_not_unbounded_array<void() volatile&& noexcept>();
+    test_is_not_unbounded_array<void() const volatile noexcept>();
+    test_is_not_unbounded_array<void() const volatile& noexcept>();
+    test_is_not_unbounded_array<void() const volatile&& noexcept>();
+
     test_is_not_unbounded_array<void(int)>();
+    test_is_not_unbounded_array<void(int)&>();
+    test_is_not_unbounded_array<void(int) &&>();
+    test_is_not_unbounded_array<void(int) const>();
+    test_is_not_unbounded_array<void(int) const&>();
+    test_is_not_unbounded_array<void(int) const&&>();
+    test_is_not_unbounded_array<void(int) volatile>();
+    test_is_not_unbounded_array<void(int) volatile&>();
+    test_is_not_unbounded_array<void(int) volatile&&>();
+    test_is_not_unbounded_array<void(int) const volatile>();
+    test_is_not_unbounded_array<void(int) const volatile&>();
+    test_is_not_unbounded_array<void(int) const volatile&&>();
     test_is_not_unbounded_array<void(int) noexcept>();
+    test_is_not_unbounded_array<void(int)& noexcept>();
+    test_is_not_unbounded_array<void(int)&& noexcept>();
+    test_is_not_unbounded_array<void(int) const noexcept>();
+    test_is_not_unbounded_array<void(int) const& noexcept>();
+    test_is_not_unbounded_array<void(int) const&& noexcept>();
+    test_is_not_unbounded_array<void(int) volatile noexcept>();
+    test_is_not_unbounded_array<void(int) volatile& noexcept>();
+    test_is_not_unbounded_array<void(int) volatile&& noexcept>();
+    test_is_not_unbounded_array<void(int) const volatile noexcept>();
+    test_is_not_unbounded_array<void(int) const volatile& noexcept>();
+    test_is_not_unbounded_array<void(int) const volatile&& noexcept>();
 
     test_is_not_unbounded_array<void(...)>();
+    test_is_not_unbounded_array<void(...)&>();
+    test_is_not_unbounded_array<void(...) &&>();
+    test_is_not_unbounded_array<void(...) const>();
+    test_is_not_unbounded_array<void(...) const&>();
+    test_is_not_unbounded_array<void(...) const&&>();
+    test_is_not_unbounded_array<void(...) volatile>();
+    test_is_not_unbounded_array<void(...) volatile&>();
+    test_is_not_unbounded_array<void(...) volatile&&>();
+    test_is_not_unbounded_array<void(...) const volatile>();
+    test_is_not_unbounded_array<void(...) const volatile&>();
+    test_is_not_unbounded_array<void(...) const volatile&&>();
     test_is_not_unbounded_array<void(...) noexcept>();
+    test_is_not_unbounded_array<void(...)& noexcept>();
+    test_is_not_unbounded_array<void(...)&& noexcept>();
+    test_is_not_unbounded_array<void(...) const noexcept>();
+    test_is_not_unbounded_array<void(...) const& noexcept>();
+    test_is_not_unbounded_array<void(...) const&& noexcept>();
+    test_is_not_unbounded_array<void(...) volatile noexcept>();
+    test_is_not_unbounded_array<void(...) volatile& noexcept>();
+    test_is_not_unbounded_array<void(...) volatile&& noexcept>();
+    test_is_not_unbounded_array<void(...) const volatile noexcept>();
+    test_is_not_unbounded_array<void(...) const volatile& noexcept>();
+    test_is_not_unbounded_array<void(...) const volatile&& noexcept>();
+
     test_is_not_unbounded_array<void(int, ...)>();
+    test_is_not_unbounded_array<void(int, ...)&>();
+    test_is_not_unbounded_array<void(int, ...) &&>();
+    test_is_not_unbounded_array<void(int, ...) const>();
+    test_is_not_unbounded_array<void(int, ...) const&>();
+    test_is_not_unbounded_array<void(int, ...) const&&>();
+    test_is_not_unbounded_array<void(int, ...) volatile>();
+    test_is_not_unbounded_array<void(int, ...) volatile&>();
+    test_is_not_unbounded_array<void(int, ...) volatile&&>();
+    test_is_not_unbounded_array<void(int, ...) const volatile>();
+    test_is_not_unbounded_array<void(int, ...) const volatile&>();
+    test_is_not_unbounded_array<void(int, ...) const volatile&&>();
     test_is_not_unbounded_array<void(int, ...) noexcept>();
+    test_is_not_unbounded_array<void(int, ...)& noexcept>();
+    test_is_not_unbounded_array<void(int, ...)&& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const&& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) volatile noexcept>();
+    test_is_not_unbounded_array<void(int, ...) volatile& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) volatile&& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const volatile noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const volatile& noexcept>();
+    test_is_not_unbounded_array<void(int, ...) const volatile&& noexcept>();
+
+    test_is_not_unbounded_array<int()>();
+    test_is_not_unbounded_array<int()&>();
+    test_is_not_unbounded_array<int() &&>();
+    test_is_not_unbounded_array<int() const>();
+    test_is_not_unbounded_array<int() const&>();
+    test_is_not_unbounded_array<int() const&&>();
+    test_is_not_unbounded_array<int() volatile>();
+    test_is_not_unbounded_array<int() volatile&>();
+    test_is_not_unbounded_array<int() volatile&&>();
+    test_is_not_unbounded_array<int() const volatile>();
+    test_is_not_unbounded_array<int() const volatile&>();
+    test_is_not_unbounded_array<int() const volatile&&>();
+    test_is_not_unbounded_array<int() noexcept>();
+    test_is_not_unbounded_array<int()& noexcept>();
+    test_is_not_unbounded_array<int()&& noexcept>();
+    test_is_not_unbounded_array<int() const noexcept>();
+    test_is_not_unbounded_array<int() const& noexcept>();
+    test_is_not_unbounded_array<int() const&& noexcept>();
+    test_is_not_unbounded_array<int() volatile noexcept>();
+    test_is_not_unbounded_array<int() volatile& noexcept>();
+    test_is_not_unbounded_array<int() volatile&& noexcept>();
+    test_is_not_unbounded_array<int() const volatile noexcept>();
+    test_is_not_unbounded_array<int() const volatile& noexcept>();
+    test_is_not_unbounded_array<int() const volatile&& noexcept>();
+
+    test_is_not_unbounded_array<int(int)>();
+    test_is_not_unbounded_array<int(int)&>();
+    test_is_not_unbounded_array<int(int) &&>();
+    test_is_not_unbounded_array<int(int) const>();
+    test_is_not_unbounded_array<int(int) const&>();
+    test_is_not_unbounded_array<int(int) const&&>();
+    test_is_not_unbounded_array<int(int) volatile>();
+    test_is_not_unbounded_array<int(int) volatile&>();
+    test_is_not_unbounded_array<int(int) volatile&&>();
+    test_is_not_unbounded_array<int(int) const volatile>();
+    test_is_not_unbounded_array<int(int) const volatile&>();
+    test_is_not_unbounded_array<int(int) const volatile&&>();
+    test_is_not_unbounded_array<int(int) noexcept>();
+    test_is_not_unbounded_array<int(int)& noexcept>();
+    test_is_not_unbounded_array<int(int)&& noexcept>();
+    test_is_not_unbounded_array<int(int) const noexcept>();
+    test_is_not_unbounded_array<int(int) const& noexcept>();
+    test_is_not_unbounded_array<int(int) const&& noexcept>();
+    test_is_not_unbounded_array<int(int) volatile noexcept>();
+    test_is_not_unbounded_array<int(int) volatile& noexcept>();
+    test_is_not_unbounded_array<int(int) volatile&& noexcept>();
+    test_is_not_unbounded_array<int(int) const volatile noexcept>();
+    test_is_not_unbounded_array<int(int) const volatile& noexcept>();
+    test_is_not_unbounded_array<int(int) const volatile&& noexcept>();
+
+    test_is_not_unbounded_array<int(...)>();
+    test_is_not_unbounded_array<int(...)&>();
+    test_is_not_unbounded_array<int(...) &&>();
+    test_is_not_unbounded_array<int(...) const>();
+    test_is_not_unbounded_array<int(...) const&>();
+    test_is_not_unbounded_array<int(...) const&&>();
+    test_is_not_unbounded_array<int(...) volatile>();
+    test_is_not_unbounded_array<int(...) volatile&>();
+    test_is_not_unbounded_array<int(...) volatile&&>();
+    test_is_not_unbounded_array<int(...) const volatile>();
+    test_is_not_unbounded_array<int(...) const volatile&>();
+    test_is_not_unbounded_array<int(...) const volatile&&>();
+    test_is_not_unbounded_array<int(...) noexcept>();
+    test_is_not_unbounded_array<int(...)& noexcept>();
+    test_is_not_unbounded_array<int(...)&& noexcept>();
+    test_is_not_unbounded_array<int(...) const noexcept>();
+    test_is_not_unbounded_array<int(...) const& noexcept>();
+    test_is_not_unbounded_array<int(...) const&& noexcept>();
+    test_is_not_unbounded_array<int(...) volatile noexcept>();
+    test_is_not_unbounded_array<int(...) volatile& noexcept>();
+    test_is_not_unbounded_array<int(...) volatile&& noexcept>();
+    test_is_not_unbounded_array<int(...) const volatile noexcept>();
+    test_is_not_unbounded_array<int(...) const volatile& noexcept>();
+    test_is_not_unbounded_array<int(...) const volatile&& noexcept>();
+
+    test_is_not_unbounded_array<int(int, ...)>();
+    test_is_not_unbounded_array<int(int, ...)&>();
+    test_is_not_unbounded_array<int(int, ...) &&>();
+    test_is_not_unbounded_array<int(int, ...) const>();
+    test_is_not_unbounded_array<int(int, ...) const&>();
+    test_is_not_unbounded_array<int(int, ...) const&&>();
+    test_is_not_unbounded_array<int(int, ...) volatile>();
+    test_is_not_unbounded_array<int(int, ...) volatile&>();
+    test_is_not_unbounded_array<int(int, ...) volatile&&>();
+    test_is_not_unbounded_array<int(int, ...) const volatile>();
+    test_is_not_unbounded_array<int(int, ...) const volatile&>();
+    test_is_not_unbounded_array<int(int, ...) const volatile&&>();
+    test_is_not_unbounded_array<int(int, ...) noexcept>();
+    test_is_not_unbounded_array<int(int, ...)& noexcept>();
+    test_is_not_unbounded_array<int(int, ...)&& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const&& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) volatile noexcept>();
+    test_is_not_unbounded_array<int(int, ...) volatile& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) volatile&& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const volatile noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const volatile& noexcept>();
+    test_is_not_unbounded_array<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_unbounded_array<void (*)()>();
     test_is_not_unbounded_array<void (*)() noexcept>();
+
     test_is_not_unbounded_array<void (*)(int)>();
     test_is_not_unbounded_array<void (*)(int) noexcept>();
 
     test_is_not_unbounded_array<void (*)(...)>();
     test_is_not_unbounded_array<void (*)(...) noexcept>();
+
     test_is_not_unbounded_array<void (*)(int, ...)>();
     test_is_not_unbounded_array<void (*)(int, ...) noexcept>();
+
+    test_is_not_unbounded_array<int (*)()>();
+    test_is_not_unbounded_array<int (*)() noexcept>();
+
+    test_is_not_unbounded_array<int (*)(int)>();
+    test_is_not_unbounded_array<int (*)(int) noexcept>();
+
+    test_is_not_unbounded_array<int (*)(...)>();
+    test_is_not_unbounded_array<int (*)(...) noexcept>();
+
+    test_is_not_unbounded_array<int (*)(int, ...)>();
+    test_is_not_unbounded_array<int (*)(int, ...) noexcept>();
+
+    test_is_not_unbounded_array<void (&)()>();
+    test_is_not_unbounded_array<void (&)() noexcept>();
+
+    test_is_not_unbounded_array<void (&)(int)>();
+    test_is_not_unbounded_array<void (&)(int) noexcept>();
+
+    test_is_not_unbounded_array<void (&)(...)>();
+    test_is_not_unbounded_array<void (&)(...) noexcept>();
+
+    test_is_not_unbounded_array<void (&)(int, ...)>();
+    test_is_not_unbounded_array<void (&)(int, ...) noexcept>();
+
+    test_is_not_unbounded_array<int (&)()>();
+    test_is_not_unbounded_array<int (&)() noexcept>();
+
+    test_is_not_unbounded_array<int (&)(int)>();
+    test_is_not_unbounded_array<int (&)(int) noexcept>();
+
+    test_is_not_unbounded_array<int (&)(...)>();
+    test_is_not_unbounded_array<int (&)(...) noexcept>();
+
+    test_is_not_unbounded_array<int (&)(int, ...)>();
+    test_is_not_unbounded_array<int (&)(int, ...) noexcept>();
+
+    test_is_not_unbounded_array<void(&&)()>();
+    test_is_not_unbounded_array<void(&&)() noexcept>();
+
+    test_is_not_unbounded_array<void(&&)(int)>();
+    test_is_not_unbounded_array<void(&&)(int) noexcept>();
+
+    test_is_not_unbounded_array<void(&&)(...)>();
+    test_is_not_unbounded_array<void(&&)(...) noexcept>();
+
+    test_is_not_unbounded_array<void(&&)(int, ...)>();
+    test_is_not_unbounded_array<void(&&)(int, ...) noexcept>();
+
+    test_is_not_unbounded_array<int(&&)()>();
+    test_is_not_unbounded_array<int(&&)() noexcept>();
+
+    test_is_not_unbounded_array<int(&&)(int)>();
+    test_is_not_unbounded_array<int(&&)(int) noexcept>();
+
+    test_is_not_unbounded_array<int(&&)(...)>();
+    test_is_not_unbounded_array<int(&&)(...) noexcept>();
+
+    test_is_not_unbounded_array<int(&&)(int, ...)>();
+    test_is_not_unbounded_array<int(&&)(int, ...) noexcept>();
 
     test_is_not_unbounded_array<void (Class::*)()>();
     test_is_not_unbounded_array<void (Class::*)()&>();
@@ -159,7 +554,6 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<void (Class::*)() const>();
     test_is_not_unbounded_array<void (Class::*)() const&>();
     test_is_not_unbounded_array<void (Class::*)() const&&>();
-
     test_is_not_unbounded_array<void (Class::*)() noexcept>();
     test_is_not_unbounded_array<void (Class::*)()& noexcept>();
     test_is_not_unbounded_array<void (Class::*)()&& noexcept>();
@@ -173,7 +567,6 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<void (Class::*)(int) const>();
     test_is_not_unbounded_array<void (Class::*)(int) const&>();
     test_is_not_unbounded_array<void (Class::*)(int) const&&>();
-
     test_is_not_unbounded_array<void (Class::*)(int) noexcept>();
     test_is_not_unbounded_array<void (Class::*)(int)& noexcept>();
     test_is_not_unbounded_array<void (Class::*)(int)&& noexcept>();
@@ -187,11 +580,75 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<void (Class::*)(...) const>();
     test_is_not_unbounded_array<void (Class::*)(...) const&>();
     test_is_not_unbounded_array<void (Class::*)(...) const&&>();
-
     test_is_not_unbounded_array<void (Class::*)(...) noexcept>();
     test_is_not_unbounded_array<void (Class::*)(...)& noexcept>();
     test_is_not_unbounded_array<void (Class::*)(...)&& noexcept>();
     test_is_not_unbounded_array<void (Class::*)(...) const noexcept>();
     test_is_not_unbounded_array<void (Class::*)(...) const& noexcept>();
     test_is_not_unbounded_array<void (Class::*)(...) const&& noexcept>();
+
+    test_is_not_unbounded_array<void (Class::*)(int, ...)>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...)&>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) &&>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const&>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const&&>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) noexcept>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...)& noexcept>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...)&& noexcept>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const noexcept>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const& noexcept>();
+    test_is_not_unbounded_array<void (Class::*)(int, ...) const&& noexcept>();
+
+    test_is_not_unbounded_array<int (Class::*)()>();
+    test_is_not_unbounded_array<int (Class::*)()&>();
+    test_is_not_unbounded_array<int (Class::*)() &&>();
+    test_is_not_unbounded_array<int (Class::*)() const>();
+    test_is_not_unbounded_array<int (Class::*)() const&>();
+    test_is_not_unbounded_array<int (Class::*)() const&&>();
+    test_is_not_unbounded_array<int (Class::*)() noexcept>();
+    test_is_not_unbounded_array<int (Class::*)()& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)()&& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)() const noexcept>();
+    test_is_not_unbounded_array<int (Class::*)() const& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)() const&& noexcept>();
+
+    test_is_not_unbounded_array<int (Class::*)(int)>();
+    test_is_not_unbounded_array<int (Class::*)(int)&>();
+    test_is_not_unbounded_array<int (Class::*)(int) &&>();
+    test_is_not_unbounded_array<int (Class::*)(int) const>();
+    test_is_not_unbounded_array<int (Class::*)(int) const&>();
+    test_is_not_unbounded_array<int (Class::*)(int) const&&>();
+    test_is_not_unbounded_array<int (Class::*)(int) noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int)& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int)&& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int) const noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int) const& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int) const&& noexcept>();
+
+    test_is_not_unbounded_array<int (Class::*)(...)>();
+    test_is_not_unbounded_array<int (Class::*)(...)&>();
+    test_is_not_unbounded_array<int (Class::*)(...) &&>();
+    test_is_not_unbounded_array<int (Class::*)(...) const>();
+    test_is_not_unbounded_array<int (Class::*)(...) const&>();
+    test_is_not_unbounded_array<int (Class::*)(...) const&&>();
+    test_is_not_unbounded_array<int (Class::*)(...) noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(...)& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(...)&& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(...) const noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(...) const& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(...) const&& noexcept>();
+
+    test_is_not_unbounded_array<int (Class::*)(int, ...)>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...)&>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) &&>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const&>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const&&>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...)& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...)&& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const& noexcept>();
+    test_is_not_unbounded_array<int (Class::*)(int, ...) const&& noexcept>();
 }

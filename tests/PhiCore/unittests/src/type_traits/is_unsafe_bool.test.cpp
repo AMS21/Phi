@@ -11,35 +11,45 @@
 #include <vector>
 
 template <typename T>
-void test_is_unsafe_bool()
+void test_is_unsafe_bool_impl()
 {
     STATIC_REQUIRE(phi::is_unsafe_bool<T>::value);
-    STATIC_REQUIRE(phi::is_unsafe_bool<const T>::value);
-    STATIC_REQUIRE(phi::is_unsafe_bool<volatile T>::value);
-    STATIC_REQUIRE(phi::is_unsafe_bool<const volatile T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsafe_bool<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_unsafe_bool_v<T>);
-    STATIC_REQUIRE(phi::is_unsafe_bool_v<const T>);
-    STATIC_REQUIRE(phi::is_unsafe_bool_v<volatile T>);
-    STATIC_REQUIRE(phi::is_unsafe_bool_v<const volatile T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsafe_bool_v<T>);
 #endif
+}
+
+template <typename T>
+void test_is_not_unsafe_bool_impl()
+{
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<T>::value);
+    STATIC_REQUIRE(phi::is_not_unsafe_bool<T>::value);
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<T>);
+    STATIC_REQUIRE(phi::is_not_unsafe_bool_v<T>);
+#endif
+}
+
+template <typename T>
+void test_is_unsafe_bool()
+{
+    test_is_unsafe_bool_impl<T>();
+    test_is_unsafe_bool_impl<const T>();
+    test_is_unsafe_bool_impl<volatile T>();
+    test_is_unsafe_bool_impl<const volatile T>();
 }
 
 template <typename T>
 void test_is_not_unsafe_bool()
 {
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<const T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<volatile T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<const volatile T>::value);
-
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<const T>);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<volatile T>);
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<const volatile T>);
-#endif
+    test_is_not_unsafe_bool_impl<T>();
+    test_is_not_unsafe_bool_impl<const T>();
+    test_is_not_unsafe_bool_impl<volatile T>();
+    test_is_not_unsafe_bool_impl<const volatile T>();
 }
 
 TEST_CASE("is_unsafe_bool")
@@ -100,55 +110,431 @@ TEST_CASE("is_unsafe_bool")
     test_is_not_unsafe_bool<const int**>();
     test_is_not_unsafe_bool<volatile int**>();
     test_is_not_unsafe_bool<const volatile int**>();
+    test_is_not_unsafe_bool<int*&>();
+    test_is_not_unsafe_bool<const int*&>();
+    test_is_not_unsafe_bool<volatile int*&>();
+    test_is_not_unsafe_bool<const volatile int*&>();
+    test_is_not_unsafe_bool<int*&&>();
+    test_is_not_unsafe_bool<const int*&&>();
+    test_is_not_unsafe_bool<volatile int*&&>();
+    test_is_not_unsafe_bool<const volatile int*&&>();
     test_is_not_unsafe_bool<void*>();
     test_is_not_unsafe_bool<char[3]>();
     test_is_not_unsafe_bool<char[]>();
     test_is_not_unsafe_bool<char* [3]>();
     test_is_not_unsafe_bool<char*[]>();
+    test_is_not_unsafe_bool<int(*)[3]>();
+    test_is_not_unsafe_bool<int(*)[]>();
+    test_is_not_unsafe_bool<int(&)[3]>();
+    test_is_not_unsafe_bool<int(&)[]>();
+    test_is_not_unsafe_bool<int(&&)[3]>();
+    test_is_not_unsafe_bool<int(&&)[]>();
+    test_is_not_unsafe_bool<char[3][2]>();
+    test_is_not_unsafe_bool<char[][2]>();
+    test_is_not_unsafe_bool<char* [3][2]>();
+    test_is_not_unsafe_bool<char*[][2]>();
+    test_is_not_unsafe_bool<int(*)[3][2]>();
+    test_is_not_unsafe_bool<int(*)[][2]>();
+    test_is_not_unsafe_bool<int(&)[3][2]>();
+    test_is_not_unsafe_bool<int(&)[][2]>();
+    test_is_not_unsafe_bool<int(&&)[3][2]>();
+    test_is_not_unsafe_bool<int(&&)[][2]>();
     test_is_not_unsafe_bool<Class>();
+    test_is_not_unsafe_bool<Class[]>();
+    test_is_not_unsafe_bool<Class[2]>();
+    test_is_not_unsafe_bool<Template<void>>();
+    test_is_not_unsafe_bool<Template<int>>();
+    test_is_not_unsafe_bool<Template<Class>>();
+    test_is_not_unsafe_bool<Template<incomplete_type>>();
+    test_is_not_unsafe_bool<VariadicTemplate<>>();
+    test_is_not_unsafe_bool<VariadicTemplate<void>>();
+    test_is_not_unsafe_bool<VariadicTemplate<int>>();
+    test_is_not_unsafe_bool<VariadicTemplate<Class>>();
+    test_is_not_unsafe_bool<VariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_bool<VariadicTemplate<int, void, Class, volatile char[]>>();
+    test_is_not_unsafe_bool<PublicDerviedFromTemplate<Base>>();
+    test_is_not_unsafe_bool<PublicDerviedFromTemplate<Derived>>();
+    test_is_not_unsafe_bool<PublicDerviedFromTemplate<Class>>();
+    test_is_not_unsafe_bool<PrivateDerviedFromTemplate<Base>>();
+    test_is_not_unsafe_bool<PrivateDerviedFromTemplate<Derived>>();
+    test_is_not_unsafe_bool<PrivateDerviedFromTemplate<Class>>();
+    test_is_not_unsafe_bool<ProtectedDerviedFromTemplate<Base>>();
+    test_is_not_unsafe_bool<ProtectedDerviedFromTemplate<Derived>>();
+    test_is_not_unsafe_bool<ProtectedDerviedFromTemplate<Class>>();
     test_is_not_unsafe_bool<Union>();
     test_is_not_unsafe_bool<NonEmptyUnion>();
     test_is_not_unsafe_bool<Empty>();
     test_is_not_unsafe_bool<NotEmpty>();
     test_is_not_unsafe_bool<bit_zero>();
     test_is_not_unsafe_bool<bit_one>();
+    test_is_not_unsafe_bool<Base>();
+    test_is_not_unsafe_bool<Derived>();
     test_is_not_unsafe_bool<Abstract>();
+    test_is_not_unsafe_bool<PublicAbstract>();
+    test_is_not_unsafe_bool<PrivateAbstract>();
+    test_is_not_unsafe_bool<ProtectedAbstract>();
     test_is_not_unsafe_bool<AbstractTemplate<int>>();
     test_is_not_unsafe_bool<AbstractTemplate<double>>();
     test_is_not_unsafe_bool<AbstractTemplate<Class>>();
     test_is_not_unsafe_bool<AbstractTemplate<incomplete_type>>();
     test_is_not_unsafe_bool<Final>();
+    test_is_not_unsafe_bool<PublicDestructor>();
+    test_is_not_unsafe_bool<ProtectedDestructor>();
+    test_is_not_unsafe_bool<PrivateDestructor>();
+    test_is_not_unsafe_bool<VirtualPublicDestructor>();
+    test_is_not_unsafe_bool<VirtualProtectedDestructor>();
+    test_is_not_unsafe_bool<VirtualPrivateDestructor>();
+    test_is_not_unsafe_bool<PurePublicDestructor>();
+    test_is_not_unsafe_bool<PureProtectedDestructor>();
+    test_is_not_unsafe_bool<PurePrivateDestructor>();
+    test_is_not_unsafe_bool<DeletedPublicDestructor>();
+    test_is_not_unsafe_bool<DeletedProtectedDestructor>();
+    test_is_not_unsafe_bool<DeletedPrivateDestructor>();
+    test_is_not_unsafe_bool<DeletedVirtualPublicDestructor>();
+    test_is_not_unsafe_bool<DeletedVirtualProtectedDestructor>();
+    test_is_not_unsafe_bool<DeletedVirtualPrivateDestructor>();
     test_is_not_unsafe_bool<Enum>();
     test_is_not_unsafe_bool<EnumSigned>();
     test_is_not_unsafe_bool<EnumUnsigned>();
     test_is_not_unsafe_bool<EnumClass>();
+    test_is_not_unsafe_bool<EnumStruct>();
     test_is_not_unsafe_bool<Function>();
     test_is_not_unsafe_bool<FunctionPtr>();
     test_is_not_unsafe_bool<MemberObjectPtr>();
     test_is_not_unsafe_bool<MemberFunctionPtr>();
     test_is_not_unsafe_bool<incomplete_type>();
+    test_is_not_unsafe_bool<IncompleteTemplate<void>>();
+    test_is_not_unsafe_bool<IncompleteTemplate<int>>();
+    test_is_not_unsafe_bool<IncompleteTemplate<Class>>();
+    test_is_not_unsafe_bool<IncompleteTemplate<incomplete_type>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<void>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<int>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<Class>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_bool<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_unsafe_bool<int Class::*>();
     test_is_not_unsafe_bool<float Class::*>();
+    test_is_not_unsafe_bool<void * Class::*>();
+    test_is_not_unsafe_bool<int * Class::*>();
+    test_is_not_unsafe_bool<int Class::*&>();
+    test_is_not_unsafe_bool<float Class::*&>();
+    test_is_not_unsafe_bool<void * Class::*&>();
+    test_is_not_unsafe_bool<int * Class::*&>();
+    test_is_not_unsafe_bool<int Class::*&&>();
+    test_is_not_unsafe_bool<float Class::*&&>();
+    test_is_not_unsafe_bool<void * Class::*&&>();
+    test_is_not_unsafe_bool<int * Class::*&&>();
+    test_is_not_unsafe_bool<int Class::*const>();
+    test_is_not_unsafe_bool<float Class::*const>();
+    test_is_not_unsafe_bool<void * Class::*const>();
+    test_is_not_unsafe_bool<int Class::*const&>();
+    test_is_not_unsafe_bool<float Class::*const&>();
+    test_is_not_unsafe_bool<void * Class::*const&>();
+    test_is_not_unsafe_bool<int Class::*const&&>();
+    test_is_not_unsafe_bool<float Class::*const&&>();
+    test_is_not_unsafe_bool<void * Class::*const&&>();
+    test_is_not_unsafe_bool<int Class::*volatile>();
+    test_is_not_unsafe_bool<float Class::*volatile>();
+    test_is_not_unsafe_bool<void * Class::*volatile>();
+    test_is_not_unsafe_bool<int Class::*volatile&>();
+    test_is_not_unsafe_bool<float Class::*volatile&>();
+    test_is_not_unsafe_bool<void * Class::*volatile&>();
+    test_is_not_unsafe_bool<int Class::*volatile&&>();
+    test_is_not_unsafe_bool<float Class::*volatile&&>();
+    test_is_not_unsafe_bool<void * Class::*volatile&&>();
+    test_is_not_unsafe_bool<int Class::*const volatile>();
+    test_is_not_unsafe_bool<float Class::*const volatile>();
+    test_is_not_unsafe_bool<void * Class::*const volatile>();
+    test_is_not_unsafe_bool<int Class::*const volatile&>();
+    test_is_not_unsafe_bool<float Class::*const volatile&>();
+    test_is_not_unsafe_bool<void * Class::*const volatile&>();
+    test_is_not_unsafe_bool<int Class::*const volatile&&>();
+    test_is_not_unsafe_bool<float Class::*const volatile&&>();
+    test_is_not_unsafe_bool<void * Class::*const volatile&&>();
+    test_is_not_unsafe_bool<NonCopyable>();
+    test_is_not_unsafe_bool<NonMoveable>();
+    test_is_not_unsafe_bool<NonConstructible>();
+    test_is_not_unsafe_bool<Tracked>();
+    test_is_not_unsafe_bool<TrapConstructible>();
+    test_is_not_unsafe_bool<TrapImplicitConversion>();
+    test_is_not_unsafe_bool<TrapComma>();
+    test_is_not_unsafe_bool<TrapCall>();
+    test_is_not_unsafe_bool<TrapSelfAssign>();
+    test_is_not_unsafe_bool<TrapDeref>();
+    test_is_not_unsafe_bool<TrapArraySubscript>();
 
     test_is_not_unsafe_bool<void()>();
+    test_is_not_unsafe_bool<void()&>();
+    test_is_not_unsafe_bool<void() &&>();
+    test_is_not_unsafe_bool<void() const>();
+    test_is_not_unsafe_bool<void() const&>();
+    test_is_not_unsafe_bool<void() const&&>();
+    test_is_not_unsafe_bool<void() volatile>();
+    test_is_not_unsafe_bool<void() volatile&>();
+    test_is_not_unsafe_bool<void() volatile&&>();
+    test_is_not_unsafe_bool<void() const volatile>();
+    test_is_not_unsafe_bool<void() const volatile&>();
+    test_is_not_unsafe_bool<void() const volatile&&>();
     test_is_not_unsafe_bool<void() noexcept>();
+    test_is_not_unsafe_bool<void()& noexcept>();
+    test_is_not_unsafe_bool<void()&& noexcept>();
+    test_is_not_unsafe_bool<void() const noexcept>();
+    test_is_not_unsafe_bool<void() const& noexcept>();
+    test_is_not_unsafe_bool<void() const&& noexcept>();
+    test_is_not_unsafe_bool<void() volatile noexcept>();
+    test_is_not_unsafe_bool<void() volatile& noexcept>();
+    test_is_not_unsafe_bool<void() volatile&& noexcept>();
+    test_is_not_unsafe_bool<void() const volatile noexcept>();
+    test_is_not_unsafe_bool<void() const volatile& noexcept>();
+    test_is_not_unsafe_bool<void() const volatile&& noexcept>();
+
     test_is_not_unsafe_bool<void(int)>();
+    test_is_not_unsafe_bool<void(int)&>();
+    test_is_not_unsafe_bool<void(int) &&>();
+    test_is_not_unsafe_bool<void(int) const>();
+    test_is_not_unsafe_bool<void(int) const&>();
+    test_is_not_unsafe_bool<void(int) const&&>();
+    test_is_not_unsafe_bool<void(int) volatile>();
+    test_is_not_unsafe_bool<void(int) volatile&>();
+    test_is_not_unsafe_bool<void(int) volatile&&>();
+    test_is_not_unsafe_bool<void(int) const volatile>();
+    test_is_not_unsafe_bool<void(int) const volatile&>();
+    test_is_not_unsafe_bool<void(int) const volatile&&>();
     test_is_not_unsafe_bool<void(int) noexcept>();
+    test_is_not_unsafe_bool<void(int)& noexcept>();
+    test_is_not_unsafe_bool<void(int)&& noexcept>();
+    test_is_not_unsafe_bool<void(int) const noexcept>();
+    test_is_not_unsafe_bool<void(int) const& noexcept>();
+    test_is_not_unsafe_bool<void(int) const&& noexcept>();
+    test_is_not_unsafe_bool<void(int) volatile noexcept>();
+    test_is_not_unsafe_bool<void(int) volatile& noexcept>();
+    test_is_not_unsafe_bool<void(int) volatile&& noexcept>();
+    test_is_not_unsafe_bool<void(int) const volatile noexcept>();
+    test_is_not_unsafe_bool<void(int) const volatile& noexcept>();
+    test_is_not_unsafe_bool<void(int) const volatile&& noexcept>();
 
     test_is_not_unsafe_bool<void(...)>();
+    test_is_not_unsafe_bool<void(...)&>();
+    test_is_not_unsafe_bool<void(...) &&>();
+    test_is_not_unsafe_bool<void(...) const>();
+    test_is_not_unsafe_bool<void(...) const&>();
+    test_is_not_unsafe_bool<void(...) const&&>();
+    test_is_not_unsafe_bool<void(...) volatile>();
+    test_is_not_unsafe_bool<void(...) volatile&>();
+    test_is_not_unsafe_bool<void(...) volatile&&>();
+    test_is_not_unsafe_bool<void(...) const volatile>();
+    test_is_not_unsafe_bool<void(...) const volatile&>();
+    test_is_not_unsafe_bool<void(...) const volatile&&>();
     test_is_not_unsafe_bool<void(...) noexcept>();
+    test_is_not_unsafe_bool<void(...)& noexcept>();
+    test_is_not_unsafe_bool<void(...)&& noexcept>();
+    test_is_not_unsafe_bool<void(...) const noexcept>();
+    test_is_not_unsafe_bool<void(...) const& noexcept>();
+    test_is_not_unsafe_bool<void(...) const&& noexcept>();
+    test_is_not_unsafe_bool<void(...) volatile noexcept>();
+    test_is_not_unsafe_bool<void(...) volatile& noexcept>();
+    test_is_not_unsafe_bool<void(...) volatile&& noexcept>();
+    test_is_not_unsafe_bool<void(...) const volatile noexcept>();
+    test_is_not_unsafe_bool<void(...) const volatile& noexcept>();
+    test_is_not_unsafe_bool<void(...) const volatile&& noexcept>();
+
     test_is_not_unsafe_bool<void(int, ...)>();
+    test_is_not_unsafe_bool<void(int, ...)&>();
+    test_is_not_unsafe_bool<void(int, ...) &&>();
+    test_is_not_unsafe_bool<void(int, ...) const>();
+    test_is_not_unsafe_bool<void(int, ...) const&>();
+    test_is_not_unsafe_bool<void(int, ...) const&&>();
+    test_is_not_unsafe_bool<void(int, ...) volatile>();
+    test_is_not_unsafe_bool<void(int, ...) volatile&>();
+    test_is_not_unsafe_bool<void(int, ...) volatile&&>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile&>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile&&>();
     test_is_not_unsafe_bool<void(int, ...) noexcept>();
+    test_is_not_unsafe_bool<void(int, ...)& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...)&& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const&& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) volatile noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) volatile& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) volatile&& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile& noexcept>();
+    test_is_not_unsafe_bool<void(int, ...) const volatile&& noexcept>();
+
+    test_is_not_unsafe_bool<int()>();
+    test_is_not_unsafe_bool<int()&>();
+    test_is_not_unsafe_bool<int() &&>();
+    test_is_not_unsafe_bool<int() const>();
+    test_is_not_unsafe_bool<int() const&>();
+    test_is_not_unsafe_bool<int() const&&>();
+    test_is_not_unsafe_bool<int() volatile>();
+    test_is_not_unsafe_bool<int() volatile&>();
+    test_is_not_unsafe_bool<int() volatile&&>();
+    test_is_not_unsafe_bool<int() const volatile>();
+    test_is_not_unsafe_bool<int() const volatile&>();
+    test_is_not_unsafe_bool<int() const volatile&&>();
+    test_is_not_unsafe_bool<int() noexcept>();
+    test_is_not_unsafe_bool<int()& noexcept>();
+    test_is_not_unsafe_bool<int()&& noexcept>();
+    test_is_not_unsafe_bool<int() const noexcept>();
+    test_is_not_unsafe_bool<int() const& noexcept>();
+    test_is_not_unsafe_bool<int() const&& noexcept>();
+    test_is_not_unsafe_bool<int() volatile noexcept>();
+    test_is_not_unsafe_bool<int() volatile& noexcept>();
+    test_is_not_unsafe_bool<int() volatile&& noexcept>();
+    test_is_not_unsafe_bool<int() const volatile noexcept>();
+    test_is_not_unsafe_bool<int() const volatile& noexcept>();
+    test_is_not_unsafe_bool<int() const volatile&& noexcept>();
+
+    test_is_not_unsafe_bool<int(int)>();
+    test_is_not_unsafe_bool<int(int)&>();
+    test_is_not_unsafe_bool<int(int) &&>();
+    test_is_not_unsafe_bool<int(int) const>();
+    test_is_not_unsafe_bool<int(int) const&>();
+    test_is_not_unsafe_bool<int(int) const&&>();
+    test_is_not_unsafe_bool<int(int) volatile>();
+    test_is_not_unsafe_bool<int(int) volatile&>();
+    test_is_not_unsafe_bool<int(int) volatile&&>();
+    test_is_not_unsafe_bool<int(int) const volatile>();
+    test_is_not_unsafe_bool<int(int) const volatile&>();
+    test_is_not_unsafe_bool<int(int) const volatile&&>();
+    test_is_not_unsafe_bool<int(int) noexcept>();
+    test_is_not_unsafe_bool<int(int)& noexcept>();
+    test_is_not_unsafe_bool<int(int)&& noexcept>();
+    test_is_not_unsafe_bool<int(int) const noexcept>();
+    test_is_not_unsafe_bool<int(int) const& noexcept>();
+    test_is_not_unsafe_bool<int(int) const&& noexcept>();
+    test_is_not_unsafe_bool<int(int) volatile noexcept>();
+    test_is_not_unsafe_bool<int(int) volatile& noexcept>();
+    test_is_not_unsafe_bool<int(int) volatile&& noexcept>();
+    test_is_not_unsafe_bool<int(int) const volatile noexcept>();
+    test_is_not_unsafe_bool<int(int) const volatile& noexcept>();
+    test_is_not_unsafe_bool<int(int) const volatile&& noexcept>();
+
+    test_is_not_unsafe_bool<int(...)>();
+    test_is_not_unsafe_bool<int(...)&>();
+    test_is_not_unsafe_bool<int(...) &&>();
+    test_is_not_unsafe_bool<int(...) const>();
+    test_is_not_unsafe_bool<int(...) const&>();
+    test_is_not_unsafe_bool<int(...) const&&>();
+    test_is_not_unsafe_bool<int(...) volatile>();
+    test_is_not_unsafe_bool<int(...) volatile&>();
+    test_is_not_unsafe_bool<int(...) volatile&&>();
+    test_is_not_unsafe_bool<int(...) const volatile>();
+    test_is_not_unsafe_bool<int(...) const volatile&>();
+    test_is_not_unsafe_bool<int(...) const volatile&&>();
+    test_is_not_unsafe_bool<int(...) noexcept>();
+    test_is_not_unsafe_bool<int(...)& noexcept>();
+    test_is_not_unsafe_bool<int(...)&& noexcept>();
+    test_is_not_unsafe_bool<int(...) const noexcept>();
+    test_is_not_unsafe_bool<int(...) const& noexcept>();
+    test_is_not_unsafe_bool<int(...) const&& noexcept>();
+    test_is_not_unsafe_bool<int(...) volatile noexcept>();
+    test_is_not_unsafe_bool<int(...) volatile& noexcept>();
+    test_is_not_unsafe_bool<int(...) volatile&& noexcept>();
+    test_is_not_unsafe_bool<int(...) const volatile noexcept>();
+    test_is_not_unsafe_bool<int(...) const volatile& noexcept>();
+    test_is_not_unsafe_bool<int(...) const volatile&& noexcept>();
+
+    test_is_not_unsafe_bool<int(int, ...)>();
+    test_is_not_unsafe_bool<int(int, ...)&>();
+    test_is_not_unsafe_bool<int(int, ...) &&>();
+    test_is_not_unsafe_bool<int(int, ...) const>();
+    test_is_not_unsafe_bool<int(int, ...) const&>();
+    test_is_not_unsafe_bool<int(int, ...) const&&>();
+    test_is_not_unsafe_bool<int(int, ...) volatile>();
+    test_is_not_unsafe_bool<int(int, ...) volatile&>();
+    test_is_not_unsafe_bool<int(int, ...) volatile&&>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile&>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile&&>();
+    test_is_not_unsafe_bool<int(int, ...) noexcept>();
+    test_is_not_unsafe_bool<int(int, ...)& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...)&& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const&& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) volatile noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) volatile& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) volatile&& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile& noexcept>();
+    test_is_not_unsafe_bool<int(int, ...) const volatile&& noexcept>();
 
     test_is_not_unsafe_bool<void (*)()>();
     test_is_not_unsafe_bool<void (*)() noexcept>();
+
     test_is_not_unsafe_bool<void (*)(int)>();
     test_is_not_unsafe_bool<void (*)(int) noexcept>();
 
     test_is_not_unsafe_bool<void (*)(...)>();
     test_is_not_unsafe_bool<void (*)(...) noexcept>();
+
     test_is_not_unsafe_bool<void (*)(int, ...)>();
     test_is_not_unsafe_bool<void (*)(int, ...) noexcept>();
+
+    test_is_not_unsafe_bool<int (*)()>();
+    test_is_not_unsafe_bool<int (*)() noexcept>();
+
+    test_is_not_unsafe_bool<int (*)(int)>();
+    test_is_not_unsafe_bool<int (*)(int) noexcept>();
+
+    test_is_not_unsafe_bool<int (*)(...)>();
+    test_is_not_unsafe_bool<int (*)(...) noexcept>();
+
+    test_is_not_unsafe_bool<int (*)(int, ...)>();
+    test_is_not_unsafe_bool<int (*)(int, ...) noexcept>();
+
+    test_is_not_unsafe_bool<void (&)()>();
+    test_is_not_unsafe_bool<void (&)() noexcept>();
+
+    test_is_not_unsafe_bool<void (&)(int)>();
+    test_is_not_unsafe_bool<void (&)(int) noexcept>();
+
+    test_is_not_unsafe_bool<void (&)(...)>();
+    test_is_not_unsafe_bool<void (&)(...) noexcept>();
+
+    test_is_not_unsafe_bool<void (&)(int, ...)>();
+    test_is_not_unsafe_bool<void (&)(int, ...) noexcept>();
+
+    test_is_not_unsafe_bool<int (&)()>();
+    test_is_not_unsafe_bool<int (&)() noexcept>();
+
+    test_is_not_unsafe_bool<int (&)(int)>();
+    test_is_not_unsafe_bool<int (&)(int) noexcept>();
+
+    test_is_not_unsafe_bool<int (&)(...)>();
+    test_is_not_unsafe_bool<int (&)(...) noexcept>();
+
+    test_is_not_unsafe_bool<int (&)(int, ...)>();
+    test_is_not_unsafe_bool<int (&)(int, ...) noexcept>();
+
+    test_is_not_unsafe_bool<void(&&)()>();
+    test_is_not_unsafe_bool<void(&&)() noexcept>();
+
+    test_is_not_unsafe_bool<void(&&)(int)>();
+    test_is_not_unsafe_bool<void(&&)(int) noexcept>();
+
+    test_is_not_unsafe_bool<void(&&)(...)>();
+    test_is_not_unsafe_bool<void(&&)(...) noexcept>();
+
+    test_is_not_unsafe_bool<void(&&)(int, ...)>();
+    test_is_not_unsafe_bool<void(&&)(int, ...) noexcept>();
+
+    test_is_not_unsafe_bool<int(&&)()>();
+    test_is_not_unsafe_bool<int(&&)() noexcept>();
+
+    test_is_not_unsafe_bool<int(&&)(int)>();
+    test_is_not_unsafe_bool<int(&&)(int) noexcept>();
+
+    test_is_not_unsafe_bool<int(&&)(...)>();
+    test_is_not_unsafe_bool<int(&&)(...) noexcept>();
+
+    test_is_not_unsafe_bool<int(&&)(int, ...)>();
+    test_is_not_unsafe_bool<int(&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_bool<void (Class::*)()>();
     test_is_not_unsafe_bool<void (Class::*)()&>();
@@ -156,7 +542,6 @@ TEST_CASE("is_unsafe_bool")
     test_is_not_unsafe_bool<void (Class::*)() const>();
     test_is_not_unsafe_bool<void (Class::*)() const&>();
     test_is_not_unsafe_bool<void (Class::*)() const&&>();
-
     test_is_not_unsafe_bool<void (Class::*)() noexcept>();
     test_is_not_unsafe_bool<void (Class::*)()& noexcept>();
     test_is_not_unsafe_bool<void (Class::*)()&& noexcept>();
@@ -170,7 +555,6 @@ TEST_CASE("is_unsafe_bool")
     test_is_not_unsafe_bool<void (Class::*)(int) const>();
     test_is_not_unsafe_bool<void (Class::*)(int) const&>();
     test_is_not_unsafe_bool<void (Class::*)(int) const&&>();
-
     test_is_not_unsafe_bool<void (Class::*)(int) noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(int)& noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(int)&& noexcept>();
@@ -184,11 +568,75 @@ TEST_CASE("is_unsafe_bool")
     test_is_not_unsafe_bool<void (Class::*)(...) const>();
     test_is_not_unsafe_bool<void (Class::*)(...) const&>();
     test_is_not_unsafe_bool<void (Class::*)(...) const&&>();
-
     test_is_not_unsafe_bool<void (Class::*)(...) noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(...)& noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(...)&& noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(...) const noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(...) const& noexcept>();
     test_is_not_unsafe_bool<void (Class::*)(...) const&& noexcept>();
+
+    test_is_not_unsafe_bool<void (Class::*)(int, ...)>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...)&>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) &&>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const&>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const&&>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) noexcept>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...)& noexcept>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...)&& noexcept>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const noexcept>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const& noexcept>();
+    test_is_not_unsafe_bool<void (Class::*)(int, ...) const&& noexcept>();
+
+    test_is_not_unsafe_bool<int (Class::*)()>();
+    test_is_not_unsafe_bool<int (Class::*)()&>();
+    test_is_not_unsafe_bool<int (Class::*)() &&>();
+    test_is_not_unsafe_bool<int (Class::*)() const>();
+    test_is_not_unsafe_bool<int (Class::*)() const&>();
+    test_is_not_unsafe_bool<int (Class::*)() const&&>();
+    test_is_not_unsafe_bool<int (Class::*)() noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)()& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)()&& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)() const noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)() const& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)() const&& noexcept>();
+
+    test_is_not_unsafe_bool<int (Class::*)(int)>();
+    test_is_not_unsafe_bool<int (Class::*)(int)&>();
+    test_is_not_unsafe_bool<int (Class::*)(int) &&>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const&>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const&&>();
+    test_is_not_unsafe_bool<int (Class::*)(int) noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int)& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int)&& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int) const&& noexcept>();
+
+    test_is_not_unsafe_bool<int (Class::*)(...)>();
+    test_is_not_unsafe_bool<int (Class::*)(...)&>();
+    test_is_not_unsafe_bool<int (Class::*)(...) &&>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const&>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const&&>();
+    test_is_not_unsafe_bool<int (Class::*)(...) noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(...)& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(...)&& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(...) const&& noexcept>();
+
+    test_is_not_unsafe_bool<int (Class::*)(int, ...)>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...)&>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) &&>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const&>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const&&>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...)& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...)&& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const& noexcept>();
+    test_is_not_unsafe_bool<int (Class::*)(int, ...) const&& noexcept>();
 }

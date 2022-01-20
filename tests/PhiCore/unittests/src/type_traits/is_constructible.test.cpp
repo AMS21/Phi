@@ -60,6 +60,7 @@ void test_is_constructible()
 #if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_constructible<T, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_constructible<T, ArgsT...>::value);
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<T, ArgsT...>);
@@ -76,6 +77,7 @@ void test_is_not_constructible()
 #if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_constructible<T, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_constructible<T, ArgsT...>::value);
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_constructible_v<T, ArgsT...>);

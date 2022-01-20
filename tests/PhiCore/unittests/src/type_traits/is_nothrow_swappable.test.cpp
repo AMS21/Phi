@@ -3,6 +3,7 @@
 #include <phi/algorithm/swap.hpp>
 #include <phi/type_traits/is_nothrow_swappable.hpp>
 #include <phi/type_traits/is_swappable.hpp>
+#include <type_traits>
 
 namespace MyNS
 {
@@ -51,11 +52,19 @@ template <typename T>
 void test_is_nothrow_swappable()
 {
     STATIC_REQUIRE(phi::is_nothrow_swappable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable<T>::value);
     STATIC_REQUIRE(phi::is_swappable<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_nothrow_swappable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable_v<T>);
     STATIC_REQUIRE(phi::is_swappable_v<T>);
+#endif
+
+    // Standard compatibililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_nothrow_swappable<T>::value);
+    STATIC_REQUIRE(std::is_swappable<T>::value);
 #endif
 }
 
@@ -63,8 +72,16 @@ template <typename T>
 void test_is_not_nothrow_swappable()
 {
     STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable<T>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_swappable<T>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable_v<T>);
+    STATIC_REQUIRE(phi::is_not_nothrow_swappable_v<T>);
+#endif
+
+    // Standard compatibililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_nothrow_swappable<T>::value);
 #endif
 }
 

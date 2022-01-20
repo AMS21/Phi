@@ -23,15 +23,6 @@ void test_is_safe_integral_impl()
 }
 
 template <typename T>
-void test_is_safe_integral()
-{
-    test_is_safe_integral_impl<T>();
-    test_is_safe_integral_impl<const T>();
-    test_is_safe_integral_impl<volatile T>();
-    test_is_safe_integral_impl<const volatile T>();
-}
-
-template <typename T>
 void test_is_not_safe_integral_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_safe_integral<T>::value);
@@ -41,6 +32,15 @@ void test_is_not_safe_integral_impl()
     STATIC_REQUIRE_FALSE(phi::is_safe_integral_v<T>);
     STATIC_REQUIRE(phi::is_not_safe_integral_v<T>);
 #endif
+}
+
+template <typename T>
+void test_is_safe_integral()
+{
+    test_is_safe_integral_impl<T>();
+    test_is_safe_integral_impl<const T>();
+    test_is_safe_integral_impl<volatile T>();
+    test_is_safe_integral_impl<const volatile T>();
 }
 
 template <typename T>
@@ -54,18 +54,6 @@ void test_is_not_safe_integral()
 
 TEST_CASE("is_safe_integral")
 {
-    test_is_safe_integral<phi::boolean>();
-    test_is_safe_integral<phi::integer<signed char>>();
-    test_is_safe_integral<phi::integer<unsigned char>>();
-    test_is_safe_integral<phi::integer<short>>();
-    test_is_safe_integral<phi::integer<unsigned short>>();
-    test_is_safe_integral<phi::integer<int>>();
-    test_is_safe_integral<phi::integer<unsigned int>>();
-    test_is_safe_integral<phi::integer<long>>();
-    test_is_safe_integral<phi::integer<unsigned long>>();
-    test_is_safe_integral<phi::integer<long long>>();
-    test_is_safe_integral<phi::integer<unsigned long long>>();
-
     test_is_not_safe_integral<void>();
     test_is_not_safe_integral<phi::nullptr_t>();
     test_is_not_safe_integral<bool>();
@@ -88,6 +76,17 @@ TEST_CASE("is_safe_integral")
     test_is_not_safe_integral<char32_t>();
     test_is_not_safe_integral<wchar_t>();
 
+    test_is_safe_integral<phi::boolean>();
+    test_is_safe_integral<phi::integer<signed char>>();
+    test_is_safe_integral<phi::integer<unsigned char>>();
+    test_is_safe_integral<phi::integer<short>>();
+    test_is_safe_integral<phi::integer<unsigned short>>();
+    test_is_safe_integral<phi::integer<int>>();
+    test_is_safe_integral<phi::integer<unsigned int>>();
+    test_is_safe_integral<phi::integer<long>>();
+    test_is_safe_integral<phi::integer<unsigned long>>();
+    test_is_safe_integral<phi::integer<long long>>();
+    test_is_safe_integral<phi::integer<unsigned long long>>();
     test_is_not_safe_integral<phi::floating_point<float>>();
     test_is_not_safe_integral<phi::floating_point<double>>();
     test_is_not_safe_integral<phi::floating_point<long double>>();

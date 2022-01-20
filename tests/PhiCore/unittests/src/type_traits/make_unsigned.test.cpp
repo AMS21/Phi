@@ -12,25 +12,27 @@
 #include <cstdint>
 #include <vector>
 
+template <typename T, typename U = T>
+void test_make_unsigned_impl()
+{
+    CHECK_SAME_TYPE(typename phi::make_unsigned<T>::type, U);
+    CHECK_SAME_TYPE(phi::make_unsigned_t<T>, U);
+}
+
+template <typename T, typename U = T>
+void test_make_unsigned()
+{
+    test_make_unsigned_impl<T, U>();
+    test_make_unsigned_impl<const T, const U>();
+    test_make_unsigned_impl<volatile T, volatile U>();
+    test_make_unsigned_impl<const volatile T, const volatile U>();
+}
+
 enum BigEnum : unsigned long long
 {
     bigzero,
     big = 0xFFFFFFFFFFFFFFFFULL
 };
-
-template <typename T, typename U = T>
-void test_make_unsigned()
-{
-    CHECK_SAME_TYPE(typename phi::make_unsigned<T>::type, U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<const T>::type, const U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<volatile T>::type, volatile U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<const volatile T>::type, const volatile U);
-
-    CHECK_SAME_TYPE(phi::make_unsigned_t<T>, U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<const T>, const U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<volatile T>, volatile U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<const volatile T>, const volatile U);
-}
 
 TEST_CASE("make_unsigned")
 {

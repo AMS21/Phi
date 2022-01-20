@@ -70,7 +70,7 @@ void test_is_not_final_impl()
     STATIC_REQUIRE(phi::is_not_final_v<T>);
 #    endif
 
-// Standard compatibility
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_final<T>::value);
 #    endif

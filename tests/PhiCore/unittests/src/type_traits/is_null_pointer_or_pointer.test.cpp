@@ -4,7 +4,9 @@
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
+#include <phi/type_traits/is_null_pointer.hpp>
 #include <phi/type_traits/is_null_pointer_or_pointer.hpp>
+#include <phi/type_traits/is_pointer.hpp>
 #include <cstddef> // std::nullptr_t
 #include <type_traits>
 #include <vector>
@@ -14,10 +16,12 @@ void test_is_null_pointer_or_pointer_impl()
 {
     STATIC_REQUIRE(phi::is_null_pointer_or_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_null_pointer_or_pointer<T>::value);
+    STATIC_REQUIRE(phi::is_null_pointer<T>::value || phi::is_pointer<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_null_pointer_or_pointer_v<T>);
+    STATIC_REQUIRE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
 
     // Standard compatibility
@@ -43,10 +47,12 @@ void test_is_not_null_pointer_or_pointer_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_or_pointer<T>::value);
     STATIC_REQUIRE(phi::is_not_null_pointer_or_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value || phi::is_pointer<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE(phi::is_not_null_pointer_or_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
 
     // Standard compatibility

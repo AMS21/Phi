@@ -9,6 +9,7 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/add_lvalue_reference.hpp>
 #include <phi/type_traits/add_rvalue_reference.hpp>
+#include <phi/type_traits/is_arithmetic.hpp>
 #include <phi/type_traits/is_array.hpp>
 #include <phi/type_traits/is_bool.hpp>
 #include <phi/type_traits/is_class.hpp>
@@ -37,6 +38,19 @@
 template <typename T>
 void test_is_lvalue_reference_impl()
 {
+    // is_lvalue
+    STATIC_REQUIRE(phi::is_lvalue_reference<T>::value);
+    STATIC_REQUIRE(phi::is_lvalue_reference<typename phi::add_lvalue_reference<T>::type>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<typename phi::remove_reference<T>::type>::value);
+    STATIC_REQUIRE(phi::is_lvalue_reference<typename phi::add_rvalue_reference<T>::type>::value);
+
+    STATIC_REQUIRE_FALSE(phi::is_not_lvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(
+            phi::is_not_lvalue_reference<typename phi::add_lvalue_reference<T>::type>::value);
+    STATIC_REQUIRE(phi::is_not_lvalue_reference<typename phi::remove_reference<T>::type>::value);
+    STATIC_REQUIRE_FALSE(
+            phi::is_not_lvalue_reference<typename phi::add_rvalue_reference<T>::type>::value);
+
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
 #if PHI_HAS_WORKING_IS_CLASS()
@@ -67,23 +81,23 @@ void test_is_lvalue_reference_impl()
 #if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
 #endif
-    STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
-    // is_lvalue
-    STATIC_REQUIRE(phi::is_lvalue_reference<T>::value);
-    STATIC_REQUIRE(phi::is_lvalue_reference<typename phi::add_lvalue_reference<T>::type>::value);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<typename phi::remove_reference<T>::type>::value);
-    STATIC_REQUIRE(phi::is_lvalue_reference<typename phi::add_rvalue_reference<T>::type>::value);
-
-    STATIC_REQUIRE_FALSE(phi::is_not_lvalue_reference<T>::value);
-    STATIC_REQUIRE_FALSE(
-            phi::is_not_lvalue_reference<typename phi::add_lvalue_reference<T>::type>::value);
-    STATIC_REQUIRE(phi::is_not_lvalue_reference<typename phi::remove_reference<T>::type>::value);
-    STATIC_REQUIRE_FALSE(
-            phi::is_not_lvalue_reference<typename phi::add_rvalue_reference<T>::type>::value);
-
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    // is_lvalue_v
+    STATIC_REQUIRE(phi::is_lvalue_reference_v<T>);
+    STATIC_REQUIRE(phi::is_lvalue_reference_v<typename phi::add_lvalue_reference<T>::type>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<typename phi::remove_reference<T>::type>);
+    STATIC_REQUIRE(phi::is_lvalue_reference_v<typename phi::add_rvalue_reference<T>::type>);
+
+    STATIC_REQUIRE_FALSE(phi::is_not_lvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(
+            phi::is_not_lvalue_reference_v<typename phi::add_lvalue_reference<T>::type>);
+    STATIC_REQUIRE(phi::is_not_lvalue_reference_v<typename phi::remove_reference<T>::type>);
+    STATIC_REQUIRE_FALSE(
+            phi::is_not_lvalue_reference_v<typename phi::add_rvalue_reference<T>::type>);
+
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
 #    if PHI_HAS_WORKING_IS_CLASS()
@@ -116,19 +130,6 @@ void test_is_lvalue_reference_impl()
 #    endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
-
-    // is_lvalue_v
-    STATIC_REQUIRE(phi::is_lvalue_reference_v<T>);
-    STATIC_REQUIRE(phi::is_lvalue_reference_v<typename phi::add_lvalue_reference<T>::type>);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<typename phi::remove_reference<T>::type>);
-    STATIC_REQUIRE(phi::is_lvalue_reference_v<typename phi::add_rvalue_reference<T>::type>);
-
-    STATIC_REQUIRE_FALSE(phi::is_not_lvalue_reference_v<T>);
-    STATIC_REQUIRE_FALSE(
-            phi::is_not_lvalue_reference_v<typename phi::add_lvalue_reference<T>::type>);
-    STATIC_REQUIRE(phi::is_not_lvalue_reference_v<typename phi::remove_reference<T>::type>);
-    STATIC_REQUIRE_FALSE(
-            phi::is_not_lvalue_reference_v<typename phi::add_rvalue_reference<T>::type>);
 #endif
 
     // Standard compatbililty

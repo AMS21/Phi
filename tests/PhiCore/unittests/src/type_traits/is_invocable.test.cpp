@@ -71,7 +71,7 @@ void test_is_not_invocable()
     STATIC_REQUIRE(phi::is_not_invocable_v<FunctionT, ArgsT...>);
 #    endif
 
-// Standard compatbililty
+    // Standard compatbililty
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_invocable<FunctionT, ArgsT...>::value);
 #    endif

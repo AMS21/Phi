@@ -154,7 +154,6 @@ TEST_CASE("is_member_pointer")
     test_is_member_pointer<double NotEmpty::*>();
     test_is_member_pointer<FunctionPtr Empty::*>();
     test_is_member_pointer<int Class::*>();
-    test_is_member_pointer<int Class::*>();
 
     // Member function pointers
     test_is_member_pointer<MemberFunctionPtr>();

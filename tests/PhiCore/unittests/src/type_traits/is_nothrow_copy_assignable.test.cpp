@@ -26,6 +26,7 @@ void test_is_nothrow_copy_assignable_impl()
 #endif
 
     // Standard compatbililty
+    STATIC_REQUIRE(std::is_copy_assignable<T>::value);
     STATIC_REQUIRE(std::is_nothrow_copy_assignable<T>::value);
 }
 

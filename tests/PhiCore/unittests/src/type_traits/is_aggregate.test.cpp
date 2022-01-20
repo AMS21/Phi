@@ -26,8 +26,8 @@ void test_is_aggregate_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_aggregate_v<T>);
 #    endif
 
-#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     // standard compatbility
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_aggregate<T>::value);
 #    endif
 #endif
@@ -54,8 +54,8 @@ void test_is_not_aggregate_impl()
     STATIC_REQUIRE(phi::is_not_aggregate_v<T>);
 #    endif
 
-#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     // standard compatbility
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_aggregate<T>::value);
 #    endif
 #endif

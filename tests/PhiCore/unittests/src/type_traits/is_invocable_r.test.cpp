@@ -48,6 +48,10 @@ void test_is_invocable_r()
     STATIC_REQUIRE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
 #endif
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+#endif
 }
 
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
@@ -59,6 +63,10 @@ void test_is_not_invocable_r()
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
+#endif
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
 #endif
 }
 

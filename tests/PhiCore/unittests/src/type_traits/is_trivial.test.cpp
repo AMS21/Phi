@@ -75,7 +75,6 @@ public:
 TEST_CASE("is_trivial")
 {
     test_is_trivial<A>();
-
     test_is_not_trivial<B>();
 
     test_is_not_trivial<void>();
