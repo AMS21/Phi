@@ -162,12 +162,14 @@
 #include "phi/type_traits/remove_pointer.hpp"
 #include "phi/type_traits/remove_reference.hpp"
 #include "phi/type_traits/remove_volatile.hpp"
+#include "phi/type_traits/signed_int_of_size.hpp"
 #include "phi/type_traits/to_safe.hpp"
 #include "phi/type_traits/to_underlying.hpp"
 #include "phi/type_traits/to_unsafe.hpp"
 #include "phi/type_traits/true_t.hpp"
 #include "phi/type_traits/type_identity.hpp"
 #include "phi/type_traits/underlying_type.hpp"
+#include "phi/type_traits/unsigned_int_of_size.hpp"
 #include "phi/type_traits/void_t.hpp"
 
 #endif // INCG_PHI_TYPE_TRAITS_HPP

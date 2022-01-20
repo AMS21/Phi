@@ -225,11 +225,13 @@ file(
   "src/type_traits/remove_pointer.test.cpp"
   "src/type_traits/remove_reference.test.cpp"
   "src/type_traits/remove_volatile.test.cpp"
+  "src/type_traits/signed_int_of_size.test.cpp"
   "src/type_traits/to_safe.test.cpp"
   "src/type_traits/to_unsafe.test.cpp"
   "src/type_traits/true_t.test.cpp"
   "src/type_traits/type_identity.test.cpp"
   "src/type_traits/underlying_type.test.cpp"
+  "src/type_traits/unsigned_int_of_size.test.cpp"
   "src/type_traits/void_t.test.cpp"
   # Base
   "src/phi_config.test.cpp"

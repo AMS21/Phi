@@ -944,6 +944,10 @@ TEST_CASE("type_traits")
     CHECK_SAME_TYPE(typename phi::remove_volatile<volatile int>::type, int);
     CHECK_SAME_TYPE(phi::remove_volatile_t<volatile int>, int);
 
+    // signed_int_of_size
+    CHECK_SAME_TYPE(typename phi::signed_int_of_size<1>::type, phi::int8_t);
+    CHECK_SAME_TYPE(phi::signed_int_of_size_t<1>, phi::int8_t);
+
     // to_safe
     CHECK_SAME_TYPE(decltype(phi::to_safe(3)), phi::integer<int>);
 
@@ -970,6 +974,10 @@ TEST_CASE("type_traits")
     CHECK_SAME_TYPE(typename phi::underlying_type<EnumSigned>::type, int);
     CHECK_SAME_TYPE(phi::underlying_type_t<EnumSigned>, int);
 #endif
+
+    // unsigned_int_of_size
+    CHECK_SAME_TYPE(typename phi::unsigned_int_of_size<1>::type, phi::uint8_t);
+    CHECK_SAME_TYPE(phi::unsigned_int_of_size_t<1>, phi::uint8_t);
 
     // void_t
     CHECK_SAME_TYPE(typename phi::void_t<>, void);

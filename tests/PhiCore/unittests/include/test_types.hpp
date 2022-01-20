@@ -91,6 +91,8 @@ struct Derived : public Base
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
 class Polymorphic
 {
@@ -100,6 +102,7 @@ class Polymorphic
 class DerivedPolymorphic : public Polymorphic
 {};
 
+PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 class Abstract
@@ -145,6 +148,8 @@ struct AbstractTemplate<double>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
 struct PublicAbstractDeletedDestructor
 {
@@ -170,6 +175,7 @@ private:
     virtual void foo() = 0;
 };
 
+PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 class Final final
@@ -610,11 +616,16 @@ using MemberObjectPtr = int Class::*;
 
 using MemberFunctionPtr = void (Class::*)();
 
-auto Lambda = []() {};
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
 
-auto LambdaNoexcept = []() noexcept {};
+static auto Lambda = []() {};
 
-auto LambdaThrows = []() noexcept(false) {};
+static auto LambdaNoexcept = []() noexcept {};
+
+static auto LambdaThrows = []() noexcept(false) {};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 using LambdaType = decltype(Lambda);
 
