@@ -114,7 +114,7 @@ void test_is_function_impl()
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_function_v<T>);
 #endif
-};
+}
 
 template <typename T>
 void test_is_function()
@@ -150,7 +150,7 @@ void test_is_not_function()
     test_is_not_function_impl<const T>();
     test_is_not_function_impl<volatile T>();
     test_is_not_function_impl<const volatile T>();
-};
+}
 
 void f()
 {}
