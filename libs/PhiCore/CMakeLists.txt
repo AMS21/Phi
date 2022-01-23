@@ -390,6 +390,7 @@ phi_add_library(
   Phi::InternalProjectOptions
   PUBLIC_INCLUDE_DIRS
   "include"
+  "${GENERATED_FILES_DIR}"
   PRIVATE_INCLUDE_DIRS
   "src")
 
