@@ -48,10 +48,12 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 
 #else
 
+#    include "phi/compiler_support/warning.hpp"
 #    include "phi/core/declval.hpp"
 #    include "phi/core/size_t.hpp"
 #    include "phi/type_traits/is_constructible.hpp"
 #    include "phi/type_traits/is_reference.hpp"
+#    include "phi/type_traits/remove_all_extents.hpp"
 
 #    if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
 #        define PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE() 1
@@ -60,6 +62,9 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 #    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wdouble-promotion")
 
 namespace detail
 {
@@ -70,6 +75,26 @@ namespace detail
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false, TypeT,
                                          ArgsT...>
         : public bool_constant<noexcept(TypeT(declval<ArgsT>()...))>
+    {};
+
+    template <typename TypeT, size_t Dimension>
+    struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
+                                         TypeT[Dimension]>
+        : public bool_constant<noexcept(typename remove_all_extents<TypeT>::type())>
+    {};
+
+    template <typename TypeT, size_t Dimension, typename ArgT>
+    struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
+                                         TypeT[Dimension], ArgT>
+        : public is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
+                                               TypeT, ArgT>
+    {};
+
+    template <typename TypeT, size_t Dimension, typename... ArgsT>
+    struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
+                                         TypeT[Dimension], ArgsT...>
+        : public is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
+                                               TypeT, ArgsT...>
     {};
 
     template <typename TypeT>
@@ -116,6 +141,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_constructible_v =
         is_not_nothrow_constructible<TypeT, ArgsT...>::value;
 
 #    endif
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #endif
 

@@ -78,6 +78,54 @@ struct F
     F(int, double, char) noexcept;
 };
 
+struct G
+{};
+
+struct H
+{
+    H();
+    operator int();
+};
+
+struct I
+{
+    I() = default;
+    I(const I&);
+    I(I&&)     = default;
+    I& operator=(I&&);
+    I& operator=(const I&) = default;
+};
+
+struct J
+{
+    ~J() noexcept(false)
+    {}
+};
+
+struct K
+{
+    K() = default;
+
+    template <class... U>
+    K(U...)
+    noexcept;
+};
+
+struct L
+{
+    template <class... U>
+    L(U...);
+};
+
+template <typename k>
+struct N
+{
+    N() noexcept
+    {
+        k::error;
+    }
+};
+
 struct Tuple
 {
     Tuple(Empty&&) noexcept
@@ -103,6 +151,39 @@ TEST_CASE("is_nothrow_constructible")
     test_is_nothrow_constructible<F, int, double, char>();
     test_is_nothrow_constructible<F, int, float, char>();
     test_is_nothrow_constructible<Tuple&&, Empty>();
+    test_is_nothrow_constructible<G>();
+    test_is_nothrow_constructible<G, G>();
+    test_is_not_nothrow_constructible<H>();
+    test_is_nothrow_constructible<H, H>();
+    test_is_not_nothrow_constructible<G, H>();
+    test_is_not_nothrow_constructible<H, G>();
+    test_is_nothrow_constructible<I>();
+    test_is_nothrow_constructible<I, I>();
+    test_is_not_nothrow_constructible<I, I&>();
+
+    test_is_nothrow_constructible<int, int>();
+    test_is_nothrow_constructible<int, double>();
+    test_is_not_nothrow_constructible<int, H>();
+    test_is_not_nothrow_constructible<void, int>();
+    test_is_not_nothrow_constructible<const void, int>();
+    test_is_not_nothrow_constructible<volatile void, int>();
+    test_is_not_nothrow_constructible<const volatile void, int>();
+    test_is_not_nothrow_constructible<int, void*>();
+    test_is_not_nothrow_constructible<int, int*>();
+    test_is_not_nothrow_constructible<int, const int*>();
+    test_is_not_nothrow_constructible<int*, void*>();
+    test_is_not_nothrow_constructible<int*, const int*>();
+
+    test_is_not_nothrow_constructible<J>();
+
+    test_is_nothrow_constructible<K>();
+    test_is_not_nothrow_constructible<L>();
+
+    int  x{0};
+    auto l  = [=] { return x; };
+    using M = decltype(l);
+    test_is_nothrow_constructible<M, M>();
+    test_is_nothrow_constructible<N<int>>();
 
     STATIC_REQUIRE_FALSE(phi::is_constructible<Tuple&, Empty>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
