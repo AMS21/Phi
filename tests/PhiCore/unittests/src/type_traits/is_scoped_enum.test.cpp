@@ -37,7 +37,7 @@ void test_is_scoped_enum_impl()
 #        endif
 #    endif
 
-#    if PHI_CPP_STANDARD_IS_ATLEAST(23)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(23) && defined(__cpp_lib_is_scoped_enum)
     STATIC_REQUIRE(std::is_scoped_enum<T>::value);
 #    endif
 #endif
@@ -55,7 +55,7 @@ void test_is_not_scoped_enum_impl()
     STATIC_REQUIRE(phi::is_not_scoped_enum_v<T>);
 #    endif
 
-#    if PHI_CPP_STANDARD_IS_ATLEAST(23)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(23) && defined(__cpp_lib_is_scoped_enum)
     STATIC_REQUIRE_FALSE(std::is_scoped_enum<T>::value);
 #    endif
 #endif
