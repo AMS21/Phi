@@ -1,13 +1,13 @@
 #ifndef INCG_PHI_CORE_MONITOR_HPP
 #define INCG_PHI_CORE_MONITOR_HPP
 
-#include "phi/compiler_support/constexpr.hpp"
 #include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"

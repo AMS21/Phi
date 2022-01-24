@@ -1,9 +1,11 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/monitor.hpp>
+#include <phi/core/size_t.hpp>
 #include <thread>
 #include <utility>
 #include <vector>
@@ -11,114 +13,121 @@
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
-struct A
+struct MonitorTestData
 {
-    A()
-        : val(1)
+    constexpr MonitorTestData() noexcept
+        : val(1u)
     {}
 
-    A(int /*unused*/, double /*unused*/)
-        : val(2)
+    constexpr MonitorTestData(int /*unused*/, double /*unused*/) noexcept
+        : val(2u)
     {}
 
-    int val;
+    phi::size_t val;
 };
 
-constexpr std::size_t test_thread_count{20};
-constexpr std::size_t test_write_count{10000};
-
-static void test_function(phi::monitor<A>& a)
-{
-    for (std::size_t i = 0; i < test_write_count; ++i)
-    {
-        a->val++;
-    }
-}
-
-TEST_CASE("monitor", "[Core][monitor]")
+TEST_CASE("core.monitor.constructor")
 {
     SECTION("monitor(ArgsT)")
     {
-        phi::monitor<A> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon(3, 3.14);
 
-        CHECK(mon->val == 2);
+        CHECK(mon->val == 2u);
     }
 
     SECTION("monitor(T)")
     {
-        A               a;
-        phi::monitor<A> mon(a);
+        MonitorTestData               test_data;
+        phi::monitor<MonitorTestData> mon(test_data);
 
-        CHECK(mon->val == 1);
+        CHECK(mon->val == 1u);
     }
+}
 
+TEST_CASE("core.monitor.operators")
+{
     SECTION("operator->")
     {
-        phi::monitor<A> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon(3, 3.14);
 
-        CHECK(mon->val == 2);
+        CHECK(mon->val == 2u);
     }
 
 #if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("operator()")
     {
-        phi::monitor<A> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon(3, 3.14);
 
-        mon([](A& a) { a.val += 1; });
+        mon([](MonitorTestData& test_data) { test_data.val += 1u; });
 
-        CHECK(mon->val == 3);
+        CHECK(mon->val == 3u);
     }
 #endif
+}
 
+TEST_CASE("core.monitor.functions")
+{
     SECTION("ManualLock")
     {
-        phi::monitor<A> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon(3, 3.14);
 
         auto lock = mon.ManuallyLock();
 
-        CHECK(lock->val == 2);
+        CHECK(lock->val == 2u);
         CHECK(lock.m_monitor == &mon);
     }
 
     SECTION("GetThreadUnsafeAccess")
     {
-        phi::monitor<A> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon(3, 3.14);
 
-        A& a = mon.GetThreadUnsafeAccess();
+        MonitorTestData& test_data = mon.GetThreadUnsafeAccess();
 
-        a.val += 3;
+        test_data.val += 3u;
 
-        CHECK(a.val == 5);
-        CHECK(mon->val == 5);
+        CHECK(test_data.val == 5u);
+        CHECK(mon->val == 5u);
     }
+}
 
-    SECTION("Thread safety")
+static PHI_CONSTEXPR_AND_CONST phi::size_t test_thread_count{20u};
+static PHI_CONSTEXPR_AND_CONST phi::size_t test_write_count{10000u};
+
+static void test_function(phi::monitor<MonitorTestData>& a) noexcept
+{
+    for (phi::size_t i{0u}; i < test_write_count; ++i)
     {
-#if PHI_COMPILER_IS(EMCC)
-        // Skip thread safety test in emscripten since the support for multiple threads is not very great,
-        // See: https://emscripten.org/docs/porting/pthreads.html
-        return;
-#else
-        phi::monitor<A> mon;
-
-        std::vector<std::thread> threads;
-        threads.reserve(test_thread_count);
-
-        for (std::size_t i = 0; i < test_thread_count; ++i)
-        {
-            threads.emplace_back(test_function, std::ref(mon));
-        }
-
-        for (auto& thread : threads)
-        {
-            thread.join();
-        }
-
-        constexpr int expected_value = 1 + (test_thread_count * test_write_count);
-
-        CHECK(mon->val == expected_value);
-#endif
+        a->val++;
     }
+}
+
+TEST_CASE("core.monitor.thread_safety")
+{
+#if PHI_COMPILER_IS(EMCC)
+    // Skip thread safety test in emscripten since the support for multiple threads is not very great,
+    // See: https://emscripten.org/docs/porting/pthreads.html
+    return;
+#else
+    phi::monitor<MonitorTestData> mon;
+
+    std::vector<std::thread> threads;
+    threads.reserve(test_thread_count);
+
+    for (phi::size_t i{0u}; i < test_thread_count; ++i)
+    {
+        threads.emplace_back(test_function, std::ref(mon));
+    }
+
+    for (auto& thread : threads)
+    {
+        thread.join();
+    }
+
+    static PHI_CONSTEXPR_AND_CONST phi::size_t expected_value =
+            1u + (test_thread_count * test_write_count);
+
+    CHECK(mon->val == expected_value);
+#endif
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()
