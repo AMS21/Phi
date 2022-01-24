@@ -13,9 +13,14 @@
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
 
+#    include "phi/compiler_support/warning.hpp"
+
 #    define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 1
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
 template <typename TypeT, typename... ArgsT>
 struct is_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
@@ -34,6 +39,8 @@ template <typename TypeT, typename... ArgsT>
 PHI_INLINE_VARIABLE constexpr bool is_not_constructible_v = !PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 #    endif
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

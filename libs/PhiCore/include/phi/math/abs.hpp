@@ -24,6 +24,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+
 /// \cond detail
 namespace detail
 {
@@ -80,6 +83,8 @@ namespace detail
     }
 } // namespace detail
 /// \endcond
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 /*!
  * \brief Calculates the absolute value of a given number
