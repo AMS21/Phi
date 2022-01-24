@@ -12,6 +12,7 @@
 #include "phi/core/invoke.hpp"
 #include "phi/core/move.hpp"
 #include "phi/type_traits/invoke_result.hpp"
+#include "phi/type_traits/is_nothrow_invocable.hpp"
 #include <mutex>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -75,8 +76,10 @@ public:
 	**/
     template <typename CallableT>
     auto operator()(CallableT&& callable) const
+            noexcept(is_nothrow_invocable<CallableT, SharedDataT>::value)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
+
         return phi::invoke(phi::forward<CallableT>(callable), m_SharedData);
     }
 #endif
