@@ -310,10 +310,12 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<PublicAbstract>();
     test_is_not_nothrow_constructible<PrivateAbstract>();
     test_is_not_nothrow_constructible<ProtectedAbstract>();
-    test_is_not_nothrow_constructible<AbstractTemplate<int>>();
     test_is_nothrow_constructible<AbstractTemplate<double>>();
+#if !PHI_HAS_BUG_GCC_102305()
+    test_is_not_nothrow_constructible<AbstractTemplate<int>>();
     test_is_not_nothrow_constructible<AbstractTemplate<Class>>();
     test_is_not_nothrow_constructible<AbstractTemplate<IncompleteType>>();
+#endif
     test_is_nothrow_constructible<Final>();
     test_is_nothrow_constructible<PublicDestructor>();
     test_is_not_nothrow_constructible<ProtectedDestructor>();
