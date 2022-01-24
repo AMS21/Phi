@@ -207,6 +207,9 @@ namespace detail
 } // namespace detail
 /// \endcond
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+
 /// A type safe integer class.
 ///
 /// This is a tiny, no overhead wrapper over a standard integer type.
@@ -471,6 +474,8 @@ public:
 private:
     IntegerT m_Value;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 //=== comparison ===//
 
