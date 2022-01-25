@@ -68,6 +68,15 @@ public:
     C c;
 };
 
+struct DThrows
+{
+    DThrows(int) noexcept
+    {}
+
+    ~DThrows() noexcept(false)
+    {}
+};
+
 TEST_CASE("is_nothrow_convertible")
 {
     test_is_nothrow_convertible<int, double>();
@@ -106,4 +115,7 @@ TEST_CASE("is_nothrow_convertible")
     using I = int();
     test_is_not_nothrow_convertible<V, V>();
     test_is_not_nothrow_convertible<V, I>();
+
+    // Test for LWG#issue3400 (https://cplusplus.github.io/LWG/issue3400)
+    test_is_not_nothrow_convertible<int, DThrows>();
 }

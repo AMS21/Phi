@@ -111,6 +111,37 @@ struct abstract
     virtual int f() = 0;
 };
 
+struct A
+{};
+
+struct B : public A
+{};
+
+struct C
+{};
+
+struct D
+{
+    operator C()
+    {
+        return c;
+    }
+
+    C c;
+};
+
+struct E
+{
+    template <typename T>
+    E(T&&)
+    {}
+};
+
+struct F
+{
+    F(int) = delete;
+};
+
 TEST_CASE("is_convertible")
 {
     // void
@@ -123,7 +154,15 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<void, char>();
     test_is_not_convertible<void, char&>();
     test_is_not_convertible<void, char*>();
+
+    test_is_not_convertible<Function, void>();
+    test_is_not_convertible<Function&, void>();
+    test_is_not_convertible<Function*, void>();
+    test_is_not_convertible<Array, void>();
+    test_is_not_convertible<Array&, void>();
     test_is_not_convertible<char, void>();
+    test_is_not_convertible<char&, void>();
+    test_is_not_convertible<char*, void>();
 
     // Function
     test_is_not_convertible<Function, void>();
@@ -132,7 +171,7 @@ TEST_CASE("is_convertible")
     test_is_convertible<Function, Function*>();
     test_is_convertible<Function, Function* const>();
 
-    STATIC_REQUIRE(phi::is_convertible<Function, Function&&>::value);
+    test_is_convertible<Function, Function&&>();
 
     test_is_not_convertible<Function, Array>();
     test_is_not_convertible<Function, Array&>();
@@ -165,14 +204,14 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<Function*, char*>();
 
     // Non-referencable function type
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, Function>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, Function*>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, Function&>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, Function&&>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<Function*, ConstFunction>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<Function&, ConstFunction>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, ConstFunction>::value);
-    STATIC_REQUIRE_FALSE(phi::is_convertible<ConstFunction, void>::value);
+    test_is_not_convertible<ConstFunction, Function>();
+    test_is_not_convertible<ConstFunction, Function*>();
+    test_is_not_convertible<ConstFunction, Function&>();
+    test_is_not_convertible<ConstFunction, Function&&>();
+    test_is_not_convertible<Function*, ConstFunction>();
+    test_is_not_convertible<Function&, ConstFunction>();
+    test_is_not_convertible<ConstFunction, ConstFunction>();
+    test_is_not_convertible<ConstFunction, void>();
 
     // Array
     test_is_not_convertible<Array, void>();
@@ -181,7 +220,7 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<Array, Function*>();
     test_is_not_convertible<Array, Array>();
 
-    STATIC_REQUIRE_FALSE(phi::is_convertible<Array, Array&>::value);
+    test_is_not_convertible<Array, Array&>();
     STATIC_REQUIRE(phi::is_convertible<Array, const Array&>::value);
     STATIC_REQUIRE_FALSE(phi::is_convertible<Array, const volatile Array&>::value);
 
@@ -307,4 +346,23 @@ TEST_CASE("is_convertible")
 
     // Test for PR13592
     STATIC_REQUIRE_FALSE(phi::is_convertible<abstract, abstract>::value);
+
+    // Other tests
+    test_is_convertible<B*, A*>();
+    test_is_not_convertible<A*, B*>();
+    STATIC_REQUIRE(phi::is_convertible<D, C>::value);
+    test_is_not_convertible<B*, C*>();
+    test_is_convertible<A, E>();
+    test_is_convertible<B, E>();
+    test_is_convertible<C, E>();
+    test_is_convertible<D, E>();
+    test_is_convertible<E, E>();
+    test_is_convertible<bool, E>();
+    test_is_convertible<int, E>();
+    test_is_convertible<float, E>();
+    test_is_convertible<int*, E>();
+    test_is_convertible<int&, E>();
+    test_is_convertible<int[], E>();
+    test_is_convertible<int[2], E>();
+    test_is_not_convertible<int, F>();
 }

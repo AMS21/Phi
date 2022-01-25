@@ -132,6 +132,15 @@ struct Tuple
     {}
 };
 
+struct DThrows
+{
+    DThrows(int) noexcept(true)
+    {}
+
+    ~DThrows() noexcept(false)
+    {}
+};
+
 TEST_CASE("is_nothrow_constructible")
 {
     test_is_nothrow_constructible<int>();
@@ -190,6 +199,9 @@ TEST_CASE("is_nothrow_constructible")
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<Tuple&, Empty>);
 #endif
     test_is_not_nothrow_constructible<Tuple&, Empty>();
+
+    // Test for LWG#2116 (https://cplusplus.github.io/LWG/issue2116)
+    test_is_not_nothrow_constructible<DThrows>();
 
     test_is_not_nothrow_constructible<void>();
     test_is_nothrow_constructible<phi::nullptr_t>();
