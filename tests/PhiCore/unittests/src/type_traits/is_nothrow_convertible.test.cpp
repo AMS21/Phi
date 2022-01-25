@@ -19,7 +19,7 @@ void test_is_nothrow_convertible()
 #endif
 
     // Standard compatbililty
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
     STATIC_REQUIRE(std::is_convertible<FromT, ToT>::value);
     STATIC_REQUIRE(std::is_nothrow_convertible<FromT, ToT>::value);
 #endif
@@ -37,7 +37,7 @@ void test_is_not_nothrow_convertible()
 #endif
 
     // Standard compatbililty
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
     STATIC_REQUIRE_FALSE(std::is_nothrow_convertible<FromT, ToT>::value);
 #endif
 }

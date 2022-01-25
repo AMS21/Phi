@@ -25,7 +25,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+#else
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#endif
 
 /// \cond detail
 namespace detail

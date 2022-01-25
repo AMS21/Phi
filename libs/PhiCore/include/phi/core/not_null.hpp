@@ -29,11 +29,16 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-const-variable=")
+
 namespace detail
 {
     constexpr char AssignNullptrError[]{"May not assign nullptr to phi::not_null"};
     constexpr char ReturnNullptrError[]{"Returning nullptr from phi::not_null"};
 } // namespace detail
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 class not_null

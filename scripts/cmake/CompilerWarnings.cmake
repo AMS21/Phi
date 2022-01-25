@@ -215,6 +215,10 @@ endforeach(_test)
 # GCC does except all -Wno-xxxx flags even if it can't handle them
 if(PHI_COMPILER_GCC)
   set(_DisableWarningAvailible "-Wno-unused-function")
+
+  if(GCC_COMPILER_VERSION VERSION_LESS "9.0.0")
+    list(REMOVE_ITEM _WarningsAvailible "-Wuseless-cast")
+  endif()
 endif()
 
 # Clang before 3.4 accepts all the -wdxxxx flags from MSVC but then gives compiler errors
