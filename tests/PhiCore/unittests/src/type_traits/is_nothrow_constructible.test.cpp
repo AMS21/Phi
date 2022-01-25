@@ -31,6 +31,22 @@ void test_is_nothrow_constructible()
 }
 
 template <typename T, typename... Args>
+void test_is_nothrow_constructible_no_std()
+{
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_nothrow_constructible<T, Args...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<T, Args...>::value);
+    STATIC_REQUIRE(phi::is_constructible<T, Args...>::value);
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_nothrow_constructible_v<T, Args...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<T, Args...>);
+    STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
+#    endif
+#endif
+}
+
+template <typename T, typename... Args>
 void test_is_not_nothrow_constructible()
 {
 #if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
@@ -278,9 +294,17 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<int(&)[]>();
     test_is_not_nothrow_constructible<int(&&)[3]>();
     test_is_not_nothrow_constructible<int(&&)[]>();
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    test_is_nothrow_constructible_no_std<char[3][2]>();
+#else
     test_is_nothrow_constructible<char[3][2]>();
+#endif
     test_is_not_nothrow_constructible<char[][2]>();
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    test_is_nothrow_constructible_no_std<char* [3][2]>();
+#else
     test_is_nothrow_constructible<char* [3][2]>();
+#endif
     test_is_not_nothrow_constructible<char*[][2]>();
     test_is_nothrow_constructible<int(*)[3][2]>();
     test_is_nothrow_constructible<int(*)[][2]>();

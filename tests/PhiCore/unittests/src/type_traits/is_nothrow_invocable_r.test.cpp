@@ -83,7 +83,7 @@ void test_is_nothrow_invocable_r()
 }
 
 template <typename FunctionT, typename... ArgsT>
-void test_is_not_nothrow_invocable_r()
+void test_is_not_nothrow_invocable_r_no_std()
 {
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
@@ -93,11 +93,29 @@ void test_is_not_nothrow_invocable_r()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
 #    endif
+#endif
+}
+
+template <typename FunctionT, typename... ArgsT>
+void test_is_not_nothrow_invocable_r()
+{
+#if PHI_HAS_WORKING_IS_INVOCABLE()
+    test_is_not_nothrow_invocable_r_no_std<FunctionT, ArgsT...>();
 
     // Standard compatibililty
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 #    endif
+#endif
+}
+
+template <typename FunctionT, typename... ArgsT>
+void test_is_not_nothrow_invocable_r_compat()
+{
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    test_is_not_nothrow_invocable_r_no_std<FunctionT, ArgsT...>();
+#else
+    test_is_not_nothrow_invocable_r<FunctionT, ArgsT...>();
 #endif
 }
 
@@ -110,10 +128,10 @@ TEST_CASE("is_nothrow_invocable_r")
 #endif
     //  Non-callable things
     {
-        test_is_not_nothrow_invocable_r<int, void>();
-        test_is_not_nothrow_invocable_r<int, const void>();
-        test_is_not_nothrow_invocable_r<int, volatile void>();
-        test_is_not_nothrow_invocable_r<int, const volatile void>();
+        test_is_not_nothrow_invocable_r_compat<int, void>();
+        test_is_not_nothrow_invocable_r_compat<int, const void>();
+        test_is_not_nothrow_invocable_r_compat<int, volatile void>();
+        test_is_not_nothrow_invocable_r_compat<int, const volatile void>();
         test_is_not_nothrow_invocable_r<int, phi::nullptr_t>();
         test_is_not_nothrow_invocable_r<int, int>();
         test_is_not_nothrow_invocable_r<int, double>();
@@ -132,17 +150,18 @@ TEST_CASE("is_nothrow_invocable_r")
         test_is_not_nothrow_invocable_r<int, std::vector<int>>();
         test_is_not_nothrow_invocable_r<int, std::vector<int*>>();
         test_is_not_nothrow_invocable_r<int, std::vector<int**>>();
-        test_is_not_nothrow_invocable_r<int, AbominableFunc>();
+
+        test_is_not_nothrow_invocable_r_compat<int, AbominableFunc>();
 
         //  with parameters
         test_is_not_nothrow_invocable_r<int, int, int>();
         test_is_not_nothrow_invocable_r<int, int, double, float>();
         test_is_not_nothrow_invocable_r<int, int, char, double, float>();
-        test_is_not_nothrow_invocable_r<void, Sink, AbominableFunc>();
-        test_is_not_nothrow_invocable_r<void, Sink, void>();
-        test_is_not_nothrow_invocable_r<void, Sink, const void>();
-        test_is_not_nothrow_invocable_r<void, Sink, volatile void>();
-        test_is_not_nothrow_invocable_r<void, Sink, const volatile void>();
+        test_is_not_nothrow_invocable_r_compat<void, Sink, AbominableFunc>();
+        test_is_not_nothrow_invocable_r_compat<void, Sink, void>();
+        test_is_not_nothrow_invocable_r_compat<void, Sink, const void>();
+        test_is_not_nothrow_invocable_r_compat<void, Sink, volatile void>();
+        test_is_not_nothrow_invocable_r_compat<void, Sink, const volatile void>();
     }
 
     {

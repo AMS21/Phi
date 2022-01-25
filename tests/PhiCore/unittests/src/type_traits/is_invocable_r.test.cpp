@@ -55,7 +55,7 @@ void test_is_invocable_r()
 }
 
 template <typename ReturnT, typename FunctionT, typename... ArgsT>
-void test_is_not_invocable_r()
+void test_is_not_invocable_r_no_std()
 {
     STATIC_REQUIRE_FALSE(phi::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
@@ -64,9 +64,25 @@ void test_is_not_invocable_r()
     STATIC_REQUIRE_FALSE(phi::is_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_invocable_r_v<ReturnT, FunctionT, ArgsT...>);
 #endif
+}
+
+template <typename ReturnT, typename FunctionT, typename... ArgsT>
+void test_is_not_invocable_r()
+{
+    test_is_not_invocable_r_no_std<ReturnT, FunctionT, ArgsT...>();
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_invocable_r<ReturnT, FunctionT, ArgsT...>::value);
+#endif
+}
+
+template <typename ReturnT, typename FunctionT, typename... ArgsT>
+void test_is_not_invocable_r_compat()
+{
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    test_is_not_invocable_r_no_std<ReturnT, FunctionT, ArgsT...>();
+#else
+    test_is_not_invocable_r<ReturnT, FunctionT, ArgsT...>();
 #endif
 }
 
@@ -77,10 +93,10 @@ TEST_CASE("is_invocable_r")
     //  Non-callable things
     {
         // is_invocable_r
-        test_is_not_invocable_r<int, void>();
-        test_is_not_invocable_r<int, const void>();
-        test_is_not_invocable_r<int, volatile void>();
-        test_is_not_invocable_r<int, const volatile void>();
+        test_is_not_invocable_r_compat<int, void>();
+        test_is_not_invocable_r_compat<int, const void>();
+        test_is_not_invocable_r_compat<int, volatile void>();
+        test_is_not_invocable_r_compat<int, const volatile void>();
         test_is_not_invocable_r<int, phi::nullptr_t>();
         test_is_not_invocable_r<int, short>();
         test_is_not_invocable_r<int, int>();
@@ -119,21 +135,21 @@ TEST_CASE("is_invocable_r")
         test_is_not_invocable_r<int, std::vector<int*>>();
         test_is_not_invocable_r<int, std::vector<int**>>();
 
-        test_is_not_invocable_r<int, AbominableFunc>();
+        test_is_not_invocable_r_compat<int, AbominableFunc>();
 
         //  with parameters
         test_is_not_invocable_r<int, int, int>();
         test_is_not_invocable_r<int, int, double>();
         test_is_not_invocable_r<int, int, double, float>();
         test_is_not_invocable_r<int, int, char, float, double>();
-        test_is_not_invocable_r<int, int, unsigned, short, double, float, float, double,
-                                signed char, float, float, float, float, float, double,
-                                phi::nullptr_t, AbominableFunc, AbominableFunc>();
-        test_is_not_invocable_r<int, Sink, AbominableFunc>();
-        test_is_not_invocable_r<int, Sink, void>();
-        test_is_not_invocable_r<int, Sink, const void>();
-        test_is_not_invocable_r<int, Sink, volatile void>();
-        test_is_not_invocable_r<int, Sink, const volatile void>();
+        test_is_not_invocable_r_compat<int, int, unsigned, short, double, float, float, double,
+                                       signed char, float, float, float, float, float, double,
+                                       phi::nullptr_t, AbominableFunc, AbominableFunc>();
+        test_is_not_invocable_r_compat<int, Sink, AbominableFunc>();
+        test_is_not_invocable_r_compat<int, Sink, void>();
+        test_is_not_invocable_r_compat<int, Sink, const void>();
+        test_is_not_invocable_r_compat<int, Sink, volatile void>();
+        test_is_not_invocable_r_compat<int, Sink, const volatile void>();
     }
     {
         // Check that the conversion to the return type is properly checked

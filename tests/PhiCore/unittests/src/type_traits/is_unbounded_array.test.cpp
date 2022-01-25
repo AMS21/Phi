@@ -22,7 +22,8 @@ void test_is_unbounded_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_unbounded_array_v<T>);
 #endif
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE(std::is_unbounded_array<T>::value);
 #endif
 }
@@ -38,7 +39,8 @@ void test_is_not_unbounded_array_impl()
     STATIC_REQUIRE(phi::is_not_unbounded_array_v<T>);
 #endif
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE_FALSE(std::is_unbounded_array<T>::value);
 #endif
 }
