@@ -20,7 +20,7 @@
 #endif
 
 // Clang/Emscripten Warnings
-#if PHI_COMPILER_IS(CLANG_COMPAT)
+#if PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS(APPLECLANG)
 #    define PHI_CLANG_SUPPRESS_WARNING_PUSH()   PHI_PRAGMA(clang diagnostic push)
 #    define PHI_CLANG_SUPPRESS_WARNING(warning) PHI_PRAGMA(clang diagnostic ignored warning)
 #    define PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH(warning)                                          \
@@ -53,7 +53,7 @@
 #endif
 
 // GCC and Clang warnings
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS(APPLECLANG)
 #    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()                                              \
         PHI_CLANG_SUPPRESS_WARNING_PUSH() PHI_GCC_SUPPRESS_WARNING_PUSH()
 #    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING(warning)                                            \
@@ -87,7 +87,7 @@
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_COMPILER_WARNING(msg)                                                              \
         PHI_PRAGMA(message(__FILE__ "(" PHI_STRINGIFY(__LINE__) ") : warning: " #msg))
-#elif PHI_COMPILER_IS(CLANG)
+#elif PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(APPLECLANG)
 #    define PHI_COMPILER_WARNING(msg)                                                              \
         PHI_PRAGMA(PHI_STRINGIFY(                                                                  \
                 GCC warning(__FILE__ "(" PHI_STRINGIFY(__LINE__) ") : warning: " msg)))

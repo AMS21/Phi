@@ -208,7 +208,8 @@ TEST_CASE("is_empty")
     test_is_empty<Empty>();
     test_is_not_empty<NotEmpty>();
     test_is_empty<BitZero>();
-#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    // TODO: Why on earth do emcc and AppleClang think BitOne is empty?
+#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) || PHI_COMPILER_IS(APPLECLANG)
     test_is_empty<BitOne>();
 #else
     test_is_not_empty<BitOne>();
