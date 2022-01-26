@@ -41,36 +41,38 @@ file(
   CONTENT "${FILE_CONTENT}")
 
 # Add test
-phi_add_executable(
-  NAME
-  "Phi_AllIncludes"
-  SOURCES
-  "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
-  "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
-  FOLDER
-  "Tests/Integration"
-  PRIVATE_LINK_LIBRARIES
-  Phi::InternalProjectOptions
-  Phi::Core
-  Phi::Test
-  NO_GROUP)
-phi_enable_static_analyzers("Phi_AllIncludes")
-
-foreach(std IN ITEMS ${phi_supported_standards})
-  if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
-    phi_add_executable(
-      NAME
-      "Phi_AllIncludes${std}"
-      SOURCES
-      "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
-      "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
-      FOLDER
-      "Tests/Integration"
-      PRIVATE_LINK_LIBRARIES
-      Phi::InternalProjectOptions
-      Phi::Core
-      Phi::Test
-      NO_GROUP)
-    phi_enable_static_analyzers("Phi_AllIncludes${std}")
-  endif()
-endforeach()
+if(${PHI_TEST_WITH_ALL_STANDARDS})
+  foreach(std IN ITEMS ${phi_supported_standards})
+    if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
+      phi_add_executable(
+        NAME
+        "Phi_AllIncludes${std}"
+        SOURCES
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+        FOLDER
+        "Tests/Integration"
+        PRIVATE_LINK_LIBRARIES
+        Phi::InternalProjectOptions
+        Phi::Core
+        Phi::Test
+        NO_GROUP)
+      phi_enable_static_analyzers("Phi_AllIncludes${std}")
+    endif()
+  endforeach()
+else()
+  phi_add_executable(
+    NAME
+    "Phi_AllIncludes"
+    SOURCES
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+    FOLDER
+    "Tests/Integration"
+    PRIVATE_LINK_LIBRARIES
+    Phi::InternalProjectOptions
+    Phi::Core
+    Phi::Test
+    NO_GROUP)
+  phi_enable_static_analyzers("Phi_AllIncludes")
+endif()
