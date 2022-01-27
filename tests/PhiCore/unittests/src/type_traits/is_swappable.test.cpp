@@ -134,6 +134,23 @@ namespace is_swappable_ns
         friend void swap(DeletedSwap&, DeletedSwap&) = delete;
 #endif
     };
+
+    struct F
+    {};
+
+    void swap(F&, F&) = delete;
+    void swap(F (&)[5], F (&)[5]);
+
+    struct F2
+    {
+        friend void swap(F2&, F2&) = delete;
+    };
+
+    struct F3
+    {
+        friend void swap(F3&, F3)
+        {}
+    };
 } // namespace is_swappable_ns
 
 namespace is_swappable_ns_2
@@ -176,6 +193,24 @@ TEST_CASE("is_swappable")
     test_is_not_swappable_impl<is_swappable_ns_2::AmbiguousSwap>();
     test_is_swappable_impl<const is_swappable_ns_2::AmbiguousSwap>();
 
+    // TODO: The commented out tests currently crash
+    test_is_swappable<F3>();
+    test_is_swappable<F3[1]>();
+    //test_is_not_swappable<F3[1][2]>();
+    //test_is_swappable<F3[1][2][3]>();
+
+    test_is_not_swappable<F>();
+    //test_is_not_swappable<F[1]>();
+    test_is_not_swappable<F[1][2]>();
+    test_is_not_swappable<F[1][2][3]>();
+    //test_is_not_swappable<F[4]>();
+    test_is_not_swappable<F2>();
+    //test_is_not_swappable<F2[1]>();
+    test_is_not_swappable<F2[1][2]>();
+    test_is_not_swappable<F2[1][2][3]>();
+    //test_is_not_swappable<F2[4]>();
+    //test_is_not_swappable<F2[5]>();
+
     test_is_not_swappable<void>();
     test_is_swappable_v<phi::nullptr_t>();
     test_is_swappable_v<bool>();
@@ -213,7 +248,9 @@ TEST_CASE("is_swappable")
     test_is_swappable<phi::floating_point<double>>();
     test_is_swappable<phi::floating_point<long double>>();
 
+#if PHI_COMPILER_IS_NOT(MSVC) || !defined(PHI_DEBUG)
     test_is_swappable<std::vector<int>>();
+#endif
     test_is_swappable<phi::scope_ptr<int>>();
 
     test_is_swappable_cv<int&>();
@@ -246,11 +283,11 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<int(*)[3]>();
     test_is_swappable_cv<int(&)[3]>();
     test_is_swappable_cv<int(&&)[3]>();
-    //test_is_not_swappable<char[3][2]>();
-    //test_is_not_swappable<char* [3][2]>();
+    //test_is_swappable<char[3][2]>();
+    //test_is_swappable<char* [3][2]>();
     test_is_swappable_v<int(*)[3][2]>();
-    //test_is_not_swappable<int(&)[3][2]>();
-    //test_is_not_swappable<int(&&)[3][2]>();
+    //test_is_swappable<int(&)[3][2]>();
+    //test_is_swappable<int(&&)[3][2]>();
     test_is_swappable<Class>();
     test_is_swappable<Class[2]>();
     test_is_swappable<Template<void>>();
