@@ -89,6 +89,15 @@ struct Base
 struct Derived : public Base
 {};
 
+struct NotEmptyBase : public NotEmpty
+{};
+
+struct EmptyBase : public Empty
+{};
+
+struct VirtualBase : virtual Empty
+{};
+
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -308,6 +317,11 @@ struct ThrowCopyConsClass
 struct ThrowMoveConsClass
 {
     ThrowMoveConsClass(ThrowMoveConsClass&&) noexcept(false);
+};
+
+struct ThrowDestructor
+{
+    ~ThrowDestructor() noexcept(false);
 };
 
 struct NoexceptExplicitClass
@@ -580,6 +594,15 @@ private:
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+template <typename T>
+class CannotInstantiate
+{
+    enum
+    {
+        X = T::ThisExpressionWillBlowUp
+    };
+};
+
 enum Enum
 {
     zero,
@@ -650,6 +673,66 @@ enum IncompleteEnumUnsigned : unsigned int;
 enum class IncompleteEnumClass;
 
 enum struct IncompleteEnumStruct;
+
+struct NonDefaultConstructible
+{
+    NonDefaultConstructible()                               = delete;
+    NonDefaultConstructible(const NonDefaultConstructible&) = default;
+    NonDefaultConstructible(NonDefaultConstructible&&)      = default;
+
+    NonDefaultConstructible& operator=(const NonDefaultConstructible&) = default;
+    NonDefaultConstructible& operator=(NonDefaultConstructible&&) = default;
+};
+
+struct NonCopyConstructible
+{
+    NonCopyConstructible()                            = default;
+    NonCopyConstructible(const NonCopyConstructible&) = delete;
+    NonCopyConstructible(NonCopyConstructible&&)      = default;
+
+    NonCopyConstructible& operator=(const NonCopyConstructible&) = default;
+    NonCopyConstructible& operator=(NonCopyConstructible&&) = default;
+};
+
+struct NonMoveConstructible
+{
+    NonMoveConstructible()                            = default;
+    NonMoveConstructible(const NonMoveConstructible&) = default;
+    NonMoveConstructible(NonMoveConstructible&&)      = delete;
+
+    NonMoveConstructible& operator=(const NonMoveConstructible&) = default;
+    NonMoveConstructible& operator=(NonMoveConstructible&&) = default;
+};
+
+struct NonCopyAssignable
+{
+    NonCopyAssignable()                         = default;
+    NonCopyAssignable(const NonCopyAssignable&) = default;
+    NonCopyAssignable(NonCopyAssignable&&)      = default;
+
+    NonCopyAssignable& operator=(const NonCopyAssignable&) = delete;
+    NonCopyAssignable& operator=(NonCopyAssignable&&) = default;
+};
+
+struct NonMoveAssignable
+{
+    NonMoveAssignable()                         = default;
+    NonMoveAssignable(const NonMoveAssignable&) = default;
+    NonMoveAssignable(NonMoveAssignable&&)      = default;
+
+    NonMoveAssignable& operator=(const NonMoveAssignable&) = default;
+    NonMoveAssignable& operator=(NonMoveAssignable&&) = delete;
+};
+
+struct NonAssignable
+{
+    NonAssignable()                     = default;
+    NonAssignable(const NonAssignable&) = default;
+    NonAssignable(NonAssignable&&)      = default;
+
+    NonAssignable& operator=(const NonAssignable&) = delete;
+    NonAssignable& operator=(NonAssignable&&) = delete;
+};
 
 struct NonCopyable
 {

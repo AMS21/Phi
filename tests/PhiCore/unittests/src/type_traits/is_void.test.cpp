@@ -269,6 +269,9 @@ TEST_CASE("is_void")
     test_is_not_void<BitOne>();
     test_is_not_void<Base>();
     test_is_not_void<Derived>();
+    test_is_not_void<NotEmptyBase>();
+    test_is_not_void<EmptyBase>();
+    test_is_not_void<VirtualBase>();
     test_is_not_void<Polymorphic>();
     test_is_not_void<DerivedPolymorphic>();
     test_is_not_void<Abstract>();
@@ -305,6 +308,7 @@ TEST_CASE("is_void")
     test_is_not_void<ThrowDefaultClass>();
     test_is_not_void<ThrowCopyConsClass>();
     test_is_not_void<ThrowMoveConsClass>();
+    test_is_not_void<ThrowDestructor>();
     test_is_not_void<NoexceptExplicitClass>();
     test_is_not_void<ExceptExplicitClass>();
     test_is_not_void<NoexceptDefaultClass>();
@@ -364,6 +368,9 @@ TEST_CASE("is_void")
     test_is_not_void<PrivateStaticTemplateMember<int>>();
     test_is_not_void<PrivateStaticTemplateMember<float>>();
     test_is_not_void<PrivateStaticTemplateMember<Class>>();
+    test_is_not_void<CannotInstantiate<int>>();
+    test_is_not_void<CannotInstantiate<float>>();
+    test_is_not_void<CannotInstantiate<Class>>();
     test_is_not_void<Enum>();
     test_is_not_void<EnumSigned>();
     test_is_not_void<EnumUnsigned>();
@@ -431,6 +438,12 @@ TEST_CASE("is_void")
     test_is_not_void<int Class::*const volatile&&>();
     test_is_not_void<float Class::*const volatile&&>();
     test_is_not_void<void * Class::*const volatile&&>();
+    test_is_not_void<NonDefaultConstructible>();
+    test_is_not_void<NonCopyConstructible>();
+    test_is_not_void<NonMoveConstructible>();
+    test_is_not_void<NonCopyAssignable>();
+    test_is_not_void<NonMoveAssignable>();
+    test_is_not_void<NonAssignable>();
     test_is_not_void<NonCopyable>();
     test_is_not_void<NonMoveable>();
     test_is_not_void<NonConstructible>();
