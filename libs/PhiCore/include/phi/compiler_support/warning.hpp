@@ -86,11 +86,9 @@
 // Compiler warning
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_COMPILER_WARNING(msg)                                                              \
-        PHI_PRAGMA(message(__FILE__ "(" PHI_STRINGIFY(__LINE__) ") : warning: " #msg))
+        PHI_PRAGMA(message(__FILE__ "(" PHI_STRINGIFY(__LINE__) "): warning: " #msg))
 #elif PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(APPLECLANG)
-#    define PHI_COMPILER_WARNING(msg)                                                              \
-        PHI_PRAGMA(PHI_STRINGIFY(                                                                  \
-                GCC warning(__FILE__ "(" PHI_STRINGIFY(__LINE__) ") : warning: " msg)))
+#    define PHI_COMPILER_WARNING(msg) PHI_PRAGMA(message msg)
 #elif PHI_COMPILER_IS(GCC)
 #    define PHI_COMPILER_WARNING(msg) PHI_PRAGMA(GCC warning msg)
 #else
