@@ -107,15 +107,15 @@ TEST_CASE("swap")
         STATIC_REQUIRE(can_swap<MoveOnly&>());
         STATIC_REQUIRE(can_swap<NoexceptMoveOnly&>());
 
-        STATIC_REQUIRE(!can_swap<NotMoveConstructible&>());
-        STATIC_REQUIRE(!can_swap<NotMoveAssignable&>());
+        STATIC_REQUIRE_FALSE(can_swap<NotMoveConstructible&>());
+        STATIC_REQUIRE_FALSE(can_swap<NotMoveAssignable&>());
 
         CopyOnly         c;
         MoveOnly         m;
         NoexceptMoveOnly nm;
-        STATIC_REQUIRE(!noexcept(phi::swap(c, c)));
-        STATIC_REQUIRE(!noexcept(phi::swap(m, m)));
-        STATIC_REQUIRE(noexcept(phi::swap(nm, nm)));
+        CHECK_NOT_NOEXCEPT(phi::swap(c, c));
+        CHECK_NOT_NOEXCEPT(phi::swap(m, m));
+        CHECK_NOEXCEPT(phi::swap(nm, nm));
     }
 
     {
@@ -164,6 +164,20 @@ TEST_CASE("swap")
     {
         TrapSelfAssign a;
         TrapSelfAssign b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapDeref a;
+        TrapDeref b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapArraySubscript a;
+        TrapArraySubscript b;
 
         phi::swap(a, b);
     }

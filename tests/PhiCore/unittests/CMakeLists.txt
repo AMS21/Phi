@@ -155,8 +155,9 @@ file(
   "src/type_traits/is_object.test.cpp"
   "src/type_traits/is_pointer.test.cpp"
   "src/type_traits/is_polymorphic.test.cpp"
-  "src/type_traits/is_reference.test.cpp"
   "src/type_traits/is_reference_wrapper.test.cpp"
+  "src/type_traits/is_reference.test.cpp"
+  "src/type_traits/is_referenceable.test.cpp"
   "src/type_traits/is_rvalue_reference.test.cpp"
   "src/type_traits/is_safe_arithmetic.test.cpp"
   "src/type_traits/is_safe_bool.test.cpp"
@@ -270,7 +271,7 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
         SOURCES
         ${TEST_SOURCES}
         FOLDER
-        "Test/PhiCore"
+        "Tests/PhiCore"
         PRIVATE_LINK_LIBRARIES
         Phi::InternalProjectOptions
         Phi::Core
@@ -310,7 +311,7 @@ else()
     SOURCES
     ${TEST_SOURCES}
     FOLDER
-    "Test/PhiCore"
+    "Tests/PhiCore"
     PRIVATE_LINK_LIBRARIES
     Phi::InternalProjectOptions
     Phi::Core

@@ -76,7 +76,11 @@ TEST_CASE("is_unsafe_unsigned")
 #endif
     test_is_unsafe_unsigned<char16_t>();
     test_is_unsafe_unsigned<char32_t>();
+#if PHI_PLATFORM_IS(WINDOWS)
+    test_is_unsafe_unsigned<wchar_t>();
+#else
     test_is_not_unsafe_unsigned<wchar_t>();
+#endif
 
     test_is_not_unsafe_unsigned<phi::boolean>();
     test_is_not_unsafe_unsigned<phi::integer<signed char>>();

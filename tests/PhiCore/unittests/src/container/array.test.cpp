@@ -26,6 +26,10 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-variable")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-result")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4189) // 'x': local variable is initialized but not referenced
+PHI_MSVC_SUPPRESS_WARNING(4834) // discarding return value of function with 'nodiscard' attribute
+
 TEST_CASE("Array")
 {
     using T   = phi::array<int, 3>;
@@ -689,4 +693,5 @@ TEST_CASE("Array")
     }
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()

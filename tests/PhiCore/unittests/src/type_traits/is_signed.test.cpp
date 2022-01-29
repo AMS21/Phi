@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/platform.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -84,7 +85,11 @@ TEST_CASE("is_signed")
     test_is_not_signed<char8_t>();
     test_is_not_signed<char16_t>();
     test_is_not_signed<char32_t>();
+#if PHI_PLATFORM_IS(WINDOWS)
+    test_is_not_signed<wchar_t>();
+#else
     test_is_signed<wchar_t>();
+#endif
 
     test_is_not_signed<phi::boolean>();
     test_is_signed<phi::integer<signed char>>();

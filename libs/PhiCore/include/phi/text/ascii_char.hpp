@@ -17,6 +17,9 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wtype-limits")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4296) // '>=': expression is always true
+
 class ascii_char
 {
 public:
@@ -314,6 +317,7 @@ private:
     value_type m_Char;
 };
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()

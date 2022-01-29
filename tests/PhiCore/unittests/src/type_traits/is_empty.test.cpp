@@ -68,15 +68,6 @@ class VirtualFn
     virtual ~VirtualFn();
 };
 
-struct NotEmptyBase : public NotEmpty
-{};
-
-struct EmptyBase : public Empty
-{};
-
-struct VirtualBase : virtual Empty
-{};
-
 struct StaticMember
 {
     static int foo;

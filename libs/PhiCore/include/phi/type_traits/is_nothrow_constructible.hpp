@@ -66,6 +66,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wdouble-promotion")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4197) // 'x': top-level volatile in cast is ignored
+
 namespace detail
 {
     template <bool, bool, typename TypeT, typename... ArgsT>
@@ -142,6 +145,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_constructible_v =
 
 #    endif
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #endif

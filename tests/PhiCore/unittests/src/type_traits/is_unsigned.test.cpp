@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/platform.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -80,7 +81,7 @@ TEST_CASE("is_unsigned")
     test_is_unsigned<char8_t>();
     test_is_unsigned<char16_t>();
     test_is_unsigned<char32_t>();
-#if PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(WINDOWS)
     test_is_unsigned<wchar_t>();
 #else
     test_is_not_unsigned<wchar_t>();

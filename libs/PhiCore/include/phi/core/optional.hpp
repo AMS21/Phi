@@ -152,6 +152,9 @@ namespace detail
     template <typename TypeT>
     using is_optional = is_optional_impl<decay_t<TypeT>>;
 
+    PHI_MSVC_SUPPRESS_WARNING_PUSH()
+    PHI_MSVC_SUPPRESS_WARNING(4583) // 'x': destructor is not implicitly called
+
     // The storage base manages the actual storage, and correctly propagates
     // trivial destruction from T. This case is for when T is not trivially
     // destructible.
@@ -189,6 +192,8 @@ namespace detail
 
         bool m_has_value;
     };
+
+    PHI_MSVC_SUPPRESS_WARNING_POP()
 
     // This case is for when T is trivially destructible.
     template <typename TypeT>

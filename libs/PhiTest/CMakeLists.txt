@@ -5,7 +5,7 @@ else()
   project(PhiTest LANGUAGES CXX)
 endif()
 
-file(GLOB PHI_TEST_HEADERS "src/phi/test/test_macros.hpp")
+file(GLOB PHI_TEST_HEADERS "include/phi/test/test_macros.hpp")
 
 file(GLOB PHI_TEST_SOURCES "src/test_macros.cpp")
 

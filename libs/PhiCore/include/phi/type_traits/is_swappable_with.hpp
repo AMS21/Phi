@@ -10,33 +10,28 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
-#include "phi/type_traits/detail/nat.hpp"
-#include "phi/type_traits/is_same.hpp"
-#include "phi/type_traits/is_void.hpp"
+#include "phi/type_traits/void_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename TypeT, typename OtherT = TypeT,
-              bool IsNotVoid = !is_void<TypeT>::value && !is_void<OtherT>::value>
-    struct is_swappable_with_impl
-    {
-        template <typename LhsT, typename RhsT>
-        static decltype(swap(declval<LhsT>(), declval<RhsT>())) test_swap(int);
+    using phi::swap;
 
-        template <typename, typename>
-        static nat test_swap(long);
-
-        // Extra parens are needed for the C++03 definition of decltype.
-        using swap1 = decltype((test_swap<TypeT, OtherT>(0)));
-        using swap2 = decltype((test_swap<OtherT, TypeT>(0)));
-
-        static const bool value = is_not_same<swap1, nat>::value && is_not_same<swap2, nat>::value;
-    };
+    template <typename TypeT, typename OtherT, typename = void>
+    struct is_swappable_with_helper : public false_type
+    {};
 
     template <typename TypeT, typename OtherT>
-    struct is_swappable_with_impl<TypeT, OtherT, false> : public false_type
+    struct is_swappable_with_helper<
+            TypeT, OtherT, void_t<decltype(swap(phi::declval<TypeT>(), phi::declval<OtherT>()))>>
+        : public true_type
+    {};
+
+    template <typename TypeT, typename OtherT>
+    struct is_swappable_with_impl
+        : public bool_constant<is_swappable_with_helper<TypeT, OtherT>::value &&
+                               is_swappable_with_helper<OtherT, TypeT>::value>
     {};
 } // namespace detail
 

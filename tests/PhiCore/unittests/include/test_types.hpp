@@ -11,6 +11,13 @@
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wused-but-marked-unused")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4624) // 'x': destructor was implicitly defined as deleted
+PHI_MSVC_SUPPRESS_WARNING(
+        5204) // 'x': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+PHI_MSVC_SUPPRESS_WARNING(
+        4265) // 'x': class has virtual functions, but its non-trivial destructor is not virtual; instances of the class may not be destructed correctly
+
 class Class
 {
 public:
@@ -991,6 +998,7 @@ struct TrapArraySubscript
     }
 };
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_UNITTEST_TESTTYPES_HPP

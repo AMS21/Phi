@@ -131,6 +131,11 @@ set(phi_disabled_warnings_flags
     /wd5027 # 'x': move assignment operator was implicitly defined as deleted
     /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch
     # specified Clang
+    /wd4505 # 'x': unreferenced function with internal linkage has been removed
+    /wd4180 # qualifier applied to function type has no meaning; ignored
+    /wd5052 # Keyword 'char8_t' was introduced in C++20 and requires use of the '/std:c++latest'
+            # command-line option
+    /wd4866 # compilerr may not enforce left-to-right evaluation order for call to 'x'
     -Wno-constexpr-not-const
     -Wno-c++1y-extensions
     -Wno-c++1z-extensions

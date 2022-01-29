@@ -7,12 +7,16 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4296) // warning C4296: '<': expression is always false
 
 namespace detail
 {
@@ -24,6 +28,8 @@ namespace detail
     struct is_signed_impl<TypeT, false> : public false_type
     {};
 } // namespace detail
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 struct is_signed : public detail::is_signed_impl<remove_cv_t<make_unsafe_t<TypeT>>>
