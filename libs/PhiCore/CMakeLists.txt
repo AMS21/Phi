@@ -120,6 +120,7 @@ file(
   "include/phi/compiler_support/cpp_standard.hpp"
   "include/phi/compiler_support/current_function.hpp"
   "include/phi/compiler_support/deprecated.hpp"
+  "include/phi/compiler_support/extended_types.hpp"
   "include/phi/compiler_support/flatten.hpp"
   "include/phi/compiler_support/inline_variables.hpp"
   "include/phi/compiler_support/inline.hpp"
@@ -158,6 +159,7 @@ file(
   "include/phi/core/nullptr_t.hpp"
   "include/phi/core/observer_ptr.hpp"
   "include/phi/core/optional.hpp"
+  "include/phi/core/ptrdiff_t.hpp"
   "include/phi/core/scope_guard.hpp"
   "include/phi/core/scope_ptr.hpp"
   "include/phi/core/scoped_value_guard.hpp"
@@ -173,8 +175,11 @@ file(
   "include/phi/iterator/begin.hpp"
   "include/phi/iterator/data.hpp"
   "include/phi/iterator/distance.hpp"
+  "include/phi/iterator/empty.hpp"
+  "include/phi/iterator/end.hpp"
   "include/phi/iterator/iterator_tags.hpp"
   "include/phi/iterator/iterator_traits.hpp"
+  "include/phi/iterator/reverse_iterator.hpp"
   # math
   "include/phi/math/abs.hpp"
   "include/phi/math/common.hpp"
@@ -197,6 +202,8 @@ file(
   "include/phi/ascii_char.hpp"
   "include/phi/char_traits.hpp"
   # type_traits/detail
+  "include/phi/type_traits/detail/invoke_impl.hpp"
+  "include/phi/type_traits/detail/nat.hpp"
   "include/phi/type_traits/detail/yes_no_type.hpp"
   # type_traits
   "include/phi/type_traits/add_const.hpp"
@@ -207,7 +214,6 @@ file(
   "include/phi/type_traits/add_rvalue_reference.hpp"
   "include/phi/type_traits/add_volatile.hpp"
   "include/phi/type_traits/alignment_of.hpp"
-  "include/phi/type_traits/bool_pack.hpp"
   "include/phi/type_traits/conditional.hpp"
   "include/phi/type_traits/conjunction.hpp"
   "include/phi/type_traits/copy_const.hpp"
@@ -244,6 +250,7 @@ file(
   "include/phi/type_traits/is_copy_assignable.hpp"
   "include/phi/type_traits/is_copy_constructible.hpp"
   "include/phi/type_traits/is_default_constructible.hpp"
+  "include/phi/type_traits/is_derived_from.hpp"
   "include/phi/type_traits/is_destructible.hpp"
   "include/phi/type_traits/is_empty.hpp"
   "include/phi/type_traits/is_enum.hpp"
@@ -254,6 +261,8 @@ file(
   "include/phi/type_traits/is_fundamental.hpp"
   "include/phi/type_traits/is_integer.hpp"
   "include/phi/type_traits/is_integral.hpp"
+  "include/phi/type_traits/is_invocable_r.hpp"
+  "include/phi/type_traits/is_invocable.hpp"
   "include/phi/type_traits/is_lvalue_reference.hpp"
   "include/phi/type_traits/is_member_function_pointer.hpp"
   "include/phi/type_traits/is_member_object_pointer.hpp"
@@ -267,6 +276,8 @@ file(
   "include/phi/type_traits/is_nothrow_copy_constructible.hpp"
   "include/phi/type_traits/is_nothrow_default_constructible.hpp"
   "include/phi/type_traits/is_nothrow_destructible.hpp"
+  "include/phi/type_traits/is_nothrow_invocable_r.hpp"
+  "include/phi/type_traits/is_nothrow_invocable.hpp"
   "include/phi/type_traits/is_nothrow_move_assignable.hpp"
   "include/phi/type_traits/is_nothrow_move_constructible.hpp"
   "include/phi/type_traits/is_nothrow_swappable_with.hpp"
@@ -287,7 +298,11 @@ file(
   "include/phi/type_traits/is_safe_integer.hpp"
   "include/phi/type_traits/is_safe_integral.hpp"
   "include/phi/type_traits/is_safe_scalar.hpp"
+  "include/phi/type_traits/is_safe_signed_integer.hpp"
+  "include/phi/type_traits/is_safe_signed.hpp"
   "include/phi/type_traits/is_safe_type.hpp"
+  "include/phi/type_traits/is_safe_unsigned_integer.hpp"
+  "include/phi/type_traits/is_safe_unsigned.hpp"
   "include/phi/type_traits/is_same_rc.hpp"
   "include/phi/type_traits/is_same_rcv.hpp"
   "include/phi/type_traits/is_same_rcvref.hpp"
@@ -296,6 +311,8 @@ file(
   "include/phi/type_traits/is_same.hpp"
   "include/phi/type_traits/is_scalar.hpp"
   "include/phi/type_traits/is_scoped_enum.hpp"
+  "include/phi/type_traits/is_signed_integer.hpp"
+  "include/phi/type_traits/is_signed.hpp"
   "include/phi/type_traits/is_standard_layout.hpp"
   "include/phi/type_traits/is_swappable_with.hpp"
   "include/phi/type_traits/is_swappable.hpp"
@@ -317,8 +334,13 @@ file(
   "include/phi/type_traits/is_unsafe_integer.hpp"
   "include/phi/type_traits/is_unsafe_integral.hpp"
   "include/phi/type_traits/is_unsafe_scalar.hpp"
+  "include/phi/type_traits/is_unsafe_signed_integer.hpp"
+  "include/phi/type_traits/is_unsafe_signed.hpp"
   "include/phi/type_traits/is_unsafe_type.hpp"
+  "include/phi/type_traits/is_unsafe_unsigned_integer.hpp"
+  "include/phi/type_traits/is_unsafe_unsigned.hpp"
   "include/phi/type_traits/is_unscoped_enum.hpp"
+  "include/phi/type_traits/is_unsigned_integer.hpp"
   "include/phi/type_traits/is_unsigned.hpp"
   "include/phi/type_traits/is_void.hpp"
   "include/phi/type_traits/is_volatile.hpp"
@@ -326,7 +348,6 @@ file(
   "include/phi/type_traits/make_signed.hpp"
   "include/phi/type_traits/make_unsafe.hpp"
   "include/phi/type_traits/make_unsigned.hpp"
-  "include/phi/type_traits/nat.hpp"
   "include/phi/type_traits/negation.hpp"
   "include/phi/type_traits/rank.hpp"
   "include/phi/type_traits/remove_all_extents.hpp"
@@ -337,12 +358,14 @@ file(
   "include/phi/type_traits/remove_pointer.hpp"
   "include/phi/type_traits/remove_reference.hpp"
   "include/phi/type_traits/remove_volatile.hpp"
+  "include/phi/type_traits/signed_int_of_size.hpp"
   "include/phi/type_traits/to_safe.hpp"
   "include/phi/type_traits/to_underlying.hpp"
   "include/phi/type_traits/to_unsafe.hpp"
   "include/phi/type_traits/true_t.hpp"
   "include/phi/type_traits/type_identity.hpp"
   "include/phi/type_traits/underlying_type.hpp"
+  "include/phi/type_traits/unsigned_int_of_size.hpp"
   "include/phi/type_traits/void_t.hpp"
   #
   "include/phi/phi_config.hpp"
@@ -362,10 +385,12 @@ phi_add_library(
   Phi::Core
   PUBLIC_LINK_LIBRARIES
   Threads::Threads
+  Phi::ProjectOptions
   PRIVATE_LINK_LIBRARIES
   Phi::InternalProjectOptions
   PUBLIC_INCLUDE_DIRS
   "include"
+  "${GENERATED_FILES_DIR}"
   PRIVATE_INCLUDE_DIRS
   "src")
 

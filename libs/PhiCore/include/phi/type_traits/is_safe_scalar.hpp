@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/is_member_pointer.hpp"
@@ -18,6 +18,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_SAFE_SCALAR() PHI_HAS_WORKING_IS_ENUM()
+
 template <typename TypeT>
 struct is_safe_scalar
     : public bool_constant<is_safe_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
@@ -25,10 +27,17 @@ struct is_safe_scalar
                            is_null_pointer<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_safe_scalar : public bool_constant<!is_safe_scalar<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_safe_scalar_v = is_safe_scalar<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_safe_scalar_v = is_not_safe_scalar<TypeT>::value;
 
 #endif
 

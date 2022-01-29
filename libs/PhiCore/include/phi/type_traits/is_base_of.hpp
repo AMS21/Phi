@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_BASE_OF()
 
+#    define PHI_HAS_WORKING_IS_BASE_OF() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BaseT, typename DerivedT>
@@ -37,6 +39,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_base_of_v = !PHI_IS_BASE_OF(BaseT, Der
 
 #    include "phi/type_traits/is_class.hpp"
 
+#    if PHI_HAS_WORKING_IS_CLASS()
+#        define PHI_HAS_WORKING_IS_BASE_OF() 1
+#    else
+#        define PHI_HAS_WORKING_IS_BASE_OF() 0
+#    endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
@@ -57,13 +65,13 @@ namespace detail
 
 template <typename BaseT, typename DerivedT>
 struct is_base_of
-    : public bool_constant<is_class_v<BaseT> &&
-                           is_class_v<DerivedT>&& decltype(detail::test_pre_is_base_of<
-                                                           BaseT, DerivedT>(0))::value>
+    : public bool_constant<is_class<BaseT>::value &&
+                           is_class<DerivedT>::value&& decltype(detail::test_pre_is_base_of<
+                                                                BaseT, DerivedT>(0))::value>
 {};
 
 template <typename BaseT, typename DerivedT>
-struct is_not_base_of : public bool_bool_constant<!is_base_of<BaseT, DerivedT>::value>
+struct is_not_base_of : public bool_constant<!is_base_of<BaseT, DerivedT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

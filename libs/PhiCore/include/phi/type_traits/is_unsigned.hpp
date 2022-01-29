@@ -8,10 +8,14 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/remove_cv.hpp"
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4296) // warning C4296: '<': expression is always false
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -32,13 +36,22 @@ template <typename TypeT>
 struct is_unsigned : public detail::is_unsigned_impl<remove_cv_t<make_unsafe_t<TypeT>>>
 {};
 
+template <typename TypeT>
+struct is_not_unsigned : public bool_constant<!is_unsigned<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsigned_v = is_unsigned<TypeT>::value;
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsigned_v = is_not_unsigned<TypeT>::value;
+
 #endif
 
 DETAIL_PHI_END_NAMESPACE()
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_TYPE_TRAITS_IS_UNSIGNED_HPP

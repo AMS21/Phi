@@ -54,7 +54,8 @@ SOFTWARE.
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
 #include "phi/type_traits/is_reference.hpp"
 #include "phi/type_traits/remove_reference.hpp"
-#include <memory>
+#include <functional>
+#include <iosfwd>
 #include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio.
@@ -494,12 +495,12 @@ struct PHI_EBCO method_callable<named_type<TypeT, ParameterT, SkillsT...>>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR remove_reference_t<TypeT>* operator->()
     {
-        return addressof(this->underlying().get());
+        return address_of(this->underlying().get());
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const remove_reference_t<TypeT>* operator->() const
     {
-        return addressof(this->underlying().get());
+        return address_of(this->underlying().get());
     }
 };
 

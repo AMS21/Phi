@@ -1,6 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/platform.hpp>
 #include <phi/type_traits/alignment_of.hpp>
 #include <cstdint>
 #include <type_traits>
@@ -9,6 +11,8 @@ template <typename T, unsigned A>
 void test_alignment_of()
 {
     constexpr unsigned alignof_result = alignof(T);
+
+    // Test that the golden value is correct
     STATIC_REQUIRE(alignof_result == A);
 
     STATIC_REQUIRE(phi::alignment_of<T>::value == alignof_result);
@@ -18,6 +22,7 @@ void test_alignment_of()
     STATIC_REQUIRE(phi::alignment_of<const volatile T>::value == A);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::alignment_of_v<T> == alignof_result);
     STATIC_REQUIRE(phi::alignment_of_v<T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<const T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<volatile T> == A);
@@ -53,7 +58,11 @@ TEST_CASE("alignment_of")
     test_alignment_of<bool, 1>();
 #endif
     test_alignment_of<unsigned, 4>();
+
+#if PHI_COMPILER_IS(WINCLANG)
+#else
     test_alignment_of<FunctionPtr, ptr_size>();
     test_alignment_of<MemberObjectPtr, ptr_size>();
     test_alignment_of<MemberFunctionPtr, ptr_size>();
+#endif
 }

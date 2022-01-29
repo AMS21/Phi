@@ -38,9 +38,13 @@ void test_is_class_impl()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_unsafe_bool<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_unsafe_fundamental<T>::value);
@@ -51,23 +55,35 @@ void test_is_class_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_UNSAFE_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_not_class<T>::value);
+#endif
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_unsafe_bool_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_unsafe_fundamental_v<T>);
@@ -78,21 +94,31 @@ void test_is_class_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE(phi::is_object_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_UNSAFE_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_unsafe_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_not_class_v<T>);
+#    endif
 #endif
 
     // Standard compatibility
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE(std::is_class<T>::value);
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_class_v<T>);
+#    endif
 #endif
 }
 
@@ -108,18 +134,20 @@ void test_is_class()
 template <typename T>
 void test_is_not_class_impl()
 {
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
     STATIC_REQUIRE(phi::is_not_class<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
     STATIC_REQUIRE(phi::is_not_class_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_class<T>::value);
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_class_v<T>);
+#    endif
 #endif
 }
 
@@ -225,28 +253,28 @@ TEST_CASE("is_class")
     test_is_class<Template<void>>();
     test_is_class<Template<int>>();
     test_is_class<Template<Class>>();
-    test_is_class<Template<incomplete_type>>();
+    test_is_class<Template<IncompleteType>>();
     test_is_class<VariadicTemplate<>>();
     test_is_class<VariadicTemplate<void>>();
     test_is_class<VariadicTemplate<int>>();
     test_is_class<VariadicTemplate<Class>>();
-    test_is_class<VariadicTemplate<incomplete_type>>();
+    test_is_class<VariadicTemplate<IncompleteType>>();
     test_is_class<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_class<PublicDerviedFromTemplate<Base>>();
-    test_is_class<PublicDerviedFromTemplate<Derived>>();
-    test_is_class<PublicDerviedFromTemplate<Class>>();
-    test_is_class<PrivateDerviedFromTemplate<Base>>();
-    test_is_class<PrivateDerviedFromTemplate<Derived>>();
-    test_is_class<PrivateDerviedFromTemplate<Class>>();
-    test_is_class<ProtectedDerviedFromTemplate<Base>>();
-    test_is_class<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_class<ProtectedDerviedFromTemplate<Class>>();
+    test_is_class<PublicDerivedFromTemplate<Base>>();
+    test_is_class<PublicDerivedFromTemplate<Derived>>();
+    test_is_class<PublicDerivedFromTemplate<Class>>();
+    test_is_class<PrivateDerivedFromTemplate<Base>>();
+    test_is_class<PrivateDerivedFromTemplate<Derived>>();
+    test_is_class<PrivateDerivedFromTemplate<Class>>();
+    test_is_class<ProtectedDerivedFromTemplate<Base>>();
+    test_is_class<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_class<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_class<Union>();
     test_is_not_class<NonEmptyUnion>();
     test_is_class<Empty>();
     test_is_class<NotEmpty>();
-    test_is_class<bit_zero>();
-    test_is_class<bit_one>();
+    test_is_class<BitZero>();
+    test_is_class<BitOne>();
     test_is_class<Base>();
     test_is_class<Derived>();
     test_is_class<Abstract>();
@@ -256,7 +284,7 @@ TEST_CASE("is_class")
     test_is_class<AbstractTemplate<int>>();
     test_is_class<AbstractTemplate<double>>();
     test_is_class<AbstractTemplate<Class>>();
-    test_is_class<AbstractTemplate<incomplete_type>>();
+    test_is_class<AbstractTemplate<IncompleteType>>();
     test_is_class<Final>();
     test_is_class<PublicDestructor>();
     test_is_class<ProtectedDestructor>();
@@ -283,16 +311,16 @@ TEST_CASE("is_class")
     test_is_not_class<FunctionPtr>();
     test_is_not_class<MemberObjectPtr>();
     test_is_not_class<MemberFunctionPtr>();
-    test_is_class<incomplete_type>();
+    test_is_class<IncompleteType>();
     test_is_class<IncompleteTemplate<void>>();
     test_is_class<IncompleteTemplate<int>>();
     test_is_class<IncompleteTemplate<Class>>();
-    test_is_class<IncompleteTemplate<incomplete_type>>();
+    test_is_class<IncompleteTemplate<IncompleteType>>();
     test_is_class<IncompleteVariadicTemplate<>>();
     test_is_class<IncompleteVariadicTemplate<void>>();
     test_is_class<IncompleteVariadicTemplate<int>>();
     test_is_class<IncompleteVariadicTemplate<Class>>();
-    test_is_class<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_class<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_class<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_class<int Class::*>();
     test_is_not_class<float Class::*>();

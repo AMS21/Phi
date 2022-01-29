@@ -1,7 +1,7 @@
 #ifndef INCG_PHI_CORE_CONFIG_FLATTEN_HPP
 #define INCG_PHI_CORE_CONFIG_FLATTEN_HPP
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_EXTENSION_ATTRIBUTE_FLATTEN()
 #    define PHI_FLATTEN __attribute__((flatten))

@@ -33,6 +33,7 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
@@ -162,6 +163,11 @@ public:
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr FloatT get() const noexcept
     {
         return m_Value;
+    }
+
+    PHI_EXTENDED_CONSTEXPR void swap(floating_point<FloatT>& other) noexcept
+    {
+        phi::swap(m_Value, other.m_Value);
     }
 
     //=== unary operators ===//
@@ -587,6 +593,13 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
                                                    const floating_point<FloatT>&           f)
 {
     return out << static_cast<FloatT>(f);
+}
+
+template <typename FloatT>
+PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(floating_point<FloatT>& lhs,
+                                           floating_point<FloatT>& rhs) noexcept
+{
+    lhs.swap(rhs);
 }
 
 DETAIL_PHI_END_NAMESPACE()

@@ -15,10 +15,16 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_ENUM() && PHI_HAS_WORKING_UNDERLYING_TYPE()
+#    define PHI_HAS_WORKING_IS_UNSCOPED_ENUM() 1
+#else
+#    define PHI_HAS_WORKING_IS_UNSCOPED_ENUM() 0
+#endif
+
 namespace detail
 {
     template <typename TypeT, bool IsEnum>
-    struct is_unscoped_enum_impl : false_type
+    struct is_unscoped_enum_impl : public false_type
     {};
 
     template <typename TypeT>
@@ -31,10 +37,17 @@ template <typename TypeT>
 struct is_unscoped_enum : public detail::is_unscoped_enum_impl<TypeT, is_enum<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_unscoped_enum : public bool_constant<!is_unscoped_enum<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unscoped_enum_v = is_unscoped_enum<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unscoped_enum_v = is_not_unscoped_enum<TypeT>::value;
 
 #endif
 

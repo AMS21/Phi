@@ -33,6 +33,7 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
@@ -206,6 +207,13 @@ namespace detail
 } // namespace detail
 /// \endcond
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+#else
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#endif
+
 /// A type safe integer class.
 ///
 /// This is a tiny, no overhead wrapper over a standard integer type.
@@ -285,6 +293,11 @@ public:
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr static integer<IntegerT> max() noexcept
     {
         return limits_type::max();
+    }
+
+    PHI_EXTENDED_CONSTEXPR void swap(integer<IntegerT>& other) noexcept
+    {
+        phi::swap(m_Value, other.m_Value);
     }
 
     //=== unary operators ===//
@@ -465,6 +478,8 @@ public:
 private:
     IntegerT m_Value;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 //=== comparison ===//
 
@@ -876,6 +891,12 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
                                                    const integer<IntegerT>&                val)
 {
     return stream << static_cast<IntegerT>(val);
+}
+
+template <typename IntegerT>
+PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(integer<IntegerT>& lhs, integer<IntegerT>& rhs) noexcept
+{
+    lhs.swap(rhs);
 }
 
 DETAIL_PHI_END_NAMESPACE()

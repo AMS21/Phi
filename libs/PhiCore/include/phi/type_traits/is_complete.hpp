@@ -8,13 +8,39 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/compiler_support/warning.hpp"
-#include "phi/core/declval.hpp"
-#include "phi/type_traits/detail/yes_no_type.hpp"
+#include "phi/compiler_support/intrinsics/is_complete.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_function.hpp"
-#include "phi/type_traits/is_rvalue_reference.hpp"
-#include "phi/type_traits/remove_reference.hpp"
+
+#if PHI_SUPPORTS_IS_COMPLETE() && 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct is_complete : public bool_constant<PHI_IS_COMPLETE(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_complete : public bool_constant<!PHI_IS_COMPLETE(TypeT)>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_complete_v = PHI_IS_COMPLETE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_complete_v = !PHI_IS_COMPLETE(TypeT);
+
+#    endif
+
+#else
+
+#    include "phi/compiler_support/warning.hpp"
+#    include "phi/core/declval.hpp"
+#    include "phi/type_traits/detail/yes_no_type.hpp"
+#    include "phi/type_traits/is_function.hpp"
+#    include "phi/type_traits/is_rvalue_reference.hpp"
+#    include "phi/type_traits/remove_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -53,13 +79,15 @@ template <typename TypeT>
 struct is_not_complete : public bool_constant<!is_complete<TypeT>::value>
 {};
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_complete_v = is_complete<TypeT>::value;
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_complete_v = is_not_complete<TypeT>::value;
+
+#    endif
 
 #endif
 

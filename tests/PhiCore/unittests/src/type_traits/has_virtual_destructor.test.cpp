@@ -14,16 +14,18 @@
 template <typename T>
 void test_has_virtual_destructor_impl()
 {
+#if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
     STATIC_REQUIRE(phi::has_virtual_destructor<T>::value);
     STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::has_virtual_destructor<T>::value);
+#endif
 }
 
 template <typename T>
@@ -38,16 +40,18 @@ void test_has_virtual_destructor()
 template <typename T>
 void test_has_no_virtual_destructor_impl()
 {
+#if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<T>::value);
     STATIC_REQUIRE(phi::has_no_virtual_destructor<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<T>);
     STATIC_REQUIRE(phi::has_no_virtual_destructor_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::has_virtual_destructor<T>::value);
+#endif
 }
 
 template <typename T>
@@ -159,28 +163,28 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<Template<void>>();
     test_has_no_virtual_destructor<Template<int>>();
     test_has_no_virtual_destructor<Template<Class>>();
-    test_has_no_virtual_destructor<Template<incomplete_type>>();
+    test_has_no_virtual_destructor<Template<IncompleteType>>();
     test_has_no_virtual_destructor<VariadicTemplate<>>();
     test_has_no_virtual_destructor<VariadicTemplate<void>>();
     test_has_no_virtual_destructor<VariadicTemplate<int>>();
     test_has_no_virtual_destructor<VariadicTemplate<Class>>();
-    test_has_no_virtual_destructor<VariadicTemplate<incomplete_type>>();
+    test_has_no_virtual_destructor<VariadicTemplate<IncompleteType>>();
     test_has_no_virtual_destructor<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_has_no_virtual_destructor<PublicDerviedFromTemplate<Base>>();
-    test_has_no_virtual_destructor<PublicDerviedFromTemplate<Derived>>();
-    test_has_no_virtual_destructor<PublicDerviedFromTemplate<Class>>();
-    test_has_no_virtual_destructor<PrivateDerviedFromTemplate<Base>>();
-    test_has_no_virtual_destructor<PrivateDerviedFromTemplate<Derived>>();
-    test_has_no_virtual_destructor<PrivateDerviedFromTemplate<Class>>();
-    test_has_no_virtual_destructor<ProtectedDerviedFromTemplate<Base>>();
-    test_has_no_virtual_destructor<ProtectedDerviedFromTemplate<Derived>>();
-    test_has_no_virtual_destructor<ProtectedDerviedFromTemplate<Class>>();
+    test_has_no_virtual_destructor<PublicDerivedFromTemplate<Base>>();
+    test_has_no_virtual_destructor<PublicDerivedFromTemplate<Derived>>();
+    test_has_no_virtual_destructor<PublicDerivedFromTemplate<Class>>();
+    test_has_no_virtual_destructor<PrivateDerivedFromTemplate<Base>>();
+    test_has_no_virtual_destructor<PrivateDerivedFromTemplate<Derived>>();
+    test_has_no_virtual_destructor<PrivateDerivedFromTemplate<Class>>();
+    test_has_no_virtual_destructor<ProtectedDerivedFromTemplate<Base>>();
+    test_has_no_virtual_destructor<ProtectedDerivedFromTemplate<Derived>>();
+    test_has_no_virtual_destructor<ProtectedDerivedFromTemplate<Class>>();
     test_has_no_virtual_destructor<Union>();
     test_has_no_virtual_destructor<NonEmptyUnion>();
     test_has_no_virtual_destructor<Empty>();
     test_has_virtual_destructor<NotEmpty>();
-    test_has_no_virtual_destructor<bit_zero>();
-    test_has_no_virtual_destructor<bit_one>();
+    test_has_no_virtual_destructor<BitZero>();
+    test_has_no_virtual_destructor<BitOne>();
     test_has_no_virtual_destructor<Base>();
     test_has_no_virtual_destructor<Derived>();
     test_has_virtual_destructor<Abstract>();
@@ -190,7 +194,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_virtual_destructor<AbstractTemplate<int>>();
     test_has_no_virtual_destructor<AbstractTemplate<double>>();
     test_has_virtual_destructor<AbstractTemplate<Class>>();
-    test_has_virtual_destructor<AbstractTemplate<incomplete_type>>();
+    test_has_virtual_destructor<AbstractTemplate<IncompleteType>>();
     test_has_no_virtual_destructor<Final>();
     test_has_no_virtual_destructor<PublicDestructor>();
     test_has_no_virtual_destructor<ProtectedDestructor>();

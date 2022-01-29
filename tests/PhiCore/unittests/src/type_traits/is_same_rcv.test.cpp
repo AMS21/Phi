@@ -135,11 +135,11 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<const volatile int*, const volatile int*>();
     test_is_same_rcv<Class, Class>();
     test_is_same_rcv<A, A>();
-    test_is_same_rcv<incomplete_type, incomplete_type>();
+    test_is_same_rcv<IncompleteType, IncompleteType>();
     test_is_same_rcv<Empty, Empty>();
     test_is_same_rcv<NotEmpty, NotEmpty>();
     test_is_same_rcv<Union, Union>();
-    test_is_same_rcv<bit_zero, bit_zero>();
+    test_is_same_rcv<BitZero, BitZero>();
     test_is_same_rcv<Abstract, Abstract>();
     test_is_same_rcv<Enum, Enum>();
     test_is_same_rcv<EnumSigned, EnumSigned>();

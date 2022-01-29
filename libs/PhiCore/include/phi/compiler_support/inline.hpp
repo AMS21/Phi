@@ -5,7 +5,7 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_INLINE_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_INLINE_HPP
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 /*!
  * \def PHI_ALWAYS_INLINE

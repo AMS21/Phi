@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/warning.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunknown-warning-option")

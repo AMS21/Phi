@@ -153,11 +153,11 @@ TEST_CASE("is_same_rcvref")
     test_is_same_rcvref<const volatile int*, const volatile int*>();
     test_is_same_rcvref<Class, Class>();
     test_is_same_rcvref<A, A>();
-    test_is_same_rcvref<incomplete_type, incomplete_type>();
+    test_is_same_rcvref<IncompleteType, IncompleteType>();
     test_is_same_rcvref<Empty, Empty>();
     test_is_same_rcvref<NotEmpty, NotEmpty>();
     test_is_same_rcvref<Union, Union>();
-    test_is_same_rcvref<bit_zero, bit_zero>();
+    test_is_same_rcvref<BitZero, BitZero>();
     test_is_same_rcvref<Abstract, Abstract>();
     test_is_same_rcvref<Enum, Enum>();
     test_is_same_rcvref<EnumSigned, EnumSigned>();

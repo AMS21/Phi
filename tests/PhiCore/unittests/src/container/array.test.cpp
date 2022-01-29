@@ -26,6 +26,10 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-variable")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-result")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4189) // 'x': local variable is initialized but not referenced
+PHI_MSVC_SUPPRESS_WARNING(4834) // discarding return value of function with 'nodiscard' attribute
+
 TEST_CASE("Array")
 {
     using T   = phi::array<int, 3>;
@@ -37,14 +41,14 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            CONSTEXPR_RUNTIME T a = {1, 2, 4};
+            EXT_CONSTEXPR_RUNTIME T a = {1, 2, 4};
 
-            STATIC_REQUIRE(a.at(0u) == 1);
-            STATIC_REQUIRE(a[0u] == 1);
-            STATIC_REQUIRE(a.at(1u) == 2);
-            STATIC_REQUIRE(a[1u] == 2);
-            STATIC_REQUIRE(a.at(2u) == 4);
-            STATIC_REQUIRE(a[2u] == 4);
+            EXT_STATIC_REQUIRE(a.at(0u) == 1);
+            EXT_STATIC_REQUIRE(a[0u] == 1);
+            EXT_STATIC_REQUIRE(a.at(1u) == 2);
+            EXT_STATIC_REQUIRE(a[1u] == 2);
+            EXT_STATIC_REQUIRE(a.at(2u) == 4);
+            EXT_STATIC_REQUIRE(a[2u] == 4);
         }
 
         SECTION("non const")
@@ -204,9 +208,9 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            CONSTEXPR_RUNTIME T constexpr_array = {1, 2, 4};
+            EXT_CONSTEXPR_RUNTIME T constexpr_array = {1, 2, 4};
 
-            STATIC_REQUIRE(constexpr_array.front() == 1);
+            EXT_STATIC_REQUIRE(constexpr_array.front() == 1);
         }
 
         SECTION("non const")
@@ -329,9 +333,9 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            CONSTEXPR_RUNTIME T constexpr_array = {1, 2, 4};
+            EXT_CONSTEXPR_RUNTIME T constexpr_array = {1, 2, 4};
 
-            STATIC_REQUIRE(constexpr_array.back() == 4);
+            EXT_STATIC_REQUIRE(constexpr_array.back() == 4);
         }
 
         SECTION("non const")
@@ -689,4 +693,5 @@ TEST_CASE("Array")
     }
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()

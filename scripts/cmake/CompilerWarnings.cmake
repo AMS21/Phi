@@ -7,16 +7,24 @@ set(phi_warning_flags
     -Wall
     -Walloc-zero
     -Walloca
-    -Warray-compare
+    -Warith-conversion
+    -Warray-bounds
+    -Wattribute-alias=2
+    -Wbidi-chars=any
     -Wcast-align # warn for potential performance problem casts
     -Wcast-qual
     -Wconversion # warn on type conversions that may lose data
+    -Wdate-time
     -Wdouble-promotion # warn if float is implicit promoted to double
     -Wduplicated-branches # warn if if / else branches have duplicated code
     -Wduplicated-cond # warn if if / else chain has duplicated conditions
+    -Wenum-conversion
     -Weverything
     -Wextra # reasonable and standard
     -Wfloat-equal
+    -Wformat-overflow=2
+    -Wformat-signedness
+    -Wformat-truncation=2
     -Wformat=2 # warn on security issues around functions that format output (ie printf)
     -Winline
     -Winvalid-pch
@@ -24,11 +32,13 @@ set(phi_warning_flags
     -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
     -Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
     -Wmissing-field-initializers
+    -Wmissing-format-attribute
     -Wmissing-include-dirs
     -Wmissing-noreturn
     -Wnoexcept
     -Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
-    # destructor. This helps catch hard to track down memory errors
+                       # destructor. This helps catch hard to track down memory errors
+    -Wnormalized
     -Wnull-dereference # warn if a null dereference is detected
     -Wold-style-cast # warn for c-style casts
     -Woverloaded-virtual # warn if you overload (not override) a virtual function
@@ -42,13 +52,25 @@ set(phi_warning_flags
     -Wstack-protector
     -Wstrict-aliasing=2
     -Wstrict-overflow=5
+    -Wsuggest-attribute=cold
+    -Wsuggest-attribute=const
+    -Wsuggest-attribute=format
+    -Wsuggest-attribute=malloc
+    -Wsuggest-attribute=noreturn
+    -Wsuggest-attribute=pure
+    -Wsync-nand
     -Wtrampolines
     -Wundef
+    -Wuninitialized
     -Wunreachable-code
+    -Wunsafe-loop-optimizations
     -Wunused # warn on anything being unused
+    -Wunused-const-variable=2
+    -Wunused-macros
     -Wunused-parameter
     -Wuseless-cast # warn if you perform a cast to the same type
     -Wvector-operation-performance
+    -Wvla
     -Wzero-as-null-pointer-constant
     # MSVC
     /Wall # Baseline reasonable warnings
@@ -109,6 +131,11 @@ set(phi_disabled_warnings_flags
     /wd5027 # 'x': move assignment operator was implicitly defined as deleted
     /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch
     # specified Clang
+    /wd4505 # 'x': unreferenced function with internal linkage has been removed
+    /wd4180 # qualifier applied to function type has no meaning; ignored
+    /wd5052 # Keyword 'char8_t' was introduced in C++20 and requires use of the '/std:c++latest'
+            # command-line option
+    /wd4866 # compilerr may not enforce left-to-right evaluation order for call to 'x'
     -Wno-constexpr-not-const
     -Wno-c++1y-extensions
     -Wno-c++1z-extensions
@@ -134,9 +161,8 @@ set(_WarningsAvailible)
 foreach(_test ${phi_warning_flags})
   string(REPLACE "-W" "" _testName ${_test})
   string(REPLACE "/" "" _testName ${_testName})
-  string(REPLACE "=2" "" _testName ${_testName})
-  string(REPLACE "=5" "" _testName ${_testName})
   string(REPLACE "-" "_" _testName ${_testName})
+  string(REPLACE "=" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
   phi_check_cxx_compiler_flag(${_test} "PHI_HAS_WARNING_${_testName}")
@@ -191,9 +217,24 @@ foreach(_test ${phi_disabled_warnings_flags})
   endif()
 endforeach(_test)
 
+# GCC does except all -Wno-xxxx flags even if it can't handle them
+if(PHI_COMPILER_GCC)
+  set(_DisableWarningAvailible "-Wno-unused-function")
+
+  if(GCC_COMPILER_VERSION VERSION_LESS "9.0.0")
+    list(REMOVE_ITEM _WarningsAvailible "-Wuseless-cast")
+  endif()
+endif()
+
 # Clang before 3.4 accepts all the -wdxxxx flags from MSVC but then gives compiler errors
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.4")
+if(PHI_COMPILER_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.4")
   list(FILTER _DisableWarningAvailible EXCLUDE REGEX "-wd[0-9]+")
+endif()
+
+# Emscriptens warning suppression for some reason doesn't work correctly so we disable all
+if(PHI_PLATFORM_EMSCRIPTEN)
+  set(_WarningsAvailible "-Wundef")
+  set(_DisableWarningAvailible "${_DisableWarningAvailible};-Wno-assume")
 endif()
 
 # from here:

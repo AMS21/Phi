@@ -11,25 +11,26 @@
 #include <type_traits>
 #include <vector>
 
+template <typename T, typename U>
+void test_add_cv_impl()
+{
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, U);
+    CHECK_SAME_TYPE(phi::add_cv_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, phi::add_cv_t<T>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename std::add_cv<T>::type, U);
+    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
+    CHECK_SAME_TYPE(phi::add_cv_t<T>, typename std::add_cv<T>::type);
+}
+
 template <typename T>
 void test_add_cv()
 {
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type, const volatile T);
-
-    CHECK_SAME_TYPE(phi::add_cv_t<T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<const T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<volatile T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_cv_t<const volatile T>, const volatile T);
-
-    // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<const T>::type, typename std::add_cv<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<volatile T>::type, typename std::add_cv<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_cv<const volatile T>::type,
-                    typename std::add_cv<const volatile T>::type);
+    test_add_cv_impl<T, const volatile T>();
+    test_add_cv_impl<const T, const volatile T>();
+    test_add_cv_impl<volatile T, const volatile T>();
+    test_add_cv_impl<const volatile T, const volatile T>();
 }
 
 TEST_CASE("add_cv")
@@ -125,28 +126,28 @@ TEST_CASE("add_cv")
     test_add_cv<Template<void>>();
     test_add_cv<Template<int>>();
     test_add_cv<Template<Class>>();
-    test_add_cv<Template<incomplete_type>>();
+    test_add_cv<Template<IncompleteType>>();
     test_add_cv<VariadicTemplate<>>();
     test_add_cv<VariadicTemplate<void>>();
     test_add_cv<VariadicTemplate<int>>();
     test_add_cv<VariadicTemplate<Class>>();
-    test_add_cv<VariadicTemplate<incomplete_type>>();
+    test_add_cv<VariadicTemplate<IncompleteType>>();
     test_add_cv<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_add_cv<PublicDerviedFromTemplate<Base>>();
-    test_add_cv<PublicDerviedFromTemplate<Derived>>();
-    test_add_cv<PublicDerviedFromTemplate<Class>>();
-    test_add_cv<PrivateDerviedFromTemplate<Base>>();
-    test_add_cv<PrivateDerviedFromTemplate<Derived>>();
-    test_add_cv<PrivateDerviedFromTemplate<Class>>();
-    test_add_cv<ProtectedDerviedFromTemplate<Base>>();
-    test_add_cv<ProtectedDerviedFromTemplate<Derived>>();
-    test_add_cv<ProtectedDerviedFromTemplate<Class>>();
+    test_add_cv<PublicDerivedFromTemplate<Base>>();
+    test_add_cv<PublicDerivedFromTemplate<Derived>>();
+    test_add_cv<PublicDerivedFromTemplate<Class>>();
+    test_add_cv<PrivateDerivedFromTemplate<Base>>();
+    test_add_cv<PrivateDerivedFromTemplate<Derived>>();
+    test_add_cv<PrivateDerivedFromTemplate<Class>>();
+    test_add_cv<ProtectedDerivedFromTemplate<Base>>();
+    test_add_cv<ProtectedDerivedFromTemplate<Derived>>();
+    test_add_cv<ProtectedDerivedFromTemplate<Class>>();
     test_add_cv<Union>();
     test_add_cv<NonEmptyUnion>();
     test_add_cv<Empty>();
     test_add_cv<NotEmpty>();
-    test_add_cv<bit_zero>();
-    test_add_cv<bit_one>();
+    test_add_cv<BitZero>();
+    test_add_cv<BitOne>();
     test_add_cv<Base>();
     test_add_cv<Derived>();
     test_add_cv<Abstract>();
@@ -156,7 +157,7 @@ TEST_CASE("add_cv")
     test_add_cv<AbstractTemplate<int>>();
     test_add_cv<AbstractTemplate<double>>();
     test_add_cv<AbstractTemplate<Class>>();
-    test_add_cv<AbstractTemplate<incomplete_type>>();
+    test_add_cv<AbstractTemplate<IncompleteType>>();
     test_add_cv<Final>();
     test_add_cv<PublicDestructor>();
     test_add_cv<ProtectedDestructor>();
@@ -183,16 +184,16 @@ TEST_CASE("add_cv")
     test_add_cv<FunctionPtr>();
     test_add_cv<MemberObjectPtr>();
     test_add_cv<MemberFunctionPtr>();
-    test_add_cv<incomplete_type>();
+    test_add_cv<IncompleteType>();
     test_add_cv<IncompleteTemplate<void>>();
     test_add_cv<IncompleteTemplate<int>>();
     test_add_cv<IncompleteTemplate<Class>>();
-    test_add_cv<IncompleteTemplate<incomplete_type>>();
+    test_add_cv<IncompleteTemplate<IncompleteType>>();
     test_add_cv<IncompleteVariadicTemplate<>>();
     test_add_cv<IncompleteVariadicTemplate<void>>();
     test_add_cv<IncompleteVariadicTemplate<int>>();
     test_add_cv<IncompleteVariadicTemplate<Class>>();
-    test_add_cv<IncompleteVariadicTemplate<incomplete_type>>();
+    test_add_cv<IncompleteVariadicTemplate<IncompleteType>>();
     test_add_cv<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_cv<int Class::*>();
     test_add_cv<float Class::*>();

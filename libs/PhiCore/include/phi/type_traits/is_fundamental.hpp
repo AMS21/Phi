@@ -21,10 +21,17 @@ struct is_fundamental
                            is_arithmetic<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_fundamental : public bool_constant<!is_fundamental<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_fundamental_v = is_fundamental<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_fundamental_v = is_not_fundamental<TypeT>::value;
 
 #endif
 

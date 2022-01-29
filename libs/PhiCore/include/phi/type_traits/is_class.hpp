@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_CLASS()
 
+#    define PHI_HAS_WORKING_IS_CLASS() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -37,6 +39,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_class_v = !PHI_IS_CLASS(TypeT);
 
 #    include "phi/type_traits/detail/yes_no_type.hpp"
 #    include "phi/type_traits/is_union.hpp"
+
+#    if PHI_HAS_WORKING_IS_UNION()
+#        define PHI_HAS_WORKING_IS_CLASS() 1
+#    else
+#        define PHI_HAS_WORKING_IS_CLASS() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

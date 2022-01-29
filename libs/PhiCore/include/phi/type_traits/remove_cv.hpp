@@ -17,7 +17,7 @@ template <typename TypeT>
 struct remove_cv
 {
     using type = PHI_REMOVE_CV(TypeT);
-}
+};
 
 template <typename TypeT>
 using remove_cv_t = PHI_REMOVE_CV(TypeT);

@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_TRIVIALLY_CONSTRUCTIBLE()
 #    define PHI_IS_TRIVIALLY_CONSTRUCTIBLE(...)       __is_trivially_constructible(__VA_ARGS__)

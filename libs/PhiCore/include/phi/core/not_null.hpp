@@ -15,6 +15,7 @@
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/nullptr_t.hpp"
+#include "phi/core/ptrdiff_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
@@ -28,11 +29,16 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-const-variable=")
+
 namespace detail
 {
     constexpr char AssignNullptrError[]{"May not assign nullptr to phi::not_null"};
     constexpr char ReturnNullptrError[]{"Returning nullptr from phi::not_null"};
 } // namespace detail
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 class not_null
@@ -114,13 +120,13 @@ public:
     not_null& operator=(nullptr_t) = delete;
 
     // Explicitly remove pointer operations
-    not_null& operator++()                     = delete;
-    not_null& operator--()                     = delete;
-    not_null  operator++(int)                  = delete;
-    not_null  operator--(int)                  = delete;
-    not_null& operator+=(std::ptrdiff_t)       = delete;
-    not_null& operator-=(std::ptrdiff_t)       = delete;
-    void      operator[](std::ptrdiff_t) const = delete;
+    not_null& operator++()                = delete;
+    not_null& operator--()                = delete;
+    not_null  operator++(int)             = delete;
+    not_null  operator--(int)             = delete;
+    not_null& operator+=(ptrdiff_t)       = delete;
+    not_null& operator-=(ptrdiff_t)       = delete;
+    void      operator[](ptrdiff_t) const = delete;
 
 private:
     TypeT m_Pointer;

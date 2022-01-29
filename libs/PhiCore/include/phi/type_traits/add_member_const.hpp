@@ -31,8 +31,7 @@ namespace detail
 template <typename TypeT>
 struct add_member_const
 {
-    using type = typename detail::add_member_const_impl<
-            TypeT, is_function<TypeT>::value || is_member_function_pointer<TypeT>::value>::type;
+    using type = typename detail::add_member_const_impl<TypeT>::type;
 };
 
 template <typename TypeT>

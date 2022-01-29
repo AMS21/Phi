@@ -16,6 +16,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_HAS_VIRTUAL_DESTRUCTOR()
 
+#    define PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR() 1
+
 template <typename TypeT>
 struct has_virtual_destructor : public bool_constant<PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT)>
 {};
@@ -36,18 +38,22 @@ PHI_INLINE_VARIABLE constexpr bool has_no_virtual_destructor_v = !PHI_HAS_VIRTUA
 
 #else
 
+#    define PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR() 0
+
 template <typename TypeT>
 struct has_virtual_destructor : public false_type
 {
-    static_assert(false_t<TypeT>, "phi::has_virtual_destructor requires compiler support for "
-                                  "intrinsic has_virtual_destructor");
+    static_assert(false_t<TypeT>::value,
+                  "phi::has_virtual_destructor requires compiler support for "
+                  "intrinsic has_virtual_destructor");
 };
 
 template <typename TypeT>
 struct has_no_virtual_destructor : public false_type
 {
-    static_assert(false_t<TypeT>, "phi::has_no_virtual_destructor requires compiler support for "
-                                  "intrinsic has_virtual_destructor");
+    static_assert(false_t<TypeT>::value,
+                  "phi::has_no_virtual_destructor requires compiler support for "
+                  "intrinsic has_virtual_destructor");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

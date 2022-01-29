@@ -17,6 +17,12 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_ENUM()
+#    define PHI_HAS_WORKING_IS_UNSAFE_SCALAR() 1
+#else
+#    define PHI_HAS_WORKING_IS_UNSAFE_SCALAR() 0
+#endif
+
 template <typename TypeT>
 struct is_unsafe_scalar
     : public bool_constant<is_unsafe_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
@@ -24,10 +30,17 @@ struct is_unsafe_scalar
                            is_null_pointer<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_unsafe_scalar : public bool_constant<!is_unsafe_scalar<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_scalar_v = is_unsafe_scalar<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_scalar_v = is_not_unsafe_scalar<TypeT>::value;
 
 #endif
 

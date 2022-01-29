@@ -1,6 +1,7 @@
 project("PhiCoreTestUnittests" CXX)
 
-file(GLOB TEST_HEADERS "include/constexpr_helper.hpp" "include/Noexcept.hpp" "include/SameType.hpp" "include/test_types.hpp")
+file(GLOB TEST_HEADERS "include/constexpr_helper.hpp" "include/Noexcept.hpp" "include/SameType.hpp"
+     "include/test_types.hpp")
 
 file(
   GLOB
@@ -16,6 +17,7 @@ file(
   "src/compiler_support/char8_t.test.cpp"
   "src/compiler_support/compiler.test.cpp"
   "src/compiler_support/counter.test.cpp"
+  "src/compiler_support/cpp_standard.test.cpp"
   "src/compiler_support/current_function.test.cpp"
   "src/compiler_support/inline.test.cpp"
   "src/compiler_support/likely.test.cpp"
@@ -26,6 +28,7 @@ file(
   "src/container/array.test.cpp"
   "src/container/string_view.test.cpp"
   # core
+  "src/core/address_of.test.cpp"
   "src/core/as_const.test.cpp"
   "src/core/assert.test.cpp"
   "src/core/boolean.test.cpp"
@@ -43,6 +46,7 @@ file(
   "src/core/not_null.test.cpp"
   "src/core/observer_ptr.test.cpp"
   "src/core/optional.test.cpp"
+  "src/core/ptrdiff_t.test.cpp"
   "src/core/scope_guard.test.cpp"
   "src/core/scope_ptr.test.cpp"
   "src/core/scoped_value_guard.test.cpp"
@@ -69,6 +73,7 @@ file(
   # selftest
   "src/selftest/constexpr_helper.test.cpp"
   # type_traits
+  "src/type_traits/detail/nat.test.cpp"
   "src/type_traits/detail/yes_no_type.test.cpp"
   "src/type_traits/add_const.test.cpp"
   "src/type_traits/add_cv.test.cpp"
@@ -80,6 +85,7 @@ file(
   "src/type_traits/conditional.test.cpp"
   "src/type_traits/conjunction.test.cpp"
   "src/type_traits/copy_const.test.cpp"
+  "src/type_traits/copy_cv.test.cpp"
   "src/type_traits/copy_volatile.test.cpp"
   "src/type_traits/decay.test.cpp"
   "src/type_traits/disable_if.test.cpp"
@@ -112,6 +118,7 @@ file(
   "src/type_traits/is_copy_assignable.test.cpp"
   "src/type_traits/is_copy_constructible.test.cpp"
   "src/type_traits/is_default_constructible.test.cpp"
+  "src/type_traits/is_derived_from.test.cpp"
   "src/type_traits/is_destructible.test.cpp"
   "src/type_traits/is_empty.test.cpp"
   "src/type_traits/is_enum.test.cpp"
@@ -122,6 +129,7 @@ file(
   "src/type_traits/is_fundamental.test.cpp"
   "src/type_traits/is_integer.test.cpp"
   "src/type_traits/is_integral.test.cpp"
+  "src/type_traits/is_invocable_r.test.cpp"
   "src/type_traits/is_invocable.test.cpp"
   "src/type_traits/is_lvalue_reference.test.cpp"
   "src/type_traits/is_member_function_pointer.test.cpp"
@@ -136,6 +144,7 @@ file(
   "src/type_traits/is_nothrow_copy_constructible.test.cpp"
   "src/type_traits/is_nothrow_default_constructible.test.cpp"
   "src/type_traits/is_nothrow_destructible.test.cpp"
+  "src/type_traits/is_nothrow_invocable_r.test.cpp"
   "src/type_traits/is_nothrow_invocable.test.cpp"
   "src/type_traits/is_nothrow_move_assignable.test.cpp"
   "src/type_traits/is_nothrow_move_constructible.test.cpp"
@@ -146,23 +155,32 @@ file(
   "src/type_traits/is_object.test.cpp"
   "src/type_traits/is_pointer.test.cpp"
   "src/type_traits/is_polymorphic.test.cpp"
-  "src/type_traits/is_reference.test.cpp"
   "src/type_traits/is_reference_wrapper.test.cpp"
+  "src/type_traits/is_reference.test.cpp"
+  "src/type_traits/is_referenceable.test.cpp"
   "src/type_traits/is_rvalue_reference.test.cpp"
   "src/type_traits/is_safe_arithmetic.test.cpp"
   "src/type_traits/is_safe_bool.test.cpp"
   "src/type_traits/is_safe_floating_point.test.cpp"
+  "src/type_traits/is_safe_fundamental.test.cpp"
   "src/type_traits/is_safe_integer.test.cpp"
   "src/type_traits/is_safe_integral.test.cpp"
+  "src/type_traits/is_safe_scalar.test.cpp"
+  "src/type_traits/is_safe_signed_integer.test.cpp"
+  "src/type_traits/is_safe_signed.test.cpp"
   "src/type_traits/is_safe_type.test.cpp"
+  "src/type_traits/is_safe_unsigned_integer.test.cpp"
+  "src/type_traits/is_safe_unsigned.test.cpp"
   "src/type_traits/is_same_rc.test.cpp"
   "src/type_traits/is_same_rcv.test.cpp"
   "src/type_traits/is_same_rcvref.test.cpp"
   "src/type_traits/is_same_rv.test.cpp"
   "src/type_traits/is_same.test.cpp"
   "src/type_traits/is_scalar.test.cpp"
-  "src/type_traits/is_standard_layout.test.cpp"
   "src/type_traits/is_scoped_enum.test.cpp"
+  "src/type_traits/is_signed_integer.test.cpp"
+  "src/type_traits/is_signed.test.cpp"
+  "src/type_traits/is_standard_layout.test.cpp"
   "src/type_traits/is_swappable_with.test.cpp"
   "src/type_traits/is_swappable.test.cpp"
   "src/type_traits/is_trivial.test.cpp"
@@ -180,15 +198,22 @@ file(
   "src/type_traits/is_unsafe_arithmetic.test.cpp"
   "src/type_traits/is_unsafe_bool.test.cpp"
   "src/type_traits/is_unsafe_floating_point.test.cpp"
+  "src/type_traits/is_unsafe_fundamental.test.cpp"
   "src/type_traits/is_unsafe_integer.test.cpp"
   "src/type_traits/is_unsafe_integral.test.cpp"
+  "src/type_traits/is_unsafe_scalar.test.cpp"
+  "src/type_traits/is_unsafe_signed_integer.test.cpp"
+  "src/type_traits/is_unsafe_signed.test.cpp"
   "src/type_traits/is_unsafe_type.test.cpp"
+  "src/type_traits/is_unsafe_unsigned_integer.test.cpp"
+  "src/type_traits/is_unsafe_unsigned.test.cpp"
   "src/type_traits/is_unscoped_enum.test.cpp"
+  "src/type_traits/is_unsigned_integer.test.cpp"
   "src/type_traits/is_unsigned.test.cpp"
-  "src/type_traits/is_signed.test.cpp"
   "src/type_traits/is_void.test.cpp"
   "src/type_traits/is_volatile.test.cpp"
   "src/type_traits/make_safe.test.cpp"
+  "src/type_traits/make_signed.test.cpp"
   "src/type_traits/make_unsafe.test.cpp"
   "src/type_traits/make_unsigned.test.cpp"
   "src/type_traits/negation.test.cpp"
@@ -201,32 +226,100 @@ file(
   "src/type_traits/remove_pointer.test.cpp"
   "src/type_traits/remove_reference.test.cpp"
   "src/type_traits/remove_volatile.test.cpp"
+  "src/type_traits/signed_int_of_size.test.cpp"
   "src/type_traits/to_safe.test.cpp"
   "src/type_traits/to_unsafe.test.cpp"
   "src/type_traits/true_t.test.cpp"
   "src/type_traits/type_identity.test.cpp"
   "src/type_traits/underlying_type.test.cpp"
+  "src/type_traits/unsigned_int_of_size.test.cpp"
   "src/type_traits/void_t.test.cpp"
   # Base
-  "src/PhiConfig.test.cpp")
+  "src/phi_config.test.cpp"
+  "src/type_traits.test.cpp")
 
-if (${CMAKE_VERSION} VERSION_GREATER "3.7")
+if(${CMAKE_VERSION} VERSION_GREATER "3.7")
   source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${TEST_HEADERS} ${TEST_SOURCES})
 endif()
 
-foreach(file IN ITEMS ${TEST_SOURCES})
-  get_filename_component(file_name "${file}" NAME_WE)
-  set(normal_name "Phi_Unittest_${file_name}")
-  set(no_intrinsic_name "Phi_Unittest_${file_name}_NoIntrinsic")
+# Add test files
+if(${PHI_TEST_WITH_ALL_STANDARDS})
 
-  # Normal test
-  phi_add_executable(NAME ${normal_name} SOURCES ${file} FOLDER "Tests/PhiCore/Unittests" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core Phi::Test PRIVATE_INCLUDE_DIRS "include")
-  phi_enable_static_analyzers(${normal_name})
-  phi_add_test(TARGET ${normal_name})
+  # Test with all supported standard version
+  foreach(std IN ITEMS ${phi_supported_standards})
+    if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
+      phi_add_executable(
+        NAME
+        "PhiCoreUnittests${std}"
+        SOURCES
+        ${TEST_SOURCES}
+        FOLDER
+        "Tests/PhiCore"
+        PRIVATE_LINK_LIBRARIES
+        Phi::InternalProjectOptions
+        Phi::Core
+        Phi::Test
+        PRIVATE_INCLUDE_DIRS
+        "include")
+      phi_add_test(TARGET "PhiCoreUnittests${std}")
+      target_compile_options("PhiCoreUnittests${std}"
+                             PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
 
-  # No intrinsic test
-  #phi_add_executable(NAME ${no_intrinsic_name} SOURCES ${file} FOLDER "Tests/PhiCore/Unittests/NoIntrinsics" PRIVATE_LINK_LIBRARIES Phi::InternalProjectOptions Phi::Core phi::Test PRIVATE_INCLUDE_DIRS "include")
-  #target_compile_definitions(${no_intrinsic_name} PRIVATE PHI_CONFIG_NO_INTRINSICS)
-  #phi_enable_static_analyzers(${no_intrinsic_name})
-  #phi_add_test(TARGET ${no_intrinsic_name})
-endforeach()
+      phi_add_executable(
+        NAME
+        "PhiCoreUnittestsNoIntrinsics${std}"
+        SOURCES
+        ${TEST_SOURCES}
+        FOLDER
+        "Tests/PhiCore"
+        PRIVATE_LINK_LIBRARIES
+        Phi::InternalProjectOptions
+        Phi::Core
+        Phi::Test
+        PRIVATE_INCLUDE_DIRS
+        "include")
+      target_compile_definitions("PhiCoreUnittestsNoIntrinsics${std}"
+                                 PRIVATE "PHI_CONFIG_NO_INTRINSICS")
+      phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics${std}")
+      target_compile_options("PhiCoreUnittestsNoIntrinsics${std}"
+                             PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
+    endif()
+
+  endforeach()
+
+else()
+
+  phi_add_executable(
+    NAME
+    "PhiCoreUnittests"
+    SOURCES
+    ${TEST_SOURCES}
+    FOLDER
+    "Tests/PhiCore"
+    PRIVATE_LINK_LIBRARIES
+    Phi::InternalProjectOptions
+    Phi::Core
+    Phi::Test
+    PRIVATE_INCLUDE_DIRS
+    "include")
+  phi_enable_static_analyzers("PhiCoreUnittests")
+  phi_add_test(TARGET "PhiCoreUnittests")
+
+  phi_add_executable(
+    NAME
+    "PhiCoreUnittestsNoIntrinsics"
+    SOURCES
+    ${TEST_SOURCES}
+    FOLDER
+    "Tests/PhiCore"
+    PRIVATE_LINK_LIBRARIES
+    Phi::InternalProjectOptions
+    Phi::Core
+    Phi::Test
+    PRIVATE_INCLUDE_DIRS
+    "include")
+  phi_enable_static_analyzers("PhiCoreUnittestsNoIntrinsics")
+  target_compile_definitions("PhiCoreUnittestsNoIntrinsics" PRIVATE "PHI_CONFIG_NO_INTRINSICS")
+  phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics")
+
+endif()

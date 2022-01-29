@@ -8,35 +8,29 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/core/compare_result.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-enum class CompareResult
-{
-    Equal,
-    LessThan,
-    GreaterThan,
-};
-
 template <typename LhsT, typename RhsT>
-PHI_NODISCARD constexpr CompareResult compare(LhsT lhs,
-                                              RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
+PHI_NODISCARD constexpr compare_result compare(LhsT lhs,
+                                               RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
 {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     if (lhs == rhs)
     {
-        return CompareResult::Equal;
+        return compare_result::Equal;
     }
     if (lhs < rhs)
     {
-        return CompareResult::LessThan;
+        return compare_result::LessThan;
     }
 
-    return CompareResult::GreaterThan;
+    return compare_result::GreaterThan;
 #else
-    return lhs == rhs  ? CompareResult::Equal :
-           (lhs < rhs) ? CompareResult::LessThan :
-                         CompareResult::GreaterThan;
+    return (lhs == rhs) ? compare_result::Equal :
+           (lhs < rhs)  ? compare_result::LessThan :
+                          compare_result::GreaterThan;
 #endif
 }
 

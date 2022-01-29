@@ -7,6 +7,8 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/intrinsics/is_enum.hpp"
+#include "phi/compiler_support/intrinsics/is_union.hpp"
 #include "phi/type_traits/copy_cv.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/is_integral.hpp"
@@ -14,16 +16,25 @@
 #include "phi/type_traits/make_safe.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/remove_cv.hpp"
+#include "phi/type_traits/true_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
+#if PHI_SUPPORTS_IS_ENUM() || PHI_SUPPORTS_IS_UNION()
     template <typename TypeT, bool = is_integral<TypeT>::value || is_enum<TypeT>::value>
     struct make_unsigned_impl_unsafe
     {
         using type = TypeT;
     };
+#else
+    template <typename TypeT, bool = true_t<>::value>
+    struct make_unsigned_impl_unsafe
+    {
+        using type = TypeT;
+    };
+#endif
 
     template <>
     struct make_unsigned_impl_unsafe<bool, true>

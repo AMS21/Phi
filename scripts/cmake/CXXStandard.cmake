@@ -145,8 +145,14 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12")
   endforeach()
 endif()
 
+# Don't trust what CMake says about emscriptens C++-23 support
+if(DEFINED PHI_PLATFORM_EMSCRIPTEN)
+  unset(CMAKE_CXX23_STANDARD_COMPILE_OPTION)
+  unset(CMAKE_CXX23_EXTENSION_COMPILE_OPTION)
+endif()
+
 # C++-23 Flags were introduced in CMake 3.20
-if(${CMAKE_VERSION} VERSION_LESS "3.20")
+if(${CMAKE_VERSION} VERSION_LESS "3.20" OR DEFINED PHI_PLATFORM_EMSCRIPTEN)
   set(phi_known_cxx23_flags "-std=c++23" "-std=c++2b" "-std:c++23" "-std:c++latest" "-Qstd=c++23")
   set(phi_known_cxx23_ext_flags "-std=gnu++23" "-std=gnu++2b")
 

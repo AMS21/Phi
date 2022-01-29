@@ -1103,3 +1103,6 @@ MigrationBackup/
 
 # CodeLite
 .codelite/
+
+# Generated files
+libs/PhiCore/include/phi/generated/

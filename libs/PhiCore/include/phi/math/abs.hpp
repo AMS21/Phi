@@ -8,12 +8,12 @@
 #endif
 
 #include "phi/compiler_support/compiler.hpp"
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/is_floating_point.hpp"
@@ -23,6 +23,13 @@
 #include "phi/type_traits/to_unsafe.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+#else
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#endif
 
 /// \cond detail
 namespace detail
@@ -80,6 +87,8 @@ namespace detail
     }
 } // namespace detail
 /// \endcond
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 /*!
  * \brief Calculates the absolute value of a given number

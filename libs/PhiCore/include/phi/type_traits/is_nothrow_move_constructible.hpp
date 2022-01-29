@@ -8,13 +8,25 @@
 #endif
 
 #include "phi/type_traits/add_rvalue_reference.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_nothrow_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+#    define PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 1
+#else
+#    define PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 0
+#endif
+
 template <typename TypeT>
 struct is_nothrow_move_constructible
     : public is_nothrow_constructible<TypeT, add_rvalue_reference_t<TypeT>>
+{};
+
+template <typename TypeT>
+struct is_not_nothrow_move_constructible
+    : public bool_constant<!is_nothrow_move_constructible<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -22,6 +34,10 @@ struct is_nothrow_move_constructible
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_move_constructible_v =
         is_nothrow_move_constructible<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_move_constructible_v =
+        is_not_nothrow_move_constructible<TypeT>::value;
 
 #endif
 

@@ -15,6 +15,8 @@
 
 #    include "phi/compiler_support/warning.hpp"
 
+#    define PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -49,6 +51,12 @@ DETAIL_PHI_END_NAMESPACE()
 #    include "phi/type_traits/is_abstract.hpp"
 #    include "phi/type_traits/is_complete.hpp"
 #    include <utility>
+
+#    if PHI_HAS_WORKING_IS_ABSTRACT()
+#        define PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE() 0
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

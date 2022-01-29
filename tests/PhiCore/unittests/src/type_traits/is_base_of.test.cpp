@@ -3,25 +3,45 @@
 #include <phi/type_traits/is_base_of.hpp>
 #include <type_traits>
 
+// NOTE: emscripten before 1.39.0 have problems with incomplete unions
+
 template <typename T, typename U>
 void test_is_base_of_impl()
 {
+#if PHI_HAS_WORKING_IS_BASE_OF()
     STATIC_REQUIRE(phi::is_base_of<T, U>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_base_of<T, U>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_base_of_v<T, U>);
     STATIC_REQUIRE_FALSE(phi::is_not_base_of_v<T, U>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_base_of<T, U>::value);
+#endif
+}
+
+template <typename T, typename U>
+void test_is_not_base_of_impl()
+{
+#if PHI_HAS_WORKING_IS_BASE_OF()
+    STATIC_REQUIRE_FALSE(phi::is_base_of<T, U>::value);
+    STATIC_REQUIRE(phi::is_not_base_of<T, U>::value);
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
+    STATIC_REQUIRE(phi::is_not_base_of_v<T, U>);
+#    endif
+
+    // Standard compatibility
+    STATIC_REQUIRE_FALSE(std::is_base_of<T, U>::value);
+#endif
 }
 
 template <typename T, typename U>
 void test_is_base_of()
 {
-    // is_base_of
     test_is_base_of_impl<T, U>();
     test_is_base_of_impl<T, const U>();
     test_is_base_of_impl<T, volatile U>();
@@ -46,16 +66,25 @@ void test_is_base_of()
 template <typename T, typename U>
 void test_is_not_base_of()
 {
-    STATIC_REQUIRE_FALSE(phi::is_base_of<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_base_of<T, U>::value);
+    test_is_not_base_of_impl<T, U>();
+    test_is_not_base_of_impl<T, const U>();
+    test_is_not_base_of_impl<T, volatile U>();
+    test_is_not_base_of_impl<T, const volatile U>();
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_base_of_v<T, U>);
-#endif
+    test_is_not_base_of_impl<const T, U>();
+    test_is_not_base_of_impl<const T, const U>();
+    test_is_not_base_of_impl<const T, volatile U>();
+    test_is_not_base_of_impl<const T, const volatile U>();
 
-    // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_base_of<T, U>::value);
+    test_is_not_base_of_impl<volatile T, U>();
+    test_is_not_base_of_impl<volatile T, const U>();
+    test_is_not_base_of_impl<volatile T, volatile U>();
+    test_is_not_base_of_impl<volatile T, const volatile U>();
+
+    test_is_not_base_of_impl<const volatile T, U>();
+    test_is_not_base_of_impl<const volatile T, const U>();
+    test_is_not_base_of_impl<const volatile T, volatile U>();
+    test_is_not_base_of_impl<const volatile T, const volatile U>();
 }
 
 struct B
@@ -117,7 +146,9 @@ TEST_CASE("is_base_of")
     test_is_not_base_of<U1, B1>();
     test_is_not_base_of<U1, B2>();
     test_is_not_base_of<U1, D>();
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     test_is_not_base_of<U0, I0>();
+#endif
     test_is_not_base_of<U1, I1>();
     test_is_not_base_of<U0, U1>();
     test_is_not_base_of<U0, int>();
@@ -126,17 +157,23 @@ TEST_CASE("is_base_of")
     test_is_not_base_of<I1, int>();
 
     // A union never has base classes (including incomplete types)
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     test_is_not_base_of<B, U0>();
     test_is_not_base_of<B1, U0>();
     test_is_not_base_of<B2, U0>();
     test_is_not_base_of<D, U0>();
+#endif
     test_is_not_base_of<B, U1>();
     test_is_not_base_of<B1, U1>();
     test_is_not_base_of<B2, U1>();
     test_is_not_base_of<D, U1>();
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     test_is_not_base_of<I0, U0>();
+#endif
     test_is_not_base_of<I1, U1>();
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     test_is_not_base_of<U1, U0>();
+#endif
     test_is_not_base_of<int, U0>();
     test_is_not_base_of<int, U1>();
     test_is_not_base_of<int, I0>();

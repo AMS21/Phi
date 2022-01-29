@@ -33,6 +33,8 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "phi/algorithm/swap.hpp"
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/type_traits/enable_if.hpp"
@@ -92,6 +94,11 @@ public:
         return m_Value;
     }
 
+    PHI_EXTENDED_CONSTEXPR void swap(boolean& other) noexcept
+    {
+        phi::swap(m_Value, other.m_Value);
+    }
+
 private:
     bool m_Value; /// The Wrapped bool value
 };
@@ -148,6 +155,11 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
     return stream << static_cast<bool>(value);
 }
 
+PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(boolean& lhs, boolean& rhs) noexcept
+{
+    lhs.swap(rhs);
+}
+
 DETAIL_PHI_END_NAMESPACE()
 
 namespace std
@@ -163,7 +175,7 @@ namespace std
     };
 
     template <>
-    struct numeric_limits<phi::boolean> : std::numeric_limits<bool>
+    struct numeric_limits<phi::boolean> : public std::numeric_limits<bool>
     {};
 } // namespace std
 

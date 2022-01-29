@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
 #    define PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(obj)       __has_unique_object_representations(obj)

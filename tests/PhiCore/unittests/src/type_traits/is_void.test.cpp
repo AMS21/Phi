@@ -39,9 +39,13 @@ void test_is_void_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
     STATIC_REQUIRE(phi::is_fundamental<T>::value);
@@ -52,12 +56,18 @@ void test_is_void_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_void<T>::value);
 
     STATIC_REQUIRE_FALSE(phi::is_not_void<T>::value);
@@ -66,9 +76,13 @@ void test_is_void_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
     STATIC_REQUIRE(phi::is_fundamental_v<T>);
@@ -79,12 +93,18 @@ void test_is_void_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_void_v<T>);
 
     STATIC_REQUIRE_FALSE(phi::is_not_void_v<T>);
@@ -220,30 +240,40 @@ TEST_CASE("is_void")
     test_is_not_void<Template<void>>();
     test_is_not_void<Template<int>>();
     test_is_not_void<Template<Class>>();
-    test_is_not_void<Template<incomplete_type>>();
+    test_is_not_void<Template<IncompleteType>>();
     test_is_not_void<VariadicTemplate<>>();
     test_is_not_void<VariadicTemplate<void>>();
     test_is_not_void<VariadicTemplate<int>>();
     test_is_not_void<VariadicTemplate<Class>>();
-    test_is_not_void<VariadicTemplate<incomplete_type>>();
+    test_is_not_void<VariadicTemplate<IncompleteType>>();
     test_is_not_void<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_void<PublicDerviedFromTemplate<Base>>();
-    test_is_not_void<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_void<PublicDerviedFromTemplate<Class>>();
-    test_is_not_void<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_void<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_void<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_void<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_void<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_void<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_void<PublicDerivedFromTemplate<Base>>();
+    test_is_not_void<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_void<PublicDerivedFromTemplate<Class>>();
+    test_is_not_void<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_void<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_void<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_void<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_void<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_void<ProtectedDerivedFromTemplate<Class>>();
+    test_is_not_void<VirtualDerivedFromTemplate<Base>>();
+    test_is_not_void<VirtualDerivedFromTemplate<Derived>>();
+    test_is_not_void<VirtualDerivedFromTemplate<Class>>();
     test_is_not_void<Union>();
     test_is_not_void<NonEmptyUnion>();
+    test_is_not_void<NonTrivialUnion>();
     test_is_not_void<Empty>();
     test_is_not_void<NotEmpty>();
-    test_is_not_void<bit_zero>();
-    test_is_not_void<bit_one>();
+    test_is_not_void<NonTrivial>();
+    test_is_not_void<BitZero>();
+    test_is_not_void<BitOne>();
     test_is_not_void<Base>();
     test_is_not_void<Derived>();
+    test_is_not_void<NotEmptyBase>();
+    test_is_not_void<EmptyBase>();
+    test_is_not_void<VirtualBase>();
+    test_is_not_void<Polymorphic>();
+    test_is_not_void<DerivedPolymorphic>();
     test_is_not_void<Abstract>();
     test_is_not_void<PublicAbstract>();
     test_is_not_void<PrivateAbstract>();
@@ -251,8 +281,12 @@ TEST_CASE("is_void")
     test_is_not_void<AbstractTemplate<int>>();
     test_is_not_void<AbstractTemplate<double>>();
     test_is_not_void<AbstractTemplate<Class>>();
-    test_is_not_void<AbstractTemplate<incomplete_type>>();
+    test_is_not_void<AbstractTemplate<IncompleteType>>();
+    test_is_not_void<PublicAbstractDeletedDestructor>();
+    test_is_not_void<ProtectedAbstractDeletedDestructor>();
+    test_is_not_void<PrivateAbstractDeletedDestructor>();
     test_is_not_void<Final>();
+    test_is_not_void<FinalDerived>();
     test_is_not_void<PublicDestructor>();
     test_is_not_void<ProtectedDestructor>();
     test_is_not_void<PrivateDestructor>();
@@ -268,6 +302,75 @@ TEST_CASE("is_void")
     test_is_not_void<DeletedVirtualPublicDestructor>();
     test_is_not_void<DeletedVirtualProtectedDestructor>();
     test_is_not_void<DeletedVirtualPrivateDestructor>();
+    test_is_not_void<ExplicitClass>();
+    test_is_not_void<NothrowExplicitClass>();
+    test_is_not_void<ThrowExplicitClass>();
+    test_is_not_void<ThrowDefaultClass>();
+    test_is_not_void<ThrowCopyConsClass>();
+    test_is_not_void<ThrowMoveConsClass>();
+    test_is_not_void<ThrowDestructor>();
+    test_is_not_void<NoexceptExplicitClass>();
+    test_is_not_void<ExceptExplicitClass>();
+    test_is_not_void<NoexceptDefaultClass>();
+    test_is_not_void<ExceptDefaultClass>();
+    test_is_not_void<NoexceptCopyConsClass>();
+    test_is_not_void<ExceptCopyConsClass>();
+    test_is_not_void<NoexceptMoveConsClass>();
+    test_is_not_void<ExceptMoveConsClass>();
+    test_is_not_void<NoexceptCopyAssignClass>();
+    test_is_not_void<ExceptCopyAssignClass>();
+    test_is_not_void<NoexceptMoveAssignClass>();
+    test_is_not_void<ExceptMoveAssignClass>();
+    test_is_not_void<DeletedCopyAssignClass>();
+    test_is_not_void<DeletedMoveAssignClass>();
+    test_is_not_void<NoexceptMoveConsNoexceptMoveAssignClass>();
+    test_is_not_void<ExceptMoveConsNoexceptMoveAssignClass>();
+    test_is_not_void<NoexceptMoveConsExceptMoveAssignClass>();
+    test_is_not_void<ExceptMoveConsExceptMoveAssignClass>();
+    test_is_not_void<ImplicitTo<int>>();
+    test_is_not_void<ImplicitTo<float>>();
+    test_is_not_void<ImplicitTo<Class>>();
+    test_is_not_void<DeletedImplicitTo<int>>();
+    test_is_not_void<DeletedImplicitTo<float>>();
+    test_is_not_void<DeletedImplicitTo<Class>>();
+    test_is_not_void<ExplicitTo<int>>();
+    test_is_not_void<ExplicitTo<float>>();
+    test_is_not_void<ExplicitTo<Class>>();
+    test_is_not_void<DeletedExplicitTo<int>>();
+    test_is_not_void<DeletedExplicitTo<float>>();
+    test_is_not_void<DeletedExplicitTo<Class>>();
+    test_is_not_void<Ellipsis>();
+    test_is_not_void<DeletedEllipsis>();
+    test_is_not_void<CopyConsOnlyType>();
+    test_is_not_void<MoveConsOnlyType>();
+    test_is_not_void<OverloadedOperators>();
+    test_is_not_void<PublicIntMember>();
+    test_is_not_void<ProtectedIntMember>();
+    test_is_not_void<PrivateIntMember>();
+    test_is_not_void<PublicStaticIntMember>();
+    test_is_not_void<ProtectedStaticIntMember>();
+    test_is_not_void<PrivateStaticIntMember>();
+    test_is_not_void<PublicTemplateMember<int>>();
+    test_is_not_void<PublicTemplateMember<float>>();
+    test_is_not_void<PublicTemplateMember<Class>>();
+    test_is_not_void<ProtectedTemplateMember<int>>();
+    test_is_not_void<ProtectedTemplateMember<float>>();
+    test_is_not_void<ProtectedTemplateMember<Class>>();
+    test_is_not_void<PrivateTemplateMember<int>>();
+    test_is_not_void<PrivateTemplateMember<float>>();
+    test_is_not_void<PrivateTemplateMember<Class>>();
+    test_is_not_void<PublicStaticTemplateMember<int>>();
+    test_is_not_void<PublicStaticTemplateMember<float>>();
+    test_is_not_void<PublicStaticTemplateMember<Class>>();
+    test_is_not_void<ProtectedStaticTemplateMember<int>>();
+    test_is_not_void<ProtectedStaticTemplateMember<float>>();
+    test_is_not_void<ProtectedStaticTemplateMember<Class>>();
+    test_is_not_void<PrivateStaticTemplateMember<int>>();
+    test_is_not_void<PrivateStaticTemplateMember<float>>();
+    test_is_not_void<PrivateStaticTemplateMember<Class>>();
+    test_is_not_void<CannotInstantiate<int>>();
+    test_is_not_void<CannotInstantiate<float>>();
+    test_is_not_void<CannotInstantiate<Class>>();
     test_is_not_void<Enum>();
     test_is_not_void<EnumSigned>();
     test_is_not_void<EnumUnsigned>();
@@ -277,17 +380,25 @@ TEST_CASE("is_void")
     test_is_not_void<FunctionPtr>();
     test_is_not_void<MemberObjectPtr>();
     test_is_not_void<MemberFunctionPtr>();
-    test_is_not_void<incomplete_type>();
+    test_is_not_void<LambdaType>();
+    test_is_not_void<LambdaNoexceptType>();
+    test_is_not_void<LambdaThrowsType>();
+    test_is_not_void<IncompleteType>();
     test_is_not_void<IncompleteTemplate<void>>();
     test_is_not_void<IncompleteTemplate<int>>();
     test_is_not_void<IncompleteTemplate<Class>>();
-    test_is_not_void<IncompleteTemplate<incomplete_type>>();
+    test_is_not_void<IncompleteTemplate<IncompleteType>>();
     test_is_not_void<IncompleteVariadicTemplate<>>();
     test_is_not_void<IncompleteVariadicTemplate<void>>();
     test_is_not_void<IncompleteVariadicTemplate<int>>();
     test_is_not_void<IncompleteVariadicTemplate<Class>>();
-    test_is_not_void<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_void<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_void<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
+    test_is_not_void<IncompleteUnion>();
+    test_is_not_void<IncompleteEnumSigned>();
+    test_is_not_void<IncompleteEnumUnsigned>();
+    test_is_not_void<IncompleteEnumClass>();
+    test_is_not_void<IncompleteEnumStruct>();
     test_is_not_void<int Class::*>();
     test_is_not_void<float Class::*>();
     test_is_not_void<void * Class::*>();
@@ -327,9 +438,16 @@ TEST_CASE("is_void")
     test_is_not_void<int Class::*const volatile&&>();
     test_is_not_void<float Class::*const volatile&&>();
     test_is_not_void<void * Class::*const volatile&&>();
+    test_is_not_void<NonDefaultConstructible>();
+    test_is_not_void<NonCopyConstructible>();
+    test_is_not_void<NonMoveConstructible>();
+    test_is_not_void<NonCopyAssignable>();
+    test_is_not_void<NonMoveAssignable>();
+    test_is_not_void<NonAssignable>();
     test_is_not_void<NonCopyable>();
     test_is_not_void<NonMoveable>();
     test_is_not_void<NonConstructible>();
+    test_is_not_void<NonDestructible>();
     test_is_not_void<Tracked>();
     test_is_not_void<TrapConstructible>();
     test_is_not_void<TrapImplicitConversion>();

@@ -15,6 +15,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+#define PHI_HAS_WORKING_IS_COPY_CONSTRUCTIBLE() PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
+
 template <typename TypeT>
 struct is_copy_constructible
     : public is_constructible<TypeT, add_lvalue_reference_t<add_const_t<TypeT>>>

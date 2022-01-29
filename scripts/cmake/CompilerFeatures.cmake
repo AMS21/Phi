@@ -304,6 +304,8 @@ phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap64(1); }"
                               PHI_HAS_INTRINSIC_BUILTIN_BSWAP64)
 phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap128(1); }"
                               PHI_HAS_INTRINSIC_BUILTIN_BSWAP128)
+phi_check_cxx_source_compiles("int main() { return __builtin_isnan(0.0); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_ISNAN)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
@@ -351,6 +353,14 @@ phi_check_cxx_source_compiles("__attribute__ ((noreturn)) void fatal (); int mai
 phi_check_cxx_source_compiles("__declspec(noreturn) void f(); int main() {}"
                               PHI_HAS_EXTENSION_DECLSPEC_NORETURN)
 phi_check_cxx_source_compiles("int main() { return __COUNTER__; }" PHI_HAS_EXTENSION_COUNTER)
+phi_check_cxx_source_compiles("int main() { __int8 i; }" PHI_HAS_EXTENSION_INT8)
+phi_check_cxx_source_compiles("int main() { __int16 i; }" PHI_HAS_EXTENSION_INT16)
+phi_check_cxx_source_compiles("int main() { __int32 i; }" PHI_HAS_EXTENSION_INT32)
+phi_check_cxx_source_compiles("int main() { __int64 i; }" PHI_HAS_EXTENSION_INT64)
+phi_check_cxx_source_compiles("int main() { __int128 i; }" PHI_HAS_EXTENSION_INT128)
+phi_check_cxx_source_compiles("int main() { _Float16 f; }" PHI_HAS_EXTENSION_FLOAT16)
+phi_check_cxx_source_compiles("int main() { __float128 f; }" PHI_HAS_EXTENSION_FLOAT128)
+phi_check_cxx_source_compiles("int main() { __fp16 f; }" PHI_HAS_EXTENSION_FP16)
 
 # Bugs
 phi_check_cxx_source_compiles(
@@ -372,9 +382,10 @@ check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT BUILTIN_TYPES_ONLY LANGUAGE
 check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 
-# configure file
+set(GENERATED_FILES_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated_files/include")
+
+# configure files
 configure_file("scripts/cmake/features.hpp.in"
-               "generated_files/include/phi/compiler_support/features.hpp")
+               "${GENERATED_FILES_DIR}/phi/generated/compiler_support/features.hpp")
 configure_file("scripts/cmake/type_system.hpp.in"
-               "generated_files/include/phi/compiler_support/type_system.hpp")
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated_files/include)
+               "${GENERATED_FILES_DIR}/phi/generated/compiler_support/type_system.hpp")

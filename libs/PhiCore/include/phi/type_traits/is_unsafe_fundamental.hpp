@@ -21,10 +21,18 @@ struct is_unsafe_fundamental
                            is_unsafe_arithmetic<TypeT>::value>
 {};
 
+template <typename TypeT>
+struct is_not_unsafe_fundamental : public bool_constant<!is_unsafe_fundamental<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_fundamental_v = is_unsafe_fundamental<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_fundamental_v =
+        is_not_unsafe_fundamental<TypeT>::value;
 
 #endif
 

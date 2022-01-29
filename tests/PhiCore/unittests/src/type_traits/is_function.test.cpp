@@ -38,9 +38,13 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
     STATIC_REQUIRE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point<T>::value);
     STATIC_REQUIRE(phi::is_function<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_fundamental<T>::value);
@@ -51,12 +55,18 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
     STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
 
     STATIC_REQUIRE_FALSE(phi::is_not_function<T>::value);
@@ -65,9 +75,13 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
     STATIC_REQUIRE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
     STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point_v<T>);
     STATIC_REQUIRE(phi::is_function_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_fundamental_v<T>);
@@ -78,12 +92,18 @@ void test_is_function_impl()
     STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
     STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_SCALAR()
     STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 
     STATIC_REQUIRE_FALSE(phi::is_not_function_v<T>);
@@ -94,7 +114,7 @@ void test_is_function_impl()
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_function_v<T>);
 #endif
-};
+}
 
 template <typename T>
 void test_is_function()
@@ -130,7 +150,7 @@ void test_is_not_function()
     test_is_not_function_impl<const T>();
     test_is_not_function_impl<volatile T>();
     test_is_not_function_impl<const volatile T>();
-};
+}
 
 void f()
 {}
@@ -243,28 +263,28 @@ TEST_CASE("is_function")
     test_is_not_function<Template<void>>();
     test_is_not_function<Template<int>>();
     test_is_not_function<Template<Class>>();
-    test_is_not_function<Template<incomplete_type>>();
+    test_is_not_function<Template<IncompleteType>>();
     test_is_not_function<VariadicTemplate<>>();
     test_is_not_function<VariadicTemplate<void>>();
     test_is_not_function<VariadicTemplate<int>>();
     test_is_not_function<VariadicTemplate<Class>>();
-    test_is_not_function<VariadicTemplate<incomplete_type>>();
+    test_is_not_function<VariadicTemplate<IncompleteType>>();
     test_is_not_function<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_function<PublicDerviedFromTemplate<Base>>();
-    test_is_not_function<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_function<PublicDerviedFromTemplate<Class>>();
-    test_is_not_function<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_function<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_function<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_function<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_function<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_function<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_function<PublicDerivedFromTemplate<Base>>();
+    test_is_not_function<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_function<PublicDerivedFromTemplate<Class>>();
+    test_is_not_function<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_function<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_function<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_function<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_function<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_function<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_function<Union>();
     test_is_not_function<NonEmptyUnion>();
     test_is_not_function<Empty>();
     test_is_not_function<NotEmpty>();
-    test_is_not_function<bit_zero>();
-    test_is_not_function<bit_one>();
+    test_is_not_function<BitZero>();
+    test_is_not_function<BitOne>();
     test_is_not_function<Base>();
     test_is_not_function<Derived>();
     test_is_not_function<Abstract>();
@@ -274,7 +294,7 @@ TEST_CASE("is_function")
     test_is_not_function<AbstractTemplate<int>>();
     test_is_not_function<AbstractTemplate<double>>();
     test_is_not_function<AbstractTemplate<Class>>();
-    test_is_not_function<AbstractTemplate<incomplete_type>>();
+    test_is_not_function<AbstractTemplate<IncompleteType>>();
     test_is_not_function<Final>();
     test_is_not_function<PublicDestructor>();
     test_is_not_function<ProtectedDestructor>();
@@ -301,16 +321,16 @@ TEST_CASE("is_function")
     test_is_not_function<FunctionPtr>();
     test_is_not_function<MemberObjectPtr>();
     test_is_not_function<MemberFunctionPtr>();
-    test_is_not_function<incomplete_type>();
+    test_is_not_function<IncompleteType>();
     test_is_not_function<IncompleteTemplate<void>>();
     test_is_not_function<IncompleteTemplate<int>>();
     test_is_not_function<IncompleteTemplate<Class>>();
-    test_is_not_function<IncompleteTemplate<incomplete_type>>();
+    test_is_not_function<IncompleteTemplate<IncompleteType>>();
     test_is_not_function<IncompleteVariadicTemplate<>>();
     test_is_not_function<IncompleteVariadicTemplate<void>>();
     test_is_not_function<IncompleteVariadicTemplate<int>>();
     test_is_not_function<IncompleteVariadicTemplate<Class>>();
-    test_is_not_function<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_function<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_function<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_function<int Class::*>();
     test_is_not_function<float Class::*>();

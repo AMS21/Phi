@@ -13,6 +13,8 @@
 
 #if PHI_SUPPORTS_IS_UNION()
 
+#    define PHI_HAS_WORKING_IS_UNION() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -37,12 +39,15 @@ PHI_INLINE_VARIABLE constexpr bool is_not_union_v = !PHI_IS_UNION(TypeT);
 
 #    include "phi/type_traits/false_t.hpp"
 
+#    define PHI_HAS_WORKING_IS_UNION() 0
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_union : public false_type
 {
-    static_assert(false_t<TypeT>, "phi::is_union requires compiler support to properly work.");
+    static_assert(false_t<TypeT>::value,
+                  "phi::is_union requires compiler support to properly work.");
 };
 
 template <typename TypeT>

@@ -15,6 +15,7 @@ jobs:
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 
@@ -109,22 +110,23 @@ jobs:
         uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./build-clang/coverage.info
+          file: ./build-clang/coverage.profdata
           flags: linux,clang,${{ matrix.build_type }}
           name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
   macos:
-    runs-on: macos-latest
+    runs-on: macos-11
     env:
-      GCC_VERSION: "10"
-      XCODE_VERSION: "12.4"
+      GCC_VERSION: "11"
+      XCODE_VERSION: "13.2"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
       CTEST_PARALLEL_LEVEL: "2"
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 
@@ -220,6 +222,7 @@ jobs:
       CTEST_OUTPUT_ON_FAILURE: "ON"
 
     strategy:
+      fail-fast: false
       matrix:
         build_type: ["Debug", "RelWithDebInfo", "Release"]
 

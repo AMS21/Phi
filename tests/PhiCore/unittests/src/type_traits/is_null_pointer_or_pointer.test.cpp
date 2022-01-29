@@ -4,7 +4,9 @@
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
+#include <phi/type_traits/is_null_pointer.hpp>
 #include <phi/type_traits/is_null_pointer_or_pointer.hpp>
+#include <phi/type_traits/is_pointer.hpp>
 #include <cstddef> // std::nullptr_t
 #include <type_traits>
 #include <vector>
@@ -14,10 +16,12 @@ void test_is_null_pointer_or_pointer_impl()
 {
     STATIC_REQUIRE(phi::is_null_pointer_or_pointer<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_null_pointer_or_pointer<T>::value);
+    STATIC_REQUIRE(phi::is_null_pointer<T>::value || phi::is_pointer<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_null_pointer_or_pointer_v<T>);
+    STATIC_REQUIRE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
 
     // Standard compatibility
@@ -43,10 +47,12 @@ void test_is_not_null_pointer_or_pointer_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_or_pointer<T>::value);
     STATIC_REQUIRE(phi::is_not_null_pointer_or_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value || phi::is_pointer<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE(phi::is_not_null_pointer_or_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
 
     // Standard compatibility
@@ -162,28 +168,28 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<Template<void>>();
     test_is_not_null_pointer_or_pointer<Template<int>>();
     test_is_not_null_pointer_or_pointer<Template<Class>>();
-    test_is_not_null_pointer_or_pointer<Template<incomplete_type>>();
+    test_is_not_null_pointer_or_pointer<Template<IncompleteType>>();
     test_is_not_null_pointer_or_pointer<VariadicTemplate<>>();
     test_is_not_null_pointer_or_pointer<VariadicTemplate<void>>();
     test_is_not_null_pointer_or_pointer<VariadicTemplate<int>>();
     test_is_not_null_pointer_or_pointer<VariadicTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<VariadicTemplate<incomplete_type>>();
+    test_is_not_null_pointer_or_pointer<VariadicTemplate<IncompleteType>>();
     test_is_not_null_pointer_or_pointer<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_null_pointer_or_pointer<PublicDerviedFromTemplate<Base>>();
-    test_is_not_null_pointer_or_pointer<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_null_pointer_or_pointer<PublicDerviedFromTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_null_pointer_or_pointer<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_null_pointer_or_pointer<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_null_pointer_or_pointer<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_null_pointer_or_pointer<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_null_pointer_or_pointer<PublicDerivedFromTemplate<Base>>();
+    test_is_not_null_pointer_or_pointer<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_null_pointer_or_pointer<PublicDerivedFromTemplate<Class>>();
+    test_is_not_null_pointer_or_pointer<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_null_pointer_or_pointer<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_null_pointer_or_pointer<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_null_pointer_or_pointer<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_null_pointer_or_pointer<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_null_pointer_or_pointer<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_null_pointer_or_pointer<Union>();
     test_is_not_null_pointer_or_pointer<NonEmptyUnion>();
     test_is_not_null_pointer_or_pointer<Empty>();
     test_is_not_null_pointer_or_pointer<NotEmpty>();
-    test_is_not_null_pointer_or_pointer<bit_zero>();
-    test_is_not_null_pointer_or_pointer<bit_one>();
+    test_is_not_null_pointer_or_pointer<BitZero>();
+    test_is_not_null_pointer_or_pointer<BitOne>();
     test_is_not_null_pointer_or_pointer<Base>();
     test_is_not_null_pointer_or_pointer<Derived>();
     test_is_not_null_pointer_or_pointer<Abstract>();
@@ -193,7 +199,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<AbstractTemplate<int>>();
     test_is_not_null_pointer_or_pointer<AbstractTemplate<double>>();
     test_is_not_null_pointer_or_pointer<AbstractTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<AbstractTemplate<incomplete_type>>();
+    test_is_not_null_pointer_or_pointer<AbstractTemplate<IncompleteType>>();
     test_is_not_null_pointer_or_pointer<Final>();
     test_is_not_null_pointer_or_pointer<PublicDestructor>();
     test_is_not_null_pointer_or_pointer<ProtectedDestructor>();
@@ -220,16 +226,16 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_null_pointer_or_pointer<FunctionPtr>();
     test_is_not_null_pointer_or_pointer<MemberObjectPtr>();
     test_is_not_null_pointer_or_pointer<MemberFunctionPtr>();
-    test_is_not_null_pointer_or_pointer<incomplete_type>();
+    test_is_not_null_pointer_or_pointer<IncompleteType>();
     test_is_not_null_pointer_or_pointer<IncompleteTemplate<void>>();
     test_is_not_null_pointer_or_pointer<IncompleteTemplate<int>>();
     test_is_not_null_pointer_or_pointer<IncompleteTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<IncompleteTemplate<incomplete_type>>();
+    test_is_not_null_pointer_or_pointer<IncompleteTemplate<IncompleteType>>();
     test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<>>();
     test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<void>>();
     test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<int>>();
     test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<Class>>();
-    test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_null_pointer_or_pointer<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_null_pointer_or_pointer<
             IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_null_pointer_or_pointer<int Class::*>();

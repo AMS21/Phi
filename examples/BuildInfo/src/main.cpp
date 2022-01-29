@@ -16,13 +16,23 @@
     }                                                                                              \
     PHI_END_MACRO()
 
+#define PRINT_VAL(text, val)                                                                       \
+    PHI_BEGIN_MACRO()                                                                              \
+    std::cout << text << ": " << val << '\n';                                                      \
+    PHI_END_MACRO()
+
 int main()
 {
     // Compiler
     std::cout << "Compiler info\n";
 
+    PRINT_VAL("Compiler name", PHI_COMPILER_NAME());
+    PRINT_VAL("Compiler version", PHI_CURRENT_COMPILER_VERSION_STR());
+
     PRINT_COND("Compiler is gcc", PHI_COMPILER_IS(GCC));
     PRINT_COND("Compiler is clang", PHI_COMPILER_IS(CLANG));
+    PRINT_COND("Compiler is appleclang", PHI_COMPILER_IS(APPLECLANG));
+    PRINT_COND("Compiler is winclang", PHI_COMPILER_IS(WINCLANG));
     PRINT_COND("Compiler is MSVC", PHI_COMPILER_IS(MSVC));
     PRINT_COND("Compiler is ICC", PHI_COMPILER_IS(ICC));
     PRINT_COND("Compiler is emcc", PHI_COMPILER_IS(EMCC));
@@ -33,6 +43,8 @@ int main()
 
     // CPlusPlus
     std::cout << "Enabled C++ standards\n";
+    PRINT_VAL("PHI_CPP_STANDARD", PHI_CPP_STANDARD());
+    PRINT_VAL("PHI_CPLUSPLUS_LATEST", PHI_CPLUSPLUS_LATEST());
 
     PRINT_COND("C++-98 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(98));
     PRINT_COND("C++-11 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(11));

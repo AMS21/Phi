@@ -15,6 +15,8 @@
 
 #    include "phi/type_traits/remove_cv.hpp"
 
+#    define PHI_HAS_WORKING_IS_AGGREGATE() 1
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -38,6 +40,8 @@ PHI_INLINE_VARIABLE constexpr bool is_not_aggregate_v = !PHI_IS_AGGREGATE(remove
 #else
 
 #    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_IS_AGGREGATE() 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -9,19 +9,17 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_destructible.hpp"
-#include "phi/core/declval.hpp"
-#include "phi/type_traits/detail/yes_no_type.hpp"
-#include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_function.hpp"
-#include "phi/type_traits/is_reference.hpp"
-#include "phi/type_traits/remove_all_extents.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_DESTRUCTIBLE()
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_destructible : bool_constant<PHI_IS_DESTRUCTIBLE(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_destructible : bool_constant<!PHI_IS_DESTRUCTIBLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -29,9 +27,21 @@ struct is_destructible : bool_constant<PHI_IS_DESTRUCTIBLE(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_destructible_v = PHI_IS_DESTRUCTIBLE(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_destructible_v = !PHI_IS_DESTRUCTIBLE(TypeT);
+
 #    endif
 
 #else
+
+#    include "phi/core/declval.hpp"
+#    include "phi/type_traits/detail/yes_no_type.hpp"
+#    include "phi/type_traits/integral_constant.hpp"
+#    include "phi/type_traits/is_function.hpp"
+#    include "phi/type_traits/is_reference.hpp"
+#    include "phi/type_traits/remove_all_extents.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
@@ -92,10 +102,17 @@ template <>
 struct is_destructible<void> : public false_type
 {};
 
+template <typename TypeT>
+struct is_not_destructible : public bool_constant<!is_destructible<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_destructible_v = is_destructible<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_destructible_v = is_not_destructible<TypeT>::value;
 
 #    endif
 

@@ -7,17 +7,100 @@
 #include <phi/core/integer.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
+#include <phi/type_traits/is_arithmetic.hpp>
+#include <phi/type_traits/is_array.hpp>
+#include <phi/type_traits/is_bool.hpp>
+#include <phi/type_traits/is_class.hpp>
+#include <phi/type_traits/is_compound.hpp>
+#include <phi/type_traits/is_enum.hpp>
+#include <phi/type_traits/is_function.hpp>
+#include <phi/type_traits/is_fundamental.hpp>
+#include <phi/type_traits/is_integer.hpp>
+#include <phi/type_traits/is_lvalue_reference.hpp>
+#include <phi/type_traits/is_member_function_pointer.hpp>
+#include <phi/type_traits/is_member_object_pointer.hpp>
+#include <phi/type_traits/is_member_pointer.hpp>
+#include <phi/type_traits/is_null_pointer.hpp>
+#include <phi/type_traits/is_object.hpp>
+#include <phi/type_traits/is_pointer.hpp>
+#include <phi/type_traits/is_reference.hpp>
+#include <phi/type_traits/is_rvalue_reference.hpp>
+#include <phi/type_traits/is_scalar.hpp>
+#include <phi/type_traits/is_union.hpp>
+#include <phi/type_traits/is_unsafe_floating_point.hpp>
 #include <phi/type_traits/is_unsafe_integral.hpp>
+#include <phi/type_traits/is_unsafe_scalar.hpp>
+#include <phi/type_traits/is_void.hpp>
 #include <type_traits>
 #include <vector>
 
 template <typename T>
 void test_is_unsafe_integral_impl()
 {
+    STATIC_REQUIRE(phi::is_unsafe_arithmetic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
+#if PHI_HAS_WORKING_IS_CLASS()
+    STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+#endif
+    STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
+    STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+#endif
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+#if PHI_HAS_WORKING_IS_OBJECT()
+    STATIC_REQUIRE(phi::is_object<T>::value);
+#endif
+    STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+#if PHI_HAS_WORKING_IS_UNSAFE_SCALAR()
+    STATIC_REQUIRE(phi::is_unsafe_scalar<T>::value);
+#endif
+#if PHI_HAS_WORKING_IS_UNION()
+    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+#endif
+    STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
+
     STATIC_REQUIRE(phi::is_unsafe_integral<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_unsafe_integral<T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_unsafe_arithmetic_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
+#    if PHI_HAS_WORKING_IS_CLASS()
+    STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+#    endif
+    STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
+#    if PHI_HAS_WORKING_IS_ENUM()
+    STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+#    endif
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_floating_point_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+#    if PHI_HAS_WORKING_IS_OBJECT()
+    STATIC_REQUIRE(phi::is_object_v<T>);
+#    endif
+    STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+#    if PHI_HAS_WORKING_IS_UNSAFE_SCALAR()
+    STATIC_REQUIRE(phi::is_unsafe_scalar_v<T>);
+#    endif
+#    if PHI_HAS_WORKING_IS_UNION()
+    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+#    endif
+    STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+
     STATIC_REQUIRE(phi::is_unsafe_integral_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_unsafe_integral_v<T>);
 #endif
@@ -158,28 +241,28 @@ TEST_CASE("is_unsafe_integral")
     test_is_not_unsafe_integral<Template<void>>();
     test_is_not_unsafe_integral<Template<int>>();
     test_is_not_unsafe_integral<Template<Class>>();
-    test_is_not_unsafe_integral<Template<incomplete_type>>();
+    test_is_not_unsafe_integral<Template<IncompleteType>>();
     test_is_not_unsafe_integral<VariadicTemplate<>>();
     test_is_not_unsafe_integral<VariadicTemplate<void>>();
     test_is_not_unsafe_integral<VariadicTemplate<int>>();
     test_is_not_unsafe_integral<VariadicTemplate<Class>>();
-    test_is_not_unsafe_integral<VariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_integral<VariadicTemplate<IncompleteType>>();
     test_is_not_unsafe_integral<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_unsafe_integral<PublicDerviedFromTemplate<Base>>();
-    test_is_not_unsafe_integral<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_unsafe_integral<PublicDerviedFromTemplate<Class>>();
-    test_is_not_unsafe_integral<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_unsafe_integral<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_unsafe_integral<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_unsafe_integral<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_unsafe_integral<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_unsafe_integral<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_unsafe_integral<PublicDerivedFromTemplate<Base>>();
+    test_is_not_unsafe_integral<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_unsafe_integral<PublicDerivedFromTemplate<Class>>();
+    test_is_not_unsafe_integral<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_unsafe_integral<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_unsafe_integral<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_unsafe_integral<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_unsafe_integral<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_unsafe_integral<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_unsafe_integral<Union>();
     test_is_not_unsafe_integral<NonEmptyUnion>();
     test_is_not_unsafe_integral<Empty>();
     test_is_not_unsafe_integral<NotEmpty>();
-    test_is_not_unsafe_integral<bit_zero>();
-    test_is_not_unsafe_integral<bit_one>();
+    test_is_not_unsafe_integral<BitZero>();
+    test_is_not_unsafe_integral<BitOne>();
     test_is_not_unsafe_integral<Base>();
     test_is_not_unsafe_integral<Derived>();
     test_is_not_unsafe_integral<Abstract>();
@@ -189,7 +272,7 @@ TEST_CASE("is_unsafe_integral")
     test_is_not_unsafe_integral<AbstractTemplate<int>>();
     test_is_not_unsafe_integral<AbstractTemplate<double>>();
     test_is_not_unsafe_integral<AbstractTemplate<Class>>();
-    test_is_not_unsafe_integral<AbstractTemplate<incomplete_type>>();
+    test_is_not_unsafe_integral<AbstractTemplate<IncompleteType>>();
     test_is_not_unsafe_integral<Final>();
     test_is_not_unsafe_integral<PublicDestructor>();
     test_is_not_unsafe_integral<ProtectedDestructor>();
@@ -216,16 +299,16 @@ TEST_CASE("is_unsafe_integral")
     test_is_not_unsafe_integral<FunctionPtr>();
     test_is_not_unsafe_integral<MemberObjectPtr>();
     test_is_not_unsafe_integral<MemberFunctionPtr>();
-    test_is_not_unsafe_integral<incomplete_type>();
+    test_is_not_unsafe_integral<IncompleteType>();
     test_is_not_unsafe_integral<IncompleteTemplate<void>>();
     test_is_not_unsafe_integral<IncompleteTemplate<int>>();
     test_is_not_unsafe_integral<IncompleteTemplate<Class>>();
-    test_is_not_unsafe_integral<IncompleteTemplate<incomplete_type>>();
+    test_is_not_unsafe_integral<IncompleteTemplate<IncompleteType>>();
     test_is_not_unsafe_integral<IncompleteVariadicTemplate<>>();
     test_is_not_unsafe_integral<IncompleteVariadicTemplate<void>>();
     test_is_not_unsafe_integral<IncompleteVariadicTemplate<int>>();
     test_is_not_unsafe_integral<IncompleteVariadicTemplate<Class>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_integral<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_unsafe_integral<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_unsafe_integral<int Class::*>();
     test_is_not_unsafe_integral<float Class::*>();

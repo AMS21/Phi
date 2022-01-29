@@ -30,10 +30,17 @@ struct is_unsafe_integer
 {};
 // clang-format on
 
+template <typename TypeT>
+struct is_not_unsafe_integer : public bool_constant<!is_unsafe_integer<TypeT>::value>
+{};
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_unsafe_integer_v = is_unsafe_integer<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_integer_v = is_not_unsafe_integer<TypeT>::value;
 
 #endif
 

@@ -14,18 +14,20 @@
 template <typename T>
 void test_is_union_impl()
 {
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE(phi::is_union<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_union<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_union_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_union_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_union<T>::value);
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_union_v<T>);
+#    endif
 #endif
 }
 
@@ -41,18 +43,20 @@ void test_is_union()
 template <typename T>
 void test_is_not_union_impl()
 {
+#if PHI_HAS_WORKING_IS_UNION()
     STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
     STATIC_REQUIRE(phi::is_not_union<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
     STATIC_REQUIRE(phi::is_not_union_v<T>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_union<T>::value);
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_union_v<T>);
+#    endif
 #endif
 }
 
@@ -158,28 +162,28 @@ TEST_CASE("is_union")
     test_is_not_union<Template<void>>();
     test_is_not_union<Template<int>>();
     test_is_not_union<Template<Class>>();
-    test_is_not_union<Template<incomplete_type>>();
+    test_is_not_union<Template<IncompleteType>>();
     test_is_not_union<VariadicTemplate<>>();
     test_is_not_union<VariadicTemplate<void>>();
     test_is_not_union<VariadicTemplate<int>>();
     test_is_not_union<VariadicTemplate<Class>>();
-    test_is_not_union<VariadicTemplate<incomplete_type>>();
+    test_is_not_union<VariadicTemplate<IncompleteType>>();
     test_is_not_union<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_union<PublicDerviedFromTemplate<Base>>();
-    test_is_not_union<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_union<PublicDerviedFromTemplate<Class>>();
-    test_is_not_union<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_union<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_union<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_union<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_union<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_union<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_union<PublicDerivedFromTemplate<Base>>();
+    test_is_not_union<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_union<PublicDerivedFromTemplate<Class>>();
+    test_is_not_union<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_union<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_union<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_union<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_union<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_union<ProtectedDerivedFromTemplate<Class>>();
     test_is_union<Union>();
     test_is_union<NonEmptyUnion>();
     test_is_not_union<Empty>();
     test_is_not_union<NotEmpty>();
-    test_is_not_union<bit_zero>();
-    test_is_not_union<bit_one>();
+    test_is_not_union<BitZero>();
+    test_is_not_union<BitOne>();
     test_is_not_union<Base>();
     test_is_not_union<Derived>();
     test_is_not_union<Abstract>();
@@ -189,7 +193,7 @@ TEST_CASE("is_union")
     test_is_not_union<AbstractTemplate<int>>();
     test_is_not_union<AbstractTemplate<double>>();
     test_is_not_union<AbstractTemplate<Class>>();
-    test_is_not_union<AbstractTemplate<incomplete_type>>();
+    test_is_not_union<AbstractTemplate<IncompleteType>>();
     test_is_not_union<Final>();
     test_is_not_union<PublicDestructor>();
     test_is_not_union<ProtectedDestructor>();
@@ -216,16 +220,16 @@ TEST_CASE("is_union")
     test_is_not_union<FunctionPtr>();
     test_is_not_union<MemberObjectPtr>();
     test_is_not_union<MemberFunctionPtr>();
-    test_is_not_union<incomplete_type>();
+    test_is_not_union<IncompleteType>();
     test_is_not_union<IncompleteTemplate<void>>();
     test_is_not_union<IncompleteTemplate<int>>();
     test_is_not_union<IncompleteTemplate<Class>>();
-    test_is_not_union<IncompleteTemplate<incomplete_type>>();
+    test_is_not_union<IncompleteTemplate<IncompleteType>>();
     test_is_not_union<IncompleteVariadicTemplate<>>();
     test_is_not_union<IncompleteVariadicTemplate<void>>();
     test_is_not_union<IncompleteVariadicTemplate<int>>();
     test_is_not_union<IncompleteVariadicTemplate<Class>>();
-    test_is_not_union<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_union<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_union<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_union<int Class::*>();
     test_is_not_union<float Class::*>();

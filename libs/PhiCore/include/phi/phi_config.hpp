@@ -1,9 +1,15 @@
 #ifndef INCG_PHI_PHICONFIG_HPP
 #define INCG_PHI_PHICONFIG_HPP
 
+#include "phi/generated/compiler_support/features.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "phi/compiler_support/compiler.hpp"
-#include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/platform.hpp"
+#include "phi/compiler_support/unused.hpp"
 #include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp"
@@ -69,22 +75,14 @@
 #    define PHI_API
 #endif
 
-// Logging
-#ifndef PHI_CONFIG_NO_LOG
-#    define PHI_CONFIG_ENABLE_LOGGING
-#    define PHI_CONFIG_ENABLE_INTERNAL_LOGGING
-#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
-#else
-#    define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
-#endif
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-constexpr const static std::uint32_t VersionMajor{PHI_VERSION_MAJOR()};
-constexpr const static std::uint32_t VersionMinor{PHI_VERSION_MINOR()};
-constexpr const static std::uint32_t VersionPatch{PHI_VERSION_PATCH()};
-constexpr const static std::uint32_t Version{PHI_VERSION()}; // NOLINT(hicpp-signed-bitwise)
-constexpr const static char          VersionString[]{PHI_VERSION_STR()};
+PHI_UNUSED constexpr const static std::uint32_t VersionMajor{PHI_VERSION_MAJOR()};
+PHI_UNUSED constexpr const static std::uint32_t VersionMinor{PHI_VERSION_MINOR()};
+PHI_UNUSED constexpr const static std::uint32_t VersionPatch{PHI_VERSION_PATCH()};
+PHI_UNUSED constexpr const static std::uint32_t Version{
+        PHI_VERSION()}; // NOLINT(hicpp-signed-bitwise)
+PHI_UNUSED constexpr const static char VersionString[]{PHI_VERSION_STR()};
 
 DETAIL_PHI_END_NAMESPACE()
 

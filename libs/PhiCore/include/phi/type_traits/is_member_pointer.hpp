@@ -10,14 +10,17 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_member_pointer.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/remove_cv.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_MEMBER_POINTER()
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_member_pointer : public bool_constant<PHI_IS_MEMBER_POINTER(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_member_pointer : public bool_constant<!PHI_IS_MEMBER_POINTER(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -25,29 +28,43 @@ struct is_member_pointer : public bool_constant<PHI_IS_MEMBER_POINTER(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_pointer_v = PHI_IS_MEMBER_POINTER(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_member_pointer_v = !PHI_IS_MEMBER_POINTER(TypeT);
+
 #    endif
 
 #else
 
+#    include "phi/type_traits/remove_cv.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 namespace detail
 {
     template <typename TypeT>
-    struct is_member_pointer_impl : false_type
+    struct is_member_pointer_impl : public false_type
     {};
 
     template <typename TypeT, typename OtherT>
-    struct is_member_pointer_impl<TypeT OtherT::*> : true_type
+    struct is_member_pointer_impl<TypeT OtherT::*> : public true_type
     {};
 } // namespace detail
 
 template <typename TypeT>
-struct is_member_pointer : public detail::is_member_pointer_impl<remove_cv_t<TypeT>>
+struct is_member_pointer : public detail::is_member_pointer_impl<typename remove_cv<TypeT>::type>
+{};
+
+template <typename TypeT>
+struct is_not_member_pointer : public bool_constant<!is_member_pointer<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_member_pointer_v = is_member_pointer<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_member_pointer_v = is_not_member_pointer<TypeT>::value;
 
 #    endif
 

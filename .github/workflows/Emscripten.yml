@@ -16,29 +16,12 @@ jobs:
       fail-fast: false
       matrix:
         em_version:
-          - "3.0.0"
+          - "3.1.2"
+          - "3.0.1"
           - "2.0.34"
-          - "2.0.33"
-          - "2.0.32"
-          - "2.0.31"
-          - "2.0.30"
-          - "2.0.29"
-          - "2.0.28"
-          - "2.0.27"
-          - "2.0.26"
-          - "2.0.25"
-          - "2.0.24"
-          - "2.0.23"
-          - "2.0.22"
-          - "2.0.21"
-          - "2.0.18"
-          - "2.0.17"
-          - "2.0.16"
-          - "2.0.15"
-          - "2.0.14"
-          - "2.0.13"
-          - "2.0.12"
           - "1.40.1"
+          - "1.39.20"
+          - "1.38.48"
 
     steps:
       - name: Checkout
@@ -85,51 +68,3 @@ jobs:
           emcmake cmake .. -DCMAKE_BUILD_TYPE=Release
           emmake cmake --build . --clean-first
           ctest . -C Release
-
-  Warnings:
-    runs-on: ubuntu-20.04
-
-    env:
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
-      EM_CACHE_FOLDER: 'emsdk-cache'
-      EM_VERSION: '3.0.0'
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.4.0
-        with:
-          submodules: recursive
-
-      - name: Setup Emscripten
-        uses: mymindstorm/setup-emsdk@v11
-        with:
-          version: ${{ env.EM_VERSION }}
-          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
-
-      - uses: reviewdog/action-setup@v1.0.3
-        with:
-          reviewdog_version: latest
-
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.21.2
-
-      - name: Generate warnings
-        run: |
-          # Build
-          mkdir build
-          cd build
-
-          emcmake cmake .. -DCMAKE_BUILD_TYPE=Debug
-          emmake cmake --build . --clean-first 2> build.log
-
-          # Filter out warnings for external dependencies
-          cat build.log | grep -Ev "Phi/external" > build_filtered.log || true
-
-      - name: Print results
-        run: cat build/build_filtered.log
-
-      - name: ReviewDog check
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cat build/build_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=github-check -name "Emscripten-${{ env.EM_VERSION }} warnings" -level warning

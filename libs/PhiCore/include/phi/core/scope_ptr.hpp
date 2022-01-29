@@ -11,6 +11,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/forward.hpp"
@@ -25,6 +26,9 @@
 #include "phi/type_traits/remove_extent.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Winline")
 
 template <typename TypeT>
 class not_null_scope_ptr;
@@ -272,6 +276,12 @@ template <typename RhsT>
 constexpr boolean operator!=(nullptr_t, const scope_ptr<RhsT>& rhs) noexcept
 {
     return rhs.get() != nullptr;
+}
+
+template <typename TypeT>
+PHI_EXTENDED_CONSTEXPR void swap(scope_ptr<TypeT>& lhs, scope_ptr<TypeT>& rhs) noexcept
+{
+    lhs.swap(rhs);
 }
 
 /* not_null_scope_ptr */
@@ -577,5 +587,7 @@ namespace std
         phi::size_t operator()(phi::not_null_scope_ptr<phi::nullptr_t> ptr) = delete;
     };
 } // namespace std
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_SCOPE_PTR_HPP

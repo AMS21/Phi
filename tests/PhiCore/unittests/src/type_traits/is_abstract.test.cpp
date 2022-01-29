@@ -14,16 +14,18 @@
 template <typename T>
 void test_is_abstract_impl()
 {
+#if PHI_HAS_WORKING_IS_ABSTRACT()
     STATIC_REQUIRE(phi::is_abstract<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_abstract<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_abstract_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_abstract_v<T>);
-#endif
+#    endif
 
     // Stndard compatbility
     STATIC_REQUIRE(std::is_abstract<T>::value);
+#endif
 }
 
 template <typename T>
@@ -38,16 +40,18 @@ void test_is_abstract()
 template <typename T>
 void test_is_not_abstract_impl()
 {
+#if PHI_HAS_WORKING_IS_ABSTRACT()
     STATIC_REQUIRE_FALSE(phi::is_abstract<T>::value);
     STATIC_REQUIRE(phi::is_not_abstract<T>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_abstract_v<T>);
     STATIC_REQUIRE(phi::is_not_abstract_v<T>);
-#endif
+#    endif
 
     // Standard compatbility
     STATIC_REQUIRE_FALSE(std::is_abstract<T>::value);
+#endif
 }
 
 template <typename T>
@@ -154,28 +158,28 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<Template<void>>();
     test_is_not_abstract<Template<int>>();
     test_is_not_abstract<Template<Class>>();
-    test_is_not_abstract<Template<incomplete_type>>();
+    test_is_not_abstract<Template<IncompleteType>>();
     test_is_not_abstract<VariadicTemplate<>>();
     test_is_not_abstract<VariadicTemplate<void>>();
     test_is_not_abstract<VariadicTemplate<int>>();
     test_is_not_abstract<VariadicTemplate<Class>>();
-    test_is_not_abstract<VariadicTemplate<incomplete_type>>();
+    test_is_not_abstract<VariadicTemplate<IncompleteType>>();
     test_is_not_abstract<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_abstract<PublicDerviedFromTemplate<Base>>();
-    test_is_not_abstract<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_abstract<PublicDerviedFromTemplate<Class>>();
-    test_is_not_abstract<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_abstract<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_abstract<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_abstract<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_abstract<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_abstract<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_abstract<PublicDerivedFromTemplate<Base>>();
+    test_is_not_abstract<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_abstract<PublicDerivedFromTemplate<Class>>();
+    test_is_not_abstract<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_abstract<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_abstract<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_abstract<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_abstract<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_abstract<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_abstract<Union>();
     test_is_not_abstract<NonEmptyUnion>();
     test_is_not_abstract<Empty>();
     test_is_not_abstract<NotEmpty>();
-    test_is_not_abstract<bit_zero>();
-    test_is_not_abstract<bit_one>();
+    test_is_not_abstract<BitZero>();
+    test_is_not_abstract<BitOne>();
     test_is_not_abstract<Base>();
     test_is_not_abstract<Derived>();
     test_is_abstract<Abstract>();
@@ -185,7 +189,7 @@ TEST_CASE("is_abstract")
     test_is_abstract<AbstractTemplate<int>>();
     test_is_not_abstract<AbstractTemplate<double>>();
     test_is_abstract<AbstractTemplate<Class>>();
-    test_is_abstract<AbstractTemplate<incomplete_type>>();
+    test_is_abstract<AbstractTemplate<IncompleteType>>();
     test_is_not_abstract<Final>();
     test_is_not_abstract<PublicDestructor>();
     test_is_not_abstract<ProtectedDestructor>();

@@ -2,9 +2,9 @@
 
 #include "test_types.hpp"
 #include <phi/algorithm/swap.hpp>
+#include <phi/core/declval.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_same.hpp>
-#include <memory>
 
 struct CopyOnly
 {
@@ -93,15 +93,6 @@ TEST_CASE("swap")
         CHECK(j == 1);
     }
 
-    // std::unique_ptr
-    {
-        std::unique_ptr<int> i(new int(1));
-        std::unique_ptr<int> j(new int(2));
-        phi::swap(i, j);
-        CHECK(*i == 2);
-        CHECK(*j == 1);
-    }
-    /*
     // phi::scope_ptr
     {
         phi::scope_ptr<int> i(new int(1));
@@ -110,22 +101,21 @@ TEST_CASE("swap")
         CHECK(*i == 2);
         CHECK(*j == 1);
     }
-    */
     {
         // test that the swap
         STATIC_REQUIRE(can_swap<CopyOnly&>());
         STATIC_REQUIRE(can_swap<MoveOnly&>());
         STATIC_REQUIRE(can_swap<NoexceptMoveOnly&>());
 
-        STATIC_REQUIRE(!can_swap<NotMoveConstructible&>());
-        STATIC_REQUIRE(!can_swap<NotMoveAssignable&>());
+        STATIC_REQUIRE_FALSE(can_swap<NotMoveConstructible&>());
+        STATIC_REQUIRE_FALSE(can_swap<NotMoveAssignable&>());
 
         CopyOnly         c;
         MoveOnly         m;
         NoexceptMoveOnly nm;
-        STATIC_REQUIRE(!noexcept(phi::swap(c, c)));
-        STATIC_REQUIRE(!noexcept(phi::swap(m, m)));
-        STATIC_REQUIRE(noexcept(phi::swap(nm, nm)));
+        CHECK_NOT_NOEXCEPT(phi::swap(c, c));
+        CHECK_NOT_NOEXCEPT(phi::swap(m, m));
+        CHECK_NOEXCEPT(phi::swap(nm, nm));
     }
 
     {
@@ -174,6 +164,20 @@ TEST_CASE("swap")
     {
         TrapSelfAssign a;
         TrapSelfAssign b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapDeref a;
+        TrapDeref b;
+
+        phi::swap(a, b);
+    }
+
+    {
+        TrapArraySubscript a;
+        TrapArraySubscript b;
 
         phi::swap(a, b);
     }

@@ -1,23 +1,46 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/type_traits/is_convertible.hpp>
 #include <phi/type_traits/is_nothrow_convertible.hpp>
+#include <type_traits>
 
-template <typename LhsT, typename RhsT>
+template <typename FromT, typename ToT>
 void test_is_nothrow_convertible()
 {
-    STATIC_REQUIRE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE(phi::is_convertible<FromT, ToT>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_convertible_v<LhsT, RhsT>);
+    STATIC_REQUIRE(phi::is_nothrow_convertible_v<FromT, ToT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_convertible_v<FromT, ToT>);
+    STATIC_REQUIRE(phi::is_convertible_v<FromT, ToT>);
+#endif
+
+    // Standard compatbililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    STATIC_REQUIRE(std::is_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE(std::is_nothrow_convertible<FromT, ToT>::value);
 #endif
 }
 
-template <typename LhsT, typename RhsT>
+template <typename FromT, typename ToT>
 void test_is_not_nothrow_convertible()
 {
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<LhsT, RhsT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<FromT, ToT>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_convertible<FromT, ToT>::value);
+
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible_v<LhsT, RhsT>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible_v<FromT, ToT>);
+    STATIC_REQUIRE(phi::is_not_nothrow_convertible_v<FromT, ToT>);
+#endif
+
+    // Standard compatbililty
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+    STATIC_REQUIRE_FALSE(std::is_nothrow_convertible<FromT, ToT>::value);
 #endif
 }
 
@@ -45,6 +68,15 @@ public:
         return c;
     }
     C c;
+};
+
+struct DThrows
+{
+    DThrows(int) noexcept
+    {}
+
+    ~DThrows() noexcept(false)
+    {}
 };
 
 TEST_CASE("is_nothrow_convertible")
@@ -81,8 +113,11 @@ TEST_CASE("is_nothrow_convertible")
     test_is_not_nothrow_convertible<int[5], double[10]>();
     test_is_not_nothrow_convertible<int[10], A[10]>();
 
-    typedef void V();
-    typedef int  I();
+    using V = void();
+    using I = int();
     test_is_not_nothrow_convertible<V, V>();
     test_is_not_nothrow_convertible<V, I>();
+
+    // Test for LWG#issue3400 (https://cplusplus.github.io/LWG/issue3400)
+    test_is_not_nothrow_convertible<int, DThrows>();
 }

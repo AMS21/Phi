@@ -42,44 +42,38 @@ struct S
     explicit operator T() const;
 };
 
-template <typename To>
-struct ImplicitTo
-{
-    operator To();
-};
-
-template <typename To>
-struct ExplicitTo
-{
-    explicit operator To();
-};
-
 template <typename T, typename... ArgsT>
 void test_is_constructible()
 {
+#if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_constructible<T, ArgsT...>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_constructible<T, ArgsT...>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_constructible_v<T, ArgsT...>);
     STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<T, ArgsT...>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_constructible<T, ArgsT...>::value);
+#endif
 }
 
 template <typename T, typename... ArgsT>
 void test_is_not_constructible()
 {
+#if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_constructible<T, ArgsT...>::value);
     STATIC_REQUIRE(phi::is_not_constructible<T, ArgsT...>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_constructible_v<T, ArgsT...>);
-#endif
+#    endif
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_constructible<T, ArgsT...>::value);
+#endif
 }
 
 TEST_CASE("is_constructible")
@@ -197,7 +191,7 @@ TEST_CASE("is_constructible")
 #if PHI_COMPILER_IS(CLANG)
     test_is_constructible<int&, ExplicitTo<int&>>();
 #endif
-#if PHI_COMPILER_IS_NOT(GCC)
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
     test_is_constructible<const int&, ExplicitTo<int&&>>();
 #else
     test_is_not_constructible<const int&, ExplicitTo<int&&>>();

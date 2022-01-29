@@ -4,7 +4,7 @@
 #include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/is_same_rv.hpp>
 
-template <typename T, class U>
+template <typename T, typename U>
 void test_is_same_rv()
 {
     // is_same_rv
@@ -225,11 +225,11 @@ TEST_CASE("is_same_rv")
     test_is_same_rv<const volatile int*, const volatile int*>();
     test_is_same_rv<Class, Class>();
     test_is_same_rv<A, A>();
-    test_is_same_rv<incomplete_type, incomplete_type>();
+    test_is_same_rv<IncompleteType, IncompleteType>();
     test_is_same_rv<Empty, Empty>();
     test_is_same_rv<NotEmpty, NotEmpty>();
     test_is_same_rv<Union, Union>();
-    test_is_same_rv<bit_zero, bit_zero>();
+    test_is_same_rv<BitZero, BitZero>();
     test_is_same_rv<Abstract, Abstract>();
     test_is_same_rv<Enum, Enum>();
     test_is_same_rv<EnumSigned, EnumSigned>();

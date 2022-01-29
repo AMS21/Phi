@@ -18,6 +18,8 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
 
+#    define PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 1
+
 template <typename TypeT>
 struct has_unique_object_representations
     : public bool_constant<PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
@@ -32,6 +34,8 @@ struct has_no_unique_object_representations
 
 #else
 
+#    define PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 0
+
 template <typename TypeT>
 struct has_unique_object_representations : public false_type
 {
@@ -42,8 +46,9 @@ struct has_unique_object_representations : public false_type
 template <typename TypeT>
 struct has_no_unique_object_representations : public false_type
 {
-    static_assert(false_t<TypeT>::value, phi::has_no_unique_object_representations requires compiler
-                  "support for intrinsic has_unique_object_representations");
+    static_assert(false_t<TypeT>::value,
+                  "phi::has_no_unique_object_representations requires compiler support for "
+                  "intrinsic has_unique_object_representations");
 };
 
 #endif

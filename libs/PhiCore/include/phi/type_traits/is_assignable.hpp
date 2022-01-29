@@ -35,10 +35,10 @@ PHI_INLINE_VARIABLE constexpr bool is_not_assignable_v = !PHI_IS_ASSIGNABLE(Type
 
 #else
 
-DETAIL_PHI_BEGIN_NAMESPACE()
-
 #    include "phi/core/declval.hpp"
 #    include "phi/type_traits/is_void.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
@@ -69,7 +69,7 @@ struct is_assignable : public detail::is_assignable_imp<TypeT, ArgT>
 {};
 
 template <typename TypeT, typename ArgT>
-struct is_not_assignable : public bool_constant<!is_assignable<TypeT>::value>
+struct is_not_assignable : public bool_constant<!is_assignable<TypeT, ArgT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

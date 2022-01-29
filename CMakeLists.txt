@@ -71,6 +71,7 @@ option(PHI_COLOR_DIAGNOSTICS "Enable colored diagnostics" ON)
 option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
 option(PHI_EANBLE_IWYU "Enable static analysis with include-what-you-use" OFF)
+option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 
 phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
            STRING "Dynamic")

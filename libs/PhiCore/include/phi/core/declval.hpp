@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/add_rvalue_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -24,6 +25,9 @@ namespace detail
 } // namespace detail
 /// \endcond
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
+
 template <typename TypeT>
 PHI_ALWAYS_INLINE add_rvalue_reference_t<TypeT> declval() noexcept
 {
@@ -31,6 +35,8 @@ PHI_ALWAYS_INLINE add_rvalue_reference_t<TypeT> declval() noexcept
 
     return detail::declval_protector<TypeT>::delegate_type();
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

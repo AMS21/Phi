@@ -9,15 +9,20 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_final.hpp"
-#include "phi/type_traits/false_t.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_FINAL()
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+#    define PHI_HAS_WORKING_IS_FINAL() 1
+
 template <typename TypeT>
 struct is_final : public bool_constant<PHI_IS_FINAL(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_final : public bool_constant<!PHI_IS_FINAL(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -25,21 +30,40 @@ struct is_final : public bool_constant<PHI_IS_FINAL(TypeT)>
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_final_v = PHI_IS_FINAL(TypeT);
 
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_final_v = !PHI_IS_FINAL(TypeT);
+
 #    endif
 
 #else
 
+#    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_IS_FINAL() 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct is_final : public false_type
 {
-    static_assert(false_t<TypeT>,
+    static_assert(false_t<TypeT>::value,
                   "phi::is_final requires compiler support for intrinsic __is_final");
+};
+
+template <typename TypeT>
+struct is_not_final : public false_type
+{
+    static_assert(false_t<TypeT>::value,
+                  "phi::is_not_final requires compiler support for intrinsic __is_final");
 };
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_final_v = is_final<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_final_v = is_not_final<TypeT>::value;
 
 #    endif
 

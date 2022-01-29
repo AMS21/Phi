@@ -19,10 +19,17 @@ template <typename TypeT>
 struct is_polymorphic : public bool_constant<PHI_IS_POLYMORPHIC(TypeT)>
 {};
 
+template <typename TypeT>
+struct is_not_polymorphic : public bool_constant<!PHI_IS_POLYMORPHIC(TypeT)>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = PHI_IS_POLYMORPHIC(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_polymorphic_v = !PHI_IS_POLYMORPHIC(TypeT);
 
 #    endif
 
@@ -43,10 +50,17 @@ template <typename TypeT>
 struct is_polymorphic : public decltype(detail::detect_is_polymorphic<TypeT>(nullptr))
 {};
 
+template <typename TypeT>
+struct is_not_polymorphic : public bool_constant<!is_polymorphic<TypeT>::value>
+{};
+
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_polymorphic_v = is_polymorphic<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_polymorphic_v = is_not_polymorphic<TypeT>::value;
 
 #    endif
 

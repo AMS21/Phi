@@ -12,25 +12,27 @@
 #include <cstdint>
 #include <vector>
 
+template <typename T, typename U = T>
+void test_make_unsigned_impl()
+{
+    CHECK_SAME_TYPE(typename phi::make_unsigned<T>::type, U);
+    CHECK_SAME_TYPE(phi::make_unsigned_t<T>, U);
+}
+
+template <typename T, typename U = T>
+void test_make_unsigned()
+{
+    test_make_unsigned_impl<T, U>();
+    test_make_unsigned_impl<const T, const U>();
+    test_make_unsigned_impl<volatile T, volatile U>();
+    test_make_unsigned_impl<const volatile T, const volatile U>();
+}
+
 enum BigEnum : unsigned long long
 {
     bigzero,
     big = 0xFFFFFFFFFFFFFFFFULL
 };
-
-template <typename T, typename U = T>
-void test_make_unsigned()
-{
-    CHECK_SAME_TYPE(typename phi::make_unsigned<T>::type, U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<const T>::type, const U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<volatile T>::type, volatile U);
-    CHECK_SAME_TYPE(typename phi::make_unsigned<const volatile T>::type, const volatile U);
-
-    CHECK_SAME_TYPE(phi::make_unsigned_t<T>, U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<const T>, const U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<volatile T>, volatile U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<const volatile T>, const volatile U);
-}
 
 TEST_CASE("make_unsigned")
 {
@@ -129,35 +131,35 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<Template<void>>();
     test_make_unsigned<Template<int>>();
     test_make_unsigned<Template<Class>>();
-    test_make_unsigned<Template<incomplete_type>>();
+    test_make_unsigned<Template<IncompleteType>>();
     test_make_unsigned<VariadicTemplate<>>();
     test_make_unsigned<VariadicTemplate<void>>();
     test_make_unsigned<VariadicTemplate<int>>();
     test_make_unsigned<VariadicTemplate<Class>>();
-    test_make_unsigned<VariadicTemplate<incomplete_type>>();
+    test_make_unsigned<VariadicTemplate<IncompleteType>>();
     test_make_unsigned<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_make_unsigned<PublicDerviedFromTemplate<Base>>();
-    test_make_unsigned<PublicDerviedFromTemplate<Derived>>();
-    test_make_unsigned<PublicDerviedFromTemplate<Class>>();
-    test_make_unsigned<PrivateDerviedFromTemplate<Base>>();
-    test_make_unsigned<PrivateDerviedFromTemplate<Derived>>();
-    test_make_unsigned<PrivateDerviedFromTemplate<Class>>();
-    test_make_unsigned<ProtectedDerviedFromTemplate<Base>>();
-    test_make_unsigned<ProtectedDerviedFromTemplate<Derived>>();
-    test_make_unsigned<ProtectedDerviedFromTemplate<Class>>();
+    test_make_unsigned<PublicDerivedFromTemplate<Base>>();
+    test_make_unsigned<PublicDerivedFromTemplate<Derived>>();
+    test_make_unsigned<PublicDerivedFromTemplate<Class>>();
+    test_make_unsigned<PrivateDerivedFromTemplate<Base>>();
+    test_make_unsigned<PrivateDerivedFromTemplate<Derived>>();
+    test_make_unsigned<PrivateDerivedFromTemplate<Class>>();
+    test_make_unsigned<ProtectedDerivedFromTemplate<Base>>();
+    test_make_unsigned<ProtectedDerivedFromTemplate<Derived>>();
+    test_make_unsigned<ProtectedDerivedFromTemplate<Class>>();
     test_make_unsigned<Union>();
     test_make_unsigned<NonEmptyUnion>();
     test_make_unsigned<Empty>();
     test_make_unsigned<NotEmpty>();
-    test_make_unsigned<bit_zero>();
-    test_make_unsigned<bit_one>();
+    test_make_unsigned<BitZero>();
+    test_make_unsigned<BitOne>();
     test_make_unsigned<Base>();
     test_make_unsigned<Derived>();
     test_make_unsigned<Abstract>();
     test_make_unsigned<AbstractTemplate<int>>();
     test_make_unsigned<AbstractTemplate<double>>();
     test_make_unsigned<AbstractTemplate<Class>>();
-    test_make_unsigned<AbstractTemplate<incomplete_type>>();
+    test_make_unsigned<AbstractTemplate<IncompleteType>>();
     test_make_unsigned<Final>();
     //test_make_unsigned<Enum, unsigned>();
     //test_make_unsigned<EnumSigned, unsigned>();
@@ -168,16 +170,16 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<FunctionPtr>();
     test_make_unsigned<MemberObjectPtr>();
     test_make_unsigned<MemberFunctionPtr>();
-    test_make_unsigned<incomplete_type>();
+    test_make_unsigned<IncompleteType>();
     test_make_unsigned<IncompleteTemplate<void>>();
     test_make_unsigned<IncompleteTemplate<int>>();
     test_make_unsigned<IncompleteTemplate<Class>>();
-    test_make_unsigned<IncompleteTemplate<incomplete_type>>();
+    test_make_unsigned<IncompleteTemplate<IncompleteType>>();
     test_make_unsigned<IncompleteVariadicTemplate<>>();
     test_make_unsigned<IncompleteVariadicTemplate<void>>();
     test_make_unsigned<IncompleteVariadicTemplate<int>>();
     test_make_unsigned<IncompleteVariadicTemplate<Class>>();
-    test_make_unsigned<IncompleteVariadicTemplate<incomplete_type>>();
+    test_make_unsigned<IncompleteVariadicTemplate<IncompleteType>>();
     test_make_unsigned<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_make_unsigned<int Class::*>();
     test_make_unsigned<float Class::*>();

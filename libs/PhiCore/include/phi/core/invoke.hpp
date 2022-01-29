@@ -8,12 +8,11 @@
 #endif
 
 #include "phi/core/forward.hpp"
+#include "phi/type_traits/detail/invoke_impl.hpp"
 #include "phi/type_traits/invoke_result.hpp"
-#include "phi/type_traits/is_invocable.hpp"
+#include "phi/type_traits/is_nothrow_invocable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-// invoke_impl resides in phi/type_traits/invokecable.hpp
 
 template <typename FunctionT, typename... ArgsT>
 constexpr invoke_result_t<FunctionT, ArgsT...> invoke(

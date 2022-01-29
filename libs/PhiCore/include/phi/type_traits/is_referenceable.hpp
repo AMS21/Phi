@@ -28,14 +28,21 @@ namespace detail
 
 template <typename TypeT>
 struct is_referenceable
-    : bool_constant<is_not_same<decltype(detail::is_referenceable_impl::test<TypeT>(0)),
-                                detail::no_type>::value>
+    : public bool_constant<is_not_same<decltype(detail::is_referenceable_impl::test<TypeT>(0)),
+                                       detail::no_type>::value>
+{};
+
+template <typename TypeT>
+struct is_not_referenceable : public bool_constant<!is_referenceable<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-constexpr PHI_INLINE_VARIABLE bool is_referenceable_v = is_referenceable<TypeT>::value;
+PHI_INLINE_VARIABLE constexpr bool is_referenceable_v = is_referenceable<TypeT>::value;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_referenceable_v = is_not_referenceable<TypeT>::value;
 
 #endif
 

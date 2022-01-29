@@ -105,7 +105,7 @@ endif()
 
 # Setup targets
 file(
-  GLOB
+  GLOB_RECURSE
   ALL_CMAKEFILES
   "${CMAKE_SOURCE_DIR}/docs/CMakeLists.txt"
   "${CMAKE_SOURCE_DIR}/examples/CMakeLists.txt"
@@ -115,8 +115,6 @@ file(
   "${CMAKE_SOURCE_DIR}/scripts/cmake/*.cmake"
   "${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt"
   "${CMAKE_SOURCE_DIR}/test/*/CMakeLists.txt"
-  "${CMAKE_SOURCE_DIR}/tools/CMakeLists.txt"
-  "${CMAKE_SOURCE_DIR}/tools/*/CMakeLists.txt"
   "${CMAKE_SOURCE_DIR}/CMakeLists.txt")
 list(LENGTH ALL_CMAKEFILES NUMBER_OF_CMAKEFILES)
 

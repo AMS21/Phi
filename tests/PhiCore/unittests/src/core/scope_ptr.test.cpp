@@ -1,7 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-#include "phi/compiler_support/warning.hpp"
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/math/vector2.hpp>
 #include <type_traits>

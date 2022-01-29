@@ -11,26 +11,27 @@
 #include <type_traits>
 #include <vector>
 
+template <typename T, typename U>
+void test_add_const_impl()
+{
+    CHECK_SAME_TYPE(typename phi::add_const<T>::type, U);
+    CHECK_SAME_TYPE(phi::add_const_t<T>, U);
+
+    CHECK_SAME_TYPE(typename phi::add_const<T>::type, phi::add_const_t<T>);
+
+    // Standard compatibility
+    CHECK_SAME_TYPE(typename std::add_const<T>::type, U);
+    CHECK_SAME_TYPE(typename phi::add_const<T>::type, typename std::add_const<T>::type);
+    CHECK_SAME_TYPE(typename phi::add_const_t<T>, typename std::add_const<T>::type);
+}
+
 template <typename T>
 void test_add_const()
 {
-    CHECK_SAME_TYPE(typename phi::add_const<T>::type, const T);
-    CHECK_SAME_TYPE(typename phi::add_const<const T>::type, const T);
-    CHECK_SAME_TYPE(typename phi::add_const<volatile T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_const<const volatile T>::type, const volatile T);
-
-    CHECK_SAME_TYPE(phi::add_const_t<T>, const T);
-    CHECK_SAME_TYPE(phi::add_const_t<const T>, const T);
-    CHECK_SAME_TYPE(phi::add_const_t<volatile T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_const_t<const volatile T>, const volatile T);
-
-    // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_const<T>::type, typename std::add_const<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_const<const T>::type, typename std::add_const<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_const<volatile T>::type,
-                    typename std::add_const<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_const<const volatile T>::type,
-                    typename std::add_const<const volatile T>::type);
+    test_add_const_impl<T, const T>();
+    test_add_const_impl<const T, const T>();
+    test_add_const_impl<volatile T, const volatile T>();
+    test_add_const_impl<const volatile T, const volatile T>();
 }
 
 TEST_CASE("add_const")
@@ -126,28 +127,28 @@ TEST_CASE("add_const")
     test_add_const<Template<void>>();
     test_add_const<Template<int>>();
     test_add_const<Template<Class>>();
-    test_add_const<Template<incomplete_type>>();
+    test_add_const<Template<IncompleteType>>();
     test_add_const<VariadicTemplate<>>();
     test_add_const<VariadicTemplate<void>>();
     test_add_const<VariadicTemplate<int>>();
     test_add_const<VariadicTemplate<Class>>();
-    test_add_const<VariadicTemplate<incomplete_type>>();
+    test_add_const<VariadicTemplate<IncompleteType>>();
     test_add_const<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_add_const<PublicDerviedFromTemplate<Base>>();
-    test_add_const<PublicDerviedFromTemplate<Derived>>();
-    test_add_const<PublicDerviedFromTemplate<Class>>();
-    test_add_const<PrivateDerviedFromTemplate<Base>>();
-    test_add_const<PrivateDerviedFromTemplate<Derived>>();
-    test_add_const<PrivateDerviedFromTemplate<Class>>();
-    test_add_const<ProtectedDerviedFromTemplate<Base>>();
-    test_add_const<ProtectedDerviedFromTemplate<Derived>>();
-    test_add_const<ProtectedDerviedFromTemplate<Class>>();
+    test_add_const<PublicDerivedFromTemplate<Base>>();
+    test_add_const<PublicDerivedFromTemplate<Derived>>();
+    test_add_const<PublicDerivedFromTemplate<Class>>();
+    test_add_const<PrivateDerivedFromTemplate<Base>>();
+    test_add_const<PrivateDerivedFromTemplate<Derived>>();
+    test_add_const<PrivateDerivedFromTemplate<Class>>();
+    test_add_const<ProtectedDerivedFromTemplate<Base>>();
+    test_add_const<ProtectedDerivedFromTemplate<Derived>>();
+    test_add_const<ProtectedDerivedFromTemplate<Class>>();
     test_add_const<Union>();
     test_add_const<NonEmptyUnion>();
     test_add_const<Empty>();
     test_add_const<NotEmpty>();
-    test_add_const<bit_zero>();
-    test_add_const<bit_one>();
+    test_add_const<BitZero>();
+    test_add_const<BitOne>();
     test_add_const<Base>();
     test_add_const<Derived>();
     test_add_const<Abstract>();
@@ -157,7 +158,7 @@ TEST_CASE("add_const")
     test_add_const<AbstractTemplate<int>>();
     test_add_const<AbstractTemplate<double>>();
     test_add_const<AbstractTemplate<Class>>();
-    test_add_const<AbstractTemplate<incomplete_type>>();
+    test_add_const<AbstractTemplate<IncompleteType>>();
     test_add_const<Final>();
     test_add_const<PublicDestructor>();
     test_add_const<ProtectedDestructor>();
@@ -184,16 +185,16 @@ TEST_CASE("add_const")
     test_add_const<FunctionPtr>();
     test_add_const<MemberObjectPtr>();
     test_add_const<MemberFunctionPtr>();
-    test_add_const<incomplete_type>();
+    test_add_const<IncompleteType>();
     test_add_const<IncompleteTemplate<void>>();
     test_add_const<IncompleteTemplate<int>>();
     test_add_const<IncompleteTemplate<Class>>();
-    test_add_const<IncompleteTemplate<incomplete_type>>();
+    test_add_const<IncompleteTemplate<IncompleteType>>();
     test_add_const<IncompleteVariadicTemplate<>>();
     test_add_const<IncompleteVariadicTemplate<void>>();
     test_add_const<IncompleteVariadicTemplate<int>>();
     test_add_const<IncompleteVariadicTemplate<Class>>();
-    test_add_const<IncompleteVariadicTemplate<incomplete_type>>();
+    test_add_const<IncompleteVariadicTemplate<IncompleteType>>();
     test_add_const<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_add_const<int Class::*>();
     test_add_const<float Class::*>();

@@ -7,7 +7,7 @@ function(phi_add_executable)
   # Command line arguments
   cmake_parse_arguments(
     ae
-    "EXCLUDE_FROM_ALL"
+    "EXCLUDE_FROM_ALL;NO_GROUP"
     "NAME;FOLDER;ALIAS_TARGET"
     "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS"
     ${ARGN})
@@ -35,9 +35,11 @@ function(phi_add_executable)
   phi_set_standard_flag(${ae_NAME})
 
   # Group source files
-  if(${CMAKE_VERSION} VERSION_GREATER "3.7")
-    # TREE option was introduced with 3.8
-    source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ae_SOURCES} ${ae_HEADERS})
+  if(NOT ae_NO_GROUP)
+    if(${CMAKE_VERSION} VERSION_GREATER "3.7")
+      # TREE option was introduced with 3.8
+      source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ae_SOURCES} ${ae_HEADERS})
+    endif()
   endif()
 
   # Add optional alias target

@@ -332,12 +332,12 @@ public:
         return 0u;
     }
 
-    constexpr void fill(PHI_UNUSED const TypeT& value) noexcept
+    PHI_EXTENDED_CONSTEXPR void fill(PHI_UNUSED const TypeT& value) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot fill zero-sized array of type 'const T'");
     }
 
-    constexpr void swap(PHI_UNUSED array& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(PHI_UNUSED array& other) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }
@@ -380,8 +380,9 @@ constexpr boolean operator>=(const array<TypeT, Size>& lhs, const array<TypeT, S
 }
 
 template <typename TypeT, size_t Size>
-PHI_EXTENDED_CONSTEXPR void swap(array<TypeT, Size>& lhs, array<TypeT, Size>& rhs) noexcept(
-        is_nothrow_swappable<TypeT>::value)
+PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(
+        array<TypeT, Size>& lhs,
+        array<TypeT, Size>& rhs) noexcept(is_nothrow_swappable<TypeT>::value)
 {
     lhs.swap(rhs);
 }

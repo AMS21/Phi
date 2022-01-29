@@ -7,11 +7,12 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"
 #include "phi/core/move.hpp"
-#include "phi/type_traits/invoke_result.hpp"
+#include "phi/type_traits/is_nothrow_invocable.hpp"
 #include <mutex>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -27,12 +28,12 @@ class monitor final
 private:
     struct monitor_helper
     {
-        monitor_helper(monitor* monitor) noexcept
+        constexpr monitor_helper(monitor* monitor) noexcept
             : m_monitor(monitor)
             , m_Lock(monitor->m_Mutex)
         {}
 
-        PHI_NODISCARD SharedDataT* operator->() noexcept
+        PHI_NODISCARD constexpr SharedDataT* operator->() noexcept
         {
             return &m_monitor->m_SharedData;
         }
@@ -60,7 +61,12 @@ public:
         , m_Mutex()
     {}
 
-    PHI_NODISCARD monitor_helper operator->() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper operator->() noexcept
+    {
+        return monitor_helper(this);
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper operator->() const noexcept
     {
         return monitor_helper(this);
     }
@@ -75,18 +81,29 @@ public:
 	**/
     template <typename CallableT>
     auto operator()(CallableT&& callable) const
+            noexcept(is_nothrow_invocable<CallableT, SharedDataT>::value)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
         return phi::invoke(phi::forward<CallableT>(callable), m_SharedData);
     }
 #endif
 
-    PHI_NODISCARD monitor_helper ManuallyLock() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper ManuallyLock() noexcept
     {
         return monitor_helper(this);
     }
 
-    PHI_NODISCARD SharedDataT& GetThreadUnsafeAccess() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper ManuallyLock() const noexcept
+    {
+        return monitor_helper(this);
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR SharedDataT& GetThreadUnsafeAccess() noexcept
+    {
+        return m_SharedData;
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const SharedDataT& GetThreadUnsafeAccess() const noexcept
     {
         return m_SharedData;
     }

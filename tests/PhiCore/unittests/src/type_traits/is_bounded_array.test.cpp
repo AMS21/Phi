@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -23,7 +24,8 @@ void test_is_bounded_array_impl()
 #endif
 
 // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE(std::is_bounded_array<T>::value);
 #endif
 }
@@ -49,7 +51,8 @@ void test_is_not_bounded_array_impl()
 #endif
 
 // Standard compatibility
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
+        !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE_FALSE(std::is_bounded_array<T>::value);
 #endif
 }
@@ -159,28 +162,28 @@ TEST_CASE("is_bounded_array")
     test_is_not_bounded_array<Template<void>>();
     test_is_not_bounded_array<Template<int>>();
     test_is_not_bounded_array<Template<Class>>();
-    test_is_not_bounded_array<Template<incomplete_type>>();
+    test_is_not_bounded_array<Template<IncompleteType>>();
     test_is_not_bounded_array<VariadicTemplate<>>();
     test_is_not_bounded_array<VariadicTemplate<void>>();
     test_is_not_bounded_array<VariadicTemplate<int>>();
     test_is_not_bounded_array<VariadicTemplate<Class>>();
-    test_is_not_bounded_array<VariadicTemplate<incomplete_type>>();
+    test_is_not_bounded_array<VariadicTemplate<IncompleteType>>();
     test_is_not_bounded_array<VariadicTemplate<int, void, Class, volatile char[]>>();
-    test_is_not_bounded_array<PublicDerviedFromTemplate<Base>>();
-    test_is_not_bounded_array<PublicDerviedFromTemplate<Derived>>();
-    test_is_not_bounded_array<PublicDerviedFromTemplate<Class>>();
-    test_is_not_bounded_array<PrivateDerviedFromTemplate<Base>>();
-    test_is_not_bounded_array<PrivateDerviedFromTemplate<Derived>>();
-    test_is_not_bounded_array<PrivateDerviedFromTemplate<Class>>();
-    test_is_not_bounded_array<ProtectedDerviedFromTemplate<Base>>();
-    test_is_not_bounded_array<ProtectedDerviedFromTemplate<Derived>>();
-    test_is_not_bounded_array<ProtectedDerviedFromTemplate<Class>>();
+    test_is_not_bounded_array<PublicDerivedFromTemplate<Base>>();
+    test_is_not_bounded_array<PublicDerivedFromTemplate<Derived>>();
+    test_is_not_bounded_array<PublicDerivedFromTemplate<Class>>();
+    test_is_not_bounded_array<PrivateDerivedFromTemplate<Base>>();
+    test_is_not_bounded_array<PrivateDerivedFromTemplate<Derived>>();
+    test_is_not_bounded_array<PrivateDerivedFromTemplate<Class>>();
+    test_is_not_bounded_array<ProtectedDerivedFromTemplate<Base>>();
+    test_is_not_bounded_array<ProtectedDerivedFromTemplate<Derived>>();
+    test_is_not_bounded_array<ProtectedDerivedFromTemplate<Class>>();
     test_is_not_bounded_array<Union>();
     test_is_not_bounded_array<NonEmptyUnion>();
     test_is_not_bounded_array<Empty>();
     test_is_not_bounded_array<NotEmpty>();
-    test_is_not_bounded_array<bit_zero>();
-    test_is_not_bounded_array<bit_one>();
+    test_is_not_bounded_array<BitZero>();
+    test_is_not_bounded_array<BitOne>();
     test_is_not_bounded_array<Base>();
     test_is_not_bounded_array<Derived>();
     test_is_not_bounded_array<Abstract>();
@@ -190,7 +193,7 @@ TEST_CASE("is_bounded_array")
     test_is_not_bounded_array<AbstractTemplate<int>>();
     test_is_not_bounded_array<AbstractTemplate<double>>();
     test_is_not_bounded_array<AbstractTemplate<Class>>();
-    test_is_not_bounded_array<AbstractTemplate<incomplete_type>>();
+    test_is_not_bounded_array<AbstractTemplate<IncompleteType>>();
     test_is_not_bounded_array<Final>();
     test_is_not_bounded_array<PublicDestructor>();
     test_is_not_bounded_array<ProtectedDestructor>();
@@ -216,16 +219,16 @@ TEST_CASE("is_bounded_array")
     test_is_not_bounded_array<FunctionPtr>();
     test_is_not_bounded_array<MemberObjectPtr>();
     test_is_not_bounded_array<MemberFunctionPtr>();
-    test_is_not_bounded_array<incomplete_type>();
+    test_is_not_bounded_array<IncompleteType>();
     test_is_not_bounded_array<IncompleteTemplate<void>>();
     test_is_not_bounded_array<IncompleteTemplate<int>>();
     test_is_not_bounded_array<IncompleteTemplate<Class>>();
-    test_is_not_bounded_array<IncompleteTemplate<incomplete_type>>();
+    test_is_not_bounded_array<IncompleteTemplate<IncompleteType>>();
     test_is_not_bounded_array<IncompleteVariadicTemplate<>>();
     test_is_not_bounded_array<IncompleteVariadicTemplate<void>>();
     test_is_not_bounded_array<IncompleteVariadicTemplate<int>>();
     test_is_not_bounded_array<IncompleteVariadicTemplate<Class>>();
-    test_is_not_bounded_array<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_bounded_array<IncompleteVariadicTemplate<IncompleteType>>();
     test_is_not_bounded_array<IncompleteVariadicTemplate<int, void, Class, volatile char[]>>();
     test_is_not_bounded_array<int Class::*>();
     test_is_not_bounded_array<float Class::*>();

@@ -8,13 +8,19 @@
 #endif
 
 #include "phi/compiler_support/intrinsics/underlying_type.hpp"
-#include "phi/type_traits/false_t.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_enum.hpp"
+
+#if PHI_SUPPORTS_UNDERLYING_TYPE()
+
+#    include "phi/type_traits/is_enum.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_SUPPORTS_UNDERLYING_TYPE()
+#    if PHI_HAS_WORKING_IS_ENUM()
+#        define PHI_HAS_WORKING_UNDERLYING_TYPE() 1
+#    else
+#        define PHI_HAS_WORKING_UNDERLYING_TYPE() 0
+#    endif
 
 namespace detail
 {
@@ -38,10 +44,16 @@ struct underlying_type : public detail::underlying_type_impl<TypeT, is_enum<Type
 
 #else
 
+#    include "phi/type_traits/false_t.hpp"
+
+#    define PHI_HAS_WORKING_UNDERLYING_TYPE() 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename TypeT>
 struct underlying_type
 {
-    static_assert(false_t<TypeT>,
+    static_assert(false_t<TypeT>::value,
                   "phi::underlying_type requires compiler support for intrinsic underlying_type");
 };
 

@@ -49,7 +49,7 @@ extern int main();
 #define DEFINE_TEST_CASE(name)                                                                     \
     static void name();                                                                            \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors")                                  \
-    static ::phi::test::detail::RegisterTestCase PHI_GLUE(name, _register){&(name)};               \
+    static const ::phi::test::detail::RegisterTestCase PHI_GLUE(name, _register){&(name)};         \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     static void name()
 
@@ -79,6 +79,7 @@ extern int main();
     static_assert(static_cast<bool>(__VA_ARGS__), "PHI_STATIC_REQUIRE: " #__VA_ARGS__ " was "      \
                                                   "false");                                        \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    REQUIRE(__VA_ARGS__);                                                                          \
     PHI_END_MACRO()
 
 #define STATIC_REQUIRE_FALSE(...)                                                                  \
@@ -87,6 +88,7 @@ extern int main();
     static_assert(!static_cast<bool>(__VA_ARGS__),                                                 \
                   "PHI_STATIC_REQUIRE_FALSE: " #__VA_ARGS__ " was true");                          \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    REQUIRE_FALSE(__VA_ARGS__);                                                                    \
     PHI_END_MACRO()
 
 #define CHECK_NOEXCEPT(...)                                                                        \

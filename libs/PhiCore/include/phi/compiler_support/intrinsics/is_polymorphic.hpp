@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/features.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_INTRINSIC_IS_POLYMORPHIC()
 #    define PHI_IS_POLYMORPHIC(type)      __is_polymorphic(type)
