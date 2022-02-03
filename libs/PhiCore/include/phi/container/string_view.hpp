@@ -46,7 +46,7 @@ public:
     using difference_type        = ptrdiff;
 
     // Static checks
-    static_assert(!is_array<value_type>::value,
+    static_assert(is_not_array<value_type>::value,
                   "phi::basic_string_view: Character type must not be an array");
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     static_assert(is_standard_layout<value_type>::value,
@@ -85,9 +85,11 @@ public:
         , m_Size(count)
     {
         PHI_DBG_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
+#if defined(PHI_CONFIG_EXTENSIVE_STRING_VIEW_ASSERTS)
         PHI_DBG_ASSERT(count > 0u, "Cannot construct with 0 size");
         PHI_DBG_ASSERT(string_length(string, count) == count,
                        "The supplied string is shorter than the given count");
+#endif
     }
 
     constexpr basic_string_view(nullptr_t) = delete;
