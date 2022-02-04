@@ -118,6 +118,7 @@ file(
   "src/type_traits/is_convertible.test.cpp"
   "src/type_traits/is_copy_assignable.test.cpp"
   "src/type_traits/is_copy_constructible.test.cpp"
+  "src/type_traits/is_correspondig_member.test.cpp"
   "src/type_traits/is_default_constructible.test.cpp"
   "src/type_traits/is_derived_from.test.cpp"
   "src/type_traits/is_destructible.test.cpp"

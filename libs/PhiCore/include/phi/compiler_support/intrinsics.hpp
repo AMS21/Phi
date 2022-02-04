@@ -32,7 +32,7 @@
 #include "intrinsics/is_convertible.hpp"
 #include "intrinsics/is_copy_assignable.hpp"
 #include "intrinsics/is_copy_constructible.hpp"
-#include "intrinsics/is_correspondig_member.hpp"
+#include "intrinsics/is_corresponding_member.hpp"
 #include "intrinsics/is_destructible.hpp"
 #include "intrinsics/is_empty.hpp"
 #include "intrinsics/is_enum.hpp"
