@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/core/max_align_t.hpp>
 #include <phi/type_traits/aligned_storage.hpp>
 #include <phi/type_traits/alignment_of.hpp>
 #include <phi/type_traits/is_pod.hpp>
@@ -180,7 +181,7 @@ TEST_CASE("aligned_storage")
 
         test_aligned_storage<T1>();
         const phi::size_t alignment =
-                alignof(std::max_align_t) > 16 ? 16 : alignof(std::max_align_t);
+                alignof(phi::max_align_t) > 16 ? 16 : alignof(phi::max_align_t);
         STATIC_REQUIRE(phi::alignment_of<T1>::value == alignment);
 
         STATIC_REQUIRE(sizeof(T1) == 16);
@@ -190,7 +191,7 @@ TEST_CASE("aligned_storage")
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<17>);
 
         test_aligned_storage<T1>();
-        const size_t alignment = alignof(std::max_align_t) > 16 ? 16 : alignof(std::max_align_t);
+        const size_t alignment = alignof(phi::max_align_t) > 16 ? 16 : alignof(phi::max_align_t);
         STATIC_REQUIRE(phi::alignment_of<T1>::value == alignment);
         STATIC_REQUIRE(sizeof(T1) == 16 + alignment);
     }

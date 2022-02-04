@@ -4,6 +4,7 @@
 #include "test_types.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
+#include <phi/core/max_align_t.hpp>
 #include <cstddef>
 #include <cstdint>
 
@@ -638,21 +639,21 @@ TEST_CASE("Array")
             }
 
             {
-                using T2                      = phi::array<std::max_align_t, 0>;
+                using T2                      = phi::array<phi::max_align_t, 0>;
                 const T2                a     = {};
-                const std::max_align_t* p     = a.data();
+                const phi::max_align_t* p     = a.data();
                 std::uintptr_t          p_int = reinterpret_cast<std::uintptr_t>(p);
 
-                CHECK(p_int % alignof(std::max_align_t) == 0);
+                CHECK(p_int % alignof(phi::max_align_t) == 0);
             }
 
             {
-                using T2                      = phi::array<std::max_align_t, 3>;
+                using T2                      = phi::array<phi::max_align_t, 3>;
                 const T2                a     = {};
-                const std::max_align_t* p     = a.data();
+                const phi::max_align_t* p     = a.data();
                 std::uintptr_t          p_int = reinterpret_cast<std::uintptr_t>(p);
 
-                CHECK(p_int % alignof(std::max_align_t) == 0);
+                CHECK(p_int % alignof(phi::max_align_t) == 0);
             }
         }
 
