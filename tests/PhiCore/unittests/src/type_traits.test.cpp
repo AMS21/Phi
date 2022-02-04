@@ -52,6 +52,11 @@ TEST_CASE("type_traits")
     using T2 = phi::aligned_storage_t<1>;
     CHECK_SAME_TYPE(T1, T2);
 
+    // aligned_union
+    using U1 = phi::aligned_union<1, int, int>::type;
+    using U2 = phi::aligned_union_t<1, int, int>;
+    CHECK_SAME_TYPE(U1, U2);
+
     // alignment_of
     STATIC_REQUIRE(phi::alignment_of<Class>::value == 1);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
