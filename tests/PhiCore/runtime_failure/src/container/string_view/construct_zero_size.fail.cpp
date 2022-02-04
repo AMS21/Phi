@@ -1,4 +1,7 @@
+#define PHI_CONFIG_EXTENSIVE_STRING_VIEW_ASSERTS
+
 #include "SetupRuntimeFailure.hpp"
+
 #include <phi/compiler_support/unused.hpp>
 #include <phi/container/string_view.hpp>
 
