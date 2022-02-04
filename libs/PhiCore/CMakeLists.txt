@@ -152,6 +152,7 @@ file(
   "include/phi/core/integer.hpp"
   "include/phi/core/invoke.hpp"
   "include/phi/core/monitor.hpp"
+  "include/phi/core/move_if_noexcept.hpp"
   "include/phi/core/move.hpp"
   "include/phi/core/named_type.hpp"
   "include/phi/core/non_copyable.hpp"

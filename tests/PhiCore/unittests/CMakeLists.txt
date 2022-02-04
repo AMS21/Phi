@@ -40,6 +40,7 @@ file(
   "src/core/integer.test.cpp"
   "src/core/invoke.test.cpp"
   "src/core/monitor.test.cpp"
+  "src/core/move_if_noexcept.test.cpp"
   "src/core/move.test.cpp"
   "src/core/named_type.test.cpp"
   "src/core/non_copyable.test.cpp"
