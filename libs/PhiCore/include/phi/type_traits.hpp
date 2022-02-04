@@ -88,6 +88,7 @@
 #include "phi/type_traits/is_null_pointer.hpp"
 #include "phi/type_traits/is_null_pointer_or_pointer.hpp"
 #include "phi/type_traits/is_object.hpp"
+#include "phi/type_traits/is_pod.hpp"
 #include "phi/type_traits/is_pointer.hpp"
 #include "phi/type_traits/is_polymorphic.hpp"
 #include "phi/type_traits/is_reference.hpp"

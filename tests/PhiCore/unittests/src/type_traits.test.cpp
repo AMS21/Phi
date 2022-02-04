@@ -496,6 +496,14 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_pod
+#if PHI_HAS_WORKING_IS_POD()
+    STATIC_REQUIRE(phi::is_pod<int>::value);
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_pod_v<int>);
+#    endif
+#endif
+
     // is_pointer
     STATIC_REQUIRE(phi::is_pointer<int*>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
