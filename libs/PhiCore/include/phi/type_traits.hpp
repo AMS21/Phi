@@ -94,6 +94,7 @@
 #include "phi/type_traits/is_pod.hpp"
 #include "phi/type_traits/is_pointer.hpp"
 #include "phi/type_traits/is_pointer_interconvertible_base_of.hpp"
+#include "phi/type_traits/is_pointer_interconvertible_with_class.hpp"
 #include "phi/type_traits/is_polymorphic.hpp"
 #include "phi/type_traits/is_reference.hpp"
 #include "phi/type_traits/is_reference_wrapper.hpp"

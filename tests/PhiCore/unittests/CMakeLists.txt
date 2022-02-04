@@ -158,6 +158,7 @@ file(
   "src/type_traits/is_object.test.cpp"
   "src/type_traits/is_pod.test.cpp"
   "src/type_traits/is_pointer_interconvertible_base_of.test.cpp"
+  "src/type_traits/is_pointer_interconvertible_with_class.test.cpp"
   "src/type_traits/is_pointer.test.cpp"
   "src/type_traits/is_polymorphic.test.cpp"
   "src/type_traits/is_reference_wrapper.test.cpp"
