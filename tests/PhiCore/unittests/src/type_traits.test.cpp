@@ -350,6 +350,14 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_layout_compatible
+#if PHI_SUPPORTS_IS_LAYOUT_COMPATIBLE()
+    STATIC_REQUIRE(phi::is_layout_compatible<void, void>::value);
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_layout_compatible_v<void, void>);
+#    endif
+#endif
+
     // is_lvalue_reference
     STATIC_REQUIRE(phi::is_lvalue_reference<int&>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

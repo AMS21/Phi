@@ -131,6 +131,7 @@ file(
   "src/type_traits/is_integral.test.cpp"
   "src/type_traits/is_invocable_r.test.cpp"
   "src/type_traits/is_invocable.test.cpp"
+  "src/type_traits/is_layout_compatible.test.cpp"
   "src/type_traits/is_lvalue_reference.test.cpp"
   "src/type_traits/is_member_function_pointer.test.cpp"
   "src/type_traits/is_member_object_pointer.test.cpp"
