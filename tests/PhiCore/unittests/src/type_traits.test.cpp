@@ -1,6 +1,5 @@
 #include <phi/test/test_macros.hpp>
 
-#include "phi/type_traits/common_type.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits.hpp>
@@ -47,6 +46,11 @@ TEST_CASE("type_traits")
     // add_volatile
     CHECK_SAME_TYPE(typename phi::add_volatile<int>::type, volatile int);
     CHECK_SAME_TYPE(phi::add_volatile_t<int>, volatile int);
+
+    // aligned_storage
+    using T1 = phi::aligned_storage<1>::type;
+    using T2 = phi::aligned_storage_t<1>;
+    CHECK_SAME_TYPE(T1, T2);
 
     // alignment_of
     STATIC_REQUIRE(phi::alignment_of<Class>::value == 1);
