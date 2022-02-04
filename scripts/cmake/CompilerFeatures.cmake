@@ -315,6 +315,10 @@ phi_check_cxx_source_compiles(
   "struct A { int i; long l; };
 int main() { return __builtin_is_pointer_interconvertible_with_class(&A::i); }"
   PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS)
+phi_check_cxx_source_compiles(
+  "struct A { int a; };
+int main() { return __builtin_is_corresponding_member(&A::a,&A::a); }"
+  PHI_HAS_INTRINSIC_IS_CORRESPONDING_MEMBER)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
