@@ -8,7 +8,6 @@
 #include <phi/type_traits/is_pod.hpp>
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivial.hpp>
-#include <cstddef>
 
 template <typename T>
 void test_aligned_storage()
@@ -180,7 +179,7 @@ TEST_CASE("aligned_storage")
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<16>);
 
         test_aligned_storage<T1>();
-        const phi::size_t alignment =
+        PHI_CONSTEXPR_AND_CONST phi::size_t alignment =
                 alignof(phi::max_align_t) > 16 ? 16 : alignof(phi::max_align_t);
         STATIC_REQUIRE(phi::alignment_of<T1>::value == alignment);
 
@@ -191,7 +190,8 @@ TEST_CASE("aligned_storage")
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<17>);
 
         test_aligned_storage<T1>();
-        const size_t alignment = alignof(phi::max_align_t) > 16 ? 16 : alignof(phi::max_align_t);
+        PHI_CONSTEXPR_AND_CONST phi::size_t alignment =
+                alignof(phi::max_align_t) > 16 ? 16 : alignof(phi::max_align_t);
         STATIC_REQUIRE(phi::alignment_of<T1>::value == alignment);
         STATIC_REQUIRE(sizeof(T1) == 16 + alignment);
     }

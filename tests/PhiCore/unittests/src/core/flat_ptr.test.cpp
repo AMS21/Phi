@@ -315,8 +315,8 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
 
     SECTION("std::hash")
     {
-        std::size_t null_hash = std::hash<phi::flat_ptr>{}(nullptr);
-        std::size_t ptr_hash  = std::hash<phi::flat_ptr>{}(raw_ptr1);
+        phi::size_t null_hash = std::hash<phi::flat_ptr>{}(nullptr);
+        phi::size_t ptr_hash  = std::hash<phi::flat_ptr>{}(raw_ptr1);
 
         CHECK(null_hash != ptr_hash);
         CHECK(null_hash == std::hash<void*>{}(nullptr));
@@ -469,8 +469,8 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
 
     SECTION("std::hash")
     {
-        std::size_t ptr1_hash = std::hash<phi::not_null_flat_ptr>{}(raw_ptr1);
-        std::size_t ptr2_hash = std::hash<phi::not_null_flat_ptr>{}(raw_ptr2);
+        phi::size_t ptr1_hash = std::hash<phi::not_null_flat_ptr>{}(raw_ptr1);
+        phi::size_t ptr2_hash = std::hash<phi::not_null_flat_ptr>{}(raw_ptr2);
 
         CHECK(ptr1_hash != ptr2_hash);
         CHECK(ptr1_hash == std::hash<void*>{}(raw_ptr1));

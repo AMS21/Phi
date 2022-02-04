@@ -349,8 +349,8 @@ TEST_CASE("floating_point")
 
         SECTION("std::hash")
         {
-            std::size_t zero_hash = std::hash<phi::floating_point<float>>{}(0.0f);
-            std::size_t one_hash  = std::hash<phi::floating_point<float>>{}(1.0f);
+            phi::size_t zero_hash = std::hash<phi::floating_point<float>>{}(0.0f);
+            phi::size_t one_hash  = std::hash<phi::floating_point<float>>{}(1.0f);
 
             CHECK(zero_hash != one_hash);
             CHECK(zero_hash == std::hash<float>{}(0.0f));

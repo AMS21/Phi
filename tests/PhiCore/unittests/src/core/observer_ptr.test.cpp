@@ -395,8 +395,8 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
     SECTION("hash")
     {
         int         i         = 62;
-        std::size_t null_hash = std::hash<phi::observer_ptr<int>>{}(nullptr);
-        std::size_t i_hash    = std::hash<phi::observer_ptr<int>>{}(&i);
+        phi::size_t null_hash = std::hash<phi::observer_ptr<int>>{}(nullptr);
+        phi::size_t i_hash    = std::hash<phi::observer_ptr<int>>{}(&i);
 
         CHECK(null_hash != i_hash);
         CHECK(null_hash == std::hash<int*>{}(nullptr));
@@ -581,8 +581,8 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
     {
         int         i      = 62;
         int         j      = 14;
-        std::size_t i_hash = std::hash<phi::not_null_observer_ptr<int>>{}(&i);
-        std::size_t j_hash = std::hash<phi::not_null_observer_ptr<int>>{}(&j);
+        phi::size_t i_hash = std::hash<phi::not_null_observer_ptr<int>>{}(&i);
+        phi::size_t j_hash = std::hash<phi::not_null_observer_ptr<int>>{}(&j);
 
         CHECK(i_hash != j_hash);
         CHECK(i_hash == std::hash<int*>{}(&i));

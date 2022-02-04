@@ -812,8 +812,8 @@ TEST_CASE("integer")
 
         SECTION("std::hash")
         {
-            std::size_t zero_hash = std::hash<phi::integer<int>>{}(0);
-            std::size_t one_hash  = std::hash<phi::integer<int>>{}(1);
+            phi::size_t zero_hash = std::hash<phi::integer<int>>{}(0);
+            phi::size_t one_hash  = std::hash<phi::integer<int>>{}(1);
 
             CHECK(zero_hash != one_hash);
             CHECK(zero_hash == std::hash<int>{}(0));

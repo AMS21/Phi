@@ -168,7 +168,7 @@ namespace std
     template <>
     struct hash<phi::boolean>
     {
-        std::size_t operator()(phi::boolean value) const noexcept
+        phi::size_t operator()(phi::boolean value) const noexcept
         {
             return std::hash<bool>()(static_cast<bool>(value));
         }

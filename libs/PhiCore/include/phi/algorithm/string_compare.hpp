@@ -12,10 +12,10 @@
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/sized_types.hpp"
 #include "phi/core/types.hpp"
 #include "phi/type_traits/make_signed.hpp"
 #include <phi/core/nullptr_t.hpp>
-#include <cstddef>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -33,7 +33,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 string_compare(const CharT* lhs, const 
 
     using SignedCharT = typename make_signed<CharT>::type;
 
-    return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
+    return static_cast<phi::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
@@ -58,7 +58,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 string_compare(const CharT* lhs, const 
 
     using SignedCharT = typename make_signed<CharT>::type;
 
-    return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
+    return static_cast<phi::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
@@ -94,7 +94,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 safe_string_compare(const CharT* lhs,
 
     using SignedCharT = typename make_signed<CharT>::type;
 
-    return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
+    return static_cast<phi::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 
@@ -153,7 +153,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 safe_string_compare(const CharT* lhs, c
 
     using SignedCharT = typename make_signed<CharT>::type;
 
-    return static_cast<std::int32_t>(*static_cast<SignedCharT>(lhs) -
+    return static_cast<phi::int32_t>(*static_cast<SignedCharT>(lhs) -
                                      *static_cast<SignedCharT>(rhs));
 }
 

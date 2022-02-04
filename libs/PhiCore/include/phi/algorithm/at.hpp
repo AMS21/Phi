@@ -42,7 +42,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index
 
 template <typename TypeT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT at(std::initializer_list<TypeT> list,
-                                              std::size_t                  index) noexcept
+                                              phi::size_t                  index) noexcept
 {
     PHI_DBG_ASSERT(index < list.size(), "Index {} is out of bounds! Max value: {}", index,
                    list.size() - 1);

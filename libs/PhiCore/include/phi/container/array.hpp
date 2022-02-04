@@ -17,7 +17,6 @@
 #include "phi/core/types.hpp"
 #include "phi/type_traits/is_const.hpp"
 #include "phi/type_traits/is_nothrow_swappable.hpp"
-#include <cstddef>
 #include <iterator>
 
 DETAIL_PHI_BEGIN_NAMESPACE()

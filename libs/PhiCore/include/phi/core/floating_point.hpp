@@ -609,7 +609,7 @@ namespace std
     template <typename FloatT>
     struct hash<phi::floating_point<FloatT>>
     {
-        std::size_t operator()(const phi::floating_point<FloatT>& value) const noexcept
+        phi::size_t operator()(const phi::floating_point<FloatT>& value) const noexcept
         {
             return std::hash<FloatT>()(static_cast<FloatT>(value));
         }

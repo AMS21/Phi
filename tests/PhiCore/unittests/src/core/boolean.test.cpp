@@ -143,8 +143,8 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
     SECTION("std::hash")
     {
-        std::size_t true_hash  = std::hash<phi::boolean>{}(true);
-        std::size_t false_hash = std::hash<phi::boolean>{}(false);
+        phi::size_t true_hash  = std::hash<phi::boolean>{}(true);
+        phi::size_t false_hash = std::hash<phi::boolean>{}(false);
 
         CHECK(true_hash != false_hash);
         CHECK(true_hash == std::hash<bool>{}(true));

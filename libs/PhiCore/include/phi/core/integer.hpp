@@ -907,7 +907,7 @@ namespace std
     template <typename IntegerT>
     struct hash<phi::integer<IntegerT>>
     {
-        std::size_t operator()(const phi::integer<IntegerT>& val) const noexcept
+        phi::size_t operator()(const phi::integer<IntegerT>& val) const noexcept
         {
             return std::hash<IntegerT>()(static_cast<IntegerT>(val));
         }

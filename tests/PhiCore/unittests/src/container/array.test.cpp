@@ -5,7 +5,6 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/core/max_align_t.hpp>
-#include <cstddef>
 #include <cstdint>
 
 struct NoDefault
