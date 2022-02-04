@@ -40,6 +40,7 @@
 #include "intrinsics/is_function.hpp"
 #include "intrinsics/is_fundamental.hpp"
 #include "intrinsics/is_integral.hpp"
+#include "intrinsics/is_layout_compatible.hpp"
 #include "intrinsics/is_literal_type.hpp"
 #include "intrinsics/is_lvalue_expr.hpp"
 #include "intrinsics/is_lvalue_refenrece.hpp"

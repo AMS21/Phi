@@ -306,6 +306,8 @@ phi_check_cxx_source_compiles("int main() { int i = __builtin_bswap128(1); }"
                               PHI_HAS_INTRINSIC_BUILTIN_BSWAP128)
 phi_check_cxx_source_compiles("int main() { return __builtin_isnan(0.0); }"
                               PHI_HAS_INTRINSIC_BUILTIN_ISNAN)
+phi_check_cxx_source_compiles("int main() { return __is_layout_compatible(int, int); }"
+                              PHI_HAS_INTRINSIC_IS_LAYOUT_COMPATIBLE)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
