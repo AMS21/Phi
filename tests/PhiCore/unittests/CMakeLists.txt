@@ -82,6 +82,7 @@ file(
   "src/type_traits/add_rvalue_reference.test.cpp"
   "src/type_traits/add_volatile.test.cpp"
   "src/type_traits/alignment_of.test.cpp"
+  "src/type_traits/common_type.test.cpp"
   "src/type_traits/conditional.test.cpp"
   "src/type_traits/conjunction.test.cpp"
   "src/type_traits/copy_const.test.cpp"

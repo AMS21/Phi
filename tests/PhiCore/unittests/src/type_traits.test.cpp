@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "phi/type_traits/common_type.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits.hpp>
@@ -52,6 +53,10 @@ TEST_CASE("type_traits")
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::alignment_of_v<Class> == 1);
 #endif
+
+    // common_type
+    //CHECK_SAME_TYPE(typename phi::common_type<int, int>::type, int);
+    //CHECK_SAME_TYPE(phi::common_type_t<int, int>, int);
 
     // conditional
     CHECK_SAME_TYPE(typename phi::conditional<true, int, double>::type, int);
