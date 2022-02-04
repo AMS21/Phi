@@ -311,6 +311,10 @@ phi_check_cxx_source_compiles("int main() { return __is_layout_compatible(int, i
 phi_check_cxx_source_compiles(
   "int main() { return __is_pointer_interconvertible_base_of(int, int); }"
   PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_BASE_OF)
+phi_check_cxx_source_compiles(
+  "struct A { int i; long l; };
+int main() { return __builtin_is_pointer_interconvertible_with_class(&A::i); }"
+  PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
