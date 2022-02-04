@@ -160,6 +160,7 @@ file(
   "include/phi/core/not_null.hpp"
   "include/phi/core/nullptr_t.hpp"
   "include/phi/core/observer_ptr.hpp"
+  "include/phi/core/offsetof.hpp"
   "include/phi/core/optional.hpp"
   "include/phi/core/ptrdiff_t.hpp"
   "include/phi/core/scope_guard.hpp"
