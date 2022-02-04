@@ -67,6 +67,7 @@
 #include "phi/type_traits/is_invocable.hpp"
 #include "phi/type_traits/is_invocable_r.hpp"
 #include "phi/type_traits/is_layout_compatible.hpp"
+#include "phi/type_traits/is_literal_type.hpp"
 #include "phi/type_traits/is_lvalue_reference.hpp"
 #include "phi/type_traits/is_member_function_pointer.hpp"
 #include "phi/type_traits/is_member_object_pointer.hpp"

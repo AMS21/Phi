@@ -358,6 +358,14 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_literal_type
+#if PHI_HAS_WORKING_IS_LITERAL_TYPE()
+    STATIC_REQUIRE(phi::is_literal_type<int>::value);
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_literal_type_v<int>);
+#    endif
+#endif
+
     // is_lvalue_reference
     STATIC_REQUIRE(phi::is_lvalue_reference<int&>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
