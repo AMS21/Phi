@@ -8,12 +8,12 @@
 #endif
 
 #if PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
-#    define PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(type, with)                                    \
+#    define PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(base, derived)                                 \
         __is_pointer_interconvertible_base_of(type, with)
 #    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_BASE_OF() 1
 #else
-#    define PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(type, with) false
-#    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_BASE_OF()  0
+#    define PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(base, derived) false
+#    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_BASE_OF()     0
 #endif
 
 #if defined(PHI_CONFIG_NO_INTRINSICS)

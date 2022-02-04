@@ -512,6 +512,14 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_pointer_interconvertible_base_of
+#if PHI_HAS_WORKING_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
+    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of<int, int>::value);
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of_v<int, int>);
+#    endif
+#endif
+
     // is_pointer
     STATIC_REQUIRE(phi::is_pointer<int*>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
