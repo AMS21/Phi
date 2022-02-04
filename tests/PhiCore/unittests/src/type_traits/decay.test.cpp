@@ -14,11 +14,12 @@
 template <typename T, typename U = T>
 void test_decay()
 {
-    CHECK_SAME_TYPE(U, typename phi::decay<T>::type);
-    CHECK_SAME_TYPE(U, phi::decay_t<T>);
+    CHECK_SAME_TYPE(typename phi::decay<T>::type, U);
+    CHECK_SAME_TYPE(phi::decay_t<T>, U);
 
     // Standard compatbility
-    CHECK_SAME_TYPE(typename phi::decay<T>::type, typename std::decay<T>::type);
+    CHECK_SAME_TYPE(typename std::decay<T>::type, typename phi::decay<T>::type);
+    CHECK_SAME_TYPE(typename std::decay<T>::type, U);
 }
 
 class A
@@ -26,7 +27,12 @@ class A
 
 TEST_CASE("decay")
 {
-    test_decay<A>();
+    test_decay<A, A>();
+    test_decay<const A, A>();
+    test_decay<volatile A, A>();
+    test_decay<const volatile A, A>();
+
+    test_decay<int, int>();
     test_decay<const int, int>();
     test_decay<volatile int, int>();
     test_decay<const volatile int, int>();
@@ -52,6 +58,23 @@ TEST_CASE("decay")
     test_decay<const int[3][2], int const(*)[2]>();
     test_decay<volatile int[3][2], volatile int(*)[2]>();
     test_decay<const volatile int[3][2], const volatile int(*)[2]>();
+
+    test_decay<int&, int>();
+    test_decay<const int&, int>();
+    test_decay<volatile int&, int>();
+    test_decay<const volatile int&, int>();
+
+    test_decay<int&&, int>();
+    test_decay<const int&&, int>();
+    test_decay<volatile int&&, int>();
+    test_decay<const volatile int&&, int>();
+
+    test_decay<void(), void (*)()>();
+    test_decay<int(int), int (*)(int)>();
+    test_decay<int(int) const, int(int) const>();
+    test_decay<int(int) volatile, int(int) volatile>();
+    test_decay<int(int)&, int(int)&>();
+    test_decay<int(int)&&, int(int) &&>();
 
     test_decay<void>();
     test_decay<phi::nullptr_t>();
