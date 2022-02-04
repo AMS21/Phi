@@ -82,6 +82,7 @@
 #include "intrinsics/is_unsigned.hpp"
 #include "intrinsics/is_void.hpp"
 #include "intrinsics/is_volatile.hpp"
+#include "intrinsics/offsetof.hpp"
 #include "intrinsics/remove_const.hpp"
 #include "intrinsics/remove_cv.hpp"
 #include "intrinsics/remove_volatile.hpp"
