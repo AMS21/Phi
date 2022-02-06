@@ -8,7 +8,7 @@ int main()
 
     phi::string_view view("test");
 
-    phi::string_view sub = view.substr(6u);
+    phi::string_view sub = view.substring_view(6u);
 
     PHI_UNUSED_VARIABLE(sub);
 }

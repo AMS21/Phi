@@ -7,6 +7,7 @@
 #include <phi/container/string_view.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/types.hpp>
+#include <phi/type_traits/is_trivially_copyable.hpp>
 #include <limits>
 #include <utility>
 
@@ -28,7 +29,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view view;
 
         EXT_STATIC_REQUIRE(view.data() == nullptr);
-        EXT_STATIC_REQUIRE(bool(view.size() == 0u));
+        EXT_STATIC_REQUIRE(view.length() == 0u);
+        EXT_STATIC_REQUIRE(view.is_empty());
+        EXT_STATIC_REQUIRE(view.is_null());
     }
 
     SECTION("BasicStringView(CharT*)")
@@ -36,19 +39,25 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view view("Hello World");
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
-        EXT_STATIC_REQUIRE(bool(view.size() == 11u));
+        EXT_STATIC_REQUIRE(view.length() == 11u);
+        EXT_STATIC_REQUIRE_FALSE(view.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(view.is_null());
     }
 
-    SECTION("BasicStringView(CharT*, size_type)")
+    SECTION("BasicStringView(CharT*, length_type)")
     {
         EXT_CONSTEXPR_RUNTIME phi::string_view view("Hello World", 11u);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
-        EXT_STATIC_REQUIRE(bool(view.size() == 11u));
+        EXT_STATIC_REQUIRE(view.length() == 11u);
+        EXT_STATIC_REQUIRE_FALSE(view.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(view.is_null());
 
         EXT_CONSTEXPR_RUNTIME phi::string_view view2("Hello World", 5u);
-        EXT_STATIC_REQUIRE(bool(view2.size() == 5u));
+        EXT_STATIC_REQUIRE(view2.length() == 5u);
         EXT_STATIC_REQUIRE(view2.back() == 'o');
+        EXT_STATIC_REQUIRE_FALSE(view.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(view.is_null());
     }
 
     SECTION("copy constructor")
@@ -57,7 +66,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view copy_view(base_view);
 
         EXT_STATIC_REQUIRE(copy_view.data() == nullptr);
-        EXT_STATIC_REQUIRE(bool(copy_view.size() == 0u));
+        EXT_STATIC_REQUIRE(copy_view.length() == 0u);
+        EXT_STATIC_REQUIRE(copy_view.is_empty());
+        EXT_STATIC_REQUIRE(copy_view.is_null());
 
         EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
         EXT_CONSTEXPR_RUNTIME phi::string_view copy_view2(base_view2);
@@ -67,8 +78,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         // TODO: For some reason MSVC fails this tests at runtime
         EXT_STATIC_REQUIRE(copy_view2.data() == base_view2.data());
 #endif
-        EXT_STATIC_REQUIRE(bool(copy_view2.size() == 11u));
-        EXT_STATIC_REQUIRE(bool(copy_view2.size() == base_view2.size()));
+        EXT_STATIC_REQUIRE(copy_view2.length() == 11u);
+        EXT_STATIC_REQUIRE(copy_view2.length() == base_view2.length());
     }
 
     SECTION("move constructor")
@@ -77,13 +88,13 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view move_view(phi::move(base_view));
 
         EXT_STATIC_REQUIRE(move_view.data() == nullptr);
-        EXT_STATIC_REQUIRE(bool(move_view.size() == 0u));
+        EXT_STATIC_REQUIRE(move_view.length() == 0u);
 
         EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
         EXT_CONSTEXPR_RUNTIME phi::string_view move_view2(phi::move(base_view2));
 
         EXT_STATIC_REQUIRE(phi::string_equals(move_view2.data(), "Hello World"));
-        EXT_STATIC_REQUIRE(bool(move_view2.size() == 11u));
+        EXT_STATIC_REQUIRE(move_view2.length() == 11u);
     }
 
     SECTION("operator=(const BasicStringView&)")
@@ -94,7 +105,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         copy_view = base_view;
 
         CHECK(copy_view.data() == nullptr);
-        CHECK(bool(copy_view.size() == 0u));
+        CHECK(copy_view.length() == 0u);
 
         phi::string_view base_view2("Hello World");
         phi::string_view copy_view2;
@@ -103,7 +114,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         CHECK(phi::string_equals(copy_view2.data(), "Hello World"));
         CHECK(base_view2 == copy_view2);
-        CHECK(bool(copy_view2.size() == 11u));
+        CHECK(copy_view2.length() == 11u);
     }
 
     SECTION("operator=(BasicStringView&&)")
@@ -114,7 +125,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         move_view = phi::move(base_view);
 
         CHECK(move_view.data() == nullptr);
-        CHECK(bool(move_view.size() == 0u));
+        CHECK(move_view.length() == 0u);
 
         phi::string_view base_view2("Hello World");
         phi::string_view move_view2;
@@ -122,7 +133,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         move_view2 = phi::move(base_view2);
 
         CHECK(phi::string_equals(move_view2.data(), "Hello World"));
-        CHECK(bool(move_view2.size() == 11u));
+        CHECK(move_view2.length() == 11u);
     }
 
     SECTION("begin")
@@ -215,31 +226,27 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
-        REQUIRE_17(bool(null_view.crend() == std::reverse_iterator<const char*>(nullptr)));
+        REQUIRE_17(null_view.crend() == std::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS_NOT(MSVC)
-        REQUIRE_17(bool(test_view.crend() == std::reverse_iterator<const char*>(str)));
+        REQUIRE_17(test_view.crend() == std::reverse_iterator<const char*>(str));
 #endif
     }
 
-    SECTION("size/length")
+    SECTION("length")
     {
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Test");
         EXT_CONSTEXPR_RUNTIME phi::string_view short_view("Hello World", 5u);
 
-        EXT_STATIC_REQUIRE(bool(null_view.size() == 0u));
-        EXT_STATIC_REQUIRE(bool(test_view.size() == 4u));
-        EXT_STATIC_REQUIRE(bool(short_view.size() == 5u));
-
-        EXT_STATIC_REQUIRE(bool(null_view.length() == 0u));
-        EXT_STATIC_REQUIRE(bool(test_view.length() == 4u));
-        EXT_STATIC_REQUIRE(bool(short_view.length() == 5u));
+        EXT_STATIC_REQUIRE(null_view.length() == 0u);
+        EXT_STATIC_REQUIRE(test_view.length() == 4u);
+        EXT_STATIC_REQUIRE(short_view.length() == 5u);
     }
 
-    SECTION("max_size")
+    SECTION("max_length")
     {
         CONSTEXPR_RUNTIME phi::string_view view;
-        STATIC_REQUIRE(bool(std::numeric_limits<phi::usize>::max() == view.max_size()));
+        STATIC_REQUIRE(std::numeric_limits<phi::usize>::max() == view.max_length());
     }
 
     SECTION("is_empty")
@@ -249,6 +256,15 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         EXT_STATIC_REQUIRE(null_view.is_empty());
         EXT_STATIC_REQUIRE_FALSE(test_view.is_empty());
+    }
+
+    SECTION("is_null")
+    {
+        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
+        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Hello World");
+
+        EXT_STATIC_REQUIRE(null_view.is_null());
+        EXT_STATIC_REQUIRE_FALSE(test_view.is_null());
     }
 
     SECTION("operator[]/at()")
@@ -301,7 +317,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         CHECK(view.data() == nullptr);
         CHECK(view.is_empty());
-        CHECK(bool(view.size() == 0u));
+        CHECK(view.is_null());
+        CHECK(view.length() == 0u);
     }
 
     SECTION("add_prefix")
@@ -310,12 +327,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         phi::string_view             view(str + 6);
 
         CHECK(phi::string_equals(view.data(), "World"));
-        CHECK(bool(view.size() == 5u));
+        CHECK(view.length() == 5u);
 
         view.add_prefix(6u);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
-        CHECK(bool(view.size() == 11u));
+        CHECK(view.length() == 11u);
     }
 
     SECTION("add_postfix")
@@ -324,12 +341,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         phi::string_view             view(str, 5u);
 
         CHECK(view.back() == 'o');
-        CHECK(bool(view.size() == 5u));
+        CHECK(view.length() == 5u);
 
         view.add_postfix(6u);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
-        CHECK(bool(view.size() == 11u));
+        CHECK(view.length() == 11u);
     }
 
     SECTION("remove_prefix")
@@ -338,12 +355,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         phi::string_view             view(str);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
-        CHECK(bool(view.size() == 11u));
+        CHECK(view.length() == 11u);
 
         view.remove_prefix(6u);
 
         CHECK(phi::string_equals(view.data(), "World"));
-        CHECK(bool(view.size() == 5u));
+        CHECK(view.length() == 5u);
     }
 
     SECTION("remove_suffix")
@@ -352,12 +369,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         phi::string_view             view(str);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
-        CHECK(bool(view.size() == 11u));
+        CHECK(view.length() == 11u);
 
         view.remove_suffix(6u);
 
         CHECK(view.back() == 'o');
-        CHECK(bool(view.size() == 5u));
+        CHECK(view.length() == 5u);
     }
 
     SECTION("resize")
@@ -368,12 +385,12 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         view.resize(11u);
 
         CHECK(view.back() == 'd');
-        CHECK(bool(view.size() == 11u));
+        CHECK(view.length() == 11u);
 
         view.resize(5u);
 
         CHECK(view.back() == 'o');
-        CHECK(bool(view.size() == 5u));
+        CHECK(view.length() == 5u);
     }
 
     SECTION("swap")
@@ -397,28 +414,45 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         dest[5u] = '\0';
 
         CHECK(phi::string_equals(dest, "Hello"));
-        CHECK(bool(phi::string_length(dest) == 5u));
+        CHECK(phi::string_length(dest) == 5u);
 
         view.copy(dest, 5u, 6u);
         dest[5u] = '\0';
 
         CHECK(phi::string_equals(dest, "World"));
-        CHECK(bool(phi::string_length(dest) == 5u));
+        CHECK(phi::string_length(dest) == 5u);
     }
 
-    SECTION("substr")
+    SECTION("substring_view")
     {
         EXT_CONSTEXPR_RUNTIME phi::string_view base_view("Hello World");
-        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view = base_view.substr(
+        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view = base_view.substring_view(
                 6u); // TODO: This line generates a linker error with GCC when npos is defined to be size_type instead of size_t
 
         EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "World"));
-        EXT_STATIC_REQUIRE(bool(sub_view.size() == 5u));
+        EXT_STATIC_REQUIRE(sub_view.length() == 5u);
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 = base_view.substr(0u, 5u);
+        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 = base_view.substring_view(0u, 5u);
 
         EXT_STATIC_REQUIRE(sub_view2.back() == 'o');
-        EXT_STATIC_REQUIRE(bool(sub_view2.size() == 5u));
+        EXT_STATIC_REQUIRE(sub_view2.length() == 5u);
+    }
+
+    SECTION("explicit specilizations")
+    {
+        CHECK_SAME_TYPE(phi::string_view, phi::basic_string_view<char>);
+        CHECK_SAME_TYPE(phi::wstring_view, phi::basic_string_view<wchar_t>);
+        CHECK_SAME_TYPE(phi::u8string_view, phi::basic_string_view<char8_t>);
+        CHECK_SAME_TYPE(phi::u16string_view, phi::basic_string_view<char16_t>);
+        CHECK_SAME_TYPE(phi::u32string_view, phi::basic_string_view<char32_t>);
+
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::string_view>::value);
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::wstring_view>::value);
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::u8string_view>::value);
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::u16string_view>::value);
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::u32string_view>::value);
+#endif
     }
 }
 
