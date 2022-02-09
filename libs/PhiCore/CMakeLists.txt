@@ -13,6 +13,7 @@ file(
   "include/phi/algorithm/all_of.hpp"
   "include/phi/algorithm/any_of.hpp"
   "include/phi/algorithm/at.hpp"
+  "include/phi/algorithm/clamp.hpp"
   "include/phi/algorithm/compare.hpp"
   "include/phi/algorithm/count_if_not.hpp"
   "include/phi/algorithm/count_if.hpp"

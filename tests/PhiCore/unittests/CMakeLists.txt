@@ -8,6 +8,7 @@ file(
   TEST_SOURCES
   # algorithm
   "src/algorithm/at.test.cpp"
+  "src/algorithm/clamp.test.cpp"
   "src/algorithm/compare.test.cpp"
   "src/algorithm/exchange.test.cpp"
   "src/algorithm/max.test.cpp"
