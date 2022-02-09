@@ -11,6 +11,7 @@ file(
   "src/algorithm/compare.test.cpp"
   "src/algorithm/exchange.test.cpp"
   "src/algorithm/max.test.cpp"
+  "src/algorithm/min.test.cpp"
   "src/algorithm/string_length.test.cpp"
   "src/algorithm/swap.test.cpp"
   # compiler_support

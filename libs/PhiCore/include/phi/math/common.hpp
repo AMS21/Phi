@@ -24,20 +24,6 @@ constexpr PHI_ALWAYS_INLINE TypeT cube(const TypeT val) noexcept
     return val * val * val;
 }
 
-// Min functions
-
-template <typename TypeT>
-constexpr const TypeT& min(const TypeT& lhs, const TypeT& rhs) noexcept
-{
-    return (lhs < rhs) ? lhs : rhs;
-}
-
-template <typename TypeT, typename CompareT>
-constexpr const TypeT& min(const TypeT& lhs, const TypeT& rhs, CompareT comp) noexcept
-{
-    return (comp(lhs, rhs) ? lhs : rhs);
-}
-
 // Credits: https://gist.github.com/alexshtf/eb5128b3e3e143187794
 /// \cond detail
 namespace detail
