@@ -27,6 +27,7 @@ file(
   "include/phi/algorithm/is_sorted_until.hpp"
   "include/phi/algorithm/is_sorted.hpp"
   "include/phi/algorithm/iterator_swap.hpp"
+  "include/phi/algorithm/max.hpp"
   "include/phi/algorithm/none_off.hpp"
   "include/phi/algorithm/string_compare.hpp"
   "include/phi/algorithm/string_equals.hpp"
