@@ -1,5 +1,13 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wsign-compare")
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsign-compare")
+
 #include <phi/algorithm/compare.hpp>
 
 TEST_CASE("compare")
@@ -20,3 +28,6 @@ TEST_CASE("compare")
     STATIC_REQUIRE(phi::compare('a', 'b') == phi::compare_result::LessThan);
     STATIC_REQUIRE(phi::compare('b', 'a') == phi::compare_result::GreaterThan);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_SUPPRESS_WARNING_POP()

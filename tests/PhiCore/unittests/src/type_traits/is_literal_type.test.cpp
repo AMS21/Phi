@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
@@ -164,7 +165,11 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<phi::floating_point<long double>>();
 
     test_is_not_literal_type<std::vector<int>>();
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    test_is_not_literal_type<phi::scope_ptr<int>>();
+#else
     test_is_literal_type_cxx20<phi::scope_ptr<int>>();
+#endif
 
     test_is_literal_type<int&>();
     test_is_literal_type<const int&>();
@@ -265,14 +270,20 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<Polymorphic>();
     test_is_literal_type<DerivedPolymorphic>();
     test_is_not_literal_type<Abstract>();
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    test_is_not_literal_type<PublicAbstract>();
+    test_is_not_literal_type<PrivateAbstract>();
+    test_is_not_literal_type<ProtectedAbstract>();
+#else
     test_is_literal_type_cxx20<PublicAbstract>();
     test_is_literal_type_cxx20<PrivateAbstract>();
     test_is_literal_type_cxx20<ProtectedAbstract>();
+#endif
     test_is_not_literal_type<AbstractTemplate<int>>();
     test_is_literal_type<AbstractTemplate<double>>();
     test_is_not_literal_type<AbstractTemplate<Class>>();
     test_is_not_literal_type<AbstractTemplate<IncompleteType>>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<PublicAbstractDeletedDestructor>();
     test_is_literal_type<ProtectedAbstractDeletedDestructor>();
     test_is_literal_type<PrivateAbstractDeletedDestructor>();
@@ -286,13 +297,19 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<PublicDestructor>();
     test_is_literal_type<ProtectedDestructor>();
     test_is_literal_type<PrivateDestructor>();
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    test_is_not_literal_type<VirtualPublicDestructor>();
+    test_is_not_literal_type<VirtualProtectedDestructor>();
+    test_is_not_literal_type<VirtualPrivateDestructor>();
+#else
     test_is_literal_type_cxx20<VirtualPublicDestructor>();
     test_is_literal_type_cxx20<VirtualProtectedDestructor>();
     test_is_literal_type_cxx20<VirtualPrivateDestructor>();
+#endif
     test_is_not_literal_type<PurePublicDestructor>();
     test_is_not_literal_type<PureProtectedDestructor>();
     test_is_not_literal_type<PurePrivateDestructor>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<DeletedPublicDestructor>();
     test_is_literal_type<DeletedProtectedDestructor>();
     test_is_literal_type<DeletedPrivateDestructor>();
@@ -438,12 +455,16 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<NonCopyable>();
     test_is_literal_type<NonMoveable>();
     test_is_literal_type<NonConstructible>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<NonDestructible>();
 #else
     test_is_not_literal_type_cxx20<NonDestructible>();
 #endif
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    test_is_not_literal_type<Tracked>();
+#else
     test_is_literal_type_cxx20<Tracked>();
+#endif
     test_is_literal_type<TrapConstructible>();
     test_is_literal_type<TrapImplicitConversion>();
     test_is_literal_type<TrapComma>();

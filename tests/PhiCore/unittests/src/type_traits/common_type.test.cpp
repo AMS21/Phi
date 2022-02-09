@@ -31,10 +31,30 @@ void test_common_type_impl()
 }
 
 template <typename T1, typename T2, typename Expected>
+void test_common_type_no_std_impl()
+{
+    CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type, Expected);
+    CHECK_SAME_TYPE(phi::common_type_t<T1, T2>, Expected);
+}
+
+template <typename T1, typename T2, typename Expected>
 void test_common_type()
 {
     test_common_type_impl<T1, T2, Expected>();
     test_common_type_impl<T2, T1, Expected>();
+}
+
+template <typename T1, typename T2, typename Expected>
+void test_common_type_new()
+{
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) ||                                                    \
+        (PHI_COMPILER_IS(GCC) && PHI_CPP_STANDARD_IS_ATLEAST(20))
+    test_common_type_impl<T1, T2, Expected>();
+    test_common_type_impl<T2, T1, Expected>();
+#else
+    test_common_type_no_std_impl<T1, T2, Expected>();
+    test_common_type_no_std_impl<T2, T1, Expected>();
+#endif
 }
 
 template <typename T1, typename T2, typename Expected>
@@ -349,20 +369,18 @@ void test_bullet_three_three()
 //       denote the type decay_t<COND-RES(CREF(D1), CREF(D2))>.
 void test_bullet_three_four()
 {
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    test_common_type<int, bad_reference_wrapper<int>, int>();
-    test_common_type<bad_reference_wrapper<double>, double, double>();
-    test_common_type<const bad_reference_wrapper<double>, double, double>();
-    test_common_type<volatile bad_reference_wrapper<double>, double, double>();
-    test_common_type<const volatile bad_reference_wrapper<double>, double, double>();
+    test_common_type_new<int, bad_reference_wrapper<int>, int>();
+    test_common_type_new<bad_reference_wrapper<double>, double, double>();
+    test_common_type_new<const bad_reference_wrapper<double>, double, double>();
+    test_common_type_new<volatile bad_reference_wrapper<double>, double, double>();
+    test_common_type_new<const volatile bad_reference_wrapper<double>, double, double>();
 
-    test_common_type<bad_reference_wrapper<double>, const double, double>();
-    test_common_type<bad_reference_wrapper<double>, volatile double, double>();
-    test_common_type<bad_reference_wrapper<double>, const volatile double, double>();
+    test_common_type_new<bad_reference_wrapper<double>, const double, double>();
+    test_common_type_new<bad_reference_wrapper<double>, volatile double, double>();
+    test_common_type_new<bad_reference_wrapper<double>, const volatile double, double>();
 
-    test_common_type<bad_reference_wrapper<double>&, double, double>();
-    test_common_type<bad_reference_wrapper<double>, double&, double>();
-#endif
+    test_common_type_new<bad_reference_wrapper<double>&, double, double>();
+    test_common_type_new<bad_reference_wrapper<double>, double&, double>();
 }
 
 // (4.4)
@@ -378,10 +396,8 @@ void test_bullet_four()
         // test that there is no ::type member
         test_no_common_type<int, E>();
         test_no_common_type<int, int, E>();
-#if PHI_CPP_STANDARD_IS_ATLEAST(11)
         test_no_common_type<int, int, E, int>();
         test_no_common_type<int, int, int, E>();
-#endif
     }
 }
 
@@ -458,12 +474,10 @@ TEST_CASE("common_type")
     //test_common_type<int, const int, int>();
     //test_common_type<const int, const int, int>();
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(11)
     // Test that we're really variadic in C++11
     //CHECK_SAME_TYPE(typename phi::common_type<int, int, int, int, int, int, int, int>::type, int);
     //CHECK_SAME_TYPE(phi::common_type_t<int, int, int, int, int, int, int, int>, int);
     //CHECK_SAME_TYPE(typename std::common_type<int, int, int, int, int, int, int, int>::type, int);
-#endif
 
 #if 0
     // P2321

@@ -35,12 +35,15 @@ PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(Fr
 
 #elif PHI_COMPILER_IS_NOT(MSVC)
 
+#    include "phi/compiler_support/compiler.hpp"
 #    include "phi/compiler_support/warning.hpp"
 #    include "phi/core/declval.hpp"
 #    include "phi/type_traits/is_void.hpp"
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
+#    endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

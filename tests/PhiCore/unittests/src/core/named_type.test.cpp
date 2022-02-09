@@ -50,7 +50,9 @@ SOFTWARE.
 // Usage examples
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
+#endif
 
 using Meter =
         phi::named_type<unsigned long long, struct MeterParameter, phi::addable, phi::comparable>;

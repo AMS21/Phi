@@ -26,7 +26,9 @@ namespace detail
 /// \endcond
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
+#endif
 
 template <typename TypeT>
 PHI_ALWAYS_INLINE add_rvalue_reference_t<TypeT> declval() noexcept

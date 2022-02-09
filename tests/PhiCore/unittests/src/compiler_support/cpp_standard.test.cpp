@@ -1,6 +1,10 @@
-#include "phi/test/test_macros.hpp"
+#include <phi/test/test_macros.hpp>
 
-#include "phi/compiler_support/cpp_standard.hpp"
+#include <phi/compiler_support/cpp_standard.hpp>
+#include <phi/compiler_support/warning.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
 
 constexpr bool is_any_standard()
 {
@@ -15,6 +19,8 @@ constexpr bool is_any_short_standard()
            PHI_CPP_STANDARD_SHORT() == 14 || PHI_CPP_STANDARD_SHORT() == 17 ||
            PHI_CPP_STANDARD_SHORT() == 20 || PHI_CPP_STANDARD_SHORT() == 23;
 }
+
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("PHI_CPLUSPLUS_X")
 {

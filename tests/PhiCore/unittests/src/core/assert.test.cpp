@@ -5,7 +5,9 @@
 #include <phi/core/assert.hpp>
 #include <string>
 
-PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wgnu-zero-variadic-macro-arguments")
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wgnu-zero-variadic-macro-arguments")
+PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
 
 TEST_CASE("PHI_ASSERT", "[Utility][Assert]")
 {

@@ -73,39 +73,43 @@ extern int main();
 
 #define REQUIRE_FALSE(...) DETAIL_CALL_IMPL(RequireFalseImpl, __VA_ARGS__)
 
-#define STATIC_REQUIRE(...)                                                                        \
+#define DETAIL_STATIC_REQUIRE_BEGIN()                                                              \
     PHI_BEGIN_MACRO()                                                                              \
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
+    PHI_GCC_SUPPRESS_WARNING_PUSH()                                                                \
+    PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")                                                     \
+    PHI_CLANG_SUPPRESS_WARNING_PUSH()                                                              \
+    PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
+
+#define DETAIL_STATIC_REQUIRE_END()                                                                \
+    PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
+    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    PHI_END_MACRO()
+
+#define STATIC_REQUIRE(...)                                                                        \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(static_cast<bool>(__VA_ARGS__), "PHI_STATIC_REQUIRE: " #__VA_ARGS__ " was "      \
                                                   "false");                                        \
-    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     REQUIRE(__VA_ARGS__);                                                                          \
-    PHI_END_MACRO()
+    DETAIL_STATIC_REQUIRE_END()
 
 #define STATIC_REQUIRE_FALSE(...)                                                                  \
-    PHI_BEGIN_MACRO()                                                                              \
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(!static_cast<bool>(__VA_ARGS__),                                                 \
                   "PHI_STATIC_REQUIRE_FALSE: " #__VA_ARGS__ " was true");                          \
-    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     REQUIRE_FALSE(__VA_ARGS__);                                                                    \
-    PHI_END_MACRO()
+    DETAIL_STATIC_REQUIRE_END()
 
 #define CHECK_NOEXCEPT(...)                                                                        \
-    PHI_BEGIN_MACRO()                                                                              \
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(noexcept(__VA_ARGS__),                                                           \
                   "PHI_CHECK_NOEXCEPT: " #__VA_ARGS__ " should be declared noexcept but is not");  \
-    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
-    PHI_END_MACRO()
+    DETAIL_STATIC_REQUIRE_END()
 
 #define CHECK_NOT_NOEXCEPT(...)                                                                    \
-    PHI_BEGIN_MACRO()                                                                              \
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(!noexcept(__VA_ARGS__), "PHI_CHECK_NOT_NOEXCEPT: " #__VA_ARGS__                  \
                                           " should not be declared noexcept but is");              \
-    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
-    PHI_END_MACRO()
+    DETAIL_STATIC_REQUIRE_END()
 
 #define CHECK_SAME_TYPE(...) STATIC_REQUIRE(::phi::is_same<__VA_ARGS__>::value)
 

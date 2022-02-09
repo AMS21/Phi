@@ -23,22 +23,33 @@
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
-#include <phi/core/optional.hpp>
 #include <phi/type_traits/is_same.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-conversion")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-float-conversion")
+#endif
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
+
+#include <phi/core/optional.hpp>
+
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
 #if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-copy")
+#else
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated")
 #endif
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
@@ -819,7 +830,7 @@ TEST_CASE("optional monadic operations", "[monadic]")
         REQUIRE(!o2);
     }
 
-    struct foo
+    struct bar
     {
         void non_const()
         {}
@@ -828,7 +839,7 @@ TEST_CASE("optional monadic operations", "[monadic]")
 #    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #1")
     {
-        phi::optional<foo> f = foo{};
+        phi::optional<bar> f = bar{};
         auto               l = [](auto&& x) { x.non_const(); };
         f.map(l);
     }
@@ -836,11 +847,11 @@ TEST_CASE("optional monadic operations", "[monadic]")
 
     struct overloaded
     {
-        phi::optional<int> operator()(foo&)
+        phi::optional<int> operator()(bar&)
         {
             return 0;
         }
-        phi::optional<std::string> operator()(const foo&)
+        phi::optional<std::string> operator()(const bar&)
         {
             return "";
         }
@@ -849,7 +860,7 @@ TEST_CASE("optional monadic operations", "[monadic]")
 #    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("Issue #2")
     {
-        phi::optional<foo> f = foo{};
+        phi::optional<bar> f = bar{};
         auto               x = f.and_then(overloaded{});
 
         PHI_UNUSED_VARIABLE(x);
@@ -912,6 +923,8 @@ int& x(int& i)
     return i;
 }
 
+PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnull-dereference")
+
 #    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
 TEST_CASE("issue 14")
 {
@@ -923,6 +936,8 @@ TEST_CASE("issue 14")
     REQUIRE((&f->i) == (&*v));
 }
 #    endif
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 struct fail_on_copy_self
 {
