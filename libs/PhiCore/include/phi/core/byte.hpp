@@ -17,7 +17,6 @@ enum class byte : unsigned char
 {
 };
 
-
 constexpr byte operator|(byte lhs, byte rhs) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) |
