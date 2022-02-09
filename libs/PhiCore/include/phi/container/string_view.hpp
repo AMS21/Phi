@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/algorithm/min.hpp"
 #include "phi/algorithm/string_length.hpp"
 #include "phi/compiler_support/char8_t.hpp"
 #include "phi/compiler_support/constexpr.hpp"
@@ -301,7 +302,7 @@ public:
     {
         PHI_DBG_ASSERT(pos <= length(), "Invalid position");
 
-        const size_type rlen = std::min(count, length() - pos);
+        const size_type rlen = min(count, length() - pos);
         TraitsT::copy(destination, data() + pos.get(), rlen.get());
 
         return rlen;
@@ -312,7 +313,7 @@ public:
     {
         PHI_DBG_ASSERT(pos <= length(), "Invalid position");
 
-        return basic_string_view(data() + pos.get(), std::min(count, length() - pos));
+        return basic_string_view(data() + pos.get(), min(count, length() - pos));
     }
 
     // Comparing
@@ -322,7 +323,7 @@ public:
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         {
             const i32 result = TraitsT::compare(data(), other.data(),
-                                                std::min(length().get(), other.length().get()));
+                                                min(length().get(), other.length().get()));
 
             if (result != 0)
             {
@@ -335,10 +336,10 @@ public:
 #else
 
         // Ugly C++-11 compatible version of the same code
-        return TraitsT::compare(data(), other.data(),
-                                std::min(length().get(), other.length().get())) != 0 ?
+        return TraitsT::compare(data(), other.data(), min(length().get(), other.length().get())) !=
+                               0 ?
                        TraitsT::compare(data(), other.data(),
-                                        std::min(length().get(), other.length().get())) :
+                                        min(length().get(), other.length().get())) :
                length() == other.length() ? 0 :
                length() < other.length()  ? -1 :
                                             1;
@@ -464,12 +465,11 @@ public:
 
         if (view.empty())
         {
-            return std::min(length(), pos);
+            return min(length(), pos);
         }
 
-        const_iterator last = cbegin() + std::min(length() - view.length(), pos) + view.length();
-        const_iterator result =
-                std::find_end(cbegin(), last, view.cbegin(), view.cend(), TraitsT::eq);
+        const_iterator last   = cbegin() + min(length() - view.length(), pos) + view.length();
+        const_iterator result = find_end(cbegin(), last, view.cbegin(), view.cend(), TraitsT::eq);
 
         if (result != last)
         {

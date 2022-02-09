@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/algorithm/min.hpp"
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
