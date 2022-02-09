@@ -144,6 +144,7 @@ file(
   "include/phi/core/as_const.hpp"
   "include/phi/core/assert.hpp"
   "include/phi/core/boolean.hpp"
+  "include/phi/core/byte.hpp"
   "include/phi/core/conversion.hpp"
   "include/phi/core/crtp.hpp"
   "include/phi/core/declval.hpp"
