@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "phi/compiler_support/warning.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/max_align_t.hpp>
@@ -174,6 +175,10 @@ TEST_CASE("aligned_storage")
         STATIC_REQUIRE(phi::alignment_of<T1>::value == 8);
         STATIC_REQUIRE(sizeof(T1) == 16);
     }
+
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wduplicated-branches")
+
     {
         using T1 = phi::aligned_storage<16>::type;
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<16>);
@@ -195,6 +200,9 @@ TEST_CASE("aligned_storage")
         STATIC_REQUIRE(phi::alignment_of<T1>::value == alignment);
         STATIC_REQUIRE(sizeof(T1) == 16 + alignment);
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+
     {
         using T1 = phi::aligned_storage<10>::type;
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<10>);
