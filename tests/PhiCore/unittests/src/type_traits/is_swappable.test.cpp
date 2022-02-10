@@ -1,16 +1,21 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
-#include <phi/algorithm/swap.hpp>
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
+#include <phi/core/nullptr_t.hpp>
+#include <type_traits>
+#include <vector>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
+#include <phi/algorithm/swap.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
-#include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_swappable.hpp>
-#include <type_traits>
-#include <vector>
 
 template <typename T>
 void test_is_swappable_impl()

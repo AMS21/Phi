@@ -79,7 +79,6 @@ TEST_CASE("is_pointer_interconvertible_with_class")
 
     constexpr int A::*a = nullptr;
     test_is_not_pointer_interconvertible_with_class(a);
-    CHECK_NOEXCEPT(phi::is_pointer_interconvertible_with_class(a));
 
     test_is_pointer_interconvertible_with_class(&B::i);
 

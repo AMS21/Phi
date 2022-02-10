@@ -47,8 +47,8 @@ void test_common_type()
 template <typename T1, typename T2, typename Expected>
 void test_common_type_new()
 {
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) ||                                                    \
-        (PHI_COMPILER_IS(GCC) && PHI_CPP_STANDARD_IS_ATLEAST(20))
+#if (PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) || PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)) &&        \
+        PHI_CPP_STANDARD_IS_ATLEAST(20)
     test_common_type_impl<T1, T2, Expected>();
     test_common_type_impl<T2, T1, Expected>();
 #else

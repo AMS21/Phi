@@ -376,6 +376,10 @@ phi_check_cxx_source_compiles("int main() { __int128 i; }" PHI_HAS_EXTENSION_INT
 phi_check_cxx_source_compiles("int main() { _Float16 f; }" PHI_HAS_EXTENSION_FLOAT16)
 phi_check_cxx_source_compiles("int main() { __float128 f; }" PHI_HAS_EXTENSION_FLOAT128)
 phi_check_cxx_source_compiles("int main() { __fp16 f; }" PHI_HAS_EXTENSION_FP16)
+phi_check_cxx_source_compiles("__attribute__ ((const)) int main() {}"
+                              PHI_HAS_EXTENSION_ATTRIBUTE_CONST)
+phi_check_cxx_source_compiles("__attribute__ ((pure)) int main() {}"
+                              PHI_HAS_EXTENSION_ATTRIBUTE_PURE)
 
 # Bugs
 phi_check_cxx_source_compiles(

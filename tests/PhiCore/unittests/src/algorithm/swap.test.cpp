@@ -1,10 +1,15 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
-#include <phi/algorithm/swap.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
-#include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_same.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
+#include <phi/algorithm/swap.hpp>
+#include <phi/core/scope_ptr.hpp>
 
 struct CopyOnly
 {
@@ -186,3 +191,5 @@ TEST_CASE("swap")
     STATIC_REQUIRE(test_swap_constexpr());
 #endif
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

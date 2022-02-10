@@ -418,6 +418,8 @@ template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
 constexpr boolean operator>(floating_point<LhsT>, RhsT) = delete;
 
+PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wdouble-promotion")
+
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
 PHI_ALWAYS_INLINE constexpr boolean operator>=(const floating_point<LhsT>& lhs,
@@ -425,6 +427,8 @@ PHI_ALWAYS_INLINE constexpr boolean operator>=(const floating_point<LhsT>& lhs,
 {
     return static_cast<LhsT>(lhs) >= static_cast<RhsT>(rhs);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>

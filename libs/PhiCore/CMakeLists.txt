@@ -123,6 +123,7 @@ file(
   "include/phi/compiler_support/cpp_standard.hpp"
   "include/phi/compiler_support/current_function.hpp"
   "include/phi/compiler_support/deprecated.hpp"
+  "include/phi/compiler_support/extended_attributes.hpp"
   "include/phi/compiler_support/extended_types.hpp"
   "include/phi/compiler_support/flatten.hpp"
   "include/phi/compiler_support/inline_variables.hpp"

@@ -351,7 +351,8 @@ TEST_CASE("is_pod")
     test_is_pod<FunctionPtr>();
     test_is_pod<MemberObjectPtr>();
     test_is_pod<MemberFunctionPtr>();
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#if (PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0) || PHI_COMPILER_IS_NOT(GCC)) &&                         \
+        PHI_CPP_STANDARD_IS_ATLEAST(20)
     test_is_pod<LambdaType>();
     test_is_pod<LambdaNoexceptType>();
     test_is_pod<LambdaThrowsType>();

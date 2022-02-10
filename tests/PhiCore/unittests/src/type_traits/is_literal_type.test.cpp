@@ -165,7 +165,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<phi::floating_point<long double>>();
 
     test_is_not_literal_type<std::vector<int>>();
-#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
     test_is_not_literal_type<phi::scope_ptr<int>>();
 #else
     test_is_literal_type_cxx20<phi::scope_ptr<int>>();
@@ -248,7 +248,7 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<VirtualDerivedFromTemplate<Class>>();
     test_is_literal_type<Union>();
     test_is_literal_type<NonEmptyUnion>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
     test_is_literal_type_cxx20<NonTrivialUnion>();
 #else
     test_is_not_literal_type<NonTrivialUnion>();
@@ -270,7 +270,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<Polymorphic>();
     test_is_literal_type<DerivedPolymorphic>();
     test_is_not_literal_type<Abstract>();
-#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
     test_is_not_literal_type<PublicAbstract>();
     test_is_not_literal_type<PrivateAbstract>();
     test_is_not_literal_type<ProtectedAbstract>();
@@ -297,7 +297,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<PublicDestructor>();
     test_is_literal_type<ProtectedDestructor>();
     test_is_literal_type<PrivateDestructor>();
-#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
     test_is_not_literal_type<VirtualPublicDestructor>();
     test_is_not_literal_type<VirtualProtectedDestructor>();
     test_is_not_literal_type<VirtualPrivateDestructor>();
@@ -338,7 +338,11 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<ExceptMoveConsClass>();
     test_is_literal_type<NoexceptCopyAssignClass>();
     test_is_literal_type<ExceptCopyAssignClass>();
+#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
+    test_is_literal_type<NoexceptMoveAssignClass>();
+#else
     test_is_not_literal_type_cxx20<NoexceptMoveAssignClass>();
+#endif
     test_is_literal_type<ExceptMoveAssignClass>();
     test_is_literal_type<DeletedCopyAssignClass>();
     test_is_literal_type<DeletedMoveAssignClass>();
@@ -460,7 +464,7 @@ TEST_CASE("is_literal_type")
 #else
     test_is_not_literal_type_cxx20<NonDestructible>();
 #endif
-#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
     test_is_not_literal_type<Tracked>();
 #else
     test_is_literal_type_cxx20<Tracked>();

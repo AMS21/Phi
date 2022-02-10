@@ -32,7 +32,7 @@ file(
   CONTENT "${FILE_CONTENT}")
 
 # Add the main function
-string(APPEND FILE_CONTENT "\nint main() { return 0; }\n")
+string(APPEND FILE_CONTENT "\nPHI_ATTRIBUTE_CONST int main() { return 0; }\n")
 
 # Generate main file
 file(

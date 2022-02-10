@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/intrinsics/address_of.hpp>
 #include <phi/compiler_support/intrinsics/is_union.hpp>
 #include <phi/compiler_support/warning.hpp>
@@ -185,11 +186,16 @@ std::string performAction(Comparator<Function> comp)
     return comp.get()();
 }
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-result")
+
 TEST_CASE("Strong generic type")
 {
     REQUIRE(performAction(phi::make_named<Comparator>([]() { return std::string("compare"); })) ==
             "compare");
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("Addable")
 {
@@ -682,12 +688,14 @@ struct testFunctionCallable_A
     int x;
 };
 
-testFunctionCallable_A operator+(testFunctionCallable_A const& a1, testFunctionCallable_A const& a2)
+PHI_ATTRIBUTE_PURE testFunctionCallable_A operator+(testFunctionCallable_A const& a1,
+                                                    testFunctionCallable_A const& a2)
 {
     return testFunctionCallable_A(a1.x + a2.x);
 }
 
-bool operator==(testFunctionCallable_A const& a1, testFunctionCallable_A const& a2)
+PHI_ATTRIBUTE_PURE bool operator==(testFunctionCallable_A const& a1,
+                                   testFunctionCallable_A const& a2)
 {
     return a1.x == a2.x;
 }

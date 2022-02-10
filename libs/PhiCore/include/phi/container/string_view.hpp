@@ -12,6 +12,7 @@
 #include "phi/compiler_support/char8_t.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/integer.hpp"
@@ -26,6 +27,9 @@
 #include <iterator>
 #include <limits>
 #include <string>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Winline")
 
 namespace std
 {
@@ -873,5 +877,7 @@ template <typename CharT, typename TraitsT>
 constexpr size_t basic_string_view<CharT, TraitsT>::npos;
 
 DETAIL_PHI_END_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_CONTAINER_STRING_VIEW_HPP

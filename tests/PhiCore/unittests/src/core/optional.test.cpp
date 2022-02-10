@@ -36,7 +36,9 @@ PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-float-conversion")
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
+#endif
 
 #include <phi/core/optional.hpp>
 

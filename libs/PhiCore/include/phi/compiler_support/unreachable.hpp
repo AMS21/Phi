@@ -4,6 +4,10 @@
 #include "phi/generated/compiler_support/features.hpp"
 #include "phi/preprocessor/function_like_macro.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #if PHI_HAS_EXTENSION_BUILTIN_UNREACHABLE()
 #    define PHI_UNREACHABLE() __builtin_unreachable()
 #elif PHI_HAS_EXTENSION_ASSUME()

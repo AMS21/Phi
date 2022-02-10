@@ -5,13 +5,22 @@
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
 #include <phi/core/types.hpp>
-#include <phi/math/vector2.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
 #include <iterator>
 
-PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wfloat-equal")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+
+#if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
+#else
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#endif
+
+#include <phi/math/vector2.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 

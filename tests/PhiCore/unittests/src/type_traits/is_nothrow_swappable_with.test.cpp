@@ -1,12 +1,14 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/warning.hpp>
-#include <phi/type_traits/is_nothrow_swappable_with.hpp>
-#include <phi/type_traits/is_swappable_with.hpp>
 #include <type_traits>
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
+#include <phi/algorithm/swap.hpp>
+#include <phi/type_traits/is_nothrow_swappable_with.hpp>
+#include <phi/type_traits/is_swappable_with.hpp>
 
 namespace is_nothrow_swappable_with_ns
 {

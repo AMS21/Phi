@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -155,7 +156,7 @@ void test_is_not_function()
 void f()
 {}
 
-int g()
+PHI_ATTRIBUTE_CONST int g()
 {
     return 0;
 }

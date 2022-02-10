@@ -3,6 +3,10 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #if PHI_HAS_FEATURE_MAYBE_UNUSED()
 #    define PHI_UNUSED [[maybe_unused]]
 #elif PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED()

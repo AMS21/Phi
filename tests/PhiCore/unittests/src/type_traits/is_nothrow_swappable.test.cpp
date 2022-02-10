@@ -1,9 +1,14 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
+#include <type_traits>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
 #include <phi/algorithm/swap.hpp>
 #include <phi/type_traits/is_nothrow_swappable.hpp>
 #include <phi/type_traits/is_swappable.hpp>
-#include <type_traits>
 
 namespace MyNS
 {
@@ -113,3 +118,5 @@ TEST_CASE("is_nothrow_swappable")
     test_is_not_nothrow_swappable<int() const>();
     test_is_not_nothrow_swappable<int(int, ...) const&>();
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

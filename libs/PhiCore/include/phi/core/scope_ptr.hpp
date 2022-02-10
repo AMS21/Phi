@@ -25,10 +25,10 @@
 #include "phi/type_traits/is_unbounded_array.hpp"
 #include "phi/type_traits/remove_extent.hpp"
 
-DETAIL_PHI_BEGIN_NAMESPACE()
-
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Winline")
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 class not_null_scope_ptr;

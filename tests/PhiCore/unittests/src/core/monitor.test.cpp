@@ -12,6 +12,7 @@
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 struct MonitorTestData
 {

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/type_traits/is_same.hpp>
@@ -26,7 +27,7 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
-PHI_EXTENDED_CONSTEXPR bool test_constexpr_forward()
+PHI_ATTRIBUTE_CONST PHI_EXTENDED_CONSTEXPR bool test_constexpr_forward()
 {
     int       x  = 42;
     const int cx = 101;

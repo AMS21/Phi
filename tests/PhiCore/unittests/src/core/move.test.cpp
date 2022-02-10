@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
 
@@ -66,7 +67,7 @@ struct A
     A& operator=(const A&) = delete;
 };
 
-PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
+PHI_ATTRIBUTE_CONST PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
 {
     int       y  = 42;
     const int cy = y;

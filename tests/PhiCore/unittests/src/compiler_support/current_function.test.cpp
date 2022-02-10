@@ -2,9 +2,10 @@
 
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/current_function.hpp>
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <string>
 
-const char* function_with_an_interesting_name()
+PHI_ATTRIBUTE_CONST const char* function_with_an_interesting_name()
 {
     return PHI_CURRENT_FUNCTION();
 }

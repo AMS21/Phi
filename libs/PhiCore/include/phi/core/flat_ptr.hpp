@@ -296,7 +296,7 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(not_null_flat_ptr
     return *this;
 }
 
-PHI_EXTENDED_CONSTEXPR_OR_INLINE not_null_flat_ptr flat_ptr::release_not_null() const noexcept
+PHI_EXTENDED_CONSTEXPR not_null_flat_ptr flat_ptr::release_not_null() const noexcept
 {
     PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
 

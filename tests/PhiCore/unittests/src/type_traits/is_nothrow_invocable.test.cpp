@@ -1,9 +1,11 @@
 #include <phi/test/test_macros.hpp>
 
-#include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
-#include <phi/generated/compiler_support/features.hpp>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
 #include <phi/type_traits/is_invocable.hpp>
 #include <phi/type_traits/is_nothrow_invocable.hpp>
 #include <type_traits>
@@ -255,3 +257,5 @@ TEST_CASE("is_nothrow_invocable")
 
     test_noexcept_function_pointers();
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

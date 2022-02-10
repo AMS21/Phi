@@ -3,10 +3,14 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/generated/compiler_support/features.hpp>
-#include <phi/type_traits/is_invocable_r.hpp>
-#include <phi/type_traits/is_nothrow_invocable_r.hpp>
 #include <type_traits>
 #include <vector>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
+#include <phi/type_traits/is_invocable_r.hpp>
+#include <phi/type_traits/is_nothrow_invocable_r.hpp>
 
 struct Tag
 {};
@@ -188,3 +192,5 @@ TEST_CASE("is_nothrow_invocable_r")
         test_is_not_nothrow_invocable_r<int, Fn, int>();
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

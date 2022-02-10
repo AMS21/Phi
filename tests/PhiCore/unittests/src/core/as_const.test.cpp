@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/as_const.hpp>
 #include <phi/type_traits/is_const.hpp>
@@ -16,7 +17,7 @@ struct S
     int i;
 };
 
-bool operator==(const S& x, const S& y)
+PHI_ATTRIBUTE_PURE bool operator==(const S& x, const S& y)
 {
     return x.i == y.i;
 }

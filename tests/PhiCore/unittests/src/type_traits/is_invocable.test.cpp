@@ -1,10 +1,15 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
-#include <phi/type_traits/is_invocable.hpp>
 #include <memory>
 #include <type_traits>
 #include <vector>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+
+#include <phi/type_traits/is_invocable.hpp>
 
 struct Tag
 {};
@@ -281,3 +286,5 @@ TEST_CASE("is_invocable")
     test_is_not_invocable<Fn, int>();
 }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

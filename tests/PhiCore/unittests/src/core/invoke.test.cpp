@@ -1,18 +1,21 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
-#include <phi/core/invoke.hpp>
 #include <phi/core/move.hpp>
 #include <phi/type_traits/is_same.hpp>
 #include <functional>
 #include <type_traits>
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsign-conversion")
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+
+#include <phi/core/invoke.hpp>
 
 // TODO: Make tests work with MSVC
 #if PHI_COMPILER_IS_NOT(MSVC) && PHI_HAS_WORKING_IS_INVOCABLE()
@@ -81,7 +84,7 @@ struct DerivedFromTestClass : public TestClass
     {}
 };
 
-int& foo(NonCopyable&&)
+PHI_ATTRIBUTE_CONST int& foo(NonCopyable&&)
 {
     static int data = 42;
     return data;
@@ -392,7 +395,7 @@ TEST_CASE("invoke")
     STATIC_REQUIRE(sizeof(phi::invoke(&Type::g4, phi::declval<Type const&&>())) == 4);
 }
 
-int foo(int)
+PHI_ATTRIBUTE_CONST int foo(int)
 {
     return 42;
 }

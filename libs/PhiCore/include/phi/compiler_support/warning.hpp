@@ -2,7 +2,12 @@
 #define INCG_PHI_CORE_COMPILER_SUPPORT_WARNING_HPP
 
 #include "phi/compiler_support/compiler.hpp"
+#include "phi/generated/compiler_support/features.hpp"
 #include "phi/preprocessor/stringify.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
 
 // Suppress warnings
 // MSVC Warnings
