@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_destructible.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_DESTRUCTIBLE()
 
@@ -36,7 +37,6 @@ PHI_INLINE_VARIABLE constexpr bool is_not_destructible_v = !PHI_IS_DESTRUCTIBLE(
 
 #    include "phi/core/declval.hpp"
 #    include "phi/type_traits/detail/yes_no_type.hpp"
-#    include "phi/type_traits/integral_constant.hpp"
 #    include "phi/type_traits/is_function.hpp"
 #    include "phi/type_traits/is_reference.hpp"
 #    include "phi/type_traits/remove_all_extents.hpp"

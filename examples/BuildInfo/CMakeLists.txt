@@ -1,6 +1,10 @@
 # Phi_BuildInfo
 
-project(Phi_BuildInfo CXX)
+if(${CMAKE_VERSION} VERSION_LESS 3.0)
+  project(Phi_BuildInfo CXX)
+else()
+  project(Phi_BuildInfo LANGUAGES CXX)
+endif()
 
 phi_add_executable(
   NAME

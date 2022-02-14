@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/to_underlying.hpp"

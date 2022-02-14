@@ -8,7 +8,7 @@
 #    pragma once
 #endif
 
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_complete.hpp"
 #include "phi/type_traits/is_unbounded_array.hpp"
 

@@ -184,6 +184,19 @@ TEST_CASE("is_array")
     test_is_not_array<std::array<int, 3>>();
     test_is_not_array<phi::array<int, 3>>();
 
+    test_is_array<int[2]>();
+    test_is_array<int[]>();
+    test_is_array<int[2][3]>();
+    test_is_array<int[][3]>();
+    test_is_array<float* [2]>();
+    test_is_array<float*[]>();
+    test_is_array<float* [2][3]>();
+    test_is_array<float*[][3]>();
+    test_is_array<Class[2]>();
+    test_is_array<Class[]>();
+    test_is_array<Class[2][3]>();
+    test_is_array<Class[][3]>();
+
     test_is_not_array<void>();
     test_is_not_array<phi::nullptr_t>();
     test_is_not_array<bool>();

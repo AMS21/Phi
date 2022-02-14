@@ -6,7 +6,6 @@
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/move.hpp>
-#include <phi/type_traits/is_same.hpp>
 #include <functional>
 #include <type_traits>
 
@@ -90,11 +89,11 @@ PHI_ATTRIBUTE_CONST int& foo(NonCopyable&&)
     return data;
 }
 
-template <class Signature, class Expect, class Functor>
-void test_b12(Functor&& f)
+template <typename SignatureT, typename ExpectT, typename FunctorT>
+void test_b12(FunctorT&& f)
 {
     // Create the callable object.
-    using ClassFunc    = Signature TestClass::*;
+    using ClassFunc    = SignatureT TestClass::*;
     ClassFunc func_ptr = &TestClass::operator();
 
     // Create the dummy arg.
@@ -102,54 +101,66 @@ void test_b12(Functor&& f)
 
     // Check that the deduced return type of invoke is what is expected.
     using DeducedReturnType =
-            decltype(phi::invoke(func_ptr, phi::forward<Functor>(f), phi::move(arg)));
-    STATIC_REQUIRE((phi::is_same<DeducedReturnType, Expect>::value));
+            decltype(phi::invoke(func_ptr, phi::forward<FunctorT>(f), phi::move(arg)));
+    CHECK_SAME_TYPE(DeducedReturnType, ExpectT);
 
+#    if PHI_COMPILER_IS(EMCC)
+    SKIP_CHECK(); // Emcc stdlib doesn't seem to have std::result_of
+#    else
     // Check that result_of_t matches Expect.
     using ResultOfReturnType =
-            typename std::result_of<ClassFunc && (Functor&&, NonCopyable &&)>::type;
-    STATIC_REQUIRE((phi::is_same<ResultOfReturnType, Expect>::value));
+            typename std::result_of<ClassFunc && (FunctorT&&, NonCopyable &&)>::type;
+    CHECK_SAME_TYPE(ResultOfReturnType, ExpectT);
+#    endif
 
     // Run invoke and check the return value.
-    DeducedReturnType ret = phi::invoke(func_ptr, phi::forward<Functor>(f), phi::move(arg));
+    DeducedReturnType ret = phi::invoke(func_ptr, phi::forward<FunctorT>(f), phi::move(arg));
     CHECK(ret == 42);
 }
 
-template <class Expect, class Functor>
-void test_b34(Functor&& f)
+template <typename ExpectT, typename FunctorT>
+void test_b34(FunctorT&& f)
 {
     // Create the callable object.
     using ClassFunc                = int TestClass::*;
     ClassFunc             func_ptr = &TestClass::data;
 
     // Check that the deduced return type of invoke is what is expected.
-    using DeducedReturnType = decltype(phi::invoke(func_ptr, phi::forward<Functor>(f)));
-    STATIC_REQUIRE((phi::is_same<DeducedReturnType, Expect>::value));
+    using DeducedReturnType = decltype(phi::invoke(func_ptr, phi::forward<FunctorT>(f)));
+    CHECK_SAME_TYPE(DeducedReturnType, ExpectT);
 
     // Check that result_of_t matches Expect.
-    using ResultOfReturnType = typename std::result_of<ClassFunc && (Functor &&)>::type;
-    STATIC_REQUIRE((phi::is_same<ResultOfReturnType, Expect>::value));
+#    if PHI_COMPILER_IS(EMCC)
+    SKIP_CHECK(); // Emcc stdlib doesn't seem to have std::result_of
+#    else
+    using ResultOfReturnType = typename std::result_of<ClassFunc && (FunctorT &&)>::type;
+    CHECK_SAME_TYPE(ResultOfReturnType, ExpectT);
+#    endif
 
     // Run invoke and check the return value.
-    DeducedReturnType ret = phi::invoke(func_ptr, phi::forward<Functor>(f));
+    DeducedReturnType ret = phi::invoke(func_ptr, phi::forward<FunctorT>(f));
     CHECK(ret == 42);
 }
 
-template <class Expect, class Functor>
-void test_b5(Functor&& f)
+template <typename ExpectT, typename FunctorT>
+void test_b5(FunctorT&& f)
 {
     NonCopyable arg;
 
     // Check that the deduced return type of invoke is what is expected.
-    using DeducedReturnType = decltype(phi::invoke(phi::forward<Functor>(f), phi::move(arg)));
-    STATIC_REQUIRE((phi::is_same<DeducedReturnType, Expect>::value));
+    using DeducedReturnType = decltype(phi::invoke(phi::forward<FunctorT>(f), phi::move(arg)));
+    STATIC_REQUIRE((phi::is_same<DeducedReturnType, ExpectT>::value));
 
     // Check that result_of_t matches Expect.
-    using ResultOfReturnType = typename std::result_of<Functor && (NonCopyable &&)>::type;
-    STATIC_REQUIRE((phi::is_same<ResultOfReturnType, Expect>::value));
+#    if PHI_COMPILER_IS(EMCC)
+    SKIP_CHECK(); // Emcc stdlib doesn't seem to have std::result_of
+#    else
+    using ResultOfReturnType = typename std::result_of<FunctorT && (NonCopyable &&)>::type;
+    STATIC_REQUIRE((phi::is_same<ResultOfReturnType, ExpectT>::value));
+#    endif
 
     // Run invoke and check the return value.
-    DeducedReturnType ret = phi::invoke(phi::forward<Functor>(f), phi::move(arg));
+    DeducedReturnType ret = phi::invoke(phi::forward<FunctorT>(f), phi::move(arg));
     CHECK(ret == 42);
 }
 

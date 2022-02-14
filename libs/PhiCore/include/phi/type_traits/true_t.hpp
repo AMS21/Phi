@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -19,7 +19,7 @@ struct true_t : public bool_constant<true>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename... TypesT>
-constexpr PHI_INLINE_VARIABLE bool true_v = true;
+PHI_INLINE_VARIABLE constexpr bool true_v = true;
 
 #endif
 

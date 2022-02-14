@@ -1,5 +1,5 @@
-#ifndef INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDIG_MEMBER_HPP
-#define INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDIG_MEMBER_HPP
+#ifndef INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDING_MEMBER_HPP
+#define INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDING_MEMBER_HPP
 
 #include "phi/phi_config.hpp"
 
@@ -10,9 +10,9 @@
 #include "phi/compiler_support/intrinsics/is_corresponding_member.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 
-#if PHI_SUPPORTS_IS_CORRESPONDIG_MEMBER()
+#if PHI_SUPPORTS_IS_CORRESPONDING_MEMBER()
 
-#    define PHI_HAS_WORKING_IS_CORRESPONDIG_MEMBER() 1
+#    define PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER() 1
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -20,7 +20,7 @@ template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT
 PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
                                                      RhsMemberT RhsT::*rhs) noexcept
 {
-    return __builtin_is_corresponding_member(lhs, rhs);
+    return PHI_IS_CORRESPONDING_MEMBER(lhs, rhs);
 }
 
 #else
@@ -28,7 +28,7 @@ PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
 #    include "phi/compiler_support/unused.hpp"
 #    include "phi/type_traits/false_t.hpp"
 
-#    define PHI_HAS_WORKING_IS_CORRESPONDIG_MEMBER() 0
+#    define PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER() 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -36,7 +36,7 @@ template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT
 PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
                                                      RhsMemberT RhsT::*rhs) noexcept
 {
-    static_assert(false_t<LhsT>::value, "phi::is_correspondig_member requires compiler support");
+    static_assert(false_t<LhsT>::value, "phi::is_corresponding_member requires compiler support");
     PHI_UNUSED_PARAMETER(lhs);
     PHI_UNUSED_PARAMETER(rhs);
 
@@ -47,4 +47,4 @@ PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
 
 DETAIL_PHI_END_NAMESPACE()
 
-#endif // INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDIG_MEMBER_HPP
+#endif // INCG_PHI_CORE_TYPE_TRAITS_IS_CORRESPONDING_MEMBER_HPP

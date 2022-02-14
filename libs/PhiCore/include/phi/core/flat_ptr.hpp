@@ -10,6 +10,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -19,6 +20,9 @@
 #include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Winline")
 
 class not_null_flat_ptr;
 
@@ -348,5 +352,7 @@ namespace std
         }
     };
 } // namespace std
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_FLAT_PTR_HPP

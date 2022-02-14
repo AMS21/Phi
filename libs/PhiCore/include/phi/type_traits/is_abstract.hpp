@@ -9,14 +9,13 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_abstract.hpp"
-#include "phi/type_traits/false_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
+#include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_ABSTRACT()
 
 #    define PHI_HAS_WORKING_IS_ABSTRACT() 1
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_abstract : public bool_constant<PHI_IS_ABSTRACT(TypeT)>
@@ -38,7 +37,11 @@ PHI_INLINE_VARIABLE constexpr bool is_not_abstract_v = !PHI_IS_ABSTRACT(TypeT);
 
 #else
 
+#    include "phi/type_traits/false_t.hpp"
+
 #    define PHI_HAS_WORKING_IS_ABSTRACT() 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_abstract : public false_type

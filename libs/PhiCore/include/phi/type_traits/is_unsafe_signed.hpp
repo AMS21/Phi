@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()

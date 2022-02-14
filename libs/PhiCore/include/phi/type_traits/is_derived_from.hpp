@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_base_of.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 

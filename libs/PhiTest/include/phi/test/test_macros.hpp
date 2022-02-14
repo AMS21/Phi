@@ -37,6 +37,10 @@ namespace test
         {
             explicit RegisterTestCase(TestSignature func) noexcept;
         };
+
+        void IncreaseAssertCount() noexcept;
+
+        void IncreaseSkipCount() noexcept;
     } // namespace detail
 } // namespace test
 
@@ -51,7 +55,8 @@ extern int main();
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors")                                  \
     static const ::phi::test::detail::RegisterTestCase PHI_GLUE(name, _register){&(name)};         \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
-    static void name()
+    static void                                                                                    \
+    name() /* NOLINT(readability-function-cognitive-complexity, readability-function-size) */
 
 #define TEST_CASE(...) DEFINE_TEST_CASE(GET_TEST_CASE_NAME())
 
@@ -62,8 +67,8 @@ extern int main();
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     ::phi::test::detail::PHI_GLUE(, impl_name)(static_cast<bool>(__VA_ARGS__), #__VA_ARGS__,       \
                                                __FILE__, __LINE__);                                \
-    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
-    PHI_END_MACRO()
+    ::phi::test::detail::IncreaseAssertCount();                                                    \
+    PHI_GCC_SUPPRESS_WARNING_POP() PHI_END_MACRO()
 
 #define CHECK(...) DETAIL_CALL_IMPL(CheckImpl, __VA_ARGS__)
 
@@ -72,6 +77,8 @@ extern int main();
 #define REQUIRE(...) DETAIL_CALL_IMPL(RequireImpl, __VA_ARGS__)
 
 #define REQUIRE_FALSE(...) DETAIL_CALL_IMPL(RequireFalseImpl, __VA_ARGS__)
+
+#define SKIP_CHECK() ::phi::test::detail::IncreaseSkipCount()
 
 #define DETAIL_STATIC_REQUIRE_BEGIN()                                                              \
     PHI_BEGIN_MACRO()                                                                              \

@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_trivially_constructible.hpp"
 
 #if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()

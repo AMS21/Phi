@@ -10,8 +10,8 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
 #include "phi/compiler_support/warning.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/false_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

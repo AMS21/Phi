@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_pointer_interconvertible_base_of.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
 

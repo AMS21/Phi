@@ -1,12 +1,21 @@
 #include <phi/test/test_macros.hpp>
 
-#include <phi/type_traits/is_correspondig_member.hpp>
+#include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/warning.hpp>
+#include <phi/type_traits/is_corresponding_member.hpp>
 #include <type_traits>
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-parameter")
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-parameter")
+
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
-constexpr void test_is_corresponding_member(LhsMemberT LhsT::*lhs, RhsMemberT RhsT::*rhs) noexcept
+PHI_EXTENDED_CONSTEXPR void test_is_corresponding_member(LhsMemberT LhsT::*lhs,
+                                                         RhsMemberT RhsT::*rhs) noexcept
 {
-#if PHI_HAS_WORKING_IS_CORRESPONDIG_MEMBER()
+#if PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER()
     STATIC_REQUIRE(phi::is_corresponding_member(lhs, rhs));
     CHECK_NOEXCEPT(phi::is_corresponding_member(lhs, rhs));
 
@@ -16,10 +25,10 @@ constexpr void test_is_corresponding_member(LhsMemberT LhsT::*lhs, RhsMemberT Rh
 }
 
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
-constexpr void test_is_not_corresponding_member(LhsMemberT LhsT::*lhs,
-                                                RhsMemberT RhsT::*rhs) noexcept
+PHI_EXTENDED_CONSTEXPR void test_is_not_corresponding_member(LhsMemberT LhsT::*lhs,
+                                                             RhsMemberT RhsT::*rhs) noexcept
 {
-#if PHI_HAS_WORKING_IS_CORRESPONDIG_MEMBER()
+#if PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER()
     STATIC_REQUIRE_FALSE(phi::is_corresponding_member(lhs, rhs));
     CHECK_NOEXCEPT(!phi::is_corresponding_member(lhs, rhs));
 
@@ -27,6 +36,9 @@ constexpr void test_is_not_corresponding_member(LhsMemberT LhsT::*lhs,
     STATIC_REQUIRE_FALSE(std::is_corresponding_member(lhs, rhs));
 #endif
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 struct A
 {

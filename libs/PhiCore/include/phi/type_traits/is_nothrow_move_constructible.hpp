@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/type_traits/add_rvalue_reference.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_nothrow_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()

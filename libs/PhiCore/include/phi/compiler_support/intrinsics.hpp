@@ -44,7 +44,7 @@
 #include "intrinsics/is_layout_compatible.hpp"
 #include "intrinsics/is_literal_type.hpp"
 #include "intrinsics/is_lvalue_expr.hpp"
-#include "intrinsics/is_lvalue_refenrece.hpp"
+#include "intrinsics/is_lvalue_reference.hpp"
 #include "intrinsics/is_member_function_pointer.hpp"
 #include "intrinsics/is_member_object_pointer.hpp"
 #include "intrinsics/is_member_pointer.hpp"

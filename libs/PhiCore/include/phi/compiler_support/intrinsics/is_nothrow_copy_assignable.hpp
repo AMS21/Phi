@@ -9,17 +9,19 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY() && PHI_COMPILER_IS(MSVC)
-#    define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      __has_nothrow_assign(type)
-#    define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 1
-#else
-#    define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      false
-#    define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 0
-#endif
+#if !defined(PHI_IS_NOTHROW_COPY_ASSIGNABLE) && !defined(PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE)
+#    if PHI_HAS_INTRINSIC_HAS_NOTHROW_COPY() && PHI_COMPILER_IS(MSVC)
+#        define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      __has_nothrow_assign(type)
+#        define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 1
+#    else
+#        define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      false
+#        define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 0
+#    endif
 
-#if defined(PHI_CONFIG_NO_INTRINSICS)
-#    undef PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE
-#    define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 0
+#    if defined(PHI_CONFIG_NO_INTRINSICS)
+#        undef PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE
+#        define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 0
+#    endif
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_NOTHROW_COPY_ASSIGNABLE_HPP

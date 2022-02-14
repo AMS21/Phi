@@ -10,7 +10,7 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/core/size_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_destructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()

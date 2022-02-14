@@ -9,14 +9,13 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/has_virtual_destructor.hpp"
-#include "phi/type_traits/false_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
+#include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_HAS_VIRTUAL_DESTRUCTOR()
 
 #    define PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR() 1
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct has_virtual_destructor : public bool_constant<PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT)>
@@ -38,7 +37,11 @@ PHI_INLINE_VARIABLE constexpr bool has_no_virtual_destructor_v = !PHI_HAS_VIRTUA
 
 #else
 
+#    include "phi/type_traits/false_t.hpp"
+
 #    define PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR() 0
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct has_virtual_destructor : public false_type

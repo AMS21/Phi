@@ -9,7 +9,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <bool boolean, typename TypeT = void>
+template <bool BooleanValue, typename TypeT = void>
 struct disable_if
 {
     using type = TypeT;
@@ -19,8 +19,8 @@ template <typename TypeT>
 struct disable_if<true, TypeT>
 {};
 
-template <bool boolean, typename TypeT = void>
-using disable_if_t = typename disable_if<boolean, TypeT>::type;
+template <bool BooleanValue, typename TypeT = void>
+using disable_if_t = typename disable_if<BooleanValue, TypeT>::type;
 
 DETAIL_PHI_END_NAMESPACE()
 

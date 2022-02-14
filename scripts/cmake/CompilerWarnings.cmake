@@ -148,6 +148,7 @@ set(phi_disabled_warnings_flags
     -Wno-missing-prototypes
     -Wno-missing-variable-declarations
     -Wno-padded
+    -Wno-unused-macros
     -Wno-unused-template
     -Wno-variadic-macros
     -Wno-weak-vtables
@@ -234,7 +235,9 @@ endif()
 # Emscriptens warning suppression for some reason doesn't work correctly so we disable all
 if(PHI_PLATFORM_EMSCRIPTEN)
   set(_WarningsAvailible "-Wundef")
-  set(_DisableWarningAvailible "${_DisableWarningAvailible};-Wno-assume")
+  set(_DisableWarningAvailible
+      "${_DisableWarningAvailible};-Wno-assume;-Wno-unused-result;-Wno-deprecated-volatile;-Wno-deprecated-declarations"
+  )
 endif()
 
 # from here:

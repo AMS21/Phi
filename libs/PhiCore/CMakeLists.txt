@@ -1,6 +1,6 @@
 # PhiCore
 if(${CMAKE_VERSION} VERSION_LESS 3.0)
-  project(PhiCore CXX C)
+  project(PhiCore CXX)
 else()
   project(PhiCore LANGUAGES CXX)
 endif()
@@ -223,6 +223,7 @@ file(
   "include/phi/type_traits/add_rvalue_reference.hpp"
   "include/phi/type_traits/add_volatile.hpp"
   "include/phi/type_traits/alignment_of.hpp"
+  "include/phi/type_traits/bool_constant.hpp"
   "include/phi/type_traits/common_type.hpp"
   "include/phi/type_traits/conditional.hpp"
   "include/phi/type_traits/conjunction.hpp"
@@ -371,6 +372,9 @@ file(
   "include/phi/type_traits/remove_reference.hpp"
   "include/phi/type_traits/remove_volatile.hpp"
   "include/phi/type_traits/signed_int_of_size.hpp"
+  "include/phi/type_traits/size_constant.hpp"
+  "include/phi/type_traits/static_max.hpp"
+  "include/phi/type_traits/static_min.hpp"
   "include/phi/type_traits/to_safe.hpp"
   "include/phi/type_traits/to_underlying.hpp"
   "include/phi/type_traits/to_unsafe.hpp"

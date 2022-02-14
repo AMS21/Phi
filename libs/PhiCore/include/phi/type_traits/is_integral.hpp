@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_safe_integral.hpp"
 #include "phi/type_traits/is_unsafe_integral.hpp"
 

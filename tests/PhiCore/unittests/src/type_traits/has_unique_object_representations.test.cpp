@@ -76,7 +76,7 @@ struct B
     int  foo;
 };
 
-TEST_CASE("has_unique_object_representation")
+TEST_CASE("has_unique_object_representations")
 {
     test_has_no_unique_object_representations<void>();
     test_has_no_unique_object_representations<Empty>();

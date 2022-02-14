@@ -15,8 +15,9 @@ void test_conjunction_true()
     STATIC_REQUIRE(phi::conjunction_v<ArgsT...>);
 #endif
 
-// Standard compatibility
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE(std::conjunction<ArgsT...>::value);
     STATIC_REQUIRE(phi::conjunction<ArgsT...>::value == std::conjunction<ArgsT...>::value);
 #endif
 }
@@ -29,8 +30,9 @@ void test_conjunction_false()
     STATIC_REQUIRE_FALSE(phi::conjunction_v<ArgsT...>);
 #endif
 
-// Standard compatibility
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
+    STATIC_REQUIRE_FALSE(std::conjunction<ArgsT...>::value);
     STATIC_REQUIRE(phi::conjunction<ArgsT...>::value == std::conjunction<ArgsT...>::value);
 #endif
 }

@@ -7,18 +7,21 @@
 #    pragma once
 #endif
 
-#if PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()
-#    define PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer)                             \
-        __is_pointer_interconvertible_with_class(member_pointer)
-#    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 1
-#else
-#    define PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer) false
-#    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()      0
-#endif
+#if !defined(PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS) &&                                        \
+        !defined(PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS)
+#    if PHI_HAS_INTRINSIC_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()
+#        define PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer)                         \
+            __is_pointer_interconvertible_with_class(member_pointer)
+#        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 1
+#    else
+#        define PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer) false
+#        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()      0
+#    endif
 
-#if defined(PHI_CONFIG_NO_INTRINSICS)
-#    undef PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS
-#    define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 0
+#    if defined(PHI_CONFIG_NO_INTRINSICS)
+#        undef PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS
+#        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 0
+#    endif
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORTS_INTRINSICS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS_HPP

@@ -26,6 +26,10 @@ if(PHI_ENABLE_CLANG_TIDY)
   find_program(
     CLANG_TIDY
     NAMES clang-tidy
+          clang-tidy-15
+          clang-tidy-14
+          clang-tidy-13
+          clang-tidy-12
           clang-tidy-11
           clang-tidy-10
           clang-tidy-9

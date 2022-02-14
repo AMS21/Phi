@@ -7,32 +7,29 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/size_t.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <size_t FirstT, size_t... RestT>
+template <size_t FirstV, size_t... RestVs>
 struct static_max;
 
-template <size_t FirstT>
-struct static_max<FirstT>
-{
-    static PHI_CONSTEXPR_AND_CONST size_t value = FirstT;
-};
+template <size_t FirstV>
+struct static_max<FirstV> : public integral_constant<size_t, FirstV>
+{};
 
-template <size_t FirstT, size_t SecondT, size_t... RestT>
-struct static_max<FirstT, SecondT, RestT...>
-{
-    static const size_t value = FirstT >= SecondT ? static_max<FirstT, RestT...>::value :
-                                                    static_max<SecondT, RestT...>::value;
-};
+template <size_t FirstV, size_t SecondV, size_t... RestVs>
+struct static_max<FirstV, SecondV, RestVs...>
+    : public integral_constant<size_t, FirstV >= SecondV ? static_max<FirstV, RestVs...>::value :
+                                                           static_max<SecondV, RestVs...>::value>
+{};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
-template <size_t FirstT, size_t... RestT>
-PHI_INLINE_VARIABLE constexpr bool static_max_v = static_max<FirstT, RestT...>::value;
+template <size_t FirstV, size_t... RestVs>
+PHI_INLINE_VARIABLE constexpr size_t static_max_v = static_max<FirstV, RestVs...>::value;
 
 #endif
 

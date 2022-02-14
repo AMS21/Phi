@@ -31,11 +31,18 @@
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Winline")
 
-namespace std
+namespace std // NOLINT(cert-dcl58-cpp)
 {
-    template <class CharT, class TraitsT>
-    class basic_string_view;
-}
+#if PHI_COMPILER_IS(EMCC)
+    inline namespace __2
+    {
+#endif
+        template <class CharT, class TraitsT>
+        class basic_string_view;
+#if PHI_COMPILER_IS(EMCC)
+    } // namespace __2
+#endif
+} // namespace std
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

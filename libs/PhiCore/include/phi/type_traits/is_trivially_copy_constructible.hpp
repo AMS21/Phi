@@ -2,7 +2,6 @@
 #define INCG_PHI_CORE_TYPE_TRAITS_IS_TRIVIALLY_COPY_CONSTRUCTIBLE_HPP
 
 #include "phi/phi_config.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
@@ -11,6 +10,7 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_const.hpp"
 #include "phi/type_traits/add_lvalue_reference.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_trivially_constructible.hpp"
 
 #define PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()                                          \

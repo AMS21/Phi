@@ -1,7 +1,5 @@
 #include <phi/test/test_macros.hpp>
 
-#include "constexpr_helper.hpp"
-
 #include <phi/type_traits/integral_constant.hpp>
 
 enum class MyEnum
@@ -10,7 +8,7 @@ enum class MyEnum
     Value2
 };
 
-TEST_CASE("integral_constant")
+TEST_CASE("type_traits.integral_constant")
 {
     using two_t = phi::integral_constant<int, 2>;
 
@@ -18,8 +16,17 @@ TEST_CASE("integral_constant")
     STATIC_REQUIRE(two_t() == 2);
     CHECK_SAME_TYPE(two_t::value_type, int);
     CHECK_SAME_TYPE(two_t::type, two_t);
+    CHECK_SAME_TYPE(two_t::type, phi::integral_constant<int, 2>);
     CHECK_SAME_TYPE(two_t::this_type, two_t);
+    CHECK_SAME_TYPE(two_t::this_type, phi::integral_constant<int, 2>);
     CHECK_NOEXCEPT(two_t());
+    STATIC_REQUIRE(two_t{}() == 2);
+
+    constexpr two_t two = two_t{};
+    STATIC_REQUIRE(two == 2);
+    STATIC_REQUIRE(two() == 2);
+    CHECK_NOEXCEPT(two());
+    STATIC_REQUIRE(static_cast<int>(two) == 2);
 
     using four_t = phi::integral_constant<int, 4>;
 
@@ -27,8 +34,17 @@ TEST_CASE("integral_constant")
     STATIC_REQUIRE(four_t() == 4);
     CHECK_SAME_TYPE(four_t::value_type, int);
     CHECK_SAME_TYPE(four_t::type, four_t);
+    CHECK_SAME_TYPE(four_t::type, phi::integral_constant<int, 4>);
     CHECK_SAME_TYPE(four_t::this_type, four_t);
+    CHECK_SAME_TYPE(four_t::this_type, phi::integral_constant<int, 4>);
     CHECK_NOEXCEPT(four_t());
+    STATIC_REQUIRE(four_t{}() == 4);
+
+    constexpr four_t four = four_t{};
+    STATIC_REQUIRE(four == 4);
+    STATIC_REQUIRE(four() == 4);
+    CHECK_NOEXCEPT(four());
+    STATIC_REQUIRE(static_cast<int>(four) == 4);
 
     CHECK_NOT_SAME_TYPE(two_t, four_t);
     STATIC_REQUIRE((two_t::value * 2) == four_t::value);
@@ -40,54 +56,50 @@ TEST_CASE("integral_constant")
     CHECK_NOT_SAME_TYPE(val1, val2);
 }
 
-TEST_CASE("type_traits.bool_constant")
-{
-    using my_true_type  = phi::bool_constant<true>;
-    using my_false_type = phi::bool_constant<false>;
-
-    STATIC_REQUIRE(my_true_type::value == true);
-    CHECK_SAME_TYPE(my_true_type::type, my_true_type);
-    CHECK_SAME_TYPE(my_true_type::this_type, my_true_type);
-    CHECK_SAME_TYPE(my_true_type::value_type, bool);
-    STATIC_REQUIRE(my_true_type() == true);
-    STATIC_REQUIRE(my_true_type::value != false);
-
-    STATIC_REQUIRE(my_false_type::value == false);
-    CHECK_SAME_TYPE(my_false_type::type, my_false_type);
-    CHECK_SAME_TYPE(my_false_type::this_type, my_false_type);
-    CHECK_SAME_TYPE(my_false_type::value_type, bool);
-    STATIC_REQUIRE(my_false_type() == false);
-    STATIC_REQUIRE(my_false_type::value != true);
-}
-
 TEST_CASE("type_traits.true_type")
 {
     STATIC_REQUIRE(phi::true_type::value == true);
     CHECK_SAME_TYPE(phi::true_type::type, phi::true_type);
+    CHECK_SAME_TYPE(phi::true_type::type, phi::bool_constant<true>);
+    CHECK_SAME_TYPE(phi::true_type::type, phi::integral_constant<bool, true>);
     CHECK_SAME_TYPE(phi::true_type::this_type, phi::true_type);
+    CHECK_SAME_TYPE(phi::true_type::this_type, phi::bool_constant<true>);
+    CHECK_SAME_TYPE(phi::true_type::this_type, phi::integral_constant<bool, true>);
     CHECK_SAME_TYPE(phi::true_type::value_type, bool);
     STATIC_REQUIRE(phi::true_type() == true);
+    CHECK_NOEXCEPT(phi::true_type());
+    STATIC_REQUIRE(phi::true_type{}());
 
     STATIC_REQUIRE(phi::true_type::value != false);
 
-    CONSTEXPR_RUNTIME phi::true_type t1;
-    CONSTEXPR_RUNTIME phi::true_type t2 = t1;
+    constexpr phi::true_type t1;
+    constexpr phi::true_type t2 = t1;
     STATIC_REQUIRE(t1);
     STATIC_REQUIRE(t2);
+    STATIC_REQUIRE(static_cast<bool>(t1));
+    STATIC_REQUIRE(static_cast<bool>(t2));
 }
 
 TEST_CASE("type_traits.false_type")
 {
     STATIC_REQUIRE(phi::false_type::value == false);
     CHECK_SAME_TYPE(phi::false_type::type, phi::false_type);
+    CHECK_SAME_TYPE(phi::false_type::type, phi::bool_constant<false>);
+    CHECK_SAME_TYPE(phi::false_type::type, phi::integral_constant<bool, false>);
     CHECK_SAME_TYPE(phi::false_type::this_type, phi::false_type);
+    CHECK_SAME_TYPE(phi::false_type::this_type, phi::bool_constant<false>);
+    CHECK_SAME_TYPE(phi::false_type::this_type, phi::integral_constant<bool, false>);
     CHECK_SAME_TYPE(phi::false_type::value_type, bool);
     STATIC_REQUIRE(phi::false_type() == false);
+    CHECK_NOEXCEPT(phi::false_type());
+    STATIC_REQUIRE_FALSE(phi::false_type{}());
 
     STATIC_REQUIRE(phi::false_type::value != true);
 
-    CONSTEXPR_RUNTIME phi::false_type f1;
-    CONSTEXPR_RUNTIME phi::false_type f2 = f1;
+    constexpr phi::false_type f1;
+    constexpr phi::false_type f2 = f1;
     STATIC_REQUIRE_FALSE(f1);
     STATIC_REQUIRE_FALSE(f2);
+    STATIC_REQUIRE_FALSE(static_cast<bool>(f1));
+    STATIC_REQUIRE_FALSE(static_cast<bool>(f2));
 }

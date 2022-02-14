@@ -63,6 +63,10 @@ TEST_CASE("type_traits")
     STATIC_REQUIRE(phi::alignment_of_v<Class> == 1);
 #endif
 
+    // bool_constant
+    STATIC_REQUIRE(phi::bool_constant<true>::value);
+    STATIC_REQUIRE_FALSE(phi::bool_constant<false>::value);
+
     // common_type
     //CHECK_SAME_TYPE(typename phi::common_type<int, int>::type, int);
     //CHECK_SAME_TYPE(phi::common_type_t<int, int>, int);
@@ -70,6 +74,12 @@ TEST_CASE("type_traits")
     // conditional
     CHECK_SAME_TYPE(typename phi::conditional<true, int, double>::type, int);
     CHECK_SAME_TYPE(phi::conditional_t<true, int, double>, int);
+
+    // conjuction
+    STATIC_REQUIRE(phi::conjunction<>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::conjunction_v<>);
+#endif
 
     // copy_const
     CHECK_SAME_TYPE(typename phi::copy_const<const int, float>::type, const float);
@@ -132,9 +142,7 @@ TEST_CASE("type_traits")
     // integral_constant
     using two_t = phi::integral_constant<int, 2>;
     STATIC_REQUIRE(two_t::value == 2);
-    STATIC_REQUIRE(phi::bool_constant<true>::value);
     STATIC_REQUIRE(phi::true_type::value);
-    STATIC_REQUIRE_FALSE(phi::bool_constant<false>::value);
     STATIC_REQUIRE_FALSE(phi::false_type::value);
 
     // invoke_result
@@ -264,6 +272,20 @@ TEST_CASE("type_traits")
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_copy_constructible_v<int>);
 #    endif
+#endif
+
+    struct A
+    {
+        int a;
+    };
+
+    struct B
+    {
+        int b;
+    };
+
+#if PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER()
+    STATIC_REQUIRE(phi::is_corresponding_member(&C::a, &C::b));
 #endif
 
     // is_default_constructible
@@ -993,6 +1015,9 @@ TEST_CASE("type_traits")
     // signed_int_of_size
     CHECK_SAME_TYPE(typename phi::signed_int_of_size<1>::type, phi::int8_t);
     CHECK_SAME_TYPE(phi::signed_int_of_size_t<1>, phi::int8_t);
+
+    // size_constant
+    CHECK_SAME_TYPE(phi::size_constant<0u>, phi::integral_constant<phi::size_t, 0u>);
 
     // to_safe
     CHECK_SAME_TYPE(decltype(phi::to_safe(3)), phi::integer<int>);

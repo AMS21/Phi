@@ -10,6 +10,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/void_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()

@@ -25,6 +25,15 @@ function(phi_add_executable)
     set(command ${command} EXCLUDE_FROM_ALL)
   endif()
 
+  # Ensure all files actually exist on disk
+  foreach(file IN LISTS ae_SOURCES ae_HEADERS)
+    if(NOT EXISTS ${file})
+      message(
+        WARNING "File \"${file}\" doesn't seem to exist while configuring executable \"${ae_NAME}\""
+      )
+    endif()
+  endforeach()
+
   # Add sources and headers
   set(command ${command} ${ae_SOURCES} ${ae_HEADERS})
 

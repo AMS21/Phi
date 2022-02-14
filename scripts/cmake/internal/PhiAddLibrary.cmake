@@ -44,6 +44,14 @@ function(phi_add_library)
     set(command ${command} EXCLUDE_FROM_ALL)
   endif()
 
+  # Ensure all files actually exist on disk
+  foreach(file IN LISTS al_SOURCES al_HEADERS)
+    if(NOT EXISTS ${file})
+      message(
+        WARNING "File \"${file}\" doesn't seem to exist while configuring library \"${al_NAME}\"")
+    endif()
+  endforeach()
+
   # Add sources and headers
   set(command ${command} ${al_SOURCES} ${al_HEADERS})
 

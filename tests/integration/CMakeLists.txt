@@ -1,3 +1,5 @@
+project("Phi_AllIncludes" CXX)
+
 # Include all headers
 file(GLOB PHI_LIBRARIES ${PHI_BASE_DIR}/libs/*)
 

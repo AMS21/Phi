@@ -35,11 +35,8 @@ struct integral_constant
 template <typename TypeT, TypeT Value>
 constexpr TypeT integral_constant<TypeT, Value>::value;
 
-template <bool Value>
-using bool_constant = integral_constant<bool, Value>;
-
-using true_type  = bool_constant<true>;
-using false_type = bool_constant<false>;
+using true_type  = integral_constant<bool, true>;
+using false_type = integral_constant<bool, false>;
 
 DETAIL_PHI_END_NAMESPACE()
 

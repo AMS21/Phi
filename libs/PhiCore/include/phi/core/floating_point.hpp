@@ -39,9 +39,9 @@ SOFTWARE.
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_unsafe_floating_point.hpp"
 #include <cmath>
 #include <functional>

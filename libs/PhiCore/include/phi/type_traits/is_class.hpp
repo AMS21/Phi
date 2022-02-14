@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_class.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_CLASS()
 
@@ -37,6 +37,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_class_v = !PHI_IS_CLASS(TypeT);
 
 #else
 
+#    include "phi/compiler_support/warning.hpp"
 #    include "phi/type_traits/detail/yes_no_type.hpp"
 #    include "phi/type_traits/is_union.hpp"
 
@@ -57,11 +58,16 @@ namespace detail
     no_type is_class_test(...);
 } // namespace detail
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
+
 template <typename TypeT>
 struct is_class
     : public bool_constant<sizeof(detail::is_class_test<TypeT>(0)) == detail::sizeof_yes_type &&
                            is_not_union<TypeT>::value>
 {};
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 struct is_not_class : public bool_constant<!is_class<TypeT>::value>

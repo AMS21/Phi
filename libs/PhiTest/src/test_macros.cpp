@@ -1,6 +1,7 @@
 #include "phi/test/test_macros.hpp"
 
 #include <phi/compiler_support/warning.hpp>
+#include <phi/core/types.hpp>
 #include <phi/phi_config.hpp>
 #include <cstdlib>
 #include <forward_list>
@@ -17,7 +18,11 @@ static std::forward_list<phi::test::detail::TestSignature>& GetFunctionRegister(
     return function_register;
 }
 
-static int ReturnValue = 0;
+static int ReturnValue{0}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+static phi::u64 AssertCount{0u}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+static phi::u64 SkipCount{0u}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
@@ -84,6 +89,16 @@ namespace test
         {
             GetFunctionRegister().emplace_front(func);
         }
+
+        void IncreaseAssertCount() noexcept
+        {
+            AssertCount += 1u;
+        }
+
+        void IncreaseSkipCount() noexcept
+        {
+            SkipCount += 1u;
+        }
     } // namespace detail
 } // namespace test
 
@@ -91,11 +106,20 @@ DETAIL_PHI_END_NAMESPACE()
 
 int main()
 {
+    phi::u64 test_case_count{0u};
+
     // Run all registered tests
-    for (phi::test::detail::TestSignature test_func_pointer : GetFunctionRegister())
+    const std::forward_list<phi::test::detail::TestSignature>& function_register =
+            GetFunctionRegister();
+    for (phi::test::detail::TestSignature test_func_pointer : function_register)
     {
         test_func_pointer();
+        test_case_count += 1u;
     }
+
+    std::cout << "Test cases: " << test_case_count << '\n';
+    std::cout << "Asserts:    " << AssertCount << '\n';
+    std::cout << "Skipped:    " << SkipCount << '\n';
 
     return ReturnValue;
 }

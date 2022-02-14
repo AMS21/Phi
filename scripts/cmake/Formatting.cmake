@@ -11,6 +11,8 @@ endif()
 find_program(
   CLANG_FORMAT_EXECUTABLE
   NAMES clang-format
+        clang-format-15
+        clang-format-14
         clang-format-13
         clang-format-12
         clang-format-11

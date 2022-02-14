@@ -89,6 +89,7 @@ file(
   "src/type_traits/aligned_storage.test.cpp"
   "src/type_traits/aligned_union.test.cpp"
   "src/type_traits/alignment_of.test.cpp"
+  "src/type_traits/bool_constant.test.cpp"
   "src/type_traits/common_type.test.cpp"
   "src/type_traits/conditional.test.cpp"
   "src/type_traits/conjunction.test.cpp"
@@ -100,16 +101,28 @@ file(
   "src/type_traits/disjunction.test.cpp"
   "src/type_traits/enable_if.test.cpp"
   "src/type_traits/extent.test.cpp"
+  "src/type_traits/extent.nointrinsic.test.cpp"
   "src/type_traits/false_t.test.cpp"
-  "src/type_traits/has_unique_object_representation.test.cpp"
+  "src/type_traits/has_unique_object_representations.nointrinsic.test.cpp"
+  "src/type_traits/has_unique_object_representations.test.cpp"
+  "src/type_traits/has_virtual_destructor.nointrinsic.test.cpp"
   "src/type_traits/has_virtual_destructor.test.cpp"
   "src/type_traits/integral_constant.test.cpp"
+  "src/type_traits/invoke_result.no_is_base_of.test.cpp"
+  "src/type_traits/invoke_result.nointrinsic.test.cpp"
   "src/type_traits/invoke_result.test.cpp"
+  "src/type_traits/is_abstract.nointrinsic.test.cpp"
   "src/type_traits/is_abstract.test.cpp"
+  "src/type_traits/is_aggregate.nointrinsic.test.cpp"
   "src/type_traits/is_aggregate.test.cpp"
   "src/type_traits/is_arithmetic.test.cpp"
+  "src/type_traits/is_array.nointrinsic.test.cpp"
   "src/type_traits/is_array.test.cpp"
+  "src/type_traits/is_assignable.nointrinsic.test.cpp"
   "src/type_traits/is_assignable.test.cpp"
+  "src/type_traits/is_base_of.nointrinsic.test.cpp"
+  "src/type_traits/is_base_of.nointrinsic2.test.cpp"
+  "src/type_traits/is_base_of.nointrinsic3.test.cpp"
   "src/type_traits/is_base_of.test.cpp"
   "src/type_traits/is_bool.test.cpp"
   "src/type_traits/is_bounded_array.test.cpp"
@@ -125,7 +138,7 @@ file(
   "src/type_traits/is_convertible.test.cpp"
   "src/type_traits/is_copy_assignable.test.cpp"
   "src/type_traits/is_copy_constructible.test.cpp"
-  "src/type_traits/is_correspondig_member.test.cpp"
+  "src/type_traits/is_corresponding_member.test.cpp"
   "src/type_traits/is_default_constructible.test.cpp"
   "src/type_traits/is_derived_from.test.cpp"
   "src/type_traits/is_destructible.test.cpp"
@@ -241,6 +254,9 @@ file(
   "src/type_traits/remove_reference.test.cpp"
   "src/type_traits/remove_volatile.test.cpp"
   "src/type_traits/signed_int_of_size.test.cpp"
+  "src/type_traits/size_constant.test.cpp"
+  "src/type_traits/static_max.test.cpp"
+  "src/type_traits/static_min.test.cpp"
   "src/type_traits/to_safe.test.cpp"
   "src/type_traits/to_unsafe.test.cpp"
   "src/type_traits/true_t.test.cpp"
@@ -258,7 +274,6 @@ endif()
 
 # Add test files
 if(${PHI_TEST_WITH_ALL_STANDARDS})
-
   # Test with all supported standard version
   foreach(std IN ITEMS ${phi_supported_standards})
     if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
@@ -302,7 +317,6 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
   endforeach()
 
 else()
-
   phi_add_executable(
     NAME
     "PhiCoreUnittests"

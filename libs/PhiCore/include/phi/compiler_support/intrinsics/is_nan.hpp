@@ -7,10 +7,12 @@
 #    pragma once
 #endif
 
-#if PHI_HAS_INTRINSIC_BUILTIN_ISNAN()
-#    define PHI_IS_NAN(value) __builtin_isnan(value)
-#else
-#    define PHI_IS_NAN(value) (value != value)
+#if !defined(PHI_IS_NAN)
+#    if PHI_HAS_INTRINSIC_BUILTIN_ISNAN()
+#        define PHI_IS_NAN(value) __builtin_isnan(value)
+#    else
+#        define PHI_IS_NAN(value) (value != value)
+#    endif
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_IS_NAN_HPP

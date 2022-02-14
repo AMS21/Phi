@@ -1,6 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/cpp_standard.hpp>
+#include <phi/compiler_support/warning.hpp>
+#include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/invoke_result.hpp>
 #include <phi/type_traits/is_invocable.hpp>
@@ -9,6 +11,9 @@
 #include <functional>
 #include <memory>
 #include <type_traits>
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wvolatile")
 
 struct S
 {
@@ -27,6 +32,21 @@ struct SD : public S
 struct NotDerived
 {};
 
+struct wat
+{
+    wat& operator*()
+    {
+        return *this;
+    }
+    void foo();
+};
+
+struct F
+{};
+
+struct FD : public F
+{};
+
 template <typename Tp>
 struct Voider
 {
@@ -34,11 +54,11 @@ struct Voider
 };
 
 template <typename T, typename = void>
-struct HasType : phi::false_type
+struct HasType : public phi::false_type
 {};
 
 template <typename T>
-struct HasType<T, typename Voider<typename T::type>::type> : phi::true_type
+struct HasType<T, typename Voider<typename T::type>::type> : public phi::true_type
 {};
 
 template <typename TypeT, typename U>
@@ -64,6 +84,8 @@ struct test_invoke_result<FnT(ArgsT...), RetT>
         // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
         CHECK_SAME_TYPE(typename phi::invoke_result<FnT, ArgsT...>::type,
+                        typename std::invoke_result<FnT, ArgsT...>::type);
+        CHECK_SAME_TYPE(phi::invoke_result_t<FnT, ArgsT...>,
                         typename std::invoke_result<FnT, ArgsT...>::type);
 #    endif
 #endif
@@ -393,4 +415,122 @@ TEST_CASE("invoke_result")
         test_result_of<PMD(std::reference_wrapper<S const>), const char&>();
         test_no_result<PMD(ND&)>();
     }
+    {
+        using PMD = char F::*;
+
+        test_invoke_result<PMD(F&), char&>();
+        test_invoke_result<PMD(F const&), char const&>();
+        test_invoke_result<PMD(F volatile&), char volatile&>();
+        test_invoke_result<PMD(F const volatile&), char const volatile&>();
+
+        test_invoke_result<PMD(F &&), char&&>();
+        test_invoke_result<PMD(F const&&), char const&&>();
+        test_invoke_result<PMD(F volatile &&), char volatile&&>();
+        test_invoke_result<PMD(F const volatile&&), char const volatile&&>();
+
+        test_invoke_result<PMD(F), char&&>();
+        test_invoke_result<PMD(F const), char&&>();
+        test_invoke_result<PMD(F volatile), char&&>();
+        test_invoke_result<PMD(F const volatile), char&&>();
+
+        test_invoke_result<PMD(FD&), char&>();
+        test_invoke_result<PMD(FD const&), char const&>();
+        test_invoke_result<PMD(FD volatile&), char volatile&>();
+        test_invoke_result<PMD(FD const volatile&), char const volatile&>();
+
+        test_invoke_result<PMD(FD &&), char&&>();
+        test_invoke_result<PMD(FD const&&), char const&&>();
+        test_invoke_result<PMD(FD volatile &&), char volatile&&>();
+        test_invoke_result<PMD(FD const volatile&&), char const volatile&&>();
+
+        test_invoke_result<PMD(FD), char&&>();
+        test_invoke_result<PMD(FD const), char&&>();
+        test_invoke_result<PMD(FD volatile), char&&>();
+        test_invoke_result<PMD(FD const volatile), char&&>();
+
+        test_invoke_result<PMD(std::unique_ptr<F>), char&>();
+        test_invoke_result<PMD(std::unique_ptr<F const>), const char&>();
+        test_invoke_result<PMD(std::unique_ptr<FD>), char&>();
+        test_invoke_result<PMD(std::unique_ptr<FD const>), const char&>();
+
+        test_invoke_result<PMD(std::reference_wrapper<F>), char&>();
+        test_invoke_result<PMD(std::reference_wrapper<F const>), const char&>();
+        test_invoke_result<PMD(std::reference_wrapper<FD>), char&>();
+        test_invoke_result<PMD(std::reference_wrapper<FD const>), const char&>();
+    }
+    {
+        test_invoke_result<int (F::*(F&))()&, int>();
+        test_invoke_result<int (F::*(F&))() const&, int>();
+        test_invoke_result<int (F::*(F&))() volatile&, int>();
+        test_invoke_result<int (F::*(F&))() const volatile&, int>();
+        test_invoke_result<int (F::*(F const&))() const&, int>();
+        test_invoke_result<int (F::*(F const&))() const volatile&, int>();
+        test_invoke_result<int (F::*(F volatile&))() volatile&, int>();
+        test_invoke_result<int (F::*(F volatile&))() const volatile&, int>();
+        test_invoke_result<int (F::*(F const volatile&))() const volatile&, int>();
+
+        test_invoke_result<int (F::*(F &&))()&&, int>();
+        test_invoke_result<int (F::*(F &&))() const&&, int>();
+        test_invoke_result<int (F::*(F &&))() volatile&&, int>();
+        test_invoke_result<int (F::*(F &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F const&&))() const&&, int>();
+        test_invoke_result<int (F::*(F const&&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile &&))() volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F const volatile&&))() const volatile&&, int>();
+
+        test_invoke_result<int (F::*(F))()&&, int>();
+        test_invoke_result<int (F::*(F))() const&&, int>();
+        test_invoke_result<int (F::*(F))() volatile&&, int>();
+        test_invoke_result<int (F::*(F))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F const))() const&&, int>();
+        test_invoke_result<int (F::*(F const))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile))() volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F const volatile))() const volatile&&, int>();
+    }
+    {
+        test_invoke_result<int (F::*(FD&))()&, int>();
+        test_invoke_result<int (F::*(FD&))() const&, int>();
+        test_invoke_result<int (F::*(FD&))() volatile&, int>();
+        test_invoke_result<int (F::*(FD&))() const volatile&, int>();
+        test_invoke_result<int (F::*(FD const&))() const&, int>();
+        test_invoke_result<int (F::*(FD const&))() const volatile&, int>();
+        test_invoke_result<int (F::*(FD volatile&))() volatile&, int>();
+        test_invoke_result<int (F::*(FD volatile&))() const volatile&, int>();
+        test_invoke_result<int (F::*(FD const volatile&))() const volatile&, int>();
+
+        test_invoke_result<int (F::*(FD &&))()&&, int>();
+        test_invoke_result<int (F::*(FD &&))() const&&, int>();
+        test_invoke_result<int (F::*(FD &&))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD const&&))() const&&, int>();
+        test_invoke_result<int (F::*(FD const&&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile &&))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD const volatile&&))() const volatile&&, int>();
+
+        test_invoke_result<int (F::*(FD))()&&, int>();
+        test_invoke_result<int (F::*(FD))() const&&, int>();
+        test_invoke_result<int (F::*(FD))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD const))() const&&, int>();
+        test_invoke_result<int (F::*(FD const))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD const volatile))() const volatile&&, int>();
+    }
+    {
+        test_invoke_result<int (F::*(std::reference_wrapper<F>))(), int>();
+        test_invoke_result<int (F::*(std::reference_wrapper<const F>))() const, int>();
+        test_invoke_result<int (F::*(std::unique_ptr<F>))(), int>();
+        test_invoke_result<int (F::*(std::unique_ptr<const F>))() const, int>();
+        test_invoke_result<int (F::*(phi::scope_ptr<F>))(), int>();
+        test_invoke_result<int (F::*(phi::scope_ptr<const F>))() const, int>();
+    }
+    {
+        test_invoke_result<decltype (&wat::foo)(wat), void>();
+    }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()

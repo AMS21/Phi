@@ -7,32 +7,29 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/size_t.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <size_t FirstT, size_t... RestT>
+template <size_t FirstV, size_t... RestVs>
 struct static_min;
 
-template <size_t FirstT>
-struct static_min<FirstT>
-{
-    static PHI_CONSTEXPR_AND_CONST size_t value = FirstT;
-};
+template <size_t FirstV>
+struct static_min<FirstV> : public integral_constant<size_t, FirstV>
+{};
 
-template <size_t FirstT, size_t SecondT, size_t... RestT>
-struct static_min<FirstT, SecondT, RestT...>
-{
-    static const size_t value = FirstT <= SecondT ? static_min<FirstT, RestT...>::value :
-                                                    static_min<SecondT, RestT...>::value;
-};
+template <size_t FirstV, size_t SecondT, size_t... RestVs>
+struct static_min<FirstV, SecondT, RestVs...>
+    : public integral_constant<size_t, FirstV <= SecondT ? static_min<FirstV, RestVs...>::value :
+                                                           static_min<SecondT, RestVs...>::value>
+{};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
-template <size_t FirstT, size_t... RestT>
-PHI_INLINE_VARIABLE constexpr bool static_min_v = static_min<FirstT, RestT...>::value;
+template <size_t FirstV, size_t... RestVs>
+PHI_INLINE_VARIABLE constexpr size_t static_min_v = static_min<FirstV, RestVs...>::value;
 
 #endif
 

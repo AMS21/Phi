@@ -9,8 +9,8 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/has_unique_object_representations.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/false_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/remove_all_extents.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 

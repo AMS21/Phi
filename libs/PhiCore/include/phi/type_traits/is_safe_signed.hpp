@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_safe_arithmetic.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 

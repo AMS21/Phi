@@ -9,7 +9,6 @@
 
 #include "phi/compiler_support/intrinsics/is_pointer_interconvertible_with_class.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()
 

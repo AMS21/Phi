@@ -9,8 +9,8 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_lvalue_reference.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/conditional.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_referenceable.hpp"
 #include "phi/type_traits/is_swappable_with.hpp"
 

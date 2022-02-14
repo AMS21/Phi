@@ -8,7 +8,7 @@
 #    pragma once
 #endif
 
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_null_pointer.hpp"
 #include "phi/type_traits/is_pointer.hpp"
 

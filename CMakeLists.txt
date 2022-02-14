@@ -31,12 +31,12 @@ else()
 endif()
 
 # Check if Phi is being used directly or via add_subdirectory, but allow overriding
-if(NOT DEFINED PHI_MASTER_PROJECT)
+if(NOT DEFINED PHI_MAIN_PROJECT)
   if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-    set(PHI_MASTER_PROJECT ON)
-    phi_trace("Building as master project")
+    set(PHI_MAIN_PROJECT ON)
+    phi_trace("Building as main project")
   else()
-    set(PHI_MASTER_PROJECT OFF)
+    set(PHI_MAIN_PROJECT OFF)
     phi_trace("Building as submodule")
   endif()
 endif()
@@ -45,23 +45,22 @@ endif()
 include(Environment)
 
 # Options
-option(PHI_BUILD_TESTS "Build tests" ${PHI_MASTER_PROJECT})
-option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MASTER_PROJECT})
-option(PHI_BUILD_SANDBOX "Build sandbox application" ${PHI_MASTER_PROJECT})
+option(PHI_BUILD_TESTS "Build tests" ${PHI_MAIN_PROJECT})
+option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MAIN_PROJECT})
+option(PHI_BUILD_SANDBOX "Build sandbox application" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_DOCS "Generate the source code documentaion" OFF)
 option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 option(PHI_ENABLE_FAILURE_TESTS "Build the failure tests" ON)
 option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
-option(PHI_AUTO_FORMATTING "Automatically format all source code during builds"
-       ${PHI_MASTER_PROJECT})
+option(PHI_AUTO_FORMATTING "Automatically format all source code during builds" ${PHI_MAIN_PROJECT})
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 option(PHI_ENABLE_CACHE "Enable cache if available" ON)
 option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi" ON)
 option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
 option(PHI_ARCH "Optimization target for platform specific optimization" "native")
-option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ${PHI_MAIN_PROJECT})
 option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" ON)
 option(PHI_ENABLE_USER_LINKER "Enable a specific linker if available" OFF)
 option(PHI_BUILD_WITH_TIME_TRACE
@@ -93,7 +92,7 @@ set_property(
            "23")
 
 # CI Builds Settings
-if(${PHI_CI_BUILD} AND ${PHI_MASTER_PROJECT})
+if(${PHI_CI_BUILD} AND ${PHI_MAIN_PROJECT})
   phi_trace("Is CI build")
 
   # Disable auto formatting

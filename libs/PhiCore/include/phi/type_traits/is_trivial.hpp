@@ -12,7 +12,7 @@
 #include "phi/compiler_support/intrinsics/is_trivial.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_copyable.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 
 // MSVC's implementation of is_trivial seems broken
 #if PHI_SUPPORTS_IS_TRIVIAL() && PHI_COMPILER_IS_NOT(MSVC)

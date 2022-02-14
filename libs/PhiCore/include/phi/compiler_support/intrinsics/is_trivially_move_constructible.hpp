@@ -9,17 +9,20 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if PHI_HAS_INTRINSIC_HAS_TRIVIAL_MOVE_CONSTRUCTOR()
-#    define PHI_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE(type)      __has_trivial_move_constructor(type)
-#    define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 1
-#else
-#    define PHI_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE(type)      false
-#    define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 0
-#endif
+#if !defined(PHI_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE) &&                                               \
+        !defined(PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE)
+#    if PHI_HAS_INTRINSIC_HAS_TRIVIAL_MOVE_CONSTRUCTOR()
+#        define PHI_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE(type)      __has_trivial_move_constructor(type)
+#        define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 1
+#    else
+#        define PHI_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE(type)      false
+#        define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 0
+#    endif
 
-#if defined(PHI_CONFIG_NO_INTRINSICS)
-#    undef PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE
-#    define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 0
+#    if defined(PHI_CONFIG_NO_INTRINSICS)
+#        undef PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE
+#        define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE() 0
+#    endif
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE_HPP

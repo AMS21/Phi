@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
 #include "phi/type_traits/remove_cv.hpp"
