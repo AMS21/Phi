@@ -32,32 +32,47 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(view.length() == 0u);
         EXT_STATIC_REQUIRE(view.is_empty());
         EXT_STATIC_REQUIRE(view.is_null());
+        EXT_STATIC_REQUIRE(view.begin() == nullptr);
+        EXT_STATIC_REQUIRE(view.end() == nullptr);
     }
 
     SECTION("BasicStringView(CharT*)")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view view("Hello World");
+        constexpr static const char* data{"Hello World"};
+        EXT_CONSTEXPR_RUNTIME phi::string_view view(data);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
         EXT_STATIC_REQUIRE(view.length() == 11u);
         EXT_STATIC_REQUIRE_FALSE(view.is_empty());
         EXT_STATIC_REQUIRE_FALSE(view.is_null());
+        EXT_STATIC_REQUIRE(view.begin() == data);
+        EXT_STATIC_REQUIRE(view.end() == data + 11u);
+        EXT_STATIC_REQUIRE(view.front() == 'H');
+        EXT_STATIC_REQUIRE(view.back() == 'd');
     }
 
     SECTION("BasicStringView(CharT*, length_type)")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view view("Hello World", 11u);
+        constexpr static const char* data{"Hello World"};
+        EXT_CONSTEXPR_RUNTIME phi::string_view view(data, 11u);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
         EXT_STATIC_REQUIRE(view.length() == 11u);
         EXT_STATIC_REQUIRE_FALSE(view.is_empty());
         EXT_STATIC_REQUIRE_FALSE(view.is_null());
+        EXT_STATIC_REQUIRE(view.begin() == data);
+        EXT_STATIC_REQUIRE(view.end() == data + 11u);
+        EXT_STATIC_REQUIRE(view.front() == 'H');
+        EXT_STATIC_REQUIRE(view.back() == 'd');
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view view2("Hello World", 5u);
+        EXT_CONSTEXPR_RUNTIME phi::string_view view2(data, 5u);
         EXT_STATIC_REQUIRE(view2.length() == 5u);
+        EXT_STATIC_REQUIRE_FALSE(view2.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(view2.is_null());
+        EXT_STATIC_REQUIRE(view2.begin() == data);
+        EXT_STATIC_REQUIRE(view2.end() == data + 5u);
+        EXT_STATIC_REQUIRE(view2.front() == 'H');
         EXT_STATIC_REQUIRE(view2.back() == 'o');
-        EXT_STATIC_REQUIRE_FALSE(view.is_empty());
-        EXT_STATIC_REQUIRE_FALSE(view.is_null());
     }
 
     SECTION("copy constructor")
@@ -66,9 +81,15 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view copy_view(base_view);
 
         EXT_STATIC_REQUIRE(copy_view.data() == nullptr);
+        EXT_STATIC_REQUIRE(copy_view.data() == base_view.data());
         EXT_STATIC_REQUIRE(copy_view.length() == 0u);
+        EXT_STATIC_REQUIRE(copy_view.length() == base_view.length());
         EXT_STATIC_REQUIRE(copy_view.is_empty());
         EXT_STATIC_REQUIRE(copy_view.is_null());
+        EXT_STATIC_REQUIRE(copy_view.begin() == nullptr);
+        EXT_STATIC_REQUIRE(copy_view.begin() == base_view.begin());
+        EXT_STATIC_REQUIRE(copy_view.end() == nullptr);
+        EXT_STATIC_REQUIRE(copy_view.end() == base_view.end());
 
         EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
         EXT_CONSTEXPR_RUNTIME phi::string_view copy_view2(base_view2);
@@ -80,6 +101,10 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 #endif
         EXT_STATIC_REQUIRE(copy_view2.length() == 11u);
         EXT_STATIC_REQUIRE(copy_view2.length() == base_view2.length());
+        EXT_STATIC_REQUIRE_FALSE(copy_view2.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(copy_view2.is_null());
+        EXT_STATIC_REQUIRE(copy_view2.begin() == base_view2.begin());
+        EXT_STATIC_REQUIRE(copy_view2.end() == base_view2.end());
     }
 
     SECTION("move constructor")
@@ -89,12 +114,20 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         EXT_STATIC_REQUIRE(move_view.data() == nullptr);
         EXT_STATIC_REQUIRE(move_view.length() == 0u);
+        EXT_STATIC_REQUIRE(move_view.is_empty());
+        EXT_STATIC_REQUIRE(move_view.is_null());
+        EXT_STATIC_REQUIRE(move_view.begin() == nullptr);
+        EXT_STATIC_REQUIRE(move_view.end() == nullptr);
 
         EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
         EXT_CONSTEXPR_RUNTIME phi::string_view move_view2(phi::move(base_view2));
 
         EXT_STATIC_REQUIRE(phi::string_equals(move_view2.data(), "Hello World"));
         EXT_STATIC_REQUIRE(move_view2.length() == 11u);
+        EXT_STATIC_REQUIRE_FALSE(move_view2.is_empty());
+        EXT_STATIC_REQUIRE_FALSE(move_view2.is_null());
+        EXT_STATIC_REQUIRE_FALSE(move_view2.begin() == nullptr);
+        EXT_STATIC_REQUIRE_FALSE(move_view2.end() == nullptr);
     }
 
     SECTION("operator=(const BasicStringView&)")
@@ -105,7 +138,15 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         copy_view = base_view;
 
         CHECK(copy_view.data() == nullptr);
+        CHECK(copy_view.data() == base_view.data());
         CHECK(copy_view.length() == 0u);
+        CHECK(copy_view.length() == base_view.length());
+        CHECK(copy_view.is_empty());
+        CHECK(copy_view.is_null());
+        CHECK(copy_view.begin() == nullptr);
+        CHECK(copy_view.begin() == base_view.begin());
+        CHECK(copy_view.end() == nullptr);
+        CHECK(copy_view.end() == base_view.end());
 
         phi::string_view base_view2("Hello World");
         phi::string_view copy_view2;
@@ -113,8 +154,17 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         copy_view2 = base_view2;
 
         CHECK(phi::string_equals(copy_view2.data(), "Hello World"));
+        CHECK(phi::string_equals(copy_view2.data(), base_view2.data()));
         CHECK(base_view2 == copy_view2);
+        CHECK(copy_view2.data() == base_view2.data());
         CHECK(copy_view2.length() == 11u);
+        CHECK(copy_view2.length() == base_view2.length());
+        CHECK_FALSE(copy_view2.is_empty());
+        CHECK_FALSE(copy_view2.is_null());
+        CHECK_FALSE(copy_view2.begin() == nullptr);
+        CHECK(copy_view2.begin() == base_view2.begin());
+        CHECK_FALSE(copy_view2.end() == nullptr);
+        CHECK(copy_view2.end() == base_view2.end());
     }
 
     SECTION("operator=(BasicStringView&&)")
@@ -126,6 +176,10 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         CHECK(move_view.data() == nullptr);
         CHECK(move_view.length() == 0u);
+        CHECK(move_view.is_empty());
+        CHECK(move_view.is_empty());
+        CHECK(move_view.begin() == nullptr);
+        CHECK(move_view.end() == nullptr);
 
         phi::string_view base_view2("Hello World");
         phi::string_view move_view2;
@@ -134,6 +188,11 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         CHECK(phi::string_equals(move_view2.data(), "Hello World"));
         CHECK(move_view2.length() == 11u);
+        CHECK_FALSE(move_view2.data() == nullptr);
+        CHECK_FALSE(move_view2.is_empty());
+        CHECK_FALSE(move_view2.is_null());
+        CHECK_FALSE(move_view2.begin() == nullptr);
+        CHECK_FALSE(move_view2.end() == nullptr);
     }
 
     SECTION("begin")
@@ -146,6 +205,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 #if PHI_COMPILER_IS_NOT(MSVC)
         EXT_STATIC_REQUIRE(test_view.begin() == str);
 #endif
+        EXT_STATIC_REQUIRE_FALSE(test_view.begin() == nullptr);
     }
 
     SECTION("end")
@@ -158,6 +218,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 #if PHI_COMPILER_IS_NOT(MSVC)
         EXT_STATIC_REQUIRE(test_view.end() == (str + 4));
 #endif
+        EXT_STATIC_REQUIRE_FALSE(test_view.end() == nullptr);
     }
 
     SECTION("cbegin")
@@ -170,6 +231,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 #if PHI_COMPILER_IS_NOT(MSVC)
         EXT_STATIC_REQUIRE(test_view.cbegin() == str);
 #endif
+        EXT_STATIC_REQUIRE_FALSE(test_view.cbegin() == nullptr);
     }
 
     SECTION("cend")
@@ -182,6 +244,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 #if PHI_COMPILER_IS_NOT(MSVC)
         EXT_STATIC_REQUIRE(test_view.cend() == (str + 4));
 #endif
+        EXT_STATIC_REQUIRE_FALSE(test_view.cend() == nullptr);
     }
 
     SECTION("rbegin")
@@ -304,8 +367,10 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     {
         constexpr static const char* str = "Hello World";
 
+        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
+        EXT_STATIC_REQUIRE(null_view.data() == nullptr);
         EXT_STATIC_REQUIRE(test_view.data() == str);
     }
 
@@ -319,20 +384,41 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK(view.is_empty());
         CHECK(view.is_null());
         CHECK(view.length() == 0u);
+        CHECK(view.begin() == nullptr);
+        CHECK(view.end() == nullptr);
+
+        view.clear();
+
+        CHECK(view.data() == nullptr);
+        CHECK(view.is_empty());
+        CHECK(view.is_null());
+        CHECK(view.length() == 0u);
+        CHECK(view.begin() == nullptr);
+        CHECK(view.end() == nullptr);
     }
 
     SECTION("add_prefix")
     {
         constexpr static const char* str = "Hello World";
-        phi::string_view             view(str + 6);
+        phi::string_view             view(str + 6u);
 
         CHECK(phi::string_equals(view.data(), "World"));
         CHECK(view.length() == 5u);
+        CHECK(view.data() == str + 6u);
+        CHECK(view.begin() == str + 6u);
+        CHECK(view.end() == str + 11u);
+        CHECK(view.front() == 'W');
+        CHECK(view.back() == 'd');
 
         view.add_prefix(6u);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
         CHECK(view.length() == 11u);
+        CHECK(view.data() == str);
+        CHECK(view.begin() == str);
+        CHECK(view.end() == str + 11u);
+        CHECK(view.front() == 'H');
+        CHECK(view.back() == 'd');
     }
 
     SECTION("add_postfix")
@@ -340,13 +426,22 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         constexpr static const char* str = "Hello World";
         phi::string_view             view(str, 5u);
 
-        CHECK(view.back() == 'o');
         CHECK(view.length() == 5u);
+        CHECK(view.data() == str);
+        CHECK(view.begin() == str);
+        CHECK(view.end() == str + 5u);
+        CHECK(view.back() == 'o');
+        CHECK(view.front() == 'H');
 
         view.add_postfix(6u);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
         CHECK(view.length() == 11u);
+        CHECK(view.data() == str);
+        CHECK(view.begin() == str);
+        CHECK(view.end() == str + 11u);
+        CHECK(view.front() == 'H');
+        CHECK(view.back() == 'd');
     }
 
     SECTION("remove_prefix")
