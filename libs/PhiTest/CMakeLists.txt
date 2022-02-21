@@ -1,6 +1,6 @@
 # PhiTest
 if(${CMAKE_VERSION} VERSION_LESS 3.0)
-  project(PhiTest CXX C)
+  project(PhiTest CXX)
 else()
   project(PhiTest LANGUAGES CXX)
 endif()
