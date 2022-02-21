@@ -520,17 +520,43 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("substring_view")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view base_view("Hello World");
-        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view = base_view.substring_view(
-                6u); // TODO: This line generates a linker error with GCC when npos is defined to be size_type instead of size_t
+        SECTION("with pos and size")
+        {
+            EXT_CONSTEXPR_RUNTIME phi::string_view base_view("Hello World");
+            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view = base_view.substring_view(
+                    6u); // TODO: This line generates a linker error with GCC when npos is defined to be size_type instead of size_t
 
-        EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "World"));
-        EXT_STATIC_REQUIRE(sub_view.length() == 5u);
+            EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "World"));
+            EXT_STATIC_REQUIRE(sub_view.length() == 5u);
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 = base_view.substring_view(0u, 5u);
+            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 = base_view.substring_view(0u, 5u);
 
-        EXT_STATIC_REQUIRE(sub_view2.back() == 'o');
-        EXT_STATIC_REQUIRE(sub_view2.length() == 5u);
+            EXT_STATIC_REQUIRE(sub_view2.back() == 'o');
+            EXT_STATIC_REQUIRE(sub_view2.length() == 5u);
+        }
+
+        SECTION("with 2 iterators")
+        {
+            EXT_CONSTEXPR_RUNTIME phi::string_view base_view{"Hello World"};
+            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view =
+                    base_view.substring_view(base_view.begin(), base_view.begin() + 5u);
+
+            EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "Hello", 5u));
+            EXT_STATIC_REQUIRE(sub_view.length() == 5u);
+            EXT_STATIC_REQUIRE(sub_view.data() == base_view.data());
+            EXT_STATIC_REQUIRE(sub_view.begin() == base_view.begin());
+            EXT_STATIC_REQUIRE(sub_view.front() == 'H');
+            EXT_STATIC_REQUIRE(sub_view.back() == 'o');
+
+            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 =
+                    base_view.substring_view(base_view.begin() + 6u, base_view.end());
+
+            EXT_STATIC_REQUIRE(phi::string_equals(sub_view2.data(), "World"));
+            EXT_STATIC_REQUIRE(sub_view2.length() == 5u);
+            EXT_STATIC_REQUIRE(sub_view2.end() == base_view.end());
+            EXT_STATIC_REQUIRE(sub_view2.front() == 'W');
+            EXT_STATIC_REQUIRE(sub_view2.back() == 'd');
+        }
     }
 
     SECTION("explicit specilizations")

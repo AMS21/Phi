@@ -330,6 +330,20 @@ public:
         return basic_string_view(data() + pos.get(), min(count, length() - pos));
     }
 
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
+    substring_view(iterator begin_iterator, iterator end_iterator) const noexcept
+    {
+        PHI_DBG_ASSERT(begin_iterator >= begin() && begin_iterator <= end(),
+                       "Invalid position for begin_iterator");
+        PHI_DBG_ASSERT(end_iterator >= begin() && end_iterator <= end(),
+                       "Invalid position for end_iterator");
+        PHI_DBG_ASSERT(end_iterator >= begin_iterator,
+                       "Invalid iterator position for end_iterator");
+
+        return basic_string_view(begin_iterator, static_cast<typename size_type::value_type>(
+                                                         end_iterator - begin_iterator));
+    }
+
     // Comparing
 
     PHI_NODISCARD constexpr i32 compare(basic_string_view other) const noexcept
