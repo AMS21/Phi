@@ -180,6 +180,72 @@ public:
         swap_ranges(m_Elements, m_Elements + Size, other.m_Elements);
     }
 
+    PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
+    {
+        TypeT max_value = at(0);
+        for (size_type index{1u}; index < Size; ++index)
+        {
+            max_value = (max_value > at(index)) ? max_value : at(index);
+        }
+
+        return max_value;
+    }
+
+    PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
+    {
+        TypeT min_value = at(0u);
+        for (size_type index{1u}; index < Size; ++index)
+        {
+            min_value = (min_value < at(index)) ? min_value : at(index);
+        }
+
+        return min_value;
+    }
+
+    PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
+    {
+        iterator max_index = begin();
+        for (iterator index = ++begin(); index < Size; ++index)
+        {
+            max_index = (*max_index > *index) ? max_index : index;
+        }
+
+        return max_index;
+    }
+
+    PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
+    {
+        const_iterator max_index = begin();
+        for (const_iterator index = ++begin(); index < Size; ++index)
+        {
+            max_index = (*max_index > *index) ? max_index : index;
+        }
+
+        return max_index;
+    }
+
+    PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
+    {
+        iterator min_index = begin();
+        for (iterator index = ++begin(); index < Size; ++index)
+        {
+            min_index = (*min_index < *index) ? min_index : index;
+        }
+
+        return min_index;
+    }
+
+    PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
+    {
+        const_iterator min_index = begin();
+        for (const_iterator index = ++begin(); index < Size; ++index)
+        {
+            min_index = (*min_index < *index) ? min_index : index;
+        }
+
+        return min_index;
+    }
+
     TypeT m_Elements[Size];
 };
 
@@ -342,6 +408,42 @@ public:
     PHI_EXTENDED_CONSTEXPR void swap(PHI_UNUSED array& other) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
+    }
+
+    PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
+        PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
+        PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
+        PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
+        PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
+        PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
+    {
+        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
+        PHI_UNREACHABLE();
     }
 };
 
