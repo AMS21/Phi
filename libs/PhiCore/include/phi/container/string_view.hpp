@@ -92,6 +92,7 @@ public:
 
     basic_string_view(basic_string_view&& other) noexcept = default;
 
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
         , m_Length(string_length(string))
@@ -111,12 +112,14 @@ public:
 #endif
     }
 
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(
             const std::basic_string_view<CharT, std::char_traits<CharT>>& other) noexcept
         : m_Data{other.data()}
         , m_Length{other.length()}
     {}
 
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(
             std::basic_string_view<CharT, std::char_traits<CharT>>&& other) noexcept
         : m_Data{other.data()}
@@ -129,7 +132,7 @@ public:
 
     basic_string_view& operator=(const basic_string_view& other) = default;
 
-    basic_string_view& operator=(basic_string_view&& other) = default;
+    basic_string_view& operator=(basic_string_view&& other) noexcept = default;
 
     PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(
             const std::basic_string_view<CharT, std::char_traits<CharT>>& other) noexcept
