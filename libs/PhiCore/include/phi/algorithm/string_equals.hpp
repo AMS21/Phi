@@ -47,7 +47,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean string_equals(const CharT* lhs, con
         return static_cast<bool>(lhs == rhs);
     }
 
-    while (*lhs != CharT('\0') && (count-- > 0u))
+    while (*lhs != CharT('\0') && (--count > 0u))
     {
         if (*lhs != *rhs)
         {
