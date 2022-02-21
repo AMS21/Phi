@@ -154,8 +154,9 @@ public:
 
     basic_string_view& operator=(nullptr_t) = delete;
 
-    PHI_EXTENDED_CONSTEXPR explicit operator std::basic_string_view<
-            CharT, std::char_traits<CharT>>() const noexcept
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
+    PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, std::char_traits<CharT>>()
+            const noexcept
     {
         return std::basic_string_view<CharT, std::char_traits<CharT>>(data(), length());
     }
