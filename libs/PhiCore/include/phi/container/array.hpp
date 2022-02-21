@@ -169,7 +169,10 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void fill(const TypeT& value) noexcept
     {
-        fill_n(m_Elements, Size, value);
+        for (size_type index{0u}; index < Size; ++index)
+        {
+            m_Elements[index] = value;
+        }
     }
 
     PHI_EXTENDED_CONSTEXPR void swap(array& other) noexcept(is_nothrow_swappable<TypeT>::value)
