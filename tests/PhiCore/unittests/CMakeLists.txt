@@ -60,6 +60,7 @@ file(
   "src/core/source_location.test.cpp"
   "src/core/stop_watch.test.cpp"
   "src/core/types.test.cpp"
+  "src/core/voidify.test.cpp"
   # math
   "src/math/abs.test.cpp"
   "src/math/constants.test.cpp"

@@ -177,6 +177,7 @@ file(
   "include/phi/core/source_location.hpp"
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/types.hpp"
+  "include/phi/core/voidify.hpp"
   # iterator
   "include/phi/iterator/advance.hpp"
   "include/phi/iterator/back_insert_iterator.hpp"
