@@ -13,6 +13,7 @@
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+PHI_GCC_SUPPRESS_WARNING("-Wstrict-overflow")
 
 // Workaround for std::reverse_iterator not being constexpr until C++-17
 // TODO: Remove once we added our own reverse_iterator implementation

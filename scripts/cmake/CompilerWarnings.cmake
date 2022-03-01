@@ -245,7 +245,7 @@ endif()
 # https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
 
 # Enable warnings for project
-function(set_project_warnings project)
+function(phi_set_project_warnings project)
   # Get target type
   get_property(
     target_type
@@ -264,11 +264,13 @@ function(set_project_warnings project)
 
   # Warnings as errors
   if(PHI_WARNINGS_AS_ERRORS)
-    set(project_warnings ${project_warnings} ${_WarningAsErrorAvailible})
+    target_compile_options(${project} ${visibility_scope} ${_WarningAsErrorAvailible})
+    target_compile_definitions(${project} ${visibility_scope} "PHI_CONFIG_WARNINGS_AS_ERRORS")
   endif()
 
   # Pedantic flags
   if(PHI_PEDANTIC_WARNINGS)
-    set(project_warnings ${project_warnings} ${_PedanticAvailible})
+    target_compile_options(${project} ${visibility_scope} ${_PedanticAvailible})
+    target_compile_definitions(${project} ${visibility_scope} "PHI_CONFIG_PEDANTIC_WARNINGS")
   endif()
 endfunction()

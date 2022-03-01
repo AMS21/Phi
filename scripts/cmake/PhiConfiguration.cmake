@@ -23,7 +23,7 @@ include(Cache)
 
 # Standard compiler warnings
 include(CompilerWarnings)
-set_project_warnings(phi_internal_project_options)
+phi_set_project_warnings(phi_internal_project_options)
 
 # Compiler optimizations
 include(CompilerOptimizations)
