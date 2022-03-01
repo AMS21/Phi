@@ -132,7 +132,7 @@ jobs:
         uses: actions/checkout@v2.4.0
 
       - name: Run misspell with reviewdog
-        uses: reviewdog/action-misspell@v1.10
+        uses: reviewdog/action-misspell@v1.11
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: US
