@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/scope_ptr.hpp>
@@ -13,7 +14,9 @@
 #include <type_traits>
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Wvolatile")
+#endif
 
 struct S
 {
