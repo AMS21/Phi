@@ -8,10 +8,14 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4296) // 'op' expression is always false/true
 
 template <size_t FirstV, size_t... RestVs>
 struct static_max;
@@ -32,6 +36,8 @@ template <size_t FirstV, size_t... RestVs>
 PHI_INLINE_VARIABLE constexpr size_t static_max_v = static_max<FirstV, RestVs...>::value;
 
 #endif
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

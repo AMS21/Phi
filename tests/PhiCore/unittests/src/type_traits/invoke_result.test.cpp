@@ -18,6 +18,10 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wvolatile")
 #endif
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(
+        5215) // 'name' a function parameter with a volatile qualified type is deprecated in C++20
+
 struct S
 {
     using FreeFunc = short (*)(long);
@@ -536,4 +540,5 @@ TEST_CASE("invoke_result")
     }
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()

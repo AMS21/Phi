@@ -65,7 +65,6 @@ set(phi_warning_flags
     -Wunsafe-loop-optimizations
     -Wunused # warn on anything being unused
     -Wunused-const-variable=2
-    -Wunused-macros
     -Wunused-parameter
     -Wuseless-cast # warn if you perform a cast to the same type
     -Wvector-operation-performance
@@ -97,6 +96,7 @@ set(phi_warning_flags
     /w14906 # string literal cast to 'LPWSTR'
     /w14928 # illegal copy-initialization; more than one user-defined conversion has been
     # implicitly applied
+    /w4324 # 'struct_name' : structure was padded due to __declspec(align())
 )
 
 set(phi_pendatic_flags "-pedantic" "-pedantic-errors" "-permissive-")

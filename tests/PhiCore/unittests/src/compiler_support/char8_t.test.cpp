@@ -1,8 +1,12 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("Compiler support - char8_t")
 {

@@ -1,8 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
-#include "phi/compiler_support/warning.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/max_align_t.hpp>
 #include <phi/type_traits/aligned_storage.hpp>
 #include <phi/type_traits/alignment_of.hpp>
@@ -212,8 +212,14 @@ TEST_CASE("aligned_storage")
         STATIC_REQUIRE(sizeof(T1) == 16);
     }
     {
+        // Max align on MSVC is 8192
+        // https://docs.microsoft.com/en-us/cpp/cpp/align-cpp
+#if PHI_COMPILER_IS(MSVC)
+        PHI_CONSTEXPR_AND_CONST int Align = 8192;
+#else
         PHI_CONSTEXPR_AND_CONST int Align = 65536;
-        using T1                          = typename phi::aligned_storage<1, Align>::type;
+#endif
+        using T1 = typename phi::aligned_storage<1, Align>::type;
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<1, Align>);
 
         test_aligned_storage<T1>();

@@ -1,15 +1,9 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/constexpr.hpp>
-#include <phi/compiler_support/warning.hpp>
+#include <phi/compiler_support/unused.hpp>
 #include <phi/type_traits/is_corresponding_member.hpp>
 #include <type_traits>
-
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wunused-parameter")
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wunused-parameter")
 
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
 PHI_EXTENDED_CONSTEXPR void test_is_corresponding_member(LhsMemberT LhsT::*lhs,
@@ -21,6 +15,9 @@ PHI_EXTENDED_CONSTEXPR void test_is_corresponding_member(LhsMemberT LhsT::*lhs,
 
     // Standard compatibilility
     STATIC_REQUIRE(std::is_corresponding_member(lhs, rhs));
+#else
+    PHI_UNUSED_PARAMETER(lhs);
+    PHI_UNUSED_PARAMETER(rhs);
 #endif
 }
 
@@ -34,11 +31,11 @@ PHI_EXTENDED_CONSTEXPR void test_is_not_corresponding_member(LhsMemberT LhsT::*l
 
     // Standard compatibilility
     STATIC_REQUIRE_FALSE(std::is_corresponding_member(lhs, rhs));
+#else
+    PHI_UNUSED_PARAMETER(lhs);
+    PHI_UNUSED_PARAMETER(rhs);
 #endif
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 struct A
 {

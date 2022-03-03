@@ -1,11 +1,15 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/platform.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/sized_types.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
 #include <cstdint>
+PHI_EXTERNAL_HEADERS_END()
 
 #define SIZE_IN_BITS(x) (sizeof(x) * CHAR_BIT)
 
