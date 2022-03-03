@@ -20,9 +20,6 @@
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Winline")
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
@@ -545,7 +542,5 @@ namespace std
         phi::size_t operator()(phi::not_null_observer_ptr<nullptr_t> ptr) = delete;
     };
 } // namespace std
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_OBSERVER_PTR_HPP

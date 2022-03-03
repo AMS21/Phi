@@ -24,9 +24,6 @@
 #    include <string_view>
 #endif
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Winline")
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
@@ -175,7 +172,5 @@ PHI_NODISCARD constexpr usize safe_string_length(nullptr_t, PHI_UNUSED usize len
 }
 
 DETAIL_PHI_END_NAMESPACE()
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_ALGORITHM_STRING_LENGTH_HPP

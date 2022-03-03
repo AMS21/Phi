@@ -21,9 +21,6 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Winline")
-
 class not_null_flat_ptr;
 
 class flat_ptr
@@ -352,7 +349,5 @@ namespace std
         }
     };
 } // namespace std
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_FLAT_PTR_HPP

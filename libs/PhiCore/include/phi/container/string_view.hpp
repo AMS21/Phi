@@ -28,9 +28,6 @@
 #include <limits>
 #include <string>
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Winline")
-
 namespace std // NOLINT(cert-dcl58-cpp)
 {
 #if PHI_COMPILER_IS(EMCC)
@@ -902,7 +899,5 @@ template <typename CharT, typename TraitsT>
 constexpr size_t basic_string_view<CharT, TraitsT>::npos;
 
 DETAIL_PHI_END_NAMESPACE()
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_CORE_CONTAINER_STRING_VIEW_HPP
