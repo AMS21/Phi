@@ -33,7 +33,7 @@ struct integral_constant
 };
 
 template <typename TypeT, TypeT Value>
-constexpr TypeT integral_constant<TypeT, Value>::value;
+constexpr TypeT integral_constant<TypeT, Value>::value; // NOLINT(readability-redundant-declaration)
 
 using true_type  = integral_constant<bool, true>;
 using false_type = integral_constant<bool, false>;

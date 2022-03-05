@@ -12,11 +12,11 @@
 #endif
 
 #include "phi/algorithm/swap.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/address_of.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/declval.hpp"
