@@ -96,7 +96,6 @@ set(phi_warning_flags
     /w14906 # string literal cast to 'LPWSTR'
     /w14928 # illegal copy-initialization; more than one user-defined conversion has been
     # implicitly applied
-    /w4324 # 'struct_name' : structure was padded due to __declspec(align())
 )
 
 set(phi_pendatic_flags "-pedantic" "-pedantic-errors" "-permissive-")
@@ -119,7 +118,6 @@ set(phi_disabled_warnings_flags
     /wd4625 # 'x': copy constructor was implicitly defined as deleted
     /wd4626 # 'x': assignment operator was implicitly defined as deleted
     /wd4643 # Forward declaring 'x' in namespace std is not permitted by the C++ Standard.
-    /wd4643 # Forward declaring 'x' in namespace std is not permitted by the C++ Standard.
     /wd4710 # 'x': function not inlined
     /wd4711 # function 'x' selected for automatic inline expansion
     /wd4814 # 'x in C++14 'constexpr' will not imply 'const'; consider explicitly specifying
@@ -129,12 +127,13 @@ set(phi_disabled_warnings_flags
     /wd5026 # 'x': move constructor was implicitly defined as deleted
     /wd5027 # 'x': move assignment operator was implicitly defined as deleted
     /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch
-    # specified Clang
+    # specified
     /wd4505 # 'x': unreferenced function with internal linkage has been removed
     /wd4180 # qualifier applied to function type has no meaning; ignored
     /wd5052 # Keyword 'char8_t' was introduced in C++20 and requires use of the '/std:c++latest'
             # command-line option
     /wd4866 # compilerr may not enforce left-to-right evaluation order for call to 'x'
+    /wd4324 # 'struct_name' : structure was padded due to __declspec(align())
     -Wno-constexpr-not-const
     -Wno-c++1y-extensions
     -Wno-c++1z-extensions
