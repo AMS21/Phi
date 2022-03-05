@@ -19,12 +19,12 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BaseT, typename DerivedT>
 struct is_pointer_interconvertible_base_of
-    : public bool_constant<PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerviedT)>
+    : public bool_constant<PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
 {};
 
 template <typename BaseT, typename DerivedT>
 struct is_not_pointer_interconvertible_base_of
-    : public bool_constant<!PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerviedT)>
+    : public bool_constant<!PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
