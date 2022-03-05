@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "phi/compiler_support/warning.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
@@ -63,10 +64,15 @@ enum E
     V = INT_MIN
 };
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wmicrosoft-enum-value")
+
 enum F
 {
     W = UINT_MAX
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 enum G : char
 {
