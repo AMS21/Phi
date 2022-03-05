@@ -154,6 +154,8 @@ set(phi_disabled_warnings_flags
     # GCC
     -Wno-unused-function)
 
+set(phi_check_required_flags "-Werror=unknown-attributes")
+
 # Checks
 
 # Check all normal warnings
@@ -217,6 +219,22 @@ foreach(_test ${phi_disabled_warnings_flags})
   endif()
 endforeach(_test)
 
+# Check required flags
+set(_CheckRequiredFlags)
+foreach(_test ${phi_check_required_flags})
+  string(REPLACE "-W" "W_" _testName ${_test})
+  string(REPLACE "/" "" _testName ${_testName})
+  string(REPLACE "-" "_" _testName ${_testName})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    list(APPEND _CheckRequiredFlagsAvailible ${_test})
+  endif()
+endforeach(_test)
+
 # GCC does except all -Wno-xxxx flags even if it can't handle them
 if(PHI_COMPILER_GCC)
   set(_DisableWarningAvailible "-Wno-unused-function")
@@ -237,6 +255,14 @@ if(PHI_PLATFORM_EMSCRIPTEN)
   set(_DisableWarningAvailible
       "${_DisableWarningAvailible};-Wno-assume;-Wno-unused-result;-Wno-deprecated-volatile;-Wno-deprecated-declarations"
   )
+endif()
+
+# Disable -Wstrict-overflow on gcc with asan, ubsan
+if(PHI_COMPILER_GCC
+   AND (ENABLE_SANITIZER_ADDRESS
+        OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
+        OR ENABLE_SANITIZER_THREAD))
+  list(REMOVE_ITEM _WarningsAvailible "-Wstrict-overflow")
 endif()
 
 # from here:

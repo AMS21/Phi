@@ -1,11 +1,12 @@
 phi_include_guard()
 
-include(CheckCXXSourceCompiles)
 include(CheckTypeSize)
+include(CompilerWarnings)
 include(internal/PhiCheckCXXSourceCompiles)
 
 # Set compile flags
-set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag}")
+set(CMAKE_REQUIRED_FLAGS
+    "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_CheckRequiredFlagsAvailible}")
 
 # Features
 
@@ -56,6 +57,8 @@ phi_check_cxx_source_compiles(
   PHI_HAS_FEATURE_CONSTEXPR_VIRTUAL)
 phi_check_cxx_source_compiles("int main() { if ( 1 == 1) [[likely]] {} return 0; }"
                               PHI_HAS_FEATURE_LIKELY)
+phi_check_cxx_source_compiles("int main() { switch (1) { [[likely]] case 1: return 0; } }"
+                              PHI_HAS_FEATURE_LIKELY_CASE)
 phi_check_cxx_source_compiles(
   "#include <compare>
 struct Point {int x; int y; friend auto operator<=>(const Point&, const Point&) = default;};
@@ -385,6 +388,9 @@ phi_check_cxx_source_compiles("__attribute__ ((pure)) int main() {}"
 phi_check_cxx_source_compiles(
   "template <typename> struct AbstractTemplate { virtual ~AbstractTemplate() = 0;}; int main() { static_assert(__is_constructible(AbstractTemplate<int>), \"\"); }"
   PHI_HAS_BUG_GCC_102305) # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
+
+# Only require the latest standard flag
+set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")
 
 # Type system
 check_type_size("void*" PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR BUILTIN_TYPES_ONLY LANGUAGE CXX)

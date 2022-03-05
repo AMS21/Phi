@@ -1,4 +1,4 @@
-project("PhiTestRuntimeFailureTests")
+project("PhiTestRuntimeFailureTests" CXX)
 
 include(TestFail)
 

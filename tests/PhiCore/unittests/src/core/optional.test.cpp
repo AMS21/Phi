@@ -22,8 +22,17 @@
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/core/declval.hpp>
+#include <phi/core/forward.hpp>
 #include <phi/core/move.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_destructible.hpp>
 #include <phi/type_traits/is_same.hpp>
+#include <phi/type_traits/is_trivially_copy_assignable.hpp>
+#include <phi/type_traits/is_trivially_copy_constructible.hpp>
+#include <phi/type_traits/is_trivially_destructible.hpp>
+#include <phi/type_traits/is_trivially_move_assignable.hpp>
+#include <phi/type_traits/is_trivially_move_constructible.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -130,11 +139,11 @@ TEST_CASE("optional assignment reference")
 
 TEST_CASE("optional triviality")
 {
-    REQUIRE(std::is_trivially_copy_constructible<phi::optional<int>>::value);
-    REQUIRE(std::is_trivially_copy_assignable<phi::optional<int>>::value);
-    REQUIRE(std::is_trivially_move_constructible<phi::optional<int>>::value);
-    REQUIRE(std::is_trivially_move_assignable<phi::optional<int>>::value);
-    REQUIRE(std::is_trivially_destructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_trivially_copy_constructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_trivially_copy_assignable<phi::optional<int>>::value);
+    REQUIRE(phi::is_trivially_move_constructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_trivially_move_assignable<phi::optional<int>>::value);
+    REQUIRE(phi::is_trivially_destructible<phi::optional<int>>::value);
 
     {
         struct T
@@ -146,11 +155,11 @@ TEST_CASE("optional triviality")
             ~T()              = default;
         };
 
-        REQUIRE(std::is_trivially_copy_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_trivially_copy_assignable<phi::optional<T>>::value);
-        REQUIRE(std::is_trivially_move_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_trivially_move_assignable<phi::optional<T>>::value);
-        REQUIRE(std::is_trivially_destructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_trivially_copy_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_trivially_copy_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_trivially_move_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_trivially_move_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_trivially_destructible<phi::optional<T>>::value);
     }
 
     {
@@ -171,21 +180,21 @@ TEST_CASE("optional triviality")
             ~T()
             {}
         };
-        REQUIRE_FALSE(std::is_trivially_copy_constructible<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_trivially_copy_assignable<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_trivially_move_constructible<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_trivially_move_assignable<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_trivially_destructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_trivially_copy_constructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_trivially_copy_assignable<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_trivially_move_constructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_trivially_move_assignable<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_trivially_destructible<phi::optional<T>>::value);
     }
 }
 
 TEST_CASE("optional Deletion")
 {
-    REQUIRE(std::is_copy_constructible<phi::optional<int>>::value);
-    REQUIRE(std::is_copy_assignable<phi::optional<int>>::value);
-    REQUIRE(std::is_move_constructible<phi::optional<int>>::value);
-    REQUIRE(std::is_move_assignable<phi::optional<int>>::value);
-    REQUIRE(std::is_destructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_copy_constructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_copy_assignable<phi::optional<int>>::value);
+    REQUIRE(phi::is_move_constructible<phi::optional<int>>::value);
+    REQUIRE(phi::is_move_assignable<phi::optional<int>>::value);
+    REQUIRE(phi::is_destructible<phi::optional<int>>::value);
 
     {
         struct T
@@ -196,11 +205,11 @@ TEST_CASE("optional Deletion")
             T& operator=(T&&) = default;
             ~T()              = default;
         };
-        REQUIRE(std::is_copy_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_copy_assignable<phi::optional<T>>::value);
-        REQUIRE(std::is_move_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_move_assignable<phi::optional<T>>::value);
-        REQUIRE(std::is_destructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_copy_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_copy_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_move_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_move_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_destructible<phi::optional<T>>::value);
     }
 
     {
@@ -211,10 +220,10 @@ TEST_CASE("optional Deletion")
             T& operator=(const T&) = delete;
             T& operator=(T&&) = delete;
         };
-        REQUIRE_FALSE(std::is_copy_constructible<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_copy_assignable<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_move_constructible<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_move_assignable<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_copy_constructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_copy_assignable<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_move_constructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_move_assignable<phi::optional<T>>::value);
     }
 
     {
@@ -225,10 +234,10 @@ TEST_CASE("optional Deletion")
             T& operator=(const T&) = delete;
             T& operator=(T&&) = default;
         };
-        REQUIRE_FALSE(std::is_copy_constructible<phi::optional<T>>::value);
-        REQUIRE_FALSE(std::is_copy_assignable<phi::optional<T>>::value);
-        REQUIRE(std::is_move_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_move_assignable<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_copy_constructible<phi::optional<T>>::value);
+        REQUIRE_FALSE(phi::is_copy_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_move_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_move_assignable<phi::optional<T>>::value);
     }
 
     {
@@ -239,8 +248,8 @@ TEST_CASE("optional Deletion")
             T& operator=(const T&) = default;
             T& operator=(T&&) = delete;
         };
-        REQUIRE(std::is_copy_constructible<phi::optional<T>>::value);
-        REQUIRE(std::is_copy_assignable<phi::optional<T>>::value);
+        REQUIRE(phi::is_copy_constructible<phi::optional<T>>::value);
+        REQUIRE(phi::is_copy_assignable<phi::optional<T>>::value);
     }
 }
 
@@ -291,6 +300,11 @@ struct foo
     foo(foo&&)
     {}
 };
+
+// NOTE: Not sure why gcc with asan enabled thinks that some of them are uninitialized
+// TODO: Investigate further and maybe open a bug report
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wmaybe-uninitialized")
 
 TEST_CASE("optional Constructors")
 {
@@ -345,6 +359,8 @@ TEST_CASE("optional Constructors")
     phi::optional<std::vector<foo>> ov = phi::move(v);
     REQUIRE(ov->size() == 1);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("optional emplace")
 {
@@ -877,7 +893,7 @@ struct takes_init_and_variadic
     template <class... Args>
     takes_init_and_variadic(std::initializer_list<int> l, Args&&... args)
         : v(l)
-        , t(std::forward<Args>(args)...)
+        , t(phi::forward<Args>(args)...)
     {}
 };
 
@@ -1091,8 +1107,8 @@ TEST_CASE("Noexcept", "[noexcept]")
         using nothrow_opt = phi::optional<nothrow_move>;
         using throw_opt   = phi::optional<throw_move>;
 
-        REQUIRE(std::is_nothrow_move_constructible<nothrow_opt>::value);
-        REQUIRE(!std::is_nothrow_move_constructible<throw_opt>::value);
+        REQUIRE(phi::is_nothrow_move_constructible<nothrow_opt>::value);
+        REQUIRE_FALSE(phi::is_nothrow_move_constructible<throw_opt>::value);
 #    endif
     }
 
@@ -1121,8 +1137,8 @@ TEST_CASE("Noexcept", "[noexcept]")
         using nothrow_opt = phi::optional<nothrow_move_assign>;
         using throw_opt   = phi::optional<throw_move_assign>;
 
-        REQUIRE(noexcept(std::declval<nothrow_opt>() = std::declval<nothrow_opt>()));
-        REQUIRE(!noexcept(std::declval<throw_opt>() = std::declval<throw_opt>()));
+        CHECK_NOEXCEPT(phi::declval<nothrow_opt>() = phi::declval<nothrow_opt>());
+        CHECK_NOT_NOEXCEPT(phi::declval<throw_opt>() = phi::declval<throw_opt>());
     }
 
     SECTION("observers")
@@ -1149,7 +1165,7 @@ TEST_CASE("Nullopt", "[nullopt]")
     REQUIRE(!o3);
     REQUIRE(!o4);
 
-    REQUIRE(!std::is_default_constructible<phi::nullopt_t>::value);
+    REQUIRE_FALSE(phi::is_default_constructible<phi::nullopt_t>::value);
 }
 
 struct move_detector
@@ -1185,7 +1201,7 @@ TEST_CASE("Observers", "[observers]")
     phi::optional<move_detector> o4{phi::in_place};
     move_detector                o5 = phi::move(o4).value();
     REQUIRE(o4->been_moved);
-    REQUIRE(!o5.been_moved);
+    REQUIRE_FALSE(o5.been_moved);
 }
 
 TEST_CASE("Relational ops", "[relops]")

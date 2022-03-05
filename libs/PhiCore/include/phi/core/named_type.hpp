@@ -374,6 +374,9 @@ struct PHI_EBCO bit_wise_right_shiftable : public crtp<TypeT, bit_wise_right_shi
     }
 };
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
+
 template <typename TypeT>
 struct PHI_EBCO comparable : public crtp<TypeT, comparable>
 {
@@ -407,6 +410,8 @@ struct PHI_EBCO comparable : public crtp<TypeT, comparable>
         return !(*this == other);
     }
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 struct PHI_EBCO dereferencable;

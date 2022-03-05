@@ -15,7 +15,7 @@
 #    define PHI_UNLIKELY(condition) condition
 #endif
 
-#if PHI_HAS_FEATURE_LIKELY()
+#if PHI_HAS_FEATURE_LIKELY_CASE()
 #    define PHI_LIKELY_CASE   [[likely]]
 #    define PHI_UNLIKELY_CASE [[unlikely]]
 #else

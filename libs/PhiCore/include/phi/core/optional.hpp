@@ -12,6 +12,7 @@
 #endif
 
 #include "phi/algorithm/swap.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
@@ -1181,6 +1182,9 @@ public:
     }
 };
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
+
 /// Compares two optional objects
 template <typename TypeT, typename OtherT>
 PHI_ATTRIBUTE_PURE constexpr bool operator==(const optional<TypeT>&  lhs,
@@ -1367,6 +1371,8 @@ PHI_ATTRIBUTE_PURE constexpr bool operator>=(const OtherT& lhs, const optional<T
 {
     return rhs.has_value() ? lhs >= *rhs : true;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT, enable_if_t<is_move_constructible<TypeT>::value>* = nullptr,
           enable_if_t<is_swappable<TypeT>::value>* = nullptr>

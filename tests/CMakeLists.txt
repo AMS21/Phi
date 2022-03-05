@@ -1,4 +1,4 @@
-project("PhiTests")
+project("PhiTests" CXX)
 
 add_subdirectory("integration")
 add_subdirectory("PhiCore")

@@ -109,7 +109,8 @@ function(phi_check_source_compiles _lang _source _var)
         APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
         "Performing ${_lang_textual} SOURCE FILE Test ${_var} succeeded with the following output:\n"
         "${OUTPUT}\n"
-        "Source file was:\n${_source}\n")
+        "Source file was:\n${_source}\n"
+        "Required flags was: ${CMAKE_REQUIRED_FLAGS}\n")
     else()
       if(NOT CMAKE_REQUIRED_QUIET)
         message(CHECK_FAIL "Failed")
@@ -120,7 +121,8 @@ function(phi_check_source_compiles _lang _source _var)
       file(
         APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Performing ${_lang_textual} SOURCE FILE Test ${_var} failed with the following output:\n"
-        "${OUTPUT}\n" "Source file was:\n${_source}\n")
+        "${OUTPUT}\n" "Source file was:\n${_source}\n"
+        "Required flags was: ${CMAKE_REQUIRED_FLAGS}\n")
     endif()
   endif()
 endfunction()
