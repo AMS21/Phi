@@ -14,6 +14,7 @@
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/iterator/reverse_iterator.hpp"
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_standard_layout.hpp"
@@ -35,8 +36,8 @@ public:
     using const_reference        = const CharT&;
     using iterator               = const_pointer;
     using const_iterator         = const_pointer;
-    using reverse_iterator       = std::reverse_iterator<const_iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator       = phi::reverse_iterator<const_iterator>;
+    using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
     using size_type              = usize;
     using difference_type        = ptrdiff;
 

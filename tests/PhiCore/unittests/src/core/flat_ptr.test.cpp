@@ -2,7 +2,13 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/core/flat_ptr.hpp>
-#include <type_traits>
+#include <phi/core/move.hpp>
+#include <phi/core/nullptr_t.hpp>
+#include <phi/type_traits/is_copy_assignable.hpp>
+#include <phi/type_traits/is_copy_constructible.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_move_assignable.hpp>
+#include <phi/type_traits/is_move_constructible.hpp>
 
 struct A
 {
@@ -18,18 +24,20 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
     {
         STATIC_REQUIRE(sizeof(phi::flat_ptr) == sizeof(void*));
 
-        STATIC_REQUIRE(std::is_default_constructible<phi::flat_ptr>::value);
-        STATIC_REQUIRE(std::is_copy_constructible<phi::flat_ptr>::value);
-        STATIC_REQUIRE(std::is_move_constructible<phi::flat_ptr>::value);
-        STATIC_REQUIRE(std::is_copy_assignable<phi::flat_ptr>::value);
-        STATIC_REQUIRE(std::is_move_assignable<phi::flat_ptr>::value);
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+        STATIC_REQUIRE(phi::is_default_constructible<phi::flat_ptr>::value);
+#endif
+        STATIC_REQUIRE(phi::is_copy_constructible<phi::flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_move_constructible<phi::flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_copy_assignable<phi::flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_move_assignable<phi::flat_ptr>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same<phi::flat_ptr::this_type, phi::flat_ptr>::value);
-        STATIC_REQUIRE(std::is_same<phi::flat_ptr::value_type, void*>::value);
-        STATIC_REQUIRE(std::is_same<phi::flat_ptr::not_null_type, phi::not_null_flat_ptr>::value);
+        CHECK_SAME_TYPE(phi::flat_ptr::this_type, phi::flat_ptr);
+        CHECK_SAME_TYPE(phi::flat_ptr::value_type, void*);
+        CHECK_SAME_TYPE(phi::flat_ptr::not_null_type, phi::not_null_flat_ptr);
     }
 
     int val1 = 21;
@@ -46,9 +54,9 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         CHECK_FALSE(ptr);
     }
 
-    SECTION("flat_ptr(std::nullptr_t)")
+    SECTION("flat_ptr(nullptr_t)")
     {
-        phi::flat_ptr ptr(nullptr);
+        phi::flat_ptr ptr{nullptr};
 
         CHECK(ptr.get() == nullptr);
         CHECK_FALSE(ptr);
@@ -77,7 +85,7 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
     SECTION("flat_ptr(flat_ptr&&)")
     {
         phi::flat_ptr base(raw_ptr1);
-        phi::flat_ptr ptr(std::move(base));
+        phi::flat_ptr ptr(phi::move(base));
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr1);
@@ -95,13 +103,13 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
     SECTION("flat_ptr(not_null_flat_ptr&&)")
     {
         phi::not_null_flat_ptr not_null(raw_ptr1);
-        phi::flat_ptr          ptr(std::move(not_null));
+        phi::flat_ptr          ptr(phi::move(not_null));
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr1);
     }
 
-    SECTION("flat_ptr(std::nullptr_t)")
+    SECTION("flat_ptr(nullptr_t)")
     {
         phi::flat_ptr ptr;
 
@@ -140,14 +148,14 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         phi::flat_ptr base(raw_ptr1);
         phi::flat_ptr ptr;
 
-        ptr = std::move(base);
+        ptr = phi::move(base);
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr1);
 
         phi::flat_ptr ptr2(raw_ptr2);
 
-        ptr = std::move(ptr2);
+        ptr = phi::move(ptr2);
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
@@ -169,7 +177,7 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         phi::not_null_flat_ptr not_null(raw_ptr1);
         phi::flat_ptr          ptr;
 
-        ptr = std::move(not_null);
+        ptr = phi::move(not_null);
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr1);
@@ -330,18 +338,19 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
     {
         STATIC_REQUIRE(sizeof(phi::not_null_flat_ptr) == sizeof(void*));
 
-        STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::not_null_flat_ptr>::value);
-        STATIC_REQUIRE(std::is_copy_constructible<phi::not_null_flat_ptr>::value);
-        STATIC_REQUIRE(std::is_move_constructible<phi::not_null_flat_ptr>::value);
-        STATIC_REQUIRE(std::is_copy_assignable<phi::not_null_flat_ptr>::value);
-        STATIC_REQUIRE(std::is_move_assignable<phi::not_null_flat_ptr>::value);
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+        STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::not_null_flat_ptr>::value);
+#endif
+        STATIC_REQUIRE(phi::is_copy_constructible<phi::not_null_flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_move_constructible<phi::not_null_flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_copy_assignable<phi::not_null_flat_ptr>::value);
+        STATIC_REQUIRE(phi::is_move_assignable<phi::not_null_flat_ptr>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(
-                std::is_same<phi::not_null_flat_ptr::this_type, phi::not_null_flat_ptr>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_flat_ptr::value_type, void*>::value);
+        CHECK_SAME_TYPE(phi::not_null_flat_ptr::this_type, phi::not_null_flat_ptr);
+        CHECK_SAME_TYPE(phi::not_null_flat_ptr::value_type, void*);
     }
 
     int  val1     = 21;
@@ -369,7 +378,7 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
     SECTION("not_null_flat_ptr(not_null_flat_ptr&&)")
     {
         phi::not_null_flat_ptr base(raw_ptr1);
-        phi::not_null_flat_ptr ptr(std::move(base));
+        phi::not_null_flat_ptr ptr(phi::move(base));
 
         CHECK(ptr.get() == raw_ptr1);
     }
@@ -398,7 +407,7 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
         phi::not_null_flat_ptr base(raw_ptr1);
         phi::not_null_flat_ptr ptr(raw_ptr2);
 
-        ptr = std::move(base);
+        ptr = phi::move(base);
 
         CHECK(ptr.get() == raw_ptr1);
     }

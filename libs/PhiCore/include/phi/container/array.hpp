@@ -15,9 +15,9 @@
 #include "phi/core/assert.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/iterator/reverse_iterator.hpp"
 #include "phi/type_traits/is_const.hpp"
 #include "phi/type_traits/is_nothrow_swappable.hpp"
-#include <iterator>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -35,8 +35,8 @@ public:
     using const_pointer          = const value_type*;
     using iterator               = pointer;
     using const_iterator         = const_pointer;
-    using reverse_iterator       = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator       = phi::reverse_iterator<iterator>;
+    using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(size_type pos) noexcept
     {
@@ -297,8 +297,8 @@ public:
     using const_pointer          = const value_type*;
     using iterator               = pointer;
     using const_iterator         = const_pointer;
-    using reverse_iterator       = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator       = phi::reverse_iterator<iterator>;
+    using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(PHI_UNUSED size_type pos) noexcept
     {

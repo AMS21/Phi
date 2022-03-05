@@ -30,6 +30,7 @@ SOFTWARE.
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/integer.hpp>
+#include <phi/core/sized_types.hpp>
 #include <phi/test/test_macros.hpp>
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_constructible.hpp>
@@ -51,7 +52,6 @@ SOFTWARE.
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
 #include <phi/type_traits/is_trivially_destructible.hpp>
-#include <cstdint>
 #include <limits>
 #include <sstream>
 #include <string>
@@ -137,421 +137,421 @@ TEST_CASE("integer")
 {
     SECTION("integer layout", "[Utility][Types][integer]")
     {
-        STATIC_REQUIRE(sizeof(phi::integer<std::int8_t>) == sizeof(std::int8_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::int16_t>) == sizeof(std::int16_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::int32_t>) == sizeof(std::int32_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::int64_t>) == sizeof(std::int64_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::int8_t>) == sizeof(phi::int8_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::int16_t>) == sizeof(phi::int16_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::int32_t>) == sizeof(phi::int32_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::int64_t>) == sizeof(phi::int64_t));
 
-        STATIC_REQUIRE(sizeof(phi::integer<std::uint8_t>) == sizeof(std::uint8_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::uint16_t>) == sizeof(std::uint16_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::uint32_t>) == sizeof(std::uint32_t));
-        STATIC_REQUIRE(sizeof(phi::integer<std::uint64_t>) == sizeof(std::uint64_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::uint8_t>) == sizeof(phi::uint8_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::uint16_t>) == sizeof(phi::uint16_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::uint32_t>) == sizeof(phi::uint32_t));
+        STATIC_REQUIRE(sizeof(phi::integer<phi::uint64_t>) == sizeof(phi::uint64_t));
 
-        test_integer_layout<phi::integer<std::int8_t>>();
-        test_integer_layout<phi::integer<std::int16_t>>();
-        test_integer_layout<phi::integer<std::int32_t>>();
-        test_integer_layout<phi::integer<std::int64_t>>();
+        test_integer_layout<phi::integer<phi::int8_t>>();
+        test_integer_layout<phi::integer<phi::int16_t>>();
+        test_integer_layout<phi::integer<phi::int32_t>>();
+        test_integer_layout<phi::integer<phi::int64_t>>();
 
-        test_integer_layout<phi::integer<std::uint8_t>>();
-        test_integer_layout<phi::integer<std::uint16_t>>();
-        test_integer_layout<phi::integer<std::uint32_t>>();
-        test_integer_layout<phi::integer<std::uint64_t>>();
+        test_integer_layout<phi::integer<phi::uint8_t>>();
+        test_integer_layout<phi::integer<phi::uint16_t>>();
+        test_integer_layout<phi::integer<phi::uint32_t>>();
+        test_integer_layout<phi::integer<phi::uint64_t>>();
     }
 
     SECTION("integer conversion checks", "[Utility][Types][integer]")
     {
-        // std::int8_t
-        test_integer_convertible<phi::integer<std::int8_t>, std::int8_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::int64_t>();
+        // phi::int8_t
+        test_integer_convertible<phi::integer<phi::int8_t>, phi::int8_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::int64_t>();
 
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::uint8_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::uint16_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, std::uint64_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::uint8_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::uint16_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::int8_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, char>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, float>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, double>();
-        test_integer_not_convertible<phi::integer<std::int8_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::int8_t>, long double>();
 
-        // std::int16_t
-        test_integer_convertible<phi::integer<std::int16_t>, std::int8_t>();
-        test_integer_convertible<phi::integer<std::int16_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, std::int64_t>();
+        // phi::int16_t
+        test_integer_convertible<phi::integer<phi::int16_t>, phi::int8_t>();
+        test_integer_convertible<phi::integer<phi::int16_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::int16_t>, std::uint8_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, std::uint16_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::int16_t>, phi::uint8_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::uint16_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::int16_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, char>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, float>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, double>();
-        test_integer_not_convertible<phi::integer<std::int16_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::int16_t>, long double>();
 
-        // std::int32_t
-        test_integer_convertible<phi::integer<std::int32_t>, std::int8_t>();
-        test_integer_convertible<phi::integer<std::int32_t>, std::int16_t>();
-        test_integer_convertible<phi::integer<std::int32_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, std::int64_t>();
+        // phi::int32_t
+        test_integer_convertible<phi::integer<phi::int32_t>, phi::int8_t>();
+        test_integer_convertible<phi::integer<phi::int32_t>, phi::int16_t>();
+        test_integer_convertible<phi::integer<phi::int32_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::int32_t>, std::uint8_t>();
-        test_integer_convertible<phi::integer<std::int32_t>, std::uint16_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::int32_t>, phi::uint8_t>();
+        test_integer_convertible<phi::integer<phi::int32_t>, phi::uint16_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::int32_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, char>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, float>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, double>();
-        test_integer_not_convertible<phi::integer<std::int32_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::int32_t>, long double>();
 
-        // std::int64_t
-        test_integer_convertible<phi::integer<std::int64_t>, std::int8_t>();
-        test_integer_convertible<phi::integer<std::int64_t>, std::int16_t>();
-        test_integer_convertible<phi::integer<std::int64_t>, std::int32_t>();
-        test_integer_convertible<phi::integer<std::int64_t>, std::int64_t>();
+        // phi::int64_t
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::int8_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::int16_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::int32_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::int64_t>, std::uint8_t>();
-        test_integer_convertible<phi::integer<std::int64_t>, std::uint16_t>();
-        test_integer_convertible<phi::integer<std::int64_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::uint8_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::uint16_t>();
+        test_integer_convertible<phi::integer<phi::int64_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::int64_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, char>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, float>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, double>();
-        test_integer_not_convertible<phi::integer<std::int64_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::int64_t>, long double>();
 
-        // std::uint8_t
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::int8_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::int64_t>();
+        // phi::uint8_t
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::int8_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::uint8_t>, std::uint8_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::uint16_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::uint8_t>, phi::uint8_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::uint16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::uint8_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, char>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, float>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, double>();
-        test_integer_not_convertible<phi::integer<std::uint8_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::uint8_t>, long double>();
 
-        // std::uint16_t
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::int8_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::int64_t>();
+        // phi::uint16_t
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::int8_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::uint16_t>, std::uint8_t>();
-        test_integer_convertible<phi::integer<std::uint16_t>, std::uint16_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::uint16_t>, phi::uint8_t>();
+        test_integer_convertible<phi::integer<phi::uint16_t>, phi::uint16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::uint16_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, char>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, float>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, double>();
-        test_integer_not_convertible<phi::integer<std::uint16_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::uint16_t>, long double>();
 
-        // std::uint32_t
-        test_integer_not_convertible<phi::integer<std::uint32_t>, std::int8_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, std::int64_t>();
+        // phi::uint32_t
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::int8_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::uint32_t>, std::uint8_t>();
-        test_integer_convertible<phi::integer<std::uint32_t>, std::uint16_t>();
-        test_integer_convertible<phi::integer<std::uint32_t>, std::uint32_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::uint32_t>, phi::uint8_t>();
+        test_integer_convertible<phi::integer<phi::uint32_t>, phi::uint16_t>();
+        test_integer_convertible<phi::integer<phi::uint32_t>, phi::uint32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::uint32_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, char>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, float>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, double>();
-        test_integer_not_convertible<phi::integer<std::uint32_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::uint32_t>, long double>();
 
-        // std::uint64_t
-        test_integer_not_convertible<phi::integer<std::uint64_t>, std::int8_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, std::int16_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, std::int32_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, std::int64_t>();
+        // phi::uint64_t
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, phi::int8_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, phi::int16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, phi::int32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, phi::int64_t>();
 
-        test_integer_convertible<phi::integer<std::uint64_t>, std::uint8_t>();
-        test_integer_convertible<phi::integer<std::uint64_t>, std::uint16_t>();
-        test_integer_convertible<phi::integer<std::uint64_t>, std::uint32_t>();
-        test_integer_convertible<phi::integer<std::uint64_t>, std::uint64_t>();
+        test_integer_convertible<phi::integer<phi::uint64_t>, phi::uint8_t>();
+        test_integer_convertible<phi::integer<phi::uint64_t>, phi::uint16_t>();
+        test_integer_convertible<phi::integer<phi::uint64_t>, phi::uint32_t>();
+        test_integer_convertible<phi::integer<phi::uint64_t>, phi::uint64_t>();
 
-        test_integer_not_convertible<phi::integer<std::uint64_t>, bool>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, phi::boolean>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, char>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, wchar_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, char16_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, char32_t>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, float>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, double>();
-        test_integer_not_convertible<phi::integer<std::uint64_t>, long double>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, bool>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, phi::boolean>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, char>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, wchar_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, char16_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, char32_t>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, float>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, double>();
+        test_integer_not_convertible<phi::integer<phi::uint64_t>, long double>();
     }
 
     SECTION("integer", "[Utility][Types][integer]")
     {
-        using int_t = phi::integer<std::int32_t>;
+        using int_t = phi::integer<phi::int32_t>;
 
         SECTION("Type traits")
         {
             // this_type
-            CHECK_SAME_TYPE(phi::integer<std::int8_t>::this_type, phi::integer<std::int8_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int16_t>::this_type, phi::integer<std::int16_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int32_t>::this_type, phi::integer<std::int32_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int64_t>::this_type, phi::integer<std::int64_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int8_t>::this_type, phi::integer<phi::int8_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int16_t>::this_type, phi::integer<phi::int16_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int32_t>::this_type, phi::integer<phi::int32_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int64_t>::this_type, phi::integer<phi::int64_t>);
 
-            CHECK_SAME_TYPE(phi::integer<std::uint8_t>::this_type, phi::integer<std::uint8_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint16_t>::this_type, phi::integer<std::uint16_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint32_t>::this_type, phi::integer<std::uint32_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint64_t>::this_type, phi::integer<std::uint64_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint8_t>::this_type, phi::integer<phi::uint8_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint16_t>::this_type, phi::integer<phi::uint16_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint32_t>::this_type, phi::integer<phi::uint32_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint64_t>::this_type, phi::integer<phi::uint64_t>);
 
             // value_type
-            CHECK_SAME_TYPE(phi::integer<std::int8_t>::value_type, std::int8_t);
-            CHECK_SAME_TYPE(phi::integer<std::int16_t>::value_type, std::int16_t);
-            CHECK_SAME_TYPE(phi::integer<std::int32_t>::value_type, std::int32_t);
-            CHECK_SAME_TYPE(phi::integer<std::int64_t>::value_type, std::int64_t);
+            CHECK_SAME_TYPE(phi::integer<phi::int8_t>::value_type, phi::int8_t);
+            CHECK_SAME_TYPE(phi::integer<phi::int16_t>::value_type, phi::int16_t);
+            CHECK_SAME_TYPE(phi::integer<phi::int32_t>::value_type, phi::int32_t);
+            CHECK_SAME_TYPE(phi::integer<phi::int64_t>::value_type, phi::int64_t);
 
-            CHECK_SAME_TYPE(phi::integer<std::uint8_t>::value_type, std::uint8_t);
-            CHECK_SAME_TYPE(phi::integer<std::uint16_t>::value_type, std::uint16_t);
-            CHECK_SAME_TYPE(phi::integer<std::uint32_t>::value_type, std::uint32_t);
-            CHECK_SAME_TYPE(phi::integer<std::uint64_t>::value_type, std::uint64_t);
+            CHECK_SAME_TYPE(phi::integer<phi::uint8_t>::value_type, phi::uint8_t);
+            CHECK_SAME_TYPE(phi::integer<phi::uint16_t>::value_type, phi::uint16_t);
+            CHECK_SAME_TYPE(phi::integer<phi::uint32_t>::value_type, phi::uint32_t);
+            CHECK_SAME_TYPE(phi::integer<phi::uint64_t>::value_type, phi::uint64_t);
 
             // limits_type
-            CHECK_SAME_TYPE(phi::integer<std::int8_t>::limits_type,
-                            std::numeric_limits<std::int8_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int16_t>::limits_type,
-                            std::numeric_limits<std::int16_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int32_t>::limits_type,
-                            std::numeric_limits<std::int32_t>);
-            CHECK_SAME_TYPE(phi::integer<std::int64_t>::limits_type,
-                            std::numeric_limits<std::int64_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int8_t>::limits_type,
+                            std::numeric_limits<phi::int8_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int16_t>::limits_type,
+                            std::numeric_limits<phi::int16_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int32_t>::limits_type,
+                            std::numeric_limits<phi::int32_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::int64_t>::limits_type,
+                            std::numeric_limits<phi::int64_t>);
 
-            CHECK_SAME_TYPE(phi::integer<std::uint8_t>::limits_type,
-                            std::numeric_limits<std::uint8_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint16_t>::limits_type,
-                            std::numeric_limits<std::uint16_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint32_t>::limits_type,
-                            std::numeric_limits<std::uint32_t>);
-            CHECK_SAME_TYPE(phi::integer<std::uint64_t>::limits_type,
-                            std::numeric_limits<std::uint64_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint8_t>::limits_type,
+                            std::numeric_limits<phi::uint8_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint16_t>::limits_type,
+                            std::numeric_limits<phi::uint16_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint32_t>::limits_type,
+                            std::numeric_limits<phi::uint32_t>);
+            CHECK_SAME_TYPE(phi::integer<phi::uint64_t>::limits_type,
+                            std::numeric_limits<phi::uint64_t>);
         }
 
         SECTION("constructor")
         {
             CONSTEXPR_RUNTIME int_t a(0);
-            STATIC_REQUIRE(static_cast<std::int32_t>(a) == 0);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(a) == 0);
             CONSTEXPR_RUNTIME int_t b(32);
-            STATIC_REQUIRE(static_cast<std::int32_t>(b) == 32);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(b) == 32);
             CONSTEXPR_RUNTIME int_t c(-25);
-            STATIC_REQUIRE(static_cast<std::int32_t>(c) == -25);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(c) == -25);
         }
 
         SECTION("assignment")
         {
             int_t a(0);
             a = 32;
-            CHECK(static_cast<std::int32_t>(a) == 32);
+            CHECK(static_cast<phi::int32_t>(a) == 32);
             a = -25;
-            CHECK(static_cast<std::int32_t>(a) == -25);
+            CHECK(static_cast<phi::int32_t>(a) == -25);
         }
 
         SECTION("unary")
         {
             CONSTEXPR_RUNTIME int_t a(13);
-            STATIC_REQUIRE(static_cast<std::int32_t>(+a) == static_cast<std::int32_t>(a));
-            EXT_STATIC_REQUIRE(static_cast<std::int32_t>(-a) == -static_cast<std::int32_t>(a));
+            STATIC_REQUIRE(static_cast<phi::int32_t>(+a) == static_cast<phi::int32_t>(a));
+            EXT_STATIC_REQUIRE(static_cast<phi::int32_t>(-a) == -static_cast<phi::int32_t>(a));
         }
 
         SECTION("increment")
         {
             int_t a(0);
-            CHECK(static_cast<std::int32_t>(++a) == 1);
-            CHECK(static_cast<std::int32_t>(a++) == 1);
-            CHECK(static_cast<std::int32_t>(a) == 2);
+            CHECK(static_cast<phi::int32_t>(++a) == 1);
+            CHECK(static_cast<phi::int32_t>(a++) == 1);
+            CHECK(static_cast<phi::int32_t>(a) == 2);
         }
 
         SECTION("decrement")
         {
             int_t a(0);
-            CHECK(static_cast<std::int32_t>(--a) == -1);
-            CHECK(static_cast<std::int32_t>(a--) == -1);
-            CHECK(static_cast<std::int32_t>(a) == -2);
+            CHECK(static_cast<phi::int32_t>(--a) == -1);
+            CHECK(static_cast<phi::int32_t>(a--) == -1);
+            CHECK(static_cast<phi::int32_t>(a) == -2);
         }
 
         SECTION("addition")
         {
             int_t        wrapper(0);
-            std::int32_t normal(0);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            phi::int32_t normal(0);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper += 5;
             normal += 5;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
-            wrapper += std::int16_t(5);
-            normal += std::int16_t(5);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            wrapper += phi::int16_t(5);
+            normal += phi::int16_t(5);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = wrapper + (-23);
             normal  = normal + (-23);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = 22 + wrapper;
             normal  = 22 + normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = int_t(-4) + wrapper;
             normal  = (-4) + normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
         }
 
         SECTION("subtraction")
         {
             int_t        wrapper(0);
-            std::int32_t normal(0);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            phi::int32_t normal(0);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper -= 5;
             normal -= 5;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
-            wrapper -= std::int16_t(5);
-            normal -= std::int16_t(5);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            wrapper -= phi::int16_t(5);
+            normal -= phi::int16_t(5);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = wrapper - (-23);
             normal  = normal - (-23);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = 22 - wrapper;
             normal  = 22 - normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = int_t(-4) - wrapper;
             normal  = (-4) - normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
         }
 
         SECTION("multiplication")
         {
             int_t        wrapper(1);
-            std::int32_t normal(1);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            phi::int32_t normal(1);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper *= 5;
             normal *= 5;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
-            wrapper *= std::int16_t(5);
-            normal *= std::int16_t(5);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            wrapper *= phi::int16_t(5);
+            normal *= phi::int16_t(5);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = wrapper * (-23);
             normal  = normal * (-23);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = 22 * wrapper;
             normal  = 22 * normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = int_t(-4) * wrapper;
             normal  = (-4) * normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
         }
 
         SECTION("division")
         {
             int_t        wrapper(23 * 25);
-            std::int32_t normal(23 * 25);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            phi::int32_t normal(23 * 25);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper /= 5;
             normal /= 5;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
-            wrapper /= std::int16_t(5);
-            normal /= std::int16_t(5);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            wrapper /= phi::int16_t(5);
+            normal /= phi::int16_t(5);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = wrapper / (-23);
             normal  = normal / (-23);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = 22 / wrapper;
             normal  = 22 / normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = int_t(-4) / wrapper;
             normal  = (-4) / normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
         }
 
         SECTION("modulo")
         {
             int_t        wrapper(24 * 6);
-            std::int32_t normal(24 * 6);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            phi::int32_t normal(24 * 6);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper %= 5;
             normal %= 5;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
-            wrapper %= std::int16_t(5);
-            normal %= std::int16_t(5);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            wrapper %= phi::int16_t(5);
+            normal %= phi::int16_t(5);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = wrapper % (-23);
             normal  = normal % (-23);
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = 22 % wrapper;
             normal  = 22 % normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
 
             wrapper = int_t(-4) % wrapper;
             normal  = (-4) % normal;
-            CHECK(static_cast<std::int32_t>(wrapper) == normal);
+            CHECK(static_cast<phi::int32_t>(wrapper) == normal);
         }
 
         SECTION("comparison")
@@ -639,7 +639,7 @@ TEST_CASE("integer")
             CHECK(out.str() == "0");
 
             in >> i;
-            CHECK(static_cast<std::int32_t>(i) == 10);
+            CHECK(static_cast<phi::int32_t>(i) == 10);
         }
 
         SECTION("signed_to_unsigned")

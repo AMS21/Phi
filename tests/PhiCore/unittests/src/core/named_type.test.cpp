@@ -33,6 +33,9 @@ SOFTWARE.
 #include <phi/compiler_support/intrinsics/is_union.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/named_type.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_nothrow_constructible.hpp>
+#include <phi/type_traits/is_trivially_constructible.hpp>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
@@ -157,24 +160,33 @@ TEST_CASE("Default construction")
     StrongInt strongInt;
     strongInt.get() = 42;
     REQUIRE(strongInt.get() == 42);
-    STATIC_REQUIRE(std::is_nothrow_constructible<StrongInt>::value);
 
-    //Default constructible
-    STATIC_REQUIRE(std::is_default_constructible<StrongInt>::value);
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_nothrow_constructible<StrongInt>::value);
+#endif
+
+// Default constructible
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_default_constructible<StrongInt>::value);
     using StrongNonDefaultConstructible =
             phi::named_type<NonDefaultConstructible, struct StrongNonDefaultConstructibleTag>;
-    STATIC_REQUIRE_FALSE(std::is_default_constructible<StrongNonDefaultConstructible>::value);
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<StrongNonDefaultConstructible>::value);
+#endif
 
-    //Trivially constructible
-    STATIC_REQUIRE(std::is_trivially_constructible<StrongInt>::value);
+    // Trivially constructible
+#if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_trivially_constructible<StrongInt>::value);
     using StrongUserProvided = phi::named_type<UserProvided, struct StrongUserProvidedTag>;
-    STATIC_REQUIRE_FALSE(std::is_trivially_constructible<StrongUserProvided>::value);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_constructible<StrongUserProvided>::value);
+#endif
 
-    //Nothrow constructible
-    STATIC_REQUIRE(std::is_nothrow_constructible<StrongInt>::value);
+    // Nothrow constructible
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_nothrow_constructible<StrongInt>::value);
     using StrongPotentiallyThrowing =
             phi::named_type<PotentiallyThrowing, struct StrongPotentiallyThrowingTag>;
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<StrongPotentiallyThrowing>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<StrongPotentiallyThrowing>::value);
+#endif
 }
 
 template <typename Function>

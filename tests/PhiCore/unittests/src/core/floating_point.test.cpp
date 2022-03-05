@@ -29,15 +29,19 @@ SOFTWARE.
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_nothrow_assignable.hpp>
+#include <phi/type_traits/is_nothrow_constructible.hpp>
+#include <phi/type_traits/is_standard_layout.hpp>
+#include <phi/type_traits/is_trivially_copyable.hpp>
 #include <cfloat>
 #include <cmath>
 #include <functional>
 #include <sstream>
 #include <string>
-#include <type_traits>
 
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
-    (std::is_nothrow_constructible<lhs, rhs>::value && std::is_nothrow_assignable<lhs, rhs>::value)
+    (phi::is_nothrow_constructible<lhs, rhs>::value && phi::is_nothrow_assignable<lhs, rhs>::value)
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
@@ -53,9 +57,15 @@ TEST_CASE("floating_point")
         STATIC_REQUIRE(sizeof(float) == sizeof(phi::floating_point<float>));
         STATIC_REQUIRE(sizeof(double) == sizeof(phi::floating_point<double>));
         STATIC_REQUIRE(sizeof(long double) == sizeof(phi::floating_point<long double>));
-        STATIC_REQUIRE(std::is_trivially_copyable<phi::floating_point<float>>::value);
-        STATIC_REQUIRE(std::is_standard_layout<phi::floating_point<float>>::value);
-        STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::floating_point<float>>::value);
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
+        STATIC_REQUIRE(phi::is_trivially_copyable<phi::floating_point<float>>::value);
+#endif
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
+        STATIC_REQUIRE(phi::is_standard_layout<phi::floating_point<float>>::value);
+#endif
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+        STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::floating_point<float>>::value);
+#endif
 
         // conversion checks
         STATIC_REQUIRE(TEST_CONVERSION(phi::floating_point<float>, float));
@@ -93,33 +103,33 @@ TEST_CASE("floating_point")
         STATIC_REQUIRE(TEST_CONVERSION(phi::floating_point<long double>,
                                        phi::floating_point<long double>));
 
-        STATIC_REQUIRE(std::is_nothrow_constructible<float, phi::floating_point<float>>::value);
+        STATIC_REQUIRE(phi::is_nothrow_constructible<float, phi::floating_point<float>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<float, phi::floating_point<double>>::value);
+                phi::is_nothrow_constructible<float, phi::floating_point<double>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<float, phi::floating_point<long double>>::value);
+                phi::is_nothrow_constructible<float, phi::floating_point<long double>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<double, phi::floating_point<float>>::value);
-        STATIC_REQUIRE(std::is_nothrow_constructible<double, phi::floating_point<double>>::value);
+                phi::is_nothrow_constructible<double, phi::floating_point<float>>::value);
+        STATIC_REQUIRE(phi::is_nothrow_constructible<double, phi::floating_point<double>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<double, phi::floating_point<long double>>::value);
+                phi::is_nothrow_constructible<double, phi::floating_point<long double>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<long double, phi::floating_point<float>>::value);
+                phi::is_nothrow_constructible<long double, phi::floating_point<float>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_nothrow_constructible<long double, phi::floating_point<double>>::value);
-        STATIC_REQUIRE(std::is_nothrow_constructible<long double,
+                phi::is_nothrow_constructible<long double, phi::floating_point<double>>::value);
+        STATIC_REQUIRE(phi::is_nothrow_constructible<long double,
                                                      phi::floating_point<long double>>::value);
 
-        STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::floating_point<float>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::floating_point<double>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<float, phi::floating_point<long double>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::floating_point<float>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::floating_point<double>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<double, phi::floating_point<long double>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<long double, phi::floating_point<float>>::value);
-        STATIC_REQUIRE_FALSE(std::is_assignable<long double, phi::floating_point<double>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<float, phi::floating_point<float>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<float, phi::floating_point<double>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<float, phi::floating_point<long double>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<double, phi::floating_point<float>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<double, phi::floating_point<double>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<double, phi::floating_point<long double>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<long double, phi::floating_point<float>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_assignable<long double, phi::floating_point<double>>::value);
         STATIC_REQUIRE_FALSE(
-                std::is_assignable<long double, phi::floating_point<long double>>::value);
+                phi::is_assignable<long double, phi::floating_point<long double>>::value);
     }
 
     SECTION("phi::floating_point", "[Utility][Types][floating_point]")

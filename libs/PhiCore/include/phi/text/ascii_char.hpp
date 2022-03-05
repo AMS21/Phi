@@ -10,6 +10,7 @@
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
+#include "phi/core/sized_types.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -254,7 +255,7 @@ public:
     // Binary operators
     friend constexpr ascii_char operator+(const ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
         return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char + rhs.m_Char)};
@@ -262,7 +263,7 @@ public:
 
     friend constexpr ascii_char& operator+=(ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
         lhs.m_Char = static_cast<value_type>(lhs.m_Char + rhs.m_Char);
@@ -271,7 +272,7 @@ public:
 
     friend constexpr ascii_char operator-(const ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
         return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char - rhs.m_Char)};
@@ -279,7 +280,7 @@ public:
 
     friend constexpr ascii_char& operator-=(ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<std::uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
                        "Addition would result in unrepresentable ascii character");
 
         lhs.m_Char = static_cast<value_type>(lhs.m_Char - rhs.m_Char);

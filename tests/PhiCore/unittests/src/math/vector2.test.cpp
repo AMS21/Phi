@@ -7,7 +7,6 @@
 #include <phi/core/types.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
-#include <iterator>
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -39,9 +38,9 @@ void test_vector2()
         CHECK_SAME_TYPE(typename phi::vector2<T>::const_pointer, const T*);
         CHECK_SAME_TYPE(typename phi::vector2<T>::iterator, T*);
         CHECK_SAME_TYPE(typename phi::vector2<T>::const_iterator, const T*);
-        CHECK_SAME_TYPE(typename phi::vector2<T>::reverse_iterator, std::reverse_iterator<T*>);
+        CHECK_SAME_TYPE(typename phi::vector2<T>::reverse_iterator, phi::reverse_iterator<T*>);
         CHECK_SAME_TYPE(typename phi::vector2<T>::const_reverse_iterator,
-                        std::reverse_iterator<const T*>);
+                        phi::reverse_iterator<const T*>);
     }
 
     SECTION("vector2(x, y)")
@@ -318,32 +317,32 @@ TEST_CASE("vector2")
     // Fixed types
     SECTION("vector2(const vector2<Other>&)")
     {
-        CONSTEXPR_RUNTIME phi::vector2<phi::i8> b1(std::int8_t(3), std::int8_t(1));
+        CONSTEXPR_RUNTIME phi::vector2<phi::i8> b1(phi::int8_t(3), phi::int8_t(1));
         CONSTEXPR_RUNTIME phi::vector2<phi::i16> r1(b1);
 
-        STATIC_REQUIRE(bool(r1.x == std::int16_t(3)));
-        STATIC_REQUIRE(bool(r1.y == std::int16_t(1)));
+        STATIC_REQUIRE(bool(r1.x == phi::int16_t(3)));
+        STATIC_REQUIRE(bool(r1.y == phi::int16_t(1)));
 
-        CONSTEXPR_RUNTIME phi::vector2<phi::u16> b2(std::uint16_t(99u), std::uint16_t(257u));
+        CONSTEXPR_RUNTIME phi::vector2<phi::u16> b2(phi::uint16_t(99u), phi::uint16_t(257u));
         CONSTEXPR_RUNTIME phi::vector2<phi::i32> r2(b2);
 
-        STATIC_REQUIRE(bool(r2.x == std::int32_t(99)));
-        STATIC_REQUIRE(bool(r2.y == std::int32_t(257)));
+        STATIC_REQUIRE(bool(r2.x == phi::int32_t(99)));
+        STATIC_REQUIRE(bool(r2.y == phi::int32_t(257)));
     }
 
     SECTION("vector2(vector2<Other>&&)")
     {
         CONSTEXPR_RUNTIME phi::vector2<phi::i16> r1(
-                phi::vector2<phi::i8>(std::int8_t(11), std::int8_t(17)));
+                phi::vector2<phi::i8>(phi::int8_t(11), phi::int8_t(17)));
 
-        STATIC_REQUIRE(bool(r1.x == std::int16_t(11)));
-        STATIC_REQUIRE(bool(r1.y == std::int16_t(17)));
+        STATIC_REQUIRE(bool(r1.x == phi::int16_t(11)));
+        STATIC_REQUIRE(bool(r1.y == phi::int16_t(17)));
 
         CONSTEXPR_RUNTIME phi::vector2<phi::i32> r2(
-                phi::vector2<phi::u16>(std::uint16_t(4u), std::uint16_t(1u)));
+                phi::vector2<phi::u16>(phi::uint16_t(4u), phi::uint16_t(1u)));
 
-        STATIC_REQUIRE(bool(r2.x == std::int32_t(4)));
-        STATIC_REQUIRE(bool(r2.y == std::int32_t(1)));
+        STATIC_REQUIRE(bool(r2.x == phi::int32_t(4)));
+        STATIC_REQUIRE(bool(r2.y == phi::int32_t(1)));
     }
 
     SECTION("operator-(const vector2&)")

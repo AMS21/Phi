@@ -2,10 +2,17 @@
 
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/type_traits/is_class.hpp>
+#include <phi/type_traits/is_enum.hpp>
+#include <phi/type_traits/is_trivial.hpp>
+#include <phi/type_traits/is_unsafe_arithmetic.hpp>
+#include <phi/type_traits/is_unsafe_fundamental.hpp>
+#include <phi/type_traits/is_unsafe_integral.hpp>
+#include <phi/type_traits/is_unsafe_signed.hpp>
+#include <phi/type_traits/is_unsafe_unsigned.hpp>
 
 PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
-#include <type_traits>
 PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("Compiler support - char8_t")
@@ -13,12 +20,18 @@ TEST_CASE("Compiler support - char8_t")
     STATIC_REQUIRE(sizeof(char8_t) * CHAR_BIT == 8);
 
     // Type traits
-    STATIC_REQUIRE(std::is_unsigned<char8_t>::value);
-    STATIC_REQUIRE_FALSE(std::is_signed<char8_t>::value);
-    STATIC_REQUIRE(std::is_integral<char8_t>::value);
-    STATIC_REQUIRE_FALSE(std::is_enum<char8_t>::value);
-    STATIC_REQUIRE(std::is_fundamental<char8_t>::value);
-    STATIC_REQUIRE(std::is_arithmetic<char8_t>::value);
-    STATIC_REQUIRE(std::is_trivial<char8_t>::value);
-    STATIC_REQUIRE_FALSE(std::is_class<char8_t>::value);
+    STATIC_REQUIRE(phi::is_unsafe_unsigned<char8_t>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unsafe_signed<char8_t>::value);
+    STATIC_REQUIRE(phi::is_unsafe_integral<char8_t>::value);
+#if PHI_HAS_WORKING_IS_ENUM()
+    STATIC_REQUIRE_FALSE(phi::is_enum<char8_t>::value);
+#endif
+    STATIC_REQUIRE(phi::is_unsafe_fundamental<char8_t>::value);
+    STATIC_REQUIRE(phi::is_unsafe_arithmetic<char8_t>::value);
+#if PHI_HAS_WORKING_IS_TRIVIAL()
+    STATIC_REQUIRE(phi::is_trivial<char8_t>::value);
+#endif
+#if PHI_HAS_WORKING_IS_CLASS()
+    STATIC_REQUIRE_FALSE(phi::is_class<char8_t>::value);
+#endif
 }

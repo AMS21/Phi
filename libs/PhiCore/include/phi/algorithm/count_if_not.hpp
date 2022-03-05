@@ -9,16 +9,16 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include <iterator>
+#include "phi/iterator/iterator_traits.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 // TODO: noexcept
 template <typename InputIteratorT, typename UnaryPredicateT>
-PHI_NODISCARD typename std::iterator_traits<InputIteratorT>::difference_type PHI_EXTENDED_CONSTEXPR
+PHI_NODISCARD typename phi::iterator_traits<InputIteratorT>::difference_type PHI_EXTENDED_CONSTEXPR
 count_if_not(InputIteratorT first, InputIteratorT last, UnaryPredicateT predicate)
 {
-    typename std::iterator_traits<InputIteratorT>::difference_type ret = 0;
+    typename phi::iterator_traits<InputIteratorT>::difference_type ret = 0;
 
     for (; first != last; ++first)
     {

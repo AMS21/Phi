@@ -2,9 +2,14 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
+#include <phi/core/move.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/math/vector2.hpp>
-#include <type_traits>
+#include <phi/type_traits/is_copy_assignable.hpp>
+#include <phi/type_traits/is_copy_constructible.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_move_assignable.hpp>
+#include <phi/type_traits/is_move_constructible.hpp>
 
 struct A
 {
@@ -24,21 +29,23 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
     {
         STATIC_REQUIRE(sizeof(phi::scope_ptr<int>) == sizeof(int*));
 
-        STATIC_REQUIRE(std::is_default_constructible<phi::scope_ptr<int>>::value);
-        STATIC_REQUIRE_FALSE(std::is_copy_constructible<phi::scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_move_constructible<phi::scope_ptr<int>>::value);
-        STATIC_REQUIRE_FALSE(std::is_copy_assignable<phi::scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_move_assignable<phi::scope_ptr<int>>::value);
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+        STATIC_REQUIRE(phi::is_default_constructible<phi::scope_ptr<int>>::value);
+#endif
+        STATIC_REQUIRE_FALSE(phi::is_copy_constructible<phi::scope_ptr<int>>::value);
+        STATIC_REQUIRE(phi::is_move_constructible<phi::scope_ptr<int>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_copy_assignable<phi::scope_ptr<int>>::value);
+        STATIC_REQUIRE(phi::is_move_assignable<phi::scope_ptr<int>>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::this_type, phi::scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::value_type, int>::value);
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::reference, int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::const_reference, const int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::pointer, int*>::value);
-        STATIC_REQUIRE(std::is_same<phi::scope_ptr<int>::const_pointer, const int*>::value);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::this_type, phi::scope_ptr<int>);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::value_type, int);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::reference, int&);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::const_reference, const int&);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::pointer, int*);
+        CHECK_SAME_TYPE(phi::scope_ptr<int>::const_pointer, const int*);
     }
 
     SECTION("scope_ptr()")
@@ -49,7 +56,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK_FALSE(ptr);
     }
 
-    SECTION("scope_ptr(std::nullptr_t)")
+    SECTION("scope_ptr(nullptr_t)")
     {
         phi::scope_ptr<int> ptr(nullptr);
 
@@ -76,7 +83,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* raw_ptr = new int(21);
 
         phi::scope_ptr<int> base(raw_ptr);
-        phi::scope_ptr<int> ptr(std::move(base));
+        phi::scope_ptr<int> ptr(phi::move(base));
 
         CHECK_FALSE(base);
         CHECK(base.get() == nullptr);
@@ -89,7 +96,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* raw_ptr = new int(33);
 
         phi::not_null_scope_ptr<int> not_null(raw_ptr);
-        phi::scope_ptr<int>          ptr(std::move(not_null));
+        phi::scope_ptr<int>          ptr(phi::move(not_null));
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr);
@@ -102,7 +109,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         phi::scope_ptr<int> base(raw_ptr);
         phi::scope_ptr<int> ptr;
 
-        ptr = std::move(base);
+        ptr = phi::move(base);
 
         CHECK_FALSE(base);
         CHECK(base.get() == nullptr);
@@ -113,7 +120,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         phi::scope_ptr<int> ptr2(raw_ptr2);
 
-        ptr = std::move(ptr2);
+        ptr = phi::move(ptr2);
 
         CHECK_FALSE(ptr2);
         CHECK(ptr2.get() == nullptr);
@@ -128,7 +135,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         phi::not_null_scope_ptr<int> not_null(raw_ptr);
         phi::scope_ptr<int>          ptr;
 
-        ptr = std::move(not_null);
+        ptr = phi::move(not_null);
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr);
@@ -153,7 +160,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr2);
     }
 
-    SECTION("scope_ptr(std::nullptr_t)")
+    SECTION("scope_ptr(nullptr_t)")
     {
         phi::scope_ptr<int> ptr;
 
@@ -359,24 +366,23 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
     {
         STATIC_REQUIRE(sizeof(phi::not_null_scope_ptr<int>) == sizeof(int*));
 
-        STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::not_null_scope_ptr<int>>::value);
-        STATIC_REQUIRE_FALSE(std::is_copy_constructible<phi::not_null_scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_move_constructible<phi::not_null_scope_ptr<int>>::value);
-        STATIC_REQUIRE_FALSE(std::is_copy_assignable<phi::not_null_scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_move_assignable<phi::not_null_scope_ptr<int>>::value);
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+        STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::not_null_scope_ptr<int>>::value);
+#endif
+        STATIC_REQUIRE_FALSE(phi::is_copy_constructible<phi::not_null_scope_ptr<int>>::value);
+        STATIC_REQUIRE(phi::is_move_constructible<phi::not_null_scope_ptr<int>>::value);
+        STATIC_REQUIRE_FALSE(phi::is_copy_assignable<phi::not_null_scope_ptr<int>>::value);
+        STATIC_REQUIRE(phi::is_move_assignable<phi::not_null_scope_ptr<int>>::value);
     }
 
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same<phi::not_null_scope_ptr<int>::this_type,
-                                    phi::not_null_scope_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_scope_ptr<int>::value_type, int>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_scope_ptr<int>::reference, int&>::value);
-        STATIC_REQUIRE(
-                std::is_same<phi::not_null_scope_ptr<int>::const_reference, const int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_scope_ptr<int>::pointer, int*>::value);
-        STATIC_REQUIRE(
-                std::is_same<phi::not_null_scope_ptr<int>::const_pointer, const int*>::value);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::this_type, phi::not_null_scope_ptr<int>);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::value_type, int);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::reference, int&);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::const_reference, const int&);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::pointer, int*);
+        CHECK_SAME_TYPE(phi::not_null_scope_ptr<int>::const_pointer, const int*);
     }
 
     SECTION("not_null_scope_ptr(TypeT*)")
@@ -397,7 +403,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* raw_ptr = new int(21);
 
         phi::not_null_scope_ptr<int> base(raw_ptr);
-        phi::not_null_scope_ptr<int> ptr(std::move(base));
+        phi::not_null_scope_ptr<int> ptr(phi::move(base));
 
         CHECK(ptr.get() == raw_ptr);
     }
@@ -409,7 +415,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         phi::not_null_scope_ptr<int> base(raw_ptr);
         phi::not_null_scope_ptr<int> ptr(new int(12));
 
-        ptr = std::move(base);
+        ptr = phi::move(base);
 
         CHECK(ptr.get() == raw_ptr);
 
@@ -417,7 +423,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         phi::not_null_scope_ptr<int> ptr2(raw_ptr2);
 
-        ptr = std::move(ptr2);
+        ptr = phi::move(ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
     }

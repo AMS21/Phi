@@ -28,38 +28,48 @@ SOFTWARE.
 
 #include "constexpr_helper.hpp"
 #include <phi/core/boolean.hpp>
+#include <phi/core/move.hpp>
+#include <phi/type_traits/is_assignable.hpp>
+#include <phi/type_traits/is_constructible.hpp>
+#include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_standard_layout.hpp>
+#include <phi/type_traits/is_trivially_copyable.hpp>
 #include <sstream>
 #include <string>
-#include <type_traits>
-#include <utility>
 
 TEST_CASE("boolean layout", "[Utility][Types][boolean]")
 {
     STATIC_REQUIRE(sizeof(phi::boolean) == sizeof(bool));
-    STATIC_REQUIRE(std::is_trivially_copyable<phi::boolean>::value);
-    STATIC_REQUIRE(std::is_standard_layout<phi::boolean>::value);
-    STATIC_REQUIRE_FALSE(std::is_default_constructible<phi::boolean>::value);
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
+    STATIC_REQUIRE(phi::is_trivially_copyable<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
+    STATIC_REQUIRE(phi::is_standard_layout<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::boolean>::value);
+#endif
 
     // conversion checks
-    STATIC_REQUIRE(std::is_constructible<phi::boolean, bool>::value);
-    STATIC_REQUIRE(std::is_constructible<phi::boolean, phi::boolean>::value);
-    STATIC_REQUIRE_FALSE(std::is_constructible<phi::boolean, int>::value);
-    STATIC_REQUIRE_FALSE(std::is_constructible<phi::boolean, float>::value);
-    STATIC_REQUIRE(std::is_constructible<bool, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_constructible<phi::boolean, bool>::value);
+    STATIC_REQUIRE(phi::is_constructible<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, float>::value);
+    STATIC_REQUIRE(phi::is_constructible<bool, phi::boolean>::value);
 
-    STATIC_REQUIRE(std::is_assignable<phi::boolean, bool>::value);
-    STATIC_REQUIRE(std::is_assignable<phi::boolean, phi::boolean>::value);
-    STATIC_REQUIRE_FALSE(std::is_assignable<phi::boolean, int>::value);
-    STATIC_REQUIRE_FALSE(std::is_assignable<phi::boolean, float>::value);
-    STATIC_REQUIRE_FALSE(std::is_assignable<bool, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_assignable<phi::boolean, bool>::value);
+    STATIC_REQUIRE(phi::is_assignable<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<phi::boolean, float>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<bool, phi::boolean>::value);
 }
 
 TEST_CASE("boolean", "[Utility][Types][boolean]")
 {
     SECTION("Type traits")
     {
-        STATIC_REQUIRE(std::is_same<phi::boolean::this_type, phi::boolean>::value);
-        STATIC_REQUIRE(std::is_same<phi::boolean::limits_type, std::numeric_limits<bool>>::value);
+        CHECK_SAME_TYPE(phi::boolean::this_type, phi::boolean);
+        CHECK_SAME_TYPE(phi::boolean::limits_type, std::numeric_limits<bool>);
     }
 
     SECTION("constructor")
@@ -73,7 +83,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         CONSTEXPR_RUNTIME phi::boolean b3(b1);
         STATIC_REQUIRE(static_cast<bool>(b3));
 
-        CONSTEXPR_RUNTIME phi::boolean b4(std::move(b2));
+        CONSTEXPR_RUNTIME phi::boolean b4(phi::move(b2));
         STATIC_REQUIRE_FALSE(static_cast<bool>(b4));
     }
 

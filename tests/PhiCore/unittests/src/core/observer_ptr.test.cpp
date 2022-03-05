@@ -2,21 +2,18 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/core/observer_ptr.hpp>
-#include <type_traits>
 
 TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 {
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(
-                std::is_same<phi::observer_ptr<int>::this_type, phi::observer_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::not_null_type,
-                                    phi::not_null_observer_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::value_type, int>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::reference, int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::const_reference, const int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::pointer, int*>::value);
-        STATIC_REQUIRE(std::is_same<phi::observer_ptr<int>::const_pointer, const int*>::value);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::this_type, phi::observer_ptr<int>);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::not_null_type, phi::not_null_observer_ptr<int>);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::value_type, int);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::reference, int&);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::const_reference, const int&);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::pointer, int*);
+        CHECK_SAME_TYPE(phi::observer_ptr<int>::const_pointer, const int*);
     }
 
     SECTION("observer_ptr()")
@@ -27,7 +24,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         STATIC_REQUIRE(ptr.get() == nullptr);
     }
 
-    SECTION("observer_ptr(std::nullptr_t)")
+    SECTION("observer_ptr(nullptr_t)")
     {
         CONSTEXPR_RUNTIME phi::observer_ptr<int> ptr(nullptr);
 
@@ -136,7 +133,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(*ptr == 92);
     }
 
-    SECTION("operator=(std::nullptr_t)")
+    SECTION("operator=(nullptr_t)")
     {
         int                    i = 8;
         phi::observer_ptr<int> ptr(&i);
@@ -408,15 +405,13 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
 {
     SECTION("Type aliases")
     {
-        STATIC_REQUIRE(std::is_same<phi::not_null_observer_ptr<int>::this_type,
-                                    phi::not_null_observer_ptr<int>>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_observer_ptr<int>::value_type, int>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_observer_ptr<int>::reference, int&>::value);
-        STATIC_REQUIRE(
-                std::is_same<phi::not_null_observer_ptr<int>::const_reference, const int&>::value);
-        STATIC_REQUIRE(std::is_same<phi::not_null_observer_ptr<int>::pointer, int*>::value);
-        STATIC_REQUIRE(
-                std::is_same<phi::not_null_observer_ptr<int>::const_pointer, const int*>::value);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::this_type,
+                        phi::not_null_observer_ptr<int>);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::value_type, int);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::reference, int&);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::const_reference, const int&);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::pointer, int*);
+        CHECK_SAME_TYPE(phi::not_null_observer_ptr<int>::const_pointer, const int*);
     }
 
     SECTION("not_null_observer_ptr(TypeT*)")

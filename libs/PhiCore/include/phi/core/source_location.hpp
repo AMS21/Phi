@@ -102,10 +102,10 @@ struct source_location
     }
 
 private:
-    const char*         m_FileName;
-    const char*         m_FunctionName;
-    std::uint_least32_t m_LineNumber;
-    std::uint_least32_t m_Column;
+    const char*    m_FileName;
+    const char*    m_FunctionName;
+    uint_least32_t m_LineNumber;
+    uint_least32_t m_Column;
 };
 
 #if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \

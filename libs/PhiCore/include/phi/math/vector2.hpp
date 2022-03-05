@@ -11,9 +11,9 @@
 #include "phi/core/boolean.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/types.hpp"
+#include "phi/iterator/reverse_iterator.hpp"
 #include "phi/type_traits/is_integer.hpp"
 #include "phi/type_traits/is_signed.hpp"
-#include <iterator>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -29,8 +29,8 @@ public:
     using const_pointer          = const value_type*;
     using iterator               = value_type*;
     using const_iterator         = const value_type*;
-    using reverse_iterator       = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator       = phi::reverse_iterator<iterator>;
+    using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
     // Constructors
     constexpr vector2(TypeT val_x, TypeT val_y) noexcept

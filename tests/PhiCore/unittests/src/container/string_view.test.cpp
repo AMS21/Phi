@@ -15,14 +15,6 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wstrict-overflow")
 
-// Workaround for std::reverse_iterator not being constexpr until C++-17
-// TODO: Remove once we added our own reverse_iterator implementation
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
-#    define REQUIRE_17(...) STATIC_REQUIRE(__VA_ARGS__)
-#else
-#    define REQUIRE_17(...) REQUIRE(__VA_ARGS__)
-#endif
-
 TEST_CASE("BasicStringView", "[Container][StringView]")
 {
     SECTION("default constructor")
@@ -254,9 +246,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
-        REQUIRE_17(null_view.rbegin() == std::reverse_iterator<const char*>(nullptr));
+        EXT_STATIC_REQUIRE(null_view.rbegin() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS_NOT(MSVC)
-        REQUIRE_17(test_view.rbegin() == std::reverse_iterator<const char*>(str + 4));
+        EXT_STATIC_REQUIRE(test_view.rbegin() == phi::reverse_iterator<const char*>(str + 4));
 #endif
     }
 
@@ -266,9 +258,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
-        REQUIRE_17(null_view.rend() == std::reverse_iterator<const char*>(nullptr));
+        EXT_STATIC_REQUIRE(null_view.rend() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS_NOT(MSVC)
-        REQUIRE_17(test_view.rend() == std::reverse_iterator<const char*>(str));
+        EXT_STATIC_REQUIRE(test_view.rend() == phi::reverse_iterator<const char*>(str));
 #endif
     }
 
@@ -278,9 +270,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
-        REQUIRE_17(null_view.crbegin() == std::reverse_iterator<const char*>(nullptr));
+        EXT_STATIC_REQUIRE(null_view.crbegin() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS_NOT(MSVC)
-        REQUIRE_17(test_view.crbegin() == std::reverse_iterator<const char*>(str + 4));
+        EXT_STATIC_REQUIRE(test_view.crbegin() == phi::reverse_iterator<const char*>(str + 4));
 #endif
     }
 
@@ -290,9 +282,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
         EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
 
-        REQUIRE_17(null_view.crend() == std::reverse_iterator<const char*>(nullptr));
+        EXT_STATIC_REQUIRE(null_view.crend() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS_NOT(MSVC)
-        REQUIRE_17(test_view.crend() == std::reverse_iterator<const char*>(str));
+        EXT_STATIC_REQUIRE(test_view.crend() == phi::reverse_iterator<const char*>(str));
 #endif
     }
 

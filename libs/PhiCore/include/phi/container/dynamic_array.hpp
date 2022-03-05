@@ -12,7 +12,7 @@
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
-#include <iterator>
+#include "phi/iterator/reverse_iterator.hpp"
 #include <new>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -31,8 +31,8 @@ public:
     using const_pointer          = const TypeT*;
     using iterator               = pointer;
     using const_iterator         = const_pointer;
-    using reverse_iterator       = std::reverse_iterator<pointer>;
-    using const_reverse_iterator = std::reverse_iterator<const_pointer>;
+    using reverse_iterator       = phi::reverse_iterator<pointer>;
+    using const_reverse_iterator = phi::reverse_iterator<const_pointer>;
 
     explicit dynamic_array(size_type size) noexcept
         : m_Size{size}
