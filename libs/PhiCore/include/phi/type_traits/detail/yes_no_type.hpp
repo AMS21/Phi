@@ -24,7 +24,7 @@ namespace detail
         char padding;
     };
 
-    PHI_INLINE_VARIABLE constexpr phi::size_t sizeof_yes_type = sizeof(yes_type);
+    PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_yes_type = sizeof(yes_type);
 
     // size == 8
     struct no_type
@@ -32,7 +32,7 @@ namespace detail
         char padding[8];
     };
 
-    PHI_INLINE_VARIABLE constexpr phi::size_t sizeof_no_type = sizeof(no_type);
+    PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_no_type = sizeof(no_type);
 } // namespace detail
 
 PHI_GCC_SUPPRESS_WARNING_POP()
