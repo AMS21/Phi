@@ -10,7 +10,14 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/remove_cv.hpp"
-#include <functional>
+
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+// Forward declaration of std::reference_wrapper
+template <typename TypeT>
+class reference_wrapper;
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -28,18 +28,12 @@
 #include <limits>
 #include <string>
 
-namespace std // NOLINT(cert-dcl58-cpp)
-{
-#if PHI_COMPILER_IS(EMCC)
-    inline namespace __2
-    {
-#endif
-        template <class CharT, class TraitsT>
-        class basic_string_view;
-#if PHI_COMPILER_IS(EMCC)
-    } // namespace __2
-#endif
-} // namespace std
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <class CharT, class TraitsT>
+class basic_string_view;
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -329,25 +329,26 @@ inline void swap(not_null_flat_ptr& lhs, not_null_flat_ptr& rhs) noexcept
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
-{
-    template <>
-    struct hash<phi::flat_ptr>
-    {
-        size_t operator()(const phi::flat_ptr& ptr) const noexcept
-        {
-            return std::hash<const void*>()(ptr.get());
-        }
-    };
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
-    template <>
-    struct hash<phi::not_null_flat_ptr>
+template <>
+struct hash<phi::flat_ptr>
+{
+    size_t operator()(const phi::flat_ptr& ptr) const noexcept
     {
-        size_t operator()(const phi::not_null_flat_ptr& ptr) const noexcept
-        {
-            return std::hash<const void*>()(ptr.get());
-        }
-    };
-} // namespace std
+        return std::hash<const void*>()(ptr.get());
+    }
+};
+
+template <>
+struct hash<phi::not_null_flat_ptr>
+{
+    size_t operator()(const phi::not_null_flat_ptr& ptr) const noexcept
+    {
+        return std::hash<const void*>()(ptr.get());
+    }
+};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_FLAT_PTR_HPP

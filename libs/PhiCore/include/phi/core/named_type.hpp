@@ -541,23 +541,23 @@ struct PHI_EBCO arithmetic : public pre_incrementable<TypeT>,
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
+struct hash<phi::named_type<TypeT, ParameterT, SkillsT...>>
 {
-    template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-    struct hash<phi::named_type<TypeT, ParameterT, SkillsT...>>
+    using named_type      = phi::named_type<TypeT, ParameterT, SkillsT...>;
+    using checkIfHashable = typename enable_if<named_type::is_hashable, void>::type;
+
+    size_t operator()(const named_type& value) const noexcept
     {
-        using named_type      = phi::named_type<TypeT, ParameterT, SkillsT...>;
-        using checkIfHashable = typename enable_if<named_type::is_hashable, void>::type;
+        static_assert(noexcept(std::hash<TypeT>()(value.get())), "hash fuction should not throw");
 
-        size_t operator()(const named_type& value) const noexcept
-        {
-            static_assert(noexcept(std::hash<TypeT>()(value.get())),
-                          "hash fuction should not throw");
+        return std::hash<TypeT>()(value.get());
+    }
+};
 
-            return std::hash<TypeT>()(value.get());
-        }
-    };
-} // namespace std
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #undef PHI_EBCO
 

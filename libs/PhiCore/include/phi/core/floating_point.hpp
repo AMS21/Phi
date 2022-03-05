@@ -608,20 +608,21 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(floating_point<FloatT>& lhs,
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
-{
-    template <typename FloatT>
-    struct hash<phi::floating_point<FloatT>>
-    {
-        phi::size_t operator()(const phi::floating_point<FloatT>& value) const noexcept
-        {
-            return std::hash<FloatT>()(static_cast<FloatT>(value));
-        }
-    };
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
-    template <typename FloatT>
-    struct numeric_limits<phi::floating_point<FloatT>> : std::numeric_limits<FloatT>
-    {};
-} // namespace std
+template <typename FloatT>
+struct hash<phi::floating_point<FloatT>>
+{
+    phi::size_t operator()(const phi::floating_point<FloatT>& value) const noexcept
+    {
+        return std::hash<FloatT>()(static_cast<FloatT>(value));
+    }
+};
+
+template <typename FloatT>
+struct numeric_limits<phi::floating_point<FloatT>> : std::numeric_limits<FloatT>
+{};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_FLOATING_POINT_HPP

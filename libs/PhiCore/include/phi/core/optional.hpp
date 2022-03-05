@@ -1925,22 +1925,23 @@ class optional
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
-{
-    // TODO SFINAE
-    template <typename TypeT>
-    struct hash<phi::optional<TypeT>>
-    {
-        size_t operator()(const phi::optional<TypeT>& optional) const
-        {
-            if (!optional.has_value())
-            {
-                return 0;
-            }
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
-            return std::hash<phi::remove_const_t<TypeT>>()(optional.value());
+// TODO SFINAE
+template <typename TypeT>
+struct hash<phi::optional<TypeT>>
+{
+    size_t operator()(const phi::optional<TypeT>& optional) const
+    {
+        if (!optional.has_value())
+        {
+            return 0;
         }
-    };
-} // namespace std
+
+        return std::hash<phi::remove_const_t<TypeT>>()(optional.value());
+    }
+};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_OPTIONAL_HPP

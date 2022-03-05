@@ -901,21 +901,22 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(integer<IntegerT>& lhs, integer<Integ
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
-{
-    /// Hash specialization for [phi::integer].
-    template <typename IntegerT>
-    struct hash<phi::integer<IntegerT>>
-    {
-        phi::size_t operator()(const phi::integer<IntegerT>& val) const noexcept
-        {
-            return std::hash<IntegerT>()(static_cast<IntegerT>(val));
-        }
-    };
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
-    template <typename IntegerT>
-    struct numeric_limits<phi::integer<IntegerT>> : std::numeric_limits<IntegerT>
-    {};
-} // namespace std
+/// Hash specialization for [phi::integer].
+template <typename IntegerT>
+struct hash<phi::integer<IntegerT>>
+{
+    phi::size_t operator()(const phi::integer<IntegerT>& val) const noexcept
+    {
+        return std::hash<IntegerT>()(static_cast<IntegerT>(val));
+    }
+};
+
+template <typename IntegerT>
+struct numeric_limits<phi::integer<IntegerT>> : public std::numeric_limits<IntegerT>
+{};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_INTEGER_HPP

@@ -140,16 +140,17 @@ not_null<remove_cv_t<remove_reference_t<TypeT>>> make_not_null(TypeT&& val) noex
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <typename TypeT>
+struct hash<phi::not_null<TypeT>>
 {
-    template <typename TypeT>
-    struct hash<phi::not_null<TypeT>>
+    size_t operator()(const phi::not_null<TypeT>& value) const
     {
-        size_t operator()(const phi::not_null<TypeT>& value) const
-        {
-            return hash<TypeT>{}(value.get());
-        }
-    };
-} // namespace std
+        return hash<TypeT>{}(value.get());
+    }
+};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_NOTNULL_HPP

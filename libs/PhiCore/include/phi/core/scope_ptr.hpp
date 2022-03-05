@@ -558,31 +558,32 @@ make_not_null_scope_for_overwrite(ArgsT&&... args) = delete;
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <typename TypeT>
+struct hash<phi::scope_ptr<TypeT>>
 {
-    template <typename TypeT>
-    struct hash<phi::scope_ptr<TypeT>>
+    phi::size_t operator()(phi::scope_ptr<TypeT> ptr) const noexcept
     {
-        phi::size_t operator()(phi::scope_ptr<TypeT> ptr) const noexcept
-        {
-            return std::hash<TypeT*>()(ptr.get());
-        }
-    };
+        return std::hash<TypeT*>()(ptr.get());
+    }
+};
 
-    template <typename TypeT>
-    struct hash<phi::not_null_scope_ptr<TypeT>>
+template <typename TypeT>
+struct hash<phi::not_null_scope_ptr<TypeT>>
+{
+    phi::size_t operator()(phi::not_null_scope_ptr<TypeT> ptr) const noexcept
     {
-        phi::size_t operator()(phi::not_null_scope_ptr<TypeT> ptr) const noexcept
-        {
-            return std::hash<TypeT*>()(ptr.get());
-        }
-    };
+        return std::hash<TypeT*>()(ptr.get());
+    }
+};
 
-    template <>
-    struct hash<phi::not_null_scope_ptr<phi::nullptr_t>>
-    {
-        phi::size_t operator()(phi::not_null_scope_ptr<phi::nullptr_t> ptr) = delete;
-    };
-} // namespace std
+template <>
+struct hash<phi::not_null_scope_ptr<phi::nullptr_t>>
+{
+    phi::size_t operator()(phi::not_null_scope_ptr<phi::nullptr_t> ptr) = delete;
+};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_SCOPE_PTR_HPP

@@ -162,21 +162,22 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(boolean& lhs, boolean& rhs) noexcept
 
 DETAIL_PHI_END_NAMESPACE()
 
-namespace std
-{
-    /// Hash specialization for [phi::boolean]().
-    template <>
-    struct hash<phi::boolean>
-    {
-        phi::size_t operator()(phi::boolean value) const noexcept
-        {
-            return std::hash<bool>()(static_cast<bool>(value));
-        }
-    };
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
-    template <>
-    struct numeric_limits<phi::boolean> : public std::numeric_limits<bool>
-    {};
-} // namespace std
+/// Hash specialization for [phi::boolean]().
+template <>
+struct hash<phi::boolean>
+{
+    phi::size_t operator()(phi::boolean value) const noexcept
+    {
+        return std::hash<bool>()(static_cast<bool>(value));
+    }
+};
+
+template <>
+struct numeric_limits<phi::boolean> : public std::numeric_limits<bool>
+{};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #endif // INCG_PHI_CORE_BOOLEAN_HPP
