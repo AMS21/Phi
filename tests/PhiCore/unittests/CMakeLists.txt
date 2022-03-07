@@ -29,6 +29,7 @@ file(
   "src/compiler_support/warning.test.cpp"
   # container
   "src/container/array.test.cpp"
+  "src/container/singly_linked_list.test.cpp"
   "src/container/string_view.test.cpp"
   # core
   "src/core/address_of.test.cpp"
