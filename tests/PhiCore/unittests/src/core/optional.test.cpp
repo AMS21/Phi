@@ -65,6 +65,10 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
+// NOTE: Not sure why gcc with asan enabled thinks that some of them are uninitialized
+// TODO: Investigate further and maybe open a bug report
+PHI_GCC_SUPPRESS_WARNING("-Wmaybe-uninitialized")
+
 #if PHI_HAS_WORKING_OPTIONAL()
 
 TEST_CASE("optional Assigment value")
@@ -301,11 +305,6 @@ struct foo
     {}
 };
 
-// NOTE: Not sure why gcc with asan enabled thinks that some of them are uninitialized
-// TODO: Investigate further and maybe open a bug report
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wmaybe-uninitialized")
-
 TEST_CASE("optional Constructors")
 {
     phi::optional<int> o1;
@@ -359,8 +358,6 @@ TEST_CASE("optional Constructors")
     phi::optional<std::vector<foo>> ov = phi::move(v);
     REQUIRE(ov->size() == 1);
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("optional emplace")
 {
@@ -948,7 +945,10 @@ TEST_CASE("issue 14")
 {
     phi::optional<bar> f = bar{};
     auto               v = f.map(&bar::v).map(x);
-    static_assert(phi::is_same<decltype(v), phi::optional<int&>>::value, "Must return a reference");
+
+    // Must return a reference
+    CHECK_SAME_TYPE(decltype(v), phi::optional<int&>);
+
     REQUIRE(f->i == 42);
     REQUIRE(*v == 42);
     REQUIRE((&f->i) == (&*v));

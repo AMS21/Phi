@@ -256,12 +256,12 @@ if(PHI_PLATFORM_EMSCRIPTEN)
   )
 endif()
 
-# Disable -Wstrict-overflow on gcc with asan, ubsan
+# Disable -Wstrict-overflow on gcc with asan, ubsan or tsan
 if(PHI_COMPILER_GCC
    AND (ENABLE_SANITIZER_ADDRESS
         OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
         OR ENABLE_SANITIZER_THREAD))
-  list(REMOVE_ITEM _WarningsAvailible "-Wstrict-overflow")
+  list(REMOVE_ITEM _WarningsAvailible "-Wstrict-overflow=5")
 endif()
 
 # from here:

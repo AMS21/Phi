@@ -17,7 +17,7 @@
 
 // C++-20
 #if PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0)
-// For some reason GCC-8 - GCC-10 use 201709 for C++-20
+// GCC-8 - GCC-10 use 201709 for C++-20
 // See: https://godbolt.org/z/86a93zjYo
 #    define PHI_CPLUSPLUS_20() (201709L)
 #elif PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) ||           \

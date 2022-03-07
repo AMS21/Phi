@@ -8,6 +8,10 @@ PHI_CLANG_SUPPRESS_WARNING("-Wsign-compare")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wsign-compare")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4389) // '==': signed/unsigned mismatch
+PHI_MSVC_SUPPRESS_WARNING(4018) // '<': signed/unsigned mismatch
+
 #include <phi/algorithm/compare.hpp>
 
 TEST_CASE("compare")
@@ -29,5 +33,6 @@ TEST_CASE("compare")
     STATIC_REQUIRE(phi::compare('b', 'a') == phi::compare_result::GreaterThan);
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
