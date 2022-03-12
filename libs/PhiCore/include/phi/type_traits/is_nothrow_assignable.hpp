@@ -38,6 +38,10 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_assignable_v =
 
 #    include "phi/core/declval.hpp"
 #    include "phi/type_traits/is_assignable.hpp"
+#include "phi/compiler_support/warning.hpp"
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4244) // 'conversion' conversion from 'type1' to 'type2', possible loss of data
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -55,6 +59,8 @@ namespace detail
         : public bool_constant<noexcept(declval<TypeT>() = declval<ArgT>())>
     {};
 } // namespace detail
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT, typename ArgT>
 struct is_nothrow_assignable

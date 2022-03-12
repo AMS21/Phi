@@ -29,6 +29,7 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-result")
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(4189) // 'x': local variable is initialized but not referenced
 PHI_MSVC_SUPPRESS_WARNING(4834) // discarding return value of function with 'nodiscard' attribute
+PHI_MSVC_SUPPRESS_WARNING(4702) // unreachable code
 
 TEST_CASE("Array")
 {

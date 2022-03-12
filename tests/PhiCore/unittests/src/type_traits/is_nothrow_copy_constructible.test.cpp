@@ -136,17 +136,10 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<const int&>();
     test_is_nothrow_copy_constructible<volatile int&>();
     test_is_nothrow_copy_constructible<const volatile int&>();
-#if PHI_COMPILER_IS(WINCLANG)
-    test_is_nothrow_copy_constructible<int&&>();
-    test_is_nothrow_copy_constructible<const int&&>();
-    test_is_nothrow_copy_constructible<volatile int&&>();
-    test_is_nothrow_copy_constructible<const volatile int&&>();
-#else
     test_is_not_nothrow_copy_constructible<int&&>();
     test_is_not_nothrow_copy_constructible<const int&&>();
     test_is_not_nothrow_copy_constructible<volatile int&&>();
     test_is_not_nothrow_copy_constructible<const volatile int&&>();
-#endif
     test_is_nothrow_copy_constructible<int*>();
     test_is_nothrow_copy_constructible<const int*>();
     test_is_nothrow_copy_constructible<volatile int*>();
@@ -159,17 +152,10 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<const int*&>();
     test_is_nothrow_copy_constructible<volatile int*&>();
     test_is_nothrow_copy_constructible<const volatile int*&>();
-#if PHI_COMPILER_IS(WINCLANG)
-    test_is_nothrow_copy_constructible<int*&&>();
-    test_is_nothrow_copy_constructible<const int*&&>();
-    test_is_nothrow_copy_constructible<volatile int*&&>();
-    test_is_nothrow_copy_constructible<const volatile int*&&>();
-#else
     test_is_not_nothrow_copy_constructible<int*&&>();
     test_is_not_nothrow_copy_constructible<const int*&&>();
     test_is_not_nothrow_copy_constructible<volatile int*&&>();
     test_is_not_nothrow_copy_constructible<const volatile int*&&>();
-#endif
     test_is_nothrow_copy_constructible<void*>();
     test_is_not_nothrow_copy_constructible<char[3]>();
     test_is_not_nothrow_copy_constructible<char[]>();
@@ -179,13 +165,8 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<int(*)[]>();
     test_is_nothrow_copy_constructible<int(&)[3]>();
     test_is_nothrow_copy_constructible<int(&)[]>();
-#if PHI_COMPILER_IS(WINCLANG)
-    test_is_nothrow_copy_constructible<int(&&)[3]>();
-    test_is_nothrow_copy_constructible<int(&&)[]>();
-#else
     test_is_not_nothrow_copy_constructible<int(&&)[3]>();
     test_is_not_nothrow_copy_constructible<int(&&)[]>();
-#endif
     test_is_not_nothrow_copy_constructible<char[3][2]>();
     test_is_not_nothrow_copy_constructible<char[][2]>();
     test_is_not_nothrow_copy_constructible<char* [3][2]>();
@@ -194,13 +175,8 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<int(*)[][2]>();
     test_is_nothrow_copy_constructible<int(&)[3][2]>();
     test_is_nothrow_copy_constructible<int(&)[][2]>();
-#if PHI_COMPILER_IS(WINCLANG)
-    test_is_nothrow_copy_constructible<int(&&)[3][2]>();
-    test_is_nothrow_copy_constructible<int(&&)[][2]>();
-#else
     test_is_not_nothrow_copy_constructible<int(&&)[3][2]>();
     test_is_not_nothrow_copy_constructible<int(&&)[][2]>();
-#endif
     test_is_nothrow_copy_constructible<Class>();
     test_is_not_nothrow_copy_constructible<Class[]>();
     test_is_not_nothrow_copy_constructible<Class[2]>();
@@ -231,17 +207,10 @@ TEST_CASE("is_nothrow_copy_constructible")
     test_is_nothrow_copy_constructible<BitOne>();
     test_is_nothrow_copy_constructible<Base>();
     test_is_nothrow_copy_constructible<Derived>();
-#if PHI_COMPILER_IS(WINCLANG)
-    test_is_nothrow_copy_constructible<Abstract>();
-    test_is_nothrow_copy_constructible<PublicAbstract>();
-    test_is_nothrow_copy_constructible<PrivateAbstract>();
-    test_is_nothrow_copy_constructible<ProtectedAbstract>();
-#else
     test_is_not_nothrow_copy_constructible<Abstract>();
     test_is_not_nothrow_copy_constructible<PublicAbstract>();
     test_is_not_nothrow_copy_constructible<PrivateAbstract>();
     test_is_not_nothrow_copy_constructible<ProtectedAbstract>();
-#endif
 #if !PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0) && !PHI_COMPILER_IS(WINCLANG)
     test_is_not_nothrow_copy_constructible<AbstractTemplate<int>>();
     test_is_nothrow_copy_constructible<AbstractTemplate<double>>();

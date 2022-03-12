@@ -160,8 +160,8 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<phi::floating_point<double>>();
     test_is_standard_layout<phi::floating_point<long double>>();
 
-#if PHI_COMPILER_IS(MSVC)
-    //test_is_standard_layout<std::vector<int>>();
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+    SKIP_CHECK();
 #else
     test_is_standard_layout<std::vector<int>>();
 #endif

@@ -109,7 +109,7 @@ enum struct K : short
 TEST_CASE("is_void")
 {
     test_underlying_type<E, int>();
-#if PHI_COMPILER_IS(MSVC)
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
     test_underlying_type<F, int>();
 #else
     test_underlying_type<F, unsigned>();
@@ -259,7 +259,7 @@ TEST_CASE("is_void")
     test_no_underlying_type<DeletedVirtualPublicDestructor>();
     test_no_underlying_type<DeletedVirtualProtectedDestructor>();
     test_no_underlying_type<DeletedVirtualPrivateDestructor>();
-#if PHI_COMPILER_IS(MSVC)
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
     test_underlying_type<Enum, int>();
 #else
     test_underlying_type<Enum, unsigned int>();

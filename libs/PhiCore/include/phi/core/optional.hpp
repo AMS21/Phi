@@ -156,6 +156,7 @@ namespace detail
 
     PHI_MSVC_SUPPRESS_WARNING_PUSH()
     PHI_MSVC_SUPPRESS_WARNING(4583) // 'x': destructor is not implicitly called
+    PHI_MSVC_SUPPRESS_WARNING(4582) // 'x': constructor is not implicitly called
 
     // The storage base manages the actual storage, and correctly propagates
     // trivial destruction from T. This case is for when T is not trivially
@@ -195,8 +196,6 @@ namespace detail
         bool m_has_value;
     };
 
-    PHI_MSVC_SUPPRESS_WARNING_POP()
-
     // This case is for when T is trivially destructible.
     template <typename TypeT>
     struct optional_storage_base<TypeT, true>
@@ -226,10 +225,12 @@ namespace detail
         bool m_has_value = false;
     };
 
+    PHI_MSVC_SUPPRESS_WARNING_POP()
+
     // This base class provides some handy member functions which can be used in
     // further derived classes
     template <typename TypeT>
-    struct optional_operations_base : optional_storage_base<TypeT>
+    struct optional_operations_base : public optional_storage_base<TypeT>
     {
         using optional_storage_base<TypeT>::optional_storage_base;
 
@@ -297,14 +298,14 @@ namespace detail
     // This class manages conditionally having a trivial copy constructor
     // This specialization is for when T is trivially copy constructible
     template <typename TypeT, bool = is_trivially_copy_constructible<TypeT>::value>
-    struct optional_copy_base : optional_operations_base<TypeT>
+    struct optional_copy_base : public optional_operations_base<TypeT>
     {
         using optional_operations_base<TypeT>::optional_operations_base;
     };
 
     // This specialization is for when T is not trivially copy constructible
     template <typename TypeT>
-    struct optional_copy_base<TypeT, false> : optional_operations_base<TypeT>
+    struct optional_copy_base<TypeT, false> : public optional_operations_base<TypeT>
     {
         using optional_operations_base<TypeT>::optional_operations_base;
 
@@ -331,13 +332,13 @@ namespace detail
 
     // This class manages conditionally having a trivial move constructor.
     template <typename TypeT, bool = is_trivially_move_constructible<TypeT>::value>
-    struct optional_move_base : optional_copy_base<TypeT>
+    struct optional_move_base : public optional_copy_base<TypeT>
     {
         using optional_copy_base<TypeT>::optional_copy_base;
     };
 
     template <typename TypeT>
-    struct optional_move_base<TypeT, false> : optional_copy_base<TypeT>
+    struct optional_move_base<TypeT, false> : public optional_copy_base<TypeT>
     {
         using optional_copy_base<TypeT>::optional_copy_base;
 

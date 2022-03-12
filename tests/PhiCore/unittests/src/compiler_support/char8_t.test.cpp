@@ -11,9 +11,12 @@
 #include <phi/type_traits/is_unsafe_signed.hpp>
 #include <phi/type_traits/is_unsafe_unsigned.hpp>
 
-PHI_EXTERNAL_HEADERS_BEGIN()
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4668) // '__STDC_WANT_SECURE_LIB__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+
 #include <climits>
-PHI_EXTERNAL_HEADERS_END()
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("Compiler support - char8_t")
 {

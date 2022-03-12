@@ -32,7 +32,7 @@
 // C++-23
 #if PHI_COMPILER_IS(GCC)
 #    define PHI_CPLUSPLUS_23() (202100L)
-#elif PHI_COMPILER_IS(MSVC)
+#elif PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
 #    define PHI_CPLUSPLUS_23() (202004L)
 #else
 // C++-23 standard (Working draft)
@@ -42,7 +42,7 @@
 // Latest C++ standard
 #define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_23()
 
-#if PHI_COMPILER_IS(MSVC)
+#if PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
 #    if defined(_MSVC_LANG)
 #        define PHI_CPP_STANDARD() _MSVC_LANG
 #    else

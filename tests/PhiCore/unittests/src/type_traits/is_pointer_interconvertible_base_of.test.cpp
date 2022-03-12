@@ -17,7 +17,9 @@ void test_is_pointer_interconvertible_base_of()
 #    endif
 
     // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE(std::is_pointer_interconvertible_base_of<B, D>::value);
+#    endif
 #endif
 }
 
@@ -34,7 +36,9 @@ void test_is_not_pointer_interconvertible_base_of()
 #    endif
 
     // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE_FALSE(std::is_pointer_interconvertible_base_of<B, D>::value);
+#    endif
 #endif
 }
 
@@ -112,7 +116,11 @@ TEST_CASE("is_pointer_interconvertible_base_of")
     test_is_pointer_interconvertible_base_of<I, I>();
     test_is_pointer_interconvertible_base_of<I, const I>();
 
+    #if PHI_COMPILER_IS(MSVC)
+    test_is_not_pointer_interconvertible_base_of<Bar, Baz>();
+    #else
     test_is_pointer_interconvertible_base_of<Bar, Baz>();
+    #endif
     test_is_pointer_interconvertible_base_of<Foo, Baz>();
     test_is_not_pointer_interconvertible_base_of<Baz, NonStdLayout>();
     test_is_pointer_interconvertible_base_of<NonStdLayout, NonStdLayout>();

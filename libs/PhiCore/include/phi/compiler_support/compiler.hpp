@@ -36,7 +36,8 @@
 #    define PHI_EMCC_VERSION_PATCH() 0
 #endif
 
-#if defined(_MSC_VER)
+// Clang on windows also defines the _MSC_VER macro
+#if defined(_MSC_VER) && !defined(__clang__)
 #    define PHI_COMPILER_MSVC()      1
 #    define PHI_MSVC_VERSION_MAJOR() (_MSC_FULL_VER / 10000000)
 #    define PHI_MSVC_VERSION_MINOR() (_MSC_FULL_VER % 10000000 / 100000)

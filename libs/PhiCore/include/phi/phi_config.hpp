@@ -13,7 +13,6 @@
 #include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp"
-#include <cstdint>
 
 #define PHI_VERSION_MAJOR() 0
 #define PHI_VERSION_MINOR() 1
@@ -92,20 +91,5 @@
 #else
 #    define PHI_API
 #endif
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wunused-const-variable")
-
-DETAIL_PHI_BEGIN_NAMESPACE()
-
-constexpr const static std::uint32_t VersionMajor{PHI_VERSION_MAJOR()};
-constexpr const static std::uint32_t VersionMinor{PHI_VERSION_MINOR()};
-constexpr const static std::uint32_t VersionPatch{PHI_VERSION_PATCH()};
-constexpr const static std::uint32_t Version{PHI_VERSION()}; // NOLINT(hicpp-signed-bitwise)
-constexpr const static char          VersionString[]{PHI_VERSION_STR()};
-
-DETAIL_PHI_END_NAMESPACE()
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_PHICONFIG_HPP

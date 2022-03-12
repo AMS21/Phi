@@ -300,26 +300,26 @@ public:
     using reverse_iterator       = phi::reverse_iterator<iterator>;
     using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(PHI_UNUSED size_type pos) noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(size_type /*pos*/) noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(PHI_UNUSED size_type pos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type /*pos*/) const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](PHI_UNUSED size_type pos) noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](size_type /*pos*/) noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference
-    operator[](PHI_UNUSED size_type pos) const noexcept
+    operator[](size_type /*pos*/) const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
         PHI_UNREACHABLE();
@@ -434,12 +434,12 @@ public:
         return 0u;
     }
 
-    PHI_EXTENDED_CONSTEXPR void fill(PHI_UNUSED const TypeT& value) noexcept
+    PHI_EXTENDED_CONSTEXPR void fill(const TypeT& /*value*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot fill zero-sized array of type 'const T'");
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(PHI_UNUSED array& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(array& /*other*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }

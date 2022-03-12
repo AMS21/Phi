@@ -68,6 +68,9 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+
 
 class A
 {
@@ -94,6 +97,7 @@ struct E
     ~E() = delete;
 };
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
@@ -106,7 +110,11 @@ TEST_CASE("is_nothrow_destructible")
     test_is_not_nothrow_destructible<E>();
 
     test_is_not_nothrow_destructible<void>();
+#if PHI_COMPILER_IS(MSVC)
+    SKIP_CHECK();
+#else
     test_is_nothrow_destructible<phi::nullptr_t>();
+#endif
     test_is_nothrow_destructible<bool>();
     test_is_nothrow_destructible<char>();
     test_is_nothrow_destructible<signed char>();

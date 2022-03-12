@@ -75,12 +75,7 @@ void test_integer_layout()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
 #endif
 #if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
-#    if PHI_COMPILER_IS(WINCLANG)
-    // TODO: Why does clang on windows think the type is nothrow default constructible?
-    STATIC_REQUIRE(phi::is_nothrow_default_constructible<T>::value);
-#    else
     STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<T>::value);
-#    endif
 #endif
 
     STATIC_REQUIRE(phi::is_copy_assignable<T>::value);

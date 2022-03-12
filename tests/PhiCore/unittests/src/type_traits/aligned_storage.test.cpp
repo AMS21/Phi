@@ -214,7 +214,7 @@ TEST_CASE("aligned_storage")
     {
         // Max align on MSVC is 8192
         // https://docs.microsoft.com/en-us/cpp/cpp/align-cpp
-#if PHI_COMPILER_IS(MSVC)
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
         PHI_CONSTEXPR_AND_CONST int Align = 8192;
 #else
         PHI_CONSTEXPR_AND_CONST int Align = 65536;

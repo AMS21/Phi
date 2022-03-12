@@ -13,6 +13,10 @@
 #include <phi/type_traits/is_unsigned.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
+
+#ifndef __STDC_WANT_SECURE_LIB__
+#define __STDC_WANT_SECURE_LIB__
+#endif
 #include <limits>
 
 template <typename SourceT, typename ResultT>

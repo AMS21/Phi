@@ -134,6 +134,7 @@ set(phi_disabled_warnings_flags
             # command-line option
     /wd4866 # compilerr may not enforce left-to-right evaluation order for call to 'x'
     /wd4324 # 'struct_name' : structure was padded due to __declspec(align())
+    /wd5220 # 'name': a non-static data member with a volatile qualified type no longer implies that compiler generated copy/move constructors and copy/move assignment operators are not trivial
     -Wno-constexpr-not-const
     -Wno-c++1y-extensions
     -Wno-c++1z-extensions
@@ -243,9 +244,9 @@ if(PHI_COMPILER_GCC)
   endif()
 endif()
 
-# Clang before 3.4 accepts all the -wdxxxx flags from MSVC but then gives compiler errors
-if(PHI_COMPILER_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.4")
-  list(FILTER _DisableWarningAvailible EXCLUDE REGEX "-wd[0-9]+")
+# Clang only requires -Weverything
+if(PHI_COMPILER_CLANG)
+  set(_WarningsAvailible "-Weverything")
 endif()
 
 # Emscriptens warning suppression for some reason doesn't work correctly so we disable all

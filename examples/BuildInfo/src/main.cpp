@@ -2,7 +2,19 @@
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
+#include <phi/compiler_support/warning.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wreserved-macro-identifier")
+
+#ifndef __STDC_WANT_SECURE_LIB__
+#define __STDC_WANT_SECURE_LIB__ 1
+#endif
 #include <iostream>
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
 
 #define PRINT_COND(text, cond)                                                                     \
     PHI_BEGIN_MACRO()                                                                              \
@@ -73,3 +85,5 @@ int main()
 
     return 0;
 }
+
+PHI_MSVC_SUPPRESS_WARNING_POP()

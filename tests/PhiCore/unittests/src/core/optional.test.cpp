@@ -49,6 +49,10 @@ PHI_GCC_SUPPRESS_WARNING("-Wconversion")
 PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
 #endif
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4242) // conversion from 'TypeT' to 'TypeT', possible loss of data
+PHI_MSVC_SUPPRESS_WARNING(4244) // 'initializing': conversion from 'TypeT' to 'TypeT', possible loss of data
+
 #include <phi/core/optional.hpp>
 
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
@@ -1391,5 +1395,6 @@ TEST_CASE("Swap null intialized with value", "[swap.nullopt_value]")
 
 #endif
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()

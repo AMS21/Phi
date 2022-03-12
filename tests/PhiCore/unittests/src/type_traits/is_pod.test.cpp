@@ -1,16 +1,23 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(
+        4647) // behavior change: __is_pod(x) has different value in previous versions
+PHI_MSVC_SUPPRESS_WARNING(4996) // 'std::is_pod<T>': warning STL4025: std::is_pod and std::is_pod_v are deprecated in C++20. The std::is_trivially_copyable and/or std::is_standard_layout traits likely suit your use case. You can define _SILENCE_CXX20_IS_POD_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
-#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_pod.hpp>
+#include <type_traits>
 #include <vector>
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
@@ -50,6 +57,7 @@ void test_is_not_pod_impl()
 #endif
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
 template <typename T>
@@ -86,11 +94,15 @@ private:
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+
 struct C
 {
     virtual void foo();
 };
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename T>
@@ -111,13 +123,19 @@ TEST_CASE("is_pod")
     test_is_pod<A>();
     test_is_not_pod<B>();
     test_is_not_pod<C>();
+    test_is_not_pod<D<int>>();
+    test_is_not_pod<D<double>>();
 
 #if PHI_HAS_WORKING_IS_POD()
     int t[phi::is_pod<D<int>>::value ? -1 : 1];
     (void)t;
 #endif
 
+    #if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<E>();
+    #else
     test_is_pod<E>();
+    #endif
 
     test_is_not_pod<void>();
     test_is_pod<phi::nullptr_t>();
@@ -141,6 +159,22 @@ TEST_CASE("is_pod")
     test_is_pod<char32_t>();
     test_is_pod<wchar_t>();
 
+    #if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<phi::boolean>();
+    test_is_not_pod<phi::integer<signed char>>();
+    test_is_not_pod<phi::integer<unsigned char>>();
+    test_is_not_pod<phi::integer<short>>();
+    test_is_not_pod<phi::integer<unsigned short>>();
+    test_is_not_pod<phi::integer<int>>();
+    test_is_not_pod<phi::integer<unsigned int>>();
+    test_is_not_pod<phi::integer<long>>();
+    test_is_not_pod<phi::integer<unsigned long>>();
+    test_is_not_pod<phi::integer<long long>>();
+    test_is_not_pod<phi::integer<unsigned long long>>();
+    test_is_not_pod<phi::floating_point<float>>();
+    test_is_not_pod<phi::floating_point<double>>();
+    test_is_not_pod<phi::floating_point<long double>>();
+    #else
     test_is_pod<phi::boolean>();
     test_is_pod<phi::integer<signed char>>();
     test_is_pod<phi::integer<unsigned char>>();
@@ -155,6 +189,7 @@ TEST_CASE("is_pod")
     test_is_pod<phi::floating_point<float>>();
     test_is_pod<phi::floating_point<double>>();
     test_is_pod<phi::floating_point<long double>>();
+    #endif
 
     test_is_not_pod<std::vector<int>>();
     test_is_not_pod<phi::scope_ptr<int>>();
@@ -266,9 +301,15 @@ TEST_CASE("is_pod")
     test_is_not_pod<PurePublicDestructor>();
     test_is_not_pod<PureProtectedDestructor>();
     test_is_not_pod<PurePrivateDestructor>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<DeletedPublicDestructor>();
+    test_is_not_pod<DeletedProtectedDestructor>();
+    test_is_not_pod<DeletedPrivateDestructor>();
+    #else
     test_is_pod<DeletedPublicDestructor>();
     test_is_pod<DeletedProtectedDestructor>();
     test_is_pod<DeletedPrivateDestructor>();
+    #endif
     test_is_not_pod<DeletedVirtualPublicDestructor>();
     test_is_not_pod<DeletedVirtualProtectedDestructor>();
     test_is_not_pod<DeletedVirtualPrivateDestructor>();
@@ -292,7 +333,11 @@ TEST_CASE("is_pod")
     test_is_not_pod<NoexceptMoveAssignClass>();
     test_is_not_pod<ExceptMoveAssignClass>();
     test_is_pod<DeletedCopyAssignClass>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<DeletedMoveAssignClass>();
+    #else
     test_is_pod<DeletedMoveAssignClass>();
+    #endif
     test_is_not_pod<NoexceptMoveConsNoexceptMoveAssignClass>();
     test_is_not_pod<ExceptMoveConsNoexceptMoveAssignClass>();
     test_is_not_pod<NoexceptMoveConsExceptMoveAssignClass>();
@@ -310,7 +355,7 @@ TEST_CASE("is_pod")
     test_is_pod<DeletedExplicitTo<float>>();
     test_is_pod<DeletedExplicitTo<Class>>();
     test_is_not_pod<Ellipsis>();
-#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(EMCC)
+#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(EMCC)
     test_is_not_pod<DeletedEllipsis>();
 #else
     test_is_pod<DeletedEllipsis>();
@@ -404,7 +449,11 @@ TEST_CASE("is_pod")
     test_is_not_pod<int Class::*const volatile&&>();
     test_is_not_pod<float Class::*const volatile&&>();
     test_is_not_pod<void * Class::*const volatile&&>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<NonDefaultConstructible>();
+    #else
     test_is_pod<NonDefaultConstructible>();
+    #endif
     test_is_pod<NonCopyConstructible>();
     test_is_pod<NonMoveConstructible>();
     test_is_pod<NonCopyAssignable>();
@@ -412,8 +461,13 @@ TEST_CASE("is_pod")
     test_is_pod<NonAssignable>();
     test_is_pod<NonCopyable>();
     test_is_pod<NonMoveable>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<NonConstructible>();
+    test_is_not_pod<NonDestructible>();
+    #else
     test_is_pod<NonConstructible>();
     test_is_pod<NonDestructible>();
+    #endif
     test_is_not_pod<Tracked>();
     test_is_pod<TrapConstructible>();
     test_is_pod<TrapImplicitConversion>();

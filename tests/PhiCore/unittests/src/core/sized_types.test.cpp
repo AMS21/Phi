@@ -1,15 +1,21 @@
 #include <phi/test/test_macros.hpp>
 
-#include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/warning.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wreserved-macro-identifier")
+
+#ifndef __STDC_WANT_SECURE_LIB__
+#    define __STDC_WANT_SECURE_LIB__ 1
+#endif
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
+#include <phi/compiler_support/platform.hpp>
 #include <phi/core/sized_types.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
 #include <cstdint>
-PHI_EXTERNAL_HEADERS_END()
 
 #define SIZE_IN_BITS(x) (sizeof(x) * CHAR_BIT)
 
@@ -117,7 +123,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast16_t) >= 16);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast16_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast16_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_fast16_t, std::int_fast16_t);
 #endif
@@ -128,7 +135,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast32_t) >= 32);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast32_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast32_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_fast32_t, std::int_fast32_t);
 #endif
@@ -139,7 +147,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast64_t) >= 64);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast64_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_fast64_t, std::int_fast64_t);
 #endif
@@ -158,7 +167,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast16_t) >= 16);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast16_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast16_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::uint_fast16_t, std::uint_fast16_t);
 #endif
@@ -169,7 +179,7 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast32_t) >= 32);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast32_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast32_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
 #else
         CHECK_SAME_TYPE(phi::uint_fast32_t, std::uint_fast32_t);
 #endif
@@ -214,7 +224,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_least64_t) >= 64);
         STATIC_REQUIRE(phi::is_signed<phi::int_least64_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_least64_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+        SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_least64_t, std::int_least64_t);
 #endif

@@ -27,8 +27,10 @@ void test_is_layout_compatible_impl()
 #    endif
 
     // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE(std::is_layout_compatible<T, U>::value);
     STATIC_REQUIRE(std::is_layout_compatible<U, T>::value);
+#    endif
 #endif
 }
 
@@ -49,8 +51,10 @@ void test_is_not_layout_compatible_impl()
 #    endif
 
     // Standard compatibililty
+#    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE_FALSE(std::is_layout_compatible<T, U>::value);
     STATIC_REQUIRE_FALSE(std::is_layout_compatible<U, T>::value);
+#    endif
 #endif
 }
 
@@ -128,6 +132,14 @@ enum class E7 : int
 {
 };
 
+enum E8 : int
+{
+};
+
+enum class E9 : int
+{
+};
+
 struct A
 {
     int a;
@@ -199,10 +211,20 @@ TEST_CASE("is_layout_compatible")
     test_is_layout_compatible<Foo, Bar>();
     test_is_not_layout_compatible<Foo[2], Bar[2]>();
 
+    test_is_not_layout_compatible<int, E8>();
+    test_is_layout_compatible<E8, E9>();
+
     test_is_not_layout_compatible<long, unsigned long>();
     test_is_not_layout_compatible<char*, const char*>();
     test_is_layout_compatible<char*, char* const>();
-    test_is_layout_compatible<void*, int*>();
+
+    test_is_not_layout_compatible<void*, int*>();
+    test_is_not_layout_compatible<void*, unsigned*>();
+    test_is_not_layout_compatible<void*, int>();
+
+    test_is_not_layout_compatible<int*, void*>();
+    test_is_not_layout_compatible<unsigned*, void*>();
+    test_is_not_layout_compatible<int, void*>();
 
     test_is_not_layout_compatible<BitZero, BitOne>();
 }

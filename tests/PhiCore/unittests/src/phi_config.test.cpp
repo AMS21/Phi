@@ -35,17 +35,6 @@ TEST_CASE("PhiConfig.hpp macros", "[Config]")
                                      PHI_VERSION_MINOR()) PHI_STRINGIFY(PHI_VERSION_PATCH())) +
                              2u)));
 
-    // Variables
-    SECTION("PhiConfig.hpp variables", "[Config]")
-    {
-        STATIC_REQUIRE(PHI_VERSION_MAJOR() == phi::VersionMajor);
-        STATIC_REQUIRE(PHI_VERSION_MINOR() == phi::VersionMinor);
-        STATIC_REQUIRE(PHI_VERSION_PATCH() == phi::VersionPatch);
-        STATIC_REQUIRE(PHI_VERSION() == phi::Version);
-
-        STATIC_REQUIRE_EXT(phi::string_equals(PHI_VERSION_STR(), phi::VersionString));
-    }
-
     SECTION("PhiConfig.hpp Static/Dynamic", "[Config]")
     {
 #if defined(PHI_STATIC_BUILD)

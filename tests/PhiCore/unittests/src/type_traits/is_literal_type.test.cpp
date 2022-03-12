@@ -18,6 +18,9 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING(
         "-Wdeprecated-declarations") // is_literal_type was deprecated in C++-17 and removed in C++-20
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4996) // 'std::is_literal_type<T>': warning STL4013: std::is_literal_type and std::is_literal_type_v are deprecated in C++17. You can define _SILENCE_CXX17_IS_LITERAL_TYPE_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+
 template <typename T>
 void test_is_literal_type_impl()
 {
@@ -56,6 +59,7 @@ void test_is_not_literal_type_impl()
 #endif
 }
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
 template <typename T>
@@ -164,7 +168,11 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<phi::floating_point<double>>();
     test_is_literal_type<phi::floating_point<long double>>();
 
+#if PHI_COMPILER_IS(WINCLANG) || PHI_COMPILER_IS(MSVC)
+    SKIP_CHECK();
+#else
     test_is_not_literal_type<std::vector<int>>();
+#endif
 #if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
     test_is_not_literal_type<phi::scope_ptr<int>>();
 #else
@@ -238,7 +246,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<ProtectedDerivedFromTemplate<Base>>();
     test_is_literal_type<ProtectedDerivedFromTemplate<Derived>>();
     test_is_not_literal_type<ProtectedDerivedFromTemplate<Class>>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC)
     test_is_literal_type<VirtualDerivedFromTemplate<Base>>();
     test_is_literal_type<VirtualDerivedFromTemplate<Derived>>();
 #else
@@ -250,6 +258,8 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<NonEmptyUnion>();
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
     test_is_literal_type_cxx20<NonTrivialUnion>();
+#elif PHI_COMPILER_IS(MSVC) && PHI_CPP_STANDARD_IS_ATLEAST(17)
+    test_is_literal_type<NonTrivialUnion>();
 #else
     test_is_not_literal_type<NonTrivialUnion>();
 #endif
@@ -262,7 +272,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<Derived>();
     test_is_not_literal_type<NotEmptyBase>();
     test_is_literal_type<EmptyBase>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC)
     test_is_literal_type<VirtualBase>();
 #else
     test_is_not_literal_type<VirtualBase>();
@@ -283,7 +293,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<AbstractTemplate<double>>();
     test_is_not_literal_type<AbstractTemplate<Class>>();
     test_is_not_literal_type<AbstractTemplate<IncompleteType>>();
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<PublicAbstractDeletedDestructor>();
     test_is_literal_type<ProtectedAbstractDeletedDestructor>();
     test_is_literal_type<PrivateAbstractDeletedDestructor>();
@@ -309,7 +319,7 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<PurePublicDestructor>();
     test_is_not_literal_type<PureProtectedDestructor>();
     test_is_not_literal_type<PurePrivateDestructor>();
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+#if PHI_COMPILER_IS(GCC)|| PHI_COMPILER_IS(MSVC)  || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<DeletedPublicDestructor>();
     test_is_literal_type<DeletedProtectedDestructor>();
     test_is_literal_type<DeletedPrivateDestructor>();
@@ -318,9 +328,15 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type_cxx20<DeletedProtectedDestructor>();
     test_is_not_literal_type_cxx20<DeletedPrivateDestructor>();
 #endif
+    #if PHI_COMPILER_IS(MSVC)
+    test_is_literal_type<DeletedVirtualPublicDestructor>();
+    test_is_literal_type<DeletedVirtualProtectedDestructor>();
+    test_is_literal_type<DeletedVirtualPrivateDestructor>();
+    #else
     test_is_not_literal_type<DeletedVirtualPublicDestructor>();
     test_is_not_literal_type<DeletedVirtualProtectedDestructor>();
     test_is_not_literal_type<DeletedVirtualPrivateDestructor>();
+    #endif
     test_is_not_literal_type<ExplicitClass>();
     test_is_not_literal_type<NothrowExplicitClass>();
     test_is_not_literal_type<ThrowExplicitClass>();
@@ -450,7 +466,11 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<int Class::*const volatile&&>();
     test_is_literal_type<float Class::*const volatile&&>();
     test_is_literal_type<void * Class::*const volatile&&>();
+    #if PHI_COMPILER_IS(MSVC)
+    test_is_not_literal_type_cxx20<NonDefaultConstructible>();
+    #else
     test_is_literal_type<NonDefaultConstructible>();
+    #endif
     test_is_literal_type<NonCopyConstructible>();
     test_is_literal_type<NonMoveConstructible>();
     test_is_literal_type<NonCopyAssignable>();
@@ -458,8 +478,12 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<NonAssignable>();
     test_is_literal_type<NonCopyable>();
     test_is_literal_type<NonMoveable>();
+#if PHI_COMPILER_IS(MSVC)
+    test_is_not_literal_type_cxx20<NonConstructible>();
+    #else
     test_is_literal_type<NonConstructible>();
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
+    #endif
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0)
     test_is_literal_type<NonDestructible>();
 #else
     test_is_not_literal_type_cxx20<NonDestructible>();

@@ -191,7 +191,7 @@ TEST_CASE("is_constructible")
 #if PHI_COMPILER_IS(CLANG)
     test_is_constructible<int&, ExplicitTo<int&>>();
 #endif
-#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MSVC)
     test_is_constructible<const int&, ExplicitTo<int&&>>();
 #else
     test_is_not_constructible<const int&, ExplicitTo<int&&>>();

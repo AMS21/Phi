@@ -109,6 +109,9 @@ constexpr vector2<TypeT> operator-(const vector2<TypeT>& rhs) noexcept
 
 // Binary Operators
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4365) // 'action' : conversion from 'type_1' to 'type_2', signed/unsigned mismatch
+
 template <typename LhsT, typename RhsT>
 constexpr vector2<LhsT> operator+(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept
 {
@@ -170,6 +173,8 @@ PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator/=(vector2<LhsT>& lhs, const RhsT&
 
     return lhs;
 }
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept

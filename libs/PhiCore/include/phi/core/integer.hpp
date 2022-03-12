@@ -38,7 +38,6 @@ SOFTWARE.
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
@@ -126,7 +125,7 @@ namespace detail
             conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(PHI_UNUSED signed_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag,
                                                          TypeT lhs, TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs > std::numeric_limits<TypeT>::max() - rhs :
@@ -134,14 +133,14 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(PHI_UNUSED unsigned_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag,
                                                          TypeT lhs, TypeT rhs) noexcept
     {
         return std::numeric_limits<TypeT>::max() - rhs < lhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(PHI_UNUSED signed_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag,
                                                             TypeT lhs, TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs < std::numeric_limits<TypeT>::min() + rhs :
@@ -149,14 +148,14 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(PHI_UNUSED unsigned_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag,
                                                             TypeT lhs, TypeT rhs) noexcept
     {
         return lhs < rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(PHI_UNUSED signed_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag,
                                                                TypeT lhs, TypeT rhs) noexcept
     {
         return lhs > TypeT(0) ?
@@ -171,36 +170,36 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(PHI_UNUSED unsigned_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag,
                                                                TypeT lhs, TypeT rhs) noexcept
     {
         return rhs != TypeT(0) && lhs > std::numeric_limits<TypeT>::max() / rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(PHI_UNUSED signed_integer_tag tag,
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag,
                                                          TypeT lhs, TypeT rhs) noexcept
     {
         return rhs == TypeT(0) || (rhs == TypeT(-1) && lhs == std::numeric_limits<TypeT>::min());
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(PHI_UNUSED unsigned_integer_tag tag,
-                                                         PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag,
+                                                         TypeT, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(PHI_UNUSED signed_integer_tag tag,
-                                                       PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(signed_integer_tag,
+                                                       TypeT, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(PHI_UNUSED unsigned_integer_tag tag,
-                                                       PHI_UNUSED TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(unsigned_integer_tag,
+                                                       TypeT, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }

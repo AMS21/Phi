@@ -61,12 +61,16 @@ namespace detail
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(5243) // 'x': using incomplete class 'y' can cause potential one definition rule violation due to ABI limitation
+
 template <typename TypeT>
 struct is_class
     : public bool_constant<sizeof(detail::is_class_test<TypeT>(0)) == detail::sizeof_yes_type &&
                            is_not_union<TypeT>::value>
 {};
 
+PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>

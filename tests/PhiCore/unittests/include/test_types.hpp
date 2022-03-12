@@ -955,15 +955,17 @@ struct TrapSelfAssign
     TrapSelfAssign(TrapSelfAssign&&)      = default;
 
     PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(
-            PHI_UNUSED const TrapSelfAssign& other) noexcept
+            const TrapSelfAssign& other) noexcept
     {
+        PHI_UNUSED_PARAMETER(other);
         assert(&other != this);
 
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(PHI_UNUSED TrapSelfAssign&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(TrapSelfAssign&& other) noexcept
     {
+        PHI_UNUSED_PARAMETER(other);
         assert(&other != this);
 
         return *this;

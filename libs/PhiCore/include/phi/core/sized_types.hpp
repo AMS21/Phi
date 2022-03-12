@@ -9,6 +9,16 @@
 
 #include "phi/compiler_support/warning.hpp"
 #include "phi/generated/compiler_support/type_system.hpp"
+
+PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wreserved-macro-identifier")
+
+// Define '__STDC_WANT_SECURE_LIB__' macro to avoid warnings with MSVC's stl
+#ifndef __STDC_WANT_SECURE_LIB__
+#define __STDC_WANT_SECURE_LIB__ 1
+#endif
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
 #include <climits> // CHAR_BIT
 
 DETAIL_PHI_BEGIN_NAMESPACE()

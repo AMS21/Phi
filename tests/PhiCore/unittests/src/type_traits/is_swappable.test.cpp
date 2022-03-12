@@ -253,7 +253,9 @@ TEST_CASE("is_swappable")
     test_is_swappable<phi::floating_point<double>>();
     test_is_swappable<phi::floating_point<long double>>();
 
-#if PHI_COMPILER_IS_NOT(MSVC) || !defined(PHI_DEBUG)
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+    SKIP_CHECK();
+#else
     test_is_swappable<std::vector<int>>();
 #endif
     test_is_swappable<phi::scope_ptr<int>>();

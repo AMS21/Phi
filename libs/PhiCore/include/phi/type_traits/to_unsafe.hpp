@@ -24,14 +24,14 @@ namespace detail
 
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, PHI_UNUSED true_type is_safe_type) noexcept
+            TypeT original, true_type /*is_safe_type*/) noexcept
     {
         return original.get();
     }
 
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, PHI_UNUSED false_type is_safe_type) noexcept
+            TypeT original, false_type /*is_safe_type*/) noexcept
     {
         return original;
     }

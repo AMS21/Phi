@@ -59,7 +59,9 @@ DETAIL_PHI_END_NAMESPACE()
 #define DETAIL_PHI_WRAPPED_ASSUME(condition)                                                       \
     PHI_BEGIN_MACRO()                                                                              \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wassume")                                               \
+    PHI_MSVC_SUPPRESS_WARNING_WITH_PUSH(4557) /* '__assume' contains effect 'effect' */            \
     PHI_ASSUME(condition);                                                                         \
+    PHI_MSVC_SUPPRESS_WARNING_POP()                                                                \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     PHI_END_MACRO()
 
