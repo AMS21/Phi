@@ -69,8 +69,8 @@ PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
-
+PHI_MSVC_SUPPRESS_WARNING(
+        5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 
 class A
 {

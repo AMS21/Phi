@@ -14,7 +14,7 @@ PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wreserved-macro-identifier")
 
 // Define '__STDC_WANT_SECURE_LIB__' macro to avoid warnings with MSVC's stl
 #ifndef __STDC_WANT_SECURE_LIB__
-#define __STDC_WANT_SECURE_LIB__ 1
+#    define __STDC_WANT_SECURE_LIB__ 1
 #endif
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

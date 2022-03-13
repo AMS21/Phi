@@ -26,7 +26,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&       source,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT& source,
                                                      true_type /*target_safe*/,
                                                      true_type /*source_safe*/) noexcept
     {
@@ -35,7 +35,7 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&            source, true_type /* target_safe*/,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&& source, true_type /* target_safe*/,
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<typename TargetT::value_type>(
@@ -43,9 +43,9 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT& source,
                                                      true_type /*target_safe*/,
-            false_type /*source_safe*/) noexcept
+                                                     false_type /*source_safe*/) noexcept
     {
         return static_cast<typename remove_reference_t<TargetT>::value_type>(
                 phi::forward<const SourceT>(source));
@@ -61,7 +61,7 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT& source,
                                                      false_type /*target_safe*/,
                                                      true_type /*source_safe*/) noexcept
     {
@@ -70,8 +70,7 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source,
-                                                     false_type /*target_safe*/,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&& source, false_type /*target_safe*/,
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<TargetT>(
@@ -79,7 +78,7 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT&        source,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(const SourceT& source,
                                                      false_type /*target_safe*/,
                                                      false_type /*source_safe*/) noexcept
     {
@@ -87,7 +86,7 @@ namespace detail
     }
 
     template <typename TargetT, typename SourceT>
-    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&&             source, false_type /*target_safe*/,
+    PHI_NODISCARD constexpr TargetT unsafe_cast_impl(SourceT&& source, false_type /*target_safe*/,
                                                      false_type /*source_safe*/) noexcept
     {
         return static_cast<TargetT>(phi::forward<SourceT>(source));

@@ -51,7 +51,8 @@ PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(4242) // conversion from 'TypeT' to 'TypeT', possible loss of data
-PHI_MSVC_SUPPRESS_WARNING(4244) // 'initializing': conversion from 'TypeT' to 'TypeT', possible loss of data
+PHI_MSVC_SUPPRESS_WARNING(
+        4244) // 'initializing': conversion from 'TypeT' to 'TypeT', possible loss of data
 
 #include <phi/core/optional.hpp>
 

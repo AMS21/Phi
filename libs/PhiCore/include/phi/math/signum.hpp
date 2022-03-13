@@ -20,14 +20,14 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT>
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT           value,
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT value,
                                                               false_type /*is_signed*/) noexcept
     {
         return static_cast<int32_t>(TypeT(0) < value);
     }
 
     template <typename TypeT>
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT          value,
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr i32 signum_impl(TypeT value,
                                                               true_type /*is_signed*/) noexcept
     {
         return static_cast<int32_t>((TypeT(0) < value) - (value < TypeT(0)));

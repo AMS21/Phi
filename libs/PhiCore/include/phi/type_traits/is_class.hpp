@@ -62,7 +62,8 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(5243) // 'x': using incomplete class 'y' can cause potential one definition rule violation due to ABI limitation
+PHI_MSVC_SUPPRESS_WARNING(
+        5243) // 'x': using incomplete class 'y' can cause potential one definition rule violation due to ABI limitation
 
 template <typename TypeT>
 struct is_class

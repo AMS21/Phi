@@ -1,13 +1,13 @@
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/platform.hpp>
-#include <phi/preprocessor/function_like_macro.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/preprocessor/function_like_macro.hpp>
 
 PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wreserved-macro-identifier")
 
 #ifndef __STDC_WANT_SECURE_LIB__
-#define __STDC_WANT_SECURE_LIB__ 1
+#    define __STDC_WANT_SECURE_LIB__ 1
 #endif
 #include <iostream>
 

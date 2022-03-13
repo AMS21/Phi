@@ -103,7 +103,8 @@ static void test_function(phi::monitor<MonitorTestData>& a) noexcept
 }
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(5039) // '_beginthreadex': pointer or reference to potentially throwing function passed to 'extern "C"' function under -EHc. Undefined behavior may occur if this function throws an exception.
+PHI_MSVC_SUPPRESS_WARNING(
+        5039) // '_beginthreadex': pointer or reference to potentially throwing function passed to 'extern "C"' function under -EHc. Undefined behavior may occur if this function throws an exception.
 
 TEST_CASE("core.monitor.thread_safety")
 {

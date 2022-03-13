@@ -12,7 +12,8 @@
 #include <phi/type_traits/is_unsafe_unsigned.hpp>
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(4668) // '__STDC_WANT_SECURE_LIB__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+PHI_MSVC_SUPPRESS_WARNING(
+        4668) // '__STDC_WANT_SECURE_LIB__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
 
 #include <climits>
 

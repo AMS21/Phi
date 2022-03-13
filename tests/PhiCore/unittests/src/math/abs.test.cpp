@@ -15,7 +15,7 @@
 #include <phi/type_traits/to_unsafe.hpp>
 
 #ifndef __STDC_WANT_SECURE_LIB__
-#define __STDC_WANT_SECURE_LIB__
+#    define __STDC_WANT_SECURE_LIB__
 #endif
 #include <limits>
 

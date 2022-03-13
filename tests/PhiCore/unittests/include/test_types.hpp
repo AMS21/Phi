@@ -954,8 +954,7 @@ struct TrapSelfAssign
     TrapSelfAssign(const TrapSelfAssign&) = default;
     TrapSelfAssign(TrapSelfAssign&&)      = default;
 
-    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(
-            const TrapSelfAssign& other) noexcept
+    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(const TrapSelfAssign& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
         assert(&other != this);
