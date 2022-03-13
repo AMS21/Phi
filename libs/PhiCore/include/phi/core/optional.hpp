@@ -831,7 +831,10 @@ public:
         return this->m_has_value;
     }
 
-    /// Returns the contained value if there is one, otherwise throws bad_optional_access
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wreturn-type")
+
+    /// Returns the contained value if there is one
     PHI_EXTENDED_CONSTEXPR TypeT& value() &
     {
         if (has_value())
@@ -871,6 +874,8 @@ public:
 
         PHI_DBG_ASSERT_NOT_REACHED();
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
     /// Returns the stored value if there is one, otherwise returns `u`
     template <typename OtherT>
