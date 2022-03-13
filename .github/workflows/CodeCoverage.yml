@@ -238,7 +238,10 @@ jobs:
       - name: Install tools
         run: |
           # Install scoop
-          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          # Required since CI runner is admin
+          # See https://github.com/ScoopInstaller/Install#for-admin
+          .\install.ps1 -RunAsAdmin
 
           scoop install llvm ninja --global
 
