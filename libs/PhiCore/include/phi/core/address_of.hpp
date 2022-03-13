@@ -43,7 +43,7 @@ template <typename TypeT>
 PHI_NODISCARD constexpr TypeT* address_of(TypeT& arg) noexcept
 {
 #    if PHI_SUPPORTS_ADDRESS_OF()
-    return __builtin_addressof(arg);
+    return PHI_ADDRESS_OF(arg);
 #    else
     return reinterpret_cast<TypeT*>(
             &const_cast<char&>(reinterpret_cast<const volatile char&>(arg)));
