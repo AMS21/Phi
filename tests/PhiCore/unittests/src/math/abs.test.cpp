@@ -14,9 +14,15 @@
 #include <phi/type_traits/make_unsafe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wreserved-macro-identifier")
+
 #ifndef __STDC_WANT_SECURE_LIB__
-#    define __STDC_WANT_SECURE_LIB__
+#    define __STDC_WANT_SECURE_LIB__ 1
 #endif
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
+
 #include <limits>
 
 template <typename SourceT, typename ResultT>
@@ -113,11 +119,19 @@ void test_abs_float()
     EXT_STATIC_REQUIRE(phi::to_unsafe(phi::abs(inf)) == phi::to_unsafe(inf));
     EXT_STATIC_REQUIRE(phi::to_unsafe(phi::abs(-inf)) == phi::to_unsafe(inf));
 
-    EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(qnan)));
-    EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(-qnan)));
+#if PHI_COMPILER_IS(GCC) && (!PHI_SUPPORTS_FABSF() || !PHI_SUPPORTS_FABS() || !PHI_SUPPORTS_FABSL())
+    CHECK(phi::is_nan(phi::abs(qnan)));
+    CHECK(phi::is_nan(phi::abs(-qnan)));
 
+    CHECK(phi::is_nan(phi::abs(snan)));
+    CHECK(phi::is_nan(phi::abs(-snan)));
+#else
     EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(snan)));
     EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(-snan)));
+
+    EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(qnan)));
+    EXT_STATIC_REQUIRE(phi::is_nan(phi::abs(-qnan)));
+#endif
 }
 
 TEST_CASE("abs")
