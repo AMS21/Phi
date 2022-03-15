@@ -15,7 +15,11 @@
 #include <phi/type_traits/to_unsafe.hpp>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 13, 0, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wreserved-macro-identifier")
+#else
+PHI_CLANG_SUPPRESS_WARNING("-Wreserved-id-macro")
+#endif
 
 #ifndef __STDC_WANT_SECURE_LIB__
 #    define __STDC_WANT_SECURE_LIB__ 1
