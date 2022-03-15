@@ -179,11 +179,11 @@ using uint_fast32_t = detail::unsigned_int32;
 using int_fast64_t  = detail::signed_int64;
 using uint_fast64_t = detail::unsigned_int64;
 #elif PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR() * CHAR_BIT == 16
-using int_fast16_t = detail::signed_int16;
+using int_fast16_t  = detail::signed_int16;
 using uint_fast16_t = detail::unsigned_int16;
-using int_fast32_t = detail::signed_int32;
+using int_fast32_t  = detail::signed_int32;
 using uint_fast32_t = detail::unsigned_int32;
-using int_fast64_t = detail::signed_int64;
+using int_fast64_t  = detail::signed_int64;
 using uint_fast64_t = detail::unsigned_int64;
 #elif PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR() * CHAR_BIT == 32
 using int_fast16_t = detail::signed_int32;
