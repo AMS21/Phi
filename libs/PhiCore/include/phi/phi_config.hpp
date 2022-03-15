@@ -31,12 +31,10 @@
 /// \cond detail
 #define DETAIL_PHI_BEGIN_NAMESPACE()                                                               \
     namespace phi                                                                                  \
-    {                                                                                              \
-        inline namespace PHI_GLUE6(v_, PHI_VERSION_MAJOR(), _, PHI_VERSION_MINOR(), _,             \
-                                   PHI_VERSION_PATCH())                                            \
-        {
+    {
+
 // clang-format off
-#define DETAIL_PHI_END_NAMESPACE() } }
+#define DETAIL_PHI_END_NAMESPACE() }
 // clang-format on
 /// \endcond
 
