@@ -3,8 +3,6 @@
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
-#include <phi/core/integer.hpp>
-#include <phi/core/types.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
 
@@ -13,10 +11,11 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
-#else
-PHI_GCC_SUPPRESS_WARNING("-Wconversion")
 #endif
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
 
+#include <phi/core/integer.hpp>
+#include <phi/core/types.hpp>
 #include <phi/math/vector2.hpp>
 
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
