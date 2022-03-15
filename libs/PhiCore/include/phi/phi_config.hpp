@@ -48,6 +48,15 @@
 // clang-format off
 #    define DETAIL_PHI_END_STD_NAMESPACE() } }
 // clang-format on
+#elif PHI_COMPILER_IS(APPLECLANG)
+#    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
+        namespace std                                                                              \
+        {                                                                                          \
+            inline namespace __1                                                                   \
+            {
+
+// clang-format off
+#    define DETAIL_PHI_END_STD_NAMESPACE() } }
 #else
 #    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
         namespace std                                                                              \
