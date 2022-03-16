@@ -64,7 +64,7 @@ jobs:
 
       - name: Run cppcheck
         run: |
-          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --force --inline-suppr --max-ctu-depth=25 --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
+          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --inline-suppr --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
 
           # Filter out external libraries and test code
           cat cppcheck.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > cppcheck_filtered.log || true
