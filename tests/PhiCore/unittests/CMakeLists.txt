@@ -91,6 +91,7 @@ file(
   "src/type_traits/aligned_storage.test.cpp"
   "src/type_traits/aligned_union.test.cpp"
   "src/type_traits/alignment_of.test.cpp"
+  "src/type_traits/array_size.test.cpp"
   "src/type_traits/bool_constant.test.cpp"
   "src/type_traits/common_type.test.cpp"
   "src/type_traits/conditional.test.cpp"

@@ -224,6 +224,7 @@ file(
   "include/phi/type_traits/add_rvalue_reference.hpp"
   "include/phi/type_traits/add_volatile.hpp"
   "include/phi/type_traits/alignment_of.hpp"
+  "include/phi/type_traits/array_size.hpp"
   "include/phi/type_traits/bool_constant.hpp"
   "include/phi/type_traits/common_type.hpp"
   "include/phi/type_traits/conditional.hpp"
