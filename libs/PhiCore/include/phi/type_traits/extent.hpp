@@ -31,23 +31,23 @@ PHI_INLINE_VARIABLE constexpr size_t extent_v = PHI_ARRAY_EXTENT(TypeT, Dimensio
 #else
 
 template <typename TypeT, unsigned Dimension = 0u>
-struct extent : integral_constant<size_t, 0u>
+struct extent : public integral_constant<size_t, 0u>
 {};
 
 template <typename TypeT>
-struct extent<TypeT[], 0u> : integral_constant<size_t, 0u>
+struct extent<TypeT[], 0u> : public integral_constant<size_t, 0u>
 {};
 
 template <typename TypeT, unsigned Dimension>
-struct extent<TypeT[], Dimension> : extent<TypeT, Dimension - 1u>
+struct extent<TypeT[], Dimension> : public extent<TypeT, Dimension - 1u>
 {};
 
 template <typename TypeT, size_t Dimension>
-struct extent<TypeT[Dimension], 0u> : integral_constant<size_t, Dimension>
+struct extent<TypeT[Dimension], 0u> : public integral_constant<size_t, Dimension>
 {};
 
 template <typename TypeT, size_t I, unsigned N>
-struct extent<TypeT[I], N> : extent<TypeT, N - 1u>
+struct extent<TypeT[I], N> : public extent<TypeT, N - 1u>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
