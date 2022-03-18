@@ -292,8 +292,8 @@ function(phi_set_project_warnings project)
     target_compile_options(${project} ${visibility_scope} "-w")
   else()
     target_compile_options(${project} ${visibility_scope} ${_WarningsAvailible})
+    target_compile_options(${project} ${visibility_scope} ${_DisableWarningAvailible})
   endif()
-  target_compile_options(${project} ${visibility_scope} ${_DisableWarningAvailible})
 
   # Warnings as errors
   if(PHI_WARNINGS_AS_ERRORS AND NOT PHI_COMPILER_APPLECLANG)
