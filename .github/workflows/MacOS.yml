@@ -169,6 +169,7 @@ jobs:
           ctest . -C RelWithDebInfo
 
       - name: Build Release
+        if: matrix.cfg.dynamic_test == ''
         run: |
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF
