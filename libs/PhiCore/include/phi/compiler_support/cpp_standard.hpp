@@ -21,7 +21,7 @@
 // See: https://godbolt.org/z/86a93zjYo
 #    define PHI_CPLUSPLUS_20() (201709L)
 #elif PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) ||           \
-        PHI_COMPILER_IS(APPLECLANG)
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 5, 1)
 // Clang version before clang-10 uses 201707 for C++-20
 #    define PHI_CPLUSPLUS_20() (201707L)
 #else
