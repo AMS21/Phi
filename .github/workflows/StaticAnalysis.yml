@@ -1,0 +1,314 @@
+name: StaticAnalysis
+
+on: [push, pull_request]
+
+jobs:
+  cppcheck:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install clang
+        run: |
+          # Add repository
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+
+          # Install
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }}
+
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Install cppcheck
+        env:
+          CPPCHECK_VERSION: "2.7"
+        run: |
+          mkdir cppcheck
+          wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
+
+          # Build CppCheck
+          cd cppcheck
+
+          mkdir build
+          cd build
+
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=ON
+          cmake --build . -j2
+
+          # Install CppCheck
+          sudo make install
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off
+
+      - name: Run cppcheck
+        run: |
+          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --inline-suppr --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
+
+          # Filter out external libraries and test code
+          cat cppcheck.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > cppcheck_filtered.log || true
+
+      - name: Print results
+        run: cat cppcheck_filtered.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name CppCheck -level warning
+
+  clang-tidy:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install clang tidy
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
+
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Run clang-tidy
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DPHI_TEST_WITH_ALL_STANDARDS=Off
+
+          # Run clang-tidy
+          run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" | tee clang_tidy.log
+
+          # Filter out external libraries and test code
+          cat clang_tidy.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > clang_tidy_filtered.log || true
+
+          # Remove duplicate entries
+          sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
+
+      - name: Print results
+        run: cat build/clang_tidy_output.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=github-check -name Clang-Tidy -level warning
+
+  include-what-you-use:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 13
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install llvm
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
+
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Install Include-What-You-Use
+        run: |
+          # Download Include-what-you-use
+          git clone https://github.com/include-what-you-use/include-what-you-use.git
+          cd "include-what-you-use"
+
+          # Checkout branch
+          git checkout clang_${{ env.LLVM_VERSION }}
+
+          # Build Include-what-you-use
+          mkdir build
+          cd build
+
+          cmake .. -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${{ env.LLVM_VERSION }} -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+
+          # Install Include-what-you-use
+          sudo make install
+
+      - name: Run Include-What-You-Use
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Configure
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+
+          # Run include-what-you-use
+          iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
+
+          # Filter out correct includes and generated code
+          cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
+
+      - name: Print results
+        run: cat build/iwyu_filtered.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=github-check -name include-what-you-use -level warning
+
+  cmake-lint:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install cmake-lint
+        run: |
+          sudo -H pip3 install --upgrade pip
+          sudo -H pip3 install cmake-format
+
+      - name: Run cmake-lint
+        run: |
+          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
+
+      - name: Print results
+        run: cat cmake_lint.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=github-check -name cmake-lint -level warning
+
+  pvs-studio:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 13
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - uses: reviewdog/action-setup@v1.0.2
+        with:
+          reviewdog_version: latest
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install clang
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
+
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Install PVS-Studio
+        run: |
+          wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
+          sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
+
+          sudo apt-get update -qq
+          sudo apt-get install -qq pvs-studio
+
+      - name: Run PVS-Studio
+        run: |
+          # Create build
+          mkdir build
+          cd build
+
+          # Configure
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+
+          # Create License
+          pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
+
+          # Run analysis
+          pvs-studio-analyzer analyze --threads $(nproc) --lic-file PVS-Studio.lic --output-file PVS-Studio.log --exclude-path ../external --disableLicenseExpirationCheck
+
+          # Convert to readable format
+          plog-converter --renderTypes errorfile PVS-Studio.log --analyzer "GA:1,2,3;OP:1,2,3;64:1,2,3;CS:1,2,3" --output PVS-Studio.err
+
+          # Filter out external libraries, test code and help message
+          cat PVS-Studio.err | grep -Ev "Phi/external|Phi/tests|https://www.viva64.com/en/w/" > PVS-Studio_filtered.err || true
+
+      - name: Print results
+        run: cat build/PVS-Studio_filtered.err
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name PVS-Studio -level warning

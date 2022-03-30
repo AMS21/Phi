@@ -1,0 +1,283 @@
+name: CodeCoverage
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ubuntu-20.04
+    env:
+      LCOV_VERSION: "1.15"
+      GCC_VERSION: "10"
+      LLVM_VERSION: "13"
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install tools
+        run: |
+          # Install lcov
+          mkdir lcov
+          wget --no-check-certificate -O - "https://github.com/linux-test-project/lcov/releases/download/v${{ env.LCOV_VERSION }}/lcov-${{ env.LCOV_VERSION }}.tar.gz" | tar --strip-components=1 -xz -C lcov
+          cd lcov
+          sudo make install
+
+          echo "$(pwd)/lcov/bin" >> $GITHUB_PATH
+
+          # Add clang repo
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+
+          # Update repo list
+          sudo apt-get update -m
+
+          # Install g++
+          sudo apt-get install g++-${{ env.GCC_VERSION }}
+
+          # Install clang/LLVM
+          sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
+
+      - name: Build coverage data (GCC)
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data (GCC)
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+          lcov --remove coverage.info "$(readlink -f external)/*" --output-file coverage.info # filter out third party libraries
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (GCC)
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: linux,gcc,${{ matrix.build_type }}
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
+
+      - name: Build coverage data (Clang)
+        run: |
+          # Create build directory
+          mkdir build-clang
+          cd build-clang
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/clang++-${{ env.LLVM_VERSION }}" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data (Clang)
+        run: |
+          cd build-clang
+
+          llvm-profdata-${{ env.LLVM_VERSION }} merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          find bin -type f -exec bash -c 'llvm-cov-${{ env.LLVM_VERSION }} show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
+
+          # List coverage data
+          find bin -type f -exec bash -c 'echo ${0}; llvm-cov-${{ env.LLVM_VERSION }} report ${0} -instr-profile=coverage.profdata' {} \;
+          cat coverage.info
+
+      - name: Upload coverage data (Clang)
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build-clang/coverage.profdata
+          flags: linux,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang++-${{ env.LLVM_VERSION }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
+
+  macos:
+    runs-on: macos-11
+    env:
+      GCC_VERSION: "11"
+      XCODE_VERSION: "13.2"
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install tools
+        run: |
+          # GCC
+          brew install gcc@${{ env.GCC_VERSION }} lcov
+
+          # XCode
+          ls -ls /Applications/
+          sudo xcode-select -switch /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+
+      - name: Build coverage data (GCC)
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="g++-${{ env.GCC_VERSION }}" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data (GCC)
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+          lcov --remove coverage.info "/Applications/*" --output-file coverage.info # filter out XCode headers
+          lcov --remove coverage.info "*/Phi/external/*" --output-file coverage.info # filter out third party libraries
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (GCC)
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: macos,gcc,${{ matrix.build_type }}
+          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
+
+      - name: Build coverage data (Clang)
+        run: |
+          # Create build directory
+          mkdir build-clang
+          cd build-clang
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="clang++" ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data (Clang)
+        run: |
+          cd build-clang
+
+          xcrun llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          find bin -type f -exec bash -c 'xcrun llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
+
+          # List coverage data
+          find bin -type f -exec bash -c 'echo ${0}; xcrun llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
+          cat coverage.info
+
+      - name: Upload coverage data (Clang)
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build-clang/coverage.info
+          flags: macos,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang++-${{ env.XCODE_VERSION }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
+
+  windows:
+    runs-on: windows-latest
+    env:
+      LLVM_PROFILE_FILE: "profile-%p.profraw"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: ["Debug", "RelWithDebInfo", "Release"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+        with:
+          submodules: recursive
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.22.2
+
+      - name: Install tools
+        run: |
+          # Install scoop
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          # Required since CI runner is admin
+          # See https://github.com/ScoopInstaller/Install#for-admin
+          .\install.ps1 -RunAsAdmin
+
+          scoop install llvm ninja --global
+
+          echo "CXX="clang++"" >> $GITHUB_ENV
+          echo "C:\ProgramData\scoop\apps\llvm\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Build coverage data
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Build it
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data
+        shell: bash
+        run: |
+          cd build
+
+          llvm-profdata merge -sparse $(find . -iname "*.profraw" -type f) -o coverage.profdata
+          find bin -type f -iname '*.exe' -exec bash -c 'llvm-cov show ${0} -instr-profile=coverage.profdata -show-expansions -show-regions -show-line-counts -use-color=false >> coverage.info' {} \;
+
+          # List coverage data
+          find bin -type f -iname '*.exe' -exec bash -c 'echo ${0}; llvm-cov report ${0} -instr-profile=coverage.profdata' {} \;
+          cat coverage.info
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./build/coverage.info
+          flags: windows,clang,${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang-${{ matrix.build_type }}
+          fail_ci_if_error: true

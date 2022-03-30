@@ -17,7 +17,7 @@ jobs:
       UBSAN_OPTIONS: "print_stacktrace=1:report_error_type=1"
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         cfg:
           # gcc-8
