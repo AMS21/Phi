@@ -350,10 +350,10 @@ TEST_CASE("is_trivial")
 #endif
     test_is_not_trivial<Tracked>();
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_BELOW(CLANG, 11, 0, 0) ||     \
-        PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
+        PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     // TODO: Investigate why clang, GCC and MSVC disagree here so much
     test_is_trivial<TrapConstructible>();
-#elif PHI_COMPILER_IS(WINCLANG)
+#elif PHI_COMPILER_IS(WINCLANG) || PHI_COMPILER_IS(APPLECLANG)
     SKIP_CHECK();
 #else
     test_is_not_trivial<TrapConstructible>();
