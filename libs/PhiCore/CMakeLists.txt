@@ -209,8 +209,8 @@ file(
   "include/phi/preprocessor/stringify.hpp"
   "include/phi/preprocessor/versioning.hpp"
   # text
-  "include/phi/ascii_char.hpp"
-  "include/phi/char_traits.hpp"
+  "include/phi/text/ascii_char.hpp"
+  "include/phi/text/char_traits.hpp"
   "include/phi/text/is_alpha_numeric.hpp"
   # type_traits/detail
   "include/phi/type_traits/detail/invoke_impl.hpp"

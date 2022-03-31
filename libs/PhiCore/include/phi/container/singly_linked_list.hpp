@@ -314,7 +314,7 @@ public:
 
     singly_linked_list() noexcept
         : m_Head{nullptr}
-        , m_Tail(nullptr)
+        , m_Tail{nullptr}
     {}
 
     explicit singly_linked_list(size_type count);
