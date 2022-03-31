@@ -79,6 +79,8 @@ file(
   "src/preprocessor/versioning.test.cpp"
   # selftest
   "src/selftest/constexpr_helper.test.cpp"
+  # text
+  "src/text/is_alpha_numeric.test.cpp"
   # type_traits
   "src/type_traits/detail/nat.test.cpp"
   "src/type_traits/detail/yes_no_type.test.cpp"

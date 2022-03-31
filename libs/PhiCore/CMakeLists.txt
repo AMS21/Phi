@@ -211,6 +211,7 @@ file(
   # text
   "include/phi/ascii_char.hpp"
   "include/phi/char_traits.hpp"
+  "include/phi/text/is_alpha_numeric.hpp"
   # type_traits/detail
   "include/phi/type_traits/detail/invoke_impl.hpp"
   "include/phi/type_traits/detail/nat.hpp"
