@@ -17,7 +17,7 @@ void test_is_not_alpha_numeric(const char c) noexcept
 
 TEST_CASE("is_alpha_numeric")
 {
-    for (char c{0}; c < 47; ++c)
+    for (char c{0}; c <= 47; ++c)
     {
         test_is_not_alpha_numeric(c);
     }
