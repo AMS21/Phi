@@ -357,10 +357,10 @@ TEST_CASE("is_pod")
     test_is_pod<DeletedExplicitTo<float>>();
     test_is_pod<DeletedExplicitTo<Class>>();
     test_is_not_pod<Ellipsis>();
-#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(EMCC)
-    test_is_not_pod<DeletedEllipsis>();
-#else
+#if PHI_COMPILER_IS(GCC)
     test_is_pod<DeletedEllipsis>();
+#else
+    test_is_not_pod<DeletedEllipsis>();
 #endif
     test_is_not_pod<CopyConsOnlyType>();
     test_is_not_pod<MoveConsOnlyType>();

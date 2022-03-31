@@ -156,6 +156,9 @@ namespace detail
 
     // bullet 7
 
+    PHI_CLANG_SUPPRESS_WARNING_PUSH()
+    PHI_CLANG_SUPPRESS_WARNING("-Wsign-conversion")
+
     template <typename FunctionPointerT, typename... ArgsT>
     inline constexpr auto invoke_impl(FunctionPointerT&& f, ArgsT&&... args) noexcept(
             noexcept(static_cast<FunctionPointerT&&>(f)(static_cast<ArgsT&&>(args)...)))
@@ -163,6 +166,8 @@ namespace detail
     {
         return static_cast<FunctionPointerT&&>(f)(static_cast<ArgsT&&>(args)...);
     }
+
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 
     template <typename ReturnT, typename FunctionPointerT, typename... ArgsT>
     struct invokable_r_impl
