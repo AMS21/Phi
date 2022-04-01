@@ -214,6 +214,7 @@ file(
   "include/phi/text/is_alpha_numeric.hpp"
   "include/phi/text/is_alpha.hpp"
   "include/phi/text/is_binary_digit.hpp"
+  "include/phi/text/is_blank.hpp"
   "include/phi/text/is_control.hpp"
   "include/phi/text/is_digit.hpp"
   "include/phi/text/is_graphical_character.hpp"
