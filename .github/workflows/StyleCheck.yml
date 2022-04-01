@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-          token: ${{ secrets.PAT }}
 
       - uses: actions/setup-python@v3
         with:
@@ -57,7 +56,7 @@ jobs:
           find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
           # Fix trailing white spaces
           find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'sed -i '' -e's/[[:space:]]*$//' "$0"' {} \;
-          # Ensure files end with new line
+          # Ensure files end with a new line
           find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
 
       - name: Fix encoding
@@ -89,40 +88,19 @@ jobs:
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -fix -header-filter ".*" -checks="-*,bugprone-argument-comment,bugprone-reserved-identifier,cppcoreguidelines-pro-type-cstyle-cast,modernize-deprecated-headers,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-nullptr,modernize-use-override,modernize-use-using,readability-braces-around-statements,readability-container-size-empty,readability-identifier-naming,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-make-member-function-const,readability-qualified-auto,readability-redundant-control-flow,readability-simplify-boolean-expr"
 
-          # Clang tidy likes to "fix" things in externals libraries so we need to reset them
-          cd ../external/spdlog
-          git reset --hard
-
       - name: Display diff
         run: git diff
 
-      - name: Build
+      - name: Report result
         run: |
-          # The applied fixes might break the code so make sure it still compiles
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DPHI_ENABLE_CONSTEXPRTESTS=On -DPHI_ENABLE_FAILURE_TESTS=On
-          cmake --build . --clean-first
-          ctest . -C Debug
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v4
-        with:
-          gpg-private-key: ${{ secrets.BOT_PRIVATE_KEY }}
-          passphrase: ${{ secrets.BOT_KEY_PASSPHRASE }}
-          git-user-signingkey: true
-          git-commit-gpgsign: true
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4.14.0
-        continue-on-error: true  # Ignore errors
-        with:
-          commit_message: Applied automatic formatting and fixes
-          branch: ${{ github.head_ref }}
-          commit_options: '-S --no-verify --signoff'
-          commit_user_name: Phi Code Quality Bot
-          commit_user_email: AMS21Bot.github@gmail.com
-          commit_author: AMS21Bot <AMS21Bot.github@gmail.com>
-          file_pattern: .github/* .licenses/* docs/* examples/* external/CMakeLists.txt libs/* scripts/* tests/* tools/* .cmake-format.yaml CMakeLists.txt README.md
+          git_dirty=$(git status -s)
+          if [ -z "$git_dirty" ]; then
+            echo Everything seems to be in order
+          else
+            echo Formatting problems found!
+            echo Check 'Display diff' for further information
+            exit 1
+          fi
 
   misspell:
     runs-on: ubuntu-20.04
