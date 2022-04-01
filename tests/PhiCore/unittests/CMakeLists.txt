@@ -82,6 +82,7 @@ file(
   # text
   "src/text/is_alpha_numeric.test.cpp"
   "src/text/is_alpha.test.cpp"
+  "src/text/is_lower_case.test.cpp"
   # type_traits
   "src/type_traits/detail/nat.test.cpp"
   "src/type_traits/detail/yes_no_type.test.cpp"
