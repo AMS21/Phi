@@ -82,6 +82,7 @@ file(
   # text
   "src/text/is_alpha_numeric.test.cpp"
   "src/text/is_alpha.test.cpp"
+  "src/text/is_ascii.test.cpp"
   "src/text/is_binary_digit.test.cpp"
   "src/text/is_blank.test.cpp"
   "src/text/is_control.test.cpp"
