@@ -15,7 +15,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 PHI_NODISCARD constexpr phi::boolean is_blank(const char c) noexcept
 {
     // NOLINTNEXTLINE(readability-implicit-bool-conversion)
-    return static_cast<bool>(c == '\t' | c == ' ');
+    return static_cast<bool>((c == '\t') | (c == ' '));
 }
 
 DETAIL_PHI_END_NAMESPACE()
