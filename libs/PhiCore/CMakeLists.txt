@@ -221,6 +221,7 @@ file(
   "include/phi/text/is_hex_digit.hpp"
   "include/phi/text/is_lower_case.hpp"
   "include/phi/text/is_octal_digit.hpp"
+  "include/phi/text/is_printable.hpp"
   "include/phi/text/is_space.hpp"
   "include/phi/text/is_upper_case.hpp"
   # type_traits/detail
