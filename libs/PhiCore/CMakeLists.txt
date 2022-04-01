@@ -213,6 +213,7 @@ file(
   "include/phi/text/char_traits.hpp"
   "include/phi/text/is_alpha_numeric.hpp"
   "include/phi/text/is_alpha.hpp"
+  "include/phi/text/is_control.hpp"
   "include/phi/test/is_digit.hpp"
   "include/phi/text/is_hex_digit.hpp"
   "include/phi/text/is_lower_case.hpp"
