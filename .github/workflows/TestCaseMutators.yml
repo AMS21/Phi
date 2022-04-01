@@ -20,7 +20,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install cmake
-        uses: lukka/get-cmake@v3.22.2
+        uses: lukka/get-cmake@v3.23.0
 
       - name: Install clang
         run: |
