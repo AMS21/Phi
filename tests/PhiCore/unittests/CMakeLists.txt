@@ -85,6 +85,7 @@ file(
   "src/text/is_digit.test.cpp"
   "src/text/is_hex_digit.test.cpp"
   "src/text/is_lower_case.test.cpp"
+  "src/text/is_octal_digit.test.cpp"
   "src/text/is_upper_case.test.cpp"
   # type_traits
   "src/type_traits/detail/nat.test.cpp"
