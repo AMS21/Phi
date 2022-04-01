@@ -18,7 +18,7 @@ TEST_CASE("to_lower_case")
 
     for (char c{65}; c <= 90; ++c)
     {
-        test_to_lower_case(c, c + 32);
+        test_to_lower_case(c, static_cast<char>(c + 32));
     }
 
     for (char c{91}; c <= 126; ++c)
