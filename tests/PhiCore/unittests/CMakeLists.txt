@@ -85,6 +85,7 @@ file(
   "src/text/is_binary_digit.test.cpp"
   "src/text/is_control.test.cpp"
   "src/text/is_digit.test.cpp"
+  "src/text/is_graphical_character.test.cpp"
   "src/text/is_hex_digit.test.cpp"
   "src/text/is_lower_case.test.cpp"
   "src/text/is_octal_digit.test.cpp"

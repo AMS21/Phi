@@ -216,6 +216,7 @@ file(
   "include/phi/text/is_binary_digit.hpp"
   "include/phi/text/is_control.hpp"
   "include/phi/text/is_digit.hpp"
+  "include/phi/text/is_graphical_character.hpp"
   "include/phi/text/is_hex_digit.hpp"
   "include/phi/text/is_lower_case.hpp"
   "include/phi/text/is_octal_digit.hpp"
