@@ -7,11 +7,13 @@ void test_is_binary_digit(const char c) noexcept
 {
     CHECK(phi::is_binary_digit(c));
     CHECK(std::isdigit(c));
+    CHECK_NOEXCEPT(phi::is_binary_digit(c));
 }
 
 void test_is_not_binary_digit(const char c) noexcept
 {
     CHECK_FALSE(phi::is_binary_digit(c));
+    CHECK_NOEXCEPT(phi::is_binary_digit(c));
 }
 
 TEST_CASE("is_binary_digit")

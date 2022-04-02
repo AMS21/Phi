@@ -7,12 +7,14 @@ void test_is_punctuation(const char c) noexcept
 {
     CHECK(phi::is_punctuation(c));
     CHECK(std::ispunct(c));
+    CHECK_NOEXCEPT(phi::is_punctuation(c));
 }
 
 void test_is_not_punctuation(const char c) noexcept
 {
     CHECK_FALSE(phi::is_punctuation(c));
     CHECK_FALSE(std::ispunct(c));
+    CHECK_NOEXCEPT(phi::is_punctuation(c));
 }
 
 TEST_CASE("is_punctuation")

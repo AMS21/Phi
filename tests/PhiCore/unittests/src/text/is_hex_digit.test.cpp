@@ -7,12 +7,14 @@ void test_is_hex_digit(const char c) noexcept
 {
     CHECK(phi::is_hex_digit(c));
     CHECK(std::isxdigit(c));
+    CHECK_NOEXCEPT(phi::is_hex_digit(c));
 }
 
 void test_is_not_hex_digit(const char c) noexcept
 {
     CHECK_FALSE(phi::is_hex_digit(c));
     CHECK_FALSE(std::isxdigit(c));
+    CHECK_NOEXCEPT(phi::is_hex_digit(c));
 }
 
 TEST_CASE("is_hex_digit")

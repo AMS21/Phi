@@ -7,12 +7,14 @@ void test_is_graphical_character(const char c) noexcept
 {
     CHECK(phi::is_graphical_character(c));
     CHECK(std::isgraph(c));
+    CHECK_NOEXCEPT(phi::is_graphical_character(c));
 }
 
 void test_is_not_graphical_character(const char c) noexcept
 {
     CHECK_FALSE(phi::is_graphical_character(c));
     CHECK_FALSE(std::isgraph(c));
+    CHECK_NOEXCEPT(phi::is_graphical_character(c));
 }
 
 TEST_CASE("is_graphical_character")

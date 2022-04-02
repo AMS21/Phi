@@ -7,12 +7,14 @@ void test_is_digit(const char c) noexcept
 {
     CHECK(phi::is_digit(c));
     CHECK(std::isdigit(c));
+    CHECK_NOEXCEPT(phi::is_digit(c));
 }
 
 void test_is_not_digit(const char c) noexcept
 {
     CHECK_FALSE(phi::is_digit(c));
     CHECK_FALSE(std::isdigit(c));
+    CHECK_NOEXCEPT(phi::is_digit(c));
 }
 
 TEST_CASE("is_digit")
@@ -27,7 +29,7 @@ TEST_CASE("is_digit")
         test_is_digit(c);
     }
 
-    for (char c{58}; c < 127; ++c)
+    for (char c{58}; c <= 126; ++c)
     {
         test_is_not_digit(c);
     }

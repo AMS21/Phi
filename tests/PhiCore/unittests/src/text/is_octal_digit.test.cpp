@@ -7,11 +7,13 @@ void test_is_octal_digit(const char c) noexcept
 {
     CHECK(phi::is_octal_digit(c));
     CHECK(std::isdigit(c));
+    CHECK_NOEXCEPT(phi::is_octal_digit(c));
 }
 
 void test_is_not_octal_digit(const char c) noexcept
 {
     CHECK_FALSE(phi::is_octal_digit(c));
+    CHECK_NOEXCEPT(phi::is_octal_digit(c));
 }
 
 TEST_CASE("is_octal_digit")
@@ -26,7 +28,7 @@ TEST_CASE("is_octal_digit")
         test_is_octal_digit(c);
     }
 
-    for (char c{56}; c < 127; ++c)
+    for (char c{56}; c <= 126; ++c)
     {
         test_is_not_octal_digit(c);
     }

@@ -7,12 +7,14 @@ void test_is_space(const char c) noexcept
 {
     CHECK(phi::is_space(c));
     CHECK(std::isspace(c));
+    CHECK_NOEXCEPT(phi::is_space(c));
 }
 
 void test_is_not_space(const char c) noexcept
 {
     CHECK_FALSE(phi::is_space(c));
     CHECK_FALSE(std::isspace(c));
+    CHECK_NOEXCEPT(phi::is_space(c));
 }
 
 TEST_CASE("is_space")

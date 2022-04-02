@@ -5,11 +5,13 @@
 void test_is_ascii(const char c) noexcept
 {
     CHECK(phi::is_ascii(c));
+    CHECK_NOEXCEPT(phi::is_ascii(c));
 }
 
 void test_is_not_ascii(const char c) noexcept
 {
     CHECK_FALSE(phi::is_ascii(c));
+    CHECK_NOEXCEPT(phi::is_ascii(c));
 }
 
 TEST_CASE("is_ascii")

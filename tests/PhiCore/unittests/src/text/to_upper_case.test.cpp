@@ -7,6 +7,7 @@ void test_to_upper_case(char original, char expected)
 {
     CHECK(phi::to_upper_case(original) == expected);
     CHECK(std::toupper(original) == expected);
+    CHECK_NOEXCEPT(phi::to_upper_case(original));
 }
 
 TEST_CASE("to_upper_case")

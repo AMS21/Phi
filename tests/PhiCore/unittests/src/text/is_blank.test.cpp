@@ -7,12 +7,14 @@ void test_is_blank(const char c) noexcept
 {
     CHECK(phi::is_blank(c));
     CHECK(std::isblank(c));
+    CHECK_NOEXCEPT(phi::is_blank(c));
 }
 
 void test_is_not_blank(const char c) noexcept
 {
     CHECK_FALSE(phi::is_blank(c));
     CHECK_FALSE(std::isblank(c));
+    CHECK_NOEXCEPT(phi::is_blank(c));
 }
 
 TEST_CASE("is_blank")

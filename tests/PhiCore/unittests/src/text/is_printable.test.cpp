@@ -7,12 +7,14 @@ void test_is_printable(const char c) noexcept
 {
     CHECK(phi::is_printable(c));
     CHECK(std::isprint(c));
+    CHECK_NOEXCEPT(phi::is_printable(c));
 }
 
 void test_is_not_printable(const char c) noexcept
 {
     CHECK_FALSE(phi::is_printable(c));
     CHECK_FALSE(std::isprint(c));
+    CHECK_NOEXCEPT(phi::is_printable(c));
 }
 
 TEST_CASE("is_printable")

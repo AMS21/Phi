@@ -7,6 +7,7 @@ void test_to_lower_case(char original, char expected)
 {
     CHECK(phi::to_lower_case(original) == expected);
     CHECK(std::tolower(original) == expected);
+    CHECK_NOEXCEPT(phi::to_lower_case(original));
 }
 
 TEST_CASE("to_lower_case")

@@ -7,12 +7,14 @@ void test_is_lower_case(const char c) noexcept
 {
     CHECK(phi::is_lower_case(c));
     CHECK(std::islower(c));
+    CHECK_NOEXCEPT(phi::is_lower_case(c));
 }
 
 void test_is_not_lower_case(const char c) noexcept
 {
     CHECK_FALSE(phi::is_lower_case(c));
     CHECK_FALSE(std::islower(c));
+    CHECK_NOEXCEPT(phi::is_lower_case(c));
 }
 
 TEST_CASE("is_lower_case")
@@ -27,7 +29,7 @@ TEST_CASE("is_lower_case")
         test_is_lower_case(c);
     }
 
-    for (char c{123}; c < 127; ++c)
+    for (char c{123}; c <= 126; ++c)
     {
         test_is_not_lower_case(c);
     }

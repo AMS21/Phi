@@ -7,12 +7,14 @@ void test_is_control(const char c) noexcept
 {
     CHECK(phi::is_control(c));
     CHECK(std::iscntrl(c));
+    CHECK_NOEXCEPT(phi::is_control(c));
 }
 
 void test_is_not_control(const char c) noexcept
 {
     CHECK_FALSE(phi::is_control(c));
     CHECK_FALSE(std::iscntrl(c));
+    CHECK_NOEXCEPT(phi::is_control(c));
 }
 
 TEST_CASE("is_control")
