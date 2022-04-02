@@ -169,7 +169,7 @@ install_clang_tidy() {
     add_llvm_apt $1
 
     echo "-- Installing clang-tidy-$1..."
-    sudo apt-get install clang-tidy-$1
+    sudo apt-get install clang-tidy-$1 -y
 
     # Verify
     echo "-- Verifying clang-tidy-$1..."
