@@ -36,13 +36,12 @@ install_gcovr() {
 
     echo "-- Installing gcovr..."
     sudo -H pip3 install gcovr
+    echo "-- Installing gcovr done"
 
     # Verify
     echo "-- Verifying gcovr..."
     gcovr --version
     echo "-- Verifying gcovr done"
-
-    echo "-- Installing gcovr done"
 }
 
 install_cmake_format() {
@@ -50,23 +49,23 @@ install_cmake_format() {
 
     echo "-- Installing cmake-format..."
     sudo -H pip3 install cmake-format
+    echo "-- Installing cmake-format done"
 
     # Verify
     echo "-- Verifying cmake-format..."
     cmake-format --version
     echo "-- Verifying cmake-format done"
-
-    echo "-- Installing cmake-format done"
 }
 
 # Expects first paramter to be the requested version
 install_clang() {
-    echo "-- Installing clang-$1..."
 
     add_llvm_apt $1
 
     # Install clang
+    echo "-- Installing clang-$1..."
     sudo apt-get install clang-$1 clang++-$1 g++-multilib -y
+    echo "-- Installing clang-$1 done"
 
     # Verify versions
     echo "-- Verify clang-$1..."
@@ -86,13 +85,13 @@ install_clang() {
     echo "CC=$CLANG" >>$GITHUB_ENV
     echo "CXX=$CLANGXX" >>$GITHUB_ENV
 
-    echo "-- Installing clang-$1 done"
 }
 
 # Expects first parameter to the the requested version
 install_gcc() {
     echo "-- Installing gcc-$1..."
     sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" -y
+    echo "-- Installing gcc-$1 done"
 
     # Verify versions
     echo "-- Verify gcc-$1..."
@@ -112,7 +111,6 @@ install_gcc() {
     echo "CC=$GCC" >>$GITHUB_ENV
     echo "CXX=$GXX" >>$GITHUB_ENV
 
-    echo "-- Installing gcc-$1 done"
 }
 
 install_valgrind() {
@@ -164,7 +162,7 @@ install_cppcheck() {
     cd $root_dir
 }
 
-# Expects first parameter to the the requested version
+# Expects first parameter to the requested version
 install_clang_tidy() {
     add_llvm_apt $1
 
