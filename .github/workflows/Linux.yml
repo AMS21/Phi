@@ -88,6 +88,14 @@ jobs:
           - { os: ubuntu-20.04, compiler: clang++, compiler_version: "13", dynamic_test: "tsan" }
           - { os: ubuntu-20.04, compiler: clang++, compiler_version: "13", dynamic_test: "ubsan" }
           - { os: ubuntu-20.04, compiler: clang++, compiler_version: "13", dynamic_test: "valgrind" }
+          # clang-14
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "asan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "lsan" }
+          #- { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "msan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "tsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "ubsan" }
+          - { os: ubuntu-20.04, compiler: clang++, compiler_version: "14", dynamic_test: "valgrind" }
 
     steps:
       - name: Checkout

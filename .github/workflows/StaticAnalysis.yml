@@ -1,12 +1,18 @@
 name: StaticAnalysis
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+  schedule:
+    - cron: '0 4 * * 1'
 
 jobs:
   cppcheck:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
 
     steps:
       - name: Checkout
@@ -81,7 +87,7 @@ jobs:
   clang-tidy:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
 
     steps:
       - name: Checkout
@@ -140,7 +146,7 @@ jobs:
   include-what-you-use:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -249,7 +255,7 @@ jobs:
   pvs-studio:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -312,3 +318,225 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name PVS-Studio -level warning
+
+  code-ql:
+    runs-on: ubuntu-20.04
+
+    env:
+      GCC_VERSION: "11"
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      CTEST_PARALLEL_LEVEL: "2"
+      CTEST_OUTPUT_ON_FAILURE: "ON"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      # Override language selection by uncommenting this and choosing your languages
+      with:
+        languages: cpp
+
+    - name: Install
+      run: |
+        # Update repo list
+        sudo apt-get update -m
+
+        # Install g++
+        sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
+
+        # export compiler
+        echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+
+  mull:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 14
+      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - name: Install cmake
+        uses: lukka/get-cmake@v3.23.0
+
+      - name: Install clang
+        run: |
+          # Add repository
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+
+          # Install
+          sudo apt-get update -m
+          sudo apt-get install clang-${{ env.LLVM_VERSION }}
+
+          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+      - name: Install mull
+        run: |
+          curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
+
+          sudo apt-get update
+          sudo apt-get install mull-${{ env.LLVM_VERSION }}
+
+          # Verify everythings works
+          mull-cxx-${{ env.LLVM_VERSION }} --version
+
+      - name: Get clang include paths
+        run: |
+          clang++-${{ env.LLVM_VERSION }} -x c++ -c /dev/null --verbose &> clang_includes.txt
+          grep -ozP '(?s)#include <...> search starts here:\n\K.*?(?=\nEnd of search list.\Z)' clang_includes.txt | head -c -1 | sed -e "s/.*/-isystem&/" | tr '\n' ' ' > clang_includes_filtered.txt
+
+          cat clang_includes.txt
+          echo "CLANG_INCLUDES=$(cat clang_includes_filtered.txt)" >> $GITHUB_ENV
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: |
+          cd build
+          cmake --build .
+
+      - name: Run mull
+        run: |
+          cd build
+          find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; 2>&1 | tee --append mull_report.log
+
+          # Remove duplicate entries
+          sort mull_report.log | uniq -d > mull_report_filtered.log
+
+      - name: Print results
+        run: cat build/mull_report_filtered.log
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name mull -level warning
+
+  msvc-code-analysis:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build -p
+          cd build
+
+          # Configure
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Build
+        run: |
+          cd build
+          cmake --build .
+
+      - name: Initialize MSVC Code Analysis
+        uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99
+        # Provide a unique ID to access the sarif output path
+        id: run-analysis
+        with:
+          cmakeBuildDirectory: build
+          # Ruleset file that will determine what checks will be run
+          ruleset: NativeRecommendedRules.ruleset
+
+      # Upload SARIF file to GitHub Code Scanning Alerts
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.run-analysis.outputs.sarif }}
+
+      # Upload SARIF file as an Artifact to download and view
+      - name: Upload SARIF as an Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-file
+          path: ${{ steps.run-analysis.outputs.sarif }}
+
+  dev-skim:
+    name: DevSkim
+    runs-on: ubuntu-20.04
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run DevSkim scanner
+        uses: microsoft/DevSkim-Action@v1
+
+      - name: Upload DevSkim scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: devskim-results.sarif
+
+  codacy-security-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
+    name: Codacy Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          verbose: true
+          output: results.sarif
+          format: sarif
+          # Adjust severity of non-security issues
+          gh-code-scanning-compat: true
+          # Force 0 exit code to allow SARIF file generation
+          # This will handover control about PR rejection to the GitHub side
+          max-allowed-issues: 2147483647
+
+      # Upload the SARIF file generated in the previous step
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif

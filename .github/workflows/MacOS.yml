@@ -181,6 +181,7 @@ jobs:
       - name: Build Debug
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=Debug
           cmake --build . --clean-first
           ctest . -C Debug
@@ -188,6 +189,7 @@ jobs:
       - name: Build RelWithDebInfo
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
           ctest . -C RelWithDebInfo
@@ -196,6 +198,7 @@ jobs:
         if: matrix.cfg.dynamic_test == ''
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=Release -DPHI_PEDANTIC_WARNINGS=OFF
           cmake --build . --clean-first
           ctest . -C Release

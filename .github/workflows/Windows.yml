@@ -113,6 +113,7 @@ jobs:
       - name: Build RelWithDebInfo
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --config "RelWithDebInfo" --clean-first
           ctest . -C RelWithDebInfo
@@ -120,6 +121,7 @@ jobs:
       - name: Build Release
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config "Release" --clean-first
           ctest . -C Release
