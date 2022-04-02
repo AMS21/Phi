@@ -27,37 +27,10 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@v3.23.0
 
-      - name: Install clang
-        run: |
-          # Add repository
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-
-          # Install
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install cppcheck
+      - name: Install
         env:
           CPPCHECK_VERSION: "2.7"
-        run: |
-          mkdir cppcheck
-          wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
-
-          # Build CppCheck
-          cd cppcheck
-
-          mkdir build
-          cd build
-
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=ON
-          cmake --build . -j2
-
-          # Install CppCheck
-          sudo make install
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} cppcheck-${{ env.CPPCHECK_VERSION }}
 
       - name: Configure
         run: |
@@ -106,15 +79,8 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@v3.23.0
 
-      - name: Install clang tidy
-        run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+      - name: Install
+        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }}
 
       - name: Run clang-tidy
         run: |
@@ -166,34 +132,8 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@v3.23.0
 
-      - name: Install llvm
-        run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install Include-What-You-Use
-        run: |
-          # Download Include-what-you-use
-          git clone https://github.com/include-what-you-use/include-what-you-use.git
-          cd "include-what-you-use"
-
-          # Checkout branch
-          git checkout clang_${{ env.LLVM_VERSION }}
-
-          # Build Include-what-you-use
-          mkdir build
-          cd build
-
-          cmake .. -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${{ env.LLVM_VERSION }} -DCMAKE_BUILD_TYPE=Release
-          cmake --build .
-
-          # Install Include-what-you-use
-          sudo make install
+      - name: Install
+        run: scripts/ci/InstallTools.sh iwyu-${{ env.LLVM_VERSION }}
 
       - name: Run Include-What-You-Use
         run: |
@@ -234,10 +174,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install cmake-lint
-        run: |
-          sudo -H pip3 install --upgrade pip
-          sudo -H pip3 install cmake-format
+      - name: Install
+        run: scripts/ci/InstallTools.sh cmake-format
 
       - name: Run cmake-lint
         run: |
@@ -271,23 +209,8 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@v3.23.0
 
-      - name: Install clang
-        run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install PVS-Studio
-        run: |
-          wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
-          sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
-
-          sudo apt-get update -qq
-          sudo apt-get install -qq pvs-studio
+      - name: Install
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} pvs-studio
 
       - name: Run PVS-Studio
         run: |
