@@ -110,48 +110,11 @@ jobs:
       - name: Install cmake
         uses: lukka/get-cmake@v3.23.0
 
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
       - name: Install
-        run: |
-          # Determine os name
-          if [ "${{ matrix.cfg.os }}" = "ubuntu-20.04" ]; then
-            os_name="focal"
-          elif [ "${{ matrix.cfg.os }}" = "ubuntu-18.04" ]; then
-            os_name="bionic"
-          elif [ "${{ matrix.cfg.os }}" = "ubunut-16.04" ]; then
-            os_name="xenial"
-          else
-            # Unknown os version
-            exit 1
-          fi
-
-          # Adding repositories
-
-          # Add clang repo
-          if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
-            wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-            sudo add-apt-repository "deb http://apt.llvm.org/$os_name/ llvm-toolchain-$os_name-${{ matrix.cfg.compiler_version }} main"
-          fi
-
-          # Update repo list
-          sudo apt-get update -m
-
-          # Install clang++
-          if [ "${{ matrix.cfg.compiler }}" = "clang++" ]; then
-            sudo apt-get install "clang-${{ matrix.cfg.compiler_version }}" g++-multilib -y
-          fi
-
-          # Install g++
-          if [ "${{ matrix.cfg.compiler }}" = "g++" ]; then
-            sudo apt-get install "g++-${{ matrix.cfg.compiler_version }}" "g++-${{ matrix.cfg.compiler_version }}-multilib" -y
-          fi
-
-          # Install valgrind
-          if [ "${{ matrix.cfg.dynamic_test }}" = "valgrind" ]; then
-            sudo apt-get install valgrind
-          fi
-
-          # export compiler
-          echo "CXX=${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
+        run: scripts/ci/InstallTools.sh ${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }} gcovr valgrind
 
       - name: Configure build directory
         run: |
