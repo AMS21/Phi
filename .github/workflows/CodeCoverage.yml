@@ -1,13 +1,15 @@
 name: CodeCoverage
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
 
 jobs:
   linux:
     runs-on: ubuntu-20.04
     env:
-      LCOV_VERSION: "1.15"
-      GCC_VERSION: "10"
       LLVM_VERSION: "14"
       LLVM_PROFILE_FILE: "profile-%p.profraw"
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -30,14 +32,6 @@ jobs:
 
       - name: Install tools
         run: |
-          # Install lcov
-          mkdir lcov
-          wget --no-check-certificate -O - "https://github.com/linux-test-project/lcov/releases/download/v${{ env.LCOV_VERSION }}/lcov-${{ env.LCOV_VERSION }}.tar.gz" | tar --strip-components=1 -xz -C lcov
-          cd lcov
-          sudo make install
-
-          echo "$(pwd)/lcov/bin" >> $GITHUB_PATH
-
           # Add clang repo
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
@@ -50,37 +44,6 @@ jobs:
 
           # Install clang/LLVM
           sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
-
-      - name: Build coverage data (GCC)
-        run: |
-          # Create build directory
-          mkdir build
-          cd build
-
-          # Build it
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=ON -DCMAKE_CXX_COMPILER="/usr/bin/g++-${{ env.GCC_VERSION }}" ..
-          cmake --build . --clean-first
-
-          # Generate coverage data
-          ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data (GCC)
-        run: |
-          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
-          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
-          lcov --remove coverage.info "$(readlink -f external)/*" --output-file coverage.info # filter out third party libraries
-
-          # List debug info
-          lcov --list coverage.info # debug info
-
-      - name: Upload coverage data (GCC)
-        uses: codecov/codecov-action@v2.1.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.info
-          flags: linux,gcc,${{ matrix.build_type }}
-          name: ${{ runner.os }}-g++-${{ env.GCC_VERSION }}-${{ matrix.build_type }}
-          fail_ci_if_error: true
 
       - name: Build coverage data (Clang)
         run: |

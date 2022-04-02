@@ -1,6 +1,10 @@
 name: MacOS
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
 
 jobs:
   Build:
@@ -145,6 +149,7 @@ jobs:
           cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
       - name: Configure dynamic analysis
+        if: matrix.cfg.sanitizer == 0
         run: |
           cd build
 

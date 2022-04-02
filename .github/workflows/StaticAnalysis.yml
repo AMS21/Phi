@@ -324,6 +324,7 @@ jobs:
 
     env:
       GCC_VERSION: "11"
+      LLVM_VERSION: "14"
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
       CTEST_PARALLEL_LEVEL: "2"
       CTEST_OUTPUT_ON_FAILURE: "ON"
@@ -343,19 +344,35 @@ jobs:
 
     - name: Install
       run: |
+        # Add clang repo
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+
         # Update repo list
         sudo apt-get update -m
 
         # Install g++
-        sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
+        sudo apt-get install g++-${{ env.GCC_VERSION }}
+
+        # Install clang/LLVM
+        sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
 
         # export compiler
         echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
 
-    - name: Autobuild
+    - name: Autobuild (GCC)
       uses: github/codeql-action/autobuild@v1
 
-    - name: Perform CodeQL Analysis
+    - name: Perform CodeQL Analysis (GCC)
+      uses: github/codeql-action/analyze@v1
+
+    - name: Switch compiler to clang
+      run: echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+
+    - name: Autobuild (clang)
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform CodeQL Analysis (clang)
       uses: github/codeql-action/analyze@v1
 
   mull:

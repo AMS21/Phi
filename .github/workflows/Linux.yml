@@ -1,6 +1,10 @@
 name: Linux
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
 
 jobs:
   Build:
@@ -156,28 +160,29 @@ jobs:
           cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
       - name: Configure dynamic analysis
+        if: matrix.cfg.sanitizer == 0
         run: |
           cd build
 
           # Address Sanitizer
           if [ "${{ matrix.cfg.dynamic_test }}" = "asan" ]; then
-            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -g"
+            cmake .. -DENABLE_SANITIZER_ADDRESS=ON            -DCMAKE_CXX_FLAGS="-fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope -fno-omit-frame-pointer -fno-common -fno-optimize-sibling-calls -fno-inline -fno-inline-functions -g3"
 
           # Leak Sanitizer
           elif [ "${{ matrix.cfg.dynamic_test }}" = "lsan" ]; then
-            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_LEAK=ON               -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -fno-common -fno-optimize-sibling-calls -fno-inline -fno-inline-functions -g3"
 
           # Memory Sanitizer
           elif [ "${{ matrix.cfg.dynamic_test }}" = "msan" ]; then
-            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_MEMORY=ON             -DCMAKE_CXX_FLAGS="-fsanitize-memory-track-origins=2 -fsanitize-memory-use-after-dtor -fno-omit-frame-pointer -fno-common -fno-optimize-sibling-calls -fno-inline -fno-inline-functions -g3"
 
           # Thread Sanitizer
           elif [ "${{ matrix.cfg.dynamic_test }}" = "tsan" ]; then
-            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_THREAD=ON             -DCMAKE_CXX_FLAGS="-gline-tables-only -gcolumn-info -fno-omit-frame-pointer -fno-common -fno-optimize-sibling-calls -fno-inline -fno-inline-functions -g3"
 
           # Undefined Behavior Sanitizer
           elif [ "${{ matrix.cfg.dynamic_test }}" = "ubsan" ]; then
-            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-omit-frame-pointer -g"
+            cmake .. -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DCMAKE_CXX_FLAGS="-fno-sanitize-recover=all -fno-omit-frame-pointer -fno-common -fno-optimize-sibling-calls -fno-inline -fno-inline-functions -g3"
 
           # Valgrind
           elif [ "${{ matrix.cfg.dynamic_test }}" = "valgrind" ]; then
@@ -192,6 +197,7 @@ jobs:
       - name: Build Debug
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=Debug
           cmake --build . --clean-first
           ctest . -C Debug
@@ -199,6 +205,7 @@ jobs:
       - name: Build RelWithDebInfo
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build . --clean-first
           ctest . -C RelWithDebInfo
@@ -206,6 +213,113 @@ jobs:
       - name: Build Release
         run: |
           cd build
+
           cmake .. -DCMAKE_BUILD_TYPE=Release
           cmake --build . --clean-first
           ctest . -C Release
+
+      - name: Prepare coverage generation
+        if: matrix.cfg.sanitizer == 0
+        env:
+          LCOV_VERSION: "1.15"
+        run: |
+          # Install lcov
+          mkdir lcov
+          wget --no-check-certificate -O - "https://github.com/linux-test-project/lcov/releases/download/v${{ env.LCOV_VERSION }}/lcov-${{ env.LCOV_VERSION }}.tar.gz" | tar --strip-components=1 -xz -C lcov
+          cd lcov
+          sudo make install
+
+          echo "$(pwd)/lcov/bin" >> $GITHUB_PATH
+
+      - name: Build coverage data (Debug)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Debug -DPHI_COVERAGE_BUILD=ON ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C Debug
+
+      - name: Process coverage data (Debug)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (Debug)
+        if: matrix.cfg.sanitizer == 0
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: ${{ runner.os }},${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }},Debug
+          name: ${{ runner.os }}-${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}-${{ env.GCC_VERSION }}-Debug
+          fail_ci_if_error: true
+
+      - name: Build coverage data (RelWithDebInfo)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPHI_COVERAGE_BUILD=ON ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C RelWithDebInfo
+
+      - name: Process coverage data (RelWithDebInfo)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (RelWithDebInfo)
+        if: matrix.cfg.sanitizer == 0
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: ${{ runner.os }},${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }},RelWithDebInfo
+          name: ${{ runner.os }}-${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}-${{ env.GCC_VERSION }}-RelWithDebInfo
+          fail_ci_if_error: true
+
+      - name: Build coverage data (Release)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          cd build
+
+          # Build it
+          cmake -DCMAKE_BUILD_TYPE=Release -DPHI_COVERAGE_BUILD=ON ..
+          cmake --build . --clean-first
+
+          # Generate coverage data
+          ctest . -C Release
+
+      - name: Process coverage data (Release)
+        if: matrix.cfg.sanitizer == 0
+        run: |
+          lcov --directory build --capture --output-file coverage.info --gcov-tool gcov-${{ env.GCC_VERSION }} # capture coverage info
+          lcov --remove coverage.info "/usr/*" --output-file coverage.info # filter out system
+
+          # List debug info
+          lcov --list coverage.info # debug info
+
+      - name: Upload coverage data (Release)
+        if: matrix.cfg.sanitizer == 0
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.info
+          flags: ${{ runner.os }},${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }},Release
+          name: ${{ runner.os }}-${{ matrix.cfg.compiler }}-${{ matrix.cfg.compiler_version }}-${{ env.GCC_VERSION }}-Release
+          fail_ci_if_error: true

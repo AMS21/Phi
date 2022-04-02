@@ -1,6 +1,12 @@
 name: StyleCheck
 
-on: pull_request
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches-ignore:
+      - 'dependabot/**'
 
 jobs:
   format:
