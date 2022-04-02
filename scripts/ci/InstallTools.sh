@@ -66,7 +66,7 @@ install_clang() {
     add_llvm_apt $1
 
     # Install clang
-    sudo apt-get install "clang-$1" g++-multilib -y
+    sudo apt-get install clang-$1 clang++-$1 g++-multilib -y
 
     # Verify versions
     echo "-- Verify clang-$1..."
@@ -80,6 +80,8 @@ install_clang() {
     # Export values
     echo "CLANG=clang-$1" >>$GITHUB_ENV
     echo "CLANGXX=clang++-$1" >>$GITHUB_ENV
+
+    echo "GCOV_EXECUTABLE=llvm-cov-$1 gcov" >>$GITHUB_ENV
 
     echo "CC=$CLANG" >>$GITHUB_ENV
     echo "CXX=$CLANGXX" >>$GITHUB_ENV
@@ -105,6 +107,8 @@ install_gcc() {
     echo "GCC=gcc-$1" >>$GITHUB_ENV
     echo "GXX=g++-$1" >>$GITHUB_ENV
 
+    echo "GCOV_EXECUTABLE=gcov-$1" >>$GITHUB_ENV
+
     echo "CC=$GCC" >>$GITHUB_ENV
     echo "CXX=$GXX" >>$GITHUB_ENV
 
@@ -114,13 +118,13 @@ install_gcc() {
 install_valgrind() {
     echo "-- Installing valgrind..."
     sudo apt-get install valgrind -y
+    echo "-- Installing valgring done"
 
     # Verify
     echo "-- Verifying valgrind..."
     valgrind --version
     echo "-- Verifying valgrind done"
 
-    echo "-- Installing valgring done"
 }
 
 # Expects first parameter to the the requested version
