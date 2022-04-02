@@ -324,6 +324,7 @@ int main() { return __builtin_is_corresponding_member(&A::a,&A::a); }"
   PHI_HAS_INTRINSIC_IS_CORRESPONDING_MEMBER)
 phi_check_cxx_source_compiles("struct A { int a; };
 int main() { return __builtin_offsetof(A, a); }" PHI_HAS_INTRINSIC_BUILTIN_OFFSET_OF)
+phi_check_cxx_source_compiles("int main() { return __builtin_isinf(0.0); }" PHI_HAS_INTRINSIC_BUILTIN_ISINF)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
