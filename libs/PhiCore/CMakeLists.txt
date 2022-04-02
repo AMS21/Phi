@@ -195,6 +195,7 @@ file(
   "include/phi/math/common.hpp"
   "include/phi/math/constants.hpp"
   "include/phi/math/floor.hpp"
+  "include/phi/math/is_infinity.hpp"
   "include/phi/math/is_nan.hpp"
   "include/phi/math/signum.hpp"
   "include/phi/math/vector2.hpp"

@@ -65,6 +65,7 @@ file(
   # math
   "src/math/abs.test.cpp"
   "src/math/constants.test.cpp"
+  "src/math/is_infinity.test.cpp"
   "src/math/is_nan.test.cpp"
   "src/math/signum.test.cpp"
   "src/math/vector2.test.cpp"
