@@ -14,7 +14,7 @@
 #        define PHI_IS_LITERAL_TYPE(type)      __is_literal_type(type)
 #        define PHI_SUPPORTS_IS_LITERAL_TYPE() 1
 #    elif PHI_HAS_INTRINSIC_IS_LITERAL()
-PHI_IS_LITERAL_TYPE(type) __is_literal(type)
+#        define PHI_IS_LITERAL_TYPE(type)      __is_literal(type)
 #        define PHI_SUPPORTS_IS_LITERAL_TYPE() 1
 #    else
 #        define PHI_IS_LITERAL_TYPE(type)      false
