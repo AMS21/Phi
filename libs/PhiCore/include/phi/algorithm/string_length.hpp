@@ -18,11 +18,28 @@
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
 #include "phi/math/common.hpp"
-#include <string>
 
-#if PHI_HAS_LIB_STRING_VIEW()
-#    include <string_view>
+// Forward declarations
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <typename CharT, typename TraitsT>
+class basic_string_view;
+
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
+PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Winline-namespace-reopened-noninline")
+namespace __cxx11
+{
 #endif
+
+    template <typename CharT, typename TraitsT, typename AllocatorT>
+    class basic_string;
+
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
+}
+PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -48,13 +65,11 @@ PHI_NODISCARD constexpr usize string_length(
     return string.length();
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
 template <typename CharT, typename TraitsT>
 PHI_NODISCARD constexpr usize string_length(std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
-#endif
 
 template <typename CharT = nullptr_t>
 PHI_NODISCARD constexpr usize string_length(nullptr_t) noexcept = delete;
@@ -81,14 +96,12 @@ PHI_NODISCARD constexpr usize string_length(std::basic_string<CharT, TraitsT, Al
     return min(usize(string.length()), length);
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
 template <typename CharT, typename TraitsT>
 PHI_NODISCARD constexpr usize string_length(std::basic_string_view<CharT, TraitsT> string,
                                             usize                                  length) noexcept
 {
     return min(usize(string.length()), length);
 }
-#endif
 
 template <typename CharT = nullptr_t>
 PHI_NODISCARD constexpr usize string_length(nullptr_t, usize) noexcept = delete;
@@ -117,14 +130,12 @@ PHI_NODISCARD constexpr usize safe_string_length(
     return string.length();
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
 template <typename CharT, typename TraitsT>
 PHI_NODISCARD constexpr usize safe_string_length(
         std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
-#endif
 
 template <typename CharT = nullptr_t>
 PHI_NODISCARD constexpr usize safe_string_length(nullptr_t) noexcept
@@ -156,14 +167,12 @@ PHI_NODISCARD constexpr usize safe_string_length(
     return min(usize(string.length()), length);
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
 template <typename CharT, typename TraitsT>
 PHI_NODISCARD constexpr usize safe_string_length(std::basic_string_view<CharT, TraitsT> string,
                                                  usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
-#endif
 
 template <typename CharT = nullptr_t>
 PHI_NODISCARD constexpr usize safe_string_length(nullptr_t, PHI_UNUSED usize length) noexcept
