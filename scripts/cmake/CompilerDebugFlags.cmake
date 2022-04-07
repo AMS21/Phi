@@ -37,7 +37,7 @@ function(phi_target_enable_extra_debug_flags)
   endif()
 
   # Optionally set configs
-  if(NOT ${dbg_CONFIGS})
+  if(NOT DEFINED ${dbg_CONFIGS})
     # set a default value
     set(dbg_CONFIGS "Debug;RelWithDebInfo")
   endif()
@@ -55,7 +55,7 @@ function(phi_target_enable_extra_debug_flags)
   endif()
 
   # Enable extra debug flags for each configuration
-  foreach(config ${dbg_CONGIS})
+  foreach(config ${dbg_CONFIGS})
     # Set each flag
     foreach(flag ${_ExtraDebugFlags})
       target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)

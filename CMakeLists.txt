@@ -110,6 +110,7 @@ endif()
 
 # Load configuration
 include(PhiConfiguration)
+include(ProjectOptions)
 
 # Settings
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -154,4 +155,4 @@ if(${PHI_BUILD_DOCS})
   add_subdirectory(docs)
 endif()
 
-phi_apply_project_configuration_from(TARGET phi_project_options)
+phi_configure_project(DEBUG_FLAGS WARNINGS WARNINGS_AS_ERRORS OPTIMIZATION_FLAGS PEDANTIC)
