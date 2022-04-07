@@ -27,3 +27,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS
 
 # Enable automatic formatting
 include(Formatting)
+
+include(CompilerFeatures)

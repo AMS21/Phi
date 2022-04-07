@@ -413,6 +413,6 @@ check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_O
 
 # configure files
 configure_file("scripts/cmake/features.hpp.in"
-               "${GENERATED_FILES_DIR}/phi/generated/compiler_support/features.hpp")
+               "${PHI_GENERATED_FILES_DIR}/phi/generated/compiler_support/features.hpp")
 configure_file("scripts/cmake/type_system.hpp.in"
-               "${GENERATED_FILES_DIR}/phi/generated/compiler_support/type_system.hpp")
+               "${PHI_GENERATED_FILES_DIR}/phi/generated/compiler_support/type_system.hpp")
