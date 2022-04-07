@@ -310,14 +310,13 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
         FOLDER
         "Tests/PhiCore"
         PRIVATE_LINK_LIBRARIES
-        Phi::InternalProjectOptions
         Phi::Core
         Phi::Test
         PRIVATE_INCLUDE_DIRS
-        "include")
+        "include"
+        STANDARD
+        ${std})
       phi_add_test(TARGET "PhiCoreUnittests${std}")
-      target_compile_options("PhiCoreUnittests${std}"
-                             PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
 
       phi_add_executable(
         NAME
@@ -327,16 +326,15 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
         FOLDER
         "Tests/PhiCore"
         PRIVATE_LINK_LIBRARIES
-        Phi::InternalProjectOptions
         Phi::Core
         Phi::Test
         PRIVATE_INCLUDE_DIRS
-        "include")
-      target_compile_definitions("PhiCoreUnittestsNoIntrinsics${std}"
-                                 PRIVATE "PHI_CONFIG_NO_INTRINSICS")
+        "include"
+        STANDARD
+        ${std}
+        PRIVATE_DEFINITIONS
+        "PHI_CONFIG_NO_INTRINSICS")
       phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics${std}")
-      target_compile_options("PhiCoreUnittestsNoIntrinsics${std}"
-                             PRIVATE "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
     endif()
 
   endforeach()
@@ -350,12 +348,10 @@ else()
     FOLDER
     "Tests/PhiCore"
     PRIVATE_LINK_LIBRARIES
-    Phi::InternalProjectOptions
     Phi::Core
     Phi::Test
     PRIVATE_INCLUDE_DIRS
     "include")
-  phi_enable_static_analyzers("PhiCoreUnittests")
   phi_add_test(TARGET "PhiCoreUnittests")
 
   phi_add_executable(
@@ -366,13 +362,11 @@ else()
     FOLDER
     "Tests/PhiCore"
     PRIVATE_LINK_LIBRARIES
-    Phi::InternalProjectOptions
     Phi::Core
     Phi::Test
     PRIVATE_INCLUDE_DIRS
-    "include")
-  phi_enable_static_analyzers("PhiCoreUnittestsNoIntrinsics")
-  target_compile_definitions("PhiCoreUnittestsNoIntrinsics" PRIVATE "PHI_CONFIG_NO_INTRINSICS")
+    "include"
+    PRIVATE_DEFINITIONS
+    "PHI_CONFIG_NO_INTRINSICS")
   phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics")
-
 endif()

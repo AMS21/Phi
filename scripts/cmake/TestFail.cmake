@@ -23,7 +23,7 @@ function(runtime_failure_test)
   add_executable(${TEST_NAME} "${rtf_SOURCE}")
   set_target_properties(${TEST_NAME} PROPERTIES FOLDER "Tests/RuntimeFailure")
   # Required to link to Phi
-  target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
+  target_link_libraries(${TEST_NAME} PRIVATE Phi::Core)
   target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/support/runtime_failure")
   target_compile_definitions(${TEST_NAME} PRIVATE "PHI_DEBUG")
 
@@ -66,7 +66,7 @@ function(compile_failure_test)
                EXCLUDE_FROM_DEFAULT_BUILD TRUE
                FOLDER "Tests/CompileTimeFailure")
   # Required to link to Phi
-  target_link_libraries(${TEST_NAME} PRIVATE Phi::InternalProjectOptions Phi::Core)
+  target_link_libraries(${TEST_NAME} PRIVATE Phi::Core)
 
   # Link to additional lib
   if(DEFINED ctf_LIB)

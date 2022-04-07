@@ -1,5 +1,12 @@
 # Copied from https://github.com/BlueBrain/git-cmake-format/blob/master/FindClangFormat.cmake
 
+# TODO: Rework to allow working on a single target
+
+# TODO: Add function which takes a list of files and adds a global format target which formats these
+# files
+
+# TODO: Add a function to add a global cmake-format target
+
 phi_include_guard()
 
 if(NOT PHI_AUTO_FORMATTING)

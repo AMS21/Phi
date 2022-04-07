@@ -8,8 +8,8 @@ function(phi_add_library)
   cmake_parse_arguments(
     al
     "STATIC;SHARED;MODULE;EXCLUDE_FROM_ALL"
-    "NAME;FOLDER;ALIAS_TARGET"
-    "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS"
+    "NAME;FOLDER;ALIAS_TARGET;STANDARD"
+    "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS;PUBLIC_DEFINITIONS;PRIVATE_DEFINITIONS;INTERFACE_DEFINITIONS;STATIC_ANALYZER"
     ${ARGN})
 
   # Check required arguments
@@ -59,7 +59,9 @@ function(phi_add_library)
   add_library(${command})
 
   # Set standard
-  phi_set_standard_flag(${al_NAME})
+  if(DEFINED al_STANDARD)
+    phi_target_set_standard(TARGET ${al_NAME} STANDARD ${al_STANDARD})
+  endif()
 
   # Group source files
   if(${CMAKE_VERSION} VERSION_GREATER "3.7")
@@ -105,5 +107,25 @@ function(phi_add_library)
   # Add optional interface include directories
   if(DEFINED al_INTERFACE_INCLUDE_DIRS)
     target_include_directories(${al_NAME} INTERFACE "${al_INTERFACE_INCLUDE_DIRS}")
+  endif()
+
+  # Add optional public compile definition
+  if(DEFINED al_PUBLIC_COMPILE_DEFINITIONS)
+    target_compile_definitions(${al_NAME} PUBLIC "${al_PUBLIC_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Add optional private compile definition
+  if(DEFINED al_PRIVATE_COMPILE_DEFINITIONS)
+    target_compile_definitions(${al_NAME} PRIVATE "${al_PRIVATE_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Add optional interface compile definition
+  if(DEFINED al_INTERFACE_COMPILE_DEFINITIONS)
+    target_compile_definitions(${al_NAME} INTERFACE "${al_INTERFACE_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Enable optional static analyzers
+  if(DEFINED al_STATIC_ANALYZER)
+    phi_target_use_static_analyzers(TARGET ${al_NAME} ${al_STATIC_ANALYZER})
   endif()
 endfunction(phi_add_library)

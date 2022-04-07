@@ -22,10 +22,7 @@ phi_add_library(
   PUBLIC_LINK_LIBRARIES
   Phi::Core
   PRIVATE_LINK_LIBRARIES
-  Phi::InternalProjectOptions
   PUBLIC_INCLUDE_DIRS
   "include"
   PRIVATE_INCLUDE_DIRS
   "src")
-
-phi_enable_static_analyzers(${PROJECT_NAME})

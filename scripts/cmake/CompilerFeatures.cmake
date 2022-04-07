@@ -3,8 +3,10 @@ phi_include_guard()
 include(CheckTypeSize)
 include(CompilerWarnings)
 include(internal/PhiCheckCXXSourceCompiles)
+include(Common)
 
 # Set compile flags
+list(JOIN _common_flags " " common_flags_joined)
 set(CMAKE_REQUIRED_FLAGS
     "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_CheckRequiredFlagsAvailible}")
 
@@ -408,8 +410,6 @@ check_type_size("long long" PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG BUILTIN_TYPES_ONLY 
 check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT BUILTIN_TYPES_ONLY LANGUAGE CXX)
 check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
 check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
-
-set(GENERATED_FILES_DIR "${CMAKE_BINARY_DIR}/generated-includes/")
 
 # configure files
 configure_file("scripts/cmake/features.hpp.in"

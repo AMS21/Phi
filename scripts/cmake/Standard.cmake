@@ -251,13 +251,50 @@ else()
   phi_log("Using explicit standard: C++-${phi_standard_version}/\"${phi_standard_flag}\"")
 endif()
 
-function(phi_set_standard_flag target)
-  if(NOT TARGET ${target})
-    phi_error("phi_set_standard_flag: No target \"${target}\" found")
+function(phi_target_set_standard)
+  # Command line arguments
+  cmake_parse_arguments(std "EXTENSION" "TARGET;STANDARD" "" ${ARGN})
+
+  # Check required arguments
+  if(NOT std_TARGET)
+    phi_error("phi_target_set_standard: You must specify TARGET")
   endif()
 
-  # phi_trace( "Setting C++-${phi_standard_version} flag \"${phi_standard_flag}\" for target
-  # \"${target}\"")
+  # Check if target is valid
+  if(NOT TARGET ${std_TARGET})
+    phi_error(
+      "phi_target_set_standard: The specified target \"${std_TARGET}\" doesn't seem to be valid")
+  endif()
 
-  target_compile_options(${target} PUBLIC ${phi_standard_flag})
+  # Optional standard
+  if(NOT std_STANDARD)
+    # Set default to latest
+    set(std_STANDARD "latest")
+  endif()
+
+  # Handle standard latest
+  if(std_STANDARD STREQUAL "latest")
+    set(std_STANDARD ${phi_latest_standard_version})
+  endif()
+
+  set(_valid_standards "98" "11" "14" "17" "20" "23")
+  list(FIND _valid_standards ${std_STANDARD} standard_is_valid)
+  if(standard_is_valid EQUAL -1)
+    phi_error(
+      "phi_target_set_standard: There is no standard \"${std_STANDARD}\" supported. Supported values are \"${_valid_standard},latest\""
+    )
+  endif()
+
+  # phi_trace( "Setting C++-${standard} standard for target \"${target}\"")
+
+  set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD ${std_STANDARD})
+  set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD_REQUIRED ON)
+
+  # Optionally allow extensions
+  if(std_EXTENSION)
+    set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS ON)
+  else()
+    # By default disable extensions
+    set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS OFF)
+  endif()
 endfunction()

@@ -55,11 +55,9 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
         FOLDER
         "Tests/Integration"
         PRIVATE_LINK_LIBRARIES
-        Phi::InternalProjectOptions
         Phi::Core
         Phi::Test
         NO_GROUP)
-      phi_enable_static_analyzers("Phi_AllIncludes${std}")
     endif()
   endforeach()
 else()
@@ -72,9 +70,7 @@ else()
     FOLDER
     "Tests/Integration"
     PRIVATE_LINK_LIBRARIES
-    Phi::InternalProjectOptions
     Phi::Core
     Phi::Test
     NO_GROUP)
-  phi_enable_static_analyzers("Phi_AllIncludes")
 endif()

@@ -2,6 +2,8 @@ phi_include_guard()
 
 include(CheckCXXCompilerFlag)
 
+# TODO: This file needs some reworking
+
 set(PHI_USER_LINKER_OPTION
     "auto"
     CACHE STRING "Linker to be used")

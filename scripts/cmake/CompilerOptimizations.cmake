@@ -1,55 +1,141 @@
 phi_include_guard()
 
-# Function to enable optimizations for a specific project
-function(set_project_optimizations project)
-  if(NOT PHI_ENABLE_OPTIMIZATION_FLAGS)
-    return()
+include(CMakeParseArguments)
+
+set(phi_opt_compile_flags
+    -fforce-emit-vtables
+    -fisolate-erroneous-paths-attribute
+    -fivopts
+    -fmerge-all-constants
+    -fstrict-enums
+    -fstrict-return
+    -fstrict-vtable-pointers
+    -ftree-loop-im
+    -ftree-loop-ivcanon
+    -fmerge-functions
+    -fmerge-constants
+    -fdevirtualize-speculatively
+    -fomit-frame-pointer
+    -fstrict-aliasing
+    # MSVC
+    /Oi
+    /Ot
+    /GT)
+
+# Check optimize flags
+set(_opt_compile_flags)
+foreach(_test ${phi_opt_compile_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "/" "_" _testName ${_testName})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${_test} "PHI_HAS_FLAG${_testName}")
+
+  if(PHI_HAS_FLAG${_testName})
+    list(APPEND _opt_compile_flags ${_test})
   endif()
+endforeach(_test)
 
-  # MSVC
-  set(phi_msvc_opt /Oi /Ot /GT /fp:fast /fp:except-)
-  set(phi_msvc_linker_opt /OPT:REF)
+# Check IPO support
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
+  # Use the version supplied by cmake
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result OUTPUT output)
 
-  # Clang
-  set(phi_clang_release_opt
-      -fno-math-errno
-      -ffinite-math-only
-      -fno-signed-zeros
-      -fno-trapping-math
-      -fstrict-enums
-      -fomit-frame-pointer
-      -fforce-emit-vtables
-      -fstrict-vtable-pointers
-      -fstrict-return)
-
-  # The -fwhole-program-vtables optimization for some reasons crashes the AppleClang compiler
-  if(PHI_ENABLE_IPO AND NOT PHI_COMPILER_APPLECLANG)
-    list(APPEND phi_clang_release_opt -fwhole-program-vtables)
-  endif()
-
-  set(phi_clang_opt $<$<CONFIG:RELEASE>:${phi_clang_release_opt}>)
-
-  # GCC
-  set(phi_gcc_release_opt -fno-math-errno -ffinite-math-only -fno-signed-zeros -fno-trapping-math
-                          -fstrict-enums -fomit-frame-pointer)
-
-  set(phi_gcc_opt $<$<CONFIG:RELEASE>:${phi_gcc_release_opt}>)
-
-  if(PHI_COMPILER_MSVC)
-    set(project_opt ${phi_msvc_opt})
-    set(project_linker_opt ${phi_msvc_linker_opt})
-  elseif(PHI_COMPILER_CLANG)
-    set(project_opt ${phi_clang_opt})
-  elseif(PHI_COMPILER_GCC)
-    set(project_opt ${phi_gcc_opt})
+  if(result)
+    phi_log("Interprocedural optimization is supported")
+    phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 1)
+    phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 1)
   else()
-    phi_warn("No compiler optimizations set for '${CMAKE_CXX_COMPILER_ID}' compiler.")
+    phi_log("Interprocedural optimization is NOT supported")
+    phi_trace("Output: ${output}")
+
+    phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 0)
+    phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 0)
+  endif()
+else()
+  # TODO: Implement
+  phi_warn("Coudn't not determin support for IPO")
+  phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 0)
+  phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 0)
+endif()
+
+# Extra IPO flags
+set(phi_extra_ipo_flags fsplit-lto-unit Wl,--no-as-needed)
+
+# IPO specific optimizations
+set(phi_ipo_opt fipa-pta fwhole-program-vtables fvirtual-function-elimination
+                fdevirtualize-at-ltrans)
+
+# Check ipo specific optimizations
+set(old_flags ${CMAKE_REQUIRED_FLAGS})
+set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}flto")
+
+set(_opt_ipo_extra)
+foreach(_test ${phi_ipo_opt})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    list(APPEND _opt_ipo_extra ${PHI_FLAG_PREFIX_CHAR}${_test})
+  endif()
+endforeach(_test)
+
+set(CMAKE_REQUIRED_FLAGS ${old_flags})
+
+# Non-IPO specific optimizations
+set(phi_non_ipo_opt fwhole-program)
+
+# Check non ipo specific optimizations
+set(_opt_non_ipo_extra)
+foreach(_test ${phi_non_ipo_opt})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    list(APPEND _opt_non_ipo_extra ${PHI_FLAG_PREFIX_CHAR}${_test})
+  endif()
+endforeach(_test)
+
+function(phi_target_enable_optimizations)
+  # Command line arguments
+  cmake_parse_arguments(opt "IPO" "TARGET;PSO" "CONFIGS" ${ARGN})
+
+  # Check required arguments
+  if(NOT opt_TARGET)
+    phi_error("phi_target_enable_optimizations: You must specify TARGET")
+  endif()
+
+  # Check if target is valid
+  if(NOT TARGET ${opt_TARGET})
+    phi_error(
+      "phi_target_enable_optimizations: The specified target \"${opt_TARGET}\" doesn't seem to be valid"
+    )
+  endif()
+
+  # Optional CONFIGS
+  if(NOT ${opt_CONFIGS})
+    # Set default value
+    set(opt_CONFIGS "Release")
   endif()
 
   # Get target type
   get_property(
     target_type
-    TARGET ${project}
+    TARGET ${opt_TARGET}
     PROPERTY TYPE)
 
   if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
@@ -58,12 +144,73 @@ function(set_project_optimizations project)
     set(visibility_scope PRIVATE)
   endif()
 
-  target_compile_options(${project} ${visibility_scope} ${project_opt})
-  target_link_options(${project} ${visibility_scope} ${project_linker_opt})
+  # Enable options for each specified configuration
+  foreach(config ${opt_CONFIGS})
 
-  if(PHI_ENABLE_PSO AND NOT PHI_COMPILER_MSVC)
-    target_compile_options(${project} ${visibility_scope} "-march=${PHI_ARCH}")
-  endif()
+    # Enable normal optimization flags
+    foreach(flag ${_opt_compile_flags})
+      target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+      target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+    endforeach()
 
-  phi_trace("Setting optimization flags for ${project}")
+    if(opt_IPO)
+      if(PHI_SUPPORTS_IPO_NATIVE)
+        set_target_properties(${opt_TARGET} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
+
+      else()
+        # TODO: Fix
+        phi_warn("Can't enable IPO")
+      endif()
+
+      # Enable IPO specifc optimizations
+      foreach(flag ${_opt_ipo_extra})
+        target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+        target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+      endforeach()
+    else()
+      # Enable non IPO specifc optimizations
+      foreach(flag ${_opt_non_ipo_extra})
+        target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+        target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+      endforeach()
+    endif()
+
+    # Optionally enable Platform specifc optimizations
+    if(DEFINED opt_PSO)
+      # TODO: Support native on Windows
+
+      # Default to native
+      if(opt_PSO STREQUAL "")
+        set(opt_PSO "native")
+      endif()
+
+      # Check if compiler support our PSO
+      string(REPLACE "-" "_" _testName ${opt_PSO})
+      string(REPLACE "=" "_" _testName ${_testName})
+      string(REPLACE ":" "_" _testName ${_testName})
+      string(REPLACE "_" "_" _testName ${_testName})
+      string(TOUPPER ${_testName} _testName)
+
+      phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}march=${opt_PSO}
+                                  "PHI_HAS_FLAG_MARCH_${_testName}")
+      if(PHI_HAS_FLAG_MARCH_${_testName})
+        target_compile_options(${opt_TARGET} ${visibility_scope}
+                               $<$<CONFIG:${config}>:${PHI_FLAG_PREFIX_CHAR}march=${opt_PSO}>)
+        target_link_options(${opt_TARGET} ${visibility_scope}
+                            $<$<CONFIG:${config}>:${PHI_FLAG_PREFIX_CHAR}march=${opt_PSO}>)
+      else()
+
+        phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}arch=${opt_PSO}
+                                    "PHI_HAS_FLAG_ARCH_${_testName}")
+        if(PHI_HAS_FLAG_ARCH_${_testName})
+          target_compile_options(${opt_TARGET} ${visibility_scope}
+                                 $<$<CONFIG:${config}>:${PHI_FLAG_PREFIX_CHAR}arch=${opt_PSO}>)
+          target_link_options(${opt_TARGET} ${visibility_scope}
+                              $<$<CONFIG:${config}>:${PHI_FLAG_PREFIX_CHAR}arch=${opt_PSO}>)
+        else()
+          phi_error("Compiler doesn't seem to support PSO for \"${opt_PSO}\"")
+        endif()
+      endif()
+    endif()
+  endforeach()
 endfunction()
