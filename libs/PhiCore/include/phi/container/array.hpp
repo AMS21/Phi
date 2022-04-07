@@ -171,7 +171,7 @@ public:
     {
         for (size_type index{0u}; index < Size; ++index)
         {
-            m_Elements[index] = value;
+            m_Elements[index.get()] = value;
         }
     }
 
