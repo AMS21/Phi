@@ -137,7 +137,7 @@ function(phi_target_use_static_analyzers)
       )
     endif()
 
-    set(ct_cmdline ${PHI_CLANG_TIDY} -extra-arg=-Wno-unknown-warning-option)
+    set(ct_cmdline ${PHI_CLANG_TIDY} -header-filter=.* -extra-arg=-Wno-unknown-warning-option)
 
     # Optionally enable warnings as errors
     if(sa_WARNINGS_AS_ERRORS)
