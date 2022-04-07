@@ -58,8 +58,6 @@ function(phi_target_use_static_analyzers)
   cmake_parse_arguments(sa "CLANG_TIDY;CPPCHECK;IWYU;ALL;SUPPORTED;WARNINGS_AS_ERRORS" "TARGET"
                         "CLANG_TIDY_OPTIONS;CPPCHECK_OPTIONS;IWYU_OPTIONS" ${ARGN})
 
-  message("Called with: ${ARGN}")
-
   # Check for require arguments
   if(NOT DEFINED sa_TARGET)
     phi_error(
