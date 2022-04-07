@@ -181,7 +181,7 @@ function(phi_target_use_static_analyzers)
       list(
         APPEND
         cc_cmdline
-        -template=${CPPCHECK_TEMPLATE}
+        --template=${CPPCHECK_TEMPLATE}
         --enable=all
         --inline-suppr
         # We cannot act on a bug/missing feature of cppcheck
