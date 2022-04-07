@@ -6,6 +6,8 @@ else()
   project(Phi_BuildInfo LANGUAGES CXX)
 endif()
 
+include(CompilerOptimizations)
+
 phi_add_executable(
   NAME
   ${PROJECT_NAME}

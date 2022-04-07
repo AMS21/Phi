@@ -25,16 +25,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
     CACHE BOOL "" FORCE)
 
-include(ProjectOptions)
-
-phi_configure_project(
-  NAME
-  phi_project_options
-  DEBUG_FLAGS
-  WARNINGS
-  WARNINGS_AS_ERRORS
-  OPTIMIZATION_FLAGS
-  PEDANTIC)
-
 # Enable automatic formatting
 include(Formatting)

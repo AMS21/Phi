@@ -193,12 +193,14 @@ set(phi_supported_standards "23" "20" "17" "14" "11")
 # Find the latest standard
 foreach(std IN ITEMS ${phi_supported_standards})
   if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION OR CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION)
-    set(phi_latest_standard_version "${std}")
+    phi_set_cache_value(NAME phi_latest_standard_version VALUE "${std}")
 
     if(DEFINED CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION)
-      set(phi_latest_standard_flag "${CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION}")
+      phi_set_cache_value(NAME phi_latest_standard_flag VALUE
+                          "${CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION}")
     else()
-      set(phi_latest_standard_flag "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
+      phi_set_cache_value(NAME phi_latest_standard_flag VALUE
+                          "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
     endif()
 
     break()
@@ -218,8 +220,8 @@ if(${PHI_STANDARD} STREQUAL "latest")
     phi_error("Failed to find latest supported standard")
   endif()
 
-  set(phi_standard_version "${phi_latest_standard_version}")
-  set(phi_standard_flag "${phi_latest_standard_flag}")
+  phi_set_cache_value(NAME phi_standard_version VALUE "${phi_latest_standard_version}")
+  phi_set_cache_value(NAME phi_standard_flag VALUE "${phi_latest_standard_flag}")
 
   phi_log("Using latest standard: C++-${phi_standard_version}/\"${phi_standard_flag}\"")
 
@@ -232,9 +234,11 @@ else()
         set(phi_standard_version ${std})
 
         if(DEFINED CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION)
-          set(phi_standard_flag "${CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION}")
+          phi_set_cache_value(NAME phi_standard_flag VALUE
+                              "${CMAKE_CXX${std}_EXTENSION_COMPILE_OPTION}")
         else()
-          set(phi_standard_flag "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
+          phi_set_cache_value(NAME phi_standard_flag VALUE
+                              "${CMAKE_CXX${std}_STANDARD_COMPILE_OPTION}")
         endif()
 
         break()

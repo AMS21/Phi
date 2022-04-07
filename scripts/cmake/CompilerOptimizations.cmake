@@ -127,7 +127,7 @@ function(phi_target_enable_optimizations)
   endif()
 
   # Optional CONFIGS
-  if(NOT ${opt_CONFIGS})
+  if(NOT DEFINED ${opt_CONFIGS})
     # Set default value
     set(opt_CONFIGS "Release")
   endif()
@@ -146,7 +146,6 @@ function(phi_target_enable_optimizations)
 
   # Enable options for each specified configuration
   foreach(config ${opt_CONFIGS})
-
     # Enable normal optimization flags
     foreach(flag ${_opt_compile_flags})
       target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
