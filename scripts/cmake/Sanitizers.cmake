@@ -1,61 +1,235 @@
 phi_include_guard()
 
-# Enable sanitizers for a specific project
-function(enable_sanitizers project)
-  if(PHI_COMPILER_GCC OR PHI_COMPILER_CLANG)
-    set(sanitizers "")
+include(CheckLinkerFlag)
+include(CMakeParseArguments)
+include(internal/PhiCheckCXXCompilerFlag)
 
-    option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" FALSE)
-    if(ENABLE_SANITIZER_ADDRESS)
-      list(APPEND sanitizers "address")
-      phi_trace("Enabled address sanitizer")
-    endif()
+set(phi_sanitizer_flags
+    address
+    hwaddress
+    leak
+    memory
+    safe-stack
+    thread
+    undefined)
 
-    option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" FALSE)
-    if(ENABLE_SANITIZER_MEMORY)
-      list(APPEND sanitizers "memory")
-      phi_trace("Enabled memory sanitizer")
-    endif()
+# Check supported sanitizer
+set(_santizer_support_flags)
+foreach(_test ${phi_sanitizer_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(TOUPPER ${_testName} _testName)
 
-    option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR "Enable undefined behavior sanitizer" FALSE)
-    if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
-      list(APPEND sanitizers "undefined")
-      phi_trace("Enabled undefined behaviour sanitizer")
-    endif()
-
-    option(ENABLE_SANITIZER_THREAD "Enable thread sanitizer" FALSE)
-    if(ENABLE_SANITIZER_THREAD)
-      list(APPEND sanitizers "thread")
-      phi_trace("Enabled thread sanitizer")
-    endif()
-
-    option(ENABLE_SANITIZER_LEAK "Enable leak sanitizer" FALSE)
-    if(ENABLE_SANITIZER_LEAK)
-      list(APPEND sanitizers "leak")
-      phi_trace("Enabled leak sanitizer")
-    endif()
-
-    option(ENABLE_FUZZING "Enable fuzzing flags" FALSE)
-    if(ENABLE_FUZIING)
-      list(APPEND sanitizers "fuzzer")
-      phi_trace("Enabled fuzzer flag")
-    endif()
-
-    # Join list of sanitizers
-    set(list_of_sanitizers "")
-    foreach(san ${sanitizers})
-      if(list_of_sanitizers EQUAL "")
-        set(list_of_sanitizers "${san}")
-      else()
-        set(list_of_sanitizers "${list_of_sanitizers},${san}")
-      endif()
-    endforeach()
+  check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+                    "PHI_SUPPORTS_SANITIZER_${_testName}")
+  if(PHI_SUPPORTS_SANITIZER_${_testName})
+    list(APPEND _santizer_support_flags ${_test})
+    option(PHI_ENABLE_SANITIZER_${_testName} "Enable ${_test} sanitizer (which is supported)" FALSE)
+  else()
+    option(PHI_ENABLE_SANITIZER_${_testName} "Enable ${_test} sanitizer (which is not supported)"
+           FALSE)
   endif()
+endforeach(_test)
+
+# Extra ASAN
+set(phi_asan_extra_flags use-after-return=always use-after-scope use-odr-indicator)
+
+# Check supported extra asan flags
+set(_asan_extra_flags)
+if(PHI_SUPPORTS_SANITIZER_ADDRESS)
+  foreach(_test ${phi_asan_extra_flags})
+    string(REPLACE "-" "_" _testName ${_test})
+    string(REPLACE "=" "_" _testName ${_testName})
+    string(TOUPPER ${_testName} _testName)
+
+    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
+                      "PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName}")
+    if(PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName})
+      list(APPEND _asan_extra_flags ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test})
+    endif()
+  endforeach(_test)
+endif()
+
+# Extra MSAN
+set(phi_msan_extra_flags track-origins=2 use-after-dtor)
+
+# Check supported extra msan flags
+set(_msan_extra_flags)
+if(PHI_SUPPORTS_SANITIZER_MEMORY)
+  foreach(_test ${phi_msan_extra_flags})
+    string(REPLACE "-" "_" _testName ${_test})
+    string(REPLACE "=" "_" _testName ${_testName})
+    string(TOUPPER ${_testName} _testName)
+
+    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
+                      "PHI_SUPPORTS_SANITIZER_MEMORY_${_testName}")
+    if(PHI_SUPPORTS_SANITIZER_MEMORY_${_testName})
+      list(APPEND _msan_extra_flags ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test})
+    endif()
+  endforeach(_test)
+endif()
+
+# Extra UBSAN
+set(phi_ubsan_extra_flags
+    alignment
+    bool
+    bounds
+    builtin
+    enum
+    float-cast-overflow
+    float-divide-by-zero
+    integer-divide-by-zero
+    nonnull-attribute
+    null
+    # object-size
+    pointer-overflow
+    return
+    returns-nonnull-attribute
+    shadow-call-stack
+    shift
+    shift-base
+    shift-exponent
+    signed-integer-overflow
+    unreachable
+    vla-bound
+    vptr
+    # GCC only
+    bounds-strict
+    pointer-compare
+    pointer-subtract
+    # clang only
+    array-bounds
+    function
+    implicit-conversion
+    implicit-integer-arithmetic-value-change
+    implicit-integer-sign-change
+    implicit-integer-truncation
+    implicit-signed-integer-truncation
+    implicit-unsigned-integer-truncation
+    integer
+    local-bounds
+    nullability
+    nullability-arg
+    nullability-assign
+    nullability-return
+    objc-cast
+    unsigned-integer-overflow
+    unsigned-shift-base)
+
+# Extra UBSAN
+set(_ubsan_extra_flags)
+if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
+  foreach(_test ${phi_ubsan_extra_flags})
+    string(REPLACE "-" "_" _testName ${_test})
+    string(TOUPPER ${_testName} _testName)
+
+    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+                      "PHI_SUPPORTS_SANITIZER_${_testName}")
+    if(PHI_SUPPORTS_SANITIZER_${_testName})
+      list(APPEND _ubsan_extra_flags ${_test})
+    endif()
+  endforeach(_test)
+endif()
+
+# Extra sanitizer flags
+set(phi_sanitizer_support_flags
+    fno-common
+    fno-inline
+    fno-inline-functions
+    fno-omit-frame-pointer
+    fno-optimize-sibling-calls
+    fno-sanitize-recover=all
+    g3)
+
+# Check sanitizer support flags
+set(_santizer_support_flags)
+foreach(_test ${phi_sanitizer_support_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    list(APPEND _santizer_support_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
+  endif()
+endforeach(_test)
+
+function(phi_target_enable_sanitizer)
+  # Command line arguments
+  cmake_parse_arguments(san "" "TARGET" "SANITIZERS" ${ARGN})
+
+  # Check required arguments
+  if(NOT san_TARGET)
+    phi_error("phi_target_enable_sanitizer: You must specify a target using TARGET")
+  endif()
+
+  if(NOT TARGET ${san_TARGET})
+    phi_error(
+      "phi_target_enable_sanitizer: The specified target \"${san_TARGET}\" doesn't seem to exist")
+  endif()
+
+  if(NOT san_SANITIZERS)
+    phi_error("phi_target_enable_sanitizer: No sanitizer specified.")
+  endif()
+
+  # Build extra compile flags
+  set(extra_compile_flags "")
+  foreach(extra_flag ${_santizer_support_flags})
+    if(extra_compile_flags EQUAL "")
+      set(extra_compile_flags ${extra_flag})
+    else()
+      set(extra_compile_flags ${extra_compile_flags} ${extra_flag})
+    endif()
+  endforeach()
+
+  # Enable required sanitizers
+  set(list_of_sanitizers "")
+  foreach(sanitizer ${san_SANITIZERS})
+    string(REPLACE "-" "_" san_TARGET ${sanitizer})
+    string(TOUPPER ${san_TARGET} san_TARGET)
+
+    # Check if sanitizer is actually supported
+    if(NOT PHI_SUPPORTS_SANITIZER_${san_TARGET})
+      phi_error(
+        "phi_target_enable_sanitizer: Trying to enable '${sanitizer}' which is not supported!")
+    endif()
+
+    # Append sanitizer to our list of sanitizers
+    if(list_of_sanitizers STREQUAL "")
+      set(list_of_sanitizers "${sanitizer}")
+    else()
+      set(list_of_sanitizers "${list_of_sanitizers},${sanitizer}")
+    endif()
+
+    # Add extra ASAN options
+    if(sanitizer STREQUAL "address")
+      foreach(asan_extra ${_asan_extra_flags})
+        if(extra_compile_flags EQUAL "")
+          set(extra_compile_flags ${asan_extra})
+        else()
+          set(extra_compile_flags ${extra_compile_flags} ${asan_extra})
+        endif()
+      endforeach()
+      # Add extra MSAN options
+    elseif(santizier STREQUAL "memory")
+      foreach(asan_extra ${_msan_extra_flags})
+        if(extra_compile_flags EQUAL "")
+          set(extra_compile_flags ${msan_extra})
+        else()
+          set(extra_compile_flags ${extra_compile_flags} ${msan_extra})
+        endif()
+      endforeach()
+      # Add extra UBSAN options
+    elseif(sanitizer STREQUAL "undefined")
+      list(JOIN _ubsan_extra_flags "," ubsan_extra)
+      set(list_of_sanitizers "${list_of_sanitizers},${ubsan_extra}")
+    endif()
+  endforeach()
 
   # Get target type
   get_property(
     target_type
-    TARGET ${project}
+    TARGET ${san_TARGET}
     PROPERTY TYPE)
 
   if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
@@ -64,10 +238,24 @@ function(enable_sanitizers project)
     set(visibility_scope PRIVATE)
   endif()
 
-  if(list_of_sanitizers)
-    if(NOT "${list_of_sanitizers}" STREQUAL "")
-      target_compile_options(${project} ${visibility_scope} -fsanitize=${list_of_sanitizers})
-      target_link_options(${project} ${visibility_scope} -fsanitize=${list_of_sanitizers})
-    endif()
+  # Set sanitizer flags to target
+  target_compile_options(${san_TARGET} ${visibility_scope} -fsanitize=${list_of_sanitizers})
+  target_link_options(${san_TARGET} ${visibility_scope} -fsanitize=${list_of_sanitizers})
+
+  # Set extra sanitizer flags to target
+  foreach(extra_flag ${extra_compile_flags})
+    target_compile_options(${san_TARGET} ${visibility_scope} ${extra_flag})
+    target_link_options(${san_TARGET} ${visibility_scope} ${extra_flag})
+  endforeach()
+
+  # Fancy printing
+  list(JOIN san_SANITIZERS "," fancy_list_of_sanitizers)
+  list(LENGTH san_SANITIZERS num_of_santiziers)
+  set(quantifier "s")
+  if(${num_of_santiziers} EQUAL "1")
+    set(quantifier "")
   endif()
+  phi_trace(
+    "Enabled ${num_of_santiziers} sanitizer${quantifier} '${fancy_list_of_sanitizers}' for target '${san_TARGET}'"
+  )
 endfunction()

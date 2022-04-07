@@ -28,7 +28,5 @@ phi_add_executable(
   FOLDER
   "Tests/PhiTest/Unittests"
   PRIVATE_LINK_LIBRARIES
-  Phi::InternalProjectOptions
   Phi::Test)
-phi_enable_static_analyzers(${PROJECT_NAME})
 phi_add_test(TARGET ${PROJECT_NAME})

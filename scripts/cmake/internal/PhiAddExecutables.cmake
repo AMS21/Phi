@@ -3,13 +3,19 @@ phi_include_guard()
 include(CMakeParseArguments)
 include(internal/PhiError)
 
+# TODO: This and phi_add_library share a lot of code. which could be extracted into a sup function
+# like phi_configure_target in its own file
+
+# TODO: By default generate sanitizer variants but option to not do this
+
+# TODO: By default genrate a lib version and take the main file seperatly
 function(phi_add_executable)
   # Command line arguments
   cmake_parse_arguments(
     ae
     "EXCLUDE_FROM_ALL;NO_GROUP"
-    "NAME;FOLDER;ALIAS_TARGET"
-    "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS"
+    "NAME;FOLDER;ALIAS_TARGET;STANDARD"
+    "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS;PUBLIC_DEFINITIONS;PRIVATE_DEFINITIONS;INTERFACE_DEFINITIONS;STATIC_ANALYZER"
     ${ARGN})
 
   # Check required arguments
@@ -27,10 +33,13 @@ function(phi_add_executable)
 
   # Ensure all files actually exist on disk
   foreach(file IN LISTS ae_SOURCES ae_HEADERS)
-    if(NOT EXISTS ${file})
-      message(
-        WARNING "File \"${file}\" doesn't seem to exist while configuring executable \"${ae_NAME}\""
-      )
+    # Convert relative path to absolute
+    if(NOT IS_ABSOLUTE "${file}")
+      get_filename_component(file "${file}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+    endif()
+
+    if(NOT EXISTS "${file}")
+      phi_warn("File \"${file}\" doesn't seem to exist while configuring executable \"${ae_NAME}\"")
     endif()
   endforeach()
 
@@ -41,7 +50,9 @@ function(phi_add_executable)
   add_executable(${command})
 
   # Set standard
-  phi_set_standard_flag(${ae_NAME})
+  if(DEFINED ae_STANDARD)
+    phi_target_set_standard(TARGET ${ae_NAME} STANDARD ${ae_STANDARD})
+  endif()
 
   # Group source files
   if(NOT ae_NO_GROUP)
@@ -89,5 +100,25 @@ function(phi_add_executable)
   # Add optional interface include directories
   if(ae_INTERFACE_INCLUDE_DIRS)
     target_include_directories(${ae_NAME} INTERFACE "${ae_INTERFACE_INCLUDE_DIRS}")
+  endif()
+
+  # Add optional public compile definition
+  if(DEFINED ae_PUBLIC_COMPILE_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} PUBLIC "${ae_PUBLIC_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Add optional private compile definition
+  if(DEFINED ae_PRIVATE_COMPILE_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} PRIVATE "${ae_PRIVATE_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Add optional interface compile definition
+  if(DEFINED ae_INTERFACE_COMPILE_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} INTERFACE "${ae_INTERFACE_COMPILE_DEFINITIONS}")
+  endif()
+
+  # Enable optional static analyzers
+  if(DEFINED al_STATIC_ANALYZER)
+    phi_target_use_static_analyzers(TARGET ${ae_NAME} ${al_STATIC_ANALYZER})
   endif()
 endfunction()

@@ -2,42 +2,39 @@
 
 phi_include_guard()
 
-# Load C++ Standard
-include(CXXStandard)
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  phi_log("Setting build type to 'RelWithDebInfo' as none was specified.")
+  set(CMAKE_BUILD_TYPE
+      RelWithDebInfo
+      CACHE STRING "Choose the type of build." FORCE)
 
-if(PHI_COMPILER_CLANG AND PHI_BUILD_WITH_TIME_TRACE)
-  target_compile_definitions(phi_project_options INTERFACE -ftime-trace)
+  # Set the possible values of build type for cmake-gui, ccmake
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel"
+                                               "RelWithDebInfo")
 endif()
 
-# Compiler features
-include(CompilerFeatures)
+if(CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  phi_trace("Build type: ${CMAKE_BUILD_TYPE}")
+elseif(CMAKE_CONFIGURATION_TYPES)
+  phi_trace("Configuration types: \"${CMAKE_CONFIGURATION_TYPES}\"")
+endif()
 
-# Standard project settings
-include(StandardProjectSettings)
+# Generate compile_commands.json to make it easier to work with clang based tools
+set(CMAKE_EXPORT_COMPILE_COMMANDS
+    ON
+    CACHE BOOL "" FORCE)
 
-# Include coverage settings
-include(Coverage)
+include(ProjectOptions)
 
-# enable cache system
-include(Cache)
-
-# Standard compiler warnings
-include(CompilerWarnings)
-phi_set_project_warnings(phi_internal_project_options)
-
-# Compiler optimizations
-include(CompilerOptimizations)
-
-# sanitizer options if supported by compiler
-include(Sanitizers)
-enable_sanitizers(phi_project_options)
-
-# allow for static analysis options
-include(StaticAnalyzers)
+phi_configure_project(
+  NAME
+  phi_project_options
+  DEBUG_FLAGS
+  WARNINGS
+  WARNINGS_AS_ERRORS
+  OPTIMIZATION_FLAGS
+  PEDANTIC)
 
 # Enable automatic formatting
 include(Formatting)
-
-# Enable user linker
-include(Linker)
-phi_configure_linker(phi_project_options)

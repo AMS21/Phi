@@ -13,8 +13,7 @@ phi_add_executable(
   "src/main.cpp"
   PRIVATE_LINK_LIBRARIES
   Phi::Core
-  Phi::InternalProjectOptions
   FOLDER
   "Examples")
 
-phi_enable_static_analyzers(${PROJECT_NAME})
+phi_target_enable_optimizations(TARGET ${PROJECT_NAME} PSO native)

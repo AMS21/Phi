@@ -2,16 +2,16 @@
 cmake_minimum_required(VERSION 2.8.12)
 
 # Policy
-if(${CMAKE_VERSION} VERSION_LESS 3.22)
+if(${CMAKE_VERSION} VERSION_LESS 3.23)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.22)
+  cmake_policy(VERSION 3.23)
 endif()
 
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
-include(IncludeGuard)
+include(internal/PhiIncludeGuard)
 include(Functions)
 
 set(PHI_VERSION_MAJOR 0)
@@ -58,8 +58,6 @@ option(PHI_AUTO_FORMATTING "Automatically format all source code during builds" 
 option(PHI_TEST_WITH_VALGRIND "Automatically run tests with valgrind and print results" OFF)
 option(PHI_ENABLE_CACHE "Enable cache if available" ON)
 option(PHI_ENABLE_OPTIMIZATION_FLAGS "Enable all the optimization flags from Phi" ON)
-option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
-option(PHI_ARCH "Optimization target for platform specific optimization" "native")
 option(PHI_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ${PHI_MAIN_PROJECT})
 option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" ON)
 option(PHI_ENABLE_USER_LINKER "Enable a specific linker if available" OFF)
@@ -71,6 +69,7 @@ option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
 option(PHI_EANBLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
+option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
 
 phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
            STRING "Dynamic")
@@ -91,6 +90,9 @@ set_property(
            "20"
            "23")
 
+option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
+phi_option(PHI_ARCH "Optimization target for platform specific optimization" STRING "native")
+
 # CI Builds Settings
 if(${PHI_CI_BUILD} AND ${PHI_MAIN_PROJECT})
   phi_trace("Is CI build")
@@ -106,15 +108,6 @@ if(${PHI_CI_BUILD} AND ${PHI_MAIN_PROJECT})
       CACHE BOOL "" FORCE)
 endif()
 
-# Project option targets
-add_library(phi_project_options INTERFACE)
-add_library(Phi::ProjectOptions ALIAS phi_project_options)
-
-add_library(phi_internal_project_options INTERFACE)
-add_library(Phi::InternalProjectOptions ALIAS phi_internal_project_options)
-
-target_link_libraries(phi_internal_project_options INTERFACE Phi::ProjectOptions)
-
 # Load configuration
 include(PhiConfiguration)
 
@@ -125,6 +118,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+set(PHI_GENERATED_FILES_DIR "${CMAKE_BINARY_DIR}/generated-includes/")
 
 # Warn about not out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -159,6 +154,4 @@ if(${PHI_BUILD_DOCS})
   add_subdirectory(docs)
 endif()
 
-if(${PHI_USE_UNITY_BUILD})
-  set_target_properties(Phi::Engine PROPERTIES UNITY_BUILD ON)
-endif()
+phi_apply_project_configuration_from(TARGET phi_project_options)
