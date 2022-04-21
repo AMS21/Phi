@@ -1,45 +1,51 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/type_traits/copy_volatile.hpp>
-#include <phi/type_traits/is_same.hpp>
+
+template <typename T, typename U, typename V>
+void test_copy_volatile_impl()
+{
+    CHECK_SAME_TYPE(typename phi::copy_volatile<T, U>::type, V);
+    CHECK_SAME_TYPE(phi::copy_volatile_t<T, U>, V);
+}
+
+template <typename T, typename U>
+void test_copy_volatile()
+{
+    test_copy_volatile_impl<T, U, U>();
+    test_copy_volatile_impl<T, const U, const U>();
+    test_copy_volatile_impl<T, volatile U, volatile U>();
+    test_copy_volatile_impl<T, const volatile U, const volatile U>();
+
+    test_copy_volatile_impl<const T, U, U>();
+    test_copy_volatile_impl<const T, const U, const U>();
+    test_copy_volatile_impl<const T, volatile U, volatile U>();
+    test_copy_volatile_impl<const T, const volatile U, const volatile U>();
+
+    test_copy_volatile_impl<volatile T, U, volatile U>();
+    test_copy_volatile_impl<volatile T, const U, const volatile U>();
+    test_copy_volatile_impl<volatile T, volatile U, volatile U>();
+    test_copy_volatile_impl<volatile T, const volatile U, const volatile U>();
+
+    test_copy_volatile_impl<const volatile T, U, volatile U>();
+    test_copy_volatile_impl<const volatile T, const U, const volatile U>();
+    test_copy_volatile_impl<const volatile T, volatile U, volatile U>();
+    test_copy_volatile_impl<const volatile T, const volatile U, const volatile U>();
+}
+
+struct A
+{};
 
 TEST_CASE("copy_volatile")
 {
-    CHECK_SAME_TYPE(typename phi::copy_volatile<int, float>::type, float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<volatile int, float>::type, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<int, volatile float>::type, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<volatile int, volatile float>::type,
-                    volatile float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile<int, const float>::type, const float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<const int, float>::type, float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<const int, const float>::type, const float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile<const volatile int, float>::type, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<int, const volatile float>::type,
-                    const volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile<const volatile int, const volatile float>::type,
-                    const volatile float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile<volatile int, const float>::type,
-                    const volatile float);
-}
-
-TEST_CASE("copy_volatile_t")
-{
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<int, float>, float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<volatile int, float>, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<int, volatile float>, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<volatile int, volatile float>, volatile float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<int, const float>, const float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<const int, float>, float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<const int, const float>, const float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<const volatile int, float>, volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<int, const volatile float>, const volatile float);
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<const volatile int, const volatile float>,
-                    const volatile float);
-
-    CHECK_SAME_TYPE(typename phi::copy_volatile_t<volatile int, const float>, const volatile float);
+    test_copy_volatile<void, void>();
+    test_copy_volatile<void, int>();
+    test_copy_volatile<int, void>();
+    test_copy_volatile<int, int>();
+    test_copy_volatile<int, float>();
+    test_copy_volatile<float, int>();
+    test_copy_volatile<float, float>();
+    test_copy_volatile<A, A>();
+    test_copy_volatile<A, int>();
+    test_copy_volatile<int, A>();
 }
