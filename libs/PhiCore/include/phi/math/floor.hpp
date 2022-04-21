@@ -28,7 +28,7 @@ PHI_NODISCARD constexpr FloatT floor(FloatT value) noexcept
 template <typename FloatT>
 PHI_NODISCARD constexpr floating_point<FloatT> floor(floating_point<FloatT> value) noexcept
 {
-    return floor(value.get());
+    return floor(value.unsafe());
 }
 
 DETAIL_PHI_END_NAMESPACE()

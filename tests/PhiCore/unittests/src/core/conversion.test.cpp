@@ -32,9 +32,9 @@ void test_unsafe_cast_from_float()
     using FloatT = phi::floating_point<T>;
 
     // from own type
-    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14f))).get() == T(3.14f));
-    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14))).get() == T(3.14));
-    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14L))).get() == T(3.14L));
+    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14f))).unsafe() == T(3.14f));
+    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14))).unsafe() == T(3.14));
+    STATIC_REQUIRE(phi::unsafe_cast<FloatT>(FloatT(T(3.14L))).unsafe() == T(3.14L));
 
     // To native type
     STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<float>(3.14f)) == T(3.14f));
@@ -64,32 +64,32 @@ void test_unsafe_cast_to_integer()
     using vt = typename T::value_type;
 
     // From T to T
-    STATIC_REQUIRE(phi::unsafe_cast<T>(T(vt(5))).get() == T(vt(5)).get());
+    STATIC_REQUIRE(phi::unsafe_cast<T>(T(vt(5))).unsafe() == T(vt(5)).unsafe());
 
     // From own Type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(vt(32)).get() == vt(32));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(vt(32)).unsafe() == vt(32));
 
     // from unsafe types
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int8_t(0)).get() == vt(0));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int16_t(1)).get() == vt(1));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int32_t(2)).get() == vt(2));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int64_t(3)).get() == vt(3));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int8_t(0)).unsafe() == vt(0));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int16_t(1)).unsafe() == vt(1));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int32_t(2)).unsafe() == vt(2));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::int64_t(3)).unsafe() == vt(3));
 
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint8_t(4)).get() == vt(4));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint16_t(5)).get() == vt(5));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint32_t(6)).get() == vt(6));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint64_t(7)).get() == vt(7));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint8_t(4)).unsafe() == vt(4));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint16_t(5)).unsafe() == vt(5));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint32_t(6)).unsafe() == vt(6));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::uint64_t(7)).unsafe() == vt(7));
 
     // Fron safe type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(phi::int8_t(0))).get() == vt(0));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(phi::int16_t(1))).get() == vt(1));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(phi::int32_t(2))).get() == vt(2));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(phi::int64_t(3))).get() == vt(3));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i8(phi::int8_t(0))).unsafe() == vt(0));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i16(phi::int16_t(1))).unsafe() == vt(1));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i32(phi::int32_t(2))).unsafe() == vt(2));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::i64(phi::int64_t(3))).unsafe() == vt(3));
 
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(phi::uint8_t(4))).get() == vt(4));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(phi::uint16_t(5))).get() == vt(5));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(phi::uint32_t(6))).get() == vt(6));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(phi::uint64_t(7))).get() == vt(7));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u8(phi::uint8_t(4))).unsafe() == vt(4));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u16(phi::uint16_t(5))).unsafe() == vt(5));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u32(phi::uint32_t(6))).unsafe() == vt(6));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::u64(phi::uint64_t(7))).unsafe() == vt(7));
 }
 
 template <typename T>
@@ -98,23 +98,24 @@ void test_unsafe_cast_to_float()
     using vt = typename T::value_type;
 
     // from T to T
-    STATIC_REQUIRE(phi::unsafe_cast<T>(T(3.14f)).get() == T(3.14f).get());
+    STATIC_REQUIRE(phi::unsafe_cast<T>(T(3.14f)).unsafe() == T(3.14f).unsafe());
 
     // from own type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(vt(3.14)).get() == vt(3.14));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(vt(3.14)).unsafe() == vt(3.14));
 
     // from unsafe type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14f).get() == vt(3.14f));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14f).unsafe() == vt(3.14f));
 #if !defined(TEST_BUGGED_MSVC)
-    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14).get() == vt(3.14));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14L).get() == vt(3.14L));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14).unsafe() == vt(3.14));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(3.14L).unsafe() == vt(3.14L));
 #endif
 
     // from safe type
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<float>(3.14f)).get() == vt(3.14f));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<float>(3.14f)).unsafe() == vt(3.14f));
 #if !defined(TEST_BUGGED_MSVC)
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<double>(3.14)).get() == vt(3.14));
-    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<long double>(3.14L)).get() == vt(3.14L));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<double>(3.14)).unsafe() == vt(3.14));
+    STATIC_REQUIRE(phi::unsafe_cast<T>(phi::floating_point<long double>(3.14L)).unsafe() ==
+                   vt(3.14L));
 #endif
 }
 

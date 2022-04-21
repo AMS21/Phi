@@ -160,7 +160,7 @@ public:
         return m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr FloatT get() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr FloatT unsafe() const noexcept
     {
         return m_Value;
     }

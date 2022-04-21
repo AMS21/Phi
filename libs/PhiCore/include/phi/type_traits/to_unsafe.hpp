@@ -26,7 +26,7 @@ namespace detail
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsafe_t<TypeT> to_unsafe_impl(
             TypeT original, true_type /*is_safe_type*/) noexcept
     {
-        return original.get();
+        return original.unsafe();
     }
 
     template <typename TypeT>

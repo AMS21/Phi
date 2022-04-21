@@ -36,7 +36,7 @@ public:
 
     explicit dynamic_array(size_type size) noexcept
         : m_Size{size}
-        , m_Elements{new (std::nothrow) TypeT[size.get()]}
+        , m_Elements{new (std::nothrow) TypeT[size.unsafe()]}
     {
         PHI_DBG_ASSERT(size > 0u, "Allocating zero elements");
         PHI_DBG_ASSERT(m_Elements != nullptr, "Failed to allocate");
@@ -49,7 +49,7 @@ public:
         // Copy elements
         for (usize i{0u}; i < other.m_Size; ++i)
         {
-            m_Elements[i.get()] = other.at(i);
+            m_Elements[i.unsafe()] = other.at(i);
         }
     }
 
@@ -83,7 +83,7 @@ public:
         // Copy elements
         for (usize i{0u}; i < other.m_Size; ++i)
         {
-            m_Elements[i.get()] = other.at(i);
+            m_Elements[i.unsafe()] = other.at(i);
         }
 
         return *this;
@@ -100,7 +100,7 @@ public:
         PHI_DBG_ASSERT(pos < m_Size, "Index out of range");
         PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
-        return m_Elements[pos.get()];
+        return m_Elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type pos) const noexcept
@@ -108,7 +108,7 @@ public:
         PHI_DBG_ASSERT(pos < m_Size, "Index out of range");
         PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
-        return m_Elements[pos.get()];
+        return m_Elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](size_type pos) noexcept

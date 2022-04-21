@@ -74,8 +74,8 @@ class Rectangle
 {
 public:
     Rectangle(Width width, Height height)
-        : width_(width.get())
-        , height_(height.get())
+        : width_(width.unsafe())
+        , height_(height.unsafe())
     {}
     Meter getWidth() const
     {
@@ -94,15 +94,15 @@ private:
 TEST_CASE("Basic usage")
 {
     Rectangle r(Width(10_meter), Height(12_meter));
-    REQUIRE(r.getWidth().get() == 10);
-    REQUIRE(r.getHeight().get() == 12);
+    REQUIRE(r.getWidth().unsafe() == 10);
+    REQUIRE(r.getHeight().unsafe() == 12);
 }
 
 using NameRef = phi::named_type<std::string&, struct NameRefParameter>;
 
 void changeValue(NameRef name)
 {
-    name.get() = "value2";
+    name.unsafe() = "value2";
 }
 
 TEST_CASE("Passing a strong reference")
@@ -115,7 +115,7 @@ TEST_CASE("Passing a strong reference")
 TEST_CASE("Construction of NamedType::ref from the underlying type")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag>;
-    auto addOne     = [](StrongInt::reference si) { ++(si.get()); };
+    auto addOne     = [](StrongInt::reference si) { ++(si.unsafe()); };
 
     int i = 42;
     addOne(StrongInt::reference(i));
@@ -125,15 +125,15 @@ TEST_CASE("Construction of NamedType::ref from the underlying type")
 TEST_CASE("Implicit conversion of NamedType to NamedType::ref")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag>;
-    auto addOne     = [](StrongInt::reference si) { ++(si.get()); };
+    auto addOne     = [](StrongInt::reference si) { ++(si.unsafe()); };
 
     StrongInt i(42);
     addOne(i);
-    REQUIRE(i.get() == 43);
+    REQUIRE(i.unsafe() == 43);
 
     StrongInt j(42);
     addOne(StrongInt::reference(j));
-    REQUIRE(j.get() == 43);
+    REQUIRE(j.unsafe() == 43);
 }
 
 struct PotentiallyThrowing
@@ -158,8 +158,8 @@ TEST_CASE("Default construction")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag>;
     StrongInt strongInt;
-    strongInt.get() = 42;
-    REQUIRE(strongInt.get() == 42);
+    strongInt.unsafe() = 42;
+    REQUIRE(strongInt.unsafe() == 42);
 
 #if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_nothrow_constructible<StrongInt>::value);
@@ -195,7 +195,7 @@ using Comparator = phi::named_type<Function, struct ComparatorParameter>;
 template <typename Function>
 std::string performAction(Comparator<Function> comp)
 {
-    return comp.get()();
+    return comp.unsafe()();
 }
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -214,8 +214,8 @@ TEST_CASE("Addable")
     using AddableType = phi::named_type<int, struct AddableTag, phi::addable>;
     AddableType s1(12);
     AddableType s2(10);
-    REQUIRE((s1 + s2).get() == 22);
-    REQUIRE((+s1).get() == 12);
+    REQUIRE((s1 + s2).unsafe() == 22);
+    REQUIRE((+s1).unsafe() == 12);
 }
 
 TEST_CASE("Addable constexpr")
@@ -223,8 +223,8 @@ TEST_CASE("Addable constexpr")
     using AddableType = phi::named_type<int, struct AddableTag, phi::addable>;
     constexpr AddableType s1(12);
     constexpr AddableType s2(10);
-    EXT_STATIC_REQUIRE((s1 + s2).get() == 22);
-    EXT_STATIC_REQUIRE((+s1).get() == 12);
+    EXT_STATIC_REQUIRE((s1 + s2).unsafe() == 22);
+    EXT_STATIC_REQUIRE((+s1).unsafe() == 12);
 }
 
 TEST_CASE("BinaryAddable")
@@ -232,7 +232,7 @@ TEST_CASE("BinaryAddable")
     using BinaryAddableType = phi::named_type<int, struct BinaryAddableTag, phi::binary_addable>;
     BinaryAddableType s1(12);
     BinaryAddableType s2(10);
-    REQUIRE((s1 + s2).get() == 22);
+    REQUIRE((s1 + s2).unsafe() == 22);
 }
 
 TEST_CASE("BinaryAddable constexpr")
@@ -241,24 +241,24 @@ TEST_CASE("BinaryAddable constexpr")
 
     constexpr BinaryAddableType s1(12);
     constexpr BinaryAddableType s2(10);
-    EXT_STATIC_REQUIRE((s1 + s2).get() == 22);
+    EXT_STATIC_REQUIRE((s1 + s2).unsafe() == 22);
 
     constexpr BinaryAddableType s(10);
-    EXT_STATIC_REQUIRE(BinaryAddableType{12}.operator+=(s).get() == 22);
+    EXT_STATIC_REQUIRE(BinaryAddableType{12}.operator+=(s).unsafe() == 22);
 }
 
 TEST_CASE("UnaryAddable")
 {
     using UnaryAddableType = phi::named_type<int, struct UnaryAddableTag, phi::unary_addable>;
     UnaryAddableType s1(12);
-    REQUIRE((+s1).get() == 12);
+    REQUIRE((+s1).unsafe() == 12);
 }
 
 TEST_CASE("UnaryAddable constexpr")
 {
     using UnaryAddableType = phi::named_type<int, struct UnaryAddableTag, phi::unary_addable>;
     constexpr UnaryAddableType s1(12);
-    EXT_STATIC_REQUIRE((+s1).get() == 12);
+    EXT_STATIC_REQUIRE((+s1).unsafe() == 12);
 }
 
 TEST_CASE("Subtractable")
@@ -266,8 +266,8 @@ TEST_CASE("Subtractable")
     using SubtractableType = phi::named_type<int, struct SubtractableTag, phi::subtractable>;
     SubtractableType s1(12);
     SubtractableType s2(10);
-    REQUIRE((s1 - s2).get() == 2);
-    REQUIRE((-s1).get() == -12);
+    REQUIRE((s1 - s2).unsafe() == 2);
+    REQUIRE((-s1).unsafe() == -12);
 }
 
 TEST_CASE("Subtractable constexpr")
@@ -275,8 +275,8 @@ TEST_CASE("Subtractable constexpr")
     using SubtractableType = phi::named_type<int, struct SubtractableTag, phi::subtractable>;
     constexpr SubtractableType s1(12);
     constexpr SubtractableType s2(10);
-    EXT_STATIC_REQUIRE((s1 - s2).get() == 2);
-    EXT_STATIC_REQUIRE((-s1).get() == -12);
+    EXT_STATIC_REQUIRE((s1 - s2).unsafe() == 2);
+    EXT_STATIC_REQUIRE((-s1).unsafe() == -12);
 }
 
 TEST_CASE("BinarySubtractable")
@@ -285,7 +285,7 @@ TEST_CASE("BinarySubtractable")
             phi::named_type<int, struct BinarySubtractableTag, phi::binary_subtractable>;
     BinarySubtractableType s1(12);
     BinarySubtractableType s2(10);
-    REQUIRE((s1 - s2).get() == 2);
+    REQUIRE((s1 - s2).unsafe() == 2);
 }
 
 TEST_CASE("BinarySubtractable constexpr")
@@ -295,10 +295,10 @@ TEST_CASE("BinarySubtractable constexpr")
 
     constexpr BinarySubtractableType s1(12);
     constexpr BinarySubtractableType s2(10);
-    EXT_STATIC_REQUIRE((s1 - s2).get() == 2);
+    EXT_STATIC_REQUIRE((s1 - s2).unsafe() == 2);
 
     constexpr BinarySubtractableType s(10);
-    EXT_STATIC_REQUIRE(BinarySubtractableType{12}.operator-=(s).get() == 2);
+    EXT_STATIC_REQUIRE(BinarySubtractableType{12}.operator-=(s).unsafe() == 2);
 }
 
 TEST_CASE("UnarySubtractable")
@@ -306,7 +306,7 @@ TEST_CASE("UnarySubtractable")
     using UnarySubtractableType =
             phi::named_type<int, struct UnarySubtractableTag, phi::unary_subtractable>;
     UnarySubtractableType s(12);
-    REQUIRE((-s).get() == -12);
+    REQUIRE((-s).unsafe() == -12);
 }
 
 TEST_CASE("UnarySubtractable constexpr")
@@ -314,7 +314,7 @@ TEST_CASE("UnarySubtractable constexpr")
     using UnarySubtractableType =
             phi::named_type<int, struct UnarySubtractableTag, phi::unary_subtractable>;
     constexpr UnarySubtractableType s(12);
-    EXT_STATIC_REQUIRE((-s).get() == -12);
+    EXT_STATIC_REQUIRE((-s).unsafe() == -12);
 }
 
 TEST_CASE("Multiplicable")
@@ -322,9 +322,9 @@ TEST_CASE("Multiplicable")
     using MultiplicableType = phi::named_type<int, struct MultiplicableTag, phi::multiplicable>;
     MultiplicableType s1(12);
     MultiplicableType s2(10);
-    REQUIRE((s1 * s2).get() == 120);
+    REQUIRE((s1 * s2).unsafe() == 120);
     s1 *= s2;
-    REQUIRE(s1.get() == 120);
+    REQUIRE(s1.unsafe() == 120);
 }
 
 TEST_CASE("Multiplicable constexpr")
@@ -333,10 +333,10 @@ TEST_CASE("Multiplicable constexpr")
 
     constexpr MultiplicableType s1(12);
     constexpr MultiplicableType s2(10);
-    EXT_STATIC_REQUIRE((s1 * s2).get() == 120);
+    EXT_STATIC_REQUIRE((s1 * s2).unsafe() == 120);
 
     constexpr MultiplicableType s(10);
-    EXT_STATIC_REQUIRE(MultiplicableType{12}.operator*=(s).get() == 120);
+    EXT_STATIC_REQUIRE(MultiplicableType{12}.operator*=(s).unsafe() == 120);
 }
 
 TEST_CASE("Divisible")
@@ -344,9 +344,9 @@ TEST_CASE("Divisible")
     using DivisibleType = phi::named_type<int, struct DivisibleTag, phi::divisible>;
     DivisibleType s1(120);
     DivisibleType s2(10);
-    REQUIRE((s1 / s2).get() == 12);
+    REQUIRE((s1 / s2).unsafe() == 12);
     s1 /= s2;
-    REQUIRE(s1.get() == 12);
+    REQUIRE(s1.unsafe() == 12);
 }
 
 TEST_CASE("Divisible constexpr")
@@ -355,10 +355,10 @@ TEST_CASE("Divisible constexpr")
 
     constexpr DivisibleType s1(120);
     constexpr DivisibleType s2(10);
-    EXT_STATIC_REQUIRE((s1 / s2).get() == 12);
+    EXT_STATIC_REQUIRE((s1 / s2).unsafe() == 12);
 
     constexpr DivisibleType s(10);
-    EXT_STATIC_REQUIRE(DivisibleType{120}.operator/=(s).get() == 12);
+    EXT_STATIC_REQUIRE(DivisibleType{120}.operator/=(s).unsafe() == 12);
 }
 
 TEST_CASE("Modulable")
@@ -366,9 +366,9 @@ TEST_CASE("Modulable")
     using ModulableType = phi::named_type<int, struct ModulableTag, phi::modulable>;
     ModulableType s1(5);
     ModulableType s2(2);
-    CHECK((s1 % s2).get() == 1);
+    CHECK((s1 % s2).unsafe() == 1);
     s1 %= s2;
-    CHECK(s1.get() == 1);
+    CHECK(s1.unsafe() == 1);
 }
 
 TEST_CASE("Modulable constexpr")
@@ -377,10 +377,10 @@ TEST_CASE("Modulable constexpr")
 
     constexpr ModulableType s1(5);
     constexpr ModulableType s2(2);
-    EXT_STATIC_REQUIRE((s1 % s2).get() == 1);
+    EXT_STATIC_REQUIRE((s1 % s2).unsafe() == 1);
 
     constexpr ModulableType s(2);
-    EXT_STATIC_REQUIRE(ModulableType{5}.operator%=(s).get() == 1);
+    EXT_STATIC_REQUIRE(ModulableType{5}.operator%=(s).unsafe() == 1);
 }
 
 TEST_CASE("BitWiseInvertable")
@@ -388,7 +388,7 @@ TEST_CASE("BitWiseInvertable")
     using BitWiseInvertableType =
             phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
     BitWiseInvertableType s1(13);
-    CHECK((~s1).get() == (~13));
+    CHECK((~s1).unsafe() == (~13));
 }
 
 TEST_CASE("BitWiseInvertable constexpr")
@@ -396,7 +396,7 @@ TEST_CASE("BitWiseInvertable constexpr")
     using BitWiseInvertableType =
             phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
     constexpr BitWiseInvertableType s1(13);
-    EXT_STATIC_REQUIRE((~s1).get() == (~13));
+    EXT_STATIC_REQUIRE((~s1).unsafe() == (~13));
 }
 
 TEST_CASE("BitWiseAndable")
@@ -405,9 +405,9 @@ TEST_CASE("BitWiseAndable")
             phi::named_type<int, struct BitWiseAndableTag, phi::bit_wise_andable>;
     BitWiseAndableType s1(2);
     BitWiseAndableType s2(64);
-    CHECK((s1 & s2).get() == (2 & 64));
+    CHECK((s1 & s2).unsafe() == (2 & 64));
     s1 &= s2;
-    CHECK(s1.get() == (2 & 64));
+    CHECK(s1.unsafe() == (2 & 64));
 }
 
 TEST_CASE("BitWiseAndable constexpr")
@@ -417,10 +417,10 @@ TEST_CASE("BitWiseAndable constexpr")
 
     constexpr BitWiseAndableType s1(2);
     constexpr BitWiseAndableType s2(64);
-    EXT_STATIC_REQUIRE((s1 & s2).get() == (2 & 64));
+    EXT_STATIC_REQUIRE((s1 & s2).unsafe() == (2 & 64));
 
     constexpr BitWiseAndableType s(64);
-    EXT_STATIC_REQUIRE(BitWiseAndableType{2}.operator&=(s).get() == (2 & 64));
+    EXT_STATIC_REQUIRE(BitWiseAndableType{2}.operator&=(s).unsafe() == (2 & 64));
 }
 
 TEST_CASE("BitWiseOrable")
@@ -428,9 +428,9 @@ TEST_CASE("BitWiseOrable")
     using BitWiseOrableType = phi::named_type<int, struct BitWiseOrableTag, phi::bit_wise_orable>;
     BitWiseOrableType s1(2);
     BitWiseOrableType s2(64);
-    CHECK((s1 | s2).get() == (2 | 64));
+    CHECK((s1 | s2).unsafe() == (2 | 64));
     s1 |= s2;
-    CHECK(s1.get() == (2 | 64));
+    CHECK(s1.unsafe() == (2 | 64));
 }
 
 TEST_CASE("BitWiseOrable constexpr")
@@ -439,10 +439,10 @@ TEST_CASE("BitWiseOrable constexpr")
 
     constexpr BitWiseOrableType s1(2);
     constexpr BitWiseOrableType s2(64);
-    EXT_STATIC_REQUIRE((s1 | s2).get() == (2 | 64));
+    EXT_STATIC_REQUIRE((s1 | s2).unsafe() == (2 | 64));
 
     constexpr BitWiseOrableType s(64);
-    EXT_STATIC_REQUIRE(BitWiseOrableType{2}.operator|=(s).get() == (2 | 64));
+    EXT_STATIC_REQUIRE(BitWiseOrableType{2}.operator|=(s).unsafe() == (2 | 64));
 }
 
 TEST_CASE("BitWiseXorable")
@@ -451,9 +451,9 @@ TEST_CASE("BitWiseXorable")
             phi::named_type<int, struct BitWiseXorableTag, phi::bit_wise_xorable>;
     BitWiseXorableType s1(2);
     BitWiseXorableType s2(64);
-    CHECK((s1 ^ s2).get() == (2 ^ 64));
+    CHECK((s1 ^ s2).unsafe() == (2 ^ 64));
     s1 ^= s2;
-    CHECK(s1.get() == (2 ^ 64));
+    CHECK(s1.unsafe() == (2 ^ 64));
 }
 
 TEST_CASE("BitWiseXorable constexpr")
@@ -462,10 +462,10 @@ TEST_CASE("BitWiseXorable constexpr")
             phi::named_type<int, struct BitWiseXorableTag, phi::bit_wise_xorable>;
     constexpr BitWiseXorableType s1(2);
     constexpr BitWiseXorableType s2(64);
-    EXT_STATIC_REQUIRE((s1 ^ s2).get() == 66);
+    EXT_STATIC_REQUIRE((s1 ^ s2).unsafe() == 66);
 
     constexpr BitWiseXorableType s(64);
-    EXT_STATIC_REQUIRE(BitWiseXorableType{2}.operator^=(s).get() == 66);
+    EXT_STATIC_REQUIRE(BitWiseXorableType{2}.operator^=(s).unsafe() == 66);
 }
 
 TEST_CASE("BitWiseLeftShiftable")
@@ -474,9 +474,9 @@ TEST_CASE("BitWiseLeftShiftable")
             phi::named_type<int, struct BitWiseLeftShiftableTag, phi::bit_wise_left_shiftable>;
     BitWiseLeftShiftableType s1(2);
     BitWiseLeftShiftableType s2(3);
-    CHECK((s1 << s2).get() == (2 << 3));
+    CHECK((s1 << s2).unsafe() == (2 << 3));
     s1 <<= s2;
-    CHECK(s1.get() == (2 << 3));
+    CHECK(s1.unsafe() == (2 << 3));
 }
 
 TEST_CASE("BitWiseLeftShiftable constexpr")
@@ -485,10 +485,10 @@ TEST_CASE("BitWiseLeftShiftable constexpr")
             phi::named_type<int, struct BitWiseLeftShiftableTag, phi::bit_wise_left_shiftable>;
     constexpr BitWiseLeftShiftableType s1(2);
     constexpr BitWiseLeftShiftableType s2(3);
-    EXT_STATIC_REQUIRE((s1 << s2).get() == (2 << 3));
+    EXT_STATIC_REQUIRE((s1 << s2).unsafe() == (2 << 3));
 
     constexpr BitWiseLeftShiftableType s(3);
-    EXT_STATIC_REQUIRE(BitWiseLeftShiftableType{2}.operator<<=(s).get() == (2 << 3));
+    EXT_STATIC_REQUIRE(BitWiseLeftShiftableType{2}.operator<<=(s).unsafe() == (2 << 3));
 }
 
 TEST_CASE("BitWiseRightShiftable")
@@ -497,9 +497,9 @@ TEST_CASE("BitWiseRightShiftable")
             phi::named_type<int, struct BitWiseRightShiftableTag, phi::bit_wise_right_shiftable>;
     BitWiseRightShiftableType s1(2);
     BitWiseRightShiftableType s2(3);
-    CHECK((s1 >> s2).get() == (2 >> 3));
+    CHECK((s1 >> s2).unsafe() == (2 >> 3));
     s1 >>= s2;
-    CHECK(s1.get() == (2 >> 3));
+    CHECK(s1.unsafe() == (2 >> 3));
 }
 
 TEST_CASE("BitWiseRightShiftable constexpr")
@@ -508,10 +508,10 @@ TEST_CASE("BitWiseRightShiftable constexpr")
             phi::named_type<int, struct BitWiseRightShiftableTag, phi::bit_wise_right_shiftable>;
     constexpr BitWiseRightShiftableType s1(2);
     constexpr BitWiseRightShiftableType s2(3);
-    EXT_STATIC_REQUIRE((s1 >> s2).get() == (2 >> 3));
+    EXT_STATIC_REQUIRE((s1 >> s2).unsafe() == (2 >> 3));
 
     constexpr BitWiseRightShiftableType s(3);
-    EXT_STATIC_REQUIRE(BitWiseRightShiftableType{2}.operator>>=(s).get() == (2 >> 3));
+    EXT_STATIC_REQUIRE(BitWiseRightShiftableType{2}.operator>>=(s).unsafe() == (2 >> 3));
 }
 
 TEST_CASE("Comparable")
@@ -872,7 +872,7 @@ TEST_CASE("Named arguments")
     static const LastName::argument  lastName;
     auto getFullName = [](FirstName const& firstName_, LastName const& lastName_) //
     {
-        return firstName_.get() + lastName_.get(); //
+        return firstName_.unsafe() + lastName_.unsafe(); //
     };
 
     auto fullName = getFullName(firstName = "James", lastName = "Bond");
@@ -883,7 +883,7 @@ TEST_CASE("Named arguments with bracket constructor")
 {
     using Numbers = phi::named_type<std::vector<int>, struct NumbersTag>;
     static const Numbers::argument numbers;
-    auto getNumbers = [](Numbers const& numbers_) { return numbers_.get(); };
+    auto getNumbers = [](Numbers const& numbers_) { return numbers_.unsafe(); };
 
     auto vec = getNumbers(numbers = {1, 2, 3});
     REQUIRE(vec == std::vector<int>{1, 2, 3});
@@ -900,7 +900,7 @@ TEST_CASE("constexpr")
 {
     using strong_bool = phi::named_type<bool, struct BoolTag>;
 
-    EXT_STATIC_REQUIRE(strong_bool{true}.get());
+    EXT_STATIC_REQUIRE(strong_bool{true}.unsafe());
 }
 
 struct throw_on_construction
@@ -933,26 +933,26 @@ TEST_CASE("Arithmetic")
     strong_arithmetic a{1};
     strong_arithmetic b{2};
 
-    CHECK((a + b).get() == 3);
+    CHECK((a + b).unsafe() == 3);
 
     a += b;
-    CHECK(a.get() == 3);
+    CHECK(a.unsafe() == 3);
 
-    CHECK((a - b).get() == 1);
+    CHECK((a - b).unsafe() == 1);
 
     a -= b;
-    CHECK(a.get() == 1);
+    CHECK(a.unsafe() == 1);
 
-    a.get() = 5;
-    CHECK((a * b).get() == 10);
+    a.unsafe() = 5;
+    CHECK((a * b).unsafe() == 10);
 
     a *= b;
-    CHECK(a.get() == 10);
+    CHECK(a.unsafe() == 10);
 
-    CHECK((a / b).get() == 5);
+    CHECK((a / b).unsafe() == 5);
 
     a /= b;
-    CHECK(a.get() == 5);
+    CHECK(a.unsafe() == 5);
 }
 
 TEST_CASE("Printable")
@@ -984,7 +984,7 @@ TEST_CASE("Dereferencable")
         StrongInt a{1};
         int&      value = *a;
         value           = 2;
-        CHECK(a.get() == 2);
+        CHECK(a.unsafe() == 2);
     }
 
     {
@@ -1010,14 +1010,14 @@ TEST_CASE("PreIncrementable")
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_incrementable>;
     StrongInt a{1};
     StrongInt b = ++a;
-    CHECK(a.get() == 2);
-    CHECK(b.get() == 2);
+    CHECK(a.unsafe() == 2);
+    CHECK(b.unsafe() == 2);
 }
 
 TEST_CASE("PreIncrementable constexpr")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_incrementable>;
-    EXT_STATIC_REQUIRE((++StrongInt{1}).get() == 2);
+    EXT_STATIC_REQUIRE((++StrongInt{1}).unsafe() == 2);
 }
 
 TEST_CASE("PostIncrementable")
@@ -1025,14 +1025,14 @@ TEST_CASE("PostIncrementable")
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_incrementable>;
     StrongInt a{1};
     StrongInt b = a++;
-    CHECK(a.get() == 2);
-    CHECK(b.get() == 1);
+    CHECK(a.unsafe() == 2);
+    CHECK(b.unsafe() == 1);
 }
 
 TEST_CASE("PostIncrementable constexpr")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_incrementable>;
-    EXT_STATIC_REQUIRE((StrongInt { 1 } ++).get() == 1);
+    EXT_STATIC_REQUIRE((StrongInt { 1 } ++).unsafe() == 1);
 }
 
 TEST_CASE("PreDecrementable")
@@ -1040,14 +1040,14 @@ TEST_CASE("PreDecrementable")
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_decrementable>;
     StrongInt a{1};
     StrongInt b = --a;
-    CHECK(a.get() == 0);
-    CHECK(b.get() == 0);
+    CHECK(a.unsafe() == 0);
+    CHECK(b.unsafe() == 0);
 }
 
 TEST_CASE("PreDecrementable constexpr")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::pre_decrementable>;
-    EXT_STATIC_REQUIRE((--StrongInt{1}).get() == 0);
+    EXT_STATIC_REQUIRE((--StrongInt{1}).unsafe() == 0);
 }
 
 TEST_CASE("PostDecrementable")
@@ -1055,12 +1055,12 @@ TEST_CASE("PostDecrementable")
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_decrementable>;
     StrongInt a{1};
     StrongInt b = a--;
-    CHECK(a.get() == 0);
-    CHECK(b.get() == 1);
+    CHECK(a.unsafe() == 0);
+    CHECK(b.unsafe() == 1);
 }
 
 TEST_CASE("PostDecrementable constexpr")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::post_decrementable>;
-    EXT_STATIC_REQUIRE((StrongInt { 1 } --).get() == 1);
+    EXT_STATIC_REQUIRE((StrongInt { 1 } --).unsafe() == 1);
 }

@@ -6,5 +6,5 @@ int main()
 
     auto val = -i;
 
-    return val.get();
+    return val.unsafe();
 }

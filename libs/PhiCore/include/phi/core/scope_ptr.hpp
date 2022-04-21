@@ -507,7 +507,7 @@ template <typename TypeT>
 PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, scope_ptr<TypeT>>::type
 make_scope(phi::usize size)
 {
-    return scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]());
+    return scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.unsafe()]());
 }
 
 template <typename TypeT, typename... ArgsT>
@@ -525,7 +525,7 @@ template <typename TypeT>
 PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, scope_ptr<TypeT>>::type
 make_scope_for_overwrite(phi::usize size)
 {
-    return scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]);
+    return scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.unsafe()]);
 }
 
 template <typename TypeT, typename... ArgsT>
@@ -543,7 +543,7 @@ template <typename TypeT>
 PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, not_null_scope_ptr<TypeT>>::type
 make_not_null_scope(phi::usize size)
 {
-    return not_null_scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]());
+    return not_null_scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.unsafe()]());
 }
 
 template <typename TypeT, typename... ArgsT>
@@ -561,7 +561,7 @@ template <typename TypeT>
 PHI_NODISCARD typename enable_if<is_unbounded_array<TypeT>::value, not_null_scope_ptr<TypeT>>::type
 make_not_null_scope_for_overwrite(phi::usize size)
 {
-    return not_null_scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.get()]);
+    return not_null_scope_ptr<TypeT>(new typename remove_extent<TypeT>::type[size.unsafe()]);
 }
 
 template <typename TypeT, typename... ArgsT>
