@@ -5,15 +5,6 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/core/max_align_t.hpp>
-#include <cstdint>
-
-struct natural_alignment
-{
-    long        t1;
-    long long   t2;
-    double      t3;
-    long double t4;
-};
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")

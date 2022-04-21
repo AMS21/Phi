@@ -610,6 +610,14 @@ class CannotInstantiate
     };
 };
 
+struct natural_alignment
+{
+    long        t1;
+    long long   t2;
+    double      t3;
+    long double t4;
+};
+
 enum Enum
 {
     zero,
