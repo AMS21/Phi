@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -435,6 +436,16 @@ TEST_CASE("is_void")
     test_is_not_void<TrapSelfAssign>();
     test_is_not_void<TrapDeref>();
     test_is_not_void<TrapArraySubscript>();
+
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
+
+    test_is_not_void<int[0]>();
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+    PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif
 
     test_is_not_void<void()>();
     test_is_not_void<void()&>();
