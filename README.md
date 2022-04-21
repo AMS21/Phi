@@ -10,3 +10,4 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/CodeQL?label=CodeQL)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/AMS21/Phi.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AMS21/Phi/context:cpp)
 [![codecov](https://codecov.io/gh/AMS21/Phi/branch/develop/graph/badge.svg)](https://codecov.io/gh/AMS21/Phi)
+[![BCH compliance](https://bettercodehub.com/edge/badge/AMS21/Phi?branch=develop)](https://bettercodehub.com/)
