@@ -108,10 +108,6 @@ if(${PHI_CI_BUILD} AND ${PHI_MAIN_PROJECT})
       CACHE BOOL "" FORCE)
 endif()
 
-# Load configuration
-include(PhiConfiguration)
-include(ProjectOptions)
-
 # Settings
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -131,6 +127,10 @@ if(EXISTS "${LOC_PATH}")
 endif()
 
 set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Load configuration
+include(PhiConfiguration)
+include(ProjectOptions)
 
 # Find required system libs
 find_package(Threads REQUIRED)
