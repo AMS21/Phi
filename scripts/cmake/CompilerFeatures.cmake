@@ -2,6 +2,7 @@ phi_include_guard()
 
 include(CheckTypeSize)
 include(CompilerWarnings)
+include(Standard)
 include(internal/PhiCheckCXXSourceCompiles)
 include(Common)
 
