@@ -257,6 +257,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<CannotInstantiate<int>>();
     test_add_cv<CannotInstantiate<float>>();
     test_add_cv<CannotInstantiate<Class>>();
+    test_add_cv<natural_alignment>();
     test_add_cv<Enum>();
     test_add_cv<EnumSigned>();
     test_add_cv<EnumUnsigned>();

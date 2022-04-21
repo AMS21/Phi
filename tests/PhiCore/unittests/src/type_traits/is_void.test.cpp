@@ -372,6 +372,7 @@ TEST_CASE("is_void")
     test_is_not_void<CannotInstantiate<int>>();
     test_is_not_void<CannotInstantiate<float>>();
     test_is_not_void<CannotInstantiate<Class>>();
+    test_is_not_void<natural_alignment>();
     test_is_not_void<Enum>();
     test_is_not_void<EnumSigned>();
     test_is_not_void<EnumUnsigned>();

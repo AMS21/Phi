@@ -258,6 +258,7 @@ TEST_CASE("type_traits.add_const")
     test_add_const<CannotInstantiate<int>>();
     test_add_const<CannotInstantiate<float>>();
     test_add_const<CannotInstantiate<Class>>();
+    test_add_const<natural_alignment>();
     test_add_const<Enum>();
     test_add_const<EnumSigned>();
     test_add_const<EnumUnsigned>();
