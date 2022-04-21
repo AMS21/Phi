@@ -31,7 +31,8 @@ namespace detail
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<typename TargetT::value_type>(
-                phi::forward<const typename remove_reference_t<SourceT>::value_type>(source.get()));
+                phi::forward<const typename remove_reference_t<SourceT>::value_type>(
+                        source.unsafe()));
     }
 
     template <typename TargetT, typename SourceT>
@@ -39,7 +40,7 @@ namespace detail
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<typename TargetT::value_type>(
-                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.get()));
+                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.unsafe()));
     }
 
     template <typename TargetT, typename SourceT>
@@ -66,7 +67,8 @@ namespace detail
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<TargetT>(
-                phi::forward<const typename remove_reference_t<SourceT>::value_type>(source.get()));
+                phi::forward<const typename remove_reference_t<SourceT>::value_type>(
+                        source.unsafe()));
     }
 
     template <typename TargetT, typename SourceT>
@@ -74,7 +76,7 @@ namespace detail
                                                      true_type /*source_safe*/) noexcept
     {
         return static_cast<TargetT>(
-                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.get()));
+                phi::forward<typename remove_reference_t<SourceT>::value_type>(source.unsafe()));
     }
 
     template <typename TargetT, typename SourceT>

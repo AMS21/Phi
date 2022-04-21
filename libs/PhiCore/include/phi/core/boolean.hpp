@@ -89,7 +89,7 @@ public:
         return {!m_Value};
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool get() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool unsafe() const noexcept
     {
         return m_Value;
     }

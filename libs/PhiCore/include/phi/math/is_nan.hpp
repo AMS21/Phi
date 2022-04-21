@@ -31,7 +31,7 @@ template <typename FloatT>
 PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_nan(
         FloatT val) noexcept
 {
-    return is_nan<typename FloatT::value_type>(val.get());
+    return is_nan<typename FloatT::value_type>(val.unsafe());
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()

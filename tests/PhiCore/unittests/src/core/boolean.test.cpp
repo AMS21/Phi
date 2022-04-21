@@ -145,10 +145,10 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         CHECK_FALSE(static_cast<bool>(b));
     }
 
-    SECTION("get")
+    SECTION("unsafe")
     {
         CONSTEXPR_RUNTIME phi::boolean b(true);
-        STATIC_REQUIRE(b.get());
+        STATIC_REQUIRE(b.unsafe());
     }
 
     SECTION("std::hash")

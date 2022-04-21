@@ -42,14 +42,14 @@ public:
     {
         PHI_DBG_ASSERT(pos < Size, "Index out of range");
 
-        return m_Elements[pos.get()];
+        return m_Elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type pos) const noexcept
     {
         PHI_DBG_ASSERT(pos < Size, "Index out of range");
 
-        return m_Elements[pos.get()];
+        return m_Elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](size_type pos) noexcept
@@ -171,7 +171,7 @@ public:
     {
         for (size_type index{0u}; index < Size; ++index)
         {
-            m_Elements[index.get()] = value;
+            m_Elements[index.unsafe()] = value;
         }
     }
 

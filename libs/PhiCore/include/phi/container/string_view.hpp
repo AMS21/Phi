@@ -161,7 +161,7 @@ public:
 
     PHI_NODISCARD constexpr iterator end() const noexcept
     {
-        return m_Data + m_Length.get();
+        return m_Data + m_Length.unsafe();
     }
 
     PHI_NODISCARD constexpr const_iterator cbegin() const noexcept
@@ -171,7 +171,7 @@ public:
 
     PHI_NODISCARD constexpr const_iterator cend() const noexcept
     {
-        return m_Data + m_Length.get();
+        return m_Data + m_Length.unsafe();
     }
 
     PHI_NODISCARD constexpr reverse_iterator rbegin() const noexcept
@@ -255,7 +255,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR basic_string_view& add_prefix(size_type count) noexcept
     {
-        m_Data -= count.get();
+        m_Data -= count.unsafe();
         m_Length += count;
 
         return *this;
@@ -272,7 +272,7 @@ public:
     {
         PHI_DBG_ASSERT(count <= length(), "Cannot remove more than size");
 
-        m_Data += count.get();
+        m_Data += count.unsafe();
         m_Length -= count;
 
         return *this;
@@ -309,7 +309,7 @@ public:
         PHI_DBG_ASSERT(pos <= length(), "Invalid position");
 
         const size_type rlen = min(count, length() - pos);
-        TraitsT::copy(destination, data() + pos.get(), rlen.get());
+        TraitsT::copy(destination, data() + pos.unsafe(), rlen.unsafe());
 
         return rlen;
     }
@@ -319,7 +319,7 @@ public:
     {
         PHI_DBG_ASSERT(pos <= length(), "Invalid position");
 
-        return basic_string_view(data() + pos.get(), min(count, length() - pos));
+        return basic_string_view(data() + pos.unsafe(), min(count, length() - pos));
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
@@ -343,7 +343,7 @@ public:
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         {
             const i32 result = TraitsT::compare(data(), other.data(),
-                                                min(length().get(), other.length().get()));
+                                                min(length().unsafe(), other.length().unsafe()));
 
             if (result != 0)
             {
@@ -356,10 +356,10 @@ public:
 #else
 
         // Ugly C++-11 compatible version of the same code
-        return TraitsT::compare(data(), other.data(), min(length().get(), other.length().get())) !=
-                               0 ?
+        return TraitsT::compare(data(), other.data(),
+                                min(length().unsafe(), other.length().unsafe())) != 0 ?
                        TraitsT::compare(data(), other.data(),
-                                        min(length().get(), other.length().get())) :
+                                        min(length().unsafe(), other.length().unsafe())) :
                length() == other.length() ? 0 :
                length() < other.length()  ? -1 :
                                             1;
@@ -652,7 +652,7 @@ private:
     {
         PHI_DBG_ASSERT(pos < length(), "Index out of bounds!");
 
-        return m_Data[pos.get()];
+        return m_Data[pos.unsafe()];
     }
 
     PHI_NODISCARD constexpr size_type to_pos(const_iterator it) const noexcept

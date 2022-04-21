@@ -42,7 +42,7 @@ template <typename FloatT>
 PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_infinity(
         FloatT value) noexcept
 {
-    return is_infinity<typename FloatT::value_type>(value.get());
+    return is_infinity<typename FloatT::value_type>(value.unsafe());
 }
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

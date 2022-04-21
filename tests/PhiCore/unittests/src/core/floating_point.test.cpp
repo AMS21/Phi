@@ -260,27 +260,27 @@ TEST_CASE("floating_point")
         {
             FloatT wrapper(24.0 * 6.0);
             double normal(24.0 * 6.0);
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
 
             wrapper %= 5.0;
             normal = std::fmod(normal, 5.0);
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
 
             wrapper %= float(5.0);
             normal = std::fmod(normal, float(5.0));
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
 
             wrapper = wrapper % (-23.0);
             normal  = std::fmod(normal, (-23.0));
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
 
             wrapper = 22.0 % wrapper;
             normal  = std::fmod(22.0, normal);
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
 
             wrapper = FloatT(-4.0) % wrapper;
             normal  = std::fmod(-4.0, normal);
-            CHECK(wrapper.get() == normal);
+            CHECK(wrapper.unsafe() == normal);
         }
 
         SECTION("comparison")
@@ -351,10 +351,10 @@ TEST_CASE("floating_point")
             CHECK(static_cast<double>(f) == 1.0);
         }
 
-        SECTION("get")
+        SECTION("unsafe")
         {
             CONSTEXPR_RUNTIME FloatT f(0.0);
-            STATIC_REQUIRE(f.get() == 0.0);
+            STATIC_REQUIRE(f.unsafe() == 0.0);
         }
 
         SECTION("std::hash")
