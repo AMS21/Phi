@@ -54,6 +54,8 @@ public:
         : m_Ptr(ptr)
     {}
 
+    scope_ptr(const scope_ptr<TypeT>&) = delete;
+
     constexpr scope_ptr(scope_ptr<TypeT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {}
@@ -80,6 +82,8 @@ public:
     {
         clear();
     }
+
+    scope_ptr<TypeT>& operator=(const scope_ptr<TypeT>&) = delete;
 
     PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(scope_ptr<TypeT>&& other) noexcept
     {
@@ -304,6 +308,8 @@ public:
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
     }
 
+    not_null_scope_ptr(const not_null_scope_ptr<TypeT>&) = delete;
+
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(not_null_scope_ptr<TypeT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -321,6 +327,8 @@ public:
     {
         clear();
     }
+
+    not_null_scope_ptr<TypeT>& operator=(const not_null_scope_ptr<TypeT>&) = delete;
 
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(
             not_null_scope_ptr<TypeT>&& other) noexcept
