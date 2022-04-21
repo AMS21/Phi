@@ -13,9 +13,9 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr add_const_t<TypeT>& as_const(TypeT& t) noexcept
+PHI_NODISCARD constexpr add_const_t<TypeT>& as_const(TypeT& value) noexcept
 {
-    return t;
+    return value;
 }
 
 template <typename TypeT>
