@@ -5,8 +5,8 @@ on:
     - cron: '0 4 1 * *' # At 04:00 on the first day of the month
   workflow_dispatch:
 
-links:
-  linux:
+jobs:
+  links:
     runs-on: ubuntu-20.04
 
     steps:
