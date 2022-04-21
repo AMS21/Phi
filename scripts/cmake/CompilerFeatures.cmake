@@ -387,6 +387,7 @@ phi_check_cxx_source_compiles("__attribute__ ((const)) int main() {}"
                               PHI_HAS_EXTENSION_ATTRIBUTE_CONST)
 phi_check_cxx_source_compiles("__attribute__ ((pure)) int main() {}"
                               PHI_HAS_EXTENSION_ATTRIBUTE_PURE)
+phi_check_cxx_source_compiles("int main() { int a[0]; }" PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY)
 
 # Bugs
 phi_check_cxx_source_compiles(
