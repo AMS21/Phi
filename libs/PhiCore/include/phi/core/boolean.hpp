@@ -105,36 +105,36 @@ private:
 
 PHI_ALWAYS_INLINE constexpr boolean operator==(const boolean& lhs, const boolean& rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) == static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
 PHI_ALWAYS_INLINE constexpr boolean operator==(const boolean& lhs, TypeT rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) == static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
 PHI_ALWAYS_INLINE constexpr boolean operator==(TypeT lhs, const boolean& rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) == static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 PHI_ALWAYS_INLINE constexpr boolean operator!=(const boolean& lhs, const boolean& rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) != static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
 PHI_ALWAYS_INLINE constexpr boolean operator!=(const boolean& lhs, TypeT rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) != static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
 PHI_ALWAYS_INLINE constexpr boolean operator!=(TypeT lhs, const boolean& rhs) noexcept
 {
-    return boolean(static_cast<bool>(lhs) != static_cast<bool>(rhs));
+    return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename CharT, typename CharTraitsT>
