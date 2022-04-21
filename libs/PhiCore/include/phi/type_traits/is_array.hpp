@@ -8,34 +8,11 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/compiler_support/intrinsics/is_array.hpp"
+#include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-#if PHI_SUPPORTS_IS_ARRAY()
-
-DETAIL_PHI_BEGIN_NAMESPACE()
-
-template <typename TypeT>
-struct is_array : public bool_constant<PHI_IS_ARRAY(TypeT)>
-{};
-
-template <typename TypeT>
-struct is_not_array : public bool_constant<!PHI_IS_ARRAY(TypeT)>
-{};
-
-#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-
-template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_array_v = PHI_IS_ARRAY(TypeT);
-
-template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_array_v = !PHI_IS_ARRAY(TypeT);
-
-#    endif
-
-#else
-
-#    include "phi/core/size_t.hpp"
+// NOTE: We're no longer implementing `is_array` using the intrinsic `PHI_IS_ARRAY` due to its inconsistent and unwanted behaviour regard zero sized arrays. Keep in mind that zero sized arrays themselves are an extension and acording to the standard are malformed.
+// See this LLVM issue for some more info: https://github.com/llvm/llvm-project/issues/54705
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -55,15 +32,13 @@ template <typename TypeT>
 struct is_not_array : public bool_constant<!is_array<TypeT>::value>
 {};
 
-#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_array_v = is_array<TypeT>::value;
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_array_v = is_not_array<TypeT>::value;
-
-#    endif
 
 #endif
 
