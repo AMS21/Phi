@@ -7,12 +7,6 @@
 #include <phi/core/max_align_t.hpp>
 #include <cstdint>
 
-struct NoDefault
-{
-    constexpr NoDefault(int)
-    {}
-};
-
 struct natural_alignment
 {
     long        t1;
@@ -569,12 +563,12 @@ TEST_CASE("Array")
             }
 
             {
-                using T2     = phi::array<NoDefault, 0>;
-                T2         a = {};
-                NoDefault* p = a.data();
+                using T2                   = phi::array<NonDefaultConstructible, 0>;
+                T2                       a = {};
+                NonDefaultConstructible* p = a.data();
 
                 CHECK_SAME_TYPE(decltype(a.data()), T2::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), NoDefault*);
+                CHECK_SAME_TYPE(decltype(a.data()), NonDefaultConstructible*);
                 CHECK_NOEXCEPT(a.data());
 
                 CHECK(p == nullptr);
@@ -606,12 +600,12 @@ TEST_CASE("Array")
             }
 
             {
-                using T2           = phi::array<NoDefault, 0>;
-                const T2         a = {};
-                const NoDefault* p = a.data();
+                using T2                         = phi::array<NonDefaultConstructible, 0>;
+                const T2                       a = {};
+                const NonDefaultConstructible* p = a.data();
 
                 CHECK_SAME_TYPE(decltype(a.data()), T2::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const NoDefault*);
+                CHECK_SAME_TYPE(decltype(a.data()), const NonDefaultConstructible*);
                 CHECK_NOEXCEPT(a.data());
 
                 CHECK(p == nullptr);
