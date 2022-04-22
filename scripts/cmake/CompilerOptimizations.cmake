@@ -67,7 +67,7 @@ endif()
 set(phi_extra_ipo_flags fsplit-lto-unit Wl,--no-as-needed)
 
 # IPO specific optimizations
-set(phi_ipo_opt fipa-pta fwhole-program-vtables fvirtual-function-elimination
+set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fvirtual-function-elimination
                 fdevirtualize-at-ltrans)
 
 # Check ipo specific optimizations
@@ -90,25 +90,6 @@ foreach(_test ${phi_ipo_opt})
 endforeach(_test)
 
 set(CMAKE_REQUIRED_FLAGS ${old_flags})
-
-# Non-IPO specific optimizations
-set(phi_non_ipo_opt fwhole-program)
-
-# Check non ipo specific optimizations
-set(_opt_non_ipo_extra)
-foreach(_test ${phi_non_ipo_opt})
-  string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _opt_non_ipo_extra ${PHI_FLAG_PREFIX_CHAR}${_test})
-  endif()
-endforeach(_test)
 
 function(phi_target_enable_optimizations)
   # Command line arguments
@@ -163,12 +144,6 @@ function(phi_target_enable_optimizations)
 
       # Enable IPO specifc optimizations
       foreach(flag ${_opt_ipo_extra})
-        target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-        target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-      endforeach()
-    else()
-      # Enable non IPO specifc optimizations
-      foreach(flag ${_opt_non_ipo_extra})
         target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       endforeach()
