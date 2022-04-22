@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -25,7 +26,10 @@ void test_is_nothrow_constructible()
     STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_nothrow_constructible<T, Args...>::value);
 #endif
 }
@@ -43,6 +47,9 @@ void test_is_nothrow_constructible_no_std()
     STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<T, Args...>);
     STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T, Args...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T, Args...>);
 #endif
 }
 
@@ -58,7 +65,10 @@ void test_is_not_nothrow_constructible()
     STATIC_REQUIRE(phi::is_not_nothrow_constructible_v<T, Args...>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T, Args...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T, Args...>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<T, Args...>::value);
 #endif
 }

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -22,7 +23,10 @@ void test_is_move_assignable()
     STATIC_REQUIRE_FALSE(phi::is_not_move_assignable_v<T>);
 #endif
 
-    // Standard compatbililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_move_assignable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_move_assignable<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_move_assignable<T>::value);
 }
 
@@ -37,7 +41,10 @@ void test_is_not_move_assignable()
     STATIC_REQUIRE(phi::is_not_move_assignable_v<T>);
 #endif
 
-    // Standard compatbililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_move_assignable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_move_assignable<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_move_assignable<T>::value);
 }
 

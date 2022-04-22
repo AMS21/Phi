@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
@@ -17,6 +18,9 @@ void test_is_bounded_array_impl()
 {
     STATIC_REQUIRE(phi::is_bounded_array<T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_bounded_array<T>::value);
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<T>);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_bounded_array_v<T>);
@@ -50,7 +54,10 @@ void test_is_not_bounded_array_impl()
     STATIC_REQUIRE(phi::is_not_bounded_array_v<T>);
 #endif
 
-// Standard compatibility
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<T>);
+
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
         !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE_FALSE(std::is_bounded_array<T>::value);

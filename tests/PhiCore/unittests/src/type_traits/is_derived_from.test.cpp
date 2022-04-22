@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/type_traits/is_derived_from.hpp>
 
 struct Base1
@@ -48,6 +49,9 @@ void test_is_derived_from_impl()
     STATIC_REQUIRE(phi::is_derived_from_v<From, To>);
     STATIC_REQUIRE_FALSE(phi::is_not_derived_from_v<From, To>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<From, To>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<From, To>);
 #endif
 }
 
@@ -62,6 +66,9 @@ void test_is_not_derived_from_impl()
     STATIC_REQUIRE_FALSE(phi::is_derived_from_v<From, To>);
     STATIC_REQUIRE(phi::is_not_derived_from_v<From, To>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<From, To>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<From, To>);
 #endif
 }
 

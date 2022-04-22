@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -24,6 +25,9 @@ void test_is_unsafe_signed_integer_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_unsafe_signed_integer_v<T>);
     STATIC_REQUIRE(phi::is_unsafe_signed_v<T> && phi::is_unsafe_integer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsafe_signed_integer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsafe_signed_integer<T>);
 }
 
 template <typename T>
@@ -38,6 +42,9 @@ void test_is_not_unsafe_signed_integer_impl()
     STATIC_REQUIRE(phi::is_not_unsafe_signed_integer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_unsafe_signed_v<T> && phi::is_unsafe_integer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsafe_signed_integer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsafe_signed_integer<T>);
 }
 
 template <typename T>

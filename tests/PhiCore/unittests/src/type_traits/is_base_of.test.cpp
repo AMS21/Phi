@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/type_traits/is_base_of.hpp>
 #include <type_traits>
 
@@ -17,6 +18,9 @@ void test_is_base_of_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_base_of_v<T, U>);
 #    endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<T, U>);
+
     // Standard compatibility
     STATIC_REQUIRE(std::is_base_of<T, U>::value);
 #endif
@@ -33,6 +37,9 @@ void test_is_not_base_of_impl()
     STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
     STATIC_REQUIRE(phi::is_not_base_of_v<T, U>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<T, U>);
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_base_of<T, U>::value);

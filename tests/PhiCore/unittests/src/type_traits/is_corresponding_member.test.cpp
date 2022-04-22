@@ -13,7 +13,7 @@ PHI_EXTENDED_CONSTEXPR void test_is_corresponding_member(LhsMemberT LhsT::*lhs,
     STATIC_REQUIRE(phi::is_corresponding_member(lhs, rhs));
     CHECK_NOEXCEPT(phi::is_corresponding_member(lhs, rhs));
 
-    // Standard compatibilility
+    // Standard compatibility
     STATIC_REQUIRE(std::is_corresponding_member(lhs, rhs));
 #else
     PHI_UNUSED_PARAMETER(lhs);
@@ -29,7 +29,7 @@ PHI_EXTENDED_CONSTEXPR void test_is_not_corresponding_member(LhsMemberT LhsT::*l
     STATIC_REQUIRE_FALSE(phi::is_corresponding_member(lhs, rhs));
     CHECK_NOEXCEPT(!phi::is_corresponding_member(lhs, rhs));
 
-    // Standard compatibilility
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_corresponding_member(lhs, rhs));
 #else
     PHI_UNUSED_PARAMETER(lhs);

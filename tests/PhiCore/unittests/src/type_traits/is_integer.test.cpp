@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -22,6 +23,9 @@ void test_is_integer_impl()
     STATIC_REQUIRE(phi::is_integer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_integer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_integer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_integer<T>);
 }
 
 template <typename T>

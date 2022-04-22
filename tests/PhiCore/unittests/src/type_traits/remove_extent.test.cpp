@@ -17,7 +17,7 @@ void test_remove_extent_impl()
     CHECK_SAME_TYPE(typename phi::remove_extent<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_extent_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_extent<T>::type, U);
 }
 

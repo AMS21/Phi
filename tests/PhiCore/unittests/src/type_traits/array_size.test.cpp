@@ -21,12 +21,14 @@ TEST_CASE("array_size")
     constexpr char c[12][2]{};
     STATIC_REQUIRE(phi::array_size(c) == 12u);
     CHECK_NOEXCEPT(phi::array_size(c));
+    STATIC_REQUIRE(phi::array_size<0u>(c) == 12u);
     STATIC_REQUIRE(phi::array_size<1u>(c) == 2u);
     STATIC_REQUIRE(phi::array_size<2u>(c) == 0u);
 
     constexpr char d[12][2][13]{};
     STATIC_REQUIRE(phi::array_size(d) == 12u);
     CHECK_NOEXCEPT(phi::array_size(d));
+    STATIC_REQUIRE(phi::array_size<0u>(d) == 12u);
     STATIC_REQUIRE(phi::array_size<1u>(d) == 2u);
     STATIC_REQUIRE(phi::array_size<2u>(d) == 13u);
 }

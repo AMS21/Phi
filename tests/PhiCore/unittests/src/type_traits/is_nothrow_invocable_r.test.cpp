@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/generated/compiler_support/features.hpp>
@@ -78,7 +79,10 @@ void test_is_nothrow_invocable_r()
     STATIC_REQUIRE(phi::is_invocable_r_v<FunctionT, ArgsT...>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_invocable_r<FunctionT, ArgsT...>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_invocable_r<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(std::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
@@ -97,6 +101,9 @@ void test_is_not_nothrow_invocable_r_no_std()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_r_v<FunctionT, ArgsT...>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_invocable_r<FunctionT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_invocable_r<FunctionT, ArgsT...>);
 #endif
 }
 
@@ -106,7 +113,7 @@ void test_is_not_nothrow_invocable_r()
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     test_is_not_nothrow_invocable_r_no_std<FunctionT, ArgsT...>();
 
-    // Standard compatibililty
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_nothrow_invocable_r<FunctionT, ArgsT...>::value);
 #    endif

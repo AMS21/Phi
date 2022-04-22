@@ -16,7 +16,10 @@ void test_is_pointer_interconvertible_base_of()
     STATIC_REQUIRE_FALSE(phi::is_not_pointer_interconvertible_base_of_v<B, D>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<B, D>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<B, D>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE(std::is_pointer_interconvertible_base_of<B, D>::value);
 #    endif
@@ -35,7 +38,10 @@ void test_is_not_pointer_interconvertible_base_of()
     STATIC_REQUIRE(phi::is_not_pointer_interconvertible_base_of_v<B, D>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<B, D>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<B, D>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE_FALSE(std::is_pointer_interconvertible_base_of<B, D>::value);
 #    endif

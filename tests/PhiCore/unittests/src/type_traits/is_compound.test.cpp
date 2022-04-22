@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
@@ -22,6 +23,9 @@ void test_is_compound_impl()
     STATIC_REQUIRE(phi::is_compound_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_compound_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<T>);
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_compound<T>::value);
@@ -46,6 +50,9 @@ void test_is_not_compound_impl()
     STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
     STATIC_REQUIRE(phi::is_not_compound_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<T>);
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_compound<T>::value);

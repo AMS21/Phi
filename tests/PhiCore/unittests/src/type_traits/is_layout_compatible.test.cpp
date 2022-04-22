@@ -26,7 +26,12 @@ void test_is_layout_compatible_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible_v<U, T>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<U, T>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE(std::is_layout_compatible<T, U>::value);
     STATIC_REQUIRE(std::is_layout_compatible<U, T>::value);
@@ -50,7 +55,12 @@ void test_is_not_layout_compatible_impl()
     STATIC_REQUIRE(phi::is_not_layout_compatible_v<U, T>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<U, T>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
     STATIC_REQUIRE_FALSE(std::is_layout_compatible<T, U>::value);
     STATIC_REQUIRE_FALSE(std::is_layout_compatible<U, T>::value);

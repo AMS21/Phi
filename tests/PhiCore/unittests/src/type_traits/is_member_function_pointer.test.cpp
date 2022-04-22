@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -101,7 +102,10 @@ void test_is_member_function_pointer_imp()
     STATIC_REQUIRE_FALSE(phi::is_integer_v<T>);
 #endif
 
-    // Standard compatbililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_member_function_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_member_function_pointer<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_member_function_pointer<T>::value);
 }
 
@@ -125,7 +129,10 @@ void test_is_not_member_function_pointer_impl()
     STATIC_REQUIRE(phi::is_not_member_function_pointer_v<T>);
 #endif
 
-    // Standard compatbililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_member_function_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_member_function_pointer<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_member_function_pointer<T>::value);
 }
 

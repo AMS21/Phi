@@ -17,7 +17,7 @@ void test_has_unique_object_representations_impl()
     STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations_v<T>);
 #    endif
 
-// Standard compatbility
+    // Standard compatbility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::has_unique_object_representations<T>::value);
 #    endif

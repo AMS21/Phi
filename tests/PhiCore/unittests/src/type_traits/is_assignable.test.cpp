@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/type_traits/is_assignable.hpp>
 #include <type_traits>
 
@@ -21,6 +22,9 @@ void test_is_assignable()
     STATIC_REQUIRE(phi::is_assignable_v<T, U>);
     STATIC_REQUIRE_FALSE(phi::is_not_assignable_v<T, U>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_assignable<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_assignable<T, U>);
 
     // Standard compatbilility
     STATIC_REQUIRE(std::is_assignable<T, U>::value);

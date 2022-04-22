@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -20,7 +21,9 @@ void test_rank_impl()
     STATIC_REQUIRE(phi::rank_v<T> == A);
 #endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::rank<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::rank<T>::value == A);
 }
 template <typename T, unsigned A = 0>

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
@@ -23,6 +24,9 @@ void test_is_null_pointer_or_pointer_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_null_pointer_or_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_null_pointer_or_pointer<T>);
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(14)
@@ -54,6 +58,9 @@ void test_is_not_null_pointer_or_pointer_impl()
     STATIC_REQUIRE(phi::is_not_null_pointer_or_pointer_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T> || phi::is_pointer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_null_pointer_or_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_null_pointer_or_pointer<T>);
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(14)

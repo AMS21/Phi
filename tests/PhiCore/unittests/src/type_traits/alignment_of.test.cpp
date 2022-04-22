@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/type_traits/alignment_of.hpp>
@@ -10,7 +11,7 @@
 template <typename T, unsigned A>
 void test_alignment_of()
 {
-    constexpr unsigned alignof_result = alignof(T);
+    constexpr static unsigned alignof_result = alignof(T);
 
     // Test that the golden value is correct
     STATIC_REQUIRE(alignof_result == A);
@@ -28,6 +29,8 @@ void test_alignment_of()
     STATIC_REQUIRE(phi::alignment_of_v<volatile T> == A);
     STATIC_REQUIRE(phi::alignment_of_v<const volatile T> == A);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::alignment_of<T>);
 
     // Standard compatibility
     STATIC_REQUIRE(phi::alignment_of<T>::value == std::alignment_of<T>::value);

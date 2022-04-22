@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <type_traits>
 
@@ -63,7 +64,10 @@ void test_is_nothrow_swappable_with()
     STATIC_REQUIRE(phi::is_swappable_with_v<LhsT, RhsT>);
 #endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable_with<LhsT, RhsT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable_with<LhsT, RhsT>);
+
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_nothrow_swappable_with<LhsT, RhsT>::value);
     STATIC_REQUIRE(std::is_swappable_with<LhsT, RhsT>::value);
@@ -81,7 +85,10 @@ void test_is_not_nothrow_swappable_with()
     STATIC_REQUIRE(phi::is_not_nothrow_swappable_with_v<LhsT, RhsT>);
 #endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable_with<LhsT, RhsT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable_with<LhsT, RhsT>);
+
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_nothrow_swappable_with<LhsT, RhsT>::value);
 #endif

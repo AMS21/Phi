@@ -13,7 +13,7 @@ void test_common_type()
     CHECK_SAME_TYPE(typename phi::common_type<T>::type, Expected);
     CHECK_SAME_TYPE(phi::common_type_t<T>, Expected);
 
-    // Standard compatbililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename phi::common_type<T>::type, typename std::common_type<T>::type);
     CHECK_SAME_TYPE(typename std::common_type<T>::type, Expected);
 }
@@ -24,7 +24,7 @@ void test_common_type_impl()
     CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type, Expected);
     CHECK_SAME_TYPE(phi::common_type_t<T1, T2>, Expected);
 
-    // Standard compatbililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type,
                     typename std::common_type<T1, T2>::type);
     CHECK_SAME_TYPE(typename std::common_type<T1, T2>::type, Expected);
@@ -87,7 +87,7 @@ void test_common_type_impl()
     CHECK_SAME_TYPE(typename phi::common_type<T1, T2, T3>::type, Expected);
     CHECK_SAME_TYPE(phi::common_type_t<T1, T2, T3>, Expected);
 
-    // Standard compatbililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename phi::common_type<T1, T2, T3>::type,
                     typename std::common_type<T1, T2, T3>::type);
     CHECK_SAME_TYPE(typename std::common_type<T1, T2, T3>::type, Expected);
