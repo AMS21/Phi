@@ -16,4 +16,4 @@ jobs:
           submodules: recursive
 
       - name: Run Script
-        run: scripts/ci/archive_all_links.sh
+        run: bash scripts/ci/archive_all_links.sh
