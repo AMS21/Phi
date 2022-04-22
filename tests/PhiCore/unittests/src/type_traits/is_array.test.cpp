@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/container/array.hpp>
 #include <phi/core/boolean.hpp>
@@ -109,6 +110,9 @@ void test_is_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
 #endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_array<T>);
+
     // Standard compatbility
     STATIC_REQUIRE(std::is_array<T>::value);
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -135,6 +139,9 @@ void test_is_not_array_impl()
     STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
     STATIC_REQUIRE(phi::is_not_array_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_array<T>);
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_array<T>::value);

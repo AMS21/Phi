@@ -17,7 +17,7 @@ void test_remove_cv_impl()
     CHECK_SAME_TYPE(typename phi::remove_cv<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_cv_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_cv<T>::type, U);
 }
 

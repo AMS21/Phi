@@ -17,7 +17,7 @@ void test_remove_const_impl()
     CHECK_SAME_TYPE(typename phi::remove_const<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_const_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_const<T>::type, U);
 }
 

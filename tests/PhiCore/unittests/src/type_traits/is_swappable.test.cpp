@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
@@ -28,6 +29,9 @@ void test_is_swappable_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_swappable_v<T>);
 #endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<T>);
+
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_swappable<T>::value);
 #endif
@@ -43,6 +47,9 @@ void test_is_not_swappable_impl()
     STATIC_REQUIRE_FALSE(phi::is_swappable_v<T>);
     STATIC_REQUIRE(phi::is_not_swappable_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<T>);
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_swappable<T>::value);

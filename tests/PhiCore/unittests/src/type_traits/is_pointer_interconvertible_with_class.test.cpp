@@ -14,7 +14,7 @@ PHI_EXTENDED_CONSTEXPR void test_is_pointer_interconvertible_with_class(
     STATIC_REQUIRE(phi::is_pointer_interconvertible_with_class(member_pointer));
     CHECK_NOEXCEPT(phi::is_pointer_interconvertible_with_class(member_pointer));
 
-    // Standard compatibililty
+    // Standard compatibility
     STATIC_REQUIRE(std::is_pointer_interconvertible_with_class(member_pointer));
 #endif
 }
@@ -28,7 +28,7 @@ PHI_EXTENDED_CONSTEXPR void test_is_not_pointer_interconvertible_with_class(
     STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_with_class(member_pointer));
     CHECK_NOEXCEPT(phi::is_pointer_interconvertible_with_class(member_pointer));
 
-    // Standard compatibililty
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_pointer_interconvertible_with_class(member_pointer));
 #endif
 }

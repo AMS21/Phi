@@ -11,6 +11,6 @@ TEST_CASE("ptrdiff_t")
     STATIC_REQUIRE(phi::is_signed<phi::ptrdiff_t>::value);
     STATIC_REQUIRE(phi::is_unsafe_integral<phi::ptrdiff_t>::value);
 
-    // Standard compatbililty
+    // Standard compatibility
     CHECK_SAME_TYPE(phi::ptrdiff_t, std::ptrdiff_t);
 }

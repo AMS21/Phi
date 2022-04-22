@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/core/boolean.hpp>
@@ -41,6 +42,9 @@ void test_is_final_impl()
     STATIC_REQUIRE(phi::is_final_v<T>);
     STATIC_REQUIRE_FALSE(phi::is_not_final_v<T>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_final<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_final<T>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)

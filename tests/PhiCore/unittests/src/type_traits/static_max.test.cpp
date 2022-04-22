@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/core/size_t.hpp>
 #include <phi/type_traits/static_max.hpp>
 
@@ -10,6 +11,8 @@ void test_static_max()
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::static_max_v<Values...> == Expected);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::static_max<Values...>);
 }
 
 TEST_CASE("type_traits.static_max")

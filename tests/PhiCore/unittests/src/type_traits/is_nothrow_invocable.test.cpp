@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 
@@ -105,7 +106,10 @@ void test_noexcept_function_pointers()
         STATIC_REQUIRE(phi::is_invocable_v<decltype(&Dummy::bar)>);
 #        endif
 
-        // Standard compatbililty
+        TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_invocable<decltype(&Dummy::foo), Dummy&>);
+        TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_invocable<decltype(&Dummy::foo), Dummy&>);
+
+        // Standard compatibility
 #        if PHI_CPP_STANDARD_IS_ATLEAST(17)
         STATIC_REQUIRE(std::is_nothrow_invocable<decltype(&Dummy::foo), Dummy&>::value);
         STATIC_REQUIRE(std::is_nothrow_invocable<decltype(&Dummy::bar)>::value);
@@ -133,7 +137,10 @@ void test_is_nothrow_invocable()
     STATIC_REQUIRE(phi::is_invocable_v<FunctionT, ArgsT...>);
 #    endif
 
-    // Standard compatbililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_invocable<FunctionT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>);
+
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_nothrow_invocable<FunctionT, ArgsT...>::value);
     STATIC_REQUIRE(std::is_invocable<FunctionT, ArgsT...>::value);
@@ -152,6 +159,9 @@ void test_is_not_nothrow_invocable_no_std()
     STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<FunctionT, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_nothrow_invocable_v<FunctionT, ArgsT...>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_invocable<FunctionT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_invocable<FunctionT, ArgsT...>);
 #endif
 }
 
@@ -161,7 +171,7 @@ void test_is_not_nothrow_invocable()
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     test_is_not_nothrow_invocable_no_std<FunctionT, ArgsT...>();
 
-    // Standard compatbililty
+    // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_nothrow_invocable<FunctionT, ArgsT...>::value);
 #    endif

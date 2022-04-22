@@ -34,7 +34,7 @@ void test_underlying_type_impl()
     CHECK_SAME_TYPE(typename phi::underlying_type<T>::type, U);
     CHECK_SAME_TYPE(phi::underlying_type_t<T>, U);
 
-    // Standard compatbililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::underlying_type<T>::type, U);
 #endif
 }

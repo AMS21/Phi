@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/type_traits/is_constructible.hpp>
 #include <type_traits>
@@ -54,6 +55,9 @@ void test_is_constructible()
     STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<T, ArgsT...>);
 #    endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<T, ArgsT...>);
+
     // Standard compatibility
     STATIC_REQUIRE(std::is_constructible<T, ArgsT...>::value);
 #endif
@@ -70,6 +74,9 @@ void test_is_not_constructible()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, ArgsT...>);
     STATIC_REQUIRE(phi::is_not_constructible_v<T, ArgsT...>);
 #    endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<T, ArgsT...>);
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_constructible<T, ArgsT...>::value);

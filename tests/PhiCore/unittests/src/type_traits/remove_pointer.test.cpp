@@ -16,7 +16,7 @@ void test_remove_pointer_impl()
     CHECK_SAME_TYPE(typename phi::remove_pointer<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_pointer_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_pointer<T>::type, U);
 }
 
@@ -35,7 +35,7 @@ void test_remove_pointer_ptr()
     CHECK_SAME_TYPE(typename phi::remove_pointer<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_pointer_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_pointer<T>::type, U);
 }
 

@@ -2,6 +2,7 @@
 
 #include "phi/compiler_support/char8_t.hpp"
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -75,6 +76,9 @@ void test_is_pointer_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_pointer_v<T>);
 #endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer<T>);
+
     // Standard compatibility
     STATIC_REQUIRE(std::is_pointer<T>::value);
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -101,6 +105,9 @@ void test_is_not_pointer_impl()
     STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
     STATIC_REQUIRE(phi::is_not_pointer_v<T>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer<T>);
 
     // Stanard compatibility
     STATIC_REQUIRE_FALSE(std::is_pointer<T>::value);

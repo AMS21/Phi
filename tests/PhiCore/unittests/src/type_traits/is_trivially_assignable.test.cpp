@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_trivially_assignable.hpp>
 #include <type_traits>
@@ -18,6 +19,10 @@ void test_is_trivially_assignable()
     STATIC_REQUIRE(phi::is_assignable_v<T, U>);
 #    endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_assignable<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_assignable<T, U>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_trivially_assignable<T, U>::value);
 #endif
 }
@@ -34,6 +39,10 @@ void test_is_not_trivially_assignable()
     STATIC_REQUIRE(phi::is_not_trivially_assignable_v<T, U>);
 #    endif
 
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_assignable<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_assignable<T, U>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_trivially_assignable<T, U>::value);
 #endif
 }

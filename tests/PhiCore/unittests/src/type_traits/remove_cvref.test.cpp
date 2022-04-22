@@ -16,7 +16,7 @@ void test_remove_cvref_impl()
     CHECK_SAME_TYPE(typename phi::remove_cvref<T>::type, U);
     CHECK_SAME_TYPE(phi::remove_cvref_t<T>, U);
 
-    // Standard compatibililty
+    // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
     CHECK_SAME_TYPE(typename std::remove_cvref<T>::type, U);
 #endif

@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/core/types.hpp>
 #include <phi/type_traits/true_t.hpp>
 
@@ -16,6 +17,8 @@ void test_true_t()
     STATIC_REQUIRE(phi::true_v<T...>);
     STATIC_REQUIRE_FALSE(!phi::true_v<T...>);
 #endif
+
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::true_t<T...>);
 }
 
 template <typename TypeT>

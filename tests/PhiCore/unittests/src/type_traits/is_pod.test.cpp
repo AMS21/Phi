@@ -9,6 +9,7 @@ PHI_MSVC_SUPPRESS_WARNING(
         4996) // 'std::is_pod<T>': warning STL4025: std::is_pod and std::is_pod_v are deprecated in C++20. The std::is_trivially_copyable and/or std::is_standard_layout traits likely suit your use case. You can define _SILENCE_CXX20_IS_POD_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
@@ -36,7 +37,10 @@ void test_is_pod_impl()
     STATIC_REQUIRE_FALSE(phi::is_not_pod_v<T>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_pod<T>::value);
 #endif
 }
@@ -53,7 +57,10 @@ void test_is_not_pod_impl()
     STATIC_REQUIRE(phi::is_not_pod_v<T>);
 #    endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<T>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_pod<T>::value);
 #endif
 }

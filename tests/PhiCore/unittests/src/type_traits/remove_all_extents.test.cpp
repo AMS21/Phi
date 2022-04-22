@@ -20,7 +20,7 @@ void test_remove_all_extents_impl()
     CHECK_SAME_TYPE(phi::remove_all_extents_t<T>, U);
 #endif
 
-    // Standard compatibililty
+    // Standard compatibility
     CHECK_SAME_TYPE(typename std::remove_all_extents<T>::type, U);
 }
 

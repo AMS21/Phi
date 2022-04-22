@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include "type_traits_helper.hpp"
 #include <phi/core/nullptr_t.hpp>
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_nothrow_assignable.hpp>
@@ -19,7 +20,10 @@ void test_is_nothrow_assignable()
     STATIC_REQUIRE(phi::is_assignable_v<T, U>);
 #endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_assignable<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_assignable<T, U>);
+
+    // Standard compatibility
     STATIC_REQUIRE(std::is_nothrow_assignable<T, U>::value);
     STATIC_REQUIRE(std::is_assignable<T, U>::value);
 }
@@ -53,7 +57,10 @@ void test_is_not_nothrow_assignable()
     STATIC_REQUIRE(phi::is_not_nothrow_assignable_v<T, U>);
 #endif
 
-    // Standard compatibililty
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_assignable<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_assignable<T, U>);
+
+    // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_nothrow_assignable<T, U>::value);
 }
 
