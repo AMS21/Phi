@@ -9,14 +9,51 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
-#include "phi/type_traits/is_same_rcv.hpp"
+#include "phi/type_traits/remove_cv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+namespace detail
+{
+    template <typename TypeT>
+    struct is_unsafe_floating_point_impl : public false_type
+    {};
+
+    // Standard C++ floating point types
+    template <>
+    struct is_unsafe_floating_point_impl<float> : public true_type
+    {};
+
+    template <>
+    struct is_unsafe_floating_point_impl<double> : public true_type
+    {};
+
+    template <>
+    struct is_unsafe_floating_point_impl<long double> : public true_type
+    {};
+
+    // Extended floating point types
+#if PHI_HAS_EXTENSION_FLOAT16()
+    template <>
+    struct is_unsafe_floating_point_impl<_Float16> : public true_type
+    {};
+#endif
+
+#if PHI_HAS_EXTENSION_FP16()
+    template <>
+    struct is_unsafe_floating_point_impl<__fp16> : public true_type
+    {};
+#endif
+
+#if PHI_HAS_EXTENSION_FLOAT128()
+    template <>
+    struct is_unsafe_floating_point_impl<__float128> : public true_type
+    {};
+#endif
+} // namespace detail
+
 template <typename TypeT>
-struct is_unsafe_floating_point
-    : public bool_constant<is_same_rcv<TypeT, float>::value || is_same_rcv<TypeT, double>::value ||
-                           is_same_rcv<TypeT, long double>::value>
+struct is_unsafe_floating_point : public detail::is_unsafe_floating_point_impl<remove_cv_t<TypeT>>
 {};
 
 template <typename TypeT>
