@@ -25,7 +25,7 @@ for file in $all_files; do
                 sleep "$sleep_time"
 
                 link="${BASH_REMATCH[0]}"
-                echo "Archiving link: '$link'"
+                echo "Archiving link: \"$link\""
 
                 # Perform curl request
                 response=$(curl -s -I "https://web.archive.org/save/$link")
@@ -38,7 +38,7 @@ for file in $all_files; do
                     # Success
                     location=$(echo "$response" | grep --ignore-case "Location: https" | cut -d' ' -f2)
 
-                    echo "Archived to:   \"$location\""
+                    echo "Archived link:  \"$location\""
                 elif [[ "$response_code" == "429" ]]; then
                     # Too many requests
                     echo "WARN: Sending too many requests!"
