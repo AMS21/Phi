@@ -9,6 +9,9 @@ void test_signed_int_of_size()
 {
     CHECK_SAME_TYPE(typename phi::signed_int_of_size<Size>::type, T);
     CHECK_SAME_TYPE(phi::signed_int_of_size_t<Size>, T);
+
+    STATIC_REQUIRE(sizeof(typename phi::signed_int_of_size<Size>::type) == Size);
+    STATIC_REQUIRE(sizeof(phi::signed_int_of_size_t<Size>) == Size);
 }
 
 TEST_CASE("signed_int_of_size")
