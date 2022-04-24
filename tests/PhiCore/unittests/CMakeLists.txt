@@ -231,6 +231,7 @@ file(
   "src/type_traits/is_signed_integer.test.cpp"
   "src/type_traits/is_signed.test.cpp"
   "src/type_traits/is_standard_layout.test.cpp"
+  "src/type_traits/is_static_castable_to.test.cpp"
   "src/type_traits/is_swappable_with.test.cpp"
   "src/type_traits/is_swappable.test.cpp"
   "src/type_traits/is_trivial.test.cpp"

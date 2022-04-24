@@ -740,6 +740,12 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_static_castable_to
+    STATIC_REQUIRE(phi::is_static_castable_to<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_static_castable_to_v<int, int>);
+#endif
+
     // is_swappable
     STATIC_REQUIRE(phi::is_swappable<int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

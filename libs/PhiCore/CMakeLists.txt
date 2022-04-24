@@ -349,6 +349,7 @@ file(
   "include/phi/type_traits/is_signed_integer.hpp"
   "include/phi/type_traits/is_signed.hpp"
   "include/phi/type_traits/is_standard_layout.hpp"
+  "include/phi/type_traits/is_static_castable_to.hpp"
   "include/phi/type_traits/is_swappable_with.hpp"
   "include/phi/type_traits/is_swappable.hpp"
   "include/phi/type_traits/is_trivial.hpp"
