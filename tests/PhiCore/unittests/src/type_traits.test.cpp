@@ -165,6 +165,36 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_any_of_rc
+    STATIC_REQUIRE(phi::is_any_of_rc<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_rc_v<int, int>);
+#endif
+
+    // is_any_of_rcv
+    STATIC_REQUIRE(phi::is_any_of_rcv<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_rcv_v<int, int>);
+#endif
+
+    // is_any_of_rcvref
+    STATIC_REQUIRE(phi::is_any_of_rcvref<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_rcvref_v<int, int>);
+#endif
+
+    // is_any_of_rref
+    STATIC_REQUIRE(phi::is_any_of_rref<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_rref_v<int, int>);
+#endif
+
+    // is_any_of_rv
+    STATIC_REQUIRE(phi::is_any_of_rv<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_rv_v<int, int>);
+#endif
+
     // is_any_of
     STATIC_REQUIRE(phi::is_any_of<int, int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
