@@ -137,6 +137,7 @@ file(
   "src/type_traits/is_abstract.test.cpp"
   "src/type_traits/is_aggregate.nointrinsic.test.cpp"
   "src/type_traits/is_aggregate.test.cpp"
+  "src/type_traits/is_any_of.test.cpp"
   "src/type_traits/is_arithmetic.test.cpp"
   "src/type_traits/is_array.test.cpp"
   "src/type_traits/is_assignable.nointrinsic.test.cpp"

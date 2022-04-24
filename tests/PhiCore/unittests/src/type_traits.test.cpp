@@ -165,6 +165,12 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_any_of
+    STATIC_REQUIRE(phi::is_any_of<int, int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_any_of_v<int, int>);
+#endif
+
     // is_arithmetic
     STATIC_REQUIRE(phi::is_arithmetic<int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

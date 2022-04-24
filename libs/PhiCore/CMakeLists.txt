@@ -262,6 +262,7 @@ file(
   "include/phi/type_traits/invoke_result.hpp"
   "include/phi/type_traits/is_abstract.hpp"
   "include/phi/type_traits/is_aggregate.hpp"
+  "include/phi/type_traits/is_any_of.hpp"
   "include/phi/type_traits/is_arithmetic.hpp"
   "include/phi/type_traits/is_array.hpp"
   "include/phi/type_traits/is_assignable.hpp"
