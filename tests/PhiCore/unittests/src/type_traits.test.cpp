@@ -476,6 +476,48 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // is_non_bool_integral
+    STATIC_REQUIRE(phi::is_non_bool_integral<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_non_bool_integral_v<int>);
+#endif
+
+    // is_non_of_rc
+    STATIC_REQUIRE(phi::is_none_of_rc<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_rc_v<int, void>);
+#endif
+
+    // is_non_of_rcv
+    STATIC_REQUIRE(phi::is_none_of_rcv<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_rcv_v<int, void>);
+#endif
+
+    // is_non_of_rcvref
+    STATIC_REQUIRE(phi::is_none_of_rcvref<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_rcvref_v<int, void>);
+#endif
+
+    // is_non_of_rref
+    STATIC_REQUIRE(phi::is_none_of_rref<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_rref_v<int, void>);
+#endif
+
+    // is_non_of_rv
+    STATIC_REQUIRE(phi::is_none_of_rv<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_rv_v<int, void>);
+#endif
+
+    // is_none_of
+    STATIC_REQUIRE(phi::is_none_of<int, void>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_none_of_v<int, void>);
+#endif
+
     // is_nothrow_assignable
     STATIC_REQUIRE(phi::is_nothrow_assignable<int&, int&>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

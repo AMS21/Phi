@@ -309,6 +309,7 @@ file(
   "include/phi/type_traits/is_move_assignable.hpp"
   "include/phi/type_traits/is_move_constructible.hpp"
   "include/phi/type_traits/is_non_bool_integral.hpp"
+  "include/phi/type_traits/is_none_of.hpp"
   "include/phi/type_traits/is_nothrow_assignable.hpp"
   "include/phi/type_traits/is_nothrow_constructible.hpp"
   "include/phi/type_traits/is_nothrow_convertible.hpp"
