@@ -9,7 +9,7 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if !defined(PHI_ADDRESS_FLOOR) && !defined(PHI_SUPPORTS_FLOOR)
+#if !defined(PHI_FLOOR) && !defined(PHI_SUPPORTS_FLOOR)
 #    if PHI_HAS_INTRINSIC_BUILTIN_FLOOR()
 #        define PHI_FLOOR(value)     __builtin_floor(value)
 #        define PHI_SUPPORTS_FLOOR() 1

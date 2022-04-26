@@ -9,7 +9,7 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if !defined(PHI_ADDRESS_FLOORL) && !defined(PHI_SUPPORTS_FLOORL)
+#if !defined(PHI_FLOORL) && !defined(PHI_SUPPORTS_FLOORL)
 #    if PHI_HAS_INTRINSIC_BUILTIN_FLOORL()
 #        define PHI_FLOORL(value)     __builtin_floorl(value)
 #        define PHI_SUPPORTS_FLOORL() 1
