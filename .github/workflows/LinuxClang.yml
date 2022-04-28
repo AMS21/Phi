@@ -72,11 +72,11 @@ jobs:
         run: scripts/ci/InstallTools.sh clang-${{ matrix.compiler_version }}
 
       - name: Install gcovr
-        if: matrix.dynamic_test == 'coverage'
+        if: ${{ matrix.dynamic_test == 'coverage' }}
         run: scripts/ci/InstallTools.sh gcovr
 
       - name: Install valgrind
-        if: matrix.dynamic_test == 'valgrind'
+        if: ${{ matrix.dynamic_test == 'valgrind' }}
         run: scripts/ci/InstallTools.sh valgrind
 
       - name: Configure build directory
@@ -99,12 +99,12 @@ jobs:
 
       - name: Process coverage data
         working-directory: build
-        if: matrix.dynamic_test == coverage
+        if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
           gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE'
 
       - name: Upload coverage data
-        if: matrix.dynamic_test == coverage
+        if: ${{ matrix.dynamic_test == 'coverage' }}
         uses: codecov/codecov-action@v2.1.0
         with:
           file: ./build/coverage.xml
