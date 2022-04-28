@@ -21,7 +21,6 @@ phi_add_library(
   Phi::Test
   PUBLIC_LINK_LIBRARIES
   Phi::Core
-  PRIVATE_LINK_LIBRARIES
   PUBLIC_INCLUDE_DIRS
   "include"
   PRIVATE_INCLUDE_DIRS

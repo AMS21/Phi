@@ -124,7 +124,10 @@ function(phi_configure_project)
     # User Linker
     phi_configure_linker(${target})
 
-    # Sanitizers TODO:
+    # Sanitizers
+    if(DEFINED conf_SANITIZER)
+      phi_target_enable_sanitizer(TARGET ${target} SANITIZERS ${conf_SANITIZER})
+    endif()
 
     # Standard
     set(use_std latest)

@@ -17,11 +17,15 @@ template <typename T, typename U>
 void test_is_same_rcv_impl()
 {
     STATIC_REQUIRE(phi::is_same_rcv<T, U>::value);
+    STATIC_REQUIRE(phi::is_same_rcv<U, T>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_same_rcv<T, U>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcv<U, T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_same_rcv_v<T, U>);
+    STATIC_REQUIRE(phi::is_same_rcv_v<U, T>);
     STATIC_REQUIRE_FALSE(phi::is_not_same_rcv_v<T, U>);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcv_v<U, T>);
 #endif
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcv<T, U>);
@@ -32,11 +36,15 @@ template <typename T, typename U>
 void test_is_not_same_rcv()
 {
     STATIC_REQUIRE_FALSE(phi::is_same_rcv<T, U>::value);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcv<U, T>::value);
     STATIC_REQUIRE(phi::is_not_same_rcv<T, U>::value);
+    STATIC_REQUIRE(phi::is_not_same_rcv<U, T>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_same_rcv_v<T, U>);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcv_v<U, T>);
     STATIC_REQUIRE(phi::is_not_same_rcv_v<T, U>);
+    STATIC_REQUIRE(phi::is_not_same_rcv_v<U, T>);
 #endif
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcv<T, U>);
@@ -89,6 +97,15 @@ TEST_CASE("is_same_rcv")
     test_is_not_same_rcv<Class, int*>();
     test_is_not_same_rcv<int*, int&>();
     test_is_not_same_rcv<int&, int>();
+
+    test_is_not_same_rcv<int, int&>();
+    test_is_not_same_rcv<int, const int&>();
+    test_is_not_same_rcv<int, volatile int&>();
+    test_is_not_same_rcv<int, const volatile int&>();
+    test_is_not_same_rcv<int, int&&>();
+    test_is_not_same_rcv<int, const int&&>();
+    test_is_not_same_rcv<int, volatile int&&>();
+    test_is_not_same_rcv<int, const volatile int&&>();
 
     OverloadTest<char> t;
     (void)t;
@@ -639,29 +656,29 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (&)(int, ...)>();
     test_is_same_rcv<int (&)(int, ...) noexcept>();
 
-    test_is_same_rcv<void(&&)()>();
-    test_is_same_rcv<void(&&)() noexcept>();
+    test_is_same_rcv<void (&&)()>();
+    test_is_same_rcv<void (&&)() noexcept>();
 
-    test_is_same_rcv<void(&&)(int)>();
-    test_is_same_rcv<void(&&)(int) noexcept>();
+    test_is_same_rcv<void (&&)(int)>();
+    test_is_same_rcv<void (&&)(int) noexcept>();
 
-    test_is_same_rcv<void(&&)(...)>();
-    test_is_same_rcv<void(&&)(...) noexcept>();
+    test_is_same_rcv<void (&&)(...)>();
+    test_is_same_rcv<void (&&)(...) noexcept>();
 
-    test_is_same_rcv<void(&&)(int, ...)>();
-    test_is_same_rcv<void(&&)(int, ...) noexcept>();
+    test_is_same_rcv<void (&&)(int, ...)>();
+    test_is_same_rcv<void (&&)(int, ...) noexcept>();
 
-    test_is_same_rcv<int(&&)()>();
-    test_is_same_rcv<int(&&)() noexcept>();
+    test_is_same_rcv<int (&&)()>();
+    test_is_same_rcv<int (&&)() noexcept>();
 
-    test_is_same_rcv<int(&&)(int)>();
-    test_is_same_rcv<int(&&)(int) noexcept>();
+    test_is_same_rcv<int (&&)(int)>();
+    test_is_same_rcv<int (&&)(int) noexcept>();
 
-    test_is_same_rcv<int(&&)(...)>();
-    test_is_same_rcv<int(&&)(...) noexcept>();
+    test_is_same_rcv<int (&&)(...)>();
+    test_is_same_rcv<int (&&)(...) noexcept>();
 
-    test_is_same_rcv<int(&&)(int, ...)>();
-    test_is_same_rcv<int(&&)(int, ...) noexcept>();
+    test_is_same_rcv<int (&&)(int, ...)>();
+    test_is_same_rcv<int (&&)(int, ...) noexcept>();
 
     test_is_same_rcv<void (Class::*)()>();
     test_is_same_rcv<void (Class::*)()&>();
