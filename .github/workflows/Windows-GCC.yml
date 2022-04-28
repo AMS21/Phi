@@ -1,0 +1,84 @@
+name: Windows-GCC
+
+on:
+  push:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/Windows-GCC.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
+    tags:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: windows-2022
+
+    # Default windows to use bash
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        build_type:
+          - "Debug"
+          - "RelWithDebInfo"
+          - "Release"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.os }}-gcc-${{ matrix.build_type }}
+          variant: sccache
+
+      - name: Install compiler
+        shell: powershell
+        run: |
+          # Install scoop
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          # Required since CI runner is admin
+          # See https://github.com/ScoopInstaller/Install#for-admin
+          .\install.ps1 -RunAsAdmin
+
+          scoop install ninja gcc --global
+
+          echo "CXX=g++" >> $GITHUB_ENV
+          echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Configure build directory
+        run: |
+          mkdir build -p
+          cd build
+
+          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+      - name: Build
+        working-directory: build
+        run: cmake --build . --config ${{ matrix.build_type }}
+
+      - name: Run tests
+        working-directory: build
+        run: ctest . -C ${{ matrix.build_type }}
