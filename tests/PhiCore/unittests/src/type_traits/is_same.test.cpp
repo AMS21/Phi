@@ -122,6 +122,18 @@ TEST_CASE("is_same")
     test_is_not_same<int*, int&>();
     test_is_not_same<int&, int>();
 
+    test_is_not_same<int, const int>();
+    test_is_not_same<int, volatile int>();
+    test_is_not_same<int, const volatile int>();
+    test_is_not_same<int, int&>();
+    test_is_not_same<int, const int&>();
+    test_is_not_same<int, volatile int&>();
+    test_is_not_same<int, const volatile int&>();
+    test_is_not_same<int, int&&>();
+    test_is_not_same<int, const int&&>();
+    test_is_not_same<int, volatile int&&>();
+    test_is_not_same<int, const volatile int&&>();
+
     OverloadTest<char> t;
     (void)t;
 

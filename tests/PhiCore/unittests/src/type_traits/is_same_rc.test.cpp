@@ -125,6 +125,17 @@ TEST_CASE("is_same_rc")
     test_is_not_same_rc<int*, int&>();
     test_is_not_same_rc<int&, int>();
 
+    test_is_not_same_rc<int, volatile int>();
+    test_is_not_same_rc<int, const volatile int>();
+    test_is_not_same_rc<int, int&>();
+    test_is_not_same_rc<int, const int&>();
+    test_is_not_same_rc<int, volatile int&>();
+    test_is_not_same_rc<int, const volatile int&>();
+    test_is_not_same_rc<int, int&&>();
+    test_is_not_same_rc<int, const int&&>();
+    test_is_not_same_rc<int, volatile int&&>();
+    test_is_not_same_rc<int, const volatile int&&>();
+
     OverloadTest<char> t;
     (void)t;
 

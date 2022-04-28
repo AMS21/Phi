@@ -98,6 +98,15 @@ TEST_CASE("is_same_rcv")
     test_is_not_same_rcv<int*, int&>();
     test_is_not_same_rcv<int&, int>();
 
+    test_is_not_same_rcv<int, int&>();
+    test_is_not_same_rcv<int, const int&>();
+    test_is_not_same_rcv<int, volatile int&>();
+    test_is_not_same_rcv<int, const volatile int&>();
+    test_is_not_same_rcv<int, int&&>();
+    test_is_not_same_rcv<int, const int&&>();
+    test_is_not_same_rcv<int, volatile int&&>();
+    test_is_not_same_rcv<int, const volatile int&&>();
+
     OverloadTest<char> t;
     (void)t;
 

@@ -122,6 +122,17 @@ TEST_CASE("is_same_rv")
     test_is_not_same_rv<int*, int&>();
     test_is_not_same_rv<int&, int>();
 
+    test_is_not_same_rv<int, const int>();
+    test_is_not_same_rv<int, const volatile int>();
+    test_is_not_same_rv<int, int&>();
+    test_is_not_same_rv<int, const int&>();
+    test_is_not_same_rv<int, volatile int&>();
+    test_is_not_same_rv<int, const volatile int&>();
+    test_is_not_same_rv<int, int&&>();
+    test_is_not_same_rv<int, const int&&>();
+    test_is_not_same_rv<int, volatile int&&>();
+    test_is_not_same_rv<int, const volatile int&&>();
+
     OverloadTest<char> t;
     (void)t;
 
