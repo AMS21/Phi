@@ -249,7 +249,7 @@ function(phi_target_enable_sanitizer)
     target_link_options(${san_TARGET} ${visibility_scope} ${extra_flag})
   endforeach()
 
-  # return()
+  return()
 
   # Fancy printing
   list(JOIN san_SANITIZERS "," fancy_list_of_sanitizers)

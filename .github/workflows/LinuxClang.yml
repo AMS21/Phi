@@ -1,10 +1,10 @@
-name: Linux-GCC
+name: Linux-Clang
 
 on:
   push:
     paths:
       # Workflow file itself
-      - '.github/workflows/LinuxGCC.yml'
+      - '.github/workflows/LinuxClang.yml'
       # C++ files
       - '**.cpp'
       - '**.hpp'
@@ -33,10 +33,12 @@ jobs:
 
       matrix:
         compiler_version:
-          - "8"
           - "9"
           - "10"
           - "11"
+          - "12"
+          - "13"
+          - "14"
 
         build_type:
           - "Debug"
@@ -61,13 +63,13 @@ jobs:
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
+          key: ${{ matrix.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh gcc-${{ matrix.compiler_version }}
+        run: scripts/ci/InstallTools.sh clang-${{ matrix.compiler_version }}
 
       - name: Install gcovr
         if: matrix.dynamic_test == "coverage"
@@ -106,5 +108,5 @@ jobs:
         uses: codecov/codecov-action@v2.1.0
         with:
           file: ./build/coverage.xml
-          flags: ${{ runner.os }},gcc-${{ matrix.compiler_version }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}
+          flags: ${{ runner.os }},clang-${{ matrix.compiler_version }},${{ matrix.build_type }}
+          name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}

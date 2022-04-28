@@ -246,7 +246,7 @@ if(config_sanitizers)
 endif()
 
 if(${PHI_ENABLE_PSO})
-  list(APPEND configure_options PSO)
+  list(APPEND configure_options PSO ${PHI_ARCH})
 endif()
 
 phi_configure_project(${configure_options})

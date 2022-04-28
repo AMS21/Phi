@@ -656,29 +656,29 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (&)(int, ...)>();
     test_is_same_rcv<int (&)(int, ...) noexcept>();
 
-    test_is_same_rcv<void (&&)()>();
-    test_is_same_rcv<void (&&)() noexcept>();
+    test_is_same_rcv<void(&&)()>();
+    test_is_same_rcv<void(&&)() noexcept>();
 
-    test_is_same_rcv<void (&&)(int)>();
-    test_is_same_rcv<void (&&)(int) noexcept>();
+    test_is_same_rcv<void(&&)(int)>();
+    test_is_same_rcv<void(&&)(int) noexcept>();
 
-    test_is_same_rcv<void (&&)(...)>();
-    test_is_same_rcv<void (&&)(...) noexcept>();
+    test_is_same_rcv<void(&&)(...)>();
+    test_is_same_rcv<void(&&)(...) noexcept>();
 
-    test_is_same_rcv<void (&&)(int, ...)>();
-    test_is_same_rcv<void (&&)(int, ...) noexcept>();
+    test_is_same_rcv<void(&&)(int, ...)>();
+    test_is_same_rcv<void(&&)(int, ...) noexcept>();
 
-    test_is_same_rcv<int (&&)()>();
-    test_is_same_rcv<int (&&)() noexcept>();
+    test_is_same_rcv<int(&&)()>();
+    test_is_same_rcv<int(&&)() noexcept>();
 
-    test_is_same_rcv<int (&&)(int)>();
-    test_is_same_rcv<int (&&)(int) noexcept>();
+    test_is_same_rcv<int(&&)(int)>();
+    test_is_same_rcv<int(&&)(int) noexcept>();
 
-    test_is_same_rcv<int (&&)(...)>();
-    test_is_same_rcv<int (&&)(...) noexcept>();
+    test_is_same_rcv<int(&&)(...)>();
+    test_is_same_rcv<int(&&)(...) noexcept>();
 
-    test_is_same_rcv<int (&&)(int, ...)>();
-    test_is_same_rcv<int (&&)(int, ...) noexcept>();
+    test_is_same_rcv<int(&&)(int, ...)>();
+    test_is_same_rcv<int(&&)(int, ...) noexcept>();
 
     test_is_same_rcv<void (Class::*)()>();
     test_is_same_rcv<void (Class::*)()&>();
