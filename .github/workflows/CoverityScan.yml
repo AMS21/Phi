@@ -21,19 +21,11 @@ jobs:
           ref: 'develop'
           submodules: recursive
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
 
-      - name: Install
-        run: |
-          # Update repo list
-          sudo apt-get update -m
-
-          # Install g++
-          sudo apt-get install "g++-${{ env.GCC_VERSION }}" "g++-${{ env.GCC_VERSION }}-multilib" -y
-
-          # export compiler
-          echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
+      - name: Install compiler
+        run: scripts/ci/InstallTools.sh gcc-${{ env.GCC_VERSION }}
 
       - name: Download Coverity Build Tool
         run: |

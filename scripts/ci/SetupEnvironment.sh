@@ -11,6 +11,8 @@ echo "CMAKE_BUILD_PARALLEL_LEVEL=${PROC_COUNT}" >>$GITHUB_ENV
 echo "CTEST_PARALLEL_LEVEL=${PROC_COUNT}" >>$GITHUB_ENV
 # https://cmake.org/cmake/help/latest/envvar/CTEST_OUTPUT_ON_FAILURE.html
 echo "CTEST_OUTPUT_ON_FAILURE=ON" >>$GITHUB_ENV
+# https://cmake.org/cmake/help/latest/variable/CMAKE_GENERATOR.html
+echo "CMAKE_GENERATOR=Ninja" >>$GITHUB_ENV
 
 # Set some default options
 # https://cmake.org/cmake/help/latest/envvar/CMAKE_EXPORT_COMPILE_COMMANDS.html

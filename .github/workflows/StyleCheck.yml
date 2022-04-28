@@ -2,20 +2,24 @@ name: StyleCheck
 
 on:
   push:
+    tags:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
+    branches:
+      - main
+      - develop
     branches-ignore:
       - 'dependabot/**'
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   format:
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 14
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
-      CTEST_PARALLEL_LEVEL: "2"
-      CTEST_OUTPUT_ON_FAILURE: "ON"
 
     steps:
       - name: Checkout
