@@ -2,9 +2,27 @@ name: CodeCoverage
 
 on:
   push:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/CodeCoverage.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
+    tags:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   linux:

@@ -2,9 +2,16 @@ name: StaticAnalysis
 
 on:
   push:
+    tags:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
   schedule:
     - cron: '0 4 * * 1'
 
