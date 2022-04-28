@@ -70,11 +70,11 @@ jobs:
         run: scripts/ci/InstallTools.sh gcc-${{ matrix.compiler_version }}
 
       - name: Install gcovr
-        if: matrix.dynamic_test == coverage
+        if: matrix.dynamic_test == 'coverage'
         run: scripts/ci/InstallTools.sh gcovr
 
       - name: Install valgrind
-        if: matrix.dynamic_test == valgrind
+        if: matrix.dynamic_test == 'valgrind'
         run: scripts/ci/InstallTools.sh valgrind
 
       - name: Configure build directory
