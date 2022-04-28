@@ -6,9 +6,6 @@ on:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
-    branches:
-      - main
-      - develop
     branches-ignore:
       - 'dependabot/**'
   release:
