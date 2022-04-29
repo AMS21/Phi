@@ -121,7 +121,7 @@ jobs:
         working-directory: build
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
-          gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'xcrun llvm-cov'
+          gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'xcrun llvm-cov gcov'
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
