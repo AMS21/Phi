@@ -25,7 +25,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh gcc-${{ env.GCC_VERSION }}
+        run: scripts/ci/InstallTools.sh gcc-${{ env.GCC_VERSION }} ninja
 
       - name: Download Coverity Build Tool
         run: |

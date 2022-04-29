@@ -292,6 +292,17 @@ install_clang_format() {
     echo "CLANG_FORMAT_VERSION=$1" >>$GITHUB_ENV
 }
 
+install_ninja() {
+    echo "-- Installing ninja..."
+    sudo apt-get install ninja -y
+    echo "-- Installing ninja done"
+
+    # Verify
+    echo "-- Verifying ninja..."
+    ninja --version
+    echo "-- Verifying ninja done"
+}
+
 for tool in "$@"; do
     if [[ "$tool" == "gcovr" ]]; then
         install_gcovr
@@ -317,6 +328,8 @@ for tool in "$@"; do
         install_mull ${tool:5}
     elif [[ "$tool" == clang-format-* ]]; then
         install_clang_format ${tool:14}
+    elif [[ "$tool" == ninja ]]; then
+        install_ninja
     else
         echo "!- Unknown tool '$tool'"
         exit 1

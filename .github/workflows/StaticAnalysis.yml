@@ -45,13 +45,10 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
       - name: Install
         env:
           CPPCHECK_VERSION: "2.7"
-        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} cppcheck-${{ env.CPPCHECK_VERSION }}
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} cppcheck-${{ env.CPPCHECK_VERSION }} ninja
 
       - name: Configure
         run: |
@@ -97,11 +94,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
       - name: Install
-        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }}
+        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }} ninja
 
       - name: Run clang-tidy
         run: |
@@ -150,11 +144,8 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
       - name: Install
-        run: scripts/ci/InstallTools.sh iwyu-${{ env.LLVM_VERSION }}
+        run: scripts/ci/InstallTools.sh iwyu-${{ env.LLVM_VERSION }} ninja
 
       - name: Run Include-What-You-Use
         run: |
@@ -227,16 +218,13 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
       - name: Install
-        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} pvs-studio
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} pvs-studio ninja
 
       - name: Run PVS-Studio
         run: |
           # Create build
-          mkdir build
+          mkdir build -p
           cd build
 
           # Configure
@@ -301,7 +289,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }}
+        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }} ninja
 
       - name: Configure build directory
         run: |
@@ -340,25 +328,15 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
       - uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
-      - name: Install clang
-        run: |
-          # Add repository
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-
-          # Install
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+      - name: Install compiler
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} ninja
 
       - name: Install mull
         run: |
@@ -388,9 +366,8 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
-        run: |
-          cd build
-          cmake --build .
+        working-directory: ./build
+        run: cmake --build .
 
       - name: Run mull
         run: |

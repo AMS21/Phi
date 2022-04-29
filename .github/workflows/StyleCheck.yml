@@ -28,19 +28,14 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
       - name: Install
-        run: scripts/ci/InstallTools.sh clang-format-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }} cmake-format
+        run: scripts/ci/InstallTools.sh clang-format-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }} cmake-format ninja
 
       - name: Run clang-format
-        run: |
-          clang-format-${{ env.LLVM_VERSION }} -i $(find -iname "*.[hc]pp" -type f)
+        run: clang-format-${{ env.LLVM_VERSION }} -i $(find -iname "*.[hc]pp" -type f)
 
       - name: Run cmake-format
-        run: |
-          cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
+        run: cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
 
       - name: Fix spacing
         run: |
@@ -67,7 +62,7 @@ jobs:
       - name: Clang-tidy fixes
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
