@@ -58,6 +58,7 @@ jobs:
 
         dynamic_test:
           - "none"
+          - "coverage"
           - "asan"
           - "ubsan"
           - "valgrind"
@@ -88,6 +89,10 @@ jobs:
         with:
           xcode-version: ${{ matrix.cfg.compiler_version }}
 
+      - name: Install gcovr
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        run: scripts/ci/InstallTools.sh gcovr
+
       - name: Install valgrind
         if: ${{ matrix.dynamic_test == 'valgrind' }}
         run: |
@@ -111,6 +116,20 @@ jobs:
       - name: Run tests
         working-directory: build
         run: ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data
+        working-directory: build
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        run: |
+          gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'xcrun llvm-cov'
+
+      - name: Upload coverage data
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          file: ./build/coverage.xml
+          flags: ${{ runner.os }},xcode-${{ matrix.cfg.compiler_version }},${{ matrix.build_type }}
+          name: ${{ runner.os }}-xcode-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
 
   gcc:
     runs-on: macos-10.15
@@ -139,6 +158,7 @@ jobs:
 
         dynamic_test:
           - "none"
+          - "coverage"
           - "asan"
           - "lsan"
           - "ubsan"
@@ -168,6 +188,10 @@ jobs:
           brew install gcc@${{ matrix.cfg.compiler_version }}
           echo "CXX=g++-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
 
+      - name: Install gcovr
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        run: scripts/ci/InstallTools.sh gcovr
+
       - name: Install valgrind
         if: ${{ matrix.dynamic_test == 'valgrind' }}
         run: |
@@ -191,3 +215,17 @@ jobs:
       - name: Run tests
         working-directory: build
         run: ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data
+        working-directory: build
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        run: |
+          gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'gcov-${{ matrix.compiler_version }}'
+
+      - name: Upload coverage data
+        if: ${{ matrix.dynamic_test == 'coverage' }}
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          file: ./build/coverage.xml
+          flags: ${{ runner.os }},gcc-${{ matrix.compiler_version }},${{ matrix.build_type }}
+          name: ${{ runner.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}
