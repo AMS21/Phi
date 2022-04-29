@@ -59,7 +59,6 @@ install_cmake_format() {
 
 # Expects first paramter to be the requested version
 install_clang() {
-
     add_llvm_apt $1
 
     # Install clang
@@ -317,7 +316,7 @@ for tool in "$@"; do
     elif [[ "$tool" == clang-tidy-* ]]; then
         install_clang_tidy ${tool:11}
     elif [[ "$tool" == clang-format-* ]]; then
-        install_clang_format ${tool:14}
+        install_clang_format ${tool:13}
     elif [[ "$tool" == llvm-* ]]; then
         install_llvm ${tool:5}
     elif [[ "$tool" == clang-* ]]; then
