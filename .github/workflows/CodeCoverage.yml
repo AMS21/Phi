@@ -24,6 +24,7 @@ on:
     types: [published]
   workflow_dispatch:
 
+jobs:
   macos:
     runs-on: macos-11
     env:
