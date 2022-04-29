@@ -57,7 +57,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_TEST_WITH_ALL_STANDARDS=OFF
 
       - name: Run cppcheck
         run: |
