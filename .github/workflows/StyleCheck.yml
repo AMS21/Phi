@@ -150,6 +150,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Fix directory
+        run: git config --global --add safe.directory /github/workspace
+
       - uses: reviewdog/action-languagetool@v1.8.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
