@@ -1,4 +1,8 @@
-# Phi ![GitHub](https://img.shields.io/github/license/AMS21/Phi) [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AMS21/Phi) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/AMS21/Phi)
+# Phi
+![GitHub](https://img.shields.io/github/license/AMS21/Phi)
+[![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AMS21/Phi)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/AMS21/Phi)
 
 ![Linux](https://github.com/AMS21/Phi/workflows/Linux/badge.svg?event=push)
 ![MacOS](https://github.com/AMS21/Phi/workflows/MacOS/badge.svg?event=push)
