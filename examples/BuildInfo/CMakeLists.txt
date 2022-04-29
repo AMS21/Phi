@@ -17,5 +17,3 @@ phi_add_executable(
   Phi::Core
   FOLDER
   "Examples")
-
-phi_target_enable_optimizations(TARGET ${PROJECT_NAME} PSO native)
