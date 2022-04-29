@@ -89,6 +89,9 @@ jobs:
         with:
           xcode-version: ${{ matrix.cfg.compiler_version }}
 
+      - name: Install ninja
+        run: brew install ninja
+
       - name: Install gcovr
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: scripts/ci/InstallTools.sh gcovr
@@ -185,7 +188,7 @@ jobs:
 
       - name: Install gcc
         run: |
-          brew install gcc@${{ matrix.compiler_version }}
+          brew install gcc@${{ matrix.compiler_version }} ninja
           echo "CXX=g++-${{ matrix.compiler_version }}" >> $GITHUB_ENV
 
       - name: Install gcovr
