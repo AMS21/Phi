@@ -4,7 +4,7 @@
 ![MacOS](https://github.com/AMS21/Phi/workflows/MacOS/badge.svg?event=push)
 ![Windows](https://github.com/AMS21/Phi/workflows/Windows/badge.svg?event=push)
 ![Emscripten](https://github.com/AMS21/Phi/workflows/Emscripten/badge.svg?event=push)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/09c3ab7a70ba4a9a95f270707e81b25b)](https://www.codacy.com/manual/AMS21/Phi?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AMS21/Phi&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/39d38815e5db470b8577b02f58f35d3f)](https://www.codacy.com/gh/AMS21/Phi/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AMS21/Phi&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/ams21/phi/badge)](https://www.codefactor.io/repository/github/ams21/phi)
 ![Coverity Scan](https://img.shields.io/coverity/scan/ams21-phi)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AMS21/Phi/CodeQL?label=CodeQL)
