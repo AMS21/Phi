@@ -72,7 +72,7 @@ jobs:
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
 
-      - name: Install nija
+      - name: Install ninja
         run: scripts/ci/InstallTools.sh ninja
 
       - name: Configure build directory
