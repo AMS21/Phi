@@ -266,58 +266,67 @@ jobs:
   code-ql:
     runs-on: ubuntu-20.04
 
-    env:
-      GCC_VERSION: "11"
-      LLVM_VERSION: "14"
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
-      CTEST_PARALLEL_LEVEL: "2"
-      CTEST_OUTPUT_ON_FAILURE: "ON"
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        language: [ 'cpp' ]
+
+        compiler:
+          - 'gcc-11'
+          - 'clang-14'
+
+        build_type:
+          - 'Debug'
+          - 'RelWithDebInfo'
+          - 'Release'
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      # Override language selection by uncommenting this and choosing your languages
-      with:
-        languages: cpp
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
 
-    - name: Install
-      run: |
-        # Add clang repo
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
 
-        # Update repo list
-        sudo apt-get update -m
+      - name: Install compiler
+        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }}
 
-        # Install g++
-        sudo apt-get install g++-${{ env.GCC_VERSION }}
+      - name: Configure build directory
+        run: |
+          mkdir build -p
+          cd build
 
-        # Install clang/LLVM
-        sudo apt-get install "clang-${{ env.LLVM_VERSION }}" "llvm-${{ env.LLVM_VERSION }}" g++-multilib -y
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=${{ matrix.build_type == 'Debug' }} ..
 
-        # export compiler
-        echo "CXX=g++-${{ env.GCC_VERSION }}" >> $GITHUB_ENV
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        # Override language selection by uncommenting this and choosing your languages
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Autobuild (GCC)
-      uses: github/codeql-action/autobuild@v1
+      - name: Build
+        working-directory: build
+        run: cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Perform CodeQL Analysis (GCC)
-      uses: github/codeql-action/analyze@v1
-
-    - name: Switch compiler to clang
-      run: echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-    - name: Autobuild (clang)
-      uses: github/codeql-action/autobuild@v1
-
-    - name: Perform CodeQL Analysis (clang)
-      uses: github/codeql-action/analyze@v1
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
 
   mull:
     runs-on: ubuntu-20.04
