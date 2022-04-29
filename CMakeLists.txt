@@ -67,7 +67,7 @@ option(PHI_ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimi
 option(PHI_COLOR_DIAGNOSTICS "Enable colored diagnostics" ON)
 option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(PHI_EANBLE_IWYU "Enable static analysis with include-what-you-use" OFF)
+option(PHI_ENABLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
 
@@ -220,7 +220,7 @@ endif()
 if(${PHI_ENABLE_CLANG_TIDY})
   list(APPEND config_sa CLANG_TIDY)
 endif()
-if(${PHI_EANBLE_IWYU})
+if(${PHI_ENABLE_IWYU})
   list(APPEND config_sa IWYU)
 endif()
 
