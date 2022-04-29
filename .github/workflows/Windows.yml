@@ -238,7 +238,7 @@ jobs:
           scoop install ninja gcc --global
 
           echo "CXX=g++" >> $GITHUB_ENV
-          echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append'
+          echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\ProgramData\scoop\apps\ninja\current"    | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Install gcovr
