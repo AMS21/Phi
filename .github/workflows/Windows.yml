@@ -59,17 +59,6 @@ jobs:
           key: ${{ matrix.os }}-msvc-${{ matrix.build_type }}
           variant: sccache
 
-      - name: Install ninja
-        shell: powershell
-        run: |
-          # Install scoop
-          iwr -useb get.scoop.sh -outfile 'install.ps1'
-          # Required since CI runner is admin
-          # See https://github.com/ScoopInstaller/Install#for-admin
-          .\install.ps1 -RunAsAdmin
-
-          scoop install ninja --global
-
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1.10.0
 
