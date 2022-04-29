@@ -178,15 +178,15 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-gcc-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
+          key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install gcc
         run: |
-          brew install gcc@${{ matrix.cfg.compiler_version }}
-          echo "CXX=g++-${{ matrix.cfg.compiler_version }}" >> $GITHUB_ENV
+          brew install gcc@${{ matrix.compiler_version }}
+          echo "CXX=g++-${{ matrix.compiler_version }}" >> $GITHUB_ENV
 
       - name: Install gcovr
         if: ${{ matrix.dynamic_test == 'coverage' }}
