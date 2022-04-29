@@ -294,7 +294,7 @@ install_clang_format() {
 
 install_ninja() {
     echo "-- Installing ninja..."
-    sudo apt-get install ninja -y
+    sudo apt-get install ninja-build -y
     echo "-- Installing ninja done"
 
     # Verify
