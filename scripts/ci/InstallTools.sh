@@ -308,8 +308,6 @@ for tool in "$@"; do
         install_gcovr
     elif [[ "$tool" == "cmake-format" ]]; then
         install_cmake_format
-    elif [[ "$tool" == clang-* ]]; then
-        install_clang ${tool:6}
     elif [[ "$tool" == gcc-* ]]; then
         install_gcc ${tool:4}
     elif [[ "$tool" == "valgrind" ]]; then
@@ -318,16 +316,18 @@ for tool in "$@"; do
         install_cppcheck ${tool:9}
     elif [[ "$tool" == clang-tidy-* ]]; then
         install_clang_tidy ${tool:11}
+    elif [[ "$tool" == clang-format-* ]]; then
+        install_clang_format ${tool:14}
     elif [[ "$tool" == llvm-* ]]; then
         install_llvm ${tool:5}
+    elif [[ "$tool" == clang-* ]]; then
+        install_clang ${tool:6}
     elif [[ "$tool" == iwyu-* ]]; then
         install_iwyu ${tool:5}
     elif [[ "$tool" == pvs-studio ]]; then
         install_pvs_studio
     elif [[ "$tool" == mull-* ]]; then
         install_mull ${tool:5}
-    elif [[ "$tool" == clang-format-* ]]; then
-        install_clang_format ${tool:14}
     elif [[ "$tool" == ninja ]]; then
         install_ninja
     else
