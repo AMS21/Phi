@@ -221,15 +221,17 @@ jobs:
       - name: Install
         run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} pvs-studio ninja
 
-      - name: Run PVS-Studio
+      - name: Configure build directory
         run: |
-          # Create build
           mkdir build -p
           cd build
 
           # Configure
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
 
+      - name: Run PVS-Studio
+        working-directory: ./build
+        run: |
           # Create License
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
 
