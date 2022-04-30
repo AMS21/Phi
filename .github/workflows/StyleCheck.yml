@@ -13,8 +13,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  format:
+  clang-format:
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 14
 
@@ -24,52 +25,162 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-
       - name: Install
-        run: scripts/ci/InstallTools.sh clang-format-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }} cmake-format ninja
+        run: scripts/ci/InstallTools.sh clang-format-${{ env.LLVM_VERSION }}
 
       - name: Run clang-format
         run: clang-format-${{ env.LLVM_VERSION }} -i $(find -iname "*.[hc]pp" -type f)
 
+      - name: Display diff
+        run: git diff
+
+      - name: Report result
+        run: |
+          git_dirty=$(git status -s)
+          if [ -z "$git_dirty" ]; then
+            echo Everything seems to be in order
+          else
+            echo Formatting problems found!
+            echo Check 'Display diff' for further information
+            exit 1
+          fi
+
+  cmake-format:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install
+        run: scripts/ci/InstallTools.sh cmake-format
+
       - name: Run cmake-format
         run: cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
 
+      - name: Display diff
+        run: git diff
+
+      - name: Report result
+        run: |
+          git_dirty=$(git status -s)
+          if [ -z "$git_dirty" ]; then
+            echo Everything seems to be in order
+          else
+            echo Formatting problems found!
+            echo Check 'Display diff' for further information
+            exit 1
+          fi
+
+  spacing:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install
+        run: sudo apt-get install moreutils
+
       - name: Fix spacing
         run: |
-          # Install moreutils
-          sudo apt-get install moreutils
-
           # Fix mixed tabs and spaces
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'expand -t 4 "$0" | sponge "$0"' {} \;
+
           # Fix trailing white spaces
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'sed -i '' -e's/[[:space:]]*$//' "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'sed -i '' -e's/[[:space:]]*$//' "$0"' {} \;
+
           # Ensure files end with a new line
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
+
+      - name: Display diff
+        run: git diff
+
+      - name: Report result
+        run: |
+          git_dirty=$(git status -s)
+          if [ -z "$git_dirty" ]; then
+            echo Everything seems to be in order
+          else
+            echo Formatting problems found!
+            echo Check 'Display diff' for further information
+            exit 1
+          fi
+
+  encoding:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install
+        run: sudo apt-get install dos2unix recode
 
       - name: Fix encoding
         run: |
-          # Install 'dos2unix' and 'recode'
-          sudo apt-get install dos2unix recode
-
           # Ensure that files are UTF-8 formatted
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'recode UTF-8 "$0" 2> /dev/null' {} \;
           # Ensure that files have LF line endings and do not contain a BOM.
-          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
+          find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
 
-      - name: Clang-tidy fixes
+      - name: Display diff
+        run: git diff
+
+      - name: Report result
+        run: |
+          git_dirty=$(git status -s)
+          if [ -z "$git_dirty" ]; then
+            echo Everything seems to be in order
+          else
+            echo Formatting problems found!
+            echo Check 'Display diff' for further information
+            exit 1
+          fi
+
+  clang-tidy:
+    runs-on: ubuntu-20.04
+
+    env:
+      LLVM_VERSION: 14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install
+        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }}
+
+      - name: Configure build directory
         run: |
           # Create build directory
           mkdir build -p
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_FAILURE_TESTS=OFF -DPHI_TEST_WITH_ALL_STANDARDS=OFF
 
-          # Run clang-tidy
-          run-clang-tidy-${{ env.LLVM_VERSION }} -fix -header-filter ".*" -checks="-*,bugprone-argument-comment,bugprone-reserved-identifier,cppcoreguidelines-pro-type-cstyle-cast,modernize-deprecated-headers,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-nullptr,modernize-use-override,modernize-use-using,readability-braces-around-statements,readability-container-size-empty,readability-identifier-naming,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-make-member-function-const,readability-qualified-auto,readability-redundant-control-flow,readability-simplify-boolean-expr"
+      - name: Run Clang-tidy
+        working-directory: ./build
+        run: run-clang-tidy-${{ env.LLVM_VERSION }} -fix -header-filter ".*" -checks="-*,bugprone-argument-comment,bugprone-reserved-identifier,cppcoreguidelines-pro-type-cstyle-cast,modernize-deprecated-headers,modernize-make-shared,modernize-make-unique,modernize-pass-by-value,modernize-raw-string-literal,modernize-redundant-void-arg,modernize-use-equals-default,modernize-use-equals-delete,modernize-use-nodiscard,modernize-use-nullptr,modernize-use-override,modernize-use-using,readability-braces-around-statements,readability-container-size-empty,readability-identifier-naming,readability-inconsistent-declaration-parameter-name,readability-isolate-declaration,readability-make-member-function-const,readability-qualified-auto,readability-redundant-control-flow,readability-simplify-boolean-expr"
 
       - name: Display diff
         run: git diff
