@@ -203,12 +203,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: Run misspell with reviewdog
         uses: reviewdog/action-misspell@v1.11
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           locale: US
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           level: warning
 
   yamllint:
@@ -218,11 +226,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: yamllint
         uses: reviewdog/action-yamllint@v1.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           yamllint_flags: '-d "{extends: relaxed, rules: {line-length: {max: 100}}}"'
           level: warning
 
@@ -233,11 +249,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: markdownlint
         uses: prologic/action-markdownlint@v0.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           level: warning
 
   remark-lint:
@@ -247,11 +271,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: remark-lint
         uses: prologic/action-remark-lint@v5.3.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           level: warning
 
   languagetool:
@@ -261,13 +293,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Fix directory
-        run: git config --global --add safe.directory /github/workspace
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
 
       - uses: reviewdog/action-languagetool@v1.8.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           level: warning
 
   alex:
@@ -277,8 +314,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - uses: reviewdog/action-alex@v1.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: ${{ steps.reporter.outputs.value }}
           level: warning

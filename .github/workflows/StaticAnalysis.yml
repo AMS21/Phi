@@ -69,11 +69,19 @@ jobs:
       - name: Print results
         run: cat cppcheck_filtered.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name CppCheck -level warning
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-20.04
@@ -118,11 +126,19 @@ jobs:
       - name: Print results
         run: cat build/clang_tidy_output.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=github-check -name Clang-Tidy -level warning
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
 
   include-what-you-use:
     runs-on: ubuntu-20.04
@@ -165,11 +181,19 @@ jobs:
       - name: Print results
         run: cat build/iwyu_filtered.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=github-check -name include-what-you-use -level warning
+          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-20.04
@@ -196,11 +220,19 @@ jobs:
       - name: Print results
         run: cat cmake_lint.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=github-check -name cmake-lint -level warning
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
 
   pvs-studio:
     runs-on: ubuntu-20.04
@@ -247,11 +279,19 @@ jobs:
       - name: Print results
         run: cat build/PVS-Studio_filtered.err
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name PVS-Studio -level warning
+          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
 
   code-ql:
     runs-on: ubuntu-20.04
@@ -382,11 +422,19 @@ jobs:
       - name: Print results
         run: cat build/mull_report_filtered.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=github-check -name mull -level warning
+          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
 
   msvc-code-analysis:
     permissions:
