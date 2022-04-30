@@ -412,7 +412,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_TEST_WITH_ALL_STANDARDS=OFF
 
       - name: Build
         run: |
