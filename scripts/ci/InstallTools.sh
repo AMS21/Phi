@@ -22,11 +22,18 @@ add_llvm_apt() {
         # Get gpg key
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 
-        # Add the requires repo
-        sudo add-apt-repository "deb http://apt.llvm.org/$os_name/ llvm-toolchain-$(lsb_release -c -s)-$1 main"
+        os_release=$(lsb_release -c -s)
+        apt_repo="http://apt.llvm.org/$os_release/ llvm-toolchain-$os_release-$1 main"
+        echo "Adding the apt repo: $apt_repo"
+
+        # Add the required repo
+        sudo add-apt-repository "deb $apt_repo"
 
         # Update repo list
+        echo "-- Updating apt..."
         sudo apt-get update -m
+        echo "-- Updating apt done"
+
         echo "-- Adding LLVM-$1 apt done"
     fi
 }
