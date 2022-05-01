@@ -180,7 +180,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: reviewdog/action-alex@v1.4
+      - uses: reviewdog/action-alex@v1.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-check
