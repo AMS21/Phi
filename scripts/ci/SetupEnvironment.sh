@@ -18,7 +18,7 @@ echo "CMAKE_GENERATOR=Ninja" >>$GITHUB_ENV
 
 # Set some default options
 # https://cmake.org/cmake/help/latest/envvar/CMAKE_EXPORT_COMPILE_COMMANDS.html
-echo "CMAKE_EXPORT_COMPILE_COMMANDS=ON"
+echo "CMAKE_EXPORT_COMPILE_COMMANDS=ON" >>$GITHUB_ENV
 # https://cmake.org/cmake/help/latest/envvar/VERBOSE.html
 echo "VERBOSE=ON" >>$GITHUB_ENV
 
