@@ -74,7 +74,7 @@ jobs:
           lcov --list coverage.info # debug info
 
       - name: Upload coverage data (GCC)
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
@@ -107,7 +107,7 @@ jobs:
           cat coverage.info
 
       - name: Upload coverage data (Clang)
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.profdata
@@ -172,7 +172,7 @@ jobs:
           lcov --list coverage.info # debug info
 
       - name: Upload coverage data (GCC)
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.info
@@ -205,7 +205,7 @@ jobs:
           cat coverage.info
 
       - name: Upload coverage data (Clang)
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build-clang/coverage.info
@@ -274,7 +274,7 @@ jobs:
           cat coverage.info
 
       - name: Upload coverage data
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/coverage.info
