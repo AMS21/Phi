@@ -53,12 +53,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.os }}-msvc-${{ matrix.build_type }}
-          variant: sccache
-
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1.10.0
 
