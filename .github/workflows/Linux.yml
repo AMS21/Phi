@@ -63,7 +63,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
+          key: ${{ matrix.os }}-clang-${{ matrix.compiler_version }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
@@ -90,15 +90,15 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
       - name: Build
-        working-directory: build
-        run: cmake --build .
+        working-directory: ./build
+        run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data
-        working-directory: build
+        working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
           gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE'
@@ -147,7 +147,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
+          key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
@@ -174,15 +174,15 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
 
       - name: Build
-        working-directory: build
-        run: cmake --build .
+        working-directory: ./build
+        run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data
-        working-directory: build
+        working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
           gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE'

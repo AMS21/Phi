@@ -41,7 +41,8 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
@@ -53,7 +54,7 @@ jobs:
       - name: Configure
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
@@ -94,11 +95,13 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
@@ -108,7 +111,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
@@ -152,11 +155,13 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
@@ -166,7 +171,7 @@ jobs:
       - name: Run Include-What-You-Use
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Configure
@@ -202,11 +207,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v3
+      - name: Setup python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
@@ -214,8 +221,7 @@ jobs:
         run: scripts/ci/InstallTools.sh cmake-format
 
       - name: Run cmake-lint
-        run: |
-          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
+        run: cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
 
       - name: Print results
         run: cat cmake_lint.log
@@ -246,7 +252,8 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.2
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.2
         with:
           reviewdog_version: latest
 
@@ -325,7 +332,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
+          key: ${{ matrix.os }}-${{ matrix.compiler }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
@@ -352,7 +359,7 @@ jobs:
           # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
       - name: Build
-        working-directory: build
+        working-directory: ./build
         run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Perform CodeQL Analysis
@@ -362,7 +369,6 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 14
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
       - name: Checkout
@@ -373,22 +379,13 @@ jobs:
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - name: Install compiler
-        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} ninja
-
-      - name: Install mull
-        run: |
-          curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
-
-          sudo apt-get update
-          sudo apt-get install mull-${{ env.LLVM_VERSION }}
-
-          # Verify everythings works
-          mull-cxx-${{ env.LLVM_VERSION }} --version
+      - name: Install compiler / mull
+        run: scripts/ci/InstallTools.sh mull-${{ env.LLVM_VERSION }} ninja
 
       - name: Get clang include paths
         run: |
@@ -401,7 +398,7 @@ jobs:
       - name: Configure
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
@@ -412,8 +409,8 @@ jobs:
         run: cmake --build .
 
       - name: Run mull
+        working-directory: ./build
         run: |
-          cd build
           find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; 2>&1 | tee --append mull_report.log
 
           # Remove duplicate entries
@@ -463,9 +460,8 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_TEST_WITH_ALL_STANDARDS=OFF
 
       - name: Build
-        run: |
-          cd build
-          cmake --build .
+        working-directory: ./build
+        run: cmake --build .
 
       - name: Initialize MSVC Code Analysis
         uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99

@@ -57,7 +57,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-emscripten-${{ matrix.em_version }}-${{ matrix.build_type }}
+          key: emscripten-${{ matrix.em_version }}
 
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v11
@@ -66,8 +66,7 @@ jobs:
           actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
       - name: Verify version
-        run: |
-          emcc --version
+        run: emcc --version
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
@@ -83,9 +82,9 @@ jobs:
           emcmake cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
       - name: Build
-        working-directory: build
-        run: emmake cmake --build .
+        working-directory: ./build
+        run: emmake cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}

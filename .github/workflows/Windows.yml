@@ -74,12 +74,12 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build
-        working-directory: build
+        working-directory: ./build
         run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
         if: ${{ matrix.dynamic_test != 'coverage' }}
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
 
       - name: Test with coverage
@@ -130,7 +130,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-clang-${{ matrix.build_type }}-${{ matrix.dynamic_test }}
+          key: ${{ matrix.os }}-clang
           variant: sccache
 
       - name: Install compiler
@@ -163,15 +163,15 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build
-        working-directory: build
+        working-directory: ./build
         run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data
-        working-directory: build
+        working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
           gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'llvm-cov gcov'
@@ -217,7 +217,7 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-gcc-${{ matrix.build_type }}
+          key: ${{ matrix.os }}-gcc
           variant: sccache
 
       - name: Install compiler
@@ -250,15 +250,15 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build
-        working-directory: build
+        working-directory: ./build
         run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Run tests
-        working-directory: build
+        working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
 
       - name: Process coverage data
-        working-directory: build
+        working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
         run: |
           gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'gcov'

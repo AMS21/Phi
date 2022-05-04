@@ -37,7 +37,7 @@ jobs:
 
       - name: Configure
         run: |
-          mkdir build
+          mkdir -p build
           cd build
           cmake ..
 
@@ -61,8 +61,8 @@ jobs:
           cat build/cov-int/build-log.txt
 
       - name: Submit the result to Coverity Scan
+        working-directory: ./build
         run: |
-          cd build
           tar czvf phi.tgz cov-int
           curl --form token=$TOKEN \
                --form email=hansfritzenmeister@protonmail.com \
