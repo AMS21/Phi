@@ -111,7 +111,7 @@ jobs:
           # Export dynamic test mode
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 
       - name: Build
         working-directory: ./build
@@ -209,7 +209,7 @@ jobs:
           # Export dynamic test mode
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
-          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 
       - name: Build
         working-directory: ./build

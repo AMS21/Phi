@@ -58,7 +58,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_TEST_WITH_ALL_STANDARDS=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
       - name: Run cppcheck
         run: |
@@ -114,7 +114,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DPHI_TEST_WITH_ALL_STANDARDS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" | tee clang_tidy.log
@@ -173,7 +173,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
 
           # Run include-what-you-use
           iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
@@ -262,7 +262,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
 
       - name: Run PVS-Studio
         working-directory: ./build
@@ -340,7 +340,7 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_COVERAGE_BUILD=${{ matrix.build_type == 'Debug' }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_COVERAGE_BUILD:BOOL=${{ matrix.build_type == 'Debug' }} ..
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -397,7 +397,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DCMAKE_CXX_FLAGS="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE=Debug
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE:STRING=Debug
 
       - name: Build
         working-directory: ./build
@@ -451,7 +451,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_TEST_WITH_ALL_STANDARDS=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
       - name: Build
         working-directory: ./build
