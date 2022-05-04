@@ -47,6 +47,12 @@ jobs:
           - "coverage"
           - "asan"
 
+        standard:
+          - "14"
+          - "17"
+          - "20"
+          - "23"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -71,7 +77,7 @@ jobs:
           # Export dynamic test mode
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
-          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_STANDARD:STRING=${{ matrix.standard }}
 
       - name: Build
         working-directory: ./build
