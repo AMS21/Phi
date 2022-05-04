@@ -338,7 +338,7 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD=${{ matrix.build_type == 'Debug' }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_COVERAGE_BUILD=${{ matrix.build_type == 'Debug' }} ..
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
