@@ -81,7 +81,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
+        run: |
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-20.04
@@ -139,7 +140,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
+        run: |
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
 
   include-what-you-use:
     runs-on: ubuntu-20.04
@@ -195,7 +197,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
+        run: |
+          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-20.04
@@ -234,7 +237,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
+        run: |
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
 
   pvs-studio:
     runs-on: ubuntu-20.04
@@ -293,7 +297,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
+        run: |
+          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
 
   code-ql:
     runs-on: ubuntu-20.04
@@ -425,7 +430,8 @@ jobs:
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
+        run: |
+          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
 
   msvc-code-analysis:
     permissions:
