@@ -1,33 +1,63 @@
 name: Emscripten
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/Emscripten.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
+    tags:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   Build:
     runs-on: ubuntu-20.04
 
     env:
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
-      CTEST_PARALLEL_LEVEL: "2"
-      CTEST_OUTPUT_ON_FAILURE: "ON"
       EM_CACHE_FOLDER: 'emsdk-cache'
 
     strategy:
       fail-fast: false
+
       matrix:
         em_version:
-          - "3.1.6"
+          - "3.1.9"
           - "3.0.1"
           - "2.0.34"
           - "1.40.1"
           - "1.39.20"
           - "1.38.48"
 
+        build_type:
+          - "Debug"
+          - "RelWithDebInfo"
+          - "Release"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: recursive
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: emscripten-${{ matrix.em_version }}
 
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v11
@@ -36,35 +66,25 @@ jobs:
           actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
 
       - name: Verify version
-        run: |
-          emcc --version
+        run: emcc --version
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
+      - name: Install ninja
+        run: scripts/ci/InstallTools.sh ninja
 
       - name: Configure build directory
         run: |
           mkdir -p build
           cd build
-          emcmake cmake -DCMAKE_VERBOSE_MAKEFILE=ON ..
 
-      - name: Build Debug
-        run: |
-          cd build
-          emcmake cmake .. -DCMAKE_BUILD_TYPE=Debug
-          emmake cmake --build . --clean-first
-          ctest . -C Debug
+          emcmake cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON ..
 
-      - name: Build RelWithDebInfo
-        run: |
-          cd build
-          emcmake cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-          emmake cmake --build . --clean-first
-          ctest . -C RelWithDebInfo
+      - name: Build
+        working-directory: ./build
+        run: emmake cmake --build . --config ${{ matrix.build_type }}
 
-      - name: Build Release
-        run: |
-          cd build
-          emcmake cmake .. -DCMAKE_BUILD_TYPE=Release
-          emmake cmake --build . --clean-first
-          ctest . -C Release
+      - name: Run tests
+        working-directory: ./build
+        run: ctest . -C ${{ matrix.build_type }}

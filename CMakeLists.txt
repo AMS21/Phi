@@ -49,7 +49,7 @@ option(PHI_BUILD_TESTS "Build tests" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_SANDBOX "Build sandbox application" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_DOCS "Generate the source code documentaion" OFF)
-option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF)
+option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF) # TODO
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
 option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 option(PHI_ENABLE_FAILURE_TESTS "Build the failure tests" ON)
@@ -67,7 +67,7 @@ option(PHI_ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimi
 option(PHI_COLOR_DIAGNOSTICS "Enable colored diagnostics" ON)
 option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(PHI_EANBLE_IWYU "Enable static analysis with include-what-you-use" OFF)
+option(PHI_ENABLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
 
@@ -135,6 +135,32 @@ include(ProjectOptions)
 # Find required system libs
 find_package(Threads REQUIRED)
 
+# Check for settings passed through the environment
+if(DEFINED ENV{PHI_DYNAMIC_TEST})
+  set(dyn_test $ENV{PHI_DYNAMIC_TEST})
+  phi_log("Configuring dynamic testing ${dyn_test}")
+
+  if(${dyn_test} STREQUAL "none")
+    # Nothing to configure
+  elseif(${dyn_test} STREQUAL "coverage")
+    phi_set_cache_value(NAME PHI_COVERAGE_BUILD VALUE TRUE)
+  elseif(${dyn_test} STREQUAL "asan")
+    phi_set_cache_value(NAME PHI_ENABLE_SANITIZER_ADDRESS VALUE TRUE)
+  elseif(${dyn_test} STREQUAL "lsan")
+    phi_set_cache_value(NAME PHI_ENABLE_SANITIZER_LEAK VALUE TRUE)
+  elseif(${dyn_test} STREQUAL "tsan")
+    phi_set_cache_value(NAME PHI_ENABLE_SANITIZER_THREAD VALUE TRUE)
+  elseif(${dyn_test} STREQUAL "ubsan")
+    phi_set_cache_value(NAME PHI_ENABLE_SANITIZER_UNDEFINED VALUE TRUE)
+  elseif(${dyn_test} STREQUAL "valgrind")
+    phi_set_cache_value(NAME PHI_TEST_WITH_VALGRIND VALUE TRUE)
+    # Valgrind has problems running our failure tests so don't.
+    phi_set_cache_value(NAME PHI_ENABLE_FAILURE_TESTS VALUE FALSE)
+  else()
+    phi_error("No dynamic testing options called \"${dyn_test}\" supported")
+  endif()
+endif()
+
 # Load libs
 add_subdirectory(libs)
 
@@ -155,4 +181,72 @@ if(${PHI_BUILD_DOCS})
   add_subdirectory(docs)
 endif()
 
-phi_configure_project(DEBUG_FLAGS WARNINGS WARNINGS_AS_ERRORS OPTIMIZATION_FLAGS PEDANTIC)
+# Set configure options
+set(configure_options DEBUG_FLAGS WARNINGS) # Default
+
+if(${PHI_USE_UNITY_BUILD})
+  list(APPEND configure_options UNITY_BUILD)
+endif()
+
+if(${PHI_COVERAGE_BUILD})
+  list(APPEND configure_options COVERAGE)
+endif()
+
+if(${PHI_ENABLE_OPTIMIZATION_FLAGS})
+  list(APPEND configure_options OPTIMIZATION_FLAGS)
+endif()
+
+if(${PHI_WARNINGS_AS_ERRORS})
+  list(APPEND configure_options WARNINGS_AS_ERRORS)
+endif()
+
+if(${PHI_PEDANTIC_WARNINGS})
+  list(APPEND configure_options PEDANTIC)
+endif()
+
+if(${PHI_BUILD_WITH_TIME_TRACE})
+  list(APPEND configure_options TIME_TRACE)
+endif()
+
+if(${PHI_ENABLE_IPO})
+  list(APPEND configure_options IPO)
+endif()
+
+# Configure static analyzers
+set(config_sa)
+if(${PHI_ENABLE_CPPCHECK})
+  list(APPEND config_sa CPPCHECK)
+endif()
+if(${PHI_ENABLE_CLANG_TIDY})
+  list(APPEND config_sa CLANG_TIDY)
+endif()
+if(${PHI_ENABLE_IWYU})
+  list(APPEND config_sa IWYU)
+endif()
+
+if(config_sa)
+  list(APPEND configure_options STATIC_ANALYZERS ${config_sa})
+endif()
+
+# Configure sanitizers
+set(config_sanitizers)
+foreach(option ${PHI_SANITIZER_OPTIONS})
+  string(REPLACE "-" "_" var_option ${option})
+  string(TOUPPER ${var_option} var_option)
+
+  if(PHI_ENABLE_SANITIZER_${var_option})
+    list(APPEND config_sanitizers ${option})
+
+    phi_log("Enabling ${option} sanitizer")
+  endif()
+endforeach()
+
+if(config_sanitizers)
+  list(APPEND configure_options SANITIZER ${config_sanitizers})
+endif()
+
+if(${PHI_ENABLE_PSO})
+  list(APPEND configure_options PSO ${PHI_ARCH})
+endif()
+
+phi_configure_project(${configure_options})

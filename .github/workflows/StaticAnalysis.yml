@@ -1,12 +1,39 @@
 name: StaticAnalysis
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/StaticAnalysis.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
+      # dotfiles
+      - '.clang-tidy'
+      - '.cmake-format.yaml'
+    tags:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 1'
 
 jobs:
   cppcheck:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
 
     steps:
       - name: Checkout
@@ -14,53 +41,24 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
-      - name: Install clang
-        run: |
-          # Add repository
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-
-          # Install
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install cppcheck
+      - name: Install
         env:
           CPPCHECK_VERSION: "2.7"
-        run: |
-          mkdir cppcheck
-          wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/${CPPCHECK_VERSION}.tar.gz" | tar --strip-components=1 -xz -C cppcheck
-
-          # Build CppCheck
-          cd cppcheck
-
-          mkdir build
-          cd build
-
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=ON
-          cmake --build . -j2
-
-          # Install CppCheck
-          sudo make install
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} cppcheck-${{ env.CPPCHECK_VERSION }} ninja
 
       - name: Configure
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
       - name: Run cppcheck
         run: |
@@ -72,16 +70,24 @@ jobs:
       - name: Print results
         run: cat cppcheck_filtered.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name CppCheck -level warning
+          cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
 
   clang-tidy:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
 
     steps:
       - name: Checkout
@@ -89,35 +95,27 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
-      - name: Install clang tidy
-        run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
+      - name: Install
+        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }} ninja
 
       - name: Run clang-tidy
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off -DPHI_TEST_WITH_ALL_STANDARDS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" | tee clang_tidy.log
@@ -131,16 +129,24 @@ jobs:
       - name: Print results
         run: cat build/clang_tidy_output.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=github-check -name Clang-Tidy -level warning
+          cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
 
   include-what-you-use:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
+      LLVM_VERSION: 14
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -149,54 +155,27 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
-
-      - name: Install llvm
-        run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }} llvm-${{ env.LLVM_VERSION }}-dev libclang-${{ env.LLVM_VERSION }}-dev
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install Include-What-You-Use
-        run: |
-          # Download Include-what-you-use
-          git clone https://github.com/include-what-you-use/include-what-you-use.git
-          cd "include-what-you-use"
-
-          # Checkout branch
-          git checkout clang_${{ env.LLVM_VERSION }}
-
-          # Build Include-what-you-use
-          mkdir build
-          cd build
-
-          cmake .. -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-${{ env.LLVM_VERSION }} -DCMAKE_BUILD_TYPE=Release
-          cmake --build .
-
-          # Install Include-what-you-use
-          sudo make install
+      - name: Install
+        run: scripts/ci/InstallTools.sh iwyu-${{ env.LLVM_VERSION }} ninja
 
       - name: Run Include-What-You-Use
         run: |
           # Create build directory
-          mkdir build
+          mkdir build -p
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
 
           # Run include-what-you-use
           iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
@@ -207,11 +186,19 @@ jobs:
       - name: Print results
         run: cat build/iwyu_filtered.log
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=github-check -name include-what-you-use -level warning
+          cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
 
   cmake-lint:
     runs-on: ubuntu-20.04
@@ -219,38 +206,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.3
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
-      - uses: actions/setup-python@v3
+      - name: Setup python
+        uses: actions/setup-python@v3
         with:
           python-version: '3.x'
 
-      - name: Install cmake-lint
-        run: |
-          sudo -H pip3 install --upgrade pip
-          sudo -H pip3 install cmake-format
+      - name: Install
+        run: scripts/ci/InstallTools.sh cmake-format
 
       - name: Run cmake-lint
-        run: |
-          cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
+        run: cmake-lint $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt") -c ".cmake-format.yaml" --suppress-decorations --outfile-path cmake_lint.log || true
 
       - name: Print results
         run: cat cmake_lint.log
+
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
 
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=github-check -name cmake-lint -level warning
+          cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
 
   pvs-studio:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 13
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
+      LLVM_VERSION: 14
 
     steps:
       - name: Checkout
@@ -258,40 +253,28 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: reviewdog/action-setup@v1.0.2
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.2
         with:
           reviewdog_version: latest
 
-      - name: Install cmake
-        uses: lukka/get-cmake@v3.23.0
+      - name: Install
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} pvs-studio ninja
 
-      - name: Install clang
+      - name: Configure build directory
         run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-${{ env.LLVM_VERSION }} main"
-          sudo apt-get update -m
-          sudo apt-get install clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }}
-
-          echo "CC=clang-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ env.LLVM_VERSION }}" >> $GITHUB_ENV
-
-      - name: Install PVS-Studio
-        run: |
-          wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
-          sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
-
-          sudo apt-get update -qq
-          sudo apt-get install -qq pvs-studio
-
-      - name: Run PVS-Studio
-        run: |
-          # Create build
-          mkdir build
+          mkdir build -p
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DPHI_ENABLE_CONSTEXPRTESTS=Off -DPHI_ENABLE_FAILURE_TESTS=Off
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
 
+      - name: Run PVS-Studio
+        working-directory: ./build
+        run: |
           # Create License
           pvs-studio-analyzer credentials ${{ secrets.PVS_USERNAME }} ${{ secrets.PVS_KEY }} -o PVS-Studio.lic
 
@@ -307,8 +290,287 @@ jobs:
       - name: Print results
         run: cat build/PVS-Studio_filtered.err
 
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
       - name: ReviewDog check
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=github-check -name PVS-Studio -level warning
+          cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
+
+  code-ql:
+    runs-on: ubuntu-20.04
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        language: [ 'cpp' ]
+
+        compiler:
+          - 'gcc-11'
+          - 'clang-14'
+
+        build_type:
+          - 'Debug'
+          - 'RelWithDebInfo'
+          - 'Release'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.os }}-${{ matrix.compiler }}
+
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
+      - name: Install compiler
+        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }} ninja
+
+      - name: Configure build directory
+        run: |
+          mkdir build -p
+          cd build
+
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_COVERAGE_BUILD:BOOL=${{ matrix.build_type == 'Debug' }} ..
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        # Override language selection by uncommenting this and choosing your languages
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+      - name: Build
+        working-directory: ./build
+        run: cmake --build . --config ${{ matrix.build_type }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+  mull:
+    runs-on: ubuntu-20.04
+    env:
+      LLVM_VERSION: 14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
+      - name: Setup Reviewdog
+        uses: reviewdog/action-setup@v1.0.3
+        with:
+          reviewdog_version: latest
+
+      - name: Install compiler / mull
+        run: scripts/ci/InstallTools.sh mull-${{ env.LLVM_VERSION }} ninja
+
+      - name: Get clang include paths
+        run: |
+          clang++-${{ env.LLVM_VERSION }} -x c++ -c /dev/null --verbose &> clang_includes.txt
+          grep -ozP '(?s)#include <...> search starts here:\n\K.*?(?=\nEnd of search list.\Z)' clang_includes.txt | head -c -1 | sed -e "s/.*/-isystem&/" | tr '\n' ' ' > clang_includes_filtered.txt
+
+          cat clang_includes.txt
+          echo "CLANG_INCLUDES=$(cat clang_includes_filtered.txt)" >> $GITHUB_ENV
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build -p
+          cd build
+
+          # Generate compile_commands.json
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE:STRING=Debug
+
+      - name: Build
+        working-directory: ./build
+        run: cmake --build .
+
+      - name: Run mull
+        working-directory: ./build
+        run: |
+          find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; 2>&1 | tee --append mull_report.log
+
+          # Remove duplicate entries
+          sort mull_report.log | uniq -d > mull_report_filtered.log
+
+      - name: Print results
+        run: cat build/mull_report_filtered.log
+
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
+      - name: ReviewDog check
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
+
+  msvc-code-analysis:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: windows-latest
+
+    # Default windows to use bash
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: |
+          # Create build directory
+          mkdir build -p
+          cd build
+
+          # Configure
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
+
+      - name: Build
+        working-directory: ./build
+        run: cmake --build .
+
+      - name: Initialize MSVC Code Analysis
+        uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99
+        # Provide a unique ID to access the sarif output path
+        id: run-analysis
+        with:
+          cmakeBuildDirectory: build
+          # Ruleset file that will determine what checks will be run
+          ruleset: NativeRecommendedRules.ruleset
+
+      # Upload SARIF file to GitHub Code Scanning Alerts
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.run-analysis.outputs.sarif }}
+
+      # Upload SARIF file as an Artifact to download and view
+      - name: Upload SARIF as an Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sarif-file
+          path: ${{ steps.run-analysis.outputs.sarif }}
+
+  dev-skim:
+    name: DevSkim
+    runs-on: ubuntu-20.04
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Run DevSkim scanner
+        uses: microsoft/DevSkim-Action@v1
+
+      - name: Upload DevSkim scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: devskim-results.sarif
+
+  codacy-security-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
+    name: Codacy Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@d840f886c4bd4edc059706d09c6a1586111c540b
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          verbose: true
+          output: results.sarif
+          format: sarif
+          # Adjust severity of non-security issues
+          gh-code-scanning-compat: true
+          # Force 0 exit code to allow SARIF file generation
+          # This will handover control about PR rejection to the GitHub side
+          max-allowed-issues: 2147483647
+
+      # Upload the SARIF file generated in the previous step
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Determine reporter
+        uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true:  'github-pr-check'
+          if_false: 'github-check'
+
+      - name: Run shellcheck with reviewdog
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: ${{ steps.reporter.outputs.value }}
+          level: warning
+          path: "./scripts"
+          pattern: "*.sh"
+          exclude: "./.git/*"

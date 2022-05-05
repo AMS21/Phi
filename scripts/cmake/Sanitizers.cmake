@@ -4,18 +4,19 @@ include(CheckLinkerFlag)
 include(CMakeParseArguments)
 include(internal/PhiCheckCXXCompilerFlag)
 
-set(phi_sanitizer_flags
+set(PHI_SANITIZER_OPTIONS
     address
     hwaddress
     leak
     memory
     safe-stack
     thread
-    undefined)
+    undefined
+    CACHE INTERNAL "")
 
 # Check supported sanitizer
 set(_santizer_support_flags)
-foreach(_test ${phi_sanitizer_flags})
+foreach(_test ${PHI_SANITIZER_OPTIONS})
   string(REPLACE "-" "_" _testName ${_test})
   string(TOUPPER ${_testName} _testName)
 
@@ -185,11 +186,11 @@ function(phi_target_enable_sanitizer)
   # Enable required sanitizers
   set(list_of_sanitizers "")
   foreach(sanitizer ${san_SANITIZERS})
-    string(REPLACE "-" "_" san_TARGET ${sanitizer})
-    string(TOUPPER ${san_TARGET} san_TARGET)
+    string(REPLACE "-" "_" var_sanitizer ${sanitizer})
+    string(TOUPPER ${var_sanitizer} var_sanitizer)
 
     # Check if sanitizer is actually supported
-    if(NOT PHI_SUPPORTS_SANITIZER_${san_TARGET})
+    if(NOT PHI_SUPPORTS_SANITIZER_${var_sanitizer})
       phi_error(
         "phi_target_enable_sanitizer: Trying to enable '${sanitizer}' which is not supported!")
     endif()
@@ -247,6 +248,8 @@ function(phi_target_enable_sanitizer)
     target_compile_options(${san_TARGET} ${visibility_scope} ${extra_flag})
     target_link_options(${san_TARGET} ${visibility_scope} ${extra_flag})
   endforeach()
+
+  return()
 
   # Fancy printing
   list(JOIN san_SANITIZERS "," fancy_list_of_sanitizers)
