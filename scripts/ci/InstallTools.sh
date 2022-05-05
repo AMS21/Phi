@@ -83,13 +83,13 @@ install_clang() {
     echo "-- Verify clang++-$1 done"
 
     # Export values
-    echo "CLANG=clang-$1" >>$GITHUB_ENV
-    echo "CLANGXX=clang++-$1" >>$GITHUB_ENV
+    echo "CLANG=clang-$1" >>"$GITHUB_ENV"
+    echo "CLANGXX=clang++-$1" >>"$GITHUB_ENV"
 
-    echo "GCOV_EXECUTABLE=llvm-cov-$1 gcov" >>$GITHUB_ENV
+    echo "GCOV_EXECUTABLE=llvm-cov-$1 gcov" >>"$GITHUB_ENV"
 
-    echo "CC=clang-$1" >>$GITHUB_ENV
-    echo "CXX=clang++-$1" >>$GITHUB_ENV
+    echo "CC=clang-$1" >>"$GITHUB_ENV"
+    echo "CXX=clang++-$1" >>"$GITHUB_ENV"
 
 }
 
@@ -109,13 +109,13 @@ install_gcc() {
     echo "-- Verify g++-$1 done"
 
     # Export values
-    echo "GCC=gcc-$1" >>$GITHUB_ENV
-    echo "GXX=g++-$1" >>$GITHUB_ENV
+    echo "GCC=gcc-$1" >>"$GITHUB_ENV"
+    echo "GXX=g++-$1" >>"$GITHUB_ENV"
 
-    echo "GCOV_EXECUTABLE=gcov-$1" >>$GITHUB_ENV
+    echo "GCOV_EXECUTABLE=gcov-$1" >>"$GITHUB_ENV"
 
-    echo "CC=gcc-$1" >>$GITHUB_ENV
-    echo "CXX=g++-$1" >>$GITHUB_ENV
+    echo "CC=gcc-$1" >>"$GITHUB_ENV"
+    echo "CXX=g++-$1" >>"$GITHUB_ENV"
 
 }
 
@@ -162,8 +162,8 @@ install_cppcheck() {
     echo "-- Verifiying cppcheck done"
 
     # Export values
-    echo "CPPCHECK=cppcheck" >>$GITHUB_ENV
-    echo "CPPCHECK_VERSION=$1" >>$GITHUB_ENV
+    echo "CPPCHECK=cppcheck" >>"$GITHUB_ENV"
+    echo "CPPCHECK_VERSION=$1" >>"$GITHUB_ENV"
 
     cd $root_dir
 }
@@ -181,8 +181,8 @@ install_clang_tidy() {
     echo "-- Verifiying clang-tidy-$1 done"
 
     # Export values
-    echo "CLANG_TIDY=clang-tidy-$1" >>$GITHUB_ENV
-    echo "CLANG_TIDY_VERSION=$1" >>$GITHUB_ENV
+    echo "CLANG_TIDY=clang-tidy-$1" >>"$GITHUB_ENV"
+    echo "CLANG_TIDY_VERSION=$1" >>"$GITHUB_ENV"
 
     echo "-- Installing clang-tidy-$1 done"
 }
@@ -197,7 +197,7 @@ install_llvm() {
     sudo apt-get install llvm-$1 llvm-$1-dev libclang-$1 libclang-$1-dev -y
 
     # Export values
-    echo "LLVM_VERSION=$1" >>$GITHUB_ENV
+    echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
 
     echo "-- Installing llvm-$1 done"
 }
@@ -234,7 +234,7 @@ install_iwyu() {
     echo "-- Verifying iwyu done"
 
     # Export values
-    echo "IWYU_VERSION=$1" >>$GITHUB_ENV
+    echo "IWYU_VERSION=$1" >>"$GITHUB_ENV"
 
     cd $root_dir
 }
@@ -277,8 +277,8 @@ install_mull() {
     echo "-- Verifying pvs-studio done"
 
     # Export values
-    echo "MULL_CXX=mull-cxx-$1" >>$GITHUB_ENV
-    echo "MULL_VERSION=mull-cxx-$1" >>$GITHUB_ENV
+    echo "MULL_CXX=mull-cxx-$1" >>"$GITHUB_ENV"
+    echo "MULL_VERSION=mull-cxx-$1" >>"$GITHUB_ENV"
 }
 
 install_clang_format() {
@@ -294,8 +294,8 @@ install_clang_format() {
     echo "-- Verifying clang-format-$1 done"
 
     # Export values
-    echo "CLANG_FORMAT=clang-format-$1" >>$GITHUB_ENV
-    echo "CLANG_FORMAT_VERSION=$1" >>$GITHUB_ENV
+    echo "CLANG_FORMAT=clang-format-$1" >>"$GITHUB_ENV"
+    echo "CLANG_FORMAT_VERSION=$1" >>"$GITHUB_ENV"
 }
 
 install_ninja() {
