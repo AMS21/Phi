@@ -4,8 +4,10 @@ on:
   schedule:
     - cron: '0 4 * * 1' # Every monday at 4:00 UTC
   push:
-    branches:
-      - 'coverity/**'
+    paths:
+      # Workflow file itself
+      - '.github/workflows/CoverityScan.yml'
+  workflow_dispatch:
 
 jobs:
   trunk:
@@ -18,7 +20,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: 'develop'
           submodules: recursive
 
       - name: Setup Environment
