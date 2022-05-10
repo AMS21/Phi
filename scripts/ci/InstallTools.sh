@@ -23,7 +23,7 @@ add_llvm_apt() {
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 
         os_release=$(lsb_release -c -s)
-        apt_repo="http://apt.llvm.org/$os_release/ llvm-toolchain-$os_release-$1 main"
+        apt_repo="https://apt.llvm.org/$os_release/ llvm-toolchain-$os_release-$1 main"
         echo "Adding the apt repo: $apt_repo"
 
         # Add the required repo
