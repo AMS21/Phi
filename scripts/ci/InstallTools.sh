@@ -6,7 +6,7 @@ root_dir=$(pwd)
 
 # Make sure pip is using the latest version
 upgrade_pip() {
-    if [[ $upgraded_pip == 0 ]]; then
+    if [[ "$upgraded_pip" == 0 ]]; then
         echo "-- Upgrading pip..."
 
         sudo -H pip3 install --upgrade pip
@@ -17,7 +17,7 @@ upgrade_pip() {
 }
 
 add_llvm_apt() {
-    if [[ $added_llvm_apt == 0 ]]; then
+    if [[ "$added_llvm_apt" == 0 ]]; then
         echo "-- Adding LLVM-$1 apt..."
         # Get gpg key
         wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -66,20 +66,20 @@ install_cmake_format() {
 
 # Expects first paramter to be the requested version
 install_clang() {
-    add_llvm_apt $1
+    add_llvm_apt "$1"
 
     # Install clang
     echo "-- Installing clang-$1..."
-    sudo apt-get install clang-$1 clang++-$1 g++-multilib -y
+    sudo apt-get install "clang-$1" "clang++-$1" g++-multilib -y
     echo "-- Installing clang-$1 done"
 
     # Verify versions
     echo "-- Verify clang-$1..."
-    clang-$1 --version
+    "clang-$1" --version
     echo "-- Verify clang-$1 done"
 
     echo "-- Verify clang++-$1..."
-    clang++-$1 --version
+    "clang++-$1" --version
     echo "-- Verify clang++-$1 done"
 
     # Export values
@@ -101,11 +101,11 @@ install_gcc() {
 
     # Verify versions
     echo "-- Verify gcc-$1..."
-    gcc-$1 --version
+    "gcc-$1" --version
     echo "-- Verify gcc-$1 done"
 
     echo "-- Verify g++-$1..."
-    g++-$1 --version
+    "g++-$1" --version
     echo "-- Verify g++-$1 done"
 
     # Export values
@@ -142,13 +142,13 @@ install_cppcheck() {
 
     # Build CppCheck
     echo "-- Building cppcheck..."
-    cd cppcheck
+    cd cppcheck || exit
 
     mkdir build -p
-    cd build
+    cd build || exit
 
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DUSE_MATCHCOMPILER=ON
-    cmake --build . -j$(nproc)
+    cmake .. -DCMAKE_BUILD_TYPE:STRING="Release" -DUSE_MATCHCOMPILER:BOOL=ON
+    cmake --build . "-j$(nproc)"
     echo "-- Building cppcheck done"
 
     # Install CppCheck
@@ -165,19 +165,19 @@ install_cppcheck() {
     echo "CPPCHECK=cppcheck" >>"$GITHUB_ENV"
     echo "CPPCHECK_VERSION=$1" >>"$GITHUB_ENV"
 
-    cd $root_dir
+    cd "$root_dir" || exit
 }
 
 # Expects first parameter to the requested version
 install_clang_tidy() {
-    add_llvm_apt $1
+    add_llvm_apt "$1"
 
     echo "-- Installing clang-tidy-$1..."
-    sudo apt-get install clang-tidy-$1 -y
+    sudo apt-get install "clang-tidy-$1" -y
 
     # Verify
     echo "-- Verifying clang-tidy-$1..."
-    clang-tidy-$1 --version
+    "clang-tidy-$1" --version
     echo "-- Verifiying clang-tidy-$1 done"
 
     # Export values
@@ -188,13 +188,13 @@ install_clang_tidy() {
 }
 
 install_llvm() {
-    add_llvm_apt $1
+    add_llvm_apt "$1"
 
     # Make sure we also install clang
-    install_clang $1
+    install_clang "$1"
 
     echo "-- Installing llvm-$1..."
-    sudo apt-get install llvm-$1 llvm-$1-dev libclang-$1 libclang-$1-dev -y
+    sudo apt-get install "llvm-$1" "llvm-$1-dev" "libclang-$1" "libclang-$1-dev" -y
 
     # Export values
     echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
@@ -204,22 +204,22 @@ install_llvm() {
 
 install_iwyu() {
     # Install the appropriate llvm version
-    install_llvm $1
+    install_llvm "$1"
 
     echo "-- Cloning iwyu..."
     git clone https://github.com/include-what-you-use/include-what-you-use.git
     echo "-- Cloning iwyu done"
 
     # Checkut branch
-    cd "include-what-you-use"
-    git checkout clang_$1
+    cd "include-what-you-use" || exit
+    git checkout "clang_$1"
 
     echo "-- Building iwyu..."
     mkdir build -p
-    cd build
+    cd build || exit
 
-    cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/llvm-$1 -DCMAKE_BUILD_TYPE=Release
-    cmake --build . -j$(nproc)
+    cmake .. -DCMAKE_PREFIX_PATH:STRING="/usr/lib/llvm-$1" -DCMAKE_BUILD_TYPE:STRING="Release"
+    cmake --build . "-j$(nproc)"
     echo "-- Building iwyu done"
 
     # Install
@@ -236,7 +236,7 @@ install_iwyu() {
     # Export values
     echo "IWYU_VERSION=$1" >>"$GITHUB_ENV"
 
-    cd $root_dir
+    cd "$root_dir" || exit
 }
 
 install_pvs_studio() {
@@ -260,7 +260,7 @@ install_pvs_studio() {
 }
 
 install_mull() {
-    install_clang $1
+    install_clang "$1"
 
     curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
 
@@ -268,12 +268,12 @@ install_mull() {
     sudo apt-get update
 
     echo "-- Installing mull-$1..."
-    sudo apt-get install mull-$1 -y
+    sudo apt-get install "mull-$1" -y
     echo "-- Installing mull-$1 done"
 
     # Verify
     echo "-- Verifying pvs-studio..."
-    mull-cxx-$1 --version
+    "mull-cxx-$1" --version
     echo "-- Verifying pvs-studio done"
 
     # Export values
@@ -282,15 +282,15 @@ install_mull() {
 }
 
 install_clang_format() {
-    add_llvm_apt $1
+    add_llvm_apt "$1"
 
     echo "-- Installing clang-format..."
-    sudo apt-get install clang-format-$1 -y
+    sudo apt-get install "clang-format-$1" -y
     echo "-- Installing clang-format done"
 
     # Verify
     echo "-- Verifying clang-format-$1..."
-    clang-format-$1 --version
+    "clang-format-$1" --version
     echo "-- Verifying clang-format-$1 done"
 
     # Export values
@@ -315,25 +315,25 @@ for tool in "$@"; do
     elif [[ "$tool" == "cmake-format" ]]; then
         install_cmake_format
     elif [[ "$tool" == gcc-* ]]; then
-        install_gcc ${tool:4}
+        install_gcc "${tool:4}"
     elif [[ "$tool" == "valgrind" ]]; then
         install_valgrind
     elif [[ "$tool" == cppcheck-* ]]; then
-        install_cppcheck ${tool:9}
+        install_cppcheck "${tool:9}"
     elif [[ "$tool" == clang-tidy-* ]]; then
-        install_clang_tidy ${tool:11}
+        install_clang_tidy "${tool:11}"
     elif [[ "$tool" == clang-format-* ]]; then
-        install_clang_format ${tool:13}
+        install_clang_format "${tool:13}"
     elif [[ "$tool" == llvm-* ]]; then
-        install_llvm ${tool:5}
+        install_llvm "${tool:5}"
     elif [[ "$tool" == clang-* ]]; then
-        install_clang ${tool:6}
+        install_clang "${tool:6}"
     elif [[ "$tool" == iwyu-* ]]; then
-        install_iwyu ${tool:5}
+        install_iwyu "${tool:5}"
     elif [[ "$tool" == pvs-studio ]]; then
         install_pvs_studio
     elif [[ "$tool" == mull-* ]]; then
-        install_mull ${tool:5}
+        install_mull "${tool:5}"
     elif [[ "$tool" == ninja ]]; then
         install_ninja
     else
