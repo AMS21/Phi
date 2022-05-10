@@ -55,7 +55,7 @@ jobs:
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
           cd build
-          cov-build --dir cov-int make
+          cov-build --dir cov-int ninja
 
       - name: Print build log
         run: cat build/cov-int/build-log.txt
