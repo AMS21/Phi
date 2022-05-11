@@ -186,13 +186,13 @@ public:
         phi::swap(m_Ptr, other.m_Ptr);
     }
 
-    constexpr TypeT* get() noexcept
+    PHI_NODISCARD constexpr TypeT* get() noexcept
     {
         return m_Ptr;
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    constexpr const TypeT* get() const noexcept
+    PHI_NODISCARD constexpr const TypeT* get() const noexcept
     {
         return m_Ptr;
     }
@@ -410,14 +410,14 @@ public:
 
     operator boolean() = delete;
 
-    PHI_EXTENDED_CONSTEXPR TypeT* get() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT* get() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Accessing phi::not_null_scope_ptr after it was deleted");
 
         return m_Ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR const TypeT* get() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT* get() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Accessing phi::not_null_scope_ptr after it was deleted");
 
