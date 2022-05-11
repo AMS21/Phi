@@ -130,7 +130,7 @@ void test_is_array()
 }
 
 template <typename T>
-void test_is_not_array_impl()
+void test_is_not_array_no_std_impl()
 {
     STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
     STATIC_REQUIRE(phi::is_not_array<T>::value);
@@ -142,12 +142,27 @@ void test_is_not_array_impl()
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_array<T>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_array<T>);
+}
+
+template <typename T>
+void test_is_not_array_impl()
+{
+    test_is_not_array_no_std_impl<T>();
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_array<T>::value);
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE_FALSE(std::is_array_v<T>);
 #endif
+}
+
+template <typename T>
+void test_is_not_array_no_std()
+{
+    test_is_not_array_no_std_impl<T>();
+    test_is_not_array_no_std_impl<const T>();
+    test_is_not_array_no_std_impl<volatile T>();
+    test_is_not_array_no_std_impl<const volatile T>();
 }
 
 template <typename T>
@@ -203,6 +218,19 @@ TEST_CASE("is_array")
     test_is_array<Class[]>();
     test_is_array<Class[2][3]>();
     test_is_array<Class[][3]>();
+
+    // Zero sized arrays are a weird case in C++. The standard doesn't allow them in general so theres no standard answer to whether or not zero sized arrays are "real" arrays. Still some compilers allow them as an extension but give warnings. To discourage their usage we simply force phi::is_array<T[0]> to be false
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
+
+    test_is_not_array_no_std<int[0]>();
+    test_is_not_array_no_std<float[0]>();
+    test_is_not_array_no_std<Class[0]>();
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+    PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif
 
     test_is_not_array<void>();
     test_is_not_array<phi::nullptr_t>();
@@ -414,16 +442,6 @@ TEST_CASE("is_array")
     test_is_not_array<TrapSelfAssign>();
     test_is_not_array<TrapDeref>();
     test_is_not_array<TrapArraySubscript>();
-
-#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
-    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
-
-    test_is_not_array<int[0]>();
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
-    PHI_CLANG_SUPPRESS_WARNING_POP()
-#endif
 
     test_is_not_array<void()>();
     test_is_not_array<void()&>();
