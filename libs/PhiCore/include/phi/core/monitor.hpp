@@ -53,9 +53,9 @@ public:
     {}
 
     /*!
-	* \brief Creates a monitor.
-	* \param shared_data the data to be protected by the monitor.
-	**/
+    * \brief Creates a monitor.
+    * \param shared_data the data to be protected by the monitor.
+    **/
     constexpr explicit monitor(SharedDataT shared_data) noexcept
         : m_SharedData(phi::move(shared_data))
         , m_Mutex()
@@ -73,12 +73,12 @@ public:
 
 #if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     /*!
-	* \brief Receives a callable and invokes that callable by passing the
-	*        shared data to it. The call itself is protected by a mutex.
-	* \param callable The callable to be used to operate on the shared data.
-	* \return The result of calling the callable passed in with the shared data
-	*         as the callable's call operator's argument.
-	**/
+    * \brief Receives a callable and invokes that callable by passing the
+    *        shared data to it. The call itself is protected by a mutex.
+    * \param callable The callable to be used to operate on the shared data.
+    * \return The result of calling the callable passed in with the shared data
+    *         as the callable's call operator's argument.
+    **/
     template <typename CallableT>
     auto operator()(CallableT&& callable) const
             noexcept(is_nothrow_invocable<CallableT, SharedDataT>::value)
