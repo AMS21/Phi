@@ -169,6 +169,7 @@ file(
   "include/phi/core/offsetof.hpp"
   "include/phi/core/optional.hpp"
   "include/phi/core/ptrdiff_t.hpp"
+  "include/phi/core/ref_ptr.hpp"
   "include/phi/core/scope_guard.hpp"
   "include/phi/core/scope_ptr.hpp"
   "include/phi/core/scoped_value_guard.hpp"
