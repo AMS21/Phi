@@ -333,9 +333,9 @@ struct throw_destructor
 
 struct noexcept_explicit_class
 {
-    noexcept_explicit_class(double&) noexcept(true);
-    explicit noexcept_explicit_class(int&) noexcept(true);
-    noexcept_explicit_class(double&, int&, double&) noexcept(true);
+    noexcept_explicit_class(double&) noexcept;
+    explicit noexcept_explicit_class(int&) noexcept;
+    noexcept_explicit_class(double&, int&, double&) noexcept;
 };
 
 struct except_explicit_class
@@ -347,7 +347,7 @@ struct except_explicit_class
 
 struct noexcept_default_class
 {
-    noexcept_default_class() noexcept(true);
+    noexcept_default_class() noexcept;
 };
 
 struct except_default_class
@@ -357,7 +357,7 @@ struct except_default_class
 
 struct noexcept_copy_constructible_class
 {
-    noexcept_copy_constructible_class(const noexcept_copy_constructible_class&) noexcept(true);
+    noexcept_copy_constructible_class(const noexcept_copy_constructible_class&) noexcept;
 };
 
 struct except_copy_constructible_class
@@ -367,7 +367,7 @@ struct except_copy_constructible_class
 
 struct noexcept_move_constructible_class
 {
-    noexcept_move_constructible_class(noexcept_move_constructible_class&&) noexcept(true);
+    noexcept_move_constructible_class(noexcept_move_constructible_class&&) noexcept;
     noexcept_move_constructible_class& operator=(noexcept_move_constructible_class&&) = default;
 };
 
@@ -378,7 +378,7 @@ struct except_move_constructible_class
 
 struct noexcept_copy_assign_class
 {
-    noexcept_copy_assign_class& operator=(const noexcept_copy_assign_class&) noexcept(true);
+    noexcept_copy_assign_class& operator=(const noexcept_copy_assign_class&) noexcept;
 };
 
 struct except_copy_assign_class
@@ -389,7 +389,7 @@ struct except_copy_assign_class
 struct noexcept_move_assign_class
 {
     noexcept_move_assign_class(noexcept_move_assign_class&&) = default;
-    noexcept_move_assign_class& operator=(noexcept_move_assign_class&&) noexcept(true);
+    noexcept_move_assign_class& operator=(noexcept_move_assign_class&&) noexcept;
 };
 
 struct except_move_assign_class
@@ -410,10 +410,10 @@ struct deleted_move_assign_class
 struct noexcept_move_constructible_and_assignable_class
 {
     noexcept_move_constructible_and_assignable_class(
-            noexcept_move_constructible_and_assignable_class&&) noexcept(true);
+            noexcept_move_constructible_and_assignable_class&&) noexcept;
 
     noexcept_move_constructible_and_assignable_class& operator=(
-            noexcept_move_constructible_and_assignable_class&&) noexcept(true);
+            noexcept_move_constructible_and_assignable_class&&) noexcept;
 };
 
 struct except_move_constructible_noexcept_move_assign_class
@@ -422,13 +422,13 @@ struct except_move_constructible_noexcept_move_assign_class
             except_move_constructible_noexcept_move_assign_class&&) noexcept(false);
 
     except_move_constructible_noexcept_move_assign_class& operator=(
-            except_move_constructible_noexcept_move_assign_class&&) noexcept(true);
+            except_move_constructible_noexcept_move_assign_class&&) noexcept;
 };
 
 struct noexcept_move_constructible_except_move_assign_class
 {
     noexcept_move_constructible_except_move_assign_class(
-            noexcept_move_constructible_except_move_assign_class&&) noexcept(true);
+            noexcept_move_constructible_except_move_assign_class&&) noexcept;
 
     noexcept_move_constructible_except_move_assign_class& operator=(
             noexcept_move_constructible_except_move_assign_class&&) noexcept(false);
