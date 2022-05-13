@@ -897,16 +897,7 @@ struct trap_constructible
     trap_constructible& operator=(trap_constructible&&) = default;
 
     template <typename... ArgsT>
-    // GCC versions before 9.0.0 have a problems with [[maybe_unused]] and constructors with template parameter packs
-#if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
-#    if PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED()
-    constexpr trap_constructible(__attribute((unused)) ArgsT&&... args) noexcept
-#    else
-    constexpr trap_constructible(ArgsT&&... args) noexcept
-#    endif
-#else
-    constexpr trap_constructible(PHI_UNUSED ArgsT&&... args) noexcept
-#endif
+    constexpr trap_constructible(ArgsT&&... /*args*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_constructible constructor must not be used");
