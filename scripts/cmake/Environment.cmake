@@ -69,20 +69,34 @@ endif()
 # Detect compiler
 phi_set_cache_value(NAME PHI_FLAG_PREFIX_CHAR VALUE -)
 
+# CMAKE_CXX_COMPILER_ID is an internal CMake variable subject to change, but there is no other way
+# to detect CLang at the moment
 if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # CMAKE_CXX_COMPILER_ID is an internal CMake variable subject to change, but there is no other way
-  # to detect CLang at the moment
-  phi_set_cache_value(NAME PHI_COMPILER_CLANG VALUE 1)
-  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
-  string(REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" PHI_CLANG_VERSION
-                       "${CLANG_VERSION_OUTPUT}")
+  # Treat emcc seperate from regular clang
+  if(PHI_PLATFORM_EMSCRIPTEN)
+    phi_set_cache_value(NAME PHI_COMPILER_EMCC VALUE 1)
 
-  phi_trace("Compiler: Clang-${PHI_CLANG_VERSION}")
+    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE EMCC_VERSION_OUTPUT)
+    string(REGEX REPLACE ".*emcc .* ([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1" PHI_EMCC_VERSION
+                         "${EMCC_VERSION_OUTPUT}")
+    string(REGEX REPLACE ".*-git \\(([A-Za-z0-9]+)\\).*" "\\1" PHI_EMCC_GIT_SHA
+                         "${EMCC_VERSION_OUTPUT}")
 
-  # Test for AppleClang
-  if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
-    phi_set_cache_value(NAME PHI_COMPILER_APPLECLANG VALUE 1)
-    phi_trace("Compiler: AppleClang")
+    phi_trace("Compiler: emcc-${PHI_EMCC_VERSION} (${PHI_EMCC_GIT_SHA})")
+  else()
+    phi_set_cache_value(NAME PHI_COMPILER_CLANG VALUE 1)
+    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version"
+                    OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
+    string(REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" PHI_CLANG_VERSION
+                         "${CLANG_VERSION_OUTPUT}")
+
+    phi_trace("Compiler: Clang-${PHI_CLANG_VERSION}")
+
+    # Test for AppleClang
+    if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+      phi_set_cache_value(NAME PHI_COMPILER_APPLECLANG VALUE 1)
+      phi_trace("Compiler: AppleClang")
+    endif()
   endif()
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   phi_set_cache_value(NAME PHI_COMPILER_GCC VALUE 1)
