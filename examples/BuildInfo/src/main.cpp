@@ -25,17 +25,17 @@ PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
     PHI_BEGIN_MACRO()                                                                              \
     if (cond)                                                                                      \
     {                                                                                              \
-        std::cout << text << ": true\n";                                                           \
+        std::cout << (text) << ": true\n";                                                         \
     }                                                                                              \
     else                                                                                           \
     {                                                                                              \
-        std::cout << text << ": false\n";                                                          \
+        std::cout << (text) << ": false\n";                                                        \
     }                                                                                              \
     PHI_END_MACRO()
 
 #define PRINT_VAL(text, val)                                                                       \
     PHI_BEGIN_MACRO()                                                                              \
-    std::cout << text << ": " << val << '\n';                                                      \
+    std::cout << (text) << ": " << (val) << '\n';                                                  \
     PHI_END_MACRO()
 
 int main()
