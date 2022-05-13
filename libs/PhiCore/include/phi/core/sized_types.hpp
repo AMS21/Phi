@@ -19,7 +19,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-id-macro")
 
 // Define '__STDC_WANT_SECURE_LIB__' macro to avoid warnings with MSVC's stl
 #ifndef __STDC_WANT_SECURE_LIB__
-#    define __STDC_WANT_SECURE_LIB__ 1 // NOLINT(bugprone-reserved-identifier)
+#    define __STDC_WANT_SECURE_LIB__ 1
 #endif
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
