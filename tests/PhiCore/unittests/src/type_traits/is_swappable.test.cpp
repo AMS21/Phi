@@ -352,11 +352,11 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<deleted_virtual_public_destructor>();
     test_is_not_swappable<deleted_virtual_protected_destructor>();
     test_is_not_swappable<deleted_virtual_private_destructor>();
-    test_is_swappable_v<enum_type>();
-    test_is_swappable_v<enum_signed>();
-    test_is_swappable_v<enum_unsigned>();
-    test_is_swappable_v<enum_class>();
-    test_is_swappable_v<enum_struct>();
+    test_is_swappable_v<Enum>();
+    test_is_swappable_v<EnumSigned>();
+    test_is_swappable_v<EnumUnsigned>();
+    test_is_swappable_v<EnumClass>();
+    test_is_swappable_v<EnumStruct>();
     test_is_not_swappable<function_type>();
     test_is_swappable_v<function_ptr>();
     test_is_swappable_v<member_object_ptr>();

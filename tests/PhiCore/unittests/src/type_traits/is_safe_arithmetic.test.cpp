@@ -203,11 +203,11 @@ TEST_CASE("is_safe_arithmetic")
     test_is_not_safe_arithmetic<deleted_virtual_public_destructor>();
     test_is_not_safe_arithmetic<deleted_virtual_protected_destructor>();
     test_is_not_safe_arithmetic<deleted_virtual_private_destructor>();
-    test_is_not_safe_arithmetic<enum_type>();
-    test_is_not_safe_arithmetic<enum_signed>();
-    test_is_not_safe_arithmetic<enum_unsigned>();
-    test_is_not_safe_arithmetic<enum_class>();
-    test_is_not_safe_arithmetic<enum_struct>();
+    test_is_not_safe_arithmetic<Enum>();
+    test_is_not_safe_arithmetic<EnumSigned>();
+    test_is_not_safe_arithmetic<EnumUnsigned>();
+    test_is_not_safe_arithmetic<EnumClass>();
+    test_is_not_safe_arithmetic<EnumStruct>();
     test_is_not_safe_arithmetic<function_type>();
     test_is_not_safe_arithmetic<function_ptr>();
     test_is_not_safe_arithmetic<member_object_ptr>();
@@ -217,13 +217,13 @@ TEST_CASE("is_safe_arithmetic")
     test_is_not_safe_arithmetic<incomplete_template<int>>();
     test_is_not_safe_arithmetic<incomplete_template<class_type>>();
     test_is_not_safe_arithmetic<incomplete_template<incomplete_type>>();
-    test_is_not_safe_arithmetic<IncompleteVariadicTemplate<>>();
-    test_is_not_safe_arithmetic<IncompleteVariadicTemplate<void>>();
-    test_is_not_safe_arithmetic<IncompleteVariadicTemplate<int>>();
-    test_is_not_safe_arithmetic<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_safe_arithmetic<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_safe_arithmetic<incomplete_variadic_template<>>();
+    test_is_not_safe_arithmetic<incomplete_variadic_template<void>>();
+    test_is_not_safe_arithmetic<incomplete_variadic_template<int>>();
+    test_is_not_safe_arithmetic<incomplete_variadic_template<class_type>>();
+    test_is_not_safe_arithmetic<incomplete_variadic_template<incomplete_type>>();
     test_is_not_safe_arithmetic<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_safe_arithmetic<int class_type::*>();
     test_is_not_safe_arithmetic<float class_type::*>();
     test_is_not_safe_arithmetic<void * class_type::*>();

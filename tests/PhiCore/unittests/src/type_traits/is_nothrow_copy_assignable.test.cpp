@@ -254,11 +254,11 @@ TEST_CASE("is_nothrow_copy_assignable")
     test_is_nothrow_copy_assignable<deleted_virtual_public_destructor>();
     test_is_nothrow_copy_assignable<deleted_virtual_protected_destructor>();
     test_is_nothrow_copy_assignable<deleted_virtual_private_destructor>();
-    test_is_nothrow_copy_assignable_v<enum_type>();
-    test_is_nothrow_copy_assignable_v<enum_signed>();
-    test_is_nothrow_copy_assignable_v<enum_unsigned>();
-    test_is_nothrow_copy_assignable_v<enum_class>();
-    test_is_nothrow_copy_assignable_v<enum_struct>();
+    test_is_nothrow_copy_assignable_v<Enum>();
+    test_is_nothrow_copy_assignable_v<EnumSigned>();
+    test_is_nothrow_copy_assignable_v<EnumUnsigned>();
+    test_is_nothrow_copy_assignable_v<EnumClass>();
+    test_is_nothrow_copy_assignable_v<EnumStruct>();
     test_is_not_nothrow_copy_assignable_cv<function_type>();
     test_is_nothrow_copy_assignable_v<function_ptr>();
     test_is_nothrow_copy_assignable_v<member_object_ptr>();

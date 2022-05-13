@@ -175,19 +175,19 @@ TEST_CASE("is_constructible")
     test_is_constructible<const int&, implicit_to<int&>&>();
     test_is_constructible<const int&, implicit_to<int&>>();
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
-    test_is_constructible<const int&, ExplicitTo<int&>&>();
-    test_is_constructible<const int&, ExplicitTo<int&>>();
+    test_is_constructible<const int&, explicit_to<int&>&>();
+    test_is_constructible<const int&, explicit_to<int&>>();
 #else
-    test_is_not_constructible<const int&, ExplicitTo<int&>&>();
-    test_is_not_constructible<const int&, ExplicitTo<int&>>();
+    test_is_not_constructible<const int&, explicit_to<int&>&>();
+    test_is_not_constructible<const int&, explicit_to<int&>>();
 #endif
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
-    test_is_constructible<const int&, ExplicitTo<int&>>();
-    test_is_constructible<const int&, ExplicitTo<int&>&>();
+    test_is_constructible<const int&, explicit_to<int&>>();
+    test_is_constructible<const int&, explicit_to<int&>&>();
 #else
-    test_is_not_constructible<const int&, ExplicitTo<int&>>();
-    test_is_not_constructible<const int&, ExplicitTo<int&>&>();
+    test_is_not_constructible<const int&, explicit_to<int&>>();
+    test_is_not_constructible<const int&, explicit_to<int&>&>();
 #endif
 
 // Binding through reference-compatible type is required to perform
@@ -196,33 +196,33 @@ TEST_CASE("is_constructible")
 // But the rvalue to lvalue reference binding isn't allowed according to
 // [over.match.ref] despite Clang accepting it.
 #if PHI_COMPILER_IS(CLANG)
-    test_is_constructible<int&, ExplicitTo<int&>>();
+    test_is_constructible<int&, explicit_to<int&>>();
 #endif
 #if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MSVC)
-    test_is_constructible<const int&, ExplicitTo<int&&>>();
+    test_is_constructible<const int&, explicit_to<int&&>>();
 #else
-    test_is_not_constructible<const int&, ExplicitTo<int&&>>();
+    test_is_not_constructible<const int&, explicit_to<int&&>>();
 #endif
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
-    test_is_constructible<int&&, ExplicitTo<int&&>>();
+    test_is_constructible<int&&, explicit_to<int&&>>();
 #else
-    test_is_not_constructible<int&&, ExplicitTo<int&&>>();
+    test_is_not_constructible<int&&, explicit_to<int&&>>();
 #endif
 
 #if PHI_COMPILER_IS(CLANG_COMPAT)
     // FIXME Clang and GCC disagree on the validity of this expression.
-    test_is_constructible<const int&, ExplicitTo<int>>();
-    test_is_constructible<int&&, ExplicitTo<int>>();
+    test_is_constructible<const int&, explicit_to<int>>();
+    test_is_constructible<int&&, explicit_to<int>>();
 #else
-    test_is_not_constructible<const int&, ExplicitTo<int>>();
-    test_is_not_constructible<int&&, ExplicitTo<int>>();
+    test_is_not_constructible<const int&, explicit_to<int>>();
+    test_is_not_constructible<int&&, explicit_to<int>>();
 #endif
 
     // Binding through temporary behaves like copy-initialization,
     // see [dcl.init.ref] p. 5, very last sub-bullet:
-    test_is_not_constructible<const int&, ExplicitTo<double&&>>();
-    test_is_not_constructible<int&&, ExplicitTo<double&&>>();
+    test_is_not_constructible<const int&, explicit_to<double&&>>();
+    test_is_not_constructible<int&&, explicit_to<double&&>>();
 
     test_is_not_constructible<void()>();
     test_is_not_constructible<void() const>();

@@ -223,11 +223,11 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<deleted_virtual_public_destructor>();
     test_is_not_reference_wrapper<deleted_virtual_protected_destructor>();
     test_is_not_reference_wrapper<deleted_virtual_private_destructor>();
-    test_is_not_reference_wrapper<enum_type>();
-    test_is_not_reference_wrapper<enum_signed>();
-    test_is_not_reference_wrapper<enum_unsigned>();
-    test_is_not_reference_wrapper<enum_class>();
-    test_is_not_reference_wrapper<enum_struct>();
+    test_is_not_reference_wrapper<Enum>();
+    test_is_not_reference_wrapper<EnumSigned>();
+    test_is_not_reference_wrapper<EnumUnsigned>();
+    test_is_not_reference_wrapper<EnumClass>();
+    test_is_not_reference_wrapper<EnumStruct>();
     test_is_not_reference_wrapper<function_type>();
     test_is_not_reference_wrapper<function_ptr>();
     test_is_not_reference_wrapper<member_object_ptr>();
@@ -237,13 +237,13 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<incomplete_template<int>>();
     test_is_not_reference_wrapper<incomplete_template<class_type>>();
     test_is_not_reference_wrapper<incomplete_template<incomplete_type>>();
-    test_is_not_reference_wrapper<IncompleteVariadicTemplate<>>();
-    test_is_not_reference_wrapper<IncompleteVariadicTemplate<void>>();
-    test_is_not_reference_wrapper<IncompleteVariadicTemplate<int>>();
-    test_is_not_reference_wrapper<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_reference_wrapper<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_reference_wrapper<incomplete_variadic_template<>>();
+    test_is_not_reference_wrapper<incomplete_variadic_template<void>>();
+    test_is_not_reference_wrapper<incomplete_variadic_template<int>>();
+    test_is_not_reference_wrapper<incomplete_variadic_template<class_type>>();
+    test_is_not_reference_wrapper<incomplete_variadic_template<incomplete_type>>();
     test_is_not_reference_wrapper<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_reference_wrapper<int class_type::*>();
     test_is_not_reference_wrapper<float class_type::*>();
     test_is_not_reference_wrapper<void * class_type::*>();

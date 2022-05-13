@@ -218,11 +218,11 @@ TEST_CASE("is_polymorphic")
     test_is_polymorphic<deleted_virtual_public_destructor>();
     test_is_polymorphic<deleted_virtual_protected_destructor>();
     test_is_polymorphic<deleted_virtual_private_destructor>();
-    test_is_not_polymorphic<enum_type>();
-    test_is_not_polymorphic<enum_signed>();
-    test_is_not_polymorphic<enum_unsigned>();
-    test_is_not_polymorphic<enum_class>();
-    test_is_not_polymorphic<enum_struct>();
+    test_is_not_polymorphic<Enum>();
+    test_is_not_polymorphic<EnumSigned>();
+    test_is_not_polymorphic<EnumUnsigned>();
+    test_is_not_polymorphic<EnumClass>();
+    test_is_not_polymorphic<EnumStruct>();
     test_is_not_polymorphic<function_type>();
     test_is_not_polymorphic<function_ptr>();
     test_is_not_polymorphic<member_object_ptr>();

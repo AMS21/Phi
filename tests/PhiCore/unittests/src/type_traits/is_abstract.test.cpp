@@ -213,11 +213,11 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<deleted_virtual_public_destructor>();
     test_is_not_abstract<deleted_virtual_protected_destructor>();
     test_is_not_abstract<deleted_virtual_private_destructor>();
-    test_is_not_abstract<enum_type>();
-    test_is_not_abstract<enum_signed>();
-    test_is_not_abstract<enum_unsigned>();
-    test_is_not_abstract<enum_class>();
-    test_is_not_abstract<enum_struct>();
+    test_is_not_abstract<Enum>();
+    test_is_not_abstract<EnumSigned>();
+    test_is_not_abstract<EnumUnsigned>();
+    test_is_not_abstract<EnumClass>();
+    test_is_not_abstract<EnumStruct>();
     test_is_not_abstract<function_type>();
     test_is_not_abstract<function_ptr>();
     test_is_not_abstract<member_object_ptr>();

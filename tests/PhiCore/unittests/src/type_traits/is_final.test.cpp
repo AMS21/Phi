@@ -241,11 +241,11 @@ TEST_CASE("is_final")
     test_is_not_final<deleted_virtual_public_destructor>();
     test_is_not_final<deleted_virtual_protected_destructor>();
     test_is_not_final<deleted_virtual_private_destructor>();
-    test_is_not_final<enum_type>();
-    test_is_not_final<enum_signed>();
-    test_is_not_final<enum_unsigned>();
-    test_is_not_final<enum_class>();
-    test_is_not_final<enum_struct>();
+    test_is_not_final<Enum>();
+    test_is_not_final<EnumSigned>();
+    test_is_not_final<EnumUnsigned>();
+    test_is_not_final<EnumClass>();
+    test_is_not_final<EnumStruct>();
     test_is_not_final<function_type>();
     test_is_not_final<function_ptr>();
     test_is_not_final<member_object_ptr>();

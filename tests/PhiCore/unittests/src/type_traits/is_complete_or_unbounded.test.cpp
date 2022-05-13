@@ -203,11 +203,11 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<deleted_virtual_public_destructor>();
     test_is_complete_or_unbounded<deleted_virtual_protected_destructor>();
     test_is_complete_or_unbounded<deleted_virtual_private_destructor>();
-    test_is_complete_or_unbounded<enum_type>();
-    test_is_complete_or_unbounded<enum_signed>();
-    test_is_complete_or_unbounded<enum_unsigned>();
-    test_is_complete_or_unbounded<enum_class>();
-    test_is_complete_or_unbounded<enum_struct>();
+    test_is_complete_or_unbounded<Enum>();
+    test_is_complete_or_unbounded<EnumSigned>();
+    test_is_complete_or_unbounded<EnumUnsigned>();
+    test_is_complete_or_unbounded<EnumClass>();
+    test_is_complete_or_unbounded<EnumStruct>();
     test_is_complete_or_unbounded<function_type>();
     test_is_complete_or_unbounded<function_ptr>();
     test_is_complete_or_unbounded<member_object_ptr>();
@@ -217,13 +217,13 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_not_complete_or_unbounded<incomplete_template<int>>();
     test_is_not_complete_or_unbounded<incomplete_template<class_type>>();
     test_is_not_complete_or_unbounded<incomplete_template<incomplete_type>>();
-    test_is_not_complete_or_unbounded<IncompleteVariadicTemplate<>>();
-    test_is_not_complete_or_unbounded<IncompleteVariadicTemplate<void>>();
-    test_is_not_complete_or_unbounded<IncompleteVariadicTemplate<int>>();
-    test_is_not_complete_or_unbounded<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_complete_or_unbounded<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_complete_or_unbounded<incomplete_variadic_template<>>();
+    test_is_not_complete_or_unbounded<incomplete_variadic_template<void>>();
+    test_is_not_complete_or_unbounded<incomplete_variadic_template<int>>();
+    test_is_not_complete_or_unbounded<incomplete_variadic_template<class_type>>();
+    test_is_not_complete_or_unbounded<incomplete_variadic_template<incomplete_type>>();
     test_is_not_complete_or_unbounded<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_complete_or_unbounded<int class_type::*>();
     test_is_complete_or_unbounded<float class_type::*>();
     test_is_complete_or_unbounded<void * class_type::*>();

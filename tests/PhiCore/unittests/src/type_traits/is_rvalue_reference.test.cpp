@@ -321,11 +321,11 @@ TEST_CASE("is_rvalue_reference")
     test_is_not_rvalue_reference<deleted_virtual_public_destructor>();
     test_is_not_rvalue_reference<deleted_virtual_protected_destructor>();
     test_is_not_rvalue_reference<deleted_virtual_private_destructor>();
-    test_is_not_rvalue_reference<enum_type>();
-    test_is_not_rvalue_reference<enum_signed>();
-    test_is_not_rvalue_reference<enum_unsigned>();
-    test_is_not_rvalue_reference<enum_class>();
-    test_is_not_rvalue_reference<enum_struct>();
+    test_is_not_rvalue_reference<Enum>();
+    test_is_not_rvalue_reference<EnumSigned>();
+    test_is_not_rvalue_reference<EnumUnsigned>();
+    test_is_not_rvalue_reference<EnumClass>();
+    test_is_not_rvalue_reference<EnumStruct>();
     test_is_not_rvalue_reference<function_type>();
     test_is_not_rvalue_reference<function_ptr>();
     test_is_not_rvalue_reference<member_object_ptr>();
@@ -335,13 +335,13 @@ TEST_CASE("is_rvalue_reference")
     test_is_not_rvalue_reference<incomplete_template<int>>();
     test_is_not_rvalue_reference<incomplete_template<class_type>>();
     test_is_not_rvalue_reference<incomplete_template<incomplete_type>>();
-    test_is_not_rvalue_reference<IncompleteVariadicTemplate<>>();
-    test_is_not_rvalue_reference<IncompleteVariadicTemplate<void>>();
-    test_is_not_rvalue_reference<IncompleteVariadicTemplate<int>>();
-    test_is_not_rvalue_reference<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_rvalue_reference<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_rvalue_reference<incomplete_variadic_template<>>();
+    test_is_not_rvalue_reference<incomplete_variadic_template<void>>();
+    test_is_not_rvalue_reference<incomplete_variadic_template<int>>();
+    test_is_not_rvalue_reference<incomplete_variadic_template<class_type>>();
+    test_is_not_rvalue_reference<incomplete_variadic_template<incomplete_type>>();
     test_is_not_rvalue_reference<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_rvalue_reference<int class_type::*>();
     test_is_not_rvalue_reference<float class_type::*>();
     test_is_not_rvalue_reference<void * class_type::*>();

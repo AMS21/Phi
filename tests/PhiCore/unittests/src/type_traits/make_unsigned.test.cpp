@@ -37,7 +37,7 @@ enum BigEnum : unsigned long long
 TEST_CASE("make_unsigned")
 {
     // test_make_unsigned<
-    //         enum_type, phi::conditional<sizeof(enum_type) == sizeof(int), unsigned int, unsigned char>>();
+    //         Enum, phi::conditional<sizeof(Enum) == sizeof(int), unsigned int, unsigned char>>();
 
     test_make_unsigned<void>();
     test_make_unsigned<phi::nullptr_t>();
@@ -161,11 +161,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<abstract_template<class_type>>();
     test_make_unsigned<abstract_template<incomplete_type>>();
     test_make_unsigned<final_type>();
-    //test_make_unsigned<enum_type, unsigned>();
-    //test_make_unsigned<enum_signed, unsigned>();
-    //test_make_unsigned<enum_unsigned, unsigned>();
-    //test_make_unsigned<enum_class, unsigned>();
-    //test_make_unsigned<enum_struct, unsigned>();
+    //test_make_unsigned<Enum, unsigned>();
+    //test_make_unsigned<EnumSigned, unsigned>();
+    //test_make_unsigned<EnumUnsigned, unsigned>();
+    //test_make_unsigned<EnumClass, unsigned>();
+    //test_make_unsigned<EnumStruct, unsigned>();
     test_make_unsigned<function_type>();
     test_make_unsigned<function_ptr>();
     test_make_unsigned<member_object_ptr>();
@@ -175,12 +175,12 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<incomplete_template<int>>();
     test_make_unsigned<incomplete_template<class_type>>();
     test_make_unsigned<incomplete_template<incomplete_type>>();
-    test_make_unsigned<IncompleteVariadicTemplate<>>();
-    test_make_unsigned<IncompleteVariadicTemplate<void>>();
-    test_make_unsigned<IncompleteVariadicTemplate<int>>();
-    test_make_unsigned<IncompleteVariadicTemplate<class_type>>();
-    test_make_unsigned<IncompleteVariadicTemplate<incomplete_type>>();
-    test_make_unsigned<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_make_unsigned<incomplete_variadic_template<>>();
+    test_make_unsigned<incomplete_variadic_template<void>>();
+    test_make_unsigned<incomplete_variadic_template<int>>();
+    test_make_unsigned<incomplete_variadic_template<class_type>>();
+    test_make_unsigned<incomplete_variadic_template<incomplete_type>>();
+    test_make_unsigned<incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_make_unsigned<int class_type::*>();
     test_make_unsigned<float class_type::*>();
     test_make_unsigned<void * class_type::*>();

@@ -298,11 +298,11 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<deleted_virtual_public_destructor>();
     test_is_not_trivial<deleted_virtual_protected_destructor>();
     test_is_not_trivial<deleted_virtual_private_destructor>();
-    test_is_trivial<enum_type>();
-    test_is_trivial<enum_signed>();
-    test_is_trivial<enum_unsigned>();
-    test_is_trivial<enum_class>();
-    test_is_trivial<enum_struct>();
+    test_is_trivial<Enum>();
+    test_is_trivial<EnumSigned>();
+    test_is_trivial<EnumUnsigned>();
+    test_is_trivial<EnumClass>();
+    test_is_trivial<EnumStruct>();
     test_is_not_trivial<function_type>();
     test_is_trivial<function_ptr>();
     test_is_trivial<member_object_ptr>();

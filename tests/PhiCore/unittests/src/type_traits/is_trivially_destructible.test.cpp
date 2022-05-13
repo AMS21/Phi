@@ -228,11 +228,11 @@ TEST_CASE("is_trivially_destructible")
     test_is_not_trivially_destructible<deleted_virtual_public_destructor>();
     test_is_not_trivially_destructible<deleted_virtual_protected_destructor>();
     test_is_not_trivially_destructible<deleted_virtual_private_destructor>();
-    test_is_trivially_destructible<enum_type>();
-    test_is_trivially_destructible<enum_signed>();
-    test_is_trivially_destructible<enum_unsigned>();
-    test_is_trivially_destructible<enum_class>();
-    test_is_trivially_destructible<enum_struct>();
+    test_is_trivially_destructible<Enum>();
+    test_is_trivially_destructible<EnumSigned>();
+    test_is_trivially_destructible<EnumUnsigned>();
+    test_is_trivially_destructible<EnumClass>();
+    test_is_trivially_destructible<EnumStruct>();
     test_is_not_trivially_destructible<function_type>();
     test_is_trivially_destructible<function_ptr>();
     test_is_trivially_destructible<member_object_ptr>();

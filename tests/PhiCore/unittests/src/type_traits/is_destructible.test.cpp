@@ -220,11 +220,11 @@ TEST_CASE("is_destructible")
     test_is_not_destructible<deleted_virtual_public_destructor>();
     test_is_not_destructible<deleted_virtual_protected_destructor>();
     test_is_not_destructible<deleted_virtual_private_destructor>();
-    test_is_destructible<enum_type>();
-    test_is_destructible<enum_signed>();
-    test_is_destructible<enum_unsigned>();
-    test_is_destructible<enum_class>();
-    test_is_destructible<enum_struct>();
+    test_is_destructible<Enum>();
+    test_is_destructible<EnumSigned>();
+    test_is_destructible<EnumUnsigned>();
+    test_is_destructible<EnumClass>();
+    test_is_destructible<EnumStruct>();
     test_is_not_destructible<function_type>();
     test_is_destructible<function_ptr>();
     test_is_destructible<member_object_ptr>();

@@ -2,6 +2,7 @@
 #define INCG_PHI_UNITTEST_TEST_TYPES_HPP
 
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/nodiscard.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
@@ -17,6 +18,8 @@ PHI_MSVC_SUPPRESS_WARNING(
         5204) // 'x': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 PHI_MSVC_SUPPRESS_WARNING(
         4265) // 'x': class has virtual functions, but its non-trivial destructor is not virtual; instances of the class may not be destructed correctly
+
+// NOLINTBEGIN(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,hicpp-explicit-conversions,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
 
 class class_type
 {
@@ -70,14 +73,14 @@ union union_type
 
 union non_empty_union
 {
-    int      x;
-    unsigned y;
+    int      m_X;
+    unsigned m_Y;
 };
 
 union non_trivial_union
 {
-    int         i;
-    non_trivial n;
+    int         m_I;
+    non_trivial m_N;
 };
 
 struct bit_zero
@@ -102,7 +105,7 @@ struct non_empty_base : public not_empty
 struct empty_base : public empty
 {};
 
-struct virtual_Base : virtual empty
+struct virtual_base : virtual empty
 {};
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -443,44 +446,46 @@ struct except_move_constructible_and_assign_class
             except_move_constructible_and_assign_class&&) noexcept(false);
 };
 
-template <typename To>
+template <typename ToT>
 struct implicit_to
 {
-    operator To();
+    operator ToT();
 };
 
-template <typename To>
+template <typename ToT>
 struct deleted_implicit_to
 {
-    operator To() = delete;
+    operator ToT() = delete;
 };
 
-template <typename To>
-struct ExplicitTo
+template <typename ToT>
+struct explicit_to
 {
-    explicit operator To();
+    explicit operator ToT();
 };
 
-template <typename To>
+template <typename ToT>
 struct deleted_explicit_to
 {
-    explicit operator To() = delete;
+    explicit operator ToT() = delete;
 };
 
 struct ellipsis
 {
+    // NOLINTNEXTLINE(cert-dcl50-cpp,modernize-use-equals-default)
     ellipsis(...)
     {}
 };
 
 struct deleted_ellipsis
 {
+    // NOLINTNEXTLINE(cert-dcl50-cpp)
     deleted_ellipsis(...) = delete;
 };
 
 struct copy_constructible_only_type
 {
-    copy_constructible_only_type(int)
+    copy_constructible_only_type(int /*unused*/)
     {}
     copy_constructible_only_type(copy_constructible_only_type&&)      = delete;
     copy_constructible_only_type(const copy_constructible_only_type&) = default;
@@ -490,7 +495,7 @@ struct copy_constructible_only_type
 
 struct move_constructible_only_type
 {
-    move_constructible_only_type(int)
+    move_constructible_only_type(int /*unused*/)
     {}
     move_constructible_only_type(const move_constructible_only_type&) = delete;
     move_constructible_only_type(move_constructible_only_type&&)      = default;
@@ -500,22 +505,22 @@ struct move_constructible_only_type
 
 struct overloaded_operators
 {
-    int foo()
+    PHI_NODISCARD int foo()
     {
         return 1;
     }
 
-    int foo_c() const
+    PHI_NODISCARD int foo_c() const
     {
         return 2;
     }
 
-    int foo_v() volatile
+    PHI_NODISCARD int foo_v() volatile
     {
         return 3;
     }
 
-    int foo_cv() const volatile
+    PHI_NODISCARD int foo_cv() const volatile
     {
         return 4;
     }
@@ -527,72 +532,72 @@ PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
 struct public_int_member
 {
 public:
-    int member;
+    int m_Member;
 };
 
 struct protected_int_member
 {
 protected:
-    int member;
+    int m_Member;
 };
 
 struct private_int_member
 {
 private:
-    int member;
+    int m_Member;
 };
 
 struct public_static_int_member
 {
 public:
-    static int member;
+    static int m_Member;
 };
 
 struct protected_static_int_member
 {
 protected:
-    static int member;
+    static int m_Member;
 };
 
 struct private_static_int_member
 {
 private:
-    static int member;
+    static int m_Member;
 };
 
 template <typename TypeT>
 struct public_template_member
 {
 public:
-    TypeT member;
+    TypeT m_Member;
 };
 
 template <typename TypeT>
 struct protected_template_member
 {
 protected:
-    TypeT member;
+    TypeT m_Member;
 };
 
 template <typename TypeT>
 struct private_template_member
 {
 private:
-    TypeT member;
+    TypeT m_Member;
 };
 
 template <typename TypeT>
 struct public_static_tempalte_member
 {
 public:
-    static TypeT member;
+    static TypeT m_Member;
 };
 
 template <typename TypeT>
 struct protected_static_template_member
 {
 protected:
-    static TypeT member;
+    static TypeT m_Member;
 };
 
 template <typename TypeT>
@@ -615,35 +620,35 @@ class cannot_instantiate
 
 struct natural_alignment
 {
-    long        t1;
-    long long   t2;
-    double      t3;
-    long double t4;
+    long        m_T1;
+    long long   m_T2;
+    double      m_T3;
+    long double m_T4;
 };
 
-enum enum_type
+enum Enum
 {
     zero,
     one
 };
 
-enum enum_signed : int
+enum EnumSigned : int
 {
     two
 };
 
-enum enum_unsigned : unsigned
+enum EnumUnsigned : unsigned
 {
     three
 };
 
-enum class enum_class
+enum class EnumClass
 {
     zero,
     one
 };
 
-enum struct enum_struct
+enum struct EnumStruct
 {
     zero,
     one
@@ -679,18 +684,18 @@ struct incomplete_type;
 template <typename TypeT>
 struct incomplete_template;
 
-template <typename... Ts>
-struct IncompleteVariadicTemplate;
+template <typename... TypesT>
+struct incomplete_variadic_template;
 
 union incomplete_union;
 
-enum incomplete_enum_signed : int;
+enum IncompleteEnumSigned : int;
 
-enum incomplete_enum_unsigned : unsigned int;
+enum IncompleteEnumUnsigned : unsigned int;
 
-enum class incomplete_enum_class;
+enum class IncompleteEnumClass;
 
-enum struct incomplete_enum_struct;
+enum struct IncompleteEnumStruct;
 
 struct non_default_constructible
 {
@@ -834,6 +839,7 @@ public:
         other.m_State = State::MovedFrom;
     }
 
+    // NOLINTNEXTLINE(cert-oop54-cpp)
     PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
     {
         assert(m_State != State::Destroyed);
@@ -1002,6 +1008,8 @@ struct trap_array_subscript
         return false;
     }
 };
+
+// NOLINTEND(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,hicpp-explicit-conversions,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()

@@ -290,11 +290,11 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<deleted_virtual_public_destructor>();
     test_is_not_nothrow_move_constructible<deleted_virtual_protected_destructor>();
     test_is_not_nothrow_move_constructible<deleted_virtual_private_destructor>();
-    test_is_nothrow_move_constructible_cv<enum_type>();
-    test_is_nothrow_move_constructible_cv<enum_signed>();
-    test_is_nothrow_move_constructible_cv<enum_unsigned>();
-    test_is_nothrow_move_constructible_cv<enum_class>();
-    test_is_nothrow_move_constructible_cv<enum_struct>();
+    test_is_nothrow_move_constructible_cv<Enum>();
+    test_is_nothrow_move_constructible_cv<EnumSigned>();
+    test_is_nothrow_move_constructible_cv<EnumUnsigned>();
+    test_is_nothrow_move_constructible_cv<EnumClass>();
+    test_is_nothrow_move_constructible_cv<EnumStruct>();
     test_is_not_nothrow_move_constructible<function_type>();
     test_is_nothrow_move_constructible_cv<function_ptr>();
     test_is_nothrow_move_constructible_cv<member_object_ptr>();

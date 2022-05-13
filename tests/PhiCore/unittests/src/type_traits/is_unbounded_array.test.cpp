@@ -214,11 +214,11 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<deleted_virtual_public_destructor>();
     test_is_not_unbounded_array<deleted_virtual_protected_destructor>();
     test_is_not_unbounded_array<deleted_virtual_private_destructor>();
-    test_is_not_unbounded_array<enum_type>();
-    test_is_not_unbounded_array<enum_signed>();
-    test_is_not_unbounded_array<enum_unsigned>();
-    test_is_not_unbounded_array<enum_class>();
-    test_is_not_unbounded_array<enum_struct>();
+    test_is_not_unbounded_array<Enum>();
+    test_is_not_unbounded_array<EnumSigned>();
+    test_is_not_unbounded_array<EnumUnsigned>();
+    test_is_not_unbounded_array<EnumClass>();
+    test_is_not_unbounded_array<EnumStruct>();
     test_is_not_unbounded_array<function_type>();
     test_is_not_unbounded_array<function_ptr>();
     test_is_not_unbounded_array<member_object_ptr>();
@@ -228,13 +228,13 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<incomplete_template<int>>();
     test_is_not_unbounded_array<incomplete_template<class_type>>();
     test_is_not_unbounded_array<incomplete_template<incomplete_type>>();
-    test_is_not_unbounded_array<IncompleteVariadicTemplate<>>();
-    test_is_not_unbounded_array<IncompleteVariadicTemplate<void>>();
-    test_is_not_unbounded_array<IncompleteVariadicTemplate<int>>();
-    test_is_not_unbounded_array<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_unbounded_array<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unbounded_array<incomplete_variadic_template<>>();
+    test_is_not_unbounded_array<incomplete_variadic_template<void>>();
+    test_is_not_unbounded_array<incomplete_variadic_template<int>>();
+    test_is_not_unbounded_array<incomplete_variadic_template<class_type>>();
+    test_is_not_unbounded_array<incomplete_variadic_template<incomplete_type>>();
     test_is_not_unbounded_array<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_unbounded_array<int class_type::*>();
     test_is_not_unbounded_array<float class_type::*>();
     test_is_not_unbounded_array<void * class_type::*>();

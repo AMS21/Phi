@@ -203,11 +203,11 @@ TEST_CASE("is_complete_or_void")
     test_is_complete_or_void<deleted_virtual_public_destructor>();
     test_is_complete_or_void<deleted_virtual_protected_destructor>();
     test_is_complete_or_void<deleted_virtual_private_destructor>();
-    test_is_complete_or_void<enum_type>();
-    test_is_complete_or_void<enum_signed>();
-    test_is_complete_or_void<enum_unsigned>();
-    test_is_complete_or_void<enum_class>();
-    test_is_complete_or_void<enum_struct>();
+    test_is_complete_or_void<Enum>();
+    test_is_complete_or_void<EnumSigned>();
+    test_is_complete_or_void<EnumUnsigned>();
+    test_is_complete_or_void<EnumClass>();
+    test_is_complete_or_void<EnumStruct>();
     test_is_complete_or_void<function_type>();
     test_is_complete_or_void<function_ptr>();
     test_is_complete_or_void<member_object_ptr>();
@@ -217,13 +217,13 @@ TEST_CASE("is_complete_or_void")
     test_is_not_complete_or_void<incomplete_template<int>>();
     test_is_not_complete_or_void<incomplete_template<class_type>>();
     test_is_not_complete_or_void<incomplete_template<incomplete_type>>();
-    test_is_not_complete_or_void<IncompleteVariadicTemplate<>>();
-    test_is_not_complete_or_void<IncompleteVariadicTemplate<void>>();
-    test_is_not_complete_or_void<IncompleteVariadicTemplate<int>>();
-    test_is_not_complete_or_void<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_complete_or_void<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_complete_or_void<incomplete_variadic_template<>>();
+    test_is_not_complete_or_void<incomplete_variadic_template<void>>();
+    test_is_not_complete_or_void<incomplete_variadic_template<int>>();
+    test_is_not_complete_or_void<incomplete_variadic_template<class_type>>();
+    test_is_not_complete_or_void<incomplete_variadic_template<incomplete_type>>();
     test_is_not_complete_or_void<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_complete_or_void<int class_type::*>();
     test_is_complete_or_void<float class_type::*>();
     test_is_complete_or_void<void * class_type::*>();

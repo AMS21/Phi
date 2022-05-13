@@ -251,11 +251,11 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<deleted_virtual_public_destructor>();
     test_is_not_default_constructible<deleted_virtual_protected_destructor>();
     test_is_not_default_constructible<deleted_virtual_private_destructor>();
-    test_is_default_constructible<enum_type>();
-    test_is_default_constructible<enum_signed>();
-    test_is_default_constructible<enum_unsigned>();
-    test_is_default_constructible<enum_class>();
-    test_is_default_constructible<enum_struct>();
+    test_is_default_constructible<Enum>();
+    test_is_default_constructible<EnumSigned>();
+    test_is_default_constructible<EnumUnsigned>();
+    test_is_default_constructible<EnumClass>();
+    test_is_default_constructible<EnumStruct>();
     test_is_not_default_constructible<function_type>();
     test_is_default_constructible<function_ptr>();
     test_is_default_constructible<member_object_ptr>();

@@ -273,11 +273,11 @@ TEST_CASE("is_standard_layout")
     test_is_not_standard_layout<deleted_virtual_public_destructor>();
     test_is_not_standard_layout<deleted_virtual_protected_destructor>();
     test_is_not_standard_layout<deleted_virtual_private_destructor>();
-    test_is_standard_layout<enum_type>();
-    test_is_standard_layout<enum_signed>();
-    test_is_standard_layout<enum_unsigned>();
-    test_is_standard_layout<enum_class>();
-    test_is_standard_layout<enum_struct>();
+    test_is_standard_layout<Enum>();
+    test_is_standard_layout<EnumSigned>();
+    test_is_standard_layout<EnumUnsigned>();
+    test_is_standard_layout<EnumClass>();
+    test_is_standard_layout<EnumStruct>();
     test_is_standard_layout_function<function_type>();
     test_is_standard_layout<function_ptr>();
     test_is_standard_layout<member_object_ptr>();

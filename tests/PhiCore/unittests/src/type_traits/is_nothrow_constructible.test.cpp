@@ -378,11 +378,11 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<deleted_virtual_public_destructor>();
     test_is_not_nothrow_constructible<deleted_virtual_protected_destructor>();
     test_is_not_nothrow_constructible<deleted_virtual_private_destructor>();
-    test_is_nothrow_constructible<enum_type>();
-    test_is_nothrow_constructible<enum_signed>();
-    test_is_nothrow_constructible<enum_unsigned>();
-    test_is_nothrow_constructible<enum_class>();
-    test_is_nothrow_constructible<enum_struct>();
+    test_is_nothrow_constructible<Enum>();
+    test_is_nothrow_constructible<EnumSigned>();
+    test_is_nothrow_constructible<EnumUnsigned>();
+    test_is_nothrow_constructible<EnumClass>();
+    test_is_nothrow_constructible<EnumStruct>();
     test_is_not_nothrow_constructible<function_type>();
     test_is_nothrow_constructible<function_ptr>();
     test_is_nothrow_constructible<member_object_ptr>();

@@ -297,11 +297,11 @@ TEST_CASE("is_unsafe_integral")
     test_is_not_unsafe_integral<deleted_virtual_protected_destructor>();
     test_is_not_unsafe_integral<deleted_virtual_private_destructor>();
     test_is_not_unsafe_integral<final_type>();
-    test_is_not_unsafe_integral<enum_type>();
-    test_is_not_unsafe_integral<enum_signed>();
-    test_is_not_unsafe_integral<enum_unsigned>();
-    test_is_not_unsafe_integral<enum_class>();
-    test_is_not_unsafe_integral<enum_struct>();
+    test_is_not_unsafe_integral<Enum>();
+    test_is_not_unsafe_integral<EnumSigned>();
+    test_is_not_unsafe_integral<EnumUnsigned>();
+    test_is_not_unsafe_integral<EnumClass>();
+    test_is_not_unsafe_integral<EnumStruct>();
     test_is_not_unsafe_integral<function_type>();
     test_is_not_unsafe_integral<function_ptr>();
     test_is_not_unsafe_integral<member_object_ptr>();
@@ -311,13 +311,13 @@ TEST_CASE("is_unsafe_integral")
     test_is_not_unsafe_integral<incomplete_template<int>>();
     test_is_not_unsafe_integral<incomplete_template<class_type>>();
     test_is_not_unsafe_integral<incomplete_template<incomplete_type>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<void>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<int>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_unsafe_integral<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_integral<incomplete_variadic_template<>>();
+    test_is_not_unsafe_integral<incomplete_variadic_template<void>>();
+    test_is_not_unsafe_integral<incomplete_variadic_template<int>>();
+    test_is_not_unsafe_integral<incomplete_variadic_template<class_type>>();
+    test_is_not_unsafe_integral<incomplete_variadic_template<incomplete_type>>();
     test_is_not_unsafe_integral<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_unsafe_integral<int class_type::*>();
     test_is_not_unsafe_integral<float class_type::*>();
     test_is_not_unsafe_integral<void * class_type::*>();

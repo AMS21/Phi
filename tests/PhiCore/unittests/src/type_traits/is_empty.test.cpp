@@ -88,7 +88,7 @@ struct NonStaticMember
 TEST_CASE("is_empty")
 {
     test_is_not_empty<VirtualFn>();
-    test_is_not_empty<virtual_Base>();
+    test_is_not_empty<virtual_base>();
     test_is_not_empty<non_empty_base>();
     test_is_not_empty<NonStaticMember>();
     test_is_empty<empty_base>();
@@ -241,11 +241,11 @@ TEST_CASE("is_empty")
     test_is_not_empty<deleted_virtual_public_destructor>();
     test_is_not_empty<deleted_virtual_protected_destructor>();
     test_is_not_empty<deleted_virtual_private_destructor>();
-    test_is_not_empty<enum_type>();
-    test_is_not_empty<enum_signed>();
-    test_is_not_empty<enum_unsigned>();
-    test_is_not_empty<enum_class>();
-    test_is_not_empty<enum_struct>();
+    test_is_not_empty<Enum>();
+    test_is_not_empty<EnumSigned>();
+    test_is_not_empty<EnumUnsigned>();
+    test_is_not_empty<EnumClass>();
+    test_is_not_empty<EnumStruct>();
     test_is_not_empty<function_type>();
     test_is_not_empty<function_ptr>();
     test_is_not_empty<member_object_ptr>();

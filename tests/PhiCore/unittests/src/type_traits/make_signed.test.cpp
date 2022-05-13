@@ -37,7 +37,7 @@ enum BigEnum : long long
 TEST_CASE("make_signed")
 {
     // test_make_signed<
-    //         enum_type, phi::conditional<sizeof(enum_type) == sizeof(int), int,  char>>();
+    //         Enum, phi::conditional<sizeof(Enum) == sizeof(int), int,  char>>();
 
     test_make_signed<void>();
     test_make_signed<phi::nullptr_t>();
@@ -178,11 +178,11 @@ TEST_CASE("make_signed")
     test_make_signed<deleted_virtual_public_destructor>();
     test_make_signed<deleted_virtual_protected_destructor>();
     test_make_signed<deleted_virtual_private_destructor>();
-    //test_make_signed<enum_type>();
-    //test_make_signed<enum_signed>();
-    //test_make_signed<enum_unsigned>();
-    //test_make_signed<enum_class>();
-    //test_make_signed<enum_struct>();
+    //test_make_signed<Enum>();
+    //test_make_signed<EnumSigned>();
+    //test_make_signed<EnumUnsigned>();
+    //test_make_signed<EnumClass>();
+    //test_make_signed<EnumStruct>();
     test_make_signed<function_type>();
     test_make_signed<function_ptr>();
     test_make_signed<member_object_ptr>();
@@ -192,12 +192,12 @@ TEST_CASE("make_signed")
     test_make_signed<incomplete_template<int>>();
     test_make_signed<incomplete_template<class_type>>();
     test_make_signed<incomplete_template<incomplete_type>>();
-    test_make_signed<IncompleteVariadicTemplate<>>();
-    test_make_signed<IncompleteVariadicTemplate<void>>();
-    test_make_signed<IncompleteVariadicTemplate<int>>();
-    test_make_signed<IncompleteVariadicTemplate<class_type>>();
-    test_make_signed<IncompleteVariadicTemplate<incomplete_type>>();
-    test_make_signed<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_make_signed<incomplete_variadic_template<>>();
+    test_make_signed<incomplete_variadic_template<void>>();
+    test_make_signed<incomplete_variadic_template<int>>();
+    test_make_signed<incomplete_variadic_template<class_type>>();
+    test_make_signed<incomplete_variadic_template<incomplete_type>>();
+    test_make_signed<incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_make_signed<int class_type::*>();
     test_make_signed<float class_type::*>();
     test_make_signed<void * class_type::*>();

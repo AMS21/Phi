@@ -200,11 +200,11 @@ TEST_CASE("is_safe_integer")
     test_is_not_safe_integer<deleted_virtual_public_destructor>();
     test_is_not_safe_integer<deleted_virtual_protected_destructor>();
     test_is_not_safe_integer<deleted_virtual_private_destructor>();
-    test_is_not_safe_integer<enum_type>();
-    test_is_not_safe_integer<enum_signed>();
-    test_is_not_safe_integer<enum_unsigned>();
-    test_is_not_safe_integer<enum_class>();
-    test_is_not_safe_integer<enum_struct>();
+    test_is_not_safe_integer<Enum>();
+    test_is_not_safe_integer<EnumSigned>();
+    test_is_not_safe_integer<EnumUnsigned>();
+    test_is_not_safe_integer<EnumClass>();
+    test_is_not_safe_integer<EnumStruct>();
     test_is_not_safe_integer<function_type>();
     test_is_not_safe_integer<function_ptr>();
     test_is_not_safe_integer<member_object_ptr>();
@@ -214,12 +214,13 @@ TEST_CASE("is_safe_integer")
     test_is_not_safe_integer<incomplete_template<int>>();
     test_is_not_safe_integer<incomplete_template<class_type>>();
     test_is_not_safe_integer<incomplete_template<incomplete_type>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<void>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<int>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<incomplete_type>>();
-    test_is_not_safe_integer<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_is_not_safe_integer<incomplete_variadic_template<>>();
+    test_is_not_safe_integer<incomplete_variadic_template<void>>();
+    test_is_not_safe_integer<incomplete_variadic_template<int>>();
+    test_is_not_safe_integer<incomplete_variadic_template<class_type>>();
+    test_is_not_safe_integer<incomplete_variadic_template<incomplete_type>>();
+    test_is_not_safe_integer<
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_safe_integer<int class_type::*>();
     test_is_not_safe_integer<float class_type::*>();
     test_is_not_safe_integer<void * class_type::*>();

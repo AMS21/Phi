@@ -281,9 +281,9 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<non_empty_base>();
     test_is_literal_type<empty_base>();
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MSVC)
-    test_is_literal_type<virtual_Base>();
+    test_is_literal_type<virtual_base>();
 #else
-    test_is_not_literal_type<virtual_Base>();
+    test_is_not_literal_type<virtual_base>();
 #endif
     test_is_literal_type<polymorphic>();
     test_is_literal_type<derived_polymorphic>();
@@ -380,9 +380,9 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<deleted_implicit_to<int>>();
     test_is_literal_type<deleted_implicit_to<float>>();
     test_is_literal_type<deleted_implicit_to<class_type>>();
-    test_is_literal_type<ExplicitTo<int>>();
-    test_is_literal_type<ExplicitTo<float>>();
-    test_is_literal_type<ExplicitTo<class_type>>();
+    test_is_literal_type<explicit_to<int>>();
+    test_is_literal_type<explicit_to<float>>();
+    test_is_literal_type<explicit_to<class_type>>();
     test_is_literal_type<deleted_explicit_to<int>>();
     test_is_literal_type<deleted_explicit_to<float>>();
     test_is_literal_type<deleted_explicit_to<class_type>>();
@@ -419,11 +419,11 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<private_static_template_member<int>>();
     test_is_literal_type<private_static_template_member<float>>();
     test_is_literal_type<private_static_template_member<class_type>>();
-    test_is_literal_type<enum_type>();
-    test_is_literal_type<enum_signed>();
-    test_is_literal_type<enum_unsigned>();
-    test_is_literal_type<enum_class>();
-    test_is_literal_type<enum_struct>();
+    test_is_literal_type<Enum>();
+    test_is_literal_type<EnumSigned>();
+    test_is_literal_type<EnumUnsigned>();
+    test_is_literal_type<EnumClass>();
+    test_is_literal_type<EnumStruct>();
     test_is_not_literal_type<function_type>();
     test_is_literal_type<function_ptr>();
     test_is_literal_type<member_object_ptr>();
@@ -431,10 +431,10 @@ TEST_CASE("is_literal_type")
     test_is_literal_type_cxx17<lambda_type>();
     test_is_literal_type_cxx17<lambda_noexcept_type>();
     test_is_literal_type_cxx17<lambda_throws_type>();
-    test_is_literal_type<incomplete_enum_signed>();
-    test_is_literal_type<incomplete_enum_unsigned>();
-    test_is_literal_type<incomplete_enum_class>();
-    test_is_literal_type<incomplete_enum_struct>();
+    test_is_literal_type<IncompleteEnumSigned>();
+    test_is_literal_type<IncompleteEnumUnsigned>();
+    test_is_literal_type<IncompleteEnumClass>();
+    test_is_literal_type<IncompleteEnumStruct>();
     test_is_literal_type<int class_type::*>();
     test_is_literal_type<float class_type::*>();
     test_is_literal_type<void * class_type::*>();

@@ -311,11 +311,11 @@ TEST_CASE("is_null_pointer")
     test_is_not_null_pointer<deleted_virtual_protected_destructor>();
     test_is_not_null_pointer<deleted_virtual_private_destructor>();
     test_is_not_null_pointer<final_type>();
-    test_is_not_null_pointer<enum_type>();
-    test_is_not_null_pointer<enum_signed>();
-    test_is_not_null_pointer<enum_unsigned>();
-    test_is_not_null_pointer<enum_class>();
-    test_is_not_null_pointer<enum_struct>();
+    test_is_not_null_pointer<Enum>();
+    test_is_not_null_pointer<EnumSigned>();
+    test_is_not_null_pointer<EnumUnsigned>();
+    test_is_not_null_pointer<EnumClass>();
+    test_is_not_null_pointer<EnumStruct>();
     test_is_not_null_pointer<function_type>();
     test_is_not_null_pointer<function_ptr>();
     test_is_not_null_pointer<member_object_ptr>();
@@ -325,12 +325,13 @@ TEST_CASE("is_null_pointer")
     test_is_not_null_pointer<incomplete_template<int>>();
     test_is_not_null_pointer<incomplete_template<class_type>>();
     test_is_not_null_pointer<incomplete_template<incomplete_type>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<void>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<int>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<incomplete_type>>();
-    test_is_not_null_pointer<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_is_not_null_pointer<incomplete_variadic_template<>>();
+    test_is_not_null_pointer<incomplete_variadic_template<void>>();
+    test_is_not_null_pointer<incomplete_variadic_template<int>>();
+    test_is_not_null_pointer<incomplete_variadic_template<class_type>>();
+    test_is_not_null_pointer<incomplete_variadic_template<incomplete_type>>();
+    test_is_not_null_pointer<
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_null_pointer<int class_type::*>();
     test_is_not_null_pointer<float class_type::*>();
     test_is_not_null_pointer<void * class_type::*>();

@@ -225,11 +225,11 @@ TEST_CASE("is_unscoped_enum")
     test_is_not_unscoped_enum<deleted_virtual_public_destructor>();
     test_is_not_unscoped_enum<deleted_virtual_protected_destructor>();
     test_is_not_unscoped_enum<deleted_virtual_private_destructor>();
-    test_is_unscoped_enum<enum_type>();
-    test_is_unscoped_enum<enum_signed>();
-    test_is_unscoped_enum<enum_unsigned>();
-    test_is_not_unscoped_enum<enum_class>();
-    test_is_not_unscoped_enum<enum_struct>();
+    test_is_unscoped_enum<Enum>();
+    test_is_unscoped_enum<EnumSigned>();
+    test_is_unscoped_enum<EnumUnsigned>();
+    test_is_not_unscoped_enum<EnumClass>();
+    test_is_not_unscoped_enum<EnumStruct>();
     test_is_not_unscoped_enum<function_type>();
     test_is_not_unscoped_enum<function_ptr>();
     test_is_not_unscoped_enum<member_object_ptr>();
@@ -239,12 +239,13 @@ TEST_CASE("is_unscoped_enum")
     test_is_not_unscoped_enum<incomplete_template<int>>();
     test_is_not_unscoped_enum<incomplete_template<class_type>>();
     test_is_not_unscoped_enum<incomplete_template<incomplete_type>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<void>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<int>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<incomplete_type>>();
-    test_is_not_unscoped_enum<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_is_not_unscoped_enum<incomplete_variadic_template<>>();
+    test_is_not_unscoped_enum<incomplete_variadic_template<void>>();
+    test_is_not_unscoped_enum<incomplete_variadic_template<int>>();
+    test_is_not_unscoped_enum<incomplete_variadic_template<class_type>>();
+    test_is_not_unscoped_enum<incomplete_variadic_template<incomplete_type>>();
+    test_is_not_unscoped_enum<
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_unscoped_enum<int class_type::*>();
     test_is_not_unscoped_enum<float class_type::*>();
     test_is_not_unscoped_enum<void * class_type::*>();

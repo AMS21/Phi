@@ -232,11 +232,11 @@ TEST_CASE("is_move_assignable")
     test_is_move_assignable<deleted_virtual_public_destructor>();
     test_is_move_assignable<deleted_virtual_protected_destructor>();
     test_is_move_assignable<deleted_virtual_private_destructor>();
-    test_is_move_assignable<enum_type>();
-    test_is_move_assignable<enum_signed>();
-    test_is_move_assignable<enum_unsigned>();
-    test_is_move_assignable<enum_class>();
-    test_is_move_assignable<enum_struct>();
+    test_is_move_assignable<Enum>();
+    test_is_move_assignable<EnumSigned>();
+    test_is_move_assignable<EnumUnsigned>();
+    test_is_move_assignable<EnumClass>();
+    test_is_move_assignable<EnumStruct>();
     test_is_not_move_assignable<function_type>();
     test_is_move_assignable<function_ptr>();
     test_is_move_assignable<member_object_ptr>();

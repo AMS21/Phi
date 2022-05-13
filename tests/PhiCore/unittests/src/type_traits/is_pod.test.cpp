@@ -285,7 +285,7 @@ TEST_CASE("is_pod")
     test_is_pod<derived>();
     test_is_not_pod<non_empty_base>();
     test_is_pod<empty_base>();
-    test_is_not_pod<virtual_Base>();
+    test_is_not_pod<virtual_base>();
     test_is_not_pod<polymorphic>();
     test_is_not_pod<derived_polymorphic>();
     test_is_not_pod<abstract>();
@@ -357,9 +357,9 @@ TEST_CASE("is_pod")
     test_is_pod<deleted_implicit_to<int>>();
     test_is_pod<deleted_implicit_to<float>>();
     test_is_pod<deleted_implicit_to<class_type>>();
-    test_is_pod<ExplicitTo<int>>();
-    test_is_pod<ExplicitTo<float>>();
-    test_is_pod<ExplicitTo<class_type>>();
+    test_is_pod<explicit_to<int>>();
+    test_is_pod<explicit_to<float>>();
+    test_is_pod<explicit_to<class_type>>();
     test_is_pod<deleted_explicit_to<int>>();
     test_is_pod<deleted_explicit_to<float>>();
     test_is_pod<deleted_explicit_to<class_type>>();
@@ -396,11 +396,11 @@ TEST_CASE("is_pod")
     test_is_pod<private_static_template_member<int>>();
     test_is_pod<private_static_template_member<float>>();
     test_is_pod<private_static_template_member<class_type>>();
-    test_is_pod<enum_type>();
-    test_is_pod<enum_signed>();
-    test_is_pod<enum_unsigned>();
-    test_is_pod<enum_class>();
-    test_is_pod<enum_struct>();
+    test_is_pod<Enum>();
+    test_is_pod<EnumSigned>();
+    test_is_pod<EnumUnsigned>();
+    test_is_pod<EnumClass>();
+    test_is_pod<EnumStruct>();
     test_is_not_pod<function_type>();
     test_is_pod<function_ptr>();
     test_is_pod<member_object_ptr>();
@@ -415,10 +415,10 @@ TEST_CASE("is_pod")
     test_is_not_pod<lambda_noexcept_type>();
     test_is_not_pod<lambda_throws_type>();
 #endif
-    test_is_pod<incomplete_enum_signed>();
-    test_is_pod<incomplete_enum_unsigned>();
-    test_is_pod<incomplete_enum_class>();
-    test_is_pod<incomplete_enum_struct>();
+    test_is_pod<IncompleteEnumSigned>();
+    test_is_pod<IncompleteEnumUnsigned>();
+    test_is_pod<IncompleteEnumClass>();
+    test_is_pod<IncompleteEnumStruct>();
     test_is_pod<int class_type::*>();
     test_is_pod<float class_type::*>();
     test_is_pod<void * class_type::*>();

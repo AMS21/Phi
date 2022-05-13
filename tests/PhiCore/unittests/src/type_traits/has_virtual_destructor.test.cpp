@@ -211,11 +211,11 @@ TEST_CASE("has_virtual_destructor")
     test_has_virtual_destructor<deleted_virtual_public_destructor>();
     test_has_virtual_destructor<deleted_virtual_protected_destructor>();
     test_has_virtual_destructor<deleted_virtual_private_destructor>();
-    test_has_no_virtual_destructor<enum_type>();
-    test_has_no_virtual_destructor<enum_signed>();
-    test_has_no_virtual_destructor<enum_unsigned>();
-    test_has_no_virtual_destructor<enum_class>();
-    test_has_no_virtual_destructor<enum_struct>();
+    test_has_no_virtual_destructor<Enum>();
+    test_has_no_virtual_destructor<EnumSigned>();
+    test_has_no_virtual_destructor<EnumUnsigned>();
+    test_has_no_virtual_destructor<EnumClass>();
+    test_has_no_virtual_destructor<EnumStruct>();
     test_has_no_virtual_destructor<function_type>();
     test_has_no_virtual_destructor<function_ptr>();
     test_has_no_virtual_destructor<member_object_ptr>();

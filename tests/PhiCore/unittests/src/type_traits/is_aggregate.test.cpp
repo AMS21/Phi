@@ -263,11 +263,11 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<deleted_virtual_public_destructor>();
     test_is_not_aggregate<deleted_virtual_protected_destructor>();
     test_is_not_aggregate<deleted_virtual_private_destructor>();
-    test_is_not_aggregate<enum_type>();
-    test_is_not_aggregate<enum_signed>();
-    test_is_not_aggregate<enum_unsigned>();
-    test_is_not_aggregate<enum_class>();
-    test_is_not_aggregate<enum_struct>();
+    test_is_not_aggregate<Enum>();
+    test_is_not_aggregate<EnumSigned>();
+    test_is_not_aggregate<EnumUnsigned>();
+    test_is_not_aggregate<EnumClass>();
+    test_is_not_aggregate<EnumStruct>();
     test_is_not_aggregate<function_type>();
     test_is_not_aggregate<function_ptr>();
     test_is_not_aggregate<member_object_ptr>();

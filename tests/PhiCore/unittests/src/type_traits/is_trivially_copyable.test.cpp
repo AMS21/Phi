@@ -282,11 +282,11 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<deleted_virtual_public_destructor>();
     test_is_not_trivially_copyable<deleted_virtual_protected_destructor>();
     test_is_not_trivially_copyable<deleted_virtual_private_destructor>();
-    test_is_trivially_copyable_gcc_compat<enum_type>();
-    test_is_trivially_copyable_gcc_compat<enum_signed>();
-    test_is_trivially_copyable_gcc_compat<enum_unsigned>();
-    test_is_trivially_copyable_gcc_compat<enum_class>();
-    test_is_trivially_copyable_gcc_compat<enum_struct>();
+    test_is_trivially_copyable_gcc_compat<Enum>();
+    test_is_trivially_copyable_gcc_compat<EnumSigned>();
+    test_is_trivially_copyable_gcc_compat<EnumUnsigned>();
+    test_is_trivially_copyable_gcc_compat<EnumClass>();
+    test_is_trivially_copyable_gcc_compat<EnumStruct>();
     test_is_not_trivially_copyable<function_type>();
     test_is_trivially_copyable_gcc_compat<function_ptr>();
     test_is_trivially_copyable_gcc_compat<member_object_ptr>();

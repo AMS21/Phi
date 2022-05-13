@@ -476,11 +476,11 @@ TEST_CASE("is_member_pointer")
     test_is_not_member_pointer<deleted_virtual_public_destructor>();
     test_is_not_member_pointer<deleted_virtual_protected_destructor>();
     test_is_not_member_pointer<deleted_virtual_private_destructor>();
-    test_is_not_member_pointer<enum_type>();
-    test_is_not_member_pointer<enum_signed>();
-    test_is_not_member_pointer<enum_unsigned>();
-    test_is_not_member_pointer<enum_class>();
-    test_is_not_member_pointer<enum_struct>();
+    test_is_not_member_pointer<Enum>();
+    test_is_not_member_pointer<EnumSigned>();
+    test_is_not_member_pointer<EnumUnsigned>();
+    test_is_not_member_pointer<EnumClass>();
+    test_is_not_member_pointer<EnumStruct>();
     test_is_not_member_pointer<function_type>();
     test_is_not_member_pointer<function_ptr>();
     test_is_member_pointer<member_object_ptr>();
@@ -490,13 +490,13 @@ TEST_CASE("is_member_pointer")
     test_is_not_member_pointer<incomplete_template<int>>();
     test_is_not_member_pointer<incomplete_template<class_type>>();
     test_is_not_member_pointer<incomplete_template<incomplete_type>>();
-    test_is_not_member_pointer<IncompleteVariadicTemplate<>>();
-    test_is_not_member_pointer<IncompleteVariadicTemplate<void>>();
-    test_is_not_member_pointer<IncompleteVariadicTemplate<int>>();
-    test_is_not_member_pointer<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_member_pointer<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_member_pointer<incomplete_variadic_template<>>();
+    test_is_not_member_pointer<incomplete_variadic_template<void>>();
+    test_is_not_member_pointer<incomplete_variadic_template<int>>();
+    test_is_not_member_pointer<incomplete_variadic_template<class_type>>();
+    test_is_not_member_pointer<incomplete_variadic_template<incomplete_type>>();
     test_is_not_member_pointer<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_member_pointer<int class_type::*>();
     test_is_member_pointer<float class_type::*>();
     test_is_member_pointer<void * class_type::*>();

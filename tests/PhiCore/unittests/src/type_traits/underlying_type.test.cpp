@@ -260,14 +260,14 @@ TEST_CASE("is_void")
     test_no_underlying_type<deleted_virtual_protected_destructor>();
     test_no_underlying_type<deleted_virtual_private_destructor>();
 #if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
-    test_underlying_type<enum_type, int>();
+    test_underlying_type<Enum, int>();
 #else
-    test_underlying_type<enum_type, unsigned int>();
+    test_underlying_type<Enum, unsigned int>();
 #endif
-    test_underlying_type<enum_signed, int>();
-    test_underlying_type<enum_unsigned, unsigned int>();
-    test_underlying_type<enum_class, int>();
-    test_underlying_type<enum_struct, int>();
+    test_underlying_type<EnumSigned, int>();
+    test_underlying_type<EnumUnsigned, unsigned int>();
+    test_underlying_type<EnumClass, int>();
+    test_underlying_type<EnumStruct, int>();
     test_no_underlying_type<function_type>();
     test_no_underlying_type<function_ptr>();
     test_no_underlying_type<member_object_ptr>();
@@ -277,12 +277,12 @@ TEST_CASE("is_void")
     test_no_underlying_type<incomplete_template<int>>();
     test_no_underlying_type<incomplete_template<class_type>>();
     test_no_underlying_type<incomplete_template<incomplete_type>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<void>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<int>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<class_type>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<incomplete_type>>();
-    test_no_underlying_type<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_no_underlying_type<incomplete_variadic_template<>>();
+    test_no_underlying_type<incomplete_variadic_template<void>>();
+    test_no_underlying_type<incomplete_variadic_template<int>>();
+    test_no_underlying_type<incomplete_variadic_template<class_type>>();
+    test_no_underlying_type<incomplete_variadic_template<incomplete_type>>();
+    test_no_underlying_type<incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_no_underlying_type<int class_type::*>();
     test_no_underlying_type<float class_type::*>();
     test_no_underlying_type<void * class_type::*>();

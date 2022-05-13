@@ -357,9 +357,9 @@ TEST_CASE("type_traits")
 
     // is_enum
 #if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE(phi::is_enum<enum_type>::value);
+    STATIC_REQUIRE(phi::is_enum<Enum>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_enum_v<enum_type>);
+    STATIC_REQUIRE(phi::is_enum_v<Enum>);
 #    endif
 #endif
 
@@ -793,9 +793,9 @@ TEST_CASE("type_traits")
 
     // is_scoped_enum
 #if PHI_HAS_WORKING_IS_SCOPED_ENUM()
-    STATIC_REQUIRE(phi::is_scoped_enum<enum_class>::value);
+    STATIC_REQUIRE(phi::is_scoped_enum<EnumClass>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_scoped_enum_v<enum_class>);
+    STATIC_REQUIRE(phi::is_scoped_enum_v<EnumClass>);
 #    endif
 #endif
 
@@ -1007,9 +1007,9 @@ TEST_CASE("type_traits")
 
     // is_unscoped_enum
 #if PHI_HAS_WORKING_IS_UNSCOPED_ENUM()
-    STATIC_REQUIRE(phi::is_unscoped_enum<enum_type>::value);
+    STATIC_REQUIRE(phi::is_unscoped_enum<Enum>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_unscoped_enum_v<enum_type>);
+    STATIC_REQUIRE(phi::is_unscoped_enum_v<Enum>);
 #    endif
 #endif
 
@@ -1109,7 +1109,7 @@ TEST_CASE("type_traits")
 
     // to_underlying
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    CHECK_SAME_TYPE(decltype(phi::to_underlying(enum_signed::two)), int);
+    CHECK_SAME_TYPE(decltype(phi::to_underlying(EnumSigned::two)), int);
 #endif
 
     // to_unsafe
@@ -1127,8 +1127,8 @@ TEST_CASE("type_traits")
 
     // underlying_type
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    CHECK_SAME_TYPE(typename phi::underlying_type<enum_signed>::type, int);
-    CHECK_SAME_TYPE(phi::underlying_type_t<enum_signed>, int);
+    CHECK_SAME_TYPE(typename phi::underlying_type<EnumSigned>::type, int);
+    CHECK_SAME_TYPE(phi::underlying_type_t<EnumSigned>, int);
 #endif
 
     // unsigned_int_of_size

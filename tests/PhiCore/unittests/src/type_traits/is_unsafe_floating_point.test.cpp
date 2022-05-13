@@ -333,11 +333,11 @@ TEST_CASE("is_unsafe_floating_point")
     test_is_not_unsafe_floating_point<deleted_virtual_protected_destructor>();
     test_is_not_unsafe_floating_point<deleted_virtual_private_destructor>();
     test_is_not_unsafe_floating_point<final_type>();
-    test_is_not_unsafe_floating_point<enum_type>();
-    test_is_not_unsafe_floating_point<enum_signed>();
-    test_is_not_unsafe_floating_point<enum_unsigned>();
-    test_is_not_unsafe_floating_point<enum_class>();
-    test_is_not_unsafe_floating_point<enum_struct>();
+    test_is_not_unsafe_floating_point<Enum>();
+    test_is_not_unsafe_floating_point<EnumSigned>();
+    test_is_not_unsafe_floating_point<EnumUnsigned>();
+    test_is_not_unsafe_floating_point<EnumClass>();
+    test_is_not_unsafe_floating_point<EnumStruct>();
     test_is_not_unsafe_floating_point<function_type>();
     test_is_not_unsafe_floating_point<function_ptr>();
     test_is_not_unsafe_floating_point<member_object_ptr>();
@@ -347,13 +347,13 @@ TEST_CASE("is_unsafe_floating_point")
     test_is_not_unsafe_floating_point<incomplete_template<int>>();
     test_is_not_unsafe_floating_point<incomplete_template<class_type>>();
     test_is_not_unsafe_floating_point<incomplete_template<incomplete_type>>();
-    test_is_not_unsafe_floating_point<IncompleteVariadicTemplate<>>();
-    test_is_not_unsafe_floating_point<IncompleteVariadicTemplate<void>>();
-    test_is_not_unsafe_floating_point<IncompleteVariadicTemplate<int>>();
-    test_is_not_unsafe_floating_point<IncompleteVariadicTemplate<class_type>>();
-    test_is_not_unsafe_floating_point<IncompleteVariadicTemplate<incomplete_type>>();
+    test_is_not_unsafe_floating_point<incomplete_variadic_template<>>();
+    test_is_not_unsafe_floating_point<incomplete_variadic_template<void>>();
+    test_is_not_unsafe_floating_point<incomplete_variadic_template<int>>();
+    test_is_not_unsafe_floating_point<incomplete_variadic_template<class_type>>();
+    test_is_not_unsafe_floating_point<incomplete_variadic_template<incomplete_type>>();
     test_is_not_unsafe_floating_point<
-            IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_is_not_unsafe_floating_point<int class_type::*>();
     test_is_not_unsafe_floating_point<float class_type::*>();
     test_is_not_unsafe_floating_point<void * class_type::*>();

@@ -206,11 +206,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<deleted_virtual_public_destructor>();
     test_add_rvalue_reference<deleted_virtual_protected_destructor>();
     test_add_rvalue_reference<deleted_virtual_private_destructor>();
-    test_add_rvalue_reference<enum_type>();
-    test_add_rvalue_reference<enum_signed>();
-    test_add_rvalue_reference<enum_unsigned>();
-    test_add_rvalue_reference<enum_class>();
-    test_add_rvalue_reference<enum_struct>();
+    test_add_rvalue_reference<Enum>();
+    test_add_rvalue_reference<EnumSigned>();
+    test_add_rvalue_reference<EnumUnsigned>();
+    test_add_rvalue_reference<EnumClass>();
+    test_add_rvalue_reference<EnumStruct>();
     test_add_rvalue_reference<function_type>();
     test_add_rvalue_reference<function_ptr>();
     test_add_rvalue_reference<member_object_ptr>();
@@ -220,12 +220,13 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<incomplete_template<int>>();
     test_add_rvalue_reference<incomplete_template<class_type>>();
     test_add_rvalue_reference<incomplete_template<incomplete_type>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<void>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<int>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<class_type>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<incomplete_type>>();
-    test_add_rvalue_reference<IncompleteVariadicTemplate<int, void, class_type, volatile char[]>>();
+    test_add_rvalue_reference<incomplete_variadic_template<>>();
+    test_add_rvalue_reference<incomplete_variadic_template<void>>();
+    test_add_rvalue_reference<incomplete_variadic_template<int>>();
+    test_add_rvalue_reference<incomplete_variadic_template<class_type>>();
+    test_add_rvalue_reference<incomplete_variadic_template<incomplete_type>>();
+    test_add_rvalue_reference<
+            incomplete_variadic_template<int, void, class_type, volatile char[]>>();
     test_add_rvalue_reference<int class_type::*>();
     test_add_rvalue_reference<float class_type::*>();
     test_add_rvalue_reference<void * class_type::*>();

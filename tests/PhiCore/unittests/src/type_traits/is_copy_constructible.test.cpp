@@ -241,11 +241,11 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<deleted_virtual_protected_destructor>();
     test_is_not_copy_constructible<deleted_virtual_private_destructor>();
 #if PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE()
-    test_is_copy_constructible<enum_type>();
-    test_is_copy_constructible<enum_signed>();
-    test_is_copy_constructible<enum_unsigned>();
-    test_is_copy_constructible<enum_class>();
-    test_is_copy_constructible<enum_struct>();
+    test_is_copy_constructible<Enum>();
+    test_is_copy_constructible<EnumSigned>();
+    test_is_copy_constructible<EnumUnsigned>();
+    test_is_copy_constructible<EnumClass>();
+    test_is_copy_constructible<EnumStruct>();
 #endif
     test_is_not_copy_constructible<function_type>();
 #if PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE()
