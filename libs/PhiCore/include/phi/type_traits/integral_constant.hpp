@@ -21,6 +21,7 @@ struct integral_constant
 
     static constexpr TypeT value = Value;
 
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr operator TypeT() const noexcept
     {
         return value;
