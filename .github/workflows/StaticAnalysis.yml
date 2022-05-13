@@ -115,7 +115,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
           # Run clang-tidy
           run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" | tee clang_tidy.log
@@ -175,7 +175,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF
 
           # Run include-what-you-use
           iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
@@ -270,7 +270,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF
 
       - name: Run PVS-Studio
         working-directory: ./build
@@ -406,7 +406,7 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_ENABLE_FAILURE_TESTS:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE:STRING=Debug
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE:STRING=Debug
 
       - name: Build
         working-directory: ./build
