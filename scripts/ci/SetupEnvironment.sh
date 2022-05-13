@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PROC_COUNT=$(nproc)
+PROC_COUNT=$(nproc)
 
 # Get number of processors available
 echo "PROC_COUNT=$PROC_COUNT" >>"$GITHUB_ENV"
