@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits/is_pointer_interconvertible_base_of.hpp>
 #include <type_traits>
