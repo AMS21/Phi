@@ -30,7 +30,7 @@ namespace detail
     template <typename... ArgsT>
     inline std::string FormatArgument(ArgsT&&... /*arg*/)
     {
-        return std::string("<Disabled>");
+        return {"<Disabled>"};
         /*
         return fmt::format(std::forward<ArgsT>(arg)...);
         */

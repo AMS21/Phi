@@ -298,71 +298,71 @@ inline namespace literals
     template <char... DigitsT>
     constexpr i8 operator"" _i8()
     {
-        return i8(detail::parse_signed<int8_t, DigitsT...>());
+        return {detail::parse_signed<int8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr u8 operator"" _u8()
     {
-        return u8(detail::parse_unsigned<uint8_t, DigitsT...>());
+        return {detail::parse_unsigned<uint8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr i16 operator"" _i16()
     {
-        return int16_t(detail::parse_signed<int16_t, DigitsT...>());
+        return {detail::parse_signed<int16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr u16 operator"" _u16()
     {
-        return u16(detail::parse_unsigned<uint16_t, DigitsT...>());
+        return {detail::parse_unsigned<uint16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr i32 operator"" _i32()
     {
-        return i32(detail::parse_signed<int32_t, DigitsT...>());
+        return {detail::parse_signed<int32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr u32 operator"" _u32()
     {
-        return u32(detail::parse_unsigned<uint32_t, DigitsT...>());
+        return {detail::parse_unsigned<uint32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr i64 operator"" _i64()
     {
-        return i64(detail::parse_signed<int64_t, DigitsT...>());
+        return {detail::parse_signed<int64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr u64 operator"" _u64()
     {
-        return u64(detail::parse_unsigned<uint64_t, DigitsT...>());
+        return {detail::parse_unsigned<uint64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr isize operator"" _isize()
     {
-        return isize(detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>());
+        return {detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>()};
     }
 
     template <char... DigitsT>
     constexpr usize operator"" _usize()
     {
-        return usize(detail::parse_unsigned<size_t, DigitsT...>());
+        return {detail::parse_unsigned<size_t, DigitsT...>()};
     }
 
     constexpr f32 operator"" _f32(long double val)
     {
-        return f32(static_cast<float32>(val));
+        return {static_cast<float32>(val)};
     }
 
     constexpr f64 operator"" _f64(long double val)
     {
-        return f64(static_cast<float64>(val));
+        return {static_cast<float64>(val)};
     }
 } // namespace literals
 
