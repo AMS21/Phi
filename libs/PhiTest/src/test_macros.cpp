@@ -85,7 +85,7 @@ namespace test
             }
         }
 
-        RegisterTestCase::RegisterTestCase(TestSignature func) noexcept
+        register_test_case::register_test_case(TestSignature func) noexcept
         {
             GetFunctionRegister().emplace_front(func);
         }
