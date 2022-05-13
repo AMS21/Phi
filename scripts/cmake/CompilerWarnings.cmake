@@ -304,8 +304,16 @@ function(phi_target_set_warnings)
 
   # Add optional warnings as errors
   if(warn_WARNINGS_AS_ERRORS AND NOT PHI_COMPILER_APPLECLANG)
-    # TODO: Warning suppression for AppleClang seems to not work correctly so we diable warnings as
+    # TODO: Warning suppression for AppleClang seems to not work correctly so we disable warnings as
     # errors to be able to build at all
+
+    # Give a warnings if no warnigns as error flag is available
+    if(NOT _WarningAsErrorAvailible)
+      phi_warn(
+        "phi_target_set_warnings: Trying to enable warnings as errors but no supported flags we're found while processing target ${warn_TARGET}"
+      )
+    endif()
+
     target_compile_options(${warn_TARGET} ${visibility_scope} ${_WarningAsErrorAvailible})
     target_compile_definitions(${warn_TARGET} ${visibility_scope} "PHI_CONFIG_WARNINGS_AS_ERRORS")
   endif()
