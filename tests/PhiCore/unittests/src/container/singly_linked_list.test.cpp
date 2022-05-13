@@ -19,9 +19,9 @@ TEST_CASE("container.singly_linked_list_node")
     CHECK_NOEXCEPT(node_t{phi::move(3)});
 
     // Not noexcept for throwing types
-    CHECK_NOT_NOEXCEPT(phi::singly_linked_list_node<ThrowDefaultClass>{ThrowDefaultClass{}});
+    CHECK_NOT_NOEXCEPT(phi::singly_linked_list_node<throw_default_class>{throw_default_class{}});
     CHECK_NOT_NOEXCEPT(
-            phi::singly_linked_list_node<ThrowDefaultClass>{phi::move(ThrowDefaultClass{})});
+            phi::singly_linked_list_node<throw_default_class>{phi::move(throw_default_class{})});
 
     node_t node{1};
 

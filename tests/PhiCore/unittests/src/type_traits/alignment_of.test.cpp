@@ -42,8 +42,8 @@ TEST_CASE("alignment_of")
 
     test_alignment_of<int&, 4>();
     test_alignment_of<int&&, 4>();
-    test_alignment_of<Class, 1>();
-    test_alignment_of<Empty, 1>();
+    test_alignment_of<class_type, 1>();
+    test_alignment_of<empty, 1>();
     test_alignment_of<int*, ptr_size>();
     test_alignment_of<const int*, ptr_size>();
     test_alignment_of<volatile int*, ptr_size>();
@@ -64,8 +64,8 @@ TEST_CASE("alignment_of")
 
 #if PHI_COMPILER_IS(WINCLANG)
 #else
-    test_alignment_of<FunctionPtr, ptr_size>();
-    test_alignment_of<MemberObjectPtr, ptr_size>();
-    test_alignment_of<MemberFunctionPtr, ptr_size>();
+    test_alignment_of<function_ptr, ptr_size>();
+    test_alignment_of<member_object_ptr, ptr_size>();
+    test_alignment_of<member_function_ptr, ptr_size>();
 #endif
 }

@@ -273,7 +273,7 @@ TEST_CASE("aligned_storage")
         STATIC_REQUIRE(alignof(T1) == align_ai);
     }
     {
-        PHI_CONSTEXPR_AND_CONST phi::size_t align_ct = phi::alignment_of<Class>::value;
+        PHI_CONSTEXPR_AND_CONST phi::size_t align_ct = phi::alignment_of<class_type>::value;
         using T1 = typename phi::aligned_storage<11, align_ct>::type;
         CHECK_SAME_TYPE(T1, phi::aligned_storage_t<11, align_ct>);
 

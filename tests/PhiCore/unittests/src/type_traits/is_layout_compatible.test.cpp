@@ -236,5 +236,5 @@ TEST_CASE("is_layout_compatible")
     test_is_not_layout_compatible<unsigned*, void*>();
     test_is_not_layout_compatible<int, void*>();
 
-    test_is_not_layout_compatible<BitZero, BitOne>();
+    test_is_not_layout_compatible<bit_zero, bit_one>();
 }

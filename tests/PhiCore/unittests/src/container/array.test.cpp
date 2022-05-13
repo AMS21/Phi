@@ -155,9 +155,9 @@ TEST_CASE("Array")
             }
         }
 
-        SECTION("Tracked")
+        SECTION("tracked")
         {
-            phi::array<Tracked, 3> tracked_array;
+            phi::array<tracked, 3> tracked_array;
 
             CHECK(tracked_array.at(0u).value() == 0);
 
@@ -168,25 +168,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<TrapConstructible, 3> a = {};
+            phi::array<trap_constructible, 3> a = {};
 
-            TrapConstructible& a_ref = a.at(0u);
+            trap_constructible& a_ref = a.at(0u);
 
-            phi::array<TrapImplicitConversion, 3> b = {};
+            phi::array<trap_implicit_conversion, 3> b = {};
 
-            TrapImplicitConversion& b_ref = b.at(0u);
+            trap_implicit_conversion& b_ref = b.at(0u);
 
-            phi::array<TrapComma, 3> c = {};
+            phi::array<trap_comma, 3> c = {};
 
-            TrapComma& c_ref = c.at(0u);
+            trap_comma& c_ref = c.at(0u);
 
-            phi::array<TrapCall, 3> d = {};
+            phi::array<trap_call, 3> d = {};
 
-            TrapCall& d_ref = d.at(0u);
+            trap_call& d_ref = d.at(0u);
 
-            phi::array<TrapSelfAssign, 3> e = {};
+            phi::array<trap_self_assign, 3> e = {};
 
-            TrapSelfAssign& e_ref = e.at(0u);
+            trap_self_assign& e_ref = e.at(0u);
         }
     }
 
@@ -280,9 +280,9 @@ TEST_CASE("Array")
             }
         }
 
-        SECTION("Tracked")
+        SECTION("tracked")
         {
-            phi::array<Tracked, 3> tracked_array;
+            phi::array<tracked, 3> tracked_array;
 
             CHECK(tracked_array.front().value() == 0);
 
@@ -293,25 +293,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<TrapConstructible, 3> a = {};
+            phi::array<trap_constructible, 3> a = {};
 
-            TrapConstructible& a_ref = a.front();
+            trap_constructible& a_ref = a.front();
 
-            phi::array<TrapImplicitConversion, 3> b = {};
+            phi::array<trap_implicit_conversion, 3> b = {};
 
-            TrapImplicitConversion& b_ref = b.front();
+            trap_implicit_conversion& b_ref = b.front();
 
-            phi::array<TrapComma, 3> c = {};
+            phi::array<trap_comma, 3> c = {};
 
-            TrapComma& c_ref = c.front();
+            trap_comma& c_ref = c.front();
 
-            phi::array<TrapCall, 3> d = {};
+            phi::array<trap_call, 3> d = {};
 
-            TrapCall& d_ref = d.front();
+            trap_call& d_ref = d.front();
 
-            phi::array<TrapSelfAssign, 3> e = {};
+            phi::array<trap_self_assign, 3> e = {};
 
-            TrapSelfAssign& e_ref = e.front();
+            trap_self_assign& e_ref = e.front();
         }
     }
 
@@ -405,9 +405,9 @@ TEST_CASE("Array")
             }
         }
 
-        SECTION("Tracked")
+        SECTION("tracked")
         {
-            phi::array<Tracked, 3> tracked_array;
+            phi::array<tracked, 3> tracked_array;
 
             CHECK(tracked_array.back().value() == 0);
 
@@ -418,25 +418,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<TrapConstructible, 3> a = {};
+            phi::array<trap_constructible, 3> a = {};
 
-            TrapConstructible& a_ref = a.back();
+            trap_constructible& a_ref = a.back();
 
-            phi::array<TrapImplicitConversion, 3> b = {};
+            phi::array<trap_implicit_conversion, 3> b = {};
 
-            TrapImplicitConversion& b_ref = b.back();
+            trap_implicit_conversion& b_ref = b.back();
 
-            phi::array<TrapComma, 3> c = {};
+            phi::array<trap_comma, 3> c = {};
 
-            TrapComma& c_ref = c.back();
+            trap_comma& c_ref = c.back();
 
-            phi::array<TrapCall, 3> d = {};
+            phi::array<trap_call, 3> d = {};
 
-            TrapCall& d_ref = d.back();
+            trap_call& d_ref = d.back();
 
-            phi::array<TrapSelfAssign, 3> e = {};
+            phi::array<trap_self_assign, 3> e = {};
 
-            TrapSelfAssign& e_ref = e.back();
+            trap_self_assign& e_ref = e.back();
         }
     }
 
@@ -554,12 +554,12 @@ TEST_CASE("Array")
             }
 
             {
-                using T2                   = phi::array<NonDefaultConstructible, 0>;
-                T2                       a = {};
-                NonDefaultConstructible* p = a.data();
+                using T2                     = phi::array<non_default_constructible, 0>;
+                T2                         a = {};
+                non_default_constructible* p = a.data();
 
                 CHECK_SAME_TYPE(decltype(a.data()), T2::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), NonDefaultConstructible*);
+                CHECK_SAME_TYPE(decltype(a.data()), non_default_constructible*);
                 CHECK_NOEXCEPT(a.data());
 
                 CHECK(p == nullptr);
@@ -591,12 +591,12 @@ TEST_CASE("Array")
             }
 
             {
-                using T2                         = phi::array<NonDefaultConstructible, 0>;
-                const T2                       a = {};
-                const NonDefaultConstructible* p = a.data();
+                using T2                           = phi::array<non_default_constructible, 0>;
+                const T2                         a = {};
+                const non_default_constructible* p = a.data();
 
                 CHECK_SAME_TYPE(decltype(a.data()), T2::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const NonDefaultConstructible*);
+                CHECK_SAME_TYPE(decltype(a.data()), const non_default_constructible*);
                 CHECK_NOEXCEPT(a.data());
 
                 CHECK(p == nullptr);
@@ -642,10 +642,10 @@ TEST_CASE("Array")
             }
         }
 
-        SECTION("Tracked")
+        SECTION("tracked")
         {
-            phi::array<Tracked, 3> tracked_array;
-            Tracked*               p = tracked_array.data();
+            phi::array<tracked, 3> tracked_array;
+            tracked*               p = tracked_array.data();
 
             CHECK(p->value() == 0);
 
@@ -656,25 +656,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<TrapConstructible, 3> a = {};
+            phi::array<trap_constructible, 3> a = {};
 
-            TrapConstructible* a_p = a.data();
+            trap_constructible* a_p = a.data();
 
-            phi::array<TrapImplicitConversion, 3> b = {};
+            phi::array<trap_implicit_conversion, 3> b = {};
 
-            TrapImplicitConversion* b_p = b.data();
+            trap_implicit_conversion* b_p = b.data();
 
-            phi::array<TrapComma, 3> c = {};
+            phi::array<trap_comma, 3> c = {};
 
-            TrapComma* c_p = c.data();
+            trap_comma* c_p = c.data();
 
-            phi::array<TrapCall, 3> d = {};
+            phi::array<trap_call, 3> d = {};
 
-            TrapCall* d_p = d.data();
+            trap_call* d_p = d.data();
 
-            phi::array<TrapSelfAssign, 3> e = {};
+            phi::array<trap_self_assign, 3> e = {};
 
-            TrapSelfAssign* e_p = e.data();
+            trap_self_assign* e_p = e.data();
         }
     }
 }

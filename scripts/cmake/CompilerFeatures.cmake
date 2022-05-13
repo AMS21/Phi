@@ -392,7 +392,7 @@ phi_check_cxx_source_compiles("int main() { int a[0]; }" PHI_HAS_EXTENSION_ZERO_
 
 # Bugs
 phi_check_cxx_source_compiles(
-  "template <typename> struct AbstractTemplate { virtual ~AbstractTemplate() = 0;}; int main() { static_assert(__is_constructible(AbstractTemplate<int>), \"\"); }"
+  "template <typename> struct abstract_template { virtual ~abstract_template() = 0;}; int main() { static_assert(__is_constructible(abstract_template<int>), \"\"); }"
   PHI_HAS_BUG_GCC_102305) # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
 
 # Only require the latest standard flag

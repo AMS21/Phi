@@ -62,12 +62,12 @@ TEST_CASE("type_traits.is_static_castable_to")
     test_is_not_static_castable_to<ExplicitTo<int>, unsigned>();
 
     // Implicit conversion
-    test_is_static_castable_to<ImplicitTo<int>, int>();
-    test_is_static_castable_to<ImplicitTo<int>, unsigned>();
-    test_is_static_castable_to<ImplicitTo<int>, float>();
-    test_is_static_castable_to<ImplicitTo<float>, int>();
-    test_is_static_castable_to<ImplicitTo<float>, unsigned>();
-    test_is_static_castable_to<ImplicitTo<float>, float>();
+    test_is_static_castable_to<implicit_to<int>, int>();
+    test_is_static_castable_to<implicit_to<int>, unsigned>();
+    test_is_static_castable_to<implicit_to<int>, float>();
+    test_is_static_castable_to<implicit_to<float>, int>();
+    test_is_static_castable_to<implicit_to<float>, unsigned>();
+    test_is_static_castable_to<implicit_to<float>, float>();
 
     // void* can be casted to and from any pointer typee
     test_is_static_castable_to<void*, int*>();
@@ -79,21 +79,21 @@ TEST_CASE("type_traits.is_static_castable_to")
     test_is_not_static_castable_to<void*, int>();
     test_is_not_static_castable_to<int, void*>();
 
-    // Class
-    test_is_not_static_castable_to<Class, int>();
-    test_is_not_static_castable_to<int, Class>();
+    // class_type
+    test_is_not_static_castable_to<class_type, int>();
+    test_is_not_static_castable_to<int, class_type>();
     test_is_static_castable_to<int, ConstructFromInt>();
 
     // Enums
-    test_is_static_castable_to<Enum, int>();
-    test_is_static_castable_to<Enum, float>();
-    test_is_static_castable_to<Enum, char>();
-    test_is_static_castable_to<Enum, void>();
-    test_is_static_castable_to<int, Enum>();
-    test_is_static_castable_to<float, Enum>();
-    test_is_not_static_castable_to<void, Enum>();
-    test_is_static_castable_to<Enum, EnumClass>();
-    test_is_static_castable_to<EnumClass, Enum>();
-    test_is_static_castable_to<EnumClass, int>();
-    test_is_static_castable_to<int, EnumClass>();
+    test_is_static_castable_to<enum_type, int>();
+    test_is_static_castable_to<enum_type, float>();
+    test_is_static_castable_to<enum_type, char>();
+    test_is_static_castable_to<enum_type, void>();
+    test_is_static_castable_to<int, enum_type>();
+    test_is_static_castable_to<float, enum_type>();
+    test_is_not_static_castable_to<void, enum_type>();
+    test_is_static_castable_to<enum_type, enum_class>();
+    test_is_static_castable_to<enum_class, enum_type>();
+    test_is_static_castable_to<enum_class, int>();
+    test_is_static_castable_to<int, enum_class>();
 }

@@ -135,10 +135,10 @@ TEST_CASE("is_convertible")
 {
     // void
     test_is_convertible<void, void>();
-    test_is_not_convertible<void, Function>();
-    test_is_not_convertible<void, Function&>();
-    test_is_not_convertible<void, Function&&>();
-    test_is_not_convertible<void, Function*>();
+    test_is_not_convertible<void, function_type>();
+    test_is_not_convertible<void, function_type&>();
+    test_is_not_convertible<void, function_type&&>();
+    test_is_not_convertible<void, function_type*>();
     test_is_not_convertible<void, Array>();
     test_is_not_convertible<void, Array&>();
     test_is_not_convertible<void, Array&&>();
@@ -147,10 +147,10 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<void, char&&>();
     test_is_not_convertible<void, char*>();
 
-    test_is_not_convertible<Function, void>();
-    test_is_not_convertible<Function&, void>();
-    test_is_not_convertible<Function&&, void>();
-    test_is_not_convertible<Function*, void>();
+    test_is_not_convertible<function_type, void>();
+    test_is_not_convertible<function_type&, void>();
+    test_is_not_convertible<function_type&&, void>();
+    test_is_not_convertible<function_type*, void>();
     test_is_not_convertible<Array, void>();
     test_is_not_convertible<Array&, void>();
     test_is_not_convertible<Array&&, void>();
@@ -159,81 +159,81 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<char&&, void>();
     test_is_not_convertible<char*, void>();
 
-    // Function
-    test_is_not_convertible<Function, void>();
-    test_is_not_convertible<Function, Function>();
-    test_is_convertible<Function, Function&>();
-    test_is_convertible<Function, Function&&>();
-    test_is_convertible<Function, Function*>();
-    test_is_convertible<Function, Function* const>();
+    // function_type
+    test_is_not_convertible<function_type, void>();
+    test_is_not_convertible<function_type, function_type>();
+    test_is_convertible<function_type, function_type&>();
+    test_is_convertible<function_type, function_type&&>();
+    test_is_convertible<function_type, function_type*>();
+    test_is_convertible<function_type, function_type* const>();
 
-    test_is_not_convertible<Function, Array>();
-    test_is_not_convertible<Function, Array&>();
-    test_is_not_convertible<Function, Array&&>();
-    test_is_not_convertible<Function, char>();
-    test_is_not_convertible<Function, char&>();
-    test_is_not_convertible<Function, char&&>();
-    test_is_not_convertible<Function, char*>();
+    test_is_not_convertible<function_type, Array>();
+    test_is_not_convertible<function_type, Array&>();
+    test_is_not_convertible<function_type, Array&&>();
+    test_is_not_convertible<function_type, char>();
+    test_is_not_convertible<function_type, char&>();
+    test_is_not_convertible<function_type, char&&>();
+    test_is_not_convertible<function_type, char*>();
 
-    // Function&
-    test_is_not_convertible<Function&, void>();
-    test_is_not_convertible<Function&, Function>();
-    test_is_convertible<Function&, Function&>();
-    test_is_convertible<Function&, Function&&>();
+    // function_type&
+    test_is_not_convertible<function_type&, void>();
+    test_is_not_convertible<function_type&, function_type>();
+    test_is_convertible<function_type&, function_type&>();
+    test_is_convertible<function_type&, function_type&&>();
 
-    test_is_convertible<Function&, Function*>();
-    test_is_not_convertible<Function&, Array>();
-    test_is_not_convertible<Function&, Array&>();
-    test_is_not_convertible<Function&, Array&&>();
-    test_is_not_convertible<Function&, char>();
-    test_is_not_convertible<Function&, char&>();
-    test_is_not_convertible<Function&, char&&>();
-    test_is_not_convertible<Function&, char*>();
+    test_is_convertible<function_type&, function_type*>();
+    test_is_not_convertible<function_type&, Array>();
+    test_is_not_convertible<function_type&, Array&>();
+    test_is_not_convertible<function_type&, Array&&>();
+    test_is_not_convertible<function_type&, char>();
+    test_is_not_convertible<function_type&, char&>();
+    test_is_not_convertible<function_type&, char&&>();
+    test_is_not_convertible<function_type&, char*>();
 
-    // Function&&
-    test_is_not_convertible<Function&&, void>();
-    test_is_not_convertible<Function&&, Function>();
-    test_is_convertible<Function&&, Function&>();
-    test_is_convertible<Function&&, Function&&>();
+    // function_type&&
+    test_is_not_convertible<function_type&&, void>();
+    test_is_not_convertible<function_type&&, function_type>();
+    test_is_convertible<function_type&&, function_type&>();
+    test_is_convertible<function_type&&, function_type&&>();
 
-    test_is_convertible<Function&&, Function*>();
-    test_is_not_convertible<Function&&, Array>();
-    test_is_not_convertible<Function&&, Array&>();
-    test_is_not_convertible<Function&&, Array&&>();
-    test_is_not_convertible<Function&&, char>();
-    test_is_not_convertible<Function&&, char&>();
-    test_is_not_convertible<Function&&, char&&>();
-    test_is_not_convertible<Function&&, char*>();
+    test_is_convertible<function_type&&, function_type*>();
+    test_is_not_convertible<function_type&&, Array>();
+    test_is_not_convertible<function_type&&, Array&>();
+    test_is_not_convertible<function_type&&, Array&&>();
+    test_is_not_convertible<function_type&&, char>();
+    test_is_not_convertible<function_type&&, char&>();
+    test_is_not_convertible<function_type&&, char&&>();
+    test_is_not_convertible<function_type&&, char*>();
 
-    // Function*
-    test_is_not_convertible<Function*, void>();
-    test_is_not_convertible<Function*, Function>();
-    test_is_not_convertible<Function*, Function&>();
-    test_is_convertible<Function*, Function*>();
+    // function_type*
+    test_is_not_convertible<function_type*, void>();
+    test_is_not_convertible<function_type*, function_type>();
+    test_is_not_convertible<function_type*, function_type&>();
+    test_is_convertible<function_type*, function_type*>();
 
-    test_is_not_convertible<Function*, Array>();
-    test_is_not_convertible<Function*, Array&>();
-    test_is_not_convertible<Function*, Array&&>();
-    test_is_not_convertible<Function*, char>();
-    test_is_not_convertible<Function*, char&>();
-    test_is_not_convertible<Function*, char&&>();
-    test_is_not_convertible<Function*, char*>();
+    test_is_not_convertible<function_type*, Array>();
+    test_is_not_convertible<function_type*, Array&>();
+    test_is_not_convertible<function_type*, Array&&>();
+    test_is_not_convertible<function_type*, char>();
+    test_is_not_convertible<function_type*, char&>();
+    test_is_not_convertible<function_type*, char&&>();
+    test_is_not_convertible<function_type*, char*>();
 
-    // Non-referencable function type
-    test_is_not_convertible<ConstFunction, Function>();
-    test_is_not_convertible<ConstFunction, Function*>();
-    test_is_not_convertible<ConstFunction, Function&>();
-    test_is_not_convertible<ConstFunction, Function&&>();
-    test_is_not_convertible<Function*, ConstFunction>();
-    test_is_not_convertible<Function&, ConstFunction>();
+    // Non-referencable function_type type
+    test_is_not_convertible<ConstFunction, function_type>();
+    test_is_not_convertible<ConstFunction, function_type*>();
+    test_is_not_convertible<ConstFunction, function_type&>();
+    test_is_not_convertible<ConstFunction, function_type&&>();
+    test_is_not_convertible<function_type*, ConstFunction>();
+    test_is_not_convertible<function_type&, ConstFunction>();
     test_is_not_convertible<ConstFunction, ConstFunction>();
     test_is_not_convertible<ConstFunction, void>();
 
     // Array
     test_is_not_convertible<Array, void>();
-    test_is_not_convertible<Array, Function>();
-    test_is_not_convertible<Array, Function&>();
-    test_is_not_convertible<Array, Function*>();
+    test_is_not_convertible<Array, function_type>();
+    test_is_not_convertible<Array, function_type&>();
+    test_is_not_convertible<Array, function_type*>();
     test_is_not_convertible<Array, Array>();
 
     test_is_not_convertible<Array, Array&>();
@@ -280,9 +280,9 @@ TEST_CASE("is_convertible")
 
     // Array&
     test_is_not_convertible<Array&, void>();
-    test_is_not_convertible<Array&, Function>();
-    test_is_not_convertible<Array&, Function&>();
-    test_is_not_convertible<Array&, Function*>();
+    test_is_not_convertible<Array&, function_type>();
+    test_is_not_convertible<Array&, function_type&>();
+    test_is_not_convertible<Array&, function_type*>();
     test_is_not_convertible<Array&, Array>();
 
     test_is_convertible<Array&, Array&>();
@@ -304,9 +304,9 @@ TEST_CASE("is_convertible")
 
     // Array&&
     test_is_not_convertible<Array&&, void>();
-    test_is_not_convertible<Array&&, Function>();
-    test_is_not_convertible<Array&&, Function&>();
-    test_is_not_convertible<Array&&, Function*>();
+    test_is_not_convertible<Array&&, function_type>();
+    test_is_not_convertible<Array&&, function_type&>();
+    test_is_not_convertible<Array&&, function_type*>();
     test_is_not_convertible<Array&&, Array>();
 
     test_is_convertible<Array&, Array&>();
@@ -328,10 +328,10 @@ TEST_CASE("is_convertible")
 
     // char
     test_is_not_convertible<char, void>();
-    test_is_not_convertible<char, Function>();
-    test_is_not_convertible<char, Function&>();
-    test_is_not_convertible<char, Function&&>();
-    test_is_not_convertible<char, Function*>();
+    test_is_not_convertible<char, function_type>();
+    test_is_not_convertible<char, function_type&>();
+    test_is_not_convertible<char, function_type&&>();
+    test_is_not_convertible<char, function_type*>();
     test_is_not_convertible<char, Array>();
     test_is_not_convertible<char, Array&>();
     test_is_not_convertible<char, Array&&>();
@@ -352,10 +352,10 @@ TEST_CASE("is_convertible")
 
     // char&
     test_is_not_convertible<char&, void>();
-    test_is_not_convertible<char&, Function>();
-    test_is_not_convertible<char&, Function&>();
-    test_is_not_convertible<char&, Function&&>();
-    test_is_not_convertible<char&, Function*>();
+    test_is_not_convertible<char&, function_type>();
+    test_is_not_convertible<char&, function_type&>();
+    test_is_not_convertible<char&, function_type&&>();
+    test_is_not_convertible<char&, function_type*>();
     test_is_not_convertible<char&, Array>();
     test_is_not_convertible<char&, Array&>();
     test_is_not_convertible<char&, Array&&>();
@@ -376,10 +376,10 @@ TEST_CASE("is_convertible")
 
     // char&&
     test_is_not_convertible<char&&, void>();
-    test_is_not_convertible<char&&, Function>();
-    test_is_not_convertible<char&&, Function&>();
-    test_is_not_convertible<char&&, Function&&>();
-    test_is_not_convertible<char&&, Function*>();
+    test_is_not_convertible<char&&, function_type>();
+    test_is_not_convertible<char&&, function_type&>();
+    test_is_not_convertible<char&&, function_type&&>();
+    test_is_not_convertible<char&&, function_type*>();
     test_is_not_convertible<char&&, Array>();
     test_is_not_convertible<char&&, Array&>();
     test_is_not_convertible<char&&, Array&&>();
@@ -400,9 +400,9 @@ TEST_CASE("is_convertible")
 
     // char*
     test_is_not_convertible<char*, void>();
-    test_is_not_convertible<char*, Function>();
-    test_is_not_convertible<char*, Function&>();
-    test_is_not_convertible<char*, Function*>();
+    test_is_not_convertible<char*, function_type>();
+    test_is_not_convertible<char*, function_type&>();
+    test_is_not_convertible<char*, function_type*>();
     test_is_not_convertible<char*, Array>();
     test_is_not_convertible<char*, Array&>();
 
@@ -414,37 +414,37 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<const char*, char*>();
     test_is_convertible<const char*, const char*>();
 
-    // NonCopyable
-    test_is_convertible_impl<NonCopyable&, NonCopyable&>();
-    test_is_convertible_impl<NonCopyable&, const NonCopyable&>();
-    test_is_convertible_impl<NonCopyable&, volatile NonCopyable&>();
-    test_is_convertible_impl<NonCopyable&, const volatile NonCopyable&>();
+    // non_copyable
+    test_is_convertible_impl<non_copyable&, non_copyable&>();
+    test_is_convertible_impl<non_copyable&, const non_copyable&>();
+    test_is_convertible_impl<non_copyable&, volatile non_copyable&>();
+    test_is_convertible_impl<non_copyable&, const volatile non_copyable&>();
 
-    test_is_not_convertible_impl<const NonCopyable&, NonCopyable&>();
-    test_is_convertible_impl<const NonCopyable&, const NonCopyable&>();
-    test_is_not_convertible_impl<const NonCopyable&, volatile NonCopyable&>();
-    test_is_convertible_impl<const NonCopyable&, const volatile NonCopyable&>();
+    test_is_not_convertible_impl<const non_copyable&, non_copyable&>();
+    test_is_convertible_impl<const non_copyable&, const non_copyable&>();
+    test_is_not_convertible_impl<const non_copyable&, volatile non_copyable&>();
+    test_is_convertible_impl<const non_copyable&, const volatile non_copyable&>();
 
-    test_is_not_convertible_impl<volatile NonCopyable&, NonCopyable&>();
-    test_is_not_convertible_impl<volatile NonCopyable&, const NonCopyable&>();
-    test_is_convertible_impl<volatile NonCopyable&, volatile NonCopyable&>();
-    test_is_convertible_impl<volatile NonCopyable&, const volatile NonCopyable&>();
+    test_is_not_convertible_impl<volatile non_copyable&, non_copyable&>();
+    test_is_not_convertible_impl<volatile non_copyable&, const non_copyable&>();
+    test_is_convertible_impl<volatile non_copyable&, volatile non_copyable&>();
+    test_is_convertible_impl<volatile non_copyable&, const volatile non_copyable&>();
 
-    test_is_not_convertible_impl<const volatile NonCopyable&, NonCopyable&>();
-    test_is_not_convertible_impl<const volatile NonCopyable&, const NonCopyable&>();
-    test_is_not_convertible_impl<const volatile NonCopyable&, volatile NonCopyable&>();
-    test_is_convertible_impl<const volatile NonCopyable&, const volatile NonCopyable&>();
+    test_is_not_convertible_impl<const volatile non_copyable&, non_copyable&>();
+    test_is_not_convertible_impl<const volatile non_copyable&, const non_copyable&>();
+    test_is_not_convertible_impl<const volatile non_copyable&, volatile non_copyable&>();
+    test_is_convertible_impl<const volatile non_copyable&, const volatile non_copyable&>();
 
     // This test requires Access control SFINAE which we only have in C++11 or when
     // we are using the compiler builtin for is_convertible.
-    test_is_not_convertible<NonCopyable&, NonCopyable>();
+    test_is_not_convertible<non_copyable&, non_copyable>();
 
-    // Ensure that CannotInstantiate is not instantiated by is_convertible when it is not needed.
-    // For example CannotInstantiate is instantiated as a part of ADL lookup for arguments of type CannotInstantiate*.
-    test_is_convertible<CannotInstantiate<int>*, CannotInstantiate<int>*>();
+    // Ensure that cannot_instantiate is not instantiated by is_convertible when it is not needed.
+    // For example cannot_instantiate is instantiated as a part of ADL lookup for arguments of type cannot_instantiate*.
+    test_is_convertible<cannot_instantiate<int>*, cannot_instantiate<int>*>();
 
     // Test for PR13592
-    test_is_not_convertible<Abstract, Abstract>();
+    test_is_not_convertible<abstract, abstract>();
 
     test_is_convertible<int, int>();
     test_is_convertible<int, const int>();
@@ -479,22 +479,22 @@ TEST_CASE("is_convertible")
     test_is_convertible<int(&&)(int), int (*)(int)>();
     test_is_convertible<int(&&)(int), int (&)(int)>();
     test_is_convertible<int(&&)(int), int(&&)(int)>();
-    test_is_convertible<Enum, int>();
-    test_is_not_convertible<int, Enum>();
-    test_is_convertible<EnumSigned, int>();
-    test_is_not_convertible<int, EnumSigned>();
-    test_is_convertible<EnumUnsigned, unsigned>();
-    test_is_not_convertible<unsigned, EnumUnsigned>();
-    test_is_convertible_impl<Class, Class>();
-    test_is_convertible_impl<Derived, Base>();
-    test_is_convertible<Derived*, Base*>();
-    test_is_convertible<Derived&, Base&>();
-    test_is_convertible<Derived&&, Base&&>();
+    test_is_convertible<enum_type, int>();
+    test_is_not_convertible<int, enum_type>();
+    test_is_convertible<enum_signed, int>();
+    test_is_not_convertible<int, enum_signed>();
+    test_is_convertible<enum_unsigned, unsigned>();
+    test_is_not_convertible<unsigned, enum_unsigned>();
+    test_is_convertible_impl<class_type, class_type>();
+    test_is_convertible_impl<derived, base>();
+    test_is_convertible<derived*, base*>();
+    test_is_convertible<derived&, base&>();
+    test_is_convertible<derived&&, base&&>();
 
     test_is_convertible_impl<const int, const int&>();
     test_is_convertible_impl<const int, const int&&>();
 
-    test_is_convertible<double&, ExplicitClass>();
+    test_is_convertible<double&, explicit_class>();
 
     test_is_not_convertible<const int*, int*>();
     test_is_not_convertible<int*, float*>();
@@ -504,13 +504,13 @@ TEST_CASE("is_convertible")
     test_is_not_convertible<float&, int&>();
     test_is_not_convertible<float&, volatile int&>();
     test_is_not_convertible<int(int), int (*)()>();
-    test_is_not_convertible<int, EnumClass>();
-    test_is_not_convertible<int, EnumStruct>();
-    test_is_not_convertible<int, Class>();
-    test_is_not_convertible<Base, Derived>();
-    test_is_not_convertible<Base*, Derived*>();
-    test_is_not_convertible<Base&, Derived&>();
-    test_is_not_convertible<Base&&, Derived&&>();
+    test_is_not_convertible<int, enum_class>();
+    test_is_not_convertible<int, enum_struct>();
+    test_is_not_convertible<int, class_type>();
+    test_is_not_convertible<base, derived>();
+    test_is_not_convertible<base*, derived*>();
+    test_is_not_convertible<base&, derived&>();
+    test_is_not_convertible<base&&, derived&&>();
     test_is_not_convertible<void, int (*)(int)>();
 
     test_is_not_convertible<int, void>();
@@ -521,17 +521,17 @@ TEST_CASE("is_convertible")
 #if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_convertible<const volatile int, const volatile int&>();
 #endif
-    test_is_not_convertible<int&, ExplicitClass>();
-    test_is_not_convertible<void*, ExplicitClass>();
+    test_is_not_convertible<int&, explicit_class>();
+    test_is_not_convertible<void*, explicit_class>();
 
-    test_is_not_convertible<int, Tracked>();
-    test_is_convertible<int, TrapConstructible>();
-    test_is_not_convertible<int, TrapImplicitConversion>();
-    test_is_not_convertible<int, TrapComma>();
-    test_is_not_convertible<int, TrapCall>();
-    test_is_not_convertible<int, TrapSelfAssign>();
-    test_is_not_convertible<int, TrapDeref>();
-    test_is_not_convertible<int, TrapArraySubscript>();
+    test_is_not_convertible<int, tracked>();
+    test_is_convertible<int, trap_constructible>();
+    test_is_not_convertible<int, trap_implicit_conversion>();
+    test_is_not_convertible<int, trap_comma>();
+    test_is_not_convertible<int, trap_call>();
+    test_is_not_convertible<int, trap_self_assign>();
+    test_is_not_convertible<int, trap_deref>();
+    test_is_not_convertible<int, trap_array_subscript>();
 
     // Other tests
     test_is_convertible<B*, A*>();

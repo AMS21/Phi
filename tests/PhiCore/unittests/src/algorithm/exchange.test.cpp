@@ -66,35 +66,35 @@ TEST_CASE("exchange")
     }
 
     {
-        Tracked a{0};
-        Tracked b{1};
+        tracked a{0};
+        tracked b{1};
         CHECK(phi::exchange(a, b).value() == 0);
     }
 
     {
-        TrapConstructible a;
-        TrapConstructible b;
+        trap_constructible a;
+        trap_constructible b;
 
         phi::exchange(a, b);
     }
 
     {
-        TrapImplicitConversion a;
-        TrapImplicitConversion b;
+        trap_implicit_conversion a;
+        trap_implicit_conversion b;
 
         phi::exchange(a, b);
     }
 
     {
-        TrapComma a;
-        TrapComma b;
+        trap_comma a;
+        trap_comma b;
 
         phi::exchange(a, b);
     }
 
     {
-        TrapCall a;
-        TrapCall b;
+        trap_call a;
+        trap_call b;
 
         phi::exchange(a, b);
     }

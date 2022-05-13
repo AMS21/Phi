@@ -125,64 +125,64 @@ TEST_CASE("swap")
 
     {
         // Check that swap does not call any copy constructor
-        NonCopyable a;
-        NonCopyable b;
+        non_copyable a;
+        non_copyable b;
 
         phi::swap(a, b);
     }
 
     {
-        Tracked a;
-        Tracked b;
+        tracked a;
+        tracked b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapConstructible a;
-        TrapConstructible b;
+        trap_constructible a;
+        trap_constructible b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapImplicitConversion a;
-        TrapImplicitConversion b;
+        trap_implicit_conversion a;
+        trap_implicit_conversion b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapComma a;
-        TrapComma b;
+        trap_comma a;
+        trap_comma b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapCall a;
-        TrapCall b;
+        trap_call a;
+        trap_call b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapSelfAssign a;
-        TrapSelfAssign b;
+        trap_self_assign a;
+        trap_self_assign b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapDeref a;
-        TrapDeref b;
+        trap_deref a;
+        trap_deref b;
 
         phi::swap(a, b);
     }
 
     {
-        TrapArraySubscript a;
-        TrapArraySubscript b;
+        trap_array_subscript a;
+        trap_array_subscript b;
 
         phi::swap(a, b);
     }

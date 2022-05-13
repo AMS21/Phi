@@ -79,11 +79,11 @@ struct B
 TEST_CASE("has_unique_object_representations")
 {
     test_has_no_unique_object_representations<void>();
-    test_has_no_unique_object_representations<Empty>();
+    test_has_no_unique_object_representations<empty>();
     test_has_no_unique_object_representations<EmptyUnion>();
-    test_has_no_unique_object_representations<NotEmpty>();
-    test_has_no_unique_object_representations<BitZero>();
-    test_has_no_unique_object_representations<Abstract>();
+    test_has_no_unique_object_representations<not_empty>();
+    test_has_no_unique_object_representations<bit_zero>();
+    test_has_no_unique_object_representations<abstract>();
     test_has_no_unique_object_representations<B>();
 
     //  I would expect all three of these to have unique representations.
@@ -93,7 +93,7 @@ TEST_CASE("has_unique_object_representations")
     //     test_has_no_unique_object_representations<double>();
 
     test_has_unique_object_representations<unsigned>();
-    test_has_unique_object_representations<NonEmptyUnion>();
+    test_has_unique_object_representations<non_empty_union>();
     test_has_unique_object_representations<char[3]>();
     test_has_unique_object_representations<char[]>();
 }

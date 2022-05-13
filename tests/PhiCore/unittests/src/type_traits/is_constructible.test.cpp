@@ -85,8 +85,8 @@ void test_is_not_constructible()
 
 TEST_CASE("is_constructible")
 {
-    using B = Base;
-    using D = Derived;
+    using B = base;
+    using D = derived;
 
     test_is_constructible<int>();
     test_is_constructible<int, const int>();
@@ -112,7 +112,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<volatile void>();
     test_is_not_constructible<const volatile void>();
     test_is_not_constructible<int&>();
-    test_is_not_constructible<Abstract>();
+    test_is_not_constructible<abstract>();
     test_is_not_constructible<AbstractFunc>();
     test_is_not_constructible<AbstractDestructor>();
     test_is_constructible<int, S>();
@@ -139,20 +139,20 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<int&&, int&>();
     test_is_not_constructible<int&&, int const&&>();
 
-    test_is_constructible<Base, Derived>();
-    test_is_constructible<Base&, Derived&>();
-    test_is_not_constructible<Derived&, Base&>();
-    test_is_constructible<Base const&, Derived const&>();
+    test_is_constructible<base, derived>();
+    test_is_constructible<base&, derived&>();
+    test_is_not_constructible<derived&, base&>();
+    test_is_constructible<base const&, derived const&>();
 #if PHI_COMPILER_IS_NOT(GCC)
-    test_is_not_constructible<Derived const&, Base const&>();
-    test_is_not_constructible<Derived const&, Base>();
+    test_is_not_constructible<derived const&, base const&>();
+    test_is_not_constructible<derived const&, base>();
 #endif
 
-    test_is_constructible<Base&&, Derived>();
-    test_is_constructible<Base&&, Derived&&>();
+    test_is_constructible<base&&, derived>();
+    test_is_constructible<base&&, derived&&>();
 #if PHI_COMPILER_IS_NOT(GCC)
-    test_is_not_constructible<Derived&&, Base&&>();
-    test_is_not_constructible<Derived&&, Base>();
+    test_is_not_constructible<derived&&, base&&>();
+    test_is_not_constructible<derived&&, base>();
 #endif
 
     // test that T must also be destructible
@@ -162,18 +162,18 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<void() const, void() const>();
     test_is_not_constructible<void() const, void*>();
 
-    test_is_constructible<int&, ImplicitTo<int&>>();
-    test_is_constructible<const int&, ImplicitTo<int&&>>();
-    test_is_constructible<int&&, ImplicitTo<int&&>>();
-    test_is_constructible<const int&, ImplicitTo<int>>();
+    test_is_constructible<int&, implicit_to<int&>>();
+    test_is_constructible<const int&, implicit_to<int&&>>();
+    test_is_constructible<int&&, implicit_to<int&&>>();
+    test_is_constructible<const int&, implicit_to<int>>();
 
     test_is_not_constructible<B&&, B&>();
     test_is_not_constructible<B&&, D&>();
-    test_is_constructible<B&&, ImplicitTo<D&&>>();
-    test_is_constructible<B&&, ImplicitTo<D&&>&>();
+    test_is_constructible<B&&, implicit_to<D&&>>();
+    test_is_constructible<B&&, implicit_to<D&&>&>();
     test_is_constructible<int&&, double&>();
-    test_is_constructible<const int&, ImplicitTo<int&>&>();
-    test_is_constructible<const int&, ImplicitTo<int&>>();
+    test_is_constructible<const int&, implicit_to<int&>&>();
+    test_is_constructible<const int&, implicit_to<int&>>();
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_constructible<const int&, ExplicitTo<int&>&>();
     test_is_constructible<const int&, ExplicitTo<int&>>();
@@ -232,6 +232,6 @@ TEST_CASE("is_constructible")
 
 #if !PHI_HAS_BUG_GCC_102305()
     // GCC bug 102305 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
-    test_is_not_constructible<AbstractTemplate<int>>();
+    test_is_not_constructible<abstract_template<int>>();
 #endif
 }

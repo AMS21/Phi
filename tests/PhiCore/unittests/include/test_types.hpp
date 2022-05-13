@@ -1,5 +1,5 @@
-#ifndef INCG_PHI_UNITTEST_TESTTYPES_HPP
-#define INCG_PHI_UNITTEST_TESTTYPES_HPP
+#ifndef INCG_PHI_UNITTEST_TEST_TYPES_HPP
+#define INCG_PHI_UNITTEST_TEST_TYPES_HPP
 
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
@@ -18,91 +18,91 @@ PHI_MSVC_SUPPRESS_WARNING(
 PHI_MSVC_SUPPRESS_WARNING(
         4265) // 'x': class has virtual functions, but its non-trivial destructor is not virtual; instances of the class may not be destructed correctly
 
-class Class
+class class_type
 {
 public:
-    ~Class();
+    ~class_type();
 };
 
 template <typename T>
-class Template
+class template_type
 {};
 
 template <typename... Ts>
-class VariadicTemplate
+class variadic_template
 {};
 
 template <typename T>
-struct PublicDerivedFromTemplate : public T
+struct public_derived_from : public T
 {};
 
 template <typename T>
-struct PrivateDerivedFromTemplate : private T
+struct private_derived_from : private T
 {};
 
 template <typename T>
-struct ProtectedDerivedFromTemplate : protected T
+struct protected_derived_from : protected T
 {};
 
 template <typename T>
-struct VirtualDerivedFromTemplate : virtual T
+struct virtual_derived_from : virtual T
 {};
 
-class Empty
+class empty
 {};
 
-class NotEmpty
+class not_empty
 {
 public:
-    virtual ~NotEmpty();
+    virtual ~not_empty();
 };
 
-struct NonTrivial
+struct non_trivial
 {
-    NonTrivial();
-    NonTrivial(const NonTrivial&);
-    NonTrivial& operator=(const NonTrivial&);
-    ~NonTrivial();
+    non_trivial();
+    non_trivial(const non_trivial&);
+    non_trivial& operator=(const non_trivial&);
+    ~non_trivial();
 };
 
-union Union
+union union_type
 {};
 
-union NonEmptyUnion
+union non_empty_union
 {
     int      x;
     unsigned y;
 };
 
-union NonTrivialUnion
+union non_trivial_union
 {
-    int        i;
-    NonTrivial n;
+    int         i;
+    non_trivial n;
 };
 
-struct BitZero
+struct bit_zero
 {
     int : 0;
 };
 
-struct BitOne
+struct bit_one
 {
     int : 1;
 };
 
-struct Base
+struct base
 {};
 
-struct Derived : public Base
+struct derived : public base
 {};
 
-struct NotEmptyBase : public NotEmpty
+struct non_empty_base : public not_empty
 {};
 
-struct EmptyBase : public Empty
+struct empty_base : public empty
 {};
 
-struct VirtualBase : virtual Empty
+struct virtual_Base : virtual empty
 {};
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -110,56 +110,56 @@ PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
-class Polymorphic
+class polymorphic
 {
     virtual void rotate(int);
 };
 
-class DerivedPolymorphic : public Polymorphic
+class derived_polymorphic : public polymorphic
 {};
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-class Abstract
+class abstract
 {
-    virtual ~Abstract() = 0;
+    virtual ~abstract() = 0;
 };
 
-struct PublicAbstract
+struct public_abstract
 {
-    virtual ~PublicAbstract() = default;
+    virtual ~public_abstract() = default;
 
 public:
     virtual void foo() = 0;
 };
 
-struct ProtectedAbstract
+struct protected_abstract
 {
-    virtual ~ProtectedAbstract() = default;
+    virtual ~protected_abstract() = default;
 
 protected:
     virtual void foo() = 0;
 };
 
-struct PrivateAbstract
+struct private_abstract
 {
-    virtual ~PrivateAbstract() = default;
+    virtual ~private_abstract() = default;
 
 private:
     virtual void foo() = 0;
 };
 
 template <typename>
-struct AbstractTemplate
+struct abstract_template
 {
-    virtual ~AbstractTemplate() = 0;
+    virtual ~abstract_template() = 0;
 
     virtual void test() = 0;
 };
 
 template <>
-struct AbstractTemplate<double>
+struct abstract_template<double>
 {};
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -167,25 +167,25 @@ PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
-struct PublicAbstractDeletedDestructor
+struct public_abstract_deleted_destructor
 {
-    ~PublicAbstractDeletedDestructor() = delete;
+    ~public_abstract_deleted_destructor() = delete;
 
 public:
     virtual void foo() = 0;
 };
 
-struct ProtectedAbstractDeletedDestructor
+struct protected_abstract_deleted_destructor
 {
-    ~ProtectedAbstractDeletedDestructor() = delete;
+    ~protected_abstract_deleted_destructor() = delete;
 
 protected:
     virtual void foo() = 0;
 };
 
-struct PrivateAbstractDeletedDestructor
+struct private_abstract_deleted_destructor
 {
-    ~PrivateAbstractDeletedDestructor() = delete;
+    ~private_abstract_deleted_destructor() = delete;
 
 private:
     virtual void foo() = 0;
@@ -194,260 +194,263 @@ private:
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-class Final final
+class final_type final
 {};
 
-class FinalDerived final : public Base
+class final_derived final : public base
 {};
 
-struct PublicDestructor
+struct public_destructor
 {
 public:
-    ~PublicDestructor() = default;
+    ~public_destructor() = default;
 };
 
-struct ProtectedDestructor
+struct protected_destructor
 {
 protected:
-    ~ProtectedDestructor() = default;
+    ~protected_destructor() = default;
 };
 
-struct PrivateDestructor
+struct private_destructor
 {
 private:
-    ~PrivateDestructor() = default;
+    ~private_destructor() = default;
 };
 
-struct VirtualPublicDestructor
+struct virtual_public_destructor
 {
 public:
-    virtual ~VirtualPublicDestructor() = default;
+    virtual ~virtual_public_destructor() = default;
 };
 
-struct VirtualProtectedDestructor
+struct virtual_protected_destructor
 {
 protected:
-    virtual ~VirtualProtectedDestructor() = default;
+    virtual ~virtual_protected_destructor() = default;
 };
 
-struct VirtualPrivateDestructor
+struct virtual_private_destructor
 {
 private:
-    virtual ~VirtualPrivateDestructor() = default;
+    virtual ~virtual_private_destructor() = default;
 };
 
-struct PurePublicDestructor
+struct pure_public_destructor
 {
 public:
-    virtual ~PurePublicDestructor() = 0;
+    virtual ~pure_public_destructor() = 0;
 };
 
-struct PureProtectedDestructor
+struct pure_protected_destructor
 {
 protected:
-    virtual ~PureProtectedDestructor() = 0;
+    virtual ~pure_protected_destructor() = 0;
 };
 
-struct PurePrivateDestructor
+struct pure_private_destructor
 {
 private:
-    virtual ~PurePrivateDestructor() = 0;
+    virtual ~pure_private_destructor() = 0;
 };
 
-struct DeletedPublicDestructor
+struct deleted_public_destructor
 {
 public:
-    ~DeletedPublicDestructor() = delete;
+    ~deleted_public_destructor() = delete;
 };
 
-struct DeletedProtectedDestructor
+struct deleted_protected_destructor
 {
 protected:
-    ~DeletedProtectedDestructor() = delete;
+    ~deleted_protected_destructor() = delete;
 };
 
-struct DeletedPrivateDestructor
+struct deleted_private_destructor
 {
 private:
-    ~DeletedPrivateDestructor() = delete;
+    ~deleted_private_destructor() = delete;
 };
 
-struct DeletedVirtualPublicDestructor
+struct deleted_virtual_public_destructor
 {
 public:
-    virtual ~DeletedVirtualPublicDestructor() = delete;
+    virtual ~deleted_virtual_public_destructor() = delete;
 };
 
-struct DeletedVirtualProtectedDestructor
+struct deleted_virtual_protected_destructor
 {
 protected:
-    virtual ~DeletedVirtualProtectedDestructor() = delete;
+    virtual ~deleted_virtual_protected_destructor() = delete;
 };
 
-struct DeletedVirtualPrivateDestructor
+struct deleted_virtual_private_destructor
 {
 private:
-    virtual ~DeletedVirtualPrivateDestructor() = delete;
+    virtual ~deleted_virtual_private_destructor() = delete;
 };
 
-struct ExplicitClass
+struct explicit_class
 {
-    ExplicitClass(double&);
-    explicit ExplicitClass(int&);
-    ExplicitClass(double&, int&, double&);
+    explicit_class(double&);
+    explicit explicit_class(int&);
+    explicit_class(double&, int&, double&);
 };
 
-struct NothrowExplicitClass
+struct nothrow_explicit_class
 {
-    NothrowExplicitClass(double&) noexcept;
-    explicit NothrowExplicitClass(int&) noexcept;
-    NothrowExplicitClass(double&, int&, double&) noexcept;
+    nothrow_explicit_class(double&) noexcept;
+    explicit nothrow_explicit_class(int&) noexcept;
+    nothrow_explicit_class(double&, int&, double&) noexcept;
 };
 
-struct ThrowExplicitClass
+struct throw_explicit_class
 {
-    ThrowExplicitClass(double&) noexcept(false);
-    explicit ThrowExplicitClass(int&) noexcept(false);
-    ThrowExplicitClass(double&, int&, double&) noexcept(false);
+    throw_explicit_class(double&) noexcept(false);
+    explicit throw_explicit_class(int&) noexcept(false);
+    throw_explicit_class(double&, int&, double&) noexcept(false);
 };
 
-struct ThrowDefaultClass
+struct throw_default_class
 {
-    ThrowDefaultClass() noexcept(false);
+    throw_default_class() noexcept(false);
 };
 
-struct ThrowCopyConsClass
+struct throw_copy_constructible_class
 {
-    ThrowCopyConsClass(const ThrowCopyConsClass&) noexcept(false);
+    throw_copy_constructible_class(const throw_copy_constructible_class&) noexcept(false);
 };
 
-struct ThrowMoveConsClass
+struct throw_move_constructible_class
 {
-    ThrowMoveConsClass(ThrowMoveConsClass&&) noexcept(false);
+    throw_move_constructible_class(throw_move_constructible_class&&) noexcept(false);
 };
 
-struct ThrowDestructor
+struct throw_destructor
 {
-    ~ThrowDestructor() noexcept(false);
+    ~throw_destructor() noexcept(false);
 };
 
-struct NoexceptExplicitClass
+struct noexcept_explicit_class
 {
-    NoexceptExplicitClass(double&) noexcept(true);
-    explicit NoexceptExplicitClass(int&) noexcept(true);
-    NoexceptExplicitClass(double&, int&, double&) noexcept(true);
+    noexcept_explicit_class(double&) noexcept(true);
+    explicit noexcept_explicit_class(int&) noexcept(true);
+    noexcept_explicit_class(double&, int&, double&) noexcept(true);
 };
 
-struct ExceptExplicitClass
+struct except_explicit_class
 {
-    ExceptExplicitClass(double&) noexcept(false);
-    explicit ExceptExplicitClass(int&) noexcept(false);
-    ExceptExplicitClass(double&, int&, double&) noexcept(false);
+    except_explicit_class(double&) noexcept(false);
+    explicit except_explicit_class(int&) noexcept(false);
+    except_explicit_class(double&, int&, double&) noexcept(false);
 };
 
-struct NoexceptDefaultClass
+struct noexcept_default_class
 {
-    NoexceptDefaultClass() noexcept(true);
+    noexcept_default_class() noexcept(true);
 };
 
-struct ExceptDefaultClass
+struct except_default_class
 {
-    ExceptDefaultClass() noexcept(false);
+    except_default_class() noexcept(false);
 };
 
-struct NoexceptCopyConsClass
+struct noexcept_copy_constructible_class
 {
-    NoexceptCopyConsClass(const NoexceptCopyConsClass&) noexcept(true);
+    noexcept_copy_constructible_class(const noexcept_copy_constructible_class&) noexcept(true);
 };
 
-struct ExceptCopyConsClass
+struct except_copy_constructible_class
 {
-    ExceptCopyConsClass(const ExceptCopyConsClass&) noexcept(false);
+    except_copy_constructible_class(const except_copy_constructible_class&) noexcept(false);
 };
 
-struct NoexceptMoveConsClass
+struct noexcept_move_constructible_class
 {
-    NoexceptMoveConsClass(NoexceptMoveConsClass&&) noexcept(true);
-    NoexceptMoveConsClass& operator=(NoexceptMoveConsClass&&) = default;
+    noexcept_move_constructible_class(noexcept_move_constructible_class&&) noexcept(true);
+    noexcept_move_constructible_class& operator=(noexcept_move_constructible_class&&) = default;
 };
 
-struct ExceptMoveConsClass
+struct except_move_constructible_class
 {
-    ExceptMoveConsClass(ExceptMoveConsClass&&) noexcept(false);
+    except_move_constructible_class(except_move_constructible_class&&) noexcept(false);
 };
 
-struct NoexceptCopyAssignClass
+struct noexcept_copy_assign_class
 {
-    NoexceptCopyAssignClass& operator=(const NoexceptCopyAssignClass&) noexcept(true);
+    noexcept_copy_assign_class& operator=(const noexcept_copy_assign_class&) noexcept(true);
 };
 
-struct ExceptCopyAssignClass
+struct except_copy_assign_class
 {
-    ExceptCopyAssignClass& operator=(const ExceptCopyAssignClass&) noexcept(false);
+    except_copy_assign_class& operator=(const except_copy_assign_class&) noexcept(false);
 };
 
-struct NoexceptMoveAssignClass
+struct noexcept_move_assign_class
 {
-    NoexceptMoveAssignClass(NoexceptMoveAssignClass&&) = default;
-    NoexceptMoveAssignClass& operator                  =(NoexceptMoveAssignClass&&) noexcept(true);
+    noexcept_move_assign_class(noexcept_move_assign_class&&) = default;
+    noexcept_move_assign_class& operator=(noexcept_move_assign_class&&) noexcept(true);
 };
 
-struct ExceptMoveAssignClass
+struct except_move_assign_class
 {
-    ExceptMoveAssignClass& operator=(ExceptMoveAssignClass&&) noexcept(false);
+    except_move_assign_class& operator=(except_move_assign_class&&) noexcept(false);
 };
 
-struct DeletedCopyAssignClass
+struct deleted_copy_assign_class
 {
-    DeletedCopyAssignClass& operator=(const DeletedCopyAssignClass&) = delete;
+    deleted_copy_assign_class& operator=(const deleted_copy_assign_class&) = delete;
 };
 
-struct DeletedMoveAssignClass
+struct deleted_move_assign_class
 {
-    DeletedMoveAssignClass& operator=(DeletedMoveAssignClass&&) = delete;
+    deleted_move_assign_class& operator=(deleted_move_assign_class&&) = delete;
 };
 
-struct NoexceptMoveConsNoexceptMoveAssignClass
+struct noexcept_move_constructible_and_assignable_class
 {
-    NoexceptMoveConsNoexceptMoveAssignClass(NoexceptMoveConsNoexceptMoveAssignClass&&) noexcept(
-            true);
+    noexcept_move_constructible_and_assignable_class(
+            noexcept_move_constructible_and_assignable_class&&) noexcept(true);
 
-    NoexceptMoveConsNoexceptMoveAssignClass& operator=(
-            NoexceptMoveConsNoexceptMoveAssignClass&&) noexcept(true);
+    noexcept_move_constructible_and_assignable_class& operator=(
+            noexcept_move_constructible_and_assignable_class&&) noexcept(true);
 };
 
-struct ExceptMoveConsNoexceptMoveAssignClass
+struct except_move_constructible_noexcept_move_assign_class
 {
-    ExceptMoveConsNoexceptMoveAssignClass(ExceptMoveConsNoexceptMoveAssignClass&&) noexcept(false);
+    except_move_constructible_noexcept_move_assign_class(
+            except_move_constructible_noexcept_move_assign_class&&) noexcept(false);
 
-    ExceptMoveConsNoexceptMoveAssignClass& operator=(
-            ExceptMoveConsNoexceptMoveAssignClass&&) noexcept(true);
+    except_move_constructible_noexcept_move_assign_class& operator=(
+            except_move_constructible_noexcept_move_assign_class&&) noexcept(true);
 };
 
-struct NoexceptMoveConsExceptMoveAssignClass
+struct noexcept_move_constructible_except_move_assign_class
 {
-    NoexceptMoveConsExceptMoveAssignClass(NoexceptMoveConsExceptMoveAssignClass&&) noexcept(true);
+    noexcept_move_constructible_except_move_assign_class(
+            noexcept_move_constructible_except_move_assign_class&&) noexcept(true);
 
-    NoexceptMoveConsExceptMoveAssignClass& operator=(
-            NoexceptMoveConsExceptMoveAssignClass&&) noexcept(false);
+    noexcept_move_constructible_except_move_assign_class& operator=(
+            noexcept_move_constructible_except_move_assign_class&&) noexcept(false);
 };
 
-struct ExceptMoveConsExceptMoveAssignClass
+struct except_move_constructible_and_assign_class
 {
-    ExceptMoveConsExceptMoveAssignClass(ExceptMoveConsExceptMoveAssignClass&&) noexcept(false);
+    except_move_constructible_and_assign_class(
+            except_move_constructible_and_assign_class&&) noexcept(false);
 
-    ExceptMoveConsExceptMoveAssignClass& operator=(ExceptMoveConsExceptMoveAssignClass&&) noexcept(
-            false);
+    except_move_constructible_and_assign_class& operator=(
+            except_move_constructible_and_assign_class&&) noexcept(false);
 };
 
 template <typename To>
-struct ImplicitTo
+struct implicit_to
 {
     operator To();
 };
 
 template <typename To>
-struct DeletedImplicitTo
+struct deleted_implicit_to
 {
     operator To() = delete;
 };
@@ -459,43 +462,43 @@ struct ExplicitTo
 };
 
 template <typename To>
-struct DeletedExplicitTo
+struct deleted_explicit_to
 {
     explicit operator To() = delete;
 };
 
-struct Ellipsis
+struct ellipsis
 {
-    Ellipsis(...)
+    ellipsis(...)
     {}
 };
 
-struct DeletedEllipsis
+struct deleted_ellipsis
 {
-    DeletedEllipsis(...) = delete;
+    deleted_ellipsis(...) = delete;
 };
 
-struct CopyConsOnlyType
+struct copy_constructible_only_type
 {
-    CopyConsOnlyType(int)
+    copy_constructible_only_type(int)
     {}
-    CopyConsOnlyType(CopyConsOnlyType&&)      = delete;
-    CopyConsOnlyType(const CopyConsOnlyType&) = default;
-    CopyConsOnlyType& operator=(const CopyConsOnlyType&) = delete;
-    CopyConsOnlyType& operator=(CopyConsOnlyType&&) = delete;
+    copy_constructible_only_type(copy_constructible_only_type&&)      = delete;
+    copy_constructible_only_type(const copy_constructible_only_type&) = default;
+    copy_constructible_only_type& operator=(const copy_constructible_only_type&) = delete;
+    copy_constructible_only_type& operator=(copy_constructible_only_type&&) = delete;
 };
 
-struct MoveConsOnlyType
+struct move_constructible_only_type
 {
-    MoveConsOnlyType(int)
+    move_constructible_only_type(int)
     {}
-    MoveConsOnlyType(const MoveConsOnlyType&) = delete;
-    MoveConsOnlyType(MoveConsOnlyType&&)      = default;
-    MoveConsOnlyType& operator=(const MoveConsOnlyType&) = delete;
-    MoveConsOnlyType& operator=(MoveConsOnlyType&&) = delete;
+    move_constructible_only_type(const move_constructible_only_type&) = delete;
+    move_constructible_only_type(move_constructible_only_type&&)      = default;
+    move_constructible_only_type& operator=(const move_constructible_only_type&) = delete;
+    move_constructible_only_type& operator=(move_constructible_only_type&&) = delete;
 };
 
-struct OverloadedOperators
+struct overloaded_operators
 {
     int foo()
     {
@@ -521,79 +524,79 @@ struct OverloadedOperators
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
 
-struct PublicIntMember
+struct public_int_member
 {
 public:
     int member;
 };
 
-struct ProtectedIntMember
+struct protected_int_member
 {
 protected:
     int member;
 };
 
-struct PrivateIntMember
+struct private_int_member
 {
 private:
     int member;
 };
 
-struct PublicStaticIntMember
+struct public_static_int_member
 {
 public:
     static int member;
 };
 
-struct ProtectedStaticIntMember
+struct protected_static_int_member
 {
 protected:
     static int member;
 };
 
-struct PrivateStaticIntMember
+struct private_static_int_member
 {
 private:
     static int member;
 };
 
 template <typename T>
-struct PublicTemplateMember
+struct public_template_member
 {
 public:
     T member;
 };
 
 template <typename T>
-struct ProtectedTemplateMember
+struct protected_template_member
 {
 protected:
     T member;
 };
 
 template <typename T>
-struct PrivateTemplateMember
+struct private_template_member
 {
 private:
     T member;
 };
 
 template <typename T>
-struct PublicStaticTemplateMember
+struct public_static_tempalte_member
 {
 public:
     static T member;
 };
 
 template <typename T>
-struct ProtectedStaticTemplateMember
+struct protected_static_template_member
 {
 protected:
     static T member;
 };
 
 template <typename T>
-struct PrivateStaticTemplateMember
+struct private_static_template_member
 {
 private:
     static T member;
@@ -602,7 +605,7 @@ private:
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename T>
-class CannotInstantiate
+class cannot_instantiate
 {
     enum
     {
@@ -618,41 +621,41 @@ struct natural_alignment
     long double t4;
 };
 
-enum Enum
+enum enum_type
 {
     zero,
     one
 };
 
-enum EnumSigned : int
+enum enum_signed : int
 {
     two
 };
 
-enum EnumUnsigned : unsigned
+enum enum_unsigned : unsigned
 {
     three
 };
 
-enum class EnumClass
+enum class enum_class
 {
     zero,
     one
 };
 
-enum struct EnumStruct
+enum struct enum_struct
 {
     zero,
     one
 };
 
-using Function = void();
+using function_type = void();
 
-using FunctionPtr = void (*)();
+using function_ptr = void (*)();
 
-using MemberObjectPtr = int Class::*;
+using member_object_ptr = int class_type::*;
 
-using MemberFunctionPtr = void (Class::*)();
+using member_function_ptr = void (class_type::*)();
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
@@ -665,135 +668,135 @@ static auto LambdaThrows = []() noexcept(false) {};
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-using LambdaType = decltype(Lambda);
+using lambda_type = decltype(Lambda);
 
-using LambdaNoexceptType = decltype(LambdaNoexcept);
+using lambda_noexcept_type = decltype(LambdaNoexcept);
 
-using LambdaThrowsType = decltype(LambdaThrows);
+using lambda_throws_type = decltype(LambdaThrows);
 
-struct IncompleteType;
+struct incomplete_type;
 
 template <typename T>
-struct IncompleteTemplate;
+struct incomplete_template;
 
 template <typename... Ts>
 struct IncompleteVariadicTemplate;
 
-union IncompleteUnion;
+union incomplete_union;
 
-enum IncompleteEnumSigned : int;
+enum incomplete_enum_signed : int;
 
-enum IncompleteEnumUnsigned : unsigned int;
+enum incomplete_enum_unsigned : unsigned int;
 
-enum class IncompleteEnumClass;
+enum class incomplete_enum_class;
 
-enum struct IncompleteEnumStruct;
+enum struct incomplete_enum_struct;
 
-struct NonDefaultConstructible
+struct non_default_constructible
 {
-    NonDefaultConstructible()                               = delete;
-    NonDefaultConstructible(const NonDefaultConstructible&) = default;
-    NonDefaultConstructible(NonDefaultConstructible&&)      = default;
+    non_default_constructible()                                 = delete;
+    non_default_constructible(const non_default_constructible&) = default;
+    non_default_constructible(non_default_constructible&&)      = default;
 
-    NonDefaultConstructible& operator=(const NonDefaultConstructible&) = default;
-    NonDefaultConstructible& operator=(NonDefaultConstructible&&) = default;
+    non_default_constructible& operator=(const non_default_constructible&) = default;
+    non_default_constructible& operator=(non_default_constructible&&) = default;
 };
 
-struct NonCopyConstructible
+struct non_copy_constructible
 {
-    NonCopyConstructible()                            = default;
-    NonCopyConstructible(const NonCopyConstructible&) = delete;
-    NonCopyConstructible(NonCopyConstructible&&)      = default;
+    non_copy_constructible()                              = default;
+    non_copy_constructible(const non_copy_constructible&) = delete;
+    non_copy_constructible(non_copy_constructible&&)      = default;
 
-    NonCopyConstructible& operator=(const NonCopyConstructible&) = default;
-    NonCopyConstructible& operator=(NonCopyConstructible&&) = default;
+    non_copy_constructible& operator=(const non_copy_constructible&) = default;
+    non_copy_constructible& operator=(non_copy_constructible&&) = default;
 };
 
-struct NonMoveConstructible
+struct non_move_constructible
 {
-    NonMoveConstructible()                            = default;
-    NonMoveConstructible(const NonMoveConstructible&) = default;
-    NonMoveConstructible(NonMoveConstructible&&)      = delete;
+    non_move_constructible()                              = default;
+    non_move_constructible(const non_move_constructible&) = default;
+    non_move_constructible(non_move_constructible&&)      = delete;
 
-    NonMoveConstructible& operator=(const NonMoveConstructible&) = default;
-    NonMoveConstructible& operator=(NonMoveConstructible&&) = default;
+    non_move_constructible& operator=(const non_move_constructible&) = default;
+    non_move_constructible& operator=(non_move_constructible&&) = default;
 };
 
-struct NonCopyAssignable
+struct non_copy_assignable
 {
-    NonCopyAssignable()                         = default;
-    NonCopyAssignable(const NonCopyAssignable&) = default;
-    NonCopyAssignable(NonCopyAssignable&&)      = default;
+    non_copy_assignable()                           = default;
+    non_copy_assignable(const non_copy_assignable&) = default;
+    non_copy_assignable(non_copy_assignable&&)      = default;
 
-    NonCopyAssignable& operator=(const NonCopyAssignable&) = delete;
-    NonCopyAssignable& operator=(NonCopyAssignable&&) = default;
+    non_copy_assignable& operator=(const non_copy_assignable&) = delete;
+    non_copy_assignable& operator=(non_copy_assignable&&) = default;
 };
 
-struct NonMoveAssignable
+struct non_move_assignable
 {
-    NonMoveAssignable()                         = default;
-    NonMoveAssignable(const NonMoveAssignable&) = default;
-    NonMoveAssignable(NonMoveAssignable&&)      = default;
+    non_move_assignable()                           = default;
+    non_move_assignable(const non_move_assignable&) = default;
+    non_move_assignable(non_move_assignable&&)      = default;
 
-    NonMoveAssignable& operator=(const NonMoveAssignable&) = default;
-    NonMoveAssignable& operator=(NonMoveAssignable&&) = delete;
+    non_move_assignable& operator=(const non_move_assignable&) = default;
+    non_move_assignable& operator=(non_move_assignable&&) = delete;
 };
 
-struct NonAssignable
+struct non_assignable
 {
-    NonAssignable()                     = default;
-    NonAssignable(const NonAssignable&) = default;
-    NonAssignable(NonAssignable&&)      = default;
+    non_assignable()                      = default;
+    non_assignable(const non_assignable&) = default;
+    non_assignable(non_assignable&&)      = default;
 
-    NonAssignable& operator=(const NonAssignable&) = delete;
-    NonAssignable& operator=(NonAssignable&&) = delete;
+    non_assignable& operator=(const non_assignable&) = delete;
+    non_assignable& operator=(non_assignable&&) = delete;
 };
 
-struct NonCopyable
+struct non_copyable
 {
-    NonCopyable()                   = default;
-    NonCopyable(const NonCopyable&) = delete;
-    NonCopyable(NonCopyable&&)      = default;
+    non_copyable()                    = default;
+    non_copyable(const non_copyable&) = delete;
+    non_copyable(non_copyable&&)      = default;
 
-    NonCopyable& operator=(const NonCopyable&) = delete;
-    NonCopyable& operator=(NonCopyable&&) = default;
+    non_copyable& operator=(const non_copyable&) = delete;
+    non_copyable& operator=(non_copyable&&) = default;
 };
 
-struct NonMoveable
+struct non_moveable
 {
-    NonMoveable()                   = default;
-    NonMoveable(const NonMoveable&) = default;
-    NonMoveable(NonMoveable&&)      = delete;
+    non_moveable()                    = default;
+    non_moveable(const non_moveable&) = default;
+    non_moveable(non_moveable&&)      = delete;
 
-    NonMoveable& operator=(const NonMoveable&) = default;
-    NonMoveable& operator=(NonMoveable&&) = delete;
+    non_moveable& operator=(const non_moveable&) = default;
+    non_moveable& operator=(non_moveable&&) = delete;
 };
 
-struct NonConstructible
+struct non_constructible
 {
-    NonConstructible()                        = delete;
-    NonConstructible(const NonConstructible&) = delete;
-    NonConstructible(NonConstructible&&)      = delete;
+    non_constructible()                         = delete;
+    non_constructible(const non_constructible&) = delete;
+    non_constructible(non_constructible&&)      = delete;
 
-    NonConstructible& operator=(const NonConstructible&) = delete;
-    NonConstructible& operator=(NonConstructible&&) = delete;
+    non_constructible& operator=(const non_constructible&) = delete;
+    non_constructible& operator=(non_constructible&&) = delete;
 };
 
-struct NonDestructible
+struct non_destructible
 {
-    NonDestructible()                       = default;
-    ~NonDestructible()                      = delete;
-    NonDestructible(const NonDestructible&) = default;
-    NonDestructible(NonDestructible&&)      = default;
+    non_destructible()                        = default;
+    ~non_destructible()                       = delete;
+    non_destructible(const non_destructible&) = default;
+    non_destructible(non_destructible&&)      = default;
 
-    NonDestructible& operator=(const NonDestructible&) = default;
-    NonDestructible& operator=(NonDestructible&&) = default;
+    non_destructible& operator=(const non_destructible&) = default;
+    non_destructible& operator=(non_destructible&&) = default;
 };
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wattributes")
 
-class Tracked
+class tracked
 {
     enum class State
     {
@@ -803,17 +806,17 @@ class Tracked
     };
 
 public:
-    constexpr Tracked() noexcept
+    constexpr tracked() noexcept
         : m_Value{0}
         , m_State{State::Constructed}
     {}
 
-    constexpr explicit Tracked(int val) noexcept
+    constexpr explicit tracked(int val) noexcept
         : m_Value{val}
         , m_State{State::Constructed}
     {}
 
-    PHI_EXTENDED_CONSTEXPR Tracked(const Tracked& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked(const tracked& other) noexcept
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
@@ -821,7 +824,7 @@ public:
         assert(other.m_State != State::Destroyed);
     }
 
-    PHI_EXTENDED_CONSTEXPR Tracked(Tracked&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked(tracked&& other) noexcept
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
@@ -831,7 +834,7 @@ public:
         other.m_State = State::MovedFrom;
     }
 
-    PHI_EXTENDED_CONSTEXPR Tracked& operator=(const Tracked& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
     {
         assert(m_State != State::Destroyed);
         assert(other.m_State != State::MovedFrom);
@@ -841,7 +844,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR Tracked& operator=(Tracked&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked& operator=(tracked&& other) noexcept
     {
         assert(m_State != State::Destroyed);
         assert(other.m_State != State::MovedFrom);
@@ -853,7 +856,7 @@ public:
         return *this;
     }
 
-    PHI_CONSTEXPR_DESTRUCTOR ~Tracked() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~tracked() noexcept
     {
         assert(m_State != State::Destroyed); // Double destroy
 
@@ -883,86 +886,86 @@ private:
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 
-struct TrapConstructible
+struct trap_constructible
 {
-    TrapConstructible()                         = default;
-    ~TrapConstructible()                        = default;
-    TrapConstructible(const TrapConstructible&) = default;
-    TrapConstructible(TrapConstructible&&)      = default;
+    trap_constructible()                          = default;
+    ~trap_constructible()                         = default;
+    trap_constructible(const trap_constructible&) = default;
+    trap_constructible(trap_constructible&&)      = default;
 
-    TrapConstructible& operator=(const TrapConstructible&) = default;
-    TrapConstructible& operator=(TrapConstructible&&) = default;
+    trap_constructible& operator=(const trap_constructible&) = default;
+    trap_constructible& operator=(trap_constructible&&) = default;
 
     template <typename... ArgsT>
     // GCC versions before 9.0.0 have a problems with [[maybe_unused]] and constructors with template parameter packs
 #if PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0)
 #    if PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED()
-    constexpr TrapConstructible(__attribute((unused)) ArgsT&&... args) noexcept
+    constexpr trap_constructible(__attribute((unused)) ArgsT&&... args) noexcept
 #    else
-    constexpr TrapConstructible(ArgsT&&... args) noexcept
+    constexpr trap_constructible(ArgsT&&... args) noexcept
 #    endif
 #else
-    constexpr TrapConstructible(PHI_UNUSED ArgsT&&... args) noexcept
+    constexpr trap_constructible(PHI_UNUSED ArgsT&&... args) noexcept
 #endif
     {
         static_assert(phi::false_t<ArgsT...>::value,
-                      "TrapConstructible constructor must not be used");
+                      "trap_constructible constructor must not be used");
     }
 };
 
-struct TrapImplicitConversion
+struct trap_implicit_conversion
 {
     template <typename TypeT>
     constexpr operator TypeT() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
-                      "TrapImplicitConversion::operator TypeT, must never be instantiated");
+                      "trap_implicit_conversion::operator TypeT, must never be instantiated");
 
         return TypeT{};
     }
 };
 
-struct TrapComma
+struct trap_comma
 {
     template <typename TypeT>
-    friend constexpr bool operator,(const TrapComma&, TypeT&&) noexcept
+    friend constexpr bool operator,(const trap_comma&, TypeT&&) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
-                      "TrapComma::operator, must never be instantiated");
+                      "trap_comma::operator, must never be instantiated");
 
         return false;
     }
 
     template <typename TypeT>
-    friend constexpr bool operator,(TypeT&&, const TrapComma&) noexcept
+    friend constexpr bool operator,(TypeT&&, const trap_comma&) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
-                      "TrapComma::operator, must never be instantiated");
+                      "trap_comma::operator, must never be instantiated");
 
         return false;
     }
 };
 
-struct TrapCall
+struct trap_call
 {
     template <typename... ArgsT>
     constexpr bool operator()(ArgsT&&...) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
-                      "TrapCall::operator() must never be instantiated");
+                      "trap_call::operator() must never be instantiated");
 
         return false;
     }
 };
 
-struct TrapSelfAssign
+struct trap_self_assign
 {
-    TrapSelfAssign()                      = default;
-    ~TrapSelfAssign()                     = default;
-    TrapSelfAssign(const TrapSelfAssign&) = default;
-    TrapSelfAssign(TrapSelfAssign&&)      = default;
+    trap_self_assign()                        = default;
+    ~trap_self_assign()                       = default;
+    trap_self_assign(const trap_self_assign&) = default;
+    trap_self_assign(trap_self_assign&&)      = default;
 
-    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(const TrapSelfAssign& other) noexcept
+    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
         assert(&other != this);
@@ -970,7 +973,7 @@ struct TrapSelfAssign
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR TrapSelfAssign& operator=(TrapSelfAssign&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(trap_self_assign&& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
         assert(&other != this);
@@ -979,30 +982,31 @@ struct TrapSelfAssign
     }
 };
 
-struct TrapDeref
+struct trap_deref
 {
     template <typename T>
     constexpr T operator*() noexcept
     {
-        static_assert(phi::false_t<T>::value, "TrapDeref::operator*() must never be instantiated");
+        static_assert(phi::false_t<T>::value, "trap_deref::operator*() must never be instantiated");
         return T{};
     }
 
     template <typename T>
     constexpr T* operator->() noexcept
     {
-        static_assert(phi::false_t<T>::value, "TrapDeref::operator->() must never be instantiated");
+        static_assert(phi::false_t<T>::value,
+                      "trap_deref::operator->() must never be instantiated");
         return T{};
     }
 };
 
-struct TrapArraySubscript
+struct trap_array_subscript
 {
     template <typename T>
     constexpr bool operator[](PHI_UNUSED T x) noexcept
     {
         static_assert(phi::false_t<T>::value,
-                      "TrapArraySubscript::operator[] must never be instantiated");
+                      "trap_array_subscript::operator[] must never be instantiated");
         return false;
     }
 };
@@ -1010,4 +1014,4 @@ struct TrapArraySubscript
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-#endif // INCG_PHI_UNITTEST_TESTTYPES_HPP
+#endif // INCG_PHI_UNITTEST_TEST_TYPES_HPP

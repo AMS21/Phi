@@ -32,8 +32,9 @@ TEST_CASE("type_traits")
     CHECK_SAME_TYPE(phi::add_lvalue_reference_t<int>, int&);
 
     // add_member_const
-    CHECK_SAME_TYPE(typename phi::add_member_const<void (Class::*)()>::type, void(Class::*const)());
-    CHECK_SAME_TYPE(phi::add_member_const_t<void (Class::*)()>, void(Class::*const)());
+    CHECK_SAME_TYPE(typename phi::add_member_const<void (class_type::*)()>::type,
+                    void(class_type::*const)());
+    CHECK_SAME_TYPE(phi::add_member_const_t<void (class_type::*)()>, void(class_type::*const)());
 
     // add_pointer
     CHECK_SAME_TYPE(typename phi::add_pointer<int>::type, int*);
@@ -58,9 +59,9 @@ TEST_CASE("type_traits")
     CHECK_SAME_TYPE(U1, U2);
 
     // alignment_of
-    STATIC_REQUIRE(phi::alignment_of<Class>::value == 1);
+    STATIC_REQUIRE(phi::alignment_of<class_type>::value == 1);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::alignment_of_v<Class> == 1);
+    STATIC_REQUIRE(phi::alignment_of_v<class_type> == 1);
 #endif
 
     // bool_constant
@@ -159,9 +160,9 @@ TEST_CASE("type_traits")
 
     // is_aggregate
 #if PHI_HAS_WORKING_IS_AGGREGATE()
-    STATIC_REQUIRE(phi::is_aggregate<Class>::value);
+    STATIC_REQUIRE(phi::is_aggregate<class_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_aggregate_v<Class>);
+    STATIC_REQUIRE(phi::is_aggregate_v<class_type>);
 #    endif
 #endif
 
@@ -221,9 +222,9 @@ TEST_CASE("type_traits")
 
     // is_base_of
 #if PHI_HAS_WORKING_IS_BASE_OF()
-    STATIC_REQUIRE(phi::is_base_of<Base, Derived>::value);
+    STATIC_REQUIRE(phi::is_base_of<base, derived>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_base_of_v<Base, Derived>);
+    STATIC_REQUIRE(phi::is_base_of_v<base, derived>);
 #    endif
 #endif
 
@@ -241,9 +242,9 @@ TEST_CASE("type_traits")
 
     // is_class
 #if PHI_HAS_WORKING_IS_CLASS()
-    STATIC_REQUIRE(phi::is_class<Class>::value);
+    STATIC_REQUIRE(phi::is_class<class_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_class_v<Class>);
+    STATIC_REQUIRE(phi::is_class_v<class_type>);
 #    endif
 #endif
 
@@ -334,9 +335,9 @@ TEST_CASE("type_traits")
 
     // is_derived_from
 #if PHI_HAS_WORKING_IS_DERIVED_FROM()
-    STATIC_REQUIRE(phi::is_derived_from<Derived, Base>::value);
+    STATIC_REQUIRE(phi::is_derived_from<derived, base>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_derived_from_v<Derived, Base>);
+    STATIC_REQUIRE(phi::is_derived_from_v<derived, base>);
 #    endif
 #endif
 
@@ -348,25 +349,25 @@ TEST_CASE("type_traits")
 
     // is_empty
 #if PHI_HAS_WORKING_IS_EMPTY()
-    STATIC_REQUIRE(phi::is_empty<Empty>::value);
+    STATIC_REQUIRE(phi::is_empty<empty>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_empty_v<Empty>);
+    STATIC_REQUIRE(phi::is_empty_v<empty>);
 #    endif
 #endif
 
     // is_enum
 #if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE(phi::is_enum<Enum>::value);
+    STATIC_REQUIRE(phi::is_enum<enum_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_enum_v<Enum>);
+    STATIC_REQUIRE(phi::is_enum_v<enum_type>);
 #    endif
 #endif
 
     // is_final
 #if PHI_HAS_WORKING_IS_FINAL()
-    STATIC_REQUIRE(phi::is_final<Final>::value);
+    STATIC_REQUIRE(phi::is_final<final_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_final_v<Final>);
+    STATIC_REQUIRE(phi::is_final_v<final_type>);
 #    endif
 #endif
 
@@ -377,15 +378,15 @@ TEST_CASE("type_traits")
 #endif
 
     // is_function
-    STATIC_REQUIRE(phi::is_function<Function>::value);
+    STATIC_REQUIRE(phi::is_function<function_type>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_function_v<Function>);
+    STATIC_REQUIRE(phi::is_function_v<function_type>);
 #endif
 
     // is_function_pointer
-    STATIC_REQUIRE(phi::is_function_pointer<FunctionPtr>::value);
+    STATIC_REQUIRE(phi::is_function_pointer<function_ptr>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_function_pointer_v<FunctionPtr>);
+    STATIC_REQUIRE(phi::is_function_pointer_v<function_ptr>);
 #endif
 
     // is_fundamental
@@ -408,17 +409,17 @@ TEST_CASE("type_traits")
 
     // is_invocable
 #if PHI_HAS_WORKING_IS_INVOCABLE()
-    STATIC_REQUIRE(phi::is_invocable<Function>::value);
+    STATIC_REQUIRE(phi::is_invocable<function_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_invocable_v<Function>);
+    STATIC_REQUIRE(phi::is_invocable_v<function_type>);
 #    endif
 #endif
 
     // is_invocable_r
 #if PHI_HAS_WORKING_IS_INVOCABLE()
-    STATIC_REQUIRE(phi::is_invocable_r<void, Function>::value);
+    STATIC_REQUIRE(phi::is_invocable_r<void, function_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_invocable_r_v<void, Function>);
+    STATIC_REQUIRE(phi::is_invocable_r_v<void, function_type>);
 #    endif
 #endif
 
@@ -445,21 +446,21 @@ TEST_CASE("type_traits")
 #endif
 
     // is_member_function_pointer
-    STATIC_REQUIRE(phi::is_member_function_pointer<MemberFunctionPtr>::value);
+    STATIC_REQUIRE(phi::is_member_function_pointer<member_function_ptr>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_member_function_pointer_v<MemberFunctionPtr>);
+    STATIC_REQUIRE(phi::is_member_function_pointer_v<member_function_ptr>);
 #endif
 
     // is_member_object_pointer
-    STATIC_REQUIRE(phi::is_member_object_pointer<MemberObjectPtr>::value);
+    STATIC_REQUIRE(phi::is_member_object_pointer<member_object_ptr>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_member_object_pointer_v<MemberObjectPtr>);
+    STATIC_REQUIRE(phi::is_member_object_pointer_v<member_object_ptr>);
 #endif
 
     // is_member_pointer
-    STATIC_REQUIRE(phi::is_member_pointer<MemberFunctionPtr>::value);
+    STATIC_REQUIRE(phi::is_member_pointer<member_function_ptr>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_member_pointer_v<MemberFunctionPtr>);
+    STATIC_REQUIRE(phi::is_member_pointer_v<member_function_ptr>);
 #endif
 
     // is_move_assignable
@@ -568,17 +569,17 @@ TEST_CASE("type_traits")
 
     // is_nothrow_invocable
 #if PHI_HAS_WORKING_IS_INVOCABLE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<Function>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable<function_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<Function>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_v<function_type>);
 #    endif
 #endif
 
     // is_nothrow_invocable_r
 #if PHI_HAS_WORKING_IS_INVOCABLE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, Function>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r<void, function_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<void, Function>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_invocable_r_v<void, function_type>);
 #    endif
 #endif
 
@@ -649,9 +650,9 @@ TEST_CASE("type_traits")
 #endif
 
     // is_polymorphic
-    STATIC_REQUIRE(phi::is_polymorphic<Abstract>::value);
+    STATIC_REQUIRE(phi::is_polymorphic<abstract>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_polymorphic_v<Abstract>);
+    STATIC_REQUIRE(phi::is_polymorphic_v<abstract>);
 #endif
 
     // is_reference
@@ -792,9 +793,9 @@ TEST_CASE("type_traits")
 
     // is_scoped_enum
 #if PHI_HAS_WORKING_IS_SCOPED_ENUM()
-    STATIC_REQUIRE(phi::is_scoped_enum<EnumClass>::value);
+    STATIC_REQUIRE(phi::is_scoped_enum<enum_class>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_scoped_enum_v<EnumClass>);
+    STATIC_REQUIRE(phi::is_scoped_enum_v<enum_class>);
 #    endif
 #endif
 
@@ -924,9 +925,9 @@ TEST_CASE("type_traits")
 
     // is_union
 #if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE(phi::is_union<Union>::value);
+    STATIC_REQUIRE(phi::is_union<union_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_union_v<Union>);
+    STATIC_REQUIRE(phi::is_union_v<union_type>);
 #    endif
 #endif
 
@@ -1006,9 +1007,9 @@ TEST_CASE("type_traits")
 
     // is_unscoped_enum
 #if PHI_HAS_WORKING_IS_UNSCOPED_ENUM()
-    STATIC_REQUIRE(phi::is_unscoped_enum<Enum>::value);
+    STATIC_REQUIRE(phi::is_unscoped_enum<enum_type>::value);
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_unscoped_enum_v<Enum>);
+    STATIC_REQUIRE(phi::is_unscoped_enum_v<enum_type>);
 #    endif
 #endif
 
@@ -1108,7 +1109,7 @@ TEST_CASE("type_traits")
 
     // to_underlying
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    CHECK_SAME_TYPE(decltype(phi::to_underlying(EnumSigned::two)), int);
+    CHECK_SAME_TYPE(decltype(phi::to_underlying(enum_signed::two)), int);
 #endif
 
     // to_unsafe
@@ -1126,8 +1127,8 @@ TEST_CASE("type_traits")
 
     // underlying_type
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    CHECK_SAME_TYPE(typename phi::underlying_type<EnumSigned>::type, int);
-    CHECK_SAME_TYPE(phi::underlying_type_t<EnumSigned>, int);
+    CHECK_SAME_TYPE(typename phi::underlying_type<enum_signed>::type, int);
+    CHECK_SAME_TYPE(phi::underlying_type_t<enum_signed>, int);
 #endif
 
     // unsigned_int_of_size
