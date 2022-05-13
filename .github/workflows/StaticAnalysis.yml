@@ -106,7 +106,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install
-        run: scripts/ci/InstallTools.sh clang-tidy-${{ env.LLVM_VERSION }} ninja
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} clang-tidy-${{ env.LLVM_VERSION }} ninja
 
       - name: Run clang-tidy
         run: |
