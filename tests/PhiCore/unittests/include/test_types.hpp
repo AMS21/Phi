@@ -995,7 +995,7 @@ struct trap_deref
 struct trap_array_subscript
 {
     template <typename TypeT>
-    constexpr bool operator[](PHI_UNUSED TypeT x) noexcept
+    constexpr bool operator[](TypeT /*index*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_array_subscript::operator[] must never be instantiated");
