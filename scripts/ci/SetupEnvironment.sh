@@ -4,7 +4,6 @@ PROC_COUNT=$(nproc)
 
 # Get number of processors available
 echo "PROC_COUNT=$PROC_COUNT" >>"$GITHUB_ENV"
-echo "OS_CODENAME=$(lsb_release -c -s)" >>"$GITHUB_ENV"
 
 # Setup CMake stuff
 # https://cmake.org/cmake/help/latest/envvar/CMAKE_BUILD_PARALLEL_LEVEL.html
