@@ -6,7 +6,7 @@ on:
       # Workflow file itself
       - '.github/workflows/Archive.yml'
       # Script file
-      - 'scripts/ci/archive_all_links.sh'
+      - 'scripts/ci/ArchiveAllLinks.sh'
   schedule:
     - cron: '0 4 1 * *' # At 04:00 on the first day of the month
   workflow_dispatch:
@@ -22,4 +22,4 @@ jobs:
           submodules: recursive
 
       - name: Run Script
-        run: scripts/ci/archive_all_links.sh
+        run: scripts/ci/ArchiveAllLinks.sh
