@@ -183,43 +183,43 @@ endif()
 # Set configure options
 set(configure_options DEBUG_FLAGS WARNINGS) # Default
 
-if(${PHI_USE_UNITY_BUILD})
+if(PHI_USE_UNITY_BUILD)
   list(APPEND configure_options UNITY_BUILD)
 endif()
 
-if(${PHI_COVERAGE_BUILD})
+if(PHI_COVERAGE_BUILD)
   list(APPEND configure_options COVERAGE)
 endif()
 
-if(${PHI_ENABLE_OPTIMIZATION_FLAGS})
+if(PHI_ENABLE_OPTIMIZATION_FLAGS)
   list(APPEND configure_options OPTIMIZATION_FLAGS)
 endif()
 
-if(${PHI_WARNINGS_AS_ERRORS})
+if(PHI_WARNINGS_AS_ERRORS)
   list(APPEND configure_options WARNINGS_AS_ERRORS)
 endif()
 
-if(${PHI_PEDANTIC_WARNINGS})
+if(PHI_PEDANTIC_WARNINGS)
   list(APPEND configure_options PEDANTIC)
 endif()
 
-if(${PHI_BUILD_WITH_TIME_TRACE})
+if(PHI_BUILD_WITH_TIME_TRACE)
   list(APPEND configure_options TIME_TRACE)
 endif()
 
-if(${PHI_ENABLE_IPO})
+if(PHI_ENABLE_IPO)
   list(APPEND configure_options IPO)
 endif()
 
 # Configure static analyzers
 set(config_sa)
-if(${PHI_ENABLE_CPPCHECK})
+if(PHI_ENABLE_CPPCHECK)
   list(APPEND config_sa CPPCHECK)
 endif()
-if(${PHI_ENABLE_CLANG_TIDY})
+if(PHI_ENABLE_CLANG_TIDY)
   list(APPEND config_sa CLANG_TIDY)
 endif()
-if(${PHI_ENABLE_IWYU})
+if(PHI_ENABLE_IWYU)
   list(APPEND config_sa IWYU)
 endif()
 
@@ -244,7 +244,7 @@ if(config_sanitizers)
   list(APPEND configure_options SANITIZER ${config_sanitizers})
 endif()
 
-if(${PHI_ENABLE_PSO})
+if(PHI_ENABLE_PSO)
   list(APPEND configure_options PSO ${PHI_ARCH})
 endif()
 

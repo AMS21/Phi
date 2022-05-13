@@ -178,19 +178,19 @@ function(phi_configure_project)
 
     # Compiler warnings
     if((conf_WARNINGS
-        OR conf_WARNIGNS_AS_ERROR
+        OR conf_WARNINGS_AS_ERRORS
         OR conf_PEDANTIC)
        AND NOT is_external)
       # Build command
       set(warn_cmd "")
-      if(conf_WARNIGNS_AS_ERROR)
+      if(conf_WARNINGS_AS_ERRORS)
         set(warn_cmd WARNINGS_AS_ERRORS)
       endif()
       if(conf_PEDANTIC)
         set(warn_cmd ${warn_cmd} PEDANTIC)
       endif()
 
-      phi_target_set_warnings(TARGET ${target} warn_cmd)
+      phi_target_set_warnings(TARGET ${target} ${warn_cmd})
     endif()
 
     # Handle external target
