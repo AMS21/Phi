@@ -20,8 +20,8 @@ foreach(_test ${phi_common_flags})
   endif()
 endforeach(_test)
 
-# emcc says it accepts -bigobj bug then give warning
-if(PHI_PLATFORM_EMSCRIPTEN)
+# clang and emcc say they accept "-bigobj" but then give a warning
+if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
   list(REMOVE_ITEM _common_flags ${PHI_FLAG_PREFIX_CHAR}bigobj)
 endif()
 
