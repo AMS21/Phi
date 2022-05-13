@@ -5,7 +5,7 @@
 #include <csignal>
 #include <cstdlib>
 
-extern "C" [[noreturn]] void RuntimeFailureSignalHandler(int /*signal*/)
+extern "C" [[noreturn]] inline void RuntimeFailureSignalHandler(int /*signal*/)
 {
     // Change exit code to 1
     std::exit(1);
@@ -17,8 +17,8 @@ static void SetupRuntimeFailure()
     SetupDebugReportMode();
 
     // Register signal handlers
-    std::signal(SIGABRT, RuntimeFailureSignalHandler);
-    std::signal(SIGTERM, RuntimeFailureSignalHandler);
+    (void)std::signal(SIGABRT, RuntimeFailureSignalHandler);
+    (void)std::signal(SIGTERM, RuntimeFailureSignalHandler);
 }
 
 #endif // INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_RUNTIME_FAILURE_HPP
