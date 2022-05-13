@@ -77,8 +77,8 @@ public:
     {}
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
-    constexpr ref_ptr(TypeT* pointer)
-        : m_Ptr{pointer}
+    constexpr ref_ptr(TypeT* ptr)
+        : m_Ptr{ptr}
         , m_ControlBlock{allocate_control_block()}
     {}
 
