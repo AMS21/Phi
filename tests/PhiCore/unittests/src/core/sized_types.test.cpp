@@ -10,7 +10,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-id-macro")
 #endif
 
 #ifndef __STDC_WANT_SECURE_LIB__
-#    define __STDC_WANT_SECURE_LIB__ 1
+#    define __STDC_WANT_SECURE_LIB__ 1 // NOLINT(bugprone-reserved-identifier)
 #endif
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
