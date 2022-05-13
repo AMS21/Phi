@@ -14,18 +14,18 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>& t) noexcept
+PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>& type) noexcept
 {
-    return static_cast<TypeT&&>(t);
+    return static_cast<TypeT&&>(type);
 }
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>&& t) noexcept
+PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>&& type) noexcept
 {
     static_assert(!is_lvalue_reference<TypeT>::value,
                   "phi::forward: Can not forward an rvalue as an lvalue");
 
-    return static_cast<TypeT&&>(t);
+    return static_cast<TypeT&&>(type);
 }
 
 DETAIL_PHI_END_NAMESPACE()

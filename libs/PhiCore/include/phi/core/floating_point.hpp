@@ -583,20 +583,20 @@ PHI_ALWAYS_INLINE constexpr auto operator%(const floating_point<LhsT>& lhs,
 //=== input/output ===/
 
 template <typename CharT, class CharTraitsT, typename FloatT>
-std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& in,
-                                                   floating_point<FloatT>&                 f)
+std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& stream,
+                                                   floating_point<FloatT>& float_value)
 {
     FloatT val{FloatT(0.0)};
-    in >> val;
-    f = val;
-    return in;
+    stream >> val;
+    float_value = val;
+    return stream;
 }
 
 template <typename CharT, class CharTraitsT, typename FloatT>
-std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, CharTraitsT>& out,
-                                                   const floating_point<FloatT>&           f)
+std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, CharTraitsT>& stream,
+                                                   const floating_point<FloatT>& float_value)
 {
-    return out << static_cast<FloatT>(f);
+    return stream << static_cast<FloatT>(float_value);
 }
 
 template <typename FloatT>
