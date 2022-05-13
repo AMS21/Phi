@@ -43,6 +43,8 @@ else()
   phi_warn("Unsupported operating system or environment: ${CMAKE_SYSTEM_NAME}")
 endif()
 
+phi_log("System name: ${CMAKE_SYSTEM_NAME}")
+
 # Detect the architecture (note: this test won't work for cross-compilation)
 include(CheckTypeSize)
 check_type_size(void* SIZEOF_VOID_PTR BUILTIN_TYPES_ONLY LANGUAGE CXX)
