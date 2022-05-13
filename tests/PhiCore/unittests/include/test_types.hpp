@@ -24,28 +24,28 @@ public:
     ~class_type();
 };
 
-template <typename T>
+template <typename TypeT>
 class template_type
 {};
 
-template <typename... Ts>
+template <typename... TypesT>
 class variadic_template
 {};
 
-template <typename T>
-struct public_derived_from : public T
+template <typename TypeT>
+struct public_derived_from : public TypeT
 {};
 
-template <typename T>
-struct private_derived_from : private T
+template <typename TypeT>
+struct private_derived_from : private TypeT
 {};
 
-template <typename T>
-struct protected_derived_from : protected T
+template <typename TypeT>
+struct protected_derived_from : protected TypeT
 {};
 
-template <typename T>
-struct virtual_derived_from : virtual T
+template <typename TypeT>
+struct virtual_derived_from : virtual TypeT
 {};
 
 class empty
@@ -560,56 +560,56 @@ private:
     static int member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct public_template_member
 {
 public:
-    T member;
+    TypeT member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct protected_template_member
 {
 protected:
-    T member;
+    TypeT member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct private_template_member
 {
 private:
-    T member;
+    TypeT member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct public_static_tempalte_member
 {
 public:
-    static T member;
+    static TypeT member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct protected_static_template_member
 {
 protected:
-    static T member;
+    static TypeT member;
 };
 
-template <typename T>
+template <typename TypeT>
 struct private_static_template_member
 {
 private:
-    static T member;
+    static TypeT member;
 };
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-template <typename T>
+template <typename TypeT>
 class cannot_instantiate
 {
     enum
     {
-        X = T::ThisExpressionWillBlowUp
+        X = TypeT::ThisExpressionWillBlowUp
     };
 };
 
@@ -676,7 +676,7 @@ using lambda_throws_type = decltype(LambdaThrows);
 
 struct incomplete_type;
 
-template <typename T>
+template <typename TypeT>
 struct incomplete_template;
 
 template <typename... Ts>
@@ -975,28 +975,29 @@ struct trap_self_assign
 
 struct trap_deref
 {
-    template <typename T>
-    constexpr T operator*() noexcept
+    template <typename TypeT>
+    constexpr TypeT operator*() noexcept
     {
-        static_assert(phi::false_t<T>::value, "trap_deref::operator*() must never be instantiated");
-        return T{};
+        static_assert(phi::false_t<TypeT>::value,
+                      "trap_deref::operator*() must never be instantiated");
+        return TypeT{};
     }
 
-    template <typename T>
-    constexpr T* operator->() noexcept
+    template <typename TypeT>
+    constexpr TypeT* operator->() noexcept
     {
-        static_assert(phi::false_t<T>::value,
+        static_assert(phi::false_t<TypeT>::value,
                       "trap_deref::operator->() must never be instantiated");
-        return T{};
+        return TypeT{};
     }
 };
 
 struct trap_array_subscript
 {
-    template <typename T>
-    constexpr bool operator[](PHI_UNUSED T x) noexcept
+    template <typename TypeT>
+    constexpr bool operator[](PHI_UNUSED TypeT x) noexcept
     {
-        static_assert(phi::false_t<T>::value,
+        static_assert(phi::false_t<TypeT>::value,
                       "trap_array_subscript::operator[] must never be instantiated");
         return false;
     }
