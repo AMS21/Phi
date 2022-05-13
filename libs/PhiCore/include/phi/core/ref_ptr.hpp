@@ -1,6 +1,12 @@
 #ifndef INCG_PHI_CORE_REF_PTR_HPP
 #define INCG_PHI_CORE_REF_PTR_HPP
 
+#include "phi/phi_config.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
 #include "phi/algorithm/exchange.hpp"
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
@@ -9,7 +15,6 @@
 #include "phi/core/forward.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
-#include "phi/phi_config.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_convertible.hpp"
