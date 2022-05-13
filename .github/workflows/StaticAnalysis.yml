@@ -118,7 +118,7 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
           # Run clang-tidy
-          run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter ".*" | tee clang_tidy.log
+          run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter=.* | tee clang_tidy.log
 
           # Filter out external libraries and test code
           cat clang_tidy.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > clang_tidy_filtered.log || true
