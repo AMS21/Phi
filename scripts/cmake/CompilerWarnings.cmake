@@ -99,7 +99,7 @@ set(phi_warning_flags
     # implicitly applied
 )
 
-set(phi_pendatic_flags "pedantic" "pedantic-errors" "permissive-")
+set(phi_pedantic_flags "pedantic" "pedantic-errors" "permissive-")
 
 set(phi_warnings_as_errors_flags "Werror" "WX")
 
@@ -176,7 +176,7 @@ endforeach(_test)
 
 # Check pedantic
 set(_PedanticAvailible)
-foreach(_test ${phi_pendatic_flags})
+foreach(_test ${phi_pedantic_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)

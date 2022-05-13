@@ -12,7 +12,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// Implementation comparision: https://godbolt.org/z/3Yqsd8oTd
+// Implementation comparison: https://godbolt.org/z/3Yqsd8oTd
 
 PHI_NODISCARD constexpr phi::boolean is_hex_digit(const char c) noexcept
 {

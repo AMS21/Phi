@@ -11,7 +11,7 @@
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-// NOTE: We're no longer implementing `is_array` using the intrinsic `PHI_IS_ARRAY` due to its inconsistent and unwanted behaviour regard zero sized arrays. Keep in mind that zero sized arrays themselves are an extension and acording to the standard are malformed.
+// NOTE: We're no longer implementing `is_array` using the intrinsic `PHI_IS_ARRAY` due to its inconsistent and unwanted behavior regard zero sized arrays. Keep in mind that zero sized arrays themselves are an extension and according to the standard are malformed.
 // See this LLVM issue for some more info: https://github.com/llvm/llvm-project/issues/54705
 
 DETAIL_PHI_BEGIN_NAMESPACE()

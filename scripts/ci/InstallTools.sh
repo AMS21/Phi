@@ -64,7 +64,7 @@ install_cmake_format() {
     echo "-- Verifying cmake-format done"
 }
 
-# Expects first paramter to be the requested version
+# Expects first parameter to be the requested version
 install_clang() {
     add_llvm_apt "$1"
 

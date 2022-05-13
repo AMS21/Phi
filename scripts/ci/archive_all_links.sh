@@ -13,7 +13,7 @@ sleep_time=20s
 
 # Iterate over each file
 for file in $all_files; do
-    echo "Analysing file: \"$file\""
+    echo "Analyzing file: \"$file\""
 
     # Read file line by line
     while read -r line; do

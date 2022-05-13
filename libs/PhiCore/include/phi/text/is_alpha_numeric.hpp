@@ -12,7 +12,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// Comparision of implementations: https://godbolt.org/z/d33183nbh
+// Comparison of implementations: https://godbolt.org/z/d33183nbh
 
 PHI_NODISCARD constexpr phi::boolean is_alpha_numeric(const char c) noexcept
 {

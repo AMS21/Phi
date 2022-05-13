@@ -65,7 +65,7 @@ phi_check_cxx_source_compiles("int main() { switch (1) { [[likely]] case 1: retu
 phi_check_cxx_source_compiles(
   "#include <compare>
 struct Point {int x; int y; friend auto operator<=>(const Point&, const Point&) = default;};
-int main() {}" PHI_HAS_FEATURE_THREE_WAY_COMPARISION)
+int main() {}" PHI_HAS_FEATURE_THREE_WAY_COMPARISON)
 
 # Lib
 phi_check_cxx_source_compiles("#include <string_view>

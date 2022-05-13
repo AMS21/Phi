@@ -25,7 +25,7 @@
 // Clang version before clang-10 uses 201707 for C++-20
 #    define PHI_CPLUSPLUS_20() (201707L)
 #else
-// C++-20 standard from feburary 2020
+// C++-20 standard from february 2020
 #    define PHI_CPLUSPLUS_20() (202002L)
 #endif
 

@@ -5,7 +5,7 @@
 #include <phi/type_traits.hpp>
 
 // Very basic tests that all the type traits are actually included.
-// Functional testing is done in seperate files
+// Functional testing is done in separate files
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
@@ -75,7 +75,7 @@ TEST_CASE("type_traits")
     CHECK_SAME_TYPE(typename phi::conditional<true, int, double>::type, int);
     CHECK_SAME_TYPE(phi::conditional_t<true, int, double>, int);
 
-    // conjuction
+    // conjunction
     STATIC_REQUIRE(phi::conjunction<>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::conjunction_v<>);

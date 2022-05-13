@@ -11,7 +11,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// Implementation comparision: https://godbolt.org/z/1bEsG5nrE
+// Implementation comparison: https://godbolt.org/z/1bEsG5nrE
 
 PHI_NODISCARD constexpr char to_lower_case(const char c) noexcept
 {

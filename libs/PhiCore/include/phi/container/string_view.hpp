@@ -669,7 +669,7 @@ private:
     usize        m_Length;
 };
 
-// Comparision functions
+// Comparison functions
 
 template <typename CharT, typename TraitsT>
 constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs,

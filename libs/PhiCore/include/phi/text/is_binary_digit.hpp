@@ -12,7 +12,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// Implementation comparision: https://godbolt.org/z/8G1EvYTGP
+// Implementation comparison: https://godbolt.org/z/8G1EvYTGP
 
 PHI_NODISCARD constexpr phi::boolean is_binary_digit(const char c) noexcept
 {

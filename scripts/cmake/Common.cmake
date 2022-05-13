@@ -2,7 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 
-# common usefull flags
+# common useful flags
 set(phi_common_flags bigobj fmacro-backtrace-limit=0 fms-extensions fdeclspec fborland-extensions)
 
 set(_common_flags)
