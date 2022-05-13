@@ -47,11 +47,9 @@ include(Environment)
 # Options
 option(PHI_BUILD_TESTS "Build tests" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_EXAMPLES "Build examples" ${PHI_MAIN_PROJECT})
-option(PHI_BUILD_SANDBOX "Build sandbox application" ${PHI_MAIN_PROJECT})
 option(PHI_BUILD_DOCS "Generate the source code documentation" OFF)
 option(PHI_USE_PCH "Use a pre compiled header (pch)" OFF) # TODO
 option(PHI_USE_UNITY_BUILD "Enable unity builds" OFF)
-option(PHI_ENABLE_CONSTEXPRTESTS "Build the constexpr tests" ON)
 option(PHI_TEST_RUNTIME_FAILURES "Build and run runtime failure tests" ON)
 option(PHI_TEST_COMPILE_FAILURES "Build and run compile failure tests" ON)
 option(PHI_COVERAGE_BUILD "Enable flags for creating coverage data" OFF)
