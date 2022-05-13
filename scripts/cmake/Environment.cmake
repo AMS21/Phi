@@ -89,12 +89,15 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion" OUTPUT_VARIABLE GCC_VERSION_OUTPUT)
   string(REGEX REPLACE "([0-9]+\\.[0-9]+).*" "\\1" PHI_GCC_VERSION "${GCC_VERSION_OUTPUT}")
+
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE GCC_COMPILER_VERSION)
   string(REGEX MATCHALL ".*(tdm[64]*-[1-9]).*" PHI_COMPILER_GCC_TDM "${GCC_COMPILER_VERSION}")
-  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE GCC_MACHINE)
-  string(STRIP "${GCC_MACHINE}" GCC_MACHINE)
 
-  phi_trace("Compiler: gcc")
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_GCC_MACHINE)
+  string(STRIP "${PHI_GCC_MACHINE}" PHI_GCC_MACHINE)
+
+  phi_trace("Compiler: GCC-${PHI_GCC_VERSION}")
+  phi_trace("Machine: ${PHI_GCC_MACHINE}")
 
   if(GCC_MACHINE MATCHES ".*w64.*")
     phi_set_cache_value(NAME PHI_COMPILER_GCC_W64 VALUE 1)
