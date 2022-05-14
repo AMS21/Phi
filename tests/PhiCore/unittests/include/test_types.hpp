@@ -925,7 +925,7 @@ struct trap_implicit_conversion
 struct trap_comma
 {
     template <typename TypeT>
-    friend constexpr bool operator,(const trap_comma&, TypeT&&) noexcept
+    friend constexpr bool operator,(const trap_comma& /*unused*/, TypeT&& /*unused*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -934,7 +934,7 @@ struct trap_comma
     }
 
     template <typename TypeT>
-    friend constexpr bool operator,(TypeT&&, const trap_comma&) noexcept
+    friend constexpr bool operator,(TypeT&& /*unused*/, const trap_comma& /*unused*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -946,7 +946,7 @@ struct trap_comma
 struct trap_call
 {
     template <typename... ArgsT>
-    constexpr bool operator()(ArgsT&&...) noexcept
+    constexpr bool operator()(ArgsT&&... /*unused*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_call::operator() must never be instantiated");
