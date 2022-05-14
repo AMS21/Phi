@@ -21,7 +21,7 @@ namespace detail
     // size == 1
     struct yes_type
     {
-        char m_Padding;
+        char padding;
     };
 
     PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_yes_type = sizeof(yes_type);
@@ -29,7 +29,7 @@ namespace detail
     // size == 8
     struct no_type
     {
-        char m_Padding[8];
+        char padding[8];
     };
 
     PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_no_type = sizeof(no_type);
