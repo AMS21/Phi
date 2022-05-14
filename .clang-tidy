@@ -17,6 +17,8 @@ CheckOptions:
     value: 'CamelCase'
   - key:   readability-identifier-naming.MemberPrefix
     value: 'm_'
+  - key:   readability-identifier-naming.PublicMemberPrefix
+    value: ''
   - key:   readability-identifier-naming.NamespaceCase
     value: 'lower_case'
   - key:   readability-identifier-naming.ParameterCase
