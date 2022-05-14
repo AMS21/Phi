@@ -19,7 +19,7 @@ PHI_MSVC_SUPPRESS_WARNING(
 PHI_MSVC_SUPPRESS_WARNING(
         4265) // 'x': class has virtual functions, but its non-trivial destructor is not virtual; instances of the class may not be destructed correctly
 
-// NOLINTBEGIN(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,hicpp-explicit-conversions,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
+// NOLINTBEGIN(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
 
 class class_type
 {
@@ -295,6 +295,7 @@ private:
 
 struct explicit_class
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     explicit_class(double&);
     explicit explicit_class(int&);
     explicit_class(double&, int&, double&);
@@ -302,6 +303,7 @@ struct explicit_class
 
 struct nothrow_explicit_class
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     nothrow_explicit_class(double&) noexcept;
     explicit nothrow_explicit_class(int&) noexcept;
     nothrow_explicit_class(double&, int&, double&) noexcept;
@@ -309,6 +311,7 @@ struct nothrow_explicit_class
 
 struct throw_explicit_class
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     throw_explicit_class(double&) noexcept(false);
     explicit throw_explicit_class(int&) noexcept(false);
     throw_explicit_class(double&, int&, double&) noexcept(false);
@@ -336,6 +339,7 @@ struct throw_destructor
 
 struct noexcept_explicit_class
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     noexcept_explicit_class(double&) noexcept;
     explicit noexcept_explicit_class(int&) noexcept;
     noexcept_explicit_class(double&, int&, double&) noexcept;
@@ -343,6 +347,7 @@ struct noexcept_explicit_class
 
 struct except_explicit_class
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     except_explicit_class(double&) noexcept(false);
     explicit except_explicit_class(int&) noexcept(false);
     except_explicit_class(double&, int&, double&) noexcept(false);
@@ -449,6 +454,7 @@ struct except_move_constructible_and_assign_class
 template <typename ToT>
 struct implicit_to
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     operator ToT();
 };
 
@@ -485,6 +491,7 @@ struct deleted_ellipsis
 
 struct copy_constructible_only_type
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     copy_constructible_only_type(int /*unused*/)
     {}
     copy_constructible_only_type(copy_constructible_only_type&&)      = delete;
@@ -495,6 +502,7 @@ struct copy_constructible_only_type
 
 struct move_constructible_only_type
 {
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     move_constructible_only_type(int /*unused*/)
     {}
     move_constructible_only_type(const move_constructible_only_type&) = delete;
@@ -903,6 +911,7 @@ struct trap_constructible
     trap_constructible& operator=(trap_constructible&&) = default;
 
     template <typename... ArgsT>
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr trap_constructible(ArgsT&&... /*args*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
@@ -913,6 +922,7 @@ struct trap_constructible
 struct trap_implicit_conversion
 {
     template <typename TypeT>
+    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator TypeT() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
@@ -1009,7 +1019,7 @@ struct trap_array_subscript
     }
 };
 
-// NOLINTEND(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,hicpp-explicit-conversions,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
+// NOLINTEND(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
