@@ -15,7 +15,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_NODISCARD constexpr char to_upper_case(const char c) noexcept
 {
-    // NOLINTNEXTLINE(bugprone-narrowing-conversions,readability-magic-numbers,cppcoreguidelines-narrowing-conversions)
+    // NOLINTNEXTLINE(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     return (c >= 'a' && c <= 'z') ? static_cast<char>(c - 32) : c;
 }
 

@@ -29,7 +29,7 @@ namespace detail
     // size == 8
     struct no_type
     {
-        char m_Padding[8]; // NOLINT(readability-magic-numbers)
+        char m_Padding[8];
     };
 
     PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_no_type = sizeof(no_type);

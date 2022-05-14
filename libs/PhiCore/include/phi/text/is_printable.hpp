@@ -14,7 +14,6 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_NODISCARD constexpr phi::boolean is_printable(const char c) noexcept
 {
-    // NOLINTNEXTLINE(readability-magic-numbers)
     return (c >= 32 && c <= 126);
 }
 

@@ -14,7 +14,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_NODISCARD constexpr phi::boolean is_ascii(const char c) noexcept
 {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise,readability-magic-numbers)
+    // NOLINTNEXTLINE(hicpp-signed-bitwise)
     return ((c & ~0x7f) == 0);
 }
 
