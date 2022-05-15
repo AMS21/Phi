@@ -3,7 +3,15 @@ phi_include_guard()
 include(CMakeParseArguments)
 
 # common useful flags
-set(phi_common_flags bigobj fmacro-backtrace-limit=0 fms-extensions fdeclspec fborland-extensions)
+set(phi_common_flags
+    bigobj
+    fmacro-backtrace-limit=0
+    fms-extensions
+    fdeclspec
+    fborland-extensions
+    fchar8_t
+    fcoroutines
+    fconcepts)
 
 set(_common_flags)
 foreach(_test ${phi_common_flags})
