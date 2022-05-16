@@ -3,20 +3,33 @@ phi_include_guard()
 include(CMakeParseArguments)
 
 set(phi_opt_compile_flags
+    -fallow-store-data-races
+    -fdeclone-ctor-dtor
+    -fdevirtualize-speculatively
+    -ffinite-loops
     -fforce-emit-vtables
+    -fgcse-las
+    -fgcse-sm
+    -fimplicit-constexpr
+    -fira-hoist-pressure
+    -fira-loop-pressure
     -fisolate-erroneous-paths-attribute
     -fivopts
+    -floop-nest-optimize
     -fmerge-all-constants
+    -fmerge-constants
+    -fmerge-functions
+    -fmodulo-sched
+    -fmodulo-sched-allow-regmoves
+    -fomit-frame-pointer
+    -fsched-pressure
+    -fsemantic-interposition
+    -fstrict-aliasing
     -fstrict-enums
     -fstrict-return
     -fstrict-vtable-pointers
     -ftree-loop-im
     -ftree-loop-ivcanon
-    -fmerge-functions
-    -fmerge-constants
-    -fdevirtualize-speculatively
-    -fomit-frame-pointer
-    -fstrict-aliasing
     # MSVC
     /Oi
     /Ot
