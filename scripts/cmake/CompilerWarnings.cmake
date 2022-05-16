@@ -5,6 +5,7 @@ include(internal/PhiCheckCXXCompilerFlag)
 
 # Flags
 set(phi_warning_flags
+    Waligned-new=all
     Wall
     Walloc-zero
     Walloca
@@ -14,6 +15,8 @@ set(phi_warning_flags
     Wbidi-chars=any
     Wcast-align # warn for potential performance problem casts
     Wcast-qual
+    Wcatch-value=3
+    Wcomma-subscript
     Wconversion # warn on type conversions that may lose data
     Wdate-time
     Wdouble-promotion # warn if float is implicit promoted to double
@@ -22,6 +25,7 @@ set(phi_warning_flags
     Wenum-conversion
     Weverything
     Wextra # reasonable and standard
+    Wextra-semi
     Wfloat-equal
     Wformat-overflow=2
     Wformat-signedness
@@ -31,26 +35,31 @@ set(phi_warning_flags
     Wlifetime
     Wlogical-op # warn about logical operations being used where bitwise were probably wanted
     Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+    Wmismatched-tags
     Wmissing-field-initializers
     Wmissing-format-attribute
     Wmissing-include-dirs
     Wmissing-noreturn
     Wnoexcept
     Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
-    # destructor. This helps catch hard to track down memory errors
+                      # destructor. This helps catch hard to track down memory errors
     Wnormalized
     Wnull-dereference # warn if a null dereference is detected
     Wold-style-cast # warn for c-style casts
     Woverloaded-virtual # warn if you overload (not override) a virtual function
     Wpedantic # warn if non-standard C++ is used
+    Wplacement-new=2
     Wpointer-arith
     Wredundant-decls
+    Wredundant-tags
+    Wregister
     Wrestrict
     Wshadow # warn the user if a variable declaration shadows one from a parent context
     Wshift-overflow=2
     Wsign-conversion # warn on sign conversions
     Wstack-protector
     Wstrict-aliasing=2
+    Wstrict-null-sentinel
     Wstrict-overflow=5
     Wsuggest-attribute=cold
     Wsuggest-attribute=const
@@ -58,6 +67,9 @@ set(phi_warning_flags
     Wsuggest-attribute=malloc
     Wsuggest-attribute=noreturn
     Wsuggest-attribute=pure
+    Wsuggest-final-methods
+    Wsuggest-final-types
+    Wsuggest-override
     Wsync-nand
     Wtrampolines
     Wundef
@@ -67,9 +79,11 @@ set(phi_warning_flags
     Wunused # warn on anything being unused
     Wunused-const-variable=2
     Wunused-parameter
+    Wuse-after-free=3
     Wuseless-cast # warn if you perform a cast to the same type
     Wvector-operation-performance
     Wvla
+    Wvolatile
     Wzero-as-null-pointer-constant
     # MSVC
     Wall # Baseline reasonable warnings
