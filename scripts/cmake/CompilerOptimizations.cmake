@@ -3,52 +3,51 @@ phi_include_guard()
 include(CMakeParseArguments)
 
 set(phi_opt_compile_flags
-    -fallow-store-data-races
-    -fdeclone-ctor-dtor
-    -fdevirtualize-speculatively
-    -ffinite-loops
-    -fforce-emit-vtables
-    -fgcse-las
-    -fgcse-sm
-    -fimplicit-constexpr
-    -fira-hoist-pressure
-    -fira-loop-pressure
-    -fisolate-erroneous-paths-attribute
-    -fivopts
-    -floop-nest-optimize
-    -fmerge-all-constants
-    -fmerge-constants
-    -fmerge-functions
-    -fmodulo-sched
-    -fmodulo-sched-allow-regmoves
-    -fomit-frame-pointer
-    -fsched-pressure
-    -fsemantic-interposition
-    -fstrict-aliasing
-    -fstrict-enums
-    -fstrict-return
-    -fstrict-vtable-pointers
-    -ftree-loop-im
-    -ftree-loop-ivcanon
+    fallow-store-data-races
+    fdeclone-ctor-dtor
+    fdevirtualize-speculatively
+    ffinite-loops
+    fforce-emit-vtables
+    fgcse-las
+    fgcse-sm
+    fimplicit-constexpr
+    fira-hoist-pressure
+    fira-loop-pressure
+    fisolate-erroneous-paths-attribute
+    fivopts
+    floop-nest-optimize
+    fmerge-all-constants
+    fmerge-constants
+    fmerge-functions
+    fmodulo-sched
+    fmodulo-sched-allow-regmoves
+    fomit-frame-pointer
+    fsched-pressure
+    fsemantic-interposition
+    fstrict-aliasing
+    fstrict-enums
+    fstrict-return
+    fstrict-vtable-pointers
+    ftree-loop-im
+    ftree-loop-ivcanon
     # MSVC
-    /Oi
-    /Ot
-    /GT)
+    Oi
+    Ot
+    GT)
 
 # Check optimize flags
 set(_opt_compile_flags)
 foreach(_test ${phi_opt_compile_flags})
   string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "/" "_" _testName ${_testName})
   string(REPLACE "=" "_" _testName ${_testName})
   string(REPLACE ":" "_" _testName ${_testName})
   string(REPLACE "_" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
-  phi_check_cxx_compiler_flag(${_test} "PHI_HAS_FLAG${_testName}")
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
-  if(PHI_HAS_FLAG${_testName})
-    list(APPEND _opt_compile_flags ${_test})
+  if(PHI_HAS_FLAG_${_testName})
+    list(APPEND _opt_compile_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
   endif()
 endforeach(_test)
 
