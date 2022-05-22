@@ -26,8 +26,7 @@ template <typename CharT, typename TraitsT>
 class basic_string_view;
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
-PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Winline-namespace-reopened-noninline")
-namespace __cxx11
+inline namespace __cxx11
 {
 #endif
 
@@ -36,7 +35,6 @@ namespace __cxx11
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
 }
-PHI_CLANG_SUPPRESS_WARNING_POP()
 #endif
 
 DETAIL_PHI_END_STD_NAMESPACE()
