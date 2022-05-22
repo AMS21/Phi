@@ -6,7 +6,7 @@ on:
       # Workflow file itself
       - '.github/workflows/Cleanup.yml'
   schedule:
-    - cron: '0 0 * * *' # Run daily, at 00:00
+    - cron: 0 0 * * 1 # Run weekly on monday, at 00:00
   workflow_dispatch:
 
 jobs:
