@@ -83,6 +83,7 @@ install_clang() {
     echo "-- Verify clang++-$1 done"
 
     # Export values
+    # shellcheck disable=SC2129
     echo "CLANG=clang-$1" >>"$GITHUB_ENV"
     echo "CLANGXX=clang++-$1" >>"$GITHUB_ENV"
 
@@ -109,6 +110,7 @@ install_gcc() {
     echo "-- Verify g++-$1 done"
 
     # Export values
+    # shellcheck disable=SC2129
     echo "GCC=gcc-$1" >>"$GITHUB_ENV"
     echo "GXX=g++-$1" >>"$GITHUB_ENV"
 

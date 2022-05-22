@@ -3,6 +3,7 @@
 PROC_COUNT=$(nproc)
 
 # Get number of processors available
+# shellcheck disable=SC2129
 echo "PROC_COUNT=$PROC_COUNT" >>"$GITHUB_ENV"
 
 # Setup CMake stuff
