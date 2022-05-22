@@ -16,15 +16,50 @@
 // * https://github.com/TartanLlama/optional/blob/master/tests/relops.cpp
 // * https://github.com/TartanLlama/optional/blob/master/tests/swap.cpp
 
+#include <phi/compiler_support/warning.hpp>
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-conversion")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-float-conversion")
+#endif
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
+PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-copy")
+#else
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated")
+#endif
+PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
+#endif
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+
+// NOTE: Not sure why gcc with asan enabled thinks that some of them are uninitialized
+// TODO: Investigate further and maybe open a bug report
+PHI_GCC_SUPPRESS_WARNING("-Wmaybe-uninitialized")
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4242) // conversion from 'TypeT' to 'TypeT', possible loss of data
+PHI_MSVC_SUPPRESS_WARNING(
+        4244) // 'initializing': conversion from 'TypeT' to 'TypeT', possible loss of data
+
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
-#include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/move.hpp>
+#include <phi/core/optional.hpp>
 #include <phi/type_traits/is_default_constructible.hpp>
 #include <phi/type_traits/is_destructible.hpp>
 #include <phi/type_traits/is_same.hpp>
@@ -36,43 +71,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
-
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-conversion")
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
-PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-float-conversion")
-#endif
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wconversion")
-#if PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
-PHI_GCC_SUPPRESS_WARNING("-Wdeprecated-copy")
-#endif
-
-PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(4242) // conversion from 'TypeT' to 'TypeT', possible loss of data
-PHI_MSVC_SUPPRESS_WARNING(
-        4244) // 'initializing': conversion from 'TypeT' to 'TypeT', possible loss of data
-
-#include <phi/core/optional.hpp>
-
-PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
-PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
-PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-copy")
-#else
-PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated")
-#endif
-PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
-PHI_CLANG_SUPPRESS_WARNING("-Wself-assign-overloaded")
-
-PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
-PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
-PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
-
-// NOTE: Not sure why gcc with asan enabled thinks that some of them are uninitialized
-// TODO: Investigate further and maybe open a bug report
-PHI_GCC_SUPPRESS_WARNING("-Wmaybe-uninitialized")
 
 #if PHI_HAS_WORKING_OPTIONAL()
 
