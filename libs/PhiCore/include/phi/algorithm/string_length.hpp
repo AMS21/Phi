@@ -25,7 +25,7 @@ DETAIL_PHI_BEGIN_STD_NAMESPACE()
 template <typename CharT, typename TraitsT>
 class basic_string_view;
 
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
+#if PHI_STDLIB_GLIBCXX()
 inline namespace __cxx11
 {
 #endif
@@ -33,7 +33,7 @@ inline namespace __cxx11
     template <typename CharT, typename TraitsT, typename AllocatorT>
     class basic_string;
 
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
+#if PHI_STDLIB_GLIBCXX()
 }
 #endif
 
