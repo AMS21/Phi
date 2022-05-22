@@ -72,7 +72,7 @@ phi_set_cache_value(NAME PHI_FLAG_PREFIX_CHAR VALUE -)
 # CMAKE_CXX_COMPILER_ID is an internal CMake variable subject to change, but there is no other way
 # to detect CLang at the moment
 if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # Treat emcc seperate from regular clang
+  # Treat emcc separate from regular clang
   if(PHI_PLATFORM_EMSCRIPTEN)
     phi_set_cache_value(NAME PHI_COMPILER_EMCC VALUE 1)
 
