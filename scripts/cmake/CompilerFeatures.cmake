@@ -395,6 +395,29 @@ phi_check_cxx_source_compiles(
   "template <typename> struct abstract_template { virtual ~abstract_template() = 0;}; int main() { static_assert(__is_constructible(abstract_template<int>), \"\"); }"
   PHI_HAS_BUG_GCC_102305) # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102305)
 
+# Used standard library
+phi_check_cxx_source_compiles(
+  "#include <cstddef>
+#if !defined(__GLIBCXX__)
+#error
+#endif
+int main() {}"
+  PHI_STDLIB_GLIBCXX)
+phi_check_cxx_source_compiles(
+  "#include <cstddef>
+#if !defined(_LIBCPP_VERSION)
+#error
+#endif
+int main() {}"
+  PHI_STDLIB_LLVM_LIBCXX)
+phi_check_cxx_source_compiles(
+  "#include <cstddef>
+#if !defined(_MSVC_STL_VERSION)
+#error
+#endif
+int main() {}"
+  PHI_STDLIB_MSVC_STL)
+
 # Only require the latest standard flag
 set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")
 
