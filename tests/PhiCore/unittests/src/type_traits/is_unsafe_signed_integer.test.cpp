@@ -275,9 +275,9 @@ TEST_CASE("is_unsafe_signed_integer")
     test_is_not_unsafe_signed_integer<private_template_member<int>>();
     test_is_not_unsafe_signed_integer<private_template_member<float>>();
     test_is_not_unsafe_signed_integer<private_template_member<class_type>>();
-    test_is_not_unsafe_signed_integer<public_static_tempalte_member<int>>();
-    test_is_not_unsafe_signed_integer<public_static_tempalte_member<float>>();
-    test_is_not_unsafe_signed_integer<public_static_tempalte_member<class_type>>();
+    test_is_not_unsafe_signed_integer<public_static_template_member<int>>();
+    test_is_not_unsafe_signed_integer<public_static_template_member<float>>();
+    test_is_not_unsafe_signed_integer<public_static_template_member<class_type>>();
     test_is_not_unsafe_signed_integer<protected_static_template_member<int>>();
     test_is_not_unsafe_signed_integer<protected_static_template_member<float>>();
     test_is_not_unsafe_signed_integer<protected_static_template_member<class_type>>();

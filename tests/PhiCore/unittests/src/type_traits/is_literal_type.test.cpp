@@ -410,9 +410,9 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<private_template_member<int>>();
     test_is_literal_type<private_template_member<float>>();
     test_is_not_literal_type<private_template_member<class_type>>();
-    test_is_literal_type<public_static_tempalte_member<int>>();
-    test_is_literal_type<public_static_tempalte_member<float>>();
-    test_is_literal_type<public_static_tempalte_member<class_type>>();
+    test_is_literal_type<public_static_template_member<int>>();
+    test_is_literal_type<public_static_template_member<float>>();
+    test_is_literal_type<public_static_template_member<class_type>>();
     test_is_literal_type<protected_static_template_member<int>>();
     test_is_literal_type<protected_static_template_member<float>>();
     test_is_literal_type<protected_static_template_member<class_type>>();

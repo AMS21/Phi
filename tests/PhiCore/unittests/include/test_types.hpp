@@ -595,7 +595,7 @@ private:
 };
 
 template <typename TypeT>
-struct public_static_tempalte_member
+struct public_static_template_member
 {
 public:
     static TypeT m_Member;

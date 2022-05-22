@@ -349,9 +349,9 @@ TEST_CASE("is_same_rc")
     test_is_same_rc<private_template_member<int>>();
     test_is_same_rc<private_template_member<float>>();
     test_is_same_rc<private_template_member<class_type>>();
-    test_is_same_rc<public_static_tempalte_member<int>>();
-    test_is_same_rc<public_static_tempalte_member<float>>();
-    test_is_same_rc<public_static_tempalte_member<class_type>>();
+    test_is_same_rc<public_static_template_member<int>>();
+    test_is_same_rc<public_static_template_member<float>>();
+    test_is_same_rc<public_static_template_member<class_type>>();
     test_is_same_rc<protected_static_template_member<int>>();
     test_is_same_rc<protected_static_template_member<float>>();
     test_is_same_rc<protected_static_template_member<class_type>>();

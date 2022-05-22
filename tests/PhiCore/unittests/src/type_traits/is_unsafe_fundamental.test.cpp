@@ -274,9 +274,9 @@ TEST_CASE("is_unsafe_fundamental")
     test_is_not_unsafe_fundamental<private_template_member<int>>();
     test_is_not_unsafe_fundamental<private_template_member<float>>();
     test_is_not_unsafe_fundamental<private_template_member<class_type>>();
-    test_is_not_unsafe_fundamental<public_static_tempalte_member<int>>();
-    test_is_not_unsafe_fundamental<public_static_tempalte_member<float>>();
-    test_is_not_unsafe_fundamental<public_static_tempalte_member<class_type>>();
+    test_is_not_unsafe_fundamental<public_static_template_member<int>>();
+    test_is_not_unsafe_fundamental<public_static_template_member<float>>();
+    test_is_not_unsafe_fundamental<public_static_template_member<class_type>>();
     test_is_not_unsafe_fundamental<protected_static_template_member<int>>();
     test_is_not_unsafe_fundamental<protected_static_template_member<float>>();
     test_is_not_unsafe_fundamental<protected_static_template_member<class_type>>();

@@ -367,9 +367,9 @@ TEST_CASE("is_void")
     test_is_not_void<private_template_member<int>>();
     test_is_not_void<private_template_member<float>>();
     test_is_not_void<private_template_member<class_type>>();
-    test_is_not_void<public_static_tempalte_member<int>>();
-    test_is_not_void<public_static_tempalte_member<float>>();
-    test_is_not_void<public_static_tempalte_member<class_type>>();
+    test_is_not_void<public_static_template_member<int>>();
+    test_is_not_void<public_static_template_member<float>>();
+    test_is_not_void<public_static_template_member<class_type>>();
     test_is_not_void<protected_static_template_member<int>>();
     test_is_not_void<protected_static_template_member<float>>();
     test_is_not_void<protected_static_template_member<class_type>>();

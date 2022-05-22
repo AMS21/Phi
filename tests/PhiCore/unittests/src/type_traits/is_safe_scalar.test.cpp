@@ -272,9 +272,9 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<private_template_member<int>>();
     test_is_not_safe_scalar<private_template_member<float>>();
     test_is_not_safe_scalar<private_template_member<class_type>>();
-    test_is_not_safe_scalar<public_static_tempalte_member<int>>();
-    test_is_not_safe_scalar<public_static_tempalte_member<float>>();
-    test_is_not_safe_scalar<public_static_tempalte_member<class_type>>();
+    test_is_not_safe_scalar<public_static_template_member<int>>();
+    test_is_not_safe_scalar<public_static_template_member<float>>();
+    test_is_not_safe_scalar<public_static_template_member<class_type>>();
     test_is_not_safe_scalar<protected_static_template_member<int>>();
     test_is_not_safe_scalar<protected_static_template_member<float>>();
     test_is_not_safe_scalar<protected_static_template_member<class_type>>();

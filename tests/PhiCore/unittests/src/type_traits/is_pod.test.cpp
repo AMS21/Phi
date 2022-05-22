@@ -387,9 +387,9 @@ TEST_CASE("is_pod")
     test_is_pod<private_template_member<int>>();
     test_is_pod<private_template_member<float>>();
     test_is_not_pod<private_template_member<class_type>>();
-    test_is_pod<public_static_tempalte_member<int>>();
-    test_is_pod<public_static_tempalte_member<float>>();
-    test_is_pod<public_static_tempalte_member<class_type>>();
+    test_is_pod<public_static_template_member<int>>();
+    test_is_pod<public_static_template_member<float>>();
+    test_is_pod<public_static_template_member<class_type>>();
     test_is_pod<protected_static_template_member<int>>();
     test_is_pod<protected_static_template_member<float>>();
     test_is_pod<protected_static_template_member<class_type>>();

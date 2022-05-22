@@ -267,9 +267,9 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<private_template_member<int>>();
     test_is_not_safe_unsigned<private_template_member<float>>();
     test_is_not_safe_unsigned<private_template_member<class_type>>();
-    test_is_not_safe_unsigned<public_static_tempalte_member<int>>();
-    test_is_not_safe_unsigned<public_static_tempalte_member<float>>();
-    test_is_not_safe_unsigned<public_static_tempalte_member<class_type>>();
+    test_is_not_safe_unsigned<public_static_template_member<int>>();
+    test_is_not_safe_unsigned<public_static_template_member<float>>();
+    test_is_not_safe_unsigned<public_static_template_member<class_type>>();
     test_is_not_safe_unsigned<protected_static_template_member<int>>();
     test_is_not_safe_unsigned<protected_static_template_member<float>>();
     test_is_not_safe_unsigned<protected_static_template_member<class_type>>();

@@ -327,9 +327,9 @@ TEST_CASE("is_same_rcvref")
     test_is_same_rcvref<private_template_member<int>>();
     test_is_same_rcvref<private_template_member<float>>();
     test_is_same_rcvref<private_template_member<class_type>>();
-    test_is_same_rcvref<public_static_tempalte_member<int>>();
-    test_is_same_rcvref<public_static_tempalte_member<float>>();
-    test_is_same_rcvref<public_static_tempalte_member<class_type>>();
+    test_is_same_rcvref<public_static_template_member<int>>();
+    test_is_same_rcvref<public_static_template_member<float>>();
+    test_is_same_rcvref<public_static_template_member<class_type>>();
     test_is_same_rcvref<protected_static_template_member<int>>();
     test_is_same_rcvref<protected_static_template_member<float>>();
     test_is_same_rcvref<protected_static_template_member<class_type>>();

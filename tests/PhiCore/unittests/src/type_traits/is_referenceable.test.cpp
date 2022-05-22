@@ -271,9 +271,9 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<private_template_member<int>>();
     test_is_referenceable<private_template_member<float>>();
     test_is_referenceable<private_template_member<class_type>>();
-    test_is_referenceable<public_static_tempalte_member<int>>();
-    test_is_referenceable<public_static_tempalte_member<float>>();
-    test_is_referenceable<public_static_tempalte_member<class_type>>();
+    test_is_referenceable<public_static_template_member<int>>();
+    test_is_referenceable<public_static_template_member<float>>();
+    test_is_referenceable<public_static_template_member<class_type>>();
     test_is_referenceable<protected_static_template_member<int>>();
     test_is_referenceable<protected_static_template_member<float>>();
     test_is_referenceable<protected_static_template_member<class_type>>();

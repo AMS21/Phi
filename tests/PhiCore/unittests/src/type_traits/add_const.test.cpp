@@ -246,9 +246,9 @@ TEST_CASE("type_traits.add_const")
     test_add_const<private_template_member<int>>();
     test_add_const<private_template_member<float>>();
     test_add_const<private_template_member<class_type>>();
-    test_add_const<public_static_tempalte_member<int>>();
-    test_add_const<public_static_tempalte_member<float>>();
-    test_add_const<public_static_tempalte_member<class_type>>();
+    test_add_const<public_static_template_member<int>>();
+    test_add_const<public_static_template_member<float>>();
+    test_add_const<public_static_template_member<class_type>>();
     test_add_const<protected_static_template_member<int>>();
     test_add_const<protected_static_template_member<float>>();
     test_add_const<protected_static_template_member<class_type>>();

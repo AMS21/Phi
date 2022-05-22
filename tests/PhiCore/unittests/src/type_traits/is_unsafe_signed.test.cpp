@@ -280,9 +280,9 @@ TEST_CASE("is_unsafe_signed")
     test_is_not_unsafe_signed<private_template_member<int>>();
     test_is_not_unsafe_signed<private_template_member<float>>();
     test_is_not_unsafe_signed<private_template_member<class_type>>();
-    test_is_not_unsafe_signed<public_static_tempalte_member<int>>();
-    test_is_not_unsafe_signed<public_static_tempalte_member<float>>();
-    test_is_not_unsafe_signed<public_static_tempalte_member<class_type>>();
+    test_is_not_unsafe_signed<public_static_template_member<int>>();
+    test_is_not_unsafe_signed<public_static_template_member<float>>();
+    test_is_not_unsafe_signed<public_static_template_member<class_type>>();
     test_is_not_unsafe_signed<protected_static_template_member<int>>();
     test_is_not_unsafe_signed<protected_static_template_member<float>>();
     test_is_not_unsafe_signed<protected_static_template_member<class_type>>();

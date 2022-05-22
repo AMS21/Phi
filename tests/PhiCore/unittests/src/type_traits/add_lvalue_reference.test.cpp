@@ -310,9 +310,9 @@ TEST_CASE("add_lvalue_reference")
     test_add_lvalue_reference<private_template_member<int>>();
     test_add_lvalue_reference<private_template_member<float>>();
     test_add_lvalue_reference<private_template_member<class_type>>();
-    test_add_lvalue_reference<public_static_tempalte_member<int>>();
-    test_add_lvalue_reference<public_static_tempalte_member<float>>();
-    test_add_lvalue_reference<public_static_tempalte_member<class_type>>();
+    test_add_lvalue_reference<public_static_template_member<int>>();
+    test_add_lvalue_reference<public_static_template_member<float>>();
+    test_add_lvalue_reference<public_static_template_member<class_type>>();
     test_add_lvalue_reference<protected_static_template_member<int>>();
     test_add_lvalue_reference<protected_static_template_member<float>>();
     test_add_lvalue_reference<protected_static_template_member<class_type>>();
