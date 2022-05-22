@@ -103,6 +103,11 @@ endforeach(_test)
 
 set(CMAKE_REQUIRED_FLAGS ${old_flags})
 
+if(PHI_COMPILER_CLANG)
+  # Clang claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
+  list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}GT")
+endif()
+
 function(phi_target_enable_optimizations)
   # Command line arguments
   cmake_parse_arguments(opt "IPO" "TARGET;PSO" "CONFIGS" ${ARGN})
