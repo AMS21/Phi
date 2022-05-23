@@ -91,7 +91,7 @@ jobs:
       - name: Test with coverage
         if: ${{ matrix.dynamic_test == 'coverage' }}
         working-directory: ./build
-        run: OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest . -C ${{ matrix.build_type }} --timeout 0
+        run: OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest . -C ${{ matrix.build_type }} --timeout 18000
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
