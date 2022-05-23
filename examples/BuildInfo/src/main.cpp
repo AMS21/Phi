@@ -2,6 +2,7 @@
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/generated/compiler_support/features.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -87,6 +88,13 @@ int main()
     PRINT_COND("Platform is Unix", PHI_PLATFORM_IS(UNIX));
     PRINT_COND("Platform is DOS", PHI_PLATFORM_IS(DOS));
     PRINT_COND("Platform is Web", PHI_PLATFORM_IS(WEB));
+
+    // Standard library
+    std::cout << "Standard library info\n";
+
+    PRINT_COND("Standard library glibcxx ", PHI_STDLIB_GLIBCXX());
+    PRINT_COND("Standard library llvm libcxx", PHI_STDLIB_LLVM_LIBCXX());
+    PRINT_COND("Standard library MSVC stl", PHI_STDLIB_MSVC_STL());
 
     return 0;
 }
