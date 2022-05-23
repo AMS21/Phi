@@ -317,12 +317,7 @@ function(phi_target_set_warnings)
   endif()
 
   # Add optional warnings as errors
-  if(warn_WARNINGS_AS_ERRORS
-     AND NOT PHI_COMPILER_APPLECLANG
-     AND NOT PHI_COMPILER_EMCC)
-    # TODO: Warning suppression for AppleClang and Emscripten seems to not work correctly so we
-    # disable warnings as errors to be able to build at all
-
+  if(warn_WARNINGS_AS_ERRORS)
     # Give a warnings if no warnigns as error flag is available
     if(NOT _WarningAsErrorAvailible)
       phi_warn(
