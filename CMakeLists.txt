@@ -202,7 +202,7 @@ if(PHI_WARNINGS_AS_ERRORS)
     # TODO: Warning suppression for AppleClang, Emscripten and Mingw seems to not work correctly so
     # we disable warnings as errors to be able to build at all
 
-    phi_info("Warnings as errors has been automatically disabled")
+    phi_log("Warnings as errors has been automatically disabled")
   else()
     list(APPEND configure_options WARNINGS_AS_ERRORS)
   endif()
