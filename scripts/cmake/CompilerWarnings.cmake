@@ -31,6 +31,7 @@ set(phi_warning_flags
     Wformat-signedness
     Wformat-truncation=2
     Wformat=2 # warn on security issues around functions that format output (ie printf)
+    Winterference-size
     Winvalid-pch
     Wlifetime
     Wlogical-op # warn about logical operations being used where bitwise were probably wanted
