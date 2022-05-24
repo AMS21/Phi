@@ -10,6 +10,7 @@ set(PHI_SANITIZER_OPTIONS
     leak
     memory
     safe-stack
+    shadow-call-stack
     thread
     undefined
     CACHE INTERNAL "")
