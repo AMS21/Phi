@@ -307,14 +307,8 @@ function(phi_target_set_warnings)
   endif()
 
   # Set warnings
-  if(PHI_COMPILER_APPLECLANG)
-    # TODO: Since warning suppression for AppleClang seems to not work correctly we disable all
-    # warnings
-    target_compile_options(${warn_TARGET} ${visibility_scope} "-w")
-  else()
-    target_compile_options(${warn_TARGET} ${visibility_scope} ${_WarningsAvailible})
-    target_compile_options(${warn_TARGET} ${visibility_scope} ${_DisableWarningAvailible})
-  endif()
+  target_compile_options(${warn_TARGET} ${visibility_scope} ${_WarningsAvailible})
+  target_compile_options(${warn_TARGET} ${visibility_scope} ${_DisableWarningAvailible})
 
   # Add optional warnings as errors
   if(warn_WARNINGS_AS_ERRORS)
