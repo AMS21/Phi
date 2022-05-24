@@ -364,12 +364,16 @@ TEST_CASE("optional Constructors")
 
 TEST_CASE("optional emplace")
 {
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    SKIP_CHECK();
+#    else
     phi::optional<std::pair<std::pair<int, int>, std::pair<double, double>>> i;
     i.emplace(std::piecewise_construct, std::make_tuple(0, 2), std::make_tuple(3, 4));
     REQUIRE(i->first.first == 0);
     REQUIRE(i->first.second == 2);
     REQUIRE(i->second.first == 3);
     REQUIRE(i->second.second == 4);
+#    endif
 }
 
 constexpr int get_int(int)
@@ -909,21 +913,29 @@ TEST_CASE("In place", "[in_place]")
     phi::optional<int> o3(phi::in_place, 42);
     REQUIRE(o3 == 42);
 
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    SKIP_CHECK();
+#    else
     phi::optional<std::tuple<int, int>> o4(phi::in_place, 0, 1);
     REQUIRE(o4);
     REQUIRE(std::get<0>(*o4) == 0);
     REQUIRE(std::get<1>(*o4) == 1);
+#    endif
 
     phi::optional<std::vector<int>> o5(phi::in_place, {0, 1});
     REQUIRE(o5);
     REQUIRE((*o5)[0] == 0);
     REQUIRE((*o5)[1] == 1);
 
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    SKIP_CHECK();
+#    else
     phi::optional<takes_init_and_variadic> o6(phi::in_place, {0, 1}, 2, 3);
     REQUIRE(o6->v[0] == 0);
     REQUIRE(o6->v[1] == 1);
     REQUIRE(std::get<0>(o6->t) == 2);
     REQUIRE(std::get<1>(o6->t) == 3);
+#    endif
 }
 
 struct bar
@@ -1002,11 +1014,15 @@ TEST_CASE("Make optional", "[make_optional]")
     REQUIRE(is_same);
     REQUIRE(o1 == o2);
 
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    SKIP_CHECK();
+#    else
     auto o3 = phi::make_optional<std::tuple<int, int, int, int>>(0, 1, 2, 3);
     REQUIRE(std::get<0>(*o3) == 0);
     REQUIRE(std::get<1>(*o3) == 1);
     REQUIRE(std::get<2>(*o3) == 2);
     REQUIRE(std::get<3>(*o3) == 3);
+#    endif
 
     auto o4 = phi::make_optional<std::vector<int>>({0, 1, 2, 3});
     REQUIRE(o4.value()[0] == 0);
@@ -1014,11 +1030,15 @@ TEST_CASE("Make optional", "[make_optional]")
     REQUIRE(o4.value()[2] == 2);
     REQUIRE(o4.value()[3] == 3);
 
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    SKIP_CHECK();
+#    else
     auto o5 = phi::make_optional<takes_init_and_variadic>({0, 1}, 2, 3);
     REQUIRE(o5->v[0] == 0);
     REQUIRE(o5->v[1] == 1);
     REQUIRE(std::get<0>(o5->t) == 2);
     REQUIRE(std::get<1>(o5->t) == 3);
+#    endif
 
     auto i  = 42;
     auto o6 = phi::make_optional<int&>(i);

@@ -195,8 +195,10 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<int(&&)[][2]>();
 #endif
     test_is_default_constructible<class_type>();
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_default_constructible<class_type[]>();
     test_is_default_constructible<class_type[2]>();
+#endif
     test_is_default_constructible<template_type<void>>();
     test_is_default_constructible<template_type<int>>();
     test_is_default_constructible<template_type<class_type>>();

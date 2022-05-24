@@ -247,23 +247,27 @@ endforeach(_test)
 
 # GCC does except all -Wno-xxxx flags even if it can't handle them
 if(PHI_COMPILER_GCC)
-  set(_DisableWarningAvailible "-Wno-unused-function")
+  set(_DisableWarningAvailible "${PHI_FLAG_PREFIX_CHAR}Wno-unused-function")
 
-  if(GCC_COMPILER_VERSION VERSION_LESS "9.0.0")
-    list(REMOVE_ITEM _WarningsAvailible "-Wuseless-cast")
+  if(PHI_GCC_VERSION VERSION_LESS "9.0.0")
+    list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wuseless-cast")
+  endif()
+
+  if(PHI_GCC_VERSION VERSION_LESS "8.0.0")
+    list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wduplicated-branches")
   endif()
 endif()
 
 # Clang only requires -Weverything
 if(PHI_COMPILER_CLANG)
-  set(_WarningsAvailible "-Weverything")
+  set(_WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Weverything")
 endif()
 
 # Emscriptens warning suppression for some reason doesn't work correctly so we disable all
 if(PHI_PLATFORM_EMSCRIPTEN)
-  set(_WarningsAvailible "-Wundef")
+  set(_WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wundef")
   set(_DisableWarningAvailible
-      "${_DisableWarningAvailible};-Wno-assume;-Wno-unused-result;-Wno-deprecated-volatile;-Wno-deprecated-declarations"
+      "${_DisableWarningAvailible};${PHI_FLAG_PREFIX_CHAR}Wno-assume;${PHI_FLAG_PREFIX_CHAR}Wno-unused-result;${PHI_FLAG_PREFIX_CHAR}Wno-deprecated-volatile;${PHI_FLAG_PREFIX_CHAR}Wno-deprecated-declarations"
   )
 endif()
 
@@ -272,7 +276,7 @@ if(PHI_COMPILER_GCC
    AND (ENABLE_SANITIZER_ADDRESS
         OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
         OR ENABLE_SANITIZER_THREAD))
-  list(REMOVE_ITEM _WarningsAvailible "-Wstrict-overflow=5")
+  list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wstrict-overflow=5")
 endif()
 
 # from here:

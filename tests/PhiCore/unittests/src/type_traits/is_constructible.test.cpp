@@ -91,8 +91,13 @@ TEST_CASE("is_constructible")
     test_is_constructible<int>();
     test_is_constructible<int, const int>();
     test_is_constructible<A, int>();
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+    test_is_not_constructible<A, int, double>();
+    test_is_not_constructible<A, int, long, double>();
+#else
     test_is_constructible<A, int, double>();
     test_is_constructible<A, int, long, double>();
+#endif
     test_is_constructible<int&, int&>();
 
     test_is_not_constructible<A>();
@@ -204,7 +209,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<const int&, explicit_to<int&&>>();
 #endif
 
-#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE() || PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
     test_is_constructible<int&&, explicit_to<int&&>>();
 #else
     test_is_not_constructible<int&&, explicit_to<int&&>>();

@@ -44,9 +44,10 @@ runtime_failure_test(NAME "container_string_view_Substr" SOURCE
                      "src/container/string_view/substr.fail.cpp")
 
 # core assert
-runtime_failure_test(NAME "core_assert_with_args" SOURCE "src/core/assert/assert_no_args.fail.cpp")
+runtime_failure_test(NAME "core_assert_with_args" SOURCE
+                     "src/core/assert/assert_with_args.fail.cpp")
 runtime_failure_test(NAME "core_assert_with_args_regex" SOURCE
-                     "src/core/assert/assert_no_args.fail.cpp" REGEX "[ASSERT FAILED]")
+                     "src/core/assert/assert_with_args.fail.cpp" REGEX "[ASSERT FAILED]")
 runtime_failure_test(NAME "core_assert_not_reached" SOURCE
                      "src/core/assert/assert_not_reached.fail.cpp")
 runtime_failure_test(NAME "core_dbg_assert_with_args_regex" SOURCE

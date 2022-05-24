@@ -246,8 +246,13 @@ TEST_CASE("is_move_constructible")
     test_is_move_constructible_cv<int(&&)[][2]>();
 #endif
     test_is_move_constructible_c<class_type>();
+#if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_move_constructible_cv<class_type[]>();
     test_is_not_move_constructible_cv<class_type[2]>();
+#else
+    SKIP_CHECK();
+    SKIP_CHECK();
+#endif
     test_is_move_constructible_c<template_type<void>>();
     test_is_move_constructible_c<template_type<int>>();
     test_is_move_constructible_c<template_type<class_type>>();
