@@ -261,17 +261,19 @@ public:
 
     constexpr void clear() noexcept
     {
-        if (m_ControlBlock != nullptr)
+        if (m_ControlBlock == nullptr)
         {
-            m_ControlBlock->decrement_ref_count();
-            if (m_ControlBlock->should_delete())
-            {
-                delete m_Ptr;
-                delete m_ControlBlock;
+            return;
+        }
 
-                m_Ptr          = nullptr;
-                m_ControlBlock = nullptr;
-            }
+        m_ControlBlock->decrement_ref_count();
+        if (m_ControlBlock->should_delete())
+        {
+            delete m_Ptr;
+            delete m_ControlBlock;
+
+            m_Ptr          = nullptr;
+            m_ControlBlock = nullptr;
         }
     }
 
