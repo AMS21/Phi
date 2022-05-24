@@ -307,6 +307,9 @@ jobs:
   code-ql:
     runs-on: ubuntu-20.04
 
+    env:
+      CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"run-queries": ["--off-heap-ram=0"]}}'
+
     permissions:
       actions: read
       contents: read
