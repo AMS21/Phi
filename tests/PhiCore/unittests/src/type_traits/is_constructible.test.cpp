@@ -143,14 +143,14 @@ TEST_CASE("is_constructible")
     test_is_constructible<base&, derived&>();
     test_is_not_constructible<derived&, base&>();
     test_is_constructible<base const&, derived const&>();
-#if PHI_COMPILER_IS_NOT(GCC)
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW)
     test_is_not_constructible<derived const&, base const&>();
     test_is_not_constructible<derived const&, base>();
 #endif
 
     test_is_constructible<base&&, derived>();
     test_is_constructible<base&&, derived&&>();
-#if PHI_COMPILER_IS_NOT(GCC)
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW)
     test_is_not_constructible<derived&&, base&&>();
     test_is_not_constructible<derived&&, base>();
 #endif
@@ -198,7 +198,7 @@ TEST_CASE("is_constructible")
 #if PHI_COMPILER_IS(CLANG)
     test_is_constructible<int&, explicit_to<int&>>();
 #endif
-#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MSVC)
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW) && PHI_COMPILER_IS_NOT(MSVC)
     test_is_constructible<const int&, explicit_to<int&&>>();
 #else
     test_is_not_constructible<const int&, explicit_to<int&&>>();

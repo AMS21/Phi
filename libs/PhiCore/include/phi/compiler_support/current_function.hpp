@@ -20,7 +20,7 @@
 
 #if PHI_COMPILER_IS(MSVC)
 #    define PHI_CURRENT_FUNCTION() __FUNCSIG__
-#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG)
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(CLANG)
 #    define PHI_CURRENT_FUNCTION() __PRETTY_FUNCTION__
 #elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) ||                                  \
         (defined(__IBMPHI__) && (__IBMPHI__ >= 500))

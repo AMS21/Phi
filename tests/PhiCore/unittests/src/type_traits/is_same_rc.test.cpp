@@ -427,7 +427,7 @@ TEST_CASE("is_same_rc")
     test_is_same_rc<trap_deref>();
     test_is_same_rc<trap_array_subscript>();
 
-#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_COMPILER_IS_NOT(MINGW)
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
 

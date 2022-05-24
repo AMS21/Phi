@@ -26,6 +26,7 @@ void test_is_unbounded_array_impl()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unbounded_array<T>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unbounded_array<T>);
 
+    // Standard compatibililty
 #if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
         !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     STATIC_REQUIRE(std::is_unbounded_array<T>::value);
@@ -286,7 +287,7 @@ TEST_CASE("is_unbounded_array")
     test_is_not_unbounded_array<trap_deref>();
     test_is_not_unbounded_array<trap_array_subscript>();
 
-#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_COMPILER_IS_NOT(MINGW)
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
 

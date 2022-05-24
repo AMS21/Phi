@@ -364,7 +364,7 @@ TEST_CASE("is_pod")
     test_is_pod<deleted_explicit_to<float>>();
     test_is_pod<deleted_explicit_to<class_type>>();
     test_is_not_pod<ellipsis>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
     test_is_pod<deleted_ellipsis>();
 #else
     test_is_not_pod<deleted_ellipsis>();

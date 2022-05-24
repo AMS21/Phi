@@ -220,7 +220,7 @@ TEST_CASE("is_array")
     test_is_array<class_type[][3]>();
 
     // Zero sized arrays are a weird case in C++. The standard doesn't allow them in general so theres no standard answer to whether or not zero sized arrays are "real" arrays. Still some compilers allow them as an extension but give warnings. To discourage their usage we simply force phi::is_array<T[0]> to be false
-#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_COMPILER_IS_NOT(MINGW)
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
 

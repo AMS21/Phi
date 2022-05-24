@@ -216,7 +216,8 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<abstract_template<int>>();
 #endif
     test_is_copy_constructible<abstract_template<double>>();
-#if PHI_COMPILER_IS_NOT(GCC) && (PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE())
+#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW) &&                                      \
+        (PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE())
     test_is_not_copy_constructible<abstract_template<class_type>>();
 #    if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_not_copy_constructible<abstract_template<incomplete_type>>();

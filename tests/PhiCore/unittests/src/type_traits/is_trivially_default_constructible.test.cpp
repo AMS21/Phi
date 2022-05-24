@@ -176,7 +176,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int(&&)[][2]>();
     test_is_not_trivially_default_constructible<class_type>();
     test_is_not_trivially_default_constructible<class_type[]>();
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
     test_is_trivially_default_constructible<class_type[2]>();
 #else
     test_is_not_trivially_default_constructible<class_type[2]>();

@@ -128,7 +128,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast16_t) >= 16);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast16_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast16_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG) ||                \
+        PHI_COMPILER_IS(MINGW)
         SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_fast16_t, std::int_fast16_t);
@@ -140,7 +141,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::int_fast32_t) >= 32);
         STATIC_REQUIRE(phi::is_signed<phi::int_fast32_t>::value);
         STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::int_fast32_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG) ||                \
+        PHI_COMPILER_IS(MINGW)
         SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::int_fast32_t, std::int_fast32_t);
@@ -172,7 +174,8 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast16_t) >= 16);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast16_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast16_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG) ||                \
+        PHI_COMPILER_IS(MINGW)
         SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::uint_fast16_t, std::uint_fast16_t);
@@ -184,7 +187,9 @@ TEST_CASE("sized_types")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::uint_fast32_t) >= 32);
         STATIC_REQUIRE_FALSE(phi::is_signed<phi::uint_fast32_t>::value);
         STATIC_REQUIRE(phi::is_unsigned<phi::uint_fast32_t>::value);
-#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+#if PHI_PLATFORM_IS(APPLE) || PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG) ||                \
+        PHI_COMPILER_IS(MINGW)
+        SKIP_CHECK();
 #else
         CHECK_SAME_TYPE(phi::uint_fast32_t, std::uint_fast32_t);
 #endif

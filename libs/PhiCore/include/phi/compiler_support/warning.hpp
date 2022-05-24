@@ -39,7 +39,7 @@
 #endif
 
 // GCC Warnings
-#if PHI_COMPILER_IS(GCC)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 7, 0)
 #        define PHI_GCC_SUPPRESS_WARNING_PUSH() PHI_PRAGMA(GCC diagnostic push)
 #        define PHI_GCC_SUPPRESS_WARNING_POP()  PHI_PRAGMA(GCC diagnostic pop)
@@ -58,7 +58,8 @@
 #endif
 
 // GCC and Clang warnings
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS(APPLECLANG)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(CLANG_COMPAT) ||             \
+        PHI_COMPILER_IS(APPLECLANG)
 #    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()                                              \
         PHI_CLANG_SUPPRESS_WARNING_PUSH() PHI_GCC_SUPPRESS_WARNING_PUSH()
 #    define PHI_CLANG_AND_GCC_SUPPRESS_WARNING(warning)                                            \
@@ -94,7 +95,7 @@
         PHI_PRAGMA(message(__FILE__ "(" PHI_STRINGIFY(__LINE__) "): warning: " #msg))
 #elif PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS(APPLECLANG)
 #    define PHI_COMPILER_WARNING(msg) PHI_PRAGMA(message msg)
-#elif PHI_COMPILER_IS(GCC)
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
 #    define PHI_COMPILER_WARNING(msg) PHI_PRAGMA(GCC warning msg)
 #else
 #    define PHI_COMPILER_WARNING(msg) /* Nothing */
