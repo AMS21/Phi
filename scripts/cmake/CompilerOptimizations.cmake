@@ -103,14 +103,14 @@ endforeach(_test)
 
 set(CMAKE_REQUIRED_FLAGS ${old_flags})
 
-if(PHI_COMPILER_CLANG)
-  # Clang claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
+# Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
+if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
   list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}GT")
+endif()
 
-  # Clang on windows seems to give errors when compiling with `fsemantic-interposition`
-  if(PHI_PLATFORM_WINDOWS)
-    list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}fsemantic-interposition")
-  endif()
+# Clang on windows seems to give errors when compiling with `fsemantic-interposition`
+if(PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
+  list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}fsemantic-interposition")
 endif()
 
 function(phi_target_enable_optimizations)
