@@ -5,6 +5,7 @@ include(CMakeParseArguments)
 # common useful flags
 set(phi_common_flags
     bigobj
+    Wa,-mbig-obj # https://digitalkarabela.com/mingw-w64-how-to-fix-file-too-big-too-many-sections/
     fmacro-backtrace-limit=0
     fms-extensions
     fdeclspec
@@ -18,7 +19,7 @@ foreach(_test ${phi_common_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
   string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
+  string(REPLACE "," "" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
