@@ -2,20 +2,6 @@ name: StaticAnalysis
 
 on:
   push:
-    paths:
-      # Workflow file itself
-      - '.github/workflows/StaticAnalysis.yml'
-      # C++ files
-      - '**.cpp'
-      - '**.hpp'
-      # CMake files
-      - '**.cmake'
-      - '**.txt'
-      # Script files
-      - '**.sh'
-      # dotfiles
-      - '.clang-tidy'
-      - '.cmake-format.yaml'
     tags:
     branches-ignore:
       - 'dependabot/**'
