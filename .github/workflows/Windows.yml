@@ -24,14 +24,14 @@ on:
     types: [published]
   workflow_dispatch:
 
+# Default windows to use bash
+defaults:
+  run:
+    shell: bash
+
 jobs:
   msvc:
     runs-on: ${{ matrix.os }}
-
-    # Default windows to use bash
-    defaults:
-      run:
-        shell: bash
 
     strategy:
       fail-fast: false
@@ -116,11 +116,6 @@ jobs:
   clang:
     runs-on: windows-2022
 
-    # Default windows to use bash
-    defaults:
-      run:
-        shell: bash
-
     strategy:
       fail-fast: false
 
@@ -202,11 +197,6 @@ jobs:
 
   gcc:
     runs-on: windows-2022
-
-    # Default windows to use bash
-    defaults:
-      run:
-        shell: bash
 
     strategy:
       fail-fast: false
