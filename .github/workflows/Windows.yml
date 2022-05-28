@@ -26,7 +26,7 @@ on:
 
 jobs:
   msvc:
-    runs-on: windows-2022
+    runs-on: ${{ matrix.os }}
 
     # Default windows to use bash
     defaults:
@@ -37,6 +37,16 @@ jobs:
       fail-fast: false
 
       matrix:
+        os:
+          # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md
+          - "windows-2016"
+          # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
+          - "windows-2019"
+          # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2022-Readme.md
+          - "windows-2022"
+
+        arch: [x64, x86]
+
         build_type:
           - "Debug"
           - "RelWithDebInfo"
@@ -61,6 +71,8 @@ jobs:
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1.10.0
+        with:
+          arch: ${{ matrix.arch }}
 
       - name: Setup coverage tools
         if: ${{ matrix.dynamic_test == 'coverage' }}
@@ -98,8 +110,8 @@ jobs:
         uses: codecov/codecov-action@v3.1.0
         with:
           file: ./build/coverage.xml
-          flags: ${{ runner.os }},msvc,${{ matrix.build_type }}
-          name: ${{ runner.os }}-msvc-${{ matrix.build_type }}-${{ matrix.standard }}
+          flags: ${{ runner.os }},msvc-${{ matrix.os }},${{ matrix.build_type }},${{ matrix.arch }}
+          name: ${{ runner.os }}-msvc-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.standard }}-${{ matrix.arch }}
 
   clang:
     runs-on: windows-2022
