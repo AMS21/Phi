@@ -459,7 +459,7 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build
         working-directory: ./build
