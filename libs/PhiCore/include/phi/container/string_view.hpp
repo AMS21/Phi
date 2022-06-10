@@ -149,7 +149,7 @@ public:
     PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, std::char_traits<CharT>>()
             const noexcept
     {
-        return std::basic_string_view<CharT, std::char_traits<CharT>>(data(), length());
+        return std::basic_string_view<CharT, std::char_traits<CharT>>(data(), length().unsafe());
     }
 
     // Iterators
