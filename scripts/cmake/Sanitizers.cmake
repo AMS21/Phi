@@ -16,7 +16,7 @@ set(PHI_SANITIZER_OPTIONS
     CACHE INTERNAL "")
 
 # Check supported sanitizer
-set(_santizer_support_flags)
+set(_phi_sanitizer_support_flags CACHE INTERNAL "")
 foreach(_test ${PHI_SANITIZER_OPTIONS})
   string(REPLACE "-" "_" _testName ${_test})
   string(TOUPPER ${_testName} _testName)
@@ -24,7 +24,9 @@ foreach(_test ${PHI_SANITIZER_OPTIONS})
   check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
                     "PHI_SUPPORTS_SANITIZER_${_testName}")
   if(PHI_SUPPORTS_SANITIZER_${_testName})
-    list(APPEND _santizer_support_flags ${_test})
+    set(_phi_sanitizer_support_flags
+        ${_phi_sanitizer_support_flags};${_test}
+        CACHE INTERNAL "")
     option(PHI_ENABLE_SANITIZER_${_testName} "Enable ${_test} sanitizer (which is supported)" FALSE)
   else()
     option(PHI_ENABLE_SANITIZER_${_testName} "Enable ${_test} sanitizer (which is not supported)"
@@ -36,7 +38,7 @@ endforeach(_test)
 set(phi_asan_extra_flags use-after-return=always use-after-scope use-odr-indicator)
 
 # Check supported extra asan flags
-set(_asan_extra_flags)
+set(_phi_asan_extra_flags_supported CACHE INTERNAL "")
 if(PHI_SUPPORTS_SANITIZER_ADDRESS)
   foreach(_test ${phi_asan_extra_flags})
     string(REPLACE "-" "_" _testName ${_test})
@@ -46,7 +48,9 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
     check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
                       "PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName})
-      list(APPEND _asan_extra_flags ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test})
+      set(_phi_asan_extra_flags_supported
+          ${_phi_asan_extra_flags_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
+          CACHE INTERNAL "")
     endif()
   endforeach(_test)
 endif()
@@ -55,7 +59,7 @@ endif()
 set(phi_msan_extra_flags track-origins=2 use-after-dtor)
 
 # Check supported extra msan flags
-set(_msan_extra_flags)
+set(_phi_msan_extra_flags_supported CACHE INTERNAL "")
 if(PHI_SUPPORTS_SANITIZER_MEMORY)
   foreach(_test ${phi_msan_extra_flags})
     string(REPLACE "-" "_" _testName ${_test})
@@ -65,7 +69,9 @@ if(PHI_SUPPORTS_SANITIZER_MEMORY)
     check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
                       "PHI_SUPPORTS_SANITIZER_MEMORY_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_MEMORY_${_testName})
-      list(APPEND _msan_extra_flags ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test})
+      set(_phi_msan_extra_flags_supported
+          ${_phi_msan_extra_flags_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
+          CACHE INTERNAL "")
     endif()
   endforeach(_test)
 endif()
@@ -118,7 +124,7 @@ set(phi_ubsan_extra_flags
     unsigned-shift-base)
 
 # Extra UBSAN
-set(_ubsan_extra_flags)
+set(_phi_ubsan_extra_flags_supported CACHE INTERNAL "")
 if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
   foreach(_test ${phi_ubsan_extra_flags})
     string(REPLACE "-" "_" _testName ${_test})
@@ -127,7 +133,9 @@ if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
     check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
                       "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
-      list(APPEND _ubsan_extra_flags ${_test})
+      set(_phi_ubsan_extra_flags_supported
+          ${_phi_ubsan_extra_flags_supported};${test}
+          CACHE INTERNAL "")
     endif()
   endforeach(_test)
 endif()
@@ -143,7 +151,7 @@ set(phi_sanitizer_support_flags
     g3)
 
 # Check sanitizer support flags
-set(_santizer_support_flags)
+set(_phi_extra_santizer_support_flags CACHE INTERNAL "")
 foreach(_test ${phi_sanitizer_support_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -152,7 +160,9 @@ foreach(_test ${phi_sanitizer_support_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _santizer_support_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_extra_santizer_support_flags
+        ${_phi_extra_santizer_support_flags};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
@@ -176,7 +186,7 @@ function(phi_target_enable_sanitizer)
 
   # Build extra compile flags
   set(extra_compile_flags "")
-  foreach(extra_flag ${_santizer_support_flags})
+  foreach(extra_flag ${_phi_extra_santizer_support_flags})
     if(extra_compile_flags EQUAL "")
       set(extra_compile_flags ${extra_flag})
     else()
@@ -205,7 +215,7 @@ function(phi_target_enable_sanitizer)
 
     # Add extra ASAN options
     if(sanitizer STREQUAL "address")
-      foreach(asan_extra ${_asan_extra_flags})
+      foreach(asan_extra ${_phi_asan_extra_flags_supported})
         if(extra_compile_flags EQUAL "")
           set(extra_compile_flags ${asan_extra})
         else()
@@ -214,7 +224,7 @@ function(phi_target_enable_sanitizer)
       endforeach()
       # Add extra MSAN options
     elseif(santizier STREQUAL "memory")
-      foreach(asan_extra ${_msan_extra_flags})
+      foreach(asan_extra ${_phi_msan_extra_flags_supported})
         if(extra_compile_flags EQUAL "")
           set(extra_compile_flags ${msan_extra})
         else()
@@ -223,7 +233,7 @@ function(phi_target_enable_sanitizer)
       endforeach()
       # Add extra UBSAN options
     elseif(sanitizer STREQUAL "undefined")
-      list(JOIN _ubsan_extra_flags "," ubsan_extra)
+      list(JOIN _phi_ubsan_extra_flags_supported "," ubsan_extra)
       set(list_of_sanitizers "${list_of_sanitizers},${ubsan_extra}")
     endif()
   endforeach()

@@ -6,7 +6,7 @@ include(internal/PhiCheckCXXCompilerFlag)
 set(phi_extra_debug_flags g3 ftrapv ftrivial-auto-var-init=pattern fcheck-new)
 
 # Check extra debug flags
-set(_ExtraDebugFlags)
+set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_extra_debug_flags})
   string(REPLACE "/" "" _testName ${_test})
   string(REPLACE "-" "_" _testName ${_testName})
@@ -16,7 +16,9 @@ foreach(_test ${phi_extra_debug_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _ExtraDebugFlags ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_extra_debug_flags_supported
+        ${_phi_extra_debug_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
@@ -57,7 +59,7 @@ function(phi_target_enable_extra_debug_flags)
   # Enable extra debug flags for each configuration
   foreach(config ${dbg_CONFIGS})
     # Set each flag
-    foreach(flag ${_ExtraDebugFlags})
+    foreach(flag ${_phi_extra_debug_flags_supported})
       target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       target_link_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
     endforeach()

@@ -35,8 +35,18 @@ set(phi_opt_compile_flags
     Ot
     GT)
 
+# Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
+if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
+  list(REMOVE_ITEM phi_opt_compile_flags "GT")
+endif()
+
+# Clang on windows seems to give errors when compiling with `fsemantic-interposition`
+if(PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
+  list(REMOVE_ITEM phi_opt_compile_flags "fsemantic-interposition")
+endif()
+
 # Check optimize flags
-set(_opt_compile_flags)
+set(_phi_opt_compile_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_opt_compile_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -47,7 +57,9 @@ foreach(_test ${phi_opt_compile_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _opt_compile_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_opt_compile_flags_supported
+        ${_phi_opt_compile_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
@@ -76,7 +88,9 @@ else()
 endif()
 
 # Extra IPO flags
-set(phi_extra_ipo_flags fsplit-lto-unit Wl,--no-as-needed)
+set(phi_extra_ipo_flags
+    fsplit-lto-unit Wl,--no-as-needed
+    CACHE INTERNAL "")
 
 # IPO specific optimizations
 set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fvirtual-function-elimination
@@ -86,7 +100,7 @@ set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fvirtual-function
 set(old_flags ${CMAKE_REQUIRED_FLAGS})
 set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}flto")
 
-set(_opt_ipo_extra)
+set(_phi_opt_ipo_extra_supported CACHE INTERNAL "")
 foreach(_test ${phi_ipo_opt})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -97,21 +111,13 @@ foreach(_test ${phi_ipo_opt})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _opt_ipo_extra ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_opt_ipo_extra_supported
+        ${_phi_opt_ipo_extra_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
 set(CMAKE_REQUIRED_FLAGS ${old_flags})
-
-# Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
-if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
-  list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}GT")
-endif()
-
-# Clang on windows seems to give errors when compiling with `fsemantic-interposition`
-if(PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
-  list(REMOVE_ITEM _opt_compile_flags "${PHI_FLAG_PREFIX_CHAR}fsemantic-interposition")
-endif()
 
 function(phi_target_enable_optimizations)
   # Command line arguments
@@ -150,7 +156,7 @@ function(phi_target_enable_optimizations)
   # Enable options for each specified configuration
   foreach(config ${opt_CONFIGS})
     # Enable normal optimization flags
-    foreach(flag ${_opt_compile_flags})
+    foreach(flag ${_phi_opt_compile_flags_supported})
       target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
     endforeach()
@@ -165,7 +171,7 @@ function(phi_target_enable_optimizations)
       endif()
 
       # Enable IPO specifc optimizations
-      foreach(flag ${_opt_ipo_extra})
+      foreach(flag ${_phi_opt_ipo_extra_supported})
         target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       endforeach()

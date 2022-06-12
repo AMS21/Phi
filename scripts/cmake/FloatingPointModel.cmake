@@ -25,7 +25,7 @@ set(phi_fast_math_flags
     fp:except-)
 
 # Check fast math flags
-set(_fpm_fast_math_flags)
+set(_phi_fpm_fast_math_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_fast_math_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -36,7 +36,9 @@ foreach(_test ${phi_fast_math_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _fpm_fast_math_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_fpm_fast_math_flags_supported
+        ${_phi_fpm_fast_math_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
@@ -46,7 +48,7 @@ set(phi_precise_math_flags
     fp:precise)
 
 # Check precise math flags
-set(_fpm_precise_math_flags)
+set(_phi_fpm_precise_math_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_precise_math_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -57,7 +59,9 @@ foreach(_test ${phi_precise_math_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _fpm_precise_math_flags ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_fpm_precise_math_flags_supported
+        ${_phi_fpm_precise_math_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
@@ -109,14 +113,14 @@ function(phi_target_set_floating_point_model)
     # No special flags to enable just add a define
     target_compile_definitions(${fpm_TARGET} ${visibility_scope} "PHI_CONFIG_FPM_DEFAULT")
   elseif(fpm_FAST)
-    foreach(flag ${_fpm_fast_math_flags})
+    foreach(flag ${_phi_fpm_fast_math_flags_supported})
       target_compile_options(${fpm_TARGET} ${visibility_scope} ${flag})
     endforeach()
 
     target_compile_definitions(${fpm_TARGET} ${visibility_scope} "PHI_CONFIG_FPM_FAST")
 
   elseif(fpm_PRECISE)
-    foreach(flag ${_fpm_precise_math_flags})
+    foreach(flag ${_phi_fpm_precise_math_flags_supported})
       target_compile_options(${fpm_TARGET} ${visibility_scope} ${flag})
     endforeach()
 

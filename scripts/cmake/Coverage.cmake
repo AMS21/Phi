@@ -4,25 +4,32 @@ include(CMakeParseArguments)
 include(CheckLinkerFlag)
 include(internal/PhiCheckCXXCompilerFlag)
 
-set(phi_coverage_compile_flags -O0 -g3 -fno-inline -fno-inline-functions -fprofile-abs-path)
+set(phi_coverage_compile_flags O0 g3 fno-inline fno-inline-functions fprofile-abs-path)
 
 set(phi_coverage_link_flags -fprofile-instr-generate -fcoverage-mapping --coverage)
 
+# Remove '--coverage' for clang since it produces a 'Wunused-command-line-argument' warning
+if(PHI_COMPILER_CLANG)
+  list(REMOVE_ITEM phi_coverage_link_flags "--coverage")
+endif()
+
 # Check for support of coverage compile flags
-set(_coverage_compile_flags)
+set(_phi_coverage_compile_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_coverage_compile_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(TOUPPER ${_testName} _testName)
 
-  phi_check_cxx_compiler_flag(${_test} "PHI_HAS_FLAG${_testName}")
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
-  if(PHI_HAS_FLAG${_testName})
-    list(APPEND _coverage_compile_flags ${_test})
+  if(PHI_HAS_FLAG_${_testName})
+    set(_phi_coverage_compile_flags_supported
+        ${_phi_coverage_compile_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach()
 
 # Check for support of coverage linker flags
-set(_coverage_linker_flags)
+set(_phi_coverage_linker_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_coverage_link_flags})
   string(REPLACE "--" "_" _testName ${_test})
   string(REPLACE "-" "_" _testName ${_testName})
@@ -31,14 +38,11 @@ foreach(_test ${phi_coverage_link_flags})
   check_linker_flag(CXX ${_test} "PHI_HAS_FLAG${_testName}")
 
   if(PHI_HAS_FLAG${_testName})
-    list(APPEND _coverage_linker_flags ${_test})
+    set(_phi_coverage_linker_flags_supported
+        ${_phi_coverage_linker_flags_supported};${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach()
-
-# Remove '--coverage' for clang since it produces a 'Wunused-command-line-argument' warning
-if(PHI_COMPILER_CLANG)
-  list(REMOVE_ITEM _coverage_linker_flags "--coverage")
-endif()
 
 function(phi_target_enable_coverage)
   # Command line arguments
@@ -56,7 +60,7 @@ function(phi_target_enable_coverage)
   endif()
 
   # Check if we actually have coverage flags
-  if(NOT _coverage_compile_flags AND _coverage_linker_flags)
+  if(NOT _phi_coverage_compile_flags_supported AND _phi_coverage_linker_flags_supported)
     phi_warn(
       "phi_target_enable_coverage: There we no coverage flags found for your compiler \"${CMAKE_CXX_COMPILER_ID}\"!"
     )
@@ -75,12 +79,12 @@ function(phi_target_enable_coverage)
   endif()
 
   # Set coverage compile flags
-  foreach(flag ${_coverage_compile_flags})
+  foreach(flag ${_phi_coverage_compile_flags_supported})
     target_compile_options(${cov_TARGET} ${visibility_scope} ${flag})
   endforeach()
 
   # Set coverage linker flags
-  foreach(flag ${_coverage_linker_flags})
+  foreach(flag ${_phi_coverage_linker_flags_supported})
     target_compile_options(${cov_TARGET} ${visibility_scope} ${flag})
     target_link_options(${cov_TARGET} ${visibility_scope} ${flag})
   endforeach()

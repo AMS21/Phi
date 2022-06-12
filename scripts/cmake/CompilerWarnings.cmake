@@ -173,10 +173,44 @@ set(phi_disabled_warnings_flags
 
 set(phi_check_required_flags "Werror=unknown-attributes")
 
+# Clang only requires -Weverything
+if(PHI_COMPILER_CLANG)
+  set(phi_warning_flags "Weverything")
+endif()
+
+# Disable -Wstrict-overflow on gcc with asan, ubsan or tsan
+if(PHI_COMPILER_GCC
+   AND (ENABLE_SANITIZER_ADDRESS
+        OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
+        OR ENABLE_SANITIZER_THREAD))
+  list(REMOVE_ITEM phi_warning_flags "Wstrict-overflow=5")
+endif()
+
+# GCC does except all -Wno-xxxx flags even if it can't handle them
+if(PHI_COMPILER_GCC)
+  set(phi_disabled_warnings_flags "Wno-unused-function")
+
+  if(PHI_GCC_VERSION VERSION_LESS "9.0.0")
+    list(REMOVE_ITEM phi_warning_flags "Wuseless-cast")
+  endif()
+
+  if(PHI_GCC_VERSION VERSION_LESS "8.0.0")
+    list(REMOVE_ITEM phi_warning_flags "Wduplicated-branches")
+  endif()
+endif()
+
+# Emscriptens warning suppression for some reason doesn't work correctly so we disable all
+if(PHI_PLATFORM_EMSCRIPTEN)
+  set(phi_warning_flags "Wundef")
+  set(phi_disabled_warnings_flags
+      "${phi_disabled_warnings_flags};Wno-assume;Wno-unused-result;Wno-deprecated-volatile;Wno-deprecated-declarations"
+  )
+endif()
+
 # Checks
 
 # Check all normal warnings
-set(_WarningsAvailible)
+set(_phi_warning_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_warning_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -185,12 +219,14 @@ foreach(_test ${phi_warning_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _WarningsAvailible ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_warning_flags_supported
+        ${_phi_warning_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
 # Check pedantic
-set(_PedanticAvailible)
+set(_phi_pedantic_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_pedantic_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -199,12 +235,14 @@ foreach(_test ${phi_pedantic_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _PedanticAvailible ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_pedantic_flags_supported
+        ${_phi_pedantic_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
 # Check warning as error
-set(_WarningAsErrorAvailible)
+set(_phi_warnings_as_errors_supported CACHE INTERNAL "")
 foreach(_test ${phi_warnings_as_errors_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -213,12 +251,14 @@ foreach(_test ${phi_warnings_as_errors_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _WarningAsErrorAvailible ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_warnings_as_errors_supported
+        ${_phi_warnings_as_errors_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
 # Disabled warnings
-set(_DisableWarningAvailible)
+set(_phi_disabled_warnings_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_disabled_warnings_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -227,12 +267,14 @@ foreach(_test ${phi_disabled_warnings_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _DisableWarningAvailible ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_disabled_warnings_flags_supported
+        ${_phi_disabled_warnings_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
 # Check required flags
-set(_CheckRequiredFlags)
+set(_phi_check_required_flags CACHE INTERNAL "")
 foreach(_test ${phi_check_required_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
@@ -241,43 +283,11 @@ foreach(_test ${phi_check_required_flags})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    list(APPEND _CheckRequiredFlagsAvailible ${PHI_FLAG_PREFIX_CHAR}${_test})
+    set(_phi_check_required_flags
+        ${_phi_check_required_flags};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
   endif()
 endforeach(_test)
-
-# GCC does except all -Wno-xxxx flags even if it can't handle them
-if(PHI_COMPILER_GCC)
-  set(_DisableWarningAvailible "${PHI_FLAG_PREFIX_CHAR}Wno-unused-function")
-
-  if(PHI_GCC_VERSION VERSION_LESS "9.0.0")
-    list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wuseless-cast")
-  endif()
-
-  if(PHI_GCC_VERSION VERSION_LESS "8.0.0")
-    list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wduplicated-branches")
-  endif()
-endif()
-
-# Clang only requires -Weverything
-if(PHI_COMPILER_CLANG)
-  set(_WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Weverything")
-endif()
-
-# Emscriptens warning suppression for some reason doesn't work correctly so we disable all
-if(PHI_PLATFORM_EMSCRIPTEN)
-  set(_WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wundef")
-  set(_DisableWarningAvailible
-      "${_DisableWarningAvailible};${PHI_FLAG_PREFIX_CHAR}Wno-assume;${PHI_FLAG_PREFIX_CHAR}Wno-unused-result;${PHI_FLAG_PREFIX_CHAR}Wno-deprecated-volatile;${PHI_FLAG_PREFIX_CHAR}Wno-deprecated-declarations"
-  )
-endif()
-
-# Disable -Wstrict-overflow on gcc with asan, ubsan or tsan
-if(PHI_COMPILER_GCC
-   AND (ENABLE_SANITIZER_ADDRESS
-        OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-        OR ENABLE_SANITIZER_THREAD))
-  list(REMOVE_ITEM _WarningsAvailible "${PHI_FLAG_PREFIX_CHAR}Wstrict-overflow=5")
-endif()
 
 # from here:
 #
@@ -312,19 +322,20 @@ function(phi_target_set_warnings)
   endif()
 
   # Set warnings
-  target_compile_options(${warn_TARGET} ${visibility_scope} ${_WarningsAvailible})
-  target_compile_options(${warn_TARGET} ${visibility_scope} ${_DisableWarningAvailible})
+  target_compile_options(${warn_TARGET} ${visibility_scope} ${_phi_warning_flags_supported})
+  target_compile_options(${warn_TARGET} ${visibility_scope}
+                         ${_phi_disabled_warnings_flags_supported})
 
   # Add optional warnings as errors
   if(warn_WARNINGS_AS_ERRORS)
     # Give a warnings if no warnigns as error flag is available
-    if(NOT _WarningAsErrorAvailible)
+    if(NOT _phi_warnings_as_errors_supported)
       phi_warn(
         "phi_target_set_warnings: Trying to enable warnings as errors but no supported flags we're found while processing target ${warn_TARGET}"
       )
     endif()
 
-    target_compile_options(${warn_TARGET} ${visibility_scope} ${_WarningAsErrorAvailible})
+    target_compile_options(${warn_TARGET} ${visibility_scope} ${_phi_warnings_as_errors_supported})
     target_compile_definitions(${warn_TARGET} ${visibility_scope} "PHI_CONFIG_WARNINGS_AS_ERRORS")
   endif()
 
