@@ -395,6 +395,12 @@ TEST_CASE("type_traits")
     STATIC_REQUIRE(phi::is_fundamental_v<int>);
 #endif
 
+    // is_implicitly_default_constructible
+    STATIC_REQUIRE(phi::is_implicitly_default_constructible<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::is_implicitly_default_constructible_v<int>);
+#endif
+
     // is_integer
     STATIC_REQUIRE(phi::is_integer<int>::value);
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

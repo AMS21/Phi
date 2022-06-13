@@ -177,6 +177,7 @@ file(
   "src/type_traits/is_function_pointer.test.cpp"
   "src/type_traits/is_function.test.cpp"
   "src/type_traits/is_fundamental.test.cpp"
+  "src/type_traits/is_implicitly_default_constructible.test.cpp"
   "src/type_traits/is_integer.test.cpp"
   "src/type_traits/is_integral.test.cpp"
   "src/type_traits/is_invocable_r.test.cpp"

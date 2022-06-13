@@ -73,6 +73,7 @@
 #include "phi/type_traits/is_function.hpp"
 #include "phi/type_traits/is_function_pointer.hpp"
 #include "phi/type_traits/is_fundamental.hpp"
+#include "phi/type_traits/is_implicitly_default_constructible.hpp"
 #include "phi/type_traits/is_integer.hpp"
 #include "phi/type_traits/is_integral.hpp"
 #include "phi/type_traits/is_invocable.hpp"
