@@ -180,7 +180,7 @@ public:
         swap_ranges(elements, elements + Size, other.elements);
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
     {
         TypeT max_value = at(0);
         for (size_type index{1u}; index < Size; ++index)
@@ -192,7 +192,8 @@ public:
     }
 
     template <typename UnaryFunctionT>
-    PHI_EXTENDED_CONSTEXPR TypeT max_if(UnaryFunctionT function, TypeT default_value = {})
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max_if(UnaryFunctionT function,
+                                                      TypeT          default_value = {})
     {
         TypeT max_value = default_value;
         for (size_type index{0u}; index < Size; ++index)
@@ -208,7 +209,7 @@ public:
         return max_value;
     }
 
-    PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
     {
         iterator max_index = begin();
         for (iterator index = ++begin(); index < Size; ++index)
@@ -219,7 +220,7 @@ public:
         return max_index;
     }
 
-    PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
     {
         const_iterator max_index = begin();
         for (const_iterator index = ++begin(); index < Size; ++index)
@@ -230,7 +231,7 @@ public:
         return max_index;
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
     {
         TypeT min_value = at(0u);
         for (size_type index{1u}; index < Size; ++index)
@@ -242,8 +243,8 @@ public:
     }
 
     template <typename UnaryFunctionT>
-    PHI_EXTENDED_CONSTEXPR TypeT min_if(UnaryFunctionT function,
-                                        TypeT          default_value = {}) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min_if(UnaryFunctionT function,
+                                                      TypeT default_value = {}) const noexcept
     {
         TypeT min_value = default_value;
         for (size_type index{0u}; index < Size; ++index)
@@ -258,7 +259,7 @@ public:
         return min_value;
     }
 
-    PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
     {
         iterator min_index = begin();
         for (iterator index = ++begin(); index < Size; ++index)
@@ -269,7 +270,7 @@ public:
         return min_index;
     }
 
-    PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
     {
         const_iterator min_index = begin();
         for (const_iterator index = ++begin(); index < Size; ++index)
