@@ -679,6 +679,68 @@ TEST_CASE("Array")
             trap_self_assign* e_p = e.data();
         }
     }
+
+    SECTION("reverse")
+    {
+        {
+            T a = {1, 2, 3};
+            a.reverse();
+
+            CHECK_NOEXCEPT(a.reverse());
+
+            CHECK(a.at(0u) == 3u);
+            CHECK(a.at(1u) == 2u);
+            CHECK(a.at(2u) == 1u);
+        }
+
+        SECTION("Traps")
+        {
+            phi::array<trap_implicit_conversion, 3> b = {};
+            b.reverse();
+
+            phi::array<trap_comma, 3> c = {};
+            c.reverse();
+
+            phi::array<trap_call, 3> d = {};
+            d.reverse();
+
+            phi::array<trap_self_assign, 3> e = {};
+            e.reverse();
+        }
+    }
+
+    SECTION("to_reversed")
+    {
+        {
+            const T a = {1, 2, 3};
+            T       b = a.to_reversed();
+
+            CHECK_NOEXCEPT(a.to_reversed());
+
+            CHECK(a.at(0u) == 1u);
+            CHECK(a.at(1u) == 2u);
+            CHECK(a.at(2u) == 3u);
+
+            CHECK(b.at(0u) == 3u);
+            CHECK(b.at(1u) == 2u);
+            CHECK(b.at(2u) == 1u);
+        }
+
+        SECTION("Traps")
+        {
+            phi::array<trap_implicit_conversion, 3> b = {};
+            (void)b.to_reversed();
+
+            phi::array<trap_comma, 3> c = {};
+            (void)c.to_reversed();
+
+            phi::array<trap_call, 3> d = {};
+            (void)d.to_reversed();
+
+            phi::array<trap_self_assign, 3> e = {};
+            (void)e.to_reversed();
+        }
+    }
 }
 
 PHI_MSVC_SUPPRESS_WARNING_POP()

@@ -281,6 +281,28 @@ public:
         return min_index;
     }
 
+    PHI_EXTENDED_CONSTEXPR void reverse() noexcept
+    {
+        for (size_t index = 0u; index != Size / 2u; ++index)
+        {
+            const size_t other_index = Size - index - 1u;
+
+            const TypeT temp_value = elements[index];
+
+            elements[index]       = elements[other_index];
+            elements[other_index] = temp_value;
+        }
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR array<TypeT, Size> to_reversed() const noexcept
+    {
+        array<TypeT, Size> copy_of_this = *this;
+
+        copy_of_this.reverse();
+
+        return copy_of_this;
+    }
+
     TypeT elements[Size];
 };
 
@@ -479,6 +501,14 @@ public:
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();
+    }
+
+    PHI_EXTENDED_CONSTEXPR void reverse() noexcept
+    {}
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR array<TypeT, 0u> to_reversed() const noexcept
+    {
+        return array<TypeT, 0u>{};
     }
 };
 
