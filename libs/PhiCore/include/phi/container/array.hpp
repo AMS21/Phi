@@ -42,14 +42,14 @@ public:
     {
         PHI_DBG_ASSERT(pos < Size, "Index out of range");
 
-        return m_Elements[pos.unsafe()];
+        return elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type pos) const noexcept
     {
         PHI_DBG_ASSERT(pos < Size, "Index out of range");
 
-        return m_Elements[pos.unsafe()];
+        return elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](size_type pos) noexcept
@@ -84,12 +84,12 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR pointer data() noexcept
     {
-        return m_Elements;
+        return elements;
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_pointer data() const noexcept
     {
-        return m_Elements;
+        return elements;
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator begin() noexcept
@@ -171,13 +171,13 @@ public:
     {
         for (size_type index{0u}; index < Size; ++index)
         {
-            m_Elements[index.unsafe()] = value;
+            elements[index.unsafe()] = value;
         }
     }
 
     PHI_EXTENDED_CONSTEXPR void swap(array& other) noexcept(is_nothrow_swappable<TypeT>::value)
     {
-        swap_ranges(m_Elements, m_Elements + Size, other.m_Elements);
+        swap_ranges(elements, elements + Size, other.elements);
     }
 
     PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
@@ -280,7 +280,7 @@ public:
         return min_index;
     }
 
-    TypeT m_Elements[Size];
+    TypeT elements[Size];
 };
 
 template <typename TypeT>
