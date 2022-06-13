@@ -303,6 +303,7 @@ public:
         return copy_of_this;
     }
 
+    // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes)
     TypeT elements[Size];
 };
 
