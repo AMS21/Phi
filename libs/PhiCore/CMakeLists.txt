@@ -140,6 +140,7 @@ file(
   "include/phi/container/array.hpp"
   "include/phi/container/bit_view.hpp"
   "include/phi/container/dynamic_array.hpp"
+  "include/phi/container/pair.hpp"
   "include/phi/container/string_view.hpp"
   "include/phi/container/zstring.hpp"
   # core
