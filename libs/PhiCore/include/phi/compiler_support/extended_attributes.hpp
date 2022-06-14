@@ -41,4 +41,12 @@
 #    define PHI_ATTRIBUTE_RETURNS_NONNULL /* Nothing */
 #endif
 
+#if PHI_HAS_EXTENSION_ATTRIBUTE_NONNULL()
+#    define PHI_ATTRIBUTE_NONNULL                 __attribute__((nonnull))
+#    define PHI_ATTRIBUTE_NONNULL_PARAMETERS(...) __attribute__((nonnull(__VA_ARGS__)))
+#else
+#    define PHI_ATTRIBUTE_NONNULL                 /* Nothing */
+#    define PHI_ATTRIBUTE_NONNULL_PARAMETERS(...) /* Nothing */
+#endif
+
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_ATTRIBUTES_HPP

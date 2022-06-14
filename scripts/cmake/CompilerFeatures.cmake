@@ -394,6 +394,8 @@ phi_check_cxx_source_compiles("class [[gsl::Pointer]] A{}; int main() {}"
                               PHI_HAS_EXTENSION_GSL_POINTER)
 phi_check_cxx_source_compiles("void* _Ret_notnull_ f(); int main() {}"
                               PHI_HAS_EXTENSION_RET_NONNULL)
+phi_check_cxx_source_compiles("void f(void* a) __attribute__((nonnull)); int main(){}"
+                              PHI_HAS_EXTENSION_ATTRIBUTE_NONNULL)
 
 # Bugs
 phi_check_cxx_source_compiles(
