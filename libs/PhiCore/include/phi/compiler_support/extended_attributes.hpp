@@ -33,4 +33,12 @@
 #    define PHI_ATTRIBUTE_POINTER /* Nothing */
 #endif
 
+#if PHI_HAS_EXTENSION_ATTRIBUTE_RETURNS_NONNULL()
+#    define PHI_ATTRIBUTE_RETURNS_NONNULL __attribute__((returns_nonnull))
+#elif PHI_HAS_EXTENSION_RET_NONNULL()
+#    define PHI_ATTRIBUTE_RETURNS_NONNULL _Ret_notnull_
+#else
+#    define PHI_ATTRIBUTE_RETURNS_NONNULL /* Nothing */
+#endif
+
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_ATTRIBUTES_HPP
