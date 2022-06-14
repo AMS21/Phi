@@ -9,7 +9,7 @@ include(Common)
 # Set compile flags
 list(JOIN _common_flags " " common_flags_joined)
 set(CMAKE_REQUIRED_FLAGS
-    "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_CheckRequiredFlagsAvailible}")
+    "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_phi_check_required_flags}")
 
 # Features
 
@@ -389,6 +389,9 @@ phi_check_cxx_source_compiles("__attribute__ ((const)) int main() {}"
 phi_check_cxx_source_compiles("__attribute__ ((pure)) int main() {}"
                               PHI_HAS_EXTENSION_ATTRIBUTE_PURE)
 phi_check_cxx_source_compiles("int main() { int a[0]; }" PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY)
+phi_check_cxx_source_compiles("class [[gsl::Owner]] A{}; int main() {}" PHI_HAS_EXTENSION_GSL_OWNER)
+phi_check_cxx_source_compiles("class [[gsl::Pointer]] A{}; int main() {}"
+                              PHI_HAS_EXTENSION_GSL_POINTER)
 
 # Bugs
 phi_check_cxx_source_compiles(

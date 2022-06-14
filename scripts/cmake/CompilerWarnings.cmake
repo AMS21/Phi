@@ -171,7 +171,7 @@ set(phi_disabled_warnings_flags
     # GCC
     Wno-unused-function)
 
-set(phi_check_required_flags "Werror=unknown-attributes")
+set(phi_check_required_flags Werror=unknown-attributes Werror=attributes)
 
 # Clang only requires -Weverything
 if(PHI_COMPILER_CLANG)

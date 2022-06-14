@@ -21,4 +21,16 @@
 #    define PHI_ATTRIBUTE_PURE /* Nothing */
 #endif
 
+#if PHI_HAS_EXTENSION_GSL_OWNER()
+#    define PHI_ATTRIBUTE_OWNER [[gsl::Owner]]
+#else
+#    define PHI_ATTRIBUTE_OWNER /* Nothing */
+#endif
+
+#if PHI_HAS_EXTENSION_GSL_POINTER()
+#    define PHI_ATTRIBUTE_POINTER [[gsl::Pointer]]
+#else
+#    define PHI_ATTRIBUTE_POINTER /* Nothing */
+#endif
+
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_ATTRIBUTES_HPP
