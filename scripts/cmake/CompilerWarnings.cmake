@@ -164,6 +164,7 @@ set(phi_disabled_warnings_flags
     Wno-missing-prototypes
     Wno-missing-variable-declarations
     Wno-padded
+    Wno-switch-enum # Warns about enum switches with a default label
     Wno-unused-macros
     Wno-unused-template
     Wno-variadic-macros
