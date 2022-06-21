@@ -273,7 +273,7 @@ private:
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
-    : m_Ptr(const_cast<void*>(other.get()))
+    : m_Ptr(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)
 {}
 
 constexpr flat_ptr::flat_ptr(not_null_flat_ptr&& other) noexcept
@@ -283,6 +283,7 @@ constexpr flat_ptr::flat_ptr(not_null_flat_ptr&& other) noexcept
 PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(
         const not_null_flat_ptr& other) noexcept
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
     m_Ptr = const_cast<void*>(other.get());
 
     return *this;
