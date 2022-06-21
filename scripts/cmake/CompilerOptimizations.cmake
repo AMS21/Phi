@@ -92,9 +92,11 @@ set(phi_extra_ipo_flags
     fsplit-lto-unit Wl,--no-as-needed
     CACHE INTERNAL "")
 
+# TODO: Disabled fvirtual-function-elimination since it requires -flto=full which we don't support
+# atm
+
 # IPO specific optimizations
-set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fvirtual-function-elimination
-                fdevirtualize-at-ltrans)
+set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fdevirtualize-at-ltrans)
 
 # Check ipo specific optimizations
 set(old_flags ${CMAKE_REQUIRED_FLAGS})
