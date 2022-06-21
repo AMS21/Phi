@@ -58,7 +58,8 @@ install_cmake_format() {
     upgrade_pip
 
     echo "-- Installing cmake-format..."
-    sudo -H pip3 install cmake-format
+    # See https://cmake-format.readthedocs.io/en/latest/installation.html#installation
+    sudo -H pip3 install cmakelang pyyaml
     echo "-- Installing cmake-format done"
 
     # Verify
