@@ -54,15 +54,15 @@ public:
     using const_pointer   = const TypeT*;
 
     constexpr scope_ptr() noexcept
-        : m_Ptr(nullptr)
+        : m_Ptr{nullptr}
     {}
 
     constexpr explicit scope_ptr(nullptr_t) noexcept
-        : m_Ptr(nullptr)
+        : m_Ptr{nullptr}
     {}
 
     constexpr explicit scope_ptr(TypeT* ptr) noexcept
-        : m_Ptr(ptr)
+        : m_Ptr{ptr}
     {}
 
     scope_ptr(const scope_ptr<TypeT>&) = delete;
@@ -74,12 +74,12 @@ public:
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr scope_ptr(scope_ptr<OtherT>&& other) noexcept
-        : m_Ptr(other.leak_ptr())
+        : m_Ptr{other.leak_ptr()}
     {}
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<TypeT>&& other) noexcept
-        : m_Ptr(other.leak_ptr())
+        : m_Ptr{other.leak_ptr()}
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved not_null_scope_ptr");
     }
@@ -87,7 +87,7 @@ public:
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
-        : m_Ptr(other.leak_ptr())
+        : m_Ptr{other.leak_ptr()}
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved not_null_scope_ptr");
     }

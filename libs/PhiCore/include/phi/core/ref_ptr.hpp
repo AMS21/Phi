@@ -308,8 +308,10 @@ public:
 
     constexpr void swap(ref_ptr& other) noexcept
     {
-        phi::swap(m_Ptr, other.m_Ptr);
-        phi::swap(m_ControlBlock, other.m_ControlBlock);
+        using phi::swap;
+
+        swap(m_Ptr, other.m_Ptr);
+        swap(m_ControlBlock, other.m_ControlBlock);
     }
 
     [[nodiscard]] constexpr TypeT* get() noexcept
@@ -352,28 +354,28 @@ public:
         return get();
     }
 
-    TypeT* operator->()
+    PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
-    const TypeT* operator->() const
+    PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
-    TypeT& operator*()
+    TypeT& operator*() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return *get();
     }
 
-    const TypeT& operator*() const
+    const TypeT& operator*() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
@@ -629,38 +631,38 @@ public:
 
     operator boolean() = delete;
 
-    constexpr explicit operator const TypeT*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator const TypeT*() const noexcept
     {
         return get();
     }
 
-    constexpr explicit operator TypeT*() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator TypeT*() noexcept
     {
         return get();
     }
 
-    TypeT* operator->()
-    {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
-
-        return get();
-    }
-
-    const TypeT* operator->() const
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* operator->() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return get();
     }
 
-    TypeT& operator*()
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const TypeT* operator->() const noexcept
+    {
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+
+        return get();
+    }
+
+    constexpr TypeT& operator*() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return *get();
     }
 
-    const TypeT& operator*() const
+    constexpr const TypeT& operator*() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
