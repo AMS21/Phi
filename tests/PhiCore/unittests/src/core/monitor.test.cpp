@@ -75,7 +75,7 @@ TEST_CASE("core.monitor.functions")
         auto lock = mon.ManuallyLock();
 
         CHECK(lock->val == 2u);
-        CHECK(lock.m_monitor == &mon);
+        CHECK(lock.m_Monitor == &mon);
     }
 
     SECTION("GetThreadUnsafeAccess")

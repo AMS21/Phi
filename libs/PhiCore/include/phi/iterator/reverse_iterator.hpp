@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/iterator/iterator_tags.hpp"
 #include "phi/iterator/iterator_traits.hpp"
 #include "phi/type_traits/conditional.hpp"
@@ -16,7 +17,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename IteratorT>
-class reverse_iterator
+class PHI_ATTRIBUTE_POINTER reverse_iterator
 {
 public:
     using value_type        = typename iterator_traits<IteratorT>::value_type;

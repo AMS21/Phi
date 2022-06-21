@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
@@ -20,7 +21,8 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 string_compare(const CharT* lhs, const CharT* rhs) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR i32
+string_compare(const CharT* lhs, const CharT* rhs) noexcept
 {
     PHI_DBG_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
     PHI_DBG_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");
@@ -44,8 +46,9 @@ template <typename CharT>
 i32 string_compare(nullptr_t, const CharT*) = delete;
 
 template <typename CharT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR i32 string_compare(const CharT* lhs, const CharT* rhs,
-                                                        usize count) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR i32 string_compare(const CharT* lhs,
+                                                                              const CharT* rhs,
+                                                                              usize count) noexcept
 {
     PHI_DBG_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
     PHI_DBG_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");

@@ -11,6 +11,7 @@
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
@@ -41,8 +42,13 @@ DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
+
 template <typename CharT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize string_length(CharT* string) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR usize
+string_length(CharT* string) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to string_length is not allowed. Use "
                                       "safe_string_length if you intended to pass a nullptr.");
@@ -73,7 +79,8 @@ template <typename CharT = nullptr_t>
 PHI_NODISCARD constexpr usize string_length(nullptr_t) noexcept = delete;
 
 template <typename CharT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize string_length(CharT* string, usize length) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR usize
+string_length(CharT* string, usize length) noexcept
 {
     PHI_DBG_ASSERT(string != nullptr, "Passing nullptr to string_length is not allowed. Use "
                                       "safe_string_length if you intended to pass a nullptr.");
@@ -86,6 +93,8 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR usize string_length(CharT* string, usize le
 
     return count;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
 PHI_NODISCARD constexpr usize string_length(std::basic_string<CharT, TraitsT, AllocatorT> string,

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"
@@ -28,17 +29,17 @@ class monitor final
 private:
     struct monitor_helper
     {
-        constexpr monitor_helper(monitor* monitor) noexcept
-            : m_monitor(monitor)
-            , m_Lock(monitor->m_Mutex)
+        constexpr explicit monitor_helper(monitor* monitor) noexcept PHI_ATTRIBUTE_NONNULL
+            : m_Monitor(monitor),
+              m_Lock(monitor->m_Mutex)
         {}
 
-        PHI_NODISCARD constexpr SharedDataT* operator->() noexcept
+        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr SharedDataT* operator->() noexcept
         {
-            return &m_monitor->m_SharedData;
+            return &m_Monitor->m_SharedData;
         }
 
-        monitor*                     m_monitor;
+        monitor*                     m_Monitor;
         std::unique_lock<std::mutex> m_Lock;
     };
 
@@ -48,8 +49,7 @@ public:
 
     template <typename... ArgsT>
     constexpr monitor(ArgsT&&... args) noexcept
-        : m_SharedData(phi::forward<ArgsT>(args)...)
-        , m_Mutex()
+        : m_SharedData{phi::forward<ArgsT>(args)...}
     {}
 
     /*!
@@ -57,8 +57,7 @@ public:
     * \param shared_data the data to be protected by the monitor.
     **/
     constexpr explicit monitor(SharedDataT shared_data) noexcept
-        : m_SharedData(phi::move(shared_data))
-        , m_Mutex()
+        : m_SharedData{move(shared_data)}
     {}
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper operator->() noexcept
@@ -90,12 +89,12 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper ManuallyLock() noexcept
     {
-        return monitor_helper(this);
+        return monitor_helper{this};
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper ManuallyLock() const noexcept
     {
-        return monitor_helper(this);
+        return monitor_helper{this};
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR SharedDataT& GetThreadUnsafeAccess() noexcept

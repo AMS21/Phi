@@ -9,6 +9,7 @@
 
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -23,7 +24,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 class not_null_flat_ptr;
 
-class flat_ptr
+class PHI_ATTRIBUTE_POINTER flat_ptr
 {
 public:
     using this_type     = flat_ptr;
@@ -181,7 +182,12 @@ PHI_EXTENDED_CONSTEXPR inline void swap(flat_ptr& lhs, flat_ptr& rhs) noexcept
     lhs.swap(rhs);
 }
 
-class not_null_flat_ptr
+// NOTE: The tautological compare warning is only valid if the compiler supports the non standard PHI_ATTRIBUTE_NONNULLL. The assert is a more generalized way to ensure that we don't get any null pointers
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
+
+class PHI_ATTRIBUTE_POINTER not_null_flat_ptr
 {
 public:
     using this_type  = not_null_flat_ptr;
@@ -192,26 +198,22 @@ public:
     not_null_flat_ptr(nullptr_t) = delete;
 
     template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
-    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PtrT ptr) noexcept
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
     }
 
-    constexpr not_null_flat_ptr(const not_null_flat_ptr& other) noexcept
-        : m_Ptr(other.m_Ptr)
-    {}
+    not_null_flat_ptr(const not_null_flat_ptr&) = default;
 
-    constexpr not_null_flat_ptr(not_null_flat_ptr&& other) noexcept
-        : m_Ptr(other.m_Ptr)
-    {}
+    not_null_flat_ptr(not_null_flat_ptr&&) = default;
 
     ~not_null_flat_ptr() = default;
 
     not_null_flat_ptr& operator=(nullptr_t) = delete;
 
     template <typename PtrT>
-    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(
             enable_if_t<is_pointer<PtrT>::value, PtrT> ptr) noexcept
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
@@ -221,38 +223,32 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(const not_null_flat_ptr& other) noexcept
+    not_null_flat_ptr& operator=(const not_null_flat_ptr&) = default;
+
+    not_null_flat_ptr& operator=(not_null_flat_ptr&&) = default;
+
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr void* get() noexcept
     {
-        m_Ptr = other.m_Ptr;
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
-        return *this;
-    }
-
-    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(not_null_flat_ptr&& other) noexcept
-    {
-        m_Ptr = other.m_Ptr;
-
-        return *this;
-    }
-
-    PHI_NODISCARD constexpr void* get() noexcept
-    {
         return m_Ptr;
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    PHI_NODISCARD constexpr const void* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const void* get() const noexcept
     {
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
+
         return m_Ptr;
     }
 #endif
 
-    constexpr explicit operator const void*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator const void*() const noexcept
     {
         return get();
     }
 
-    constexpr explicit operator void*() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator void*() noexcept
     {
         return get();
     }
@@ -273,6 +269,8 @@ public:
 private:
     void* m_Ptr;
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
     : m_Ptr(const_cast<void*>(other.get()))

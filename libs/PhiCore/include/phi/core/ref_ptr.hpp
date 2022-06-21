@@ -10,7 +10,9 @@
 #include "phi/algorithm/exchange.hpp"
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -59,7 +61,7 @@ class not_null_ref_ptr;
 
 // Reference counted non-atomic smart pointer
 template <typename TypeT>
-class ref_ptr
+class PHI_ATTRIBUTE_OWNER ref_ptr
 {
 public:
     using this_type       = ref_ptr<TypeT>;
@@ -445,8 +447,12 @@ constexpr void swap(ref_ptr<TypeT>& lhs, ref_ptr<TypeT>& rhs) noexcept
     lhs.swap(rhs);
 }
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
+
 template <typename TypeT>
-class not_null_ref_ptr
+class PHI_ATTRIBUTE_OWNER not_null_ref_ptr
 {
 public:
     using this_type       = not_null_ref_ptr<TypeT>;
@@ -461,9 +467,9 @@ public:
     not_null_ref_ptr(nullptr_t) = delete;
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
-    constexpr not_null_ref_ptr(TypeT* ptr) noexcept
-        : m_Ptr{ptr}
-        , m_ControlBlock{allocate_control_block()}
+    constexpr not_null_ref_ptr(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
+        : m_Ptr{ptr},
+          m_ControlBlock{allocate_control_block()}
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
     }
@@ -511,7 +517,7 @@ public:
 
     not_null_ref_ptr& operator=(nullptr_t) = delete;
 
-    constexpr not_null_ref_ptr& operator=(TypeT* ptr)
+    constexpr not_null_ref_ptr& operator=(TypeT* ptr) PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
 
@@ -563,7 +569,7 @@ public:
 
     void reset(nullptr_t) = delete;
 
-    constexpr void reset(TypeT* ptr) noexcept
+    constexpr void reset(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
@@ -580,30 +586,32 @@ public:
 
     constexpr void swap(not_null_ref_ptr& other) noexcept
     {
+        using phi::swap;
+
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
         PHI_DBG_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_DBG_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
 
-        phi::swap(m_Ptr, other.m_Ptr);
-        phi::swap(m_ControlBlock, other.m_ControlBlock);
+        swap(m_Ptr, other.m_Ptr);
+        swap(m_ControlBlock, other.m_ControlBlock);
     }
 
-    [[nodiscard]] constexpr TypeT* get() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr const TypeT* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const TypeT* get() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr usize use_count() const noexcept
+    PHI_NODISCARD constexpr usize use_count() const noexcept
     {
         PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
 
@@ -671,7 +679,7 @@ private:
 #endif
     }
 
-    detail::ref_ptr_control_block* allocate_control_block() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL detail::ref_ptr_control_block* allocate_control_block() noexcept
     {
         // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         m_ControlBlock = new (std::nothrow) detail::ref_ptr_control_block();
@@ -695,6 +703,8 @@ private:
     TypeT*                         m_Ptr;
     detail::ref_ptr_control_block* m_ControlBlock;
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(const not_null_ref_ptr<LhsT>& lhs,
@@ -744,6 +754,8 @@ template <typename TypeT, typename... ArgsT>
 }
 
 DETAIL_PHI_END_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_BEGIN_STD_NAMESPACE()
 

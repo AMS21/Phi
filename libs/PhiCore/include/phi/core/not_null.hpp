@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
@@ -41,22 +42,22 @@ namespace detail
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
-class not_null
+class PHI_ATTRIBUTE_POINTER not_null
 {
 private:
     static_assert(is_convertible<decltype(declval<TypeT>() != nullptr), bool>::value,
-                  "Phi::not_null: Type cannot be compared to nullptr.");
+                  "phi::not_null: Type cannot be compared to nullptr.");
 
 public:
     template <typename = enable_if_t<!is_same<nullptr_t, TypeT>::value>>
-    PHI_EXTENDED_CONSTEXPR explicit not_null(TypeT other) noexcept
-        : m_Pointer(move(other))
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(TypeT other) noexcept
+        : m_Pointer{move(other)}
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
-    PHI_EXTENDED_CONSTEXPR explicit not_null(OtherT&& other) noexcept
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(OtherT&& other) noexcept
         : m_Pointer(forward(other))
     {
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);

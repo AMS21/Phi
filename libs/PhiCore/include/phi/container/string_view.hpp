@@ -11,6 +11,7 @@
 #include "phi/algorithm/string_length.hpp"
 #include "phi/compiler_support/char8_t.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -38,7 +39,7 @@ DETAIL_PHI_END_STD_NAMESPACE()
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT, typename TraitsT = std::char_traits<CharT>>
-class basic_string_view
+class PHI_ATTRIBUTE_POINTER basic_string_view
 {
 public:
     using this_type              = basic_string_view<CharT, TraitsT>;

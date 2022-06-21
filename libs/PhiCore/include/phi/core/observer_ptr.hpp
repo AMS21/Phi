@@ -9,6 +9,7 @@
 
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -25,9 +26,13 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 template <typename TypeT>
 class not_null_observer_ptr;
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
+
 // A non owning smart pointer
 template <typename TypeT>
-class observer_ptr
+class PHI_ATTRIBUTE_POINTER observer_ptr
 {
 public:
     using this_type       = observer_ptr<TypeT>;
@@ -41,6 +46,8 @@ public:
     constexpr observer_ptr() noexcept
         : m_Ptr(nullptr)
     {}
+
+    ~observer_ptr() = default;
 
     constexpr observer_ptr(nullptr_t) noexcept
         : m_Ptr(nullptr)
@@ -190,14 +197,14 @@ public:
         return *m_Ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT* operator->() noexcept
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
-    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const noexcept
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
@@ -322,7 +329,7 @@ constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT>
 
 // A non owning smart pointer which may not be null
 template <typename TypeT>
-class not_null_observer_ptr
+class PHI_ATTRIBUTE_POINTER not_null_observer_ptr
 {
 public:
     using this_type       = not_null_observer_ptr<TypeT>;
@@ -336,7 +343,9 @@ public:
 
     not_null_observer_ptr(nullptr_t) = delete;
 
-    PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(TypeT* ptr) noexcept
+    ~not_null_observer_ptr() = default;
+
+    PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
         : m_Ptr(ptr)
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr.");
@@ -389,6 +398,7 @@ public:
     not_null_observer_ptr<TypeT>& operator=(nullptr_t) = delete;
 
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(TypeT* ptr) noexcept
+            PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
 
@@ -411,14 +421,14 @@ public:
         return *m_Ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT* operator->() noexcept
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
-    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const noexcept
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
@@ -429,17 +439,17 @@ public:
 
     operator boolean() = delete;
 
-    constexpr explicit operator TypeT*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator TypeT*() const noexcept
     {
         return get();
     }
 
-    PHI_NODISCARD constexpr TypeT* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR void reset(TypeT* ptr) noexcept
+    PHI_EXTENDED_CONSTEXPR void reset(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
 
@@ -470,6 +480,8 @@ public:
 private:
     TypeT* m_Ptr;
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs,
@@ -506,7 +518,8 @@ PHI_NODISCARD constexpr observer_ptr<TypeT> make_observer(TypeT* ptr) noexcept
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr not_null_observer_ptr<TypeT> make_not_null_observer(TypeT* ptr) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL constexpr not_null_observer_ptr<TypeT> make_not_null_observer(
+        TypeT* ptr) noexcept
 {
     return not_null_observer_ptr<TypeT>(ptr);
 }

@@ -25,7 +25,7 @@ function(runtime_failure_test)
   # Required to link to Phi
   target_link_libraries(${TEST_NAME} PRIVATE Phi::Core)
   target_include_directories(${TEST_NAME} PRIVATE "${PHI_BASE_DIR}/tests/support/runtime_failure")
-  target_compile_definitions(${TEST_NAME} PRIVATE "PHI_DEBUG")
+  target_compile_definitions(${TEST_NAME} PRIVATE "PHI_DEBUG" "PHI_CONFIG_DISABLE_NULLABILITY")
 
   # Link to additional lib
   if(DEFINED rtf_LIB)
