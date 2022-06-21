@@ -66,6 +66,12 @@ namespace detail
 template <typename TypeT>
 class not_null_ref_ptr;
 
+template <typename TypeT>
+class observer_ptr;
+
+template <typename TypeT>
+class not_null_observer_ptr;
+
 // Reference counted non-atomic smart pointer
 template <typename TypeT>
 class PHI_ATTRIBUTE_OWNER ref_ptr
@@ -304,6 +310,17 @@ public:
         {
             m_ControlBlock = nullptr;
         }
+    }
+
+    PHI_NODISCARD constexpr observer_ptr<TypeT> observer() noexcept
+    {
+        return observer_ptr<TypeT>{get()};
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
+    {
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        return not_null_observer_ptr<TypeT>{get()};
     }
 
     constexpr void swap(ref_ptr& other) noexcept
@@ -591,6 +608,12 @@ public:
 
         m_Ptr = ptr;
         allocate_control_block();
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
+    {
+        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        return not_null_observer_ptr<TypeT>{get()};
     }
 
     constexpr void swap(not_null_ref_ptr& other) noexcept
