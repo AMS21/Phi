@@ -49,4 +49,14 @@
 #    define PHI_ATTRIBUTE_NONNULL_PARAMETERS(...) /* Nothing */
 #endif
 
+#if defined(PHI_CONFIG_DISABLE_NULLABILITY)
+#    undef PHI_ATTRIBUTE_RETURNS_NONNULL
+#    undef PHI_ATTRIBUTE_NONNULL
+#    undef PHI_ATTRIBUTE_NONNULL_PARAMETERS
+
+#    define PHI_ATTRIBUTE_RETURNS_NONNULL         /* Nothing */
+#    define PHI_ATTRIBUTE_NONNULL                 /* Nothing */
+#    define PHI_ATTRIBUTE_NONNULL_PARAMETERS(...) /* Nothing */
+#endif
+
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_EXTENDED_ATTRIBUTES_HPP
