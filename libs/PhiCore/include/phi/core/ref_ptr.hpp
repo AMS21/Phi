@@ -21,6 +21,13 @@
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 
+// TODO: GCC claims theres a use after free here but I can't seem to find it and address sanitizer can't find it aswell?
+// TODO: Need to investigate anyways
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(GCC, 12, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Wuse-after-free")
+#endif
+
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
