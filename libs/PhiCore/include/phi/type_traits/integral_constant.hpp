@@ -12,6 +12,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+// 21.3.4 Helper classes, https://eel.is/c++draft/type.traits#meta.help
 template <typename TypeT, TypeT Value>
 struct integral_constant
 {
