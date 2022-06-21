@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop on first error
+set -e
+
 upgraded_pip=0
 added_llvm_apt=0
 root_dir=$(pwd)
