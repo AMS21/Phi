@@ -313,8 +313,7 @@ TEST_CASE("ref_ptr")
 
     SECTION("use_count")
     {
-        int*              raw_ptr = new int(22);
-        phi::ref_ptr<int> ptr(raw_ptr);
+        phi::ref_ptr<int> ptr(new int(22));
 
         REQUIRE(ptr);
         CHECK(ptr.use_count() == 1u);
@@ -345,6 +344,9 @@ TEST_CASE("ref_ptr")
         }
 
         CHECK(ptr.use_count() == 1u);
+
+        ptr.clear();
+        CHECK(ptr.use_count() == 0u);
 
         phi::ref_ptr<int> null;
 
@@ -589,8 +591,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
     SECTION("use_count")
     {
-        int*                       raw_ptr = new int(22);
-        phi::not_null_ref_ptr<int> ptr(raw_ptr);
+        phi::not_null_ref_ptr<int> ptr(new int(22));
 
         CHECK(ptr.use_count() == 1u);
 
