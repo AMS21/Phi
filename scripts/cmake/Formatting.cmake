@@ -107,7 +107,33 @@ mark_as_advanced(CMAKE_FORMAT_EXECUTABLE)
 if(CMAKE_FORMAT_EXECUTABLE)
   set(CMAKE_FORMAT_FOUND TRUE)
 
-  phi_log("Found cmake-format at ${CMAKE_FORMAT_EXECUTABLE}")
+  # Extract version info
+  execute_process(
+    COMMAND ${CMAKE_FORMAT_EXECUTABLE} --version
+    OUTPUT_VARIABLE CMAKE_FORMAT_VERSION
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+  # cmake_format_version sample: "0.6.13"
+
+  # Extract version components
+  string(REPLACE "." ";" cmake_format_version_parts "${CMAKE_FORMAT_VERSION}")
+  list(LENGTH cmake_format_version_parts CMAKE_FORMAT_VERSION_COUNT)
+  if(CMAKE_FORMAT_VERSION_COUNT GREATER 0)
+    list(GET cmake_format_version_parts 0 CMAKE_FORMAT_VERSION_MAJOR)
+  else()
+    set(CMAKE_FORMAT_VERSION_MAJOR 0)
+  endif()
+  if(CMAKE_FORMAT_VERSION_COUNT GREATER 1)
+    list(GET cmake_format_version_parts 1 CMAKE_FORMAT_VERSION_MINOR)
+  else()
+    set(CMAKE_FORMAT_VERSION_MINOR 0)
+  endif()
+  if(CMAKE_FORMAT_VERSION_COUNT GREATER 2)
+    list(GET cmake_format_version_parts 2 CMAKE_FORMAT_VERSION_PATCH)
+  else()
+    set(CMAKE_FORMAT_VERSION_PATCH 0)
+  endif()
+
+  phi_log("Found cmake-format version ${CMAKE_FORMAT_VERSION} at ${CMAKE_FORMAT_EXECUTABLE}")
 else()
   set(CMAKE_FORMAT_FOUND FALSE)
 endif()
