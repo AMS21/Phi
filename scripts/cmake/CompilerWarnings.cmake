@@ -3,6 +3,11 @@ phi_include_guard()
 include(CMakeParseArguments)
 include(internal/PhiCheckCXXCompilerFlag)
 
+# References
+
+# https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+# https://clang.llvm.org/docs/DiagnosticsReference.html
+
 # Flags
 set(phi_warning_flags
     Waligned-new=all
