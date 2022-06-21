@@ -606,29 +606,29 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int (&)(int, ...)>();
     test_is_not_safe_fundamental<int (&)(int, ...) noexcept>();
 
-    test_is_not_safe_fundamental<void(&&)()>();
-    test_is_not_safe_fundamental<void(&&)() noexcept>();
+    test_is_not_safe_fundamental<void (&&)()>();
+    test_is_not_safe_fundamental<void (&&)() noexcept>();
 
-    test_is_not_safe_fundamental<void(&&)(int)>();
-    test_is_not_safe_fundamental<void(&&)(int) noexcept>();
+    test_is_not_safe_fundamental<void (&&)(int)>();
+    test_is_not_safe_fundamental<void (&&)(int) noexcept>();
 
-    test_is_not_safe_fundamental<void(&&)(...)>();
-    test_is_not_safe_fundamental<void(&&)(...) noexcept>();
+    test_is_not_safe_fundamental<void (&&)(...)>();
+    test_is_not_safe_fundamental<void (&&)(...) noexcept>();
 
-    test_is_not_safe_fundamental<void(&&)(int, ...)>();
-    test_is_not_safe_fundamental<void(&&)(int, ...) noexcept>();
+    test_is_not_safe_fundamental<void (&&)(int, ...)>();
+    test_is_not_safe_fundamental<void (&&)(int, ...) noexcept>();
 
-    test_is_not_safe_fundamental<int(&&)()>();
-    test_is_not_safe_fundamental<int(&&)() noexcept>();
+    test_is_not_safe_fundamental<int (&&)()>();
+    test_is_not_safe_fundamental<int (&&)() noexcept>();
 
-    test_is_not_safe_fundamental<int(&&)(int)>();
-    test_is_not_safe_fundamental<int(&&)(int) noexcept>();
+    test_is_not_safe_fundamental<int (&&)(int)>();
+    test_is_not_safe_fundamental<int (&&)(int) noexcept>();
 
-    test_is_not_safe_fundamental<int(&&)(...)>();
-    test_is_not_safe_fundamental<int(&&)(...) noexcept>();
+    test_is_not_safe_fundamental<int (&&)(...)>();
+    test_is_not_safe_fundamental<int (&&)(...) noexcept>();
 
-    test_is_not_safe_fundamental<int(&&)(int, ...)>();
-    test_is_not_safe_fundamental<int(&&)(int, ...) noexcept>();
+    test_is_not_safe_fundamental<int (&&)(int, ...)>();
+    test_is_not_safe_fundamental<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_fundamental<void (class_type::*)()>();
     test_is_not_safe_fundamental<void (class_type::*)()&>();

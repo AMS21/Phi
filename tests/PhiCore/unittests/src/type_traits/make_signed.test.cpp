@@ -497,29 +497,29 @@ TEST_CASE("make_signed")
     test_make_signed<int (&)(int, ...)>();
     test_make_signed<int (&)(int, ...) noexcept>();
 
-    test_make_signed<void(&&)()>();
-    test_make_signed<void(&&)() noexcept>();
+    test_make_signed<void (&&)()>();
+    test_make_signed<void (&&)() noexcept>();
 
-    test_make_signed<void(&&)(int)>();
-    test_make_signed<void(&&)(int) noexcept>();
+    test_make_signed<void (&&)(int)>();
+    test_make_signed<void (&&)(int) noexcept>();
 
-    test_make_signed<void(&&)(...)>();
-    test_make_signed<void(&&)(...) noexcept>();
+    test_make_signed<void (&&)(...)>();
+    test_make_signed<void (&&)(...) noexcept>();
 
-    test_make_signed<void(&&)(int, ...)>();
-    test_make_signed<void(&&)(int, ...) noexcept>();
+    test_make_signed<void (&&)(int, ...)>();
+    test_make_signed<void (&&)(int, ...) noexcept>();
 
-    test_make_signed<int(&&)()>();
-    test_make_signed<int(&&)() noexcept>();
+    test_make_signed<int (&&)()>();
+    test_make_signed<int (&&)() noexcept>();
 
-    test_make_signed<int(&&)(int)>();
-    test_make_signed<int(&&)(int) noexcept>();
+    test_make_signed<int (&&)(int)>();
+    test_make_signed<int (&&)(int) noexcept>();
 
-    test_make_signed<int(&&)(...)>();
-    test_make_signed<int(&&)(...) noexcept>();
+    test_make_signed<int (&&)(...)>();
+    test_make_signed<int (&&)(...) noexcept>();
 
-    test_make_signed<int(&&)(int, ...)>();
-    test_make_signed<int(&&)(int, ...) noexcept>();
+    test_make_signed<int (&&)(int, ...)>();
+    test_make_signed<int (&&)(int, ...) noexcept>();
 
     test_make_signed<void (class_type::*)()>();
     test_make_signed<void (class_type::*)()&>();

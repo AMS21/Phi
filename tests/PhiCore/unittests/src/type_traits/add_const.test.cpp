@@ -572,29 +572,29 @@ TEST_CASE("type_traits.add_const")
     test_add_const<int (&)(int, ...)>();
     test_add_const<int (&)(int, ...) noexcept>();
 
-    test_add_const<void(&&)()>();
-    test_add_const<void(&&)() noexcept>();
+    test_add_const<void (&&)()>();
+    test_add_const<void (&&)() noexcept>();
 
-    test_add_const<void(&&)(int)>();
-    test_add_const<void(&&)(int) noexcept>();
+    test_add_const<void (&&)(int)>();
+    test_add_const<void (&&)(int) noexcept>();
 
-    test_add_const<void(&&)(...)>();
-    test_add_const<void(&&)(...) noexcept>();
+    test_add_const<void (&&)(...)>();
+    test_add_const<void (&&)(...) noexcept>();
 
-    test_add_const<void(&&)(int, ...)>();
-    test_add_const<void(&&)(int, ...) noexcept>();
+    test_add_const<void (&&)(int, ...)>();
+    test_add_const<void (&&)(int, ...) noexcept>();
 
-    test_add_const<int(&&)()>();
-    test_add_const<int(&&)() noexcept>();
+    test_add_const<int (&&)()>();
+    test_add_const<int (&&)() noexcept>();
 
-    test_add_const<int(&&)(int)>();
-    test_add_const<int(&&)(int) noexcept>();
+    test_add_const<int (&&)(int)>();
+    test_add_const<int (&&)(int) noexcept>();
 
-    test_add_const<int(&&)(...)>();
-    test_add_const<int(&&)(...) noexcept>();
+    test_add_const<int (&&)(...)>();
+    test_add_const<int (&&)(...) noexcept>();
 
-    test_add_const<int(&&)(int, ...)>();
-    test_add_const<int(&&)(int, ...) noexcept>();
+    test_add_const<int (&&)(int, ...)>();
+    test_add_const<int (&&)(int, ...) noexcept>();
 
     test_add_const<void (class_type::*)()>();
     test_add_const<void (class_type::*)()&>();

@@ -523,29 +523,29 @@ TEST_CASE("is_complete_or_unbounded_void")
     test_is_complete_or_unbounded_void<int (&)(int, ...)>();
     test_is_complete_or_unbounded_void<int (&)(int, ...) noexcept>();
 
-    test_is_complete_or_unbounded_void<void(&&)()>();
-    test_is_complete_or_unbounded_void<void(&&)() noexcept>();
+    test_is_complete_or_unbounded_void<void (&&)()>();
+    test_is_complete_or_unbounded_void<void (&&)() noexcept>();
 
-    test_is_complete_or_unbounded_void<void(&&)(int)>();
-    test_is_complete_or_unbounded_void<void(&&)(int) noexcept>();
+    test_is_complete_or_unbounded_void<void (&&)(int)>();
+    test_is_complete_or_unbounded_void<void (&&)(int) noexcept>();
 
-    test_is_complete_or_unbounded_void<void(&&)(...)>();
-    test_is_complete_or_unbounded_void<void(&&)(...) noexcept>();
+    test_is_complete_or_unbounded_void<void (&&)(...)>();
+    test_is_complete_or_unbounded_void<void (&&)(...) noexcept>();
 
-    test_is_complete_or_unbounded_void<void(&&)(int, ...)>();
-    test_is_complete_or_unbounded_void<void(&&)(int, ...) noexcept>();
+    test_is_complete_or_unbounded_void<void (&&)(int, ...)>();
+    test_is_complete_or_unbounded_void<void (&&)(int, ...) noexcept>();
 
-    test_is_complete_or_unbounded_void<int(&&)()>();
-    test_is_complete_or_unbounded_void<int(&&)() noexcept>();
+    test_is_complete_or_unbounded_void<int (&&)()>();
+    test_is_complete_or_unbounded_void<int (&&)() noexcept>();
 
-    test_is_complete_or_unbounded_void<int(&&)(int)>();
-    test_is_complete_or_unbounded_void<int(&&)(int) noexcept>();
+    test_is_complete_or_unbounded_void<int (&&)(int)>();
+    test_is_complete_or_unbounded_void<int (&&)(int) noexcept>();
 
-    test_is_complete_or_unbounded_void<int(&&)(...)>();
-    test_is_complete_or_unbounded_void<int(&&)(...) noexcept>();
+    test_is_complete_or_unbounded_void<int (&&)(...)>();
+    test_is_complete_or_unbounded_void<int (&&)(...) noexcept>();
 
-    test_is_complete_or_unbounded_void<int(&&)(int, ...)>();
-    test_is_complete_or_unbounded_void<int(&&)(int, ...) noexcept>();
+    test_is_complete_or_unbounded_void<int (&&)(int, ...)>();
+    test_is_complete_or_unbounded_void<int (&&)(int, ...) noexcept>();
 
     test_is_complete_or_unbounded_void<void (class_type::*)()>();
     test_is_complete_or_unbounded_void<void (class_type::*)()&>();

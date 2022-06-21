@@ -612,29 +612,29 @@ TEST_CASE("is_unsafe_fundamental")
     test_is_not_unsafe_fundamental<int (&)(int, ...)>();
     test_is_not_unsafe_fundamental<int (&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_fundamental<void(&&)()>();
-    test_is_not_unsafe_fundamental<void(&&)() noexcept>();
+    test_is_not_unsafe_fundamental<void (&&)()>();
+    test_is_not_unsafe_fundamental<void (&&)() noexcept>();
 
-    test_is_not_unsafe_fundamental<void(&&)(int)>();
-    test_is_not_unsafe_fundamental<void(&&)(int) noexcept>();
+    test_is_not_unsafe_fundamental<void (&&)(int)>();
+    test_is_not_unsafe_fundamental<void (&&)(int) noexcept>();
 
-    test_is_not_unsafe_fundamental<void(&&)(...)>();
-    test_is_not_unsafe_fundamental<void(&&)(...) noexcept>();
+    test_is_not_unsafe_fundamental<void (&&)(...)>();
+    test_is_not_unsafe_fundamental<void (&&)(...) noexcept>();
 
-    test_is_not_unsafe_fundamental<void(&&)(int, ...)>();
-    test_is_not_unsafe_fundamental<void(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_fundamental<void (&&)(int, ...)>();
+    test_is_not_unsafe_fundamental<void (&&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_fundamental<int(&&)()>();
-    test_is_not_unsafe_fundamental<int(&&)() noexcept>();
+    test_is_not_unsafe_fundamental<int (&&)()>();
+    test_is_not_unsafe_fundamental<int (&&)() noexcept>();
 
-    test_is_not_unsafe_fundamental<int(&&)(int)>();
-    test_is_not_unsafe_fundamental<int(&&)(int) noexcept>();
+    test_is_not_unsafe_fundamental<int (&&)(int)>();
+    test_is_not_unsafe_fundamental<int (&&)(int) noexcept>();
 
-    test_is_not_unsafe_fundamental<int(&&)(...)>();
-    test_is_not_unsafe_fundamental<int(&&)(...) noexcept>();
+    test_is_not_unsafe_fundamental<int (&&)(...)>();
+    test_is_not_unsafe_fundamental<int (&&)(...) noexcept>();
 
-    test_is_not_unsafe_fundamental<int(&&)(int, ...)>();
-    test_is_not_unsafe_fundamental<int(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_fundamental<int (&&)(int, ...)>();
+    test_is_not_unsafe_fundamental<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_fundamental<void (class_type::*)()>();
     test_is_not_unsafe_fundamental<void (class_type::*)()&>();

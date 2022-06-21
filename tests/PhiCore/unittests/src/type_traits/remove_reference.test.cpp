@@ -500,29 +500,29 @@ TEST_CASE("remove_reference")
     test_remove_reference_ref<int (&)(int, ...), int(int, ...)>();
     test_remove_reference_ref<int (&)(int, ...) noexcept, int(int, ...) noexcept>();
 
-    test_remove_reference_ref<void(&&)(), void()>();
-    test_remove_reference_ref<void(&&)() noexcept, void() noexcept>();
+    test_remove_reference_ref<void (&&)(), void()>();
+    test_remove_reference_ref<void (&&)() noexcept, void() noexcept>();
 
-    test_remove_reference_ref<void(&&)(int), void(int)>();
-    test_remove_reference_ref<void(&&)(int) noexcept, void(int) noexcept>();
+    test_remove_reference_ref<void (&&)(int), void(int)>();
+    test_remove_reference_ref<void (&&)(int) noexcept, void(int) noexcept>();
 
-    test_remove_reference_ref<void(&&)(...), void(...)>();
-    test_remove_reference_ref<void(&&)(...) noexcept, void(...) noexcept>();
+    test_remove_reference_ref<void (&&)(...), void(...)>();
+    test_remove_reference_ref<void (&&)(...) noexcept, void(...) noexcept>();
 
-    test_remove_reference_ref<void(&&)(int, ...), void(int, ...)>();
-    test_remove_reference_ref<void(&&)(int, ...) noexcept, void(int, ...) noexcept>();
+    test_remove_reference_ref<void (&&)(int, ...), void(int, ...)>();
+    test_remove_reference_ref<void (&&)(int, ...) noexcept, void(int, ...) noexcept>();
 
-    test_remove_reference_ref<int(&&)(), int()>();
-    test_remove_reference_ref<int(&&)() noexcept, int() noexcept>();
+    test_remove_reference_ref<int (&&)(), int()>();
+    test_remove_reference_ref<int (&&)() noexcept, int() noexcept>();
 
-    test_remove_reference_ref<int(&&)(int), int(int)>();
-    test_remove_reference_ref<int(&&)(int) noexcept, int(int) noexcept>();
+    test_remove_reference_ref<int (&&)(int), int(int)>();
+    test_remove_reference_ref<int (&&)(int) noexcept, int(int) noexcept>();
 
-    test_remove_reference_ref<int(&&)(...), int(...)>();
-    test_remove_reference_ref<int(&&)(...) noexcept, int(...) noexcept>();
+    test_remove_reference_ref<int (&&)(...), int(...)>();
+    test_remove_reference_ref<int (&&)(...) noexcept, int(...) noexcept>();
 
-    test_remove_reference_ref<int(&&)(int, ...), int(int, ...)>();
-    test_remove_reference_ref<int(&&)(int, ...) noexcept, int(int, ...) noexcept>();
+    test_remove_reference_ref<int (&&)(int, ...), int(int, ...)>();
+    test_remove_reference_ref<int (&&)(int, ...) noexcept, int(int, ...) noexcept>();
 
     test_remove_reference<void (class_type::*)()>();
     test_remove_reference<void (class_type::*)()&>();

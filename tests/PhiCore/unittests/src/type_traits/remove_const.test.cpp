@@ -490,29 +490,29 @@ TEST_CASE("remove_const")
     test_remove_const<int (&)(int, ...)>();
     test_remove_const<int (&)(int, ...) noexcept>();
 
-    test_remove_const<void(&&)()>();
-    test_remove_const<void(&&)() noexcept>();
+    test_remove_const<void (&&)()>();
+    test_remove_const<void (&&)() noexcept>();
 
-    test_remove_const<void(&&)(int)>();
-    test_remove_const<void(&&)(int) noexcept>();
+    test_remove_const<void (&&)(int)>();
+    test_remove_const<void (&&)(int) noexcept>();
 
-    test_remove_const<void(&&)(...)>();
-    test_remove_const<void(&&)(...) noexcept>();
+    test_remove_const<void (&&)(...)>();
+    test_remove_const<void (&&)(...) noexcept>();
 
-    test_remove_const<void(&&)(int, ...)>();
-    test_remove_const<void(&&)(int, ...) noexcept>();
+    test_remove_const<void (&&)(int, ...)>();
+    test_remove_const<void (&&)(int, ...) noexcept>();
 
-    test_remove_const<int(&&)()>();
-    test_remove_const<int(&&)() noexcept>();
+    test_remove_const<int (&&)()>();
+    test_remove_const<int (&&)() noexcept>();
 
-    test_remove_const<int(&&)(int)>();
-    test_remove_const<int(&&)(int) noexcept>();
+    test_remove_const<int (&&)(int)>();
+    test_remove_const<int (&&)(int) noexcept>();
 
-    test_remove_const<int(&&)(...)>();
-    test_remove_const<int(&&)(...) noexcept>();
+    test_remove_const<int (&&)(...)>();
+    test_remove_const<int (&&)(...) noexcept>();
 
-    test_remove_const<int(&&)(int, ...)>();
-    test_remove_const<int(&&)(int, ...) noexcept>();
+    test_remove_const<int (&&)(int, ...)>();
+    test_remove_const<int (&&)(int, ...) noexcept>();
 
     test_remove_const<void (class_type::*)()>();
     test_remove_const<void (class_type::*)()&>();

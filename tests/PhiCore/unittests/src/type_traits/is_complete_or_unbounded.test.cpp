@@ -523,29 +523,29 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int (&)(int, ...)>();
     test_is_complete_or_unbounded<int (&)(int, ...) noexcept>();
 
-    test_is_complete_or_unbounded<void(&&)()>();
-    test_is_complete_or_unbounded<void(&&)() noexcept>();
+    test_is_complete_or_unbounded<void (&&)()>();
+    test_is_complete_or_unbounded<void (&&)() noexcept>();
 
-    test_is_complete_or_unbounded<void(&&)(int)>();
-    test_is_complete_or_unbounded<void(&&)(int) noexcept>();
+    test_is_complete_or_unbounded<void (&&)(int)>();
+    test_is_complete_or_unbounded<void (&&)(int) noexcept>();
 
-    test_is_complete_or_unbounded<void(&&)(...)>();
-    test_is_complete_or_unbounded<void(&&)(...) noexcept>();
+    test_is_complete_or_unbounded<void (&&)(...)>();
+    test_is_complete_or_unbounded<void (&&)(...) noexcept>();
 
-    test_is_complete_or_unbounded<void(&&)(int, ...)>();
-    test_is_complete_or_unbounded<void(&&)(int, ...) noexcept>();
+    test_is_complete_or_unbounded<void (&&)(int, ...)>();
+    test_is_complete_or_unbounded<void (&&)(int, ...) noexcept>();
 
-    test_is_complete_or_unbounded<int(&&)()>();
-    test_is_complete_or_unbounded<int(&&)() noexcept>();
+    test_is_complete_or_unbounded<int (&&)()>();
+    test_is_complete_or_unbounded<int (&&)() noexcept>();
 
-    test_is_complete_or_unbounded<int(&&)(int)>();
-    test_is_complete_or_unbounded<int(&&)(int) noexcept>();
+    test_is_complete_or_unbounded<int (&&)(int)>();
+    test_is_complete_or_unbounded<int (&&)(int) noexcept>();
 
-    test_is_complete_or_unbounded<int(&&)(...)>();
-    test_is_complete_or_unbounded<int(&&)(...) noexcept>();
+    test_is_complete_or_unbounded<int (&&)(...)>();
+    test_is_complete_or_unbounded<int (&&)(...) noexcept>();
 
-    test_is_complete_or_unbounded<int(&&)(int, ...)>();
-    test_is_complete_or_unbounded<int(&&)(int, ...) noexcept>();
+    test_is_complete_or_unbounded<int (&&)(int, ...)>();
+    test_is_complete_or_unbounded<int (&&)(int, ...) noexcept>();
 
     test_is_complete_or_unbounded<void (class_type::*)()>();
     test_is_complete_or_unbounded<void (class_type::*)()&>();

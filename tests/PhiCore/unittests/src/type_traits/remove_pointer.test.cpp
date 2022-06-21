@@ -509,29 +509,29 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int (&)(int, ...)>();
     test_remove_pointer<int (&)(int, ...) noexcept>();
 
-    test_remove_pointer<void(&&)()>();
-    test_remove_pointer<void(&&)() noexcept>();
+    test_remove_pointer<void (&&)()>();
+    test_remove_pointer<void (&&)() noexcept>();
 
-    test_remove_pointer<void(&&)(int)>();
-    test_remove_pointer<void(&&)(int) noexcept>();
+    test_remove_pointer<void (&&)(int)>();
+    test_remove_pointer<void (&&)(int) noexcept>();
 
-    test_remove_pointer<void(&&)(...)>();
-    test_remove_pointer<void(&&)(...) noexcept>();
+    test_remove_pointer<void (&&)(...)>();
+    test_remove_pointer<void (&&)(...) noexcept>();
 
-    test_remove_pointer<void(&&)(int, ...)>();
-    test_remove_pointer<void(&&)(int, ...) noexcept>();
+    test_remove_pointer<void (&&)(int, ...)>();
+    test_remove_pointer<void (&&)(int, ...) noexcept>();
 
-    test_remove_pointer<int(&&)()>();
-    test_remove_pointer<int(&&)() noexcept>();
+    test_remove_pointer<int (&&)()>();
+    test_remove_pointer<int (&&)() noexcept>();
 
-    test_remove_pointer<int(&&)(int)>();
-    test_remove_pointer<int(&&)(int) noexcept>();
+    test_remove_pointer<int (&&)(int)>();
+    test_remove_pointer<int (&&)(int) noexcept>();
 
-    test_remove_pointer<int(&&)(...)>();
-    test_remove_pointer<int(&&)(...) noexcept>();
+    test_remove_pointer<int (&&)(...)>();
+    test_remove_pointer<int (&&)(...) noexcept>();
 
-    test_remove_pointer<int(&&)(int, ...)>();
-    test_remove_pointer<int(&&)(int, ...) noexcept>();
+    test_remove_pointer<int (&&)(int, ...)>();
+    test_remove_pointer<int (&&)(int, ...) noexcept>();
 
     test_remove_pointer<void (class_type::*)()>();
     test_remove_pointer<void (class_type::*)()&>();

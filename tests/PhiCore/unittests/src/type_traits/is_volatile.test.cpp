@@ -534,29 +534,29 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<int (&)(int, ...)>();
     test_is_not_volatile<int (&)(int, ...) noexcept>();
 
-    test_is_not_volatile<void(&&)()>();
-    test_is_not_volatile<void(&&)() noexcept>();
+    test_is_not_volatile<void (&&)()>();
+    test_is_not_volatile<void (&&)() noexcept>();
 
-    test_is_not_volatile<void(&&)(int)>();
-    test_is_not_volatile<void(&&)(int) noexcept>();
+    test_is_not_volatile<void (&&)(int)>();
+    test_is_not_volatile<void (&&)(int) noexcept>();
 
-    test_is_not_volatile<void(&&)(...)>();
-    test_is_not_volatile<void(&&)(...) noexcept>();
+    test_is_not_volatile<void (&&)(...)>();
+    test_is_not_volatile<void (&&)(...) noexcept>();
 
-    test_is_not_volatile<void(&&)(int, ...)>();
-    test_is_not_volatile<void(&&)(int, ...) noexcept>();
+    test_is_not_volatile<void (&&)(int, ...)>();
+    test_is_not_volatile<void (&&)(int, ...) noexcept>();
 
-    test_is_not_volatile<int(&&)()>();
-    test_is_not_volatile<int(&&)() noexcept>();
+    test_is_not_volatile<int (&&)()>();
+    test_is_not_volatile<int (&&)() noexcept>();
 
-    test_is_not_volatile<int(&&)(int)>();
-    test_is_not_volatile<int(&&)(int) noexcept>();
+    test_is_not_volatile<int (&&)(int)>();
+    test_is_not_volatile<int (&&)(int) noexcept>();
 
-    test_is_not_volatile<int(&&)(...)>();
-    test_is_not_volatile<int(&&)(...) noexcept>();
+    test_is_not_volatile<int (&&)(...)>();
+    test_is_not_volatile<int (&&)(...) noexcept>();
 
-    test_is_not_volatile<int(&&)(int, ...)>();
-    test_is_not_volatile<int(&&)(int, ...) noexcept>();
+    test_is_not_volatile<int (&&)(int, ...)>();
+    test_is_not_volatile<int (&&)(int, ...) noexcept>();
 
     test_is_volatile<void (class_type::*)()>();
     test_is_volatile<void (class_type::*)()&>();

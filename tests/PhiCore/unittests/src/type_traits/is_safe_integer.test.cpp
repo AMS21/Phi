@@ -520,29 +520,29 @@ TEST_CASE("is_safe_integer")
     test_is_not_safe_integer<int (&)(int, ...)>();
     test_is_not_safe_integer<int (&)(int, ...) noexcept>();
 
-    test_is_not_safe_integer<void(&&)()>();
-    test_is_not_safe_integer<void(&&)() noexcept>();
+    test_is_not_safe_integer<void (&&)()>();
+    test_is_not_safe_integer<void (&&)() noexcept>();
 
-    test_is_not_safe_integer<void(&&)(int)>();
-    test_is_not_safe_integer<void(&&)(int) noexcept>();
+    test_is_not_safe_integer<void (&&)(int)>();
+    test_is_not_safe_integer<void (&&)(int) noexcept>();
 
-    test_is_not_safe_integer<void(&&)(...)>();
-    test_is_not_safe_integer<void(&&)(...) noexcept>();
+    test_is_not_safe_integer<void (&&)(...)>();
+    test_is_not_safe_integer<void (&&)(...) noexcept>();
 
-    test_is_not_safe_integer<void(&&)(int, ...)>();
-    test_is_not_safe_integer<void(&&)(int, ...) noexcept>();
+    test_is_not_safe_integer<void (&&)(int, ...)>();
+    test_is_not_safe_integer<void (&&)(int, ...) noexcept>();
 
-    test_is_not_safe_integer<int(&&)()>();
-    test_is_not_safe_integer<int(&&)() noexcept>();
+    test_is_not_safe_integer<int (&&)()>();
+    test_is_not_safe_integer<int (&&)() noexcept>();
 
-    test_is_not_safe_integer<int(&&)(int)>();
-    test_is_not_safe_integer<int(&&)(int) noexcept>();
+    test_is_not_safe_integer<int (&&)(int)>();
+    test_is_not_safe_integer<int (&&)(int) noexcept>();
 
-    test_is_not_safe_integer<int(&&)(...)>();
-    test_is_not_safe_integer<int(&&)(...) noexcept>();
+    test_is_not_safe_integer<int (&&)(...)>();
+    test_is_not_safe_integer<int (&&)(...) noexcept>();
 
-    test_is_not_safe_integer<int(&&)(int, ...)>();
-    test_is_not_safe_integer<int(&&)(int, ...) noexcept>();
+    test_is_not_safe_integer<int (&&)(int, ...)>();
+    test_is_not_safe_integer<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_integer<void (class_type::*)()>();
     test_is_not_safe_integer<void (class_type::*)()&>();

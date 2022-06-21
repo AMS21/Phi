@@ -518,29 +518,29 @@ TEST_CASE("is_bool")
     test_is_not_bool<int (&)(int, ...)>();
     test_is_not_bool<int (&)(int, ...) noexcept>();
 
-    test_is_not_bool<void(&&)()>();
-    test_is_not_bool<void(&&)() noexcept>();
+    test_is_not_bool<void (&&)()>();
+    test_is_not_bool<void (&&)() noexcept>();
 
-    test_is_not_bool<void(&&)(int)>();
-    test_is_not_bool<void(&&)(int) noexcept>();
+    test_is_not_bool<void (&&)(int)>();
+    test_is_not_bool<void (&&)(int) noexcept>();
 
-    test_is_not_bool<void(&&)(...)>();
-    test_is_not_bool<void(&&)(...) noexcept>();
+    test_is_not_bool<void (&&)(...)>();
+    test_is_not_bool<void (&&)(...) noexcept>();
 
-    test_is_not_bool<void(&&)(int, ...)>();
-    test_is_not_bool<void(&&)(int, ...) noexcept>();
+    test_is_not_bool<void (&&)(int, ...)>();
+    test_is_not_bool<void (&&)(int, ...) noexcept>();
 
-    test_is_not_bool<int(&&)()>();
-    test_is_not_bool<int(&&)() noexcept>();
+    test_is_not_bool<int (&&)()>();
+    test_is_not_bool<int (&&)() noexcept>();
 
-    test_is_not_bool<int(&&)(int)>();
-    test_is_not_bool<int(&&)(int) noexcept>();
+    test_is_not_bool<int (&&)(int)>();
+    test_is_not_bool<int (&&)(int) noexcept>();
 
-    test_is_not_bool<int(&&)(...)>();
-    test_is_not_bool<int(&&)(...) noexcept>();
+    test_is_not_bool<int (&&)(...)>();
+    test_is_not_bool<int (&&)(...) noexcept>();
 
-    test_is_not_bool<int(&&)(int, ...)>();
-    test_is_not_bool<int(&&)(int, ...) noexcept>();
+    test_is_not_bool<int (&&)(int, ...)>();
+    test_is_not_bool<int (&&)(int, ...) noexcept>();
 
     test_is_not_bool<void (class_type::*)()>();
     test_is_not_bool<void (class_type::*)()&>();

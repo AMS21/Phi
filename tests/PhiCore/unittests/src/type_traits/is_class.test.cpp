@@ -628,29 +628,29 @@ TEST_CASE("is_class")
     test_is_not_class<int (&)(int, ...)>();
     test_is_not_class<int (&)(int, ...) noexcept>();
 
-    test_is_not_class<void(&&)()>();
-    test_is_not_class<void(&&)() noexcept>();
+    test_is_not_class<void (&&)()>();
+    test_is_not_class<void (&&)() noexcept>();
 
-    test_is_not_class<void(&&)(int)>();
-    test_is_not_class<void(&&)(int) noexcept>();
+    test_is_not_class<void (&&)(int)>();
+    test_is_not_class<void (&&)(int) noexcept>();
 
-    test_is_not_class<void(&&)(...)>();
-    test_is_not_class<void(&&)(...) noexcept>();
+    test_is_not_class<void (&&)(...)>();
+    test_is_not_class<void (&&)(...) noexcept>();
 
-    test_is_not_class<void(&&)(int, ...)>();
-    test_is_not_class<void(&&)(int, ...) noexcept>();
+    test_is_not_class<void (&&)(int, ...)>();
+    test_is_not_class<void (&&)(int, ...) noexcept>();
 
-    test_is_not_class<int(&&)()>();
-    test_is_not_class<int(&&)() noexcept>();
+    test_is_not_class<int (&&)()>();
+    test_is_not_class<int (&&)() noexcept>();
 
-    test_is_not_class<int(&&)(int)>();
-    test_is_not_class<int(&&)(int) noexcept>();
+    test_is_not_class<int (&&)(int)>();
+    test_is_not_class<int (&&)(int) noexcept>();
 
-    test_is_not_class<int(&&)(...)>();
-    test_is_not_class<int(&&)(...) noexcept>();
+    test_is_not_class<int (&&)(...)>();
+    test_is_not_class<int (&&)(...) noexcept>();
 
-    test_is_not_class<int(&&)(int, ...)>();
-    test_is_not_class<int(&&)(int, ...) noexcept>();
+    test_is_not_class<int (&&)(int, ...)>();
+    test_is_not_class<int (&&)(int, ...) noexcept>();
 
     test_is_not_class<void (class_type::*)()>();
     test_is_not_class<void (class_type::*)()&>();

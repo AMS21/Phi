@@ -521,29 +521,29 @@ TEST_CASE("is_unsafe_type")
     test_is_not_unsafe_type<int (&)(int, ...)>();
     test_is_not_unsafe_type<int (&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_type<void(&&)()>();
-    test_is_not_unsafe_type<void(&&)() noexcept>();
+    test_is_not_unsafe_type<void (&&)()>();
+    test_is_not_unsafe_type<void (&&)() noexcept>();
 
-    test_is_not_unsafe_type<void(&&)(int)>();
-    test_is_not_unsafe_type<void(&&)(int) noexcept>();
+    test_is_not_unsafe_type<void (&&)(int)>();
+    test_is_not_unsafe_type<void (&&)(int) noexcept>();
 
-    test_is_not_unsafe_type<void(&&)(...)>();
-    test_is_not_unsafe_type<void(&&)(...) noexcept>();
+    test_is_not_unsafe_type<void (&&)(...)>();
+    test_is_not_unsafe_type<void (&&)(...) noexcept>();
 
-    test_is_not_unsafe_type<void(&&)(int, ...)>();
-    test_is_not_unsafe_type<void(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_type<void (&&)(int, ...)>();
+    test_is_not_unsafe_type<void (&&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_type<int(&&)()>();
-    test_is_not_unsafe_type<int(&&)() noexcept>();
+    test_is_not_unsafe_type<int (&&)()>();
+    test_is_not_unsafe_type<int (&&)() noexcept>();
 
-    test_is_not_unsafe_type<int(&&)(int)>();
-    test_is_not_unsafe_type<int(&&)(int) noexcept>();
+    test_is_not_unsafe_type<int (&&)(int)>();
+    test_is_not_unsafe_type<int (&&)(int) noexcept>();
 
-    test_is_not_unsafe_type<int(&&)(...)>();
-    test_is_not_unsafe_type<int(&&)(...) noexcept>();
+    test_is_not_unsafe_type<int (&&)(...)>();
+    test_is_not_unsafe_type<int (&&)(...) noexcept>();
 
-    test_is_not_unsafe_type<int(&&)(int, ...)>();
-    test_is_not_unsafe_type<int(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_type<int (&&)(int, ...)>();
+    test_is_not_unsafe_type<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_type<void (class_type::*)()>();
     test_is_not_unsafe_type<void (class_type::*)()&>();

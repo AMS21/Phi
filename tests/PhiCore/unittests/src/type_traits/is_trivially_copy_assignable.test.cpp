@@ -554,29 +554,29 @@ TEST_CASE("is_trivially_copy_assignable")
     test_is_not_trivially_copy_assignable<int (&)(int, ...)>();
     test_is_not_trivially_copy_assignable<int (&)(int, ...) noexcept>();
 
-    test_is_not_trivially_copy_assignable<void(&&)()>();
-    test_is_not_trivially_copy_assignable<void(&&)() noexcept>();
+    test_is_not_trivially_copy_assignable<void (&&)()>();
+    test_is_not_trivially_copy_assignable<void (&&)() noexcept>();
 
-    test_is_not_trivially_copy_assignable<void(&&)(int)>();
-    test_is_not_trivially_copy_assignable<void(&&)(int) noexcept>();
+    test_is_not_trivially_copy_assignable<void (&&)(int)>();
+    test_is_not_trivially_copy_assignable<void (&&)(int) noexcept>();
 
-    test_is_not_trivially_copy_assignable<void(&&)(...)>();
-    test_is_not_trivially_copy_assignable<void(&&)(...) noexcept>();
+    test_is_not_trivially_copy_assignable<void (&&)(...)>();
+    test_is_not_trivially_copy_assignable<void (&&)(...) noexcept>();
 
-    test_is_not_trivially_copy_assignable<void(&&)(int, ...)>();
-    test_is_not_trivially_copy_assignable<void(&&)(int, ...) noexcept>();
+    test_is_not_trivially_copy_assignable<void (&&)(int, ...)>();
+    test_is_not_trivially_copy_assignable<void (&&)(int, ...) noexcept>();
 
-    test_is_not_trivially_copy_assignable<int(&&)()>();
-    test_is_not_trivially_copy_assignable<int(&&)() noexcept>();
+    test_is_not_trivially_copy_assignable<int (&&)()>();
+    test_is_not_trivially_copy_assignable<int (&&)() noexcept>();
 
-    test_is_not_trivially_copy_assignable<int(&&)(int)>();
-    test_is_not_trivially_copy_assignable<int(&&)(int) noexcept>();
+    test_is_not_trivially_copy_assignable<int (&&)(int)>();
+    test_is_not_trivially_copy_assignable<int (&&)(int) noexcept>();
 
-    test_is_not_trivially_copy_assignable<int(&&)(...)>();
-    test_is_not_trivially_copy_assignable<int(&&)(...) noexcept>();
+    test_is_not_trivially_copy_assignable<int (&&)(...)>();
+    test_is_not_trivially_copy_assignable<int (&&)(...) noexcept>();
 
-    test_is_not_trivially_copy_assignable<int(&&)(int, ...)>();
-    test_is_not_trivially_copy_assignable<int(&&)(int, ...) noexcept>();
+    test_is_not_trivially_copy_assignable<int (&&)(int, ...)>();
+    test_is_not_trivially_copy_assignable<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_copy_assignable_v<void (class_type::*)()>();
     test_is_trivially_copy_assignable_v<void (class_type::*)()&>();

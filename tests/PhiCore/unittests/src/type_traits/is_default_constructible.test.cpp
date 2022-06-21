@@ -561,29 +561,29 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<int (&)(int, ...)>();
     test_is_not_default_constructible<int (&)(int, ...) noexcept>();
 
-    test_is_not_default_constructible<void(&&)()>();
-    test_is_not_default_constructible<void(&&)() noexcept>();
+    test_is_not_default_constructible<void (&&)()>();
+    test_is_not_default_constructible<void (&&)() noexcept>();
 
-    test_is_not_default_constructible<void(&&)(int)>();
-    test_is_not_default_constructible<void(&&)(int) noexcept>();
+    test_is_not_default_constructible<void (&&)(int)>();
+    test_is_not_default_constructible<void (&&)(int) noexcept>();
 
-    test_is_not_default_constructible<void(&&)(...)>();
-    test_is_not_default_constructible<void(&&)(...) noexcept>();
+    test_is_not_default_constructible<void (&&)(...)>();
+    test_is_not_default_constructible<void (&&)(...) noexcept>();
 
-    test_is_not_default_constructible<void(&&)(int, ...)>();
-    test_is_not_default_constructible<void(&&)(int, ...) noexcept>();
+    test_is_not_default_constructible<void (&&)(int, ...)>();
+    test_is_not_default_constructible<void (&&)(int, ...) noexcept>();
 
-    test_is_not_default_constructible<int(&&)()>();
-    test_is_not_default_constructible<int(&&)() noexcept>();
+    test_is_not_default_constructible<int (&&)()>();
+    test_is_not_default_constructible<int (&&)() noexcept>();
 
-    test_is_not_default_constructible<int(&&)(int)>();
-    test_is_not_default_constructible<int(&&)(int) noexcept>();
+    test_is_not_default_constructible<int (&&)(int)>();
+    test_is_not_default_constructible<int (&&)(int) noexcept>();
 
-    test_is_not_default_constructible<int(&&)(...)>();
-    test_is_not_default_constructible<int(&&)(...) noexcept>();
+    test_is_not_default_constructible<int (&&)(...)>();
+    test_is_not_default_constructible<int (&&)(...) noexcept>();
 
-    test_is_not_default_constructible<int(&&)(int, ...)>();
-    test_is_not_default_constructible<int(&&)(int, ...) noexcept>();
+    test_is_not_default_constructible<int (&&)(int, ...)>();
+    test_is_not_default_constructible<int (&&)(int, ...) noexcept>();
 
     test_is_default_constructible<void (class_type::*)()>();
     test_is_default_constructible<void (class_type::*)()&>();

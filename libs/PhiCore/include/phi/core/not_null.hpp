@@ -117,7 +117,7 @@ public:
     }
 
     // Disallow compilation with nullptr constant
-    not_null(nullptr_t) = delete;
+    not_null(nullptr_t)            = delete;
     not_null& operator=(nullptr_t) = delete;
 
     // Explicitly remove pointer operations

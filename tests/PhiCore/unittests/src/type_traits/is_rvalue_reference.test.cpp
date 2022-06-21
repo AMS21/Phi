@@ -641,29 +641,29 @@ TEST_CASE("is_rvalue_reference")
     test_is_not_rvalue_reference<int (&)(int, ...)>();
     test_is_not_rvalue_reference<int (&)(int, ...) noexcept>();
 
-    test_is_rvalue_reference<void(&&)()>();
-    test_is_rvalue_reference<void(&&)() noexcept>();
+    test_is_rvalue_reference<void (&&)()>();
+    test_is_rvalue_reference<void (&&)() noexcept>();
 
-    test_is_rvalue_reference<void(&&)(int)>();
-    test_is_rvalue_reference<void(&&)(int) noexcept>();
+    test_is_rvalue_reference<void (&&)(int)>();
+    test_is_rvalue_reference<void (&&)(int) noexcept>();
 
-    test_is_rvalue_reference<void(&&)(...)>();
-    test_is_rvalue_reference<void(&&)(...) noexcept>();
+    test_is_rvalue_reference<void (&&)(...)>();
+    test_is_rvalue_reference<void (&&)(...) noexcept>();
 
-    test_is_rvalue_reference<void(&&)(int, ...)>();
-    test_is_rvalue_reference<void(&&)(int, ...) noexcept>();
+    test_is_rvalue_reference<void (&&)(int, ...)>();
+    test_is_rvalue_reference<void (&&)(int, ...) noexcept>();
 
-    test_is_rvalue_reference<int(&&)()>();
-    test_is_rvalue_reference<int(&&)() noexcept>();
+    test_is_rvalue_reference<int (&&)()>();
+    test_is_rvalue_reference<int (&&)() noexcept>();
 
-    test_is_rvalue_reference<int(&&)(int)>();
-    test_is_rvalue_reference<int(&&)(int) noexcept>();
+    test_is_rvalue_reference<int (&&)(int)>();
+    test_is_rvalue_reference<int (&&)(int) noexcept>();
 
-    test_is_rvalue_reference<int(&&)(...)>();
-    test_is_rvalue_reference<int(&&)(...) noexcept>();
+    test_is_rvalue_reference<int (&&)(...)>();
+    test_is_rvalue_reference<int (&&)(...) noexcept>();
 
-    test_is_rvalue_reference<int(&&)(int, ...)>();
-    test_is_rvalue_reference<int(&&)(int, ...) noexcept>();
+    test_is_rvalue_reference<int (&&)(int, ...)>();
+    test_is_rvalue_reference<int (&&)(int, ...) noexcept>();
 
     test_is_not_rvalue_reference<void (class_type::*)()>();
     test_is_not_rvalue_reference<void (class_type::*)()&>();

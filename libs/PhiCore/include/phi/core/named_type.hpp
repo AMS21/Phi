@@ -124,11 +124,11 @@ public:
 
         PHI_GCC_SUPPRESS_WARNING_POP()
 
-        argument()                = default;
-        argument(argument const&) = delete;
-        argument(argument&&)      = delete;
+        argument()                           = default;
+        argument(argument const&)            = delete;
+        argument(argument&&)                 = delete;
         argument& operator=(argument const&) = delete;
-        argument& operator=(argument&&) = delete;
+        argument& operator=(argument&&)      = delete;
     };
 
 private:

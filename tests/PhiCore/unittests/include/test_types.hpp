@@ -494,10 +494,10 @@ struct copy_constructible_only_type
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     copy_constructible_only_type(int /*unused*/)
     {}
-    copy_constructible_only_type(copy_constructible_only_type&&)      = delete;
-    copy_constructible_only_type(const copy_constructible_only_type&) = default;
+    copy_constructible_only_type(copy_constructible_only_type&&)                 = delete;
+    copy_constructible_only_type(const copy_constructible_only_type&)            = default;
     copy_constructible_only_type& operator=(const copy_constructible_only_type&) = delete;
-    copy_constructible_only_type& operator=(copy_constructible_only_type&&) = delete;
+    copy_constructible_only_type& operator=(copy_constructible_only_type&&)      = delete;
 };
 
 struct move_constructible_only_type
@@ -505,10 +505,10 @@ struct move_constructible_only_type
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     move_constructible_only_type(int /*unused*/)
     {}
-    move_constructible_only_type(const move_constructible_only_type&) = delete;
-    move_constructible_only_type(move_constructible_only_type&&)      = default;
+    move_constructible_only_type(const move_constructible_only_type&)            = delete;
+    move_constructible_only_type(move_constructible_only_type&&)                 = default;
     move_constructible_only_type& operator=(const move_constructible_only_type&) = delete;
-    move_constructible_only_type& operator=(move_constructible_only_type&&) = delete;
+    move_constructible_only_type& operator=(move_constructible_only_type&&)      = delete;
 };
 
 struct overloaded_operators
@@ -712,7 +712,7 @@ struct non_default_constructible
     non_default_constructible(non_default_constructible&&)      = default;
 
     non_default_constructible& operator=(const non_default_constructible&) = default;
-    non_default_constructible& operator=(non_default_constructible&&) = default;
+    non_default_constructible& operator=(non_default_constructible&&)      = default;
 };
 
 struct non_copy_constructible
@@ -722,7 +722,7 @@ struct non_copy_constructible
     non_copy_constructible(non_copy_constructible&&)      = default;
 
     non_copy_constructible& operator=(const non_copy_constructible&) = default;
-    non_copy_constructible& operator=(non_copy_constructible&&) = default;
+    non_copy_constructible& operator=(non_copy_constructible&&)      = default;
 };
 
 struct non_move_constructible
@@ -732,7 +732,7 @@ struct non_move_constructible
     non_move_constructible(non_move_constructible&&)      = delete;
 
     non_move_constructible& operator=(const non_move_constructible&) = default;
-    non_move_constructible& operator=(non_move_constructible&&) = default;
+    non_move_constructible& operator=(non_move_constructible&&)      = default;
 };
 
 struct non_copy_assignable
@@ -742,7 +742,7 @@ struct non_copy_assignable
     non_copy_assignable(non_copy_assignable&&)      = default;
 
     non_copy_assignable& operator=(const non_copy_assignable&) = delete;
-    non_copy_assignable& operator=(non_copy_assignable&&) = default;
+    non_copy_assignable& operator=(non_copy_assignable&&)      = default;
 };
 
 struct non_move_assignable
@@ -752,7 +752,7 @@ struct non_move_assignable
     non_move_assignable(non_move_assignable&&)      = default;
 
     non_move_assignable& operator=(const non_move_assignable&) = default;
-    non_move_assignable& operator=(non_move_assignable&&) = delete;
+    non_move_assignable& operator=(non_move_assignable&&)      = delete;
 };
 
 struct non_assignable
@@ -762,7 +762,7 @@ struct non_assignable
     non_assignable(non_assignable&&)      = default;
 
     non_assignable& operator=(const non_assignable&) = delete;
-    non_assignable& operator=(non_assignable&&) = delete;
+    non_assignable& operator=(non_assignable&&)      = delete;
 };
 
 struct non_copyable
@@ -772,7 +772,7 @@ struct non_copyable
     non_copyable(non_copyable&&)      = default;
 
     non_copyable& operator=(const non_copyable&) = delete;
-    non_copyable& operator=(non_copyable&&) = default;
+    non_copyable& operator=(non_copyable&&)      = default;
 };
 
 struct non_moveable
@@ -782,7 +782,7 @@ struct non_moveable
     non_moveable(non_moveable&&)      = delete;
 
     non_moveable& operator=(const non_moveable&) = default;
-    non_moveable& operator=(non_moveable&&) = delete;
+    non_moveable& operator=(non_moveable&&)      = delete;
 };
 
 struct non_constructible
@@ -792,7 +792,7 @@ struct non_constructible
     non_constructible(non_constructible&&)      = delete;
 
     non_constructible& operator=(const non_constructible&) = delete;
-    non_constructible& operator=(non_constructible&&) = delete;
+    non_constructible& operator=(non_constructible&&)      = delete;
 };
 
 struct non_destructible
@@ -803,7 +803,7 @@ struct non_destructible
     non_destructible(non_destructible&&)      = default;
 
     non_destructible& operator=(const non_destructible&) = default;
-    non_destructible& operator=(non_destructible&&) = default;
+    non_destructible& operator=(non_destructible&&)      = default;
 };
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -908,7 +908,7 @@ struct trap_constructible
     trap_constructible(trap_constructible&&)      = default;
 
     trap_constructible& operator=(const trap_constructible&) = default;
-    trap_constructible& operator=(trap_constructible&&) = default;
+    trap_constructible& operator=(trap_constructible&&)      = default;
 
     template <typename... ArgsT>
     // NOLINTNEXTLINE(hicpp-explicit-conversions)

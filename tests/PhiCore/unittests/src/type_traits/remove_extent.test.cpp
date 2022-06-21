@@ -509,29 +509,29 @@ TEST_CASE("remove_extent")
     test_remove_extent<int (&)(int, ...)>();
     test_remove_extent<int (&)(int, ...) noexcept>();
 
-    test_remove_extent<void(&&)()>();
-    test_remove_extent<void(&&)() noexcept>();
+    test_remove_extent<void (&&)()>();
+    test_remove_extent<void (&&)() noexcept>();
 
-    test_remove_extent<void(&&)(int)>();
-    test_remove_extent<void(&&)(int) noexcept>();
+    test_remove_extent<void (&&)(int)>();
+    test_remove_extent<void (&&)(int) noexcept>();
 
-    test_remove_extent<void(&&)(...)>();
-    test_remove_extent<void(&&)(...) noexcept>();
+    test_remove_extent<void (&&)(...)>();
+    test_remove_extent<void (&&)(...) noexcept>();
 
-    test_remove_extent<void(&&)(int, ...)>();
-    test_remove_extent<void(&&)(int, ...) noexcept>();
+    test_remove_extent<void (&&)(int, ...)>();
+    test_remove_extent<void (&&)(int, ...) noexcept>();
 
-    test_remove_extent<int(&&)()>();
-    test_remove_extent<int(&&)() noexcept>();
+    test_remove_extent<int (&&)()>();
+    test_remove_extent<int (&&)() noexcept>();
 
-    test_remove_extent<int(&&)(int)>();
-    test_remove_extent<int(&&)(int) noexcept>();
+    test_remove_extent<int (&&)(int)>();
+    test_remove_extent<int (&&)(int) noexcept>();
 
-    test_remove_extent<int(&&)(...)>();
-    test_remove_extent<int(&&)(...) noexcept>();
+    test_remove_extent<int (&&)(...)>();
+    test_remove_extent<int (&&)(...) noexcept>();
 
-    test_remove_extent<int(&&)(int, ...)>();
-    test_remove_extent<int(&&)(int, ...) noexcept>();
+    test_remove_extent<int (&&)(int, ...)>();
+    test_remove_extent<int (&&)(int, ...) noexcept>();
 
     test_remove_extent<void (class_type::*)()>();
     test_remove_extent<void (class_type::*)()&>();

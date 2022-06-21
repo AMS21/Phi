@@ -31,12 +31,12 @@ public:
     scoped_value_guard(scoped_value_guard&&)      = delete;
 
     scoped_value_guard& operator=(const scoped_value_guard&) = delete;
-    scoped_value_guard& operator=(scoped_value_guard&&) = delete;
+    scoped_value_guard& operator=(scoped_value_guard&&)      = delete;
 #else
     scoped_value_guard(const scoped_value_guard&) = default;
     scoped_value_guard(scoped_value_guard&&)      = default;
 
-    scoped_value_guard& operator=(const scoped_value_guard&) = default;
+    scoped_value_guard& operator=(const scoped_value_guard&)  = default;
     scoped_value_guard& operator=(scoped_value_guard&&)       = default;
 #endif
 
@@ -88,13 +88,13 @@ public:
     armed_scoped_value_guard(armed_scoped_value_guard&&)      = delete;
 
     armed_scoped_value_guard& operator=(const armed_scoped_value_guard&) = delete;
-    armed_scoped_value_guard& operator=(armed_scoped_value_guard&&) = delete;
+    armed_scoped_value_guard& operator=(armed_scoped_value_guard&&)      = delete;
 #else
     armed_scoped_value_guard(const armed_scoped_value_guard&) = default;
     armed_scoped_value_guard(armed_scoped_value_guard&&)      = default;
 
     armed_scoped_value_guard& operator=(const armed_scoped_value_guard&) = default;
-    armed_scoped_value_guard& operator=(armed_scoped_value_guard&&) = default;
+    armed_scoped_value_guard& operator=(armed_scoped_value_guard&&)      = default;
 #endif
 
     PHI_CONSTEXPR_DESTRUCTOR ~armed_scoped_value_guard() noexcept

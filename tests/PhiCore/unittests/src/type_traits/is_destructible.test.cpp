@@ -528,29 +528,29 @@ TEST_CASE("is_destructible")
     test_is_destructible<int (&)(int, ...)>();
     test_is_destructible<int (&)(int, ...) noexcept>();
 
-    test_is_destructible<void(&&)()>();
-    test_is_destructible<void(&&)() noexcept>();
+    test_is_destructible<void (&&)()>();
+    test_is_destructible<void (&&)() noexcept>();
 
-    test_is_destructible<void(&&)(int)>();
-    test_is_destructible<void(&&)(int) noexcept>();
+    test_is_destructible<void (&&)(int)>();
+    test_is_destructible<void (&&)(int) noexcept>();
 
-    test_is_destructible<void(&&)(...)>();
-    test_is_destructible<void(&&)(...) noexcept>();
+    test_is_destructible<void (&&)(...)>();
+    test_is_destructible<void (&&)(...) noexcept>();
 
-    test_is_destructible<void(&&)(int, ...)>();
-    test_is_destructible<void(&&)(int, ...) noexcept>();
+    test_is_destructible<void (&&)(int, ...)>();
+    test_is_destructible<void (&&)(int, ...) noexcept>();
 
-    test_is_destructible<int(&&)()>();
-    test_is_destructible<int(&&)() noexcept>();
+    test_is_destructible<int (&&)()>();
+    test_is_destructible<int (&&)() noexcept>();
 
-    test_is_destructible<int(&&)(int)>();
-    test_is_destructible<int(&&)(int) noexcept>();
+    test_is_destructible<int (&&)(int)>();
+    test_is_destructible<int (&&)(int) noexcept>();
 
-    test_is_destructible<int(&&)(...)>();
-    test_is_destructible<int(&&)(...) noexcept>();
+    test_is_destructible<int (&&)(...)>();
+    test_is_destructible<int (&&)(...) noexcept>();
 
-    test_is_destructible<int(&&)(int, ...)>();
-    test_is_destructible<int(&&)(int, ...) noexcept>();
+    test_is_destructible<int (&&)(int, ...)>();
+    test_is_destructible<int (&&)(int, ...) noexcept>();
 
     test_is_destructible<void (class_type::*)()>();
     test_is_destructible<void (class_type::*)()&>();

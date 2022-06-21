@@ -784,29 +784,29 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<int (&)(int, ...)>();
     test_is_not_member_function_pointer<int (&)(int, ...) noexcept>();
 
-    test_is_not_member_function_pointer<void(&&)()>();
-    test_is_not_member_function_pointer<void(&&)() noexcept>();
+    test_is_not_member_function_pointer<void (&&)()>();
+    test_is_not_member_function_pointer<void (&&)() noexcept>();
 
-    test_is_not_member_function_pointer<void(&&)(int)>();
-    test_is_not_member_function_pointer<void(&&)(int) noexcept>();
+    test_is_not_member_function_pointer<void (&&)(int)>();
+    test_is_not_member_function_pointer<void (&&)(int) noexcept>();
 
-    test_is_not_member_function_pointer<void(&&)(...)>();
-    test_is_not_member_function_pointer<void(&&)(...) noexcept>();
+    test_is_not_member_function_pointer<void (&&)(...)>();
+    test_is_not_member_function_pointer<void (&&)(...) noexcept>();
 
-    test_is_not_member_function_pointer<void(&&)(int, ...)>();
-    test_is_not_member_function_pointer<void(&&)(int, ...) noexcept>();
+    test_is_not_member_function_pointer<void (&&)(int, ...)>();
+    test_is_not_member_function_pointer<void (&&)(int, ...) noexcept>();
 
-    test_is_not_member_function_pointer<int(&&)()>();
-    test_is_not_member_function_pointer<int(&&)() noexcept>();
+    test_is_not_member_function_pointer<int (&&)()>();
+    test_is_not_member_function_pointer<int (&&)() noexcept>();
 
-    test_is_not_member_function_pointer<int(&&)(int)>();
-    test_is_not_member_function_pointer<int(&&)(int) noexcept>();
+    test_is_not_member_function_pointer<int (&&)(int)>();
+    test_is_not_member_function_pointer<int (&&)(int) noexcept>();
 
-    test_is_not_member_function_pointer<int(&&)(...)>();
-    test_is_not_member_function_pointer<int(&&)(...) noexcept>();
+    test_is_not_member_function_pointer<int (&&)(...)>();
+    test_is_not_member_function_pointer<int (&&)(...) noexcept>();
 
-    test_is_not_member_function_pointer<int(&&)(int, ...)>();
-    test_is_not_member_function_pointer<int(&&)(int, ...) noexcept>();
+    test_is_not_member_function_pointer<int (&&)(int, ...)>();
+    test_is_not_member_function_pointer<int (&&)(int, ...) noexcept>();
 
     test_is_member_function_pointer<void (class_type::*)()>();
     test_is_member_function_pointer<void (class_type::*)()&>();

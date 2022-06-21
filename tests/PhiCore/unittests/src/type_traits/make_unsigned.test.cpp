@@ -355,29 +355,29 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int (&)(int, ...)>();
     test_make_unsigned<int (&)(int, ...) noexcept>();
 
-    test_make_unsigned<void(&&)()>();
-    test_make_unsigned<void(&&)() noexcept>();
+    test_make_unsigned<void (&&)()>();
+    test_make_unsigned<void (&&)() noexcept>();
 
-    test_make_unsigned<void(&&)(int)>();
-    test_make_unsigned<void(&&)(int) noexcept>();
+    test_make_unsigned<void (&&)(int)>();
+    test_make_unsigned<void (&&)(int) noexcept>();
 
-    test_make_unsigned<void(&&)(...)>();
-    test_make_unsigned<void(&&)(...) noexcept>();
+    test_make_unsigned<void (&&)(...)>();
+    test_make_unsigned<void (&&)(...) noexcept>();
 
-    test_make_unsigned<void(&&)(int, ...)>();
-    test_make_unsigned<void(&&)(int, ...) noexcept>();
+    test_make_unsigned<void (&&)(int, ...)>();
+    test_make_unsigned<void (&&)(int, ...) noexcept>();
 
-    test_make_unsigned<int(&&)()>();
-    test_make_unsigned<int(&&)() noexcept>();
+    test_make_unsigned<int (&&)()>();
+    test_make_unsigned<int (&&)() noexcept>();
 
-    test_make_unsigned<int(&&)(int)>();
-    test_make_unsigned<int(&&)(int) noexcept>();
+    test_make_unsigned<int (&&)(int)>();
+    test_make_unsigned<int (&&)(int) noexcept>();
 
-    test_make_unsigned<int(&&)(...)>();
-    test_make_unsigned<int(&&)(...) noexcept>();
+    test_make_unsigned<int (&&)(...)>();
+    test_make_unsigned<int (&&)(...) noexcept>();
 
-    test_make_unsigned<int(&&)(int, ...)>();
-    test_make_unsigned<int(&&)(int, ...) noexcept>();
+    test_make_unsigned<int (&&)(int, ...)>();
+    test_make_unsigned<int (&&)(int, ...) noexcept>();
 
     test_make_unsigned<void (class_type::*)()>();
     test_make_unsigned<void (class_type::*)()&>();

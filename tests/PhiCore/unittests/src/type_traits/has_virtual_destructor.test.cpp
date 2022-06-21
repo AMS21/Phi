@@ -519,29 +519,29 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int (&)(int, ...)>();
     test_has_no_virtual_destructor<int (&)(int, ...) noexcept>();
 
-    test_has_no_virtual_destructor<void(&&)()>();
-    test_has_no_virtual_destructor<void(&&)() noexcept>();
+    test_has_no_virtual_destructor<void (&&)()>();
+    test_has_no_virtual_destructor<void (&&)() noexcept>();
 
-    test_has_no_virtual_destructor<void(&&)(int)>();
-    test_has_no_virtual_destructor<void(&&)(int) noexcept>();
+    test_has_no_virtual_destructor<void (&&)(int)>();
+    test_has_no_virtual_destructor<void (&&)(int) noexcept>();
 
-    test_has_no_virtual_destructor<void(&&)(...)>();
-    test_has_no_virtual_destructor<void(&&)(...) noexcept>();
+    test_has_no_virtual_destructor<void (&&)(...)>();
+    test_has_no_virtual_destructor<void (&&)(...) noexcept>();
 
-    test_has_no_virtual_destructor<void(&&)(int, ...)>();
-    test_has_no_virtual_destructor<void(&&)(int, ...) noexcept>();
+    test_has_no_virtual_destructor<void (&&)(int, ...)>();
+    test_has_no_virtual_destructor<void (&&)(int, ...) noexcept>();
 
-    test_has_no_virtual_destructor<int(&&)()>();
-    test_has_no_virtual_destructor<int(&&)() noexcept>();
+    test_has_no_virtual_destructor<int (&&)()>();
+    test_has_no_virtual_destructor<int (&&)() noexcept>();
 
-    test_has_no_virtual_destructor<int(&&)(int)>();
-    test_has_no_virtual_destructor<int(&&)(int) noexcept>();
+    test_has_no_virtual_destructor<int (&&)(int)>();
+    test_has_no_virtual_destructor<int (&&)(int) noexcept>();
 
-    test_has_no_virtual_destructor<int(&&)(...)>();
-    test_has_no_virtual_destructor<int(&&)(...) noexcept>();
+    test_has_no_virtual_destructor<int (&&)(...)>();
+    test_has_no_virtual_destructor<int (&&)(...) noexcept>();
 
-    test_has_no_virtual_destructor<int(&&)(int, ...)>();
-    test_has_no_virtual_destructor<int(&&)(int, ...) noexcept>();
+    test_has_no_virtual_destructor<int (&&)(int, ...)>();
+    test_has_no_virtual_destructor<int (&&)(int, ...) noexcept>();
 
     test_has_no_virtual_destructor<void (class_type::*)()>();
     test_has_no_virtual_destructor<void (class_type::*)()&>();

@@ -525,29 +525,29 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (&)(int, ...), int (*)(int, ...)>();
     test_add_pointer<int (&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
-    test_add_pointer<void(&&)(), void (*)()>();
-    test_add_pointer<void(&&)() noexcept, void (*)() noexcept>();
+    test_add_pointer<void (&&)(), void (*)()>();
+    test_add_pointer<void (&&)() noexcept, void (*)() noexcept>();
 
-    test_add_pointer<void(&&)(int), void (*)(int)>();
-    test_add_pointer<void(&&)(int) noexcept, void (*)(int) noexcept>();
+    test_add_pointer<void (&&)(int), void (*)(int)>();
+    test_add_pointer<void (&&)(int) noexcept, void (*)(int) noexcept>();
 
-    test_add_pointer<void(&&)(...), void (*)(...)>();
-    test_add_pointer<void(&&)(...) noexcept, void (*)(...) noexcept>();
+    test_add_pointer<void (&&)(...), void (*)(...)>();
+    test_add_pointer<void (&&)(...) noexcept, void (*)(...) noexcept>();
 
-    test_add_pointer<void(&&)(int, ...), void (*)(int, ...)>();
-    test_add_pointer<void(&&)(int, ...) noexcept, void (*)(int, ...) noexcept>();
+    test_add_pointer<void (&&)(int, ...), void (*)(int, ...)>();
+    test_add_pointer<void (&&)(int, ...) noexcept, void (*)(int, ...) noexcept>();
 
-    test_add_pointer<int(&&)(), int (*)()>();
-    test_add_pointer<int(&&)() noexcept, int (*)() noexcept>();
+    test_add_pointer<int (&&)(), int (*)()>();
+    test_add_pointer<int (&&)() noexcept, int (*)() noexcept>();
 
-    test_add_pointer<int(&&)(int), int (*)(int)>();
-    test_add_pointer<int(&&)(int) noexcept, int (*)(int) noexcept>();
+    test_add_pointer<int (&&)(int), int (*)(int)>();
+    test_add_pointer<int (&&)(int) noexcept, int (*)(int) noexcept>();
 
-    test_add_pointer<int(&&)(...), int (*)(...)>();
-    test_add_pointer<int(&&)(...) noexcept, int (*)(...) noexcept>();
+    test_add_pointer<int (&&)(...), int (*)(...)>();
+    test_add_pointer<int (&&)(...) noexcept, int (*)(...) noexcept>();
 
-    test_add_pointer<int(&&)(int, ...), int (*)(int, ...)>();
-    test_add_pointer<int(&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
+    test_add_pointer<int (&&)(int, ...), int (*)(int, ...)>();
+    test_add_pointer<int (&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
     test_add_pointer<void (class_type::*)()>();
     test_add_pointer<void (class_type::*)()&>();

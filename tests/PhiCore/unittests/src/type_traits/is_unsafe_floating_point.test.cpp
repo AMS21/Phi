@@ -653,29 +653,29 @@ TEST_CASE("is_unsafe_floating_point")
     test_is_not_unsafe_floating_point<int (&)(int, ...)>();
     test_is_not_unsafe_floating_point<int (&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_floating_point<void(&&)()>();
-    test_is_not_unsafe_floating_point<void(&&)() noexcept>();
+    test_is_not_unsafe_floating_point<void (&&)()>();
+    test_is_not_unsafe_floating_point<void (&&)() noexcept>();
 
-    test_is_not_unsafe_floating_point<void(&&)(int)>();
-    test_is_not_unsafe_floating_point<void(&&)(int) noexcept>();
+    test_is_not_unsafe_floating_point<void (&&)(int)>();
+    test_is_not_unsafe_floating_point<void (&&)(int) noexcept>();
 
-    test_is_not_unsafe_floating_point<void(&&)(...)>();
-    test_is_not_unsafe_floating_point<void(&&)(...) noexcept>();
+    test_is_not_unsafe_floating_point<void (&&)(...)>();
+    test_is_not_unsafe_floating_point<void (&&)(...) noexcept>();
 
-    test_is_not_unsafe_floating_point<void(&&)(int, ...)>();
-    test_is_not_unsafe_floating_point<void(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_floating_point<void (&&)(int, ...)>();
+    test_is_not_unsafe_floating_point<void (&&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_floating_point<int(&&)()>();
-    test_is_not_unsafe_floating_point<int(&&)() noexcept>();
+    test_is_not_unsafe_floating_point<int (&&)()>();
+    test_is_not_unsafe_floating_point<int (&&)() noexcept>();
 
-    test_is_not_unsafe_floating_point<int(&&)(int)>();
-    test_is_not_unsafe_floating_point<int(&&)(int) noexcept>();
+    test_is_not_unsafe_floating_point<int (&&)(int)>();
+    test_is_not_unsafe_floating_point<int (&&)(int) noexcept>();
 
-    test_is_not_unsafe_floating_point<int(&&)(...)>();
-    test_is_not_unsafe_floating_point<int(&&)(...) noexcept>();
+    test_is_not_unsafe_floating_point<int (&&)(...)>();
+    test_is_not_unsafe_floating_point<int (&&)(...) noexcept>();
 
-    test_is_not_unsafe_floating_point<int(&&)(int, ...)>();
-    test_is_not_unsafe_floating_point<int(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_floating_point<int (&&)(int, ...)>();
+    test_is_not_unsafe_floating_point<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_floating_point<void (class_type::*)()>();
     test_is_not_unsafe_floating_point<void (class_type::*)()&>();

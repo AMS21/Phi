@@ -97,13 +97,13 @@ namespace is_swappable_ns
     // Make the test types non-copyable so that generic phi::swap is not valid.
     struct A
     {
-        A(A const&) = delete;
+        A(A const&)            = delete;
         A& operator=(A const&) = delete;
     };
 
     struct B
     {
-        B(B const&) = delete;
+        B(B const&)            = delete;
         B& operator=(B const&) = delete;
     };
 
@@ -130,7 +130,7 @@ namespace is_swappable_ns
 
     struct M
     {
-        M(M const&) = delete;
+        M(M const&)            = delete;
         M& operator=(M const&) = delete;
     };
 
@@ -660,29 +660,29 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int (&)(int, ...)>();
     test_is_not_swappable<int (&)(int, ...) noexcept>();
 
-    test_is_not_swappable<void(&&)()>();
-    test_is_not_swappable<void(&&)() noexcept>();
+    test_is_not_swappable<void (&&)()>();
+    test_is_not_swappable<void (&&)() noexcept>();
 
-    test_is_not_swappable<void(&&)(int)>();
-    test_is_not_swappable<void(&&)(int) noexcept>();
+    test_is_not_swappable<void (&&)(int)>();
+    test_is_not_swappable<void (&&)(int) noexcept>();
 
-    test_is_not_swappable<void(&&)(...)>();
-    test_is_not_swappable<void(&&)(...) noexcept>();
+    test_is_not_swappable<void (&&)(...)>();
+    test_is_not_swappable<void (&&)(...) noexcept>();
 
-    test_is_not_swappable<void(&&)(int, ...)>();
-    test_is_not_swappable<void(&&)(int, ...) noexcept>();
+    test_is_not_swappable<void (&&)(int, ...)>();
+    test_is_not_swappable<void (&&)(int, ...) noexcept>();
 
-    test_is_not_swappable<int(&&)()>();
-    test_is_not_swappable<int(&&)() noexcept>();
+    test_is_not_swappable<int (&&)()>();
+    test_is_not_swappable<int (&&)() noexcept>();
 
-    test_is_not_swappable<int(&&)(int)>();
-    test_is_not_swappable<int(&&)(int) noexcept>();
+    test_is_not_swappable<int (&&)(int)>();
+    test_is_not_swappable<int (&&)(int) noexcept>();
 
-    test_is_not_swappable<int(&&)(...)>();
-    test_is_not_swappable<int(&&)(...) noexcept>();
+    test_is_not_swappable<int (&&)(...)>();
+    test_is_not_swappable<int (&&)(...) noexcept>();
 
-    test_is_not_swappable<int(&&)(int, ...)>();
-    test_is_not_swappable<int(&&)(int, ...) noexcept>();
+    test_is_not_swappable<int (&&)(int, ...)>();
+    test_is_not_swappable<int (&&)(int, ...) noexcept>();
 
     test_is_swappable_v<void (class_type::*)()>();
     test_is_swappable_v<void (class_type::*)()&>();

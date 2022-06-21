@@ -582,29 +582,29 @@ TEST_CASE("is_void")
     test_no_underlying_type<int (&)(int, ...)>();
     test_no_underlying_type<int (&)(int, ...) noexcept>();
 
-    test_no_underlying_type<void(&&)()>();
-    test_no_underlying_type<void(&&)() noexcept>();
+    test_no_underlying_type<void (&&)()>();
+    test_no_underlying_type<void (&&)() noexcept>();
 
-    test_no_underlying_type<void(&&)(int)>();
-    test_no_underlying_type<void(&&)(int) noexcept>();
+    test_no_underlying_type<void (&&)(int)>();
+    test_no_underlying_type<void (&&)(int) noexcept>();
 
-    test_no_underlying_type<void(&&)(...)>();
-    test_no_underlying_type<void(&&)(...) noexcept>();
+    test_no_underlying_type<void (&&)(...)>();
+    test_no_underlying_type<void (&&)(...) noexcept>();
 
-    test_no_underlying_type<void(&&)(int, ...)>();
-    test_no_underlying_type<void(&&)(int, ...) noexcept>();
+    test_no_underlying_type<void (&&)(int, ...)>();
+    test_no_underlying_type<void (&&)(int, ...) noexcept>();
 
-    test_no_underlying_type<int(&&)()>();
-    test_no_underlying_type<int(&&)() noexcept>();
+    test_no_underlying_type<int (&&)()>();
+    test_no_underlying_type<int (&&)() noexcept>();
 
-    test_no_underlying_type<int(&&)(int)>();
-    test_no_underlying_type<int(&&)(int) noexcept>();
+    test_no_underlying_type<int (&&)(int)>();
+    test_no_underlying_type<int (&&)(int) noexcept>();
 
-    test_no_underlying_type<int(&&)(...)>();
-    test_no_underlying_type<int(&&)(...) noexcept>();
+    test_no_underlying_type<int (&&)(...)>();
+    test_no_underlying_type<int (&&)(...) noexcept>();
 
-    test_no_underlying_type<int(&&)(int, ...)>();
-    test_no_underlying_type<int(&&)(int, ...) noexcept>();
+    test_no_underlying_type<int (&&)(int, ...)>();
+    test_no_underlying_type<int (&&)(int, ...) noexcept>();
 
     test_no_underlying_type<void (class_type::*)()>();
     test_no_underlying_type<void (class_type::*)()&>();

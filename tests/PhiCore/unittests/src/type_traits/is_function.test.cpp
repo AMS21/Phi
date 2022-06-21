@@ -639,29 +639,29 @@ TEST_CASE("is_function")
     test_is_not_function<int (&)(int, ...)>();
     test_is_not_function<int (&)(int, ...) noexcept>();
 
-    test_is_not_function<void(&&)()>();
-    test_is_not_function<void(&&)() noexcept>();
+    test_is_not_function<void (&&)()>();
+    test_is_not_function<void (&&)() noexcept>();
 
-    test_is_not_function<void(&&)(int)>();
-    test_is_not_function<void(&&)(int) noexcept>();
+    test_is_not_function<void (&&)(int)>();
+    test_is_not_function<void (&&)(int) noexcept>();
 
-    test_is_not_function<void(&&)(...)>();
-    test_is_not_function<void(&&)(...) noexcept>();
+    test_is_not_function<void (&&)(...)>();
+    test_is_not_function<void (&&)(...) noexcept>();
 
-    test_is_not_function<void(&&)(int, ...)>();
-    test_is_not_function<void(&&)(int, ...) noexcept>();
+    test_is_not_function<void (&&)(int, ...)>();
+    test_is_not_function<void (&&)(int, ...) noexcept>();
 
-    test_is_not_function<int(&&)()>();
-    test_is_not_function<int(&&)() noexcept>();
+    test_is_not_function<int (&&)()>();
+    test_is_not_function<int (&&)() noexcept>();
 
-    test_is_not_function<int(&&)(int)>();
-    test_is_not_function<int(&&)(int) noexcept>();
+    test_is_not_function<int (&&)(int)>();
+    test_is_not_function<int (&&)(int) noexcept>();
 
-    test_is_not_function<int(&&)(...)>();
-    test_is_not_function<int(&&)(...) noexcept>();
+    test_is_not_function<int (&&)(...)>();
+    test_is_not_function<int (&&)(...) noexcept>();
 
-    test_is_not_function<int(&&)(int, ...)>();
-    test_is_not_function<int(&&)(int, ...) noexcept>();
+    test_is_not_function<int (&&)(int, ...)>();
+    test_is_not_function<int (&&)(int, ...) noexcept>();
 
     test_is_not_function<void (class_type::*)()>();
     test_is_not_function<void (class_type::*)()&>();

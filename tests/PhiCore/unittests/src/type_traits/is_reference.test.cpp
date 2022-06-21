@@ -612,29 +612,29 @@ TEST_CASE("is_reference")
     test_is_reference<int (&)(int, ...)>();
     test_is_reference<int (&)(int, ...) noexcept>();
 
-    test_is_reference<void(&&)()>();
-    test_is_reference<void(&&)() noexcept>();
+    test_is_reference<void (&&)()>();
+    test_is_reference<void (&&)() noexcept>();
 
-    test_is_reference<void(&&)(int)>();
-    test_is_reference<void(&&)(int) noexcept>();
+    test_is_reference<void (&&)(int)>();
+    test_is_reference<void (&&)(int) noexcept>();
 
-    test_is_reference<void(&&)(...)>();
-    test_is_reference<void(&&)(...) noexcept>();
+    test_is_reference<void (&&)(...)>();
+    test_is_reference<void (&&)(...) noexcept>();
 
-    test_is_reference<void(&&)(int, ...)>();
-    test_is_reference<void(&&)(int, ...) noexcept>();
+    test_is_reference<void (&&)(int, ...)>();
+    test_is_reference<void (&&)(int, ...) noexcept>();
 
-    test_is_reference<int(&&)()>();
-    test_is_reference<int(&&)() noexcept>();
+    test_is_reference<int (&&)()>();
+    test_is_reference<int (&&)() noexcept>();
 
-    test_is_reference<int(&&)(int)>();
-    test_is_reference<int(&&)(int) noexcept>();
+    test_is_reference<int (&&)(int)>();
+    test_is_reference<int (&&)(int) noexcept>();
 
-    test_is_reference<int(&&)(...)>();
-    test_is_reference<int(&&)(...) noexcept>();
+    test_is_reference<int (&&)(...)>();
+    test_is_reference<int (&&)(...) noexcept>();
 
-    test_is_reference<int(&&)(int, ...)>();
-    test_is_reference<int(&&)(int, ...) noexcept>();
+    test_is_reference<int (&&)(int, ...)>();
+    test_is_reference<int (&&)(int, ...) noexcept>();
 
     test_is_not_reference<void (class_type::*)()>();
     test_is_not_reference<void (class_type::*)()&>();

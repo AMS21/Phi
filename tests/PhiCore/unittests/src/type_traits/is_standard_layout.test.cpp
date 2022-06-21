@@ -581,29 +581,29 @@ TEST_CASE("is_standard_layout")
     test_is_not_standard_layout<int (&)(int, ...)>();
     test_is_not_standard_layout<int (&)(int, ...) noexcept>();
 
-    test_is_not_standard_layout<void(&&)()>();
-    test_is_not_standard_layout<void(&&)() noexcept>();
+    test_is_not_standard_layout<void (&&)()>();
+    test_is_not_standard_layout<void (&&)() noexcept>();
 
-    test_is_not_standard_layout<void(&&)(int)>();
-    test_is_not_standard_layout<void(&&)(int) noexcept>();
+    test_is_not_standard_layout<void (&&)(int)>();
+    test_is_not_standard_layout<void (&&)(int) noexcept>();
 
-    test_is_not_standard_layout<void(&&)(...)>();
-    test_is_not_standard_layout<void(&&)(...) noexcept>();
+    test_is_not_standard_layout<void (&&)(...)>();
+    test_is_not_standard_layout<void (&&)(...) noexcept>();
 
-    test_is_not_standard_layout<void(&&)(int, ...)>();
-    test_is_not_standard_layout<void(&&)(int, ...) noexcept>();
+    test_is_not_standard_layout<void (&&)(int, ...)>();
+    test_is_not_standard_layout<void (&&)(int, ...) noexcept>();
 
-    test_is_not_standard_layout<int(&&)()>();
-    test_is_not_standard_layout<int(&&)() noexcept>();
+    test_is_not_standard_layout<int (&&)()>();
+    test_is_not_standard_layout<int (&&)() noexcept>();
 
-    test_is_not_standard_layout<int(&&)(int)>();
-    test_is_not_standard_layout<int(&&)(int) noexcept>();
+    test_is_not_standard_layout<int (&&)(int)>();
+    test_is_not_standard_layout<int (&&)(int) noexcept>();
 
-    test_is_not_standard_layout<int(&&)(...)>();
-    test_is_not_standard_layout<int(&&)(...) noexcept>();
+    test_is_not_standard_layout<int (&&)(...)>();
+    test_is_not_standard_layout<int (&&)(...) noexcept>();
 
-    test_is_not_standard_layout<int(&&)(int, ...)>();
-    test_is_not_standard_layout<int(&&)(int, ...) noexcept>();
+    test_is_not_standard_layout<int (&&)(int, ...)>();
+    test_is_not_standard_layout<int (&&)(int, ...) noexcept>();
 
     test_is_standard_layout<void (class_type::*)()>();
     test_is_standard_layout<void (class_type::*)()&>();

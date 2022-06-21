@@ -546,29 +546,29 @@ TEST_CASE("is_object")
     test_is_not_object<int (&)(int, ...)>();
     test_is_not_object<int (&)(int, ...) noexcept>();
 
-    test_is_not_object<void(&&)()>();
-    test_is_not_object<void(&&)() noexcept>();
+    test_is_not_object<void (&&)()>();
+    test_is_not_object<void (&&)() noexcept>();
 
-    test_is_not_object<void(&&)(int)>();
-    test_is_not_object<void(&&)(int) noexcept>();
+    test_is_not_object<void (&&)(int)>();
+    test_is_not_object<void (&&)(int) noexcept>();
 
-    test_is_not_object<void(&&)(...)>();
-    test_is_not_object<void(&&)(...) noexcept>();
+    test_is_not_object<void (&&)(...)>();
+    test_is_not_object<void (&&)(...) noexcept>();
 
-    test_is_not_object<void(&&)(int, ...)>();
-    test_is_not_object<void(&&)(int, ...) noexcept>();
+    test_is_not_object<void (&&)(int, ...)>();
+    test_is_not_object<void (&&)(int, ...) noexcept>();
 
-    test_is_not_object<int(&&)()>();
-    test_is_not_object<int(&&)() noexcept>();
+    test_is_not_object<int (&&)()>();
+    test_is_not_object<int (&&)() noexcept>();
 
-    test_is_not_object<int(&&)(int)>();
-    test_is_not_object<int(&&)(int) noexcept>();
+    test_is_not_object<int (&&)(int)>();
+    test_is_not_object<int (&&)(int) noexcept>();
 
-    test_is_not_object<int(&&)(...)>();
-    test_is_not_object<int(&&)(...) noexcept>();
+    test_is_not_object<int (&&)(...)>();
+    test_is_not_object<int (&&)(...) noexcept>();
 
-    test_is_not_object<int(&&)(int, ...)>();
-    test_is_not_object<int(&&)(int, ...) noexcept>();
+    test_is_not_object<int (&&)(int, ...)>();
+    test_is_not_object<int (&&)(int, ...) noexcept>();
 
     test_is_object<void (class_type::*)()>();
     test_is_object<void (class_type::*)()&>();

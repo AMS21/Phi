@@ -125,15 +125,15 @@ TEST_CASE("is_constructible")
 
     test_is_constructible<void (&)(), void (&)()>();
     test_is_constructible<void (&)(), void()>();
-    test_is_constructible<void(&&)(), void(&&)()>();
-    test_is_constructible<void(&&)(), void()>();
-    test_is_constructible<void(&&)(), void (&)()>();
+    test_is_constructible<void (&&)(), void (&&)()>();
+    test_is_constructible<void (&&)(), void()>();
+    test_is_constructible<void (&&)(), void (&)()>();
 
     test_is_constructible<int const&, int>();
     test_is_constructible<int const&, int&&>();
 
     test_is_constructible<int&&, double&>();
-    test_is_constructible<void (&)(), void(&&)()>();
+    test_is_constructible<void (&)(), void (&&)()>();
 
     test_is_not_constructible<int&, int>();
     test_is_not_constructible<int&, int const&>();

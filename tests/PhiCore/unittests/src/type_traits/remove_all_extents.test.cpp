@@ -512,29 +512,29 @@ TEST_CASE("remove_all_extents")
     test_remove_all_extents<int (&)(int, ...)>();
     test_remove_all_extents<int (&)(int, ...) noexcept>();
 
-    test_remove_all_extents<void(&&)()>();
-    test_remove_all_extents<void(&&)() noexcept>();
+    test_remove_all_extents<void (&&)()>();
+    test_remove_all_extents<void (&&)() noexcept>();
 
-    test_remove_all_extents<void(&&)(int)>();
-    test_remove_all_extents<void(&&)(int) noexcept>();
+    test_remove_all_extents<void (&&)(int)>();
+    test_remove_all_extents<void (&&)(int) noexcept>();
 
-    test_remove_all_extents<void(&&)(...)>();
-    test_remove_all_extents<void(&&)(...) noexcept>();
+    test_remove_all_extents<void (&&)(...)>();
+    test_remove_all_extents<void (&&)(...) noexcept>();
 
-    test_remove_all_extents<void(&&)(int, ...)>();
-    test_remove_all_extents<void(&&)(int, ...) noexcept>();
+    test_remove_all_extents<void (&&)(int, ...)>();
+    test_remove_all_extents<void (&&)(int, ...) noexcept>();
 
-    test_remove_all_extents<int(&&)()>();
-    test_remove_all_extents<int(&&)() noexcept>();
+    test_remove_all_extents<int (&&)()>();
+    test_remove_all_extents<int (&&)() noexcept>();
 
-    test_remove_all_extents<int(&&)(int)>();
-    test_remove_all_extents<int(&&)(int) noexcept>();
+    test_remove_all_extents<int (&&)(int)>();
+    test_remove_all_extents<int (&&)(int) noexcept>();
 
-    test_remove_all_extents<int(&&)(...)>();
-    test_remove_all_extents<int(&&)(...) noexcept>();
+    test_remove_all_extents<int (&&)(...)>();
+    test_remove_all_extents<int (&&)(...) noexcept>();
 
-    test_remove_all_extents<int(&&)(int, ...)>();
-    test_remove_all_extents<int(&&)(int, ...) noexcept>();
+    test_remove_all_extents<int (&&)(int, ...)>();
+    test_remove_all_extents<int (&&)(int, ...) noexcept>();
 
     test_remove_all_extents<void (class_type::*)()>();
     test_remove_all_extents<void (class_type::*)()&>();

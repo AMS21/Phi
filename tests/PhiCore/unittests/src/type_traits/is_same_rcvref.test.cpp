@@ -663,29 +663,29 @@ TEST_CASE("is_same_rcvref")
     test_is_same_rcvref<int (&)(int, ...)>();
     test_is_same_rcvref<int (&)(int, ...) noexcept>();
 
-    test_is_same_rcvref<void(&&)()>();
-    test_is_same_rcvref<void(&&)() noexcept>();
+    test_is_same_rcvref<void (&&)()>();
+    test_is_same_rcvref<void (&&)() noexcept>();
 
-    test_is_same_rcvref<void(&&)(int)>();
-    test_is_same_rcvref<void(&&)(int) noexcept>();
+    test_is_same_rcvref<void (&&)(int)>();
+    test_is_same_rcvref<void (&&)(int) noexcept>();
 
-    test_is_same_rcvref<void(&&)(...)>();
-    test_is_same_rcvref<void(&&)(...) noexcept>();
+    test_is_same_rcvref<void (&&)(...)>();
+    test_is_same_rcvref<void (&&)(...) noexcept>();
 
-    test_is_same_rcvref<void(&&)(int, ...)>();
-    test_is_same_rcvref<void(&&)(int, ...) noexcept>();
+    test_is_same_rcvref<void (&&)(int, ...)>();
+    test_is_same_rcvref<void (&&)(int, ...) noexcept>();
 
-    test_is_same_rcvref<int(&&)()>();
-    test_is_same_rcvref<int(&&)() noexcept>();
+    test_is_same_rcvref<int (&&)()>();
+    test_is_same_rcvref<int (&&)() noexcept>();
 
-    test_is_same_rcvref<int(&&)(int)>();
-    test_is_same_rcvref<int(&&)(int) noexcept>();
+    test_is_same_rcvref<int (&&)(int)>();
+    test_is_same_rcvref<int (&&)(int) noexcept>();
 
-    test_is_same_rcvref<int(&&)(...)>();
-    test_is_same_rcvref<int(&&)(...) noexcept>();
+    test_is_same_rcvref<int (&&)(...)>();
+    test_is_same_rcvref<int (&&)(...) noexcept>();
 
-    test_is_same_rcvref<int(&&)(int, ...)>();
-    test_is_same_rcvref<int(&&)(int, ...) noexcept>();
+    test_is_same_rcvref<int (&&)(int, ...)>();
+    test_is_same_rcvref<int (&&)(int, ...) noexcept>();
 
     test_is_same_rcvref<void (class_type::*)()>();
     test_is_same_rcvref<void (class_type::*)()&>();

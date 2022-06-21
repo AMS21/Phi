@@ -522,29 +522,29 @@ TEST_CASE("rank")
     test_rank<int (&)(int, ...)>();
     test_rank<int (&)(int, ...) noexcept>();
 
-    test_rank<void(&&)()>();
-    test_rank<void(&&)() noexcept>();
+    test_rank<void (&&)()>();
+    test_rank<void (&&)() noexcept>();
 
-    test_rank<void(&&)(int)>();
-    test_rank<void(&&)(int) noexcept>();
+    test_rank<void (&&)(int)>();
+    test_rank<void (&&)(int) noexcept>();
 
-    test_rank<void(&&)(...)>();
-    test_rank<void(&&)(...) noexcept>();
+    test_rank<void (&&)(...)>();
+    test_rank<void (&&)(...) noexcept>();
 
-    test_rank<void(&&)(int, ...)>();
-    test_rank<void(&&)(int, ...) noexcept>();
+    test_rank<void (&&)(int, ...)>();
+    test_rank<void (&&)(int, ...) noexcept>();
 
-    test_rank<int(&&)()>();
-    test_rank<int(&&)() noexcept>();
+    test_rank<int (&&)()>();
+    test_rank<int (&&)() noexcept>();
 
-    test_rank<int(&&)(int)>();
-    test_rank<int(&&)(int) noexcept>();
+    test_rank<int (&&)(int)>();
+    test_rank<int (&&)(int) noexcept>();
 
-    test_rank<int(&&)(...)>();
-    test_rank<int(&&)(...) noexcept>();
+    test_rank<int (&&)(...)>();
+    test_rank<int (&&)(...) noexcept>();
 
-    test_rank<int(&&)(int, ...)>();
-    test_rank<int(&&)(int, ...) noexcept>();
+    test_rank<int (&&)(int, ...)>();
+    test_rank<int (&&)(int, ...) noexcept>();
 
     test_rank<void (class_type::*)()>();
     test_rank<void (class_type::*)()&>();

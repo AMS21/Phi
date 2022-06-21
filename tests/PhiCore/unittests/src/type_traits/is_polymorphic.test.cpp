@@ -526,29 +526,29 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int (&)(int, ...)>();
     test_is_not_polymorphic<int (&)(int, ...) noexcept>();
 
-    test_is_not_polymorphic<void(&&)()>();
-    test_is_not_polymorphic<void(&&)() noexcept>();
+    test_is_not_polymorphic<void (&&)()>();
+    test_is_not_polymorphic<void (&&)() noexcept>();
 
-    test_is_not_polymorphic<void(&&)(int)>();
-    test_is_not_polymorphic<void(&&)(int) noexcept>();
+    test_is_not_polymorphic<void (&&)(int)>();
+    test_is_not_polymorphic<void (&&)(int) noexcept>();
 
-    test_is_not_polymorphic<void(&&)(...)>();
-    test_is_not_polymorphic<void(&&)(...) noexcept>();
+    test_is_not_polymorphic<void (&&)(...)>();
+    test_is_not_polymorphic<void (&&)(...) noexcept>();
 
-    test_is_not_polymorphic<void(&&)(int, ...)>();
-    test_is_not_polymorphic<void(&&)(int, ...) noexcept>();
+    test_is_not_polymorphic<void (&&)(int, ...)>();
+    test_is_not_polymorphic<void (&&)(int, ...) noexcept>();
 
-    test_is_not_polymorphic<int(&&)()>();
-    test_is_not_polymorphic<int(&&)() noexcept>();
+    test_is_not_polymorphic<int (&&)()>();
+    test_is_not_polymorphic<int (&&)() noexcept>();
 
-    test_is_not_polymorphic<int(&&)(int)>();
-    test_is_not_polymorphic<int(&&)(int) noexcept>();
+    test_is_not_polymorphic<int (&&)(int)>();
+    test_is_not_polymorphic<int (&&)(int) noexcept>();
 
-    test_is_not_polymorphic<int(&&)(...)>();
-    test_is_not_polymorphic<int(&&)(...) noexcept>();
+    test_is_not_polymorphic<int (&&)(...)>();
+    test_is_not_polymorphic<int (&&)(...) noexcept>();
 
-    test_is_not_polymorphic<int(&&)(int, ...)>();
-    test_is_not_polymorphic<int(&&)(int, ...) noexcept>();
+    test_is_not_polymorphic<int (&&)(int, ...)>();
+    test_is_not_polymorphic<int (&&)(int, ...) noexcept>();
 
     test_is_not_polymorphic<void (class_type::*)()>();
     test_is_not_polymorphic<void (class_type::*)()&>();

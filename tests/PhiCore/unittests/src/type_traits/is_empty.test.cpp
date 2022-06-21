@@ -549,29 +549,29 @@ TEST_CASE("is_empty")
     test_is_not_empty<int (&)(int, ...)>();
     test_is_not_empty<int (&)(int, ...) noexcept>();
 
-    test_is_not_empty<void(&&)()>();
-    test_is_not_empty<void(&&)() noexcept>();
+    test_is_not_empty<void (&&)()>();
+    test_is_not_empty<void (&&)() noexcept>();
 
-    test_is_not_empty<void(&&)(int)>();
-    test_is_not_empty<void(&&)(int) noexcept>();
+    test_is_not_empty<void (&&)(int)>();
+    test_is_not_empty<void (&&)(int) noexcept>();
 
-    test_is_not_empty<void(&&)(...)>();
-    test_is_not_empty<void(&&)(...) noexcept>();
+    test_is_not_empty<void (&&)(...)>();
+    test_is_not_empty<void (&&)(...) noexcept>();
 
-    test_is_not_empty<void(&&)(int, ...)>();
-    test_is_not_empty<void(&&)(int, ...) noexcept>();
+    test_is_not_empty<void (&&)(int, ...)>();
+    test_is_not_empty<void (&&)(int, ...) noexcept>();
 
-    test_is_not_empty<int(&&)()>();
-    test_is_not_empty<int(&&)() noexcept>();
+    test_is_not_empty<int (&&)()>();
+    test_is_not_empty<int (&&)() noexcept>();
 
-    test_is_not_empty<int(&&)(int)>();
-    test_is_not_empty<int(&&)(int) noexcept>();
+    test_is_not_empty<int (&&)(int)>();
+    test_is_not_empty<int (&&)(int) noexcept>();
 
-    test_is_not_empty<int(&&)(...)>();
-    test_is_not_empty<int(&&)(...) noexcept>();
+    test_is_not_empty<int (&&)(...)>();
+    test_is_not_empty<int (&&)(...) noexcept>();
 
-    test_is_not_empty<int(&&)(int, ...)>();
-    test_is_not_empty<int(&&)(int, ...) noexcept>();
+    test_is_not_empty<int (&&)(int, ...)>();
+    test_is_not_empty<int (&&)(int, ...) noexcept>();
 
     test_is_not_empty<void (class_type::*)()>();
     test_is_not_empty<void (class_type::*)()&>();

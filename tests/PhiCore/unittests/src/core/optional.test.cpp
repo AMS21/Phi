@@ -155,11 +155,11 @@ TEST_CASE("optional triviality")
     {
         struct T
         {
-            T(const T&) = default;
-            T(T&&)      = default;
+            T(const T&)            = default;
+            T(T&&)                 = default;
             T& operator=(const T&) = default;
-            T& operator=(T&&) = default;
-            ~T()              = default;
+            T& operator=(T&&)      = default;
+            ~T()                   = default;
         };
 
         REQUIRE(phi::is_trivially_copy_constructible<phi::optional<T>>::value);
@@ -206,11 +206,11 @@ TEST_CASE("optional Deletion")
     {
         struct T
         {
-            T(const T&) = default;
-            T(T&&)      = default;
+            T(const T&)            = default;
+            T(T&&)                 = default;
             T& operator=(const T&) = default;
-            T& operator=(T&&) = default;
-            ~T()              = default;
+            T& operator=(T&&)      = default;
+            ~T()                   = default;
         };
         REQUIRE(phi::is_copy_constructible<phi::optional<T>>::value);
         REQUIRE(phi::is_copy_assignable<phi::optional<T>>::value);
@@ -222,10 +222,10 @@ TEST_CASE("optional Deletion")
     {
         struct T
         {
-            T(const T&) = delete;
-            T(T&&)      = delete;
+            T(const T&)            = delete;
+            T(T&&)                 = delete;
             T& operator=(const T&) = delete;
-            T& operator=(T&&) = delete;
+            T& operator=(T&&)      = delete;
         };
         REQUIRE_FALSE(phi::is_copy_constructible<phi::optional<T>>::value);
         REQUIRE_FALSE(phi::is_copy_assignable<phi::optional<T>>::value);
@@ -236,10 +236,10 @@ TEST_CASE("optional Deletion")
     {
         struct T
         {
-            T(const T&) = delete;
-            T(T&&)      = default;
+            T(const T&)            = delete;
+            T(T&&)                 = default;
             T& operator=(const T&) = delete;
-            T& operator=(T&&) = default;
+            T& operator=(T&&)      = default;
         };
         REQUIRE_FALSE(phi::is_copy_constructible<phi::optional<T>>::value);
         REQUIRE_FALSE(phi::is_copy_assignable<phi::optional<T>>::value);
@@ -250,10 +250,10 @@ TEST_CASE("optional Deletion")
     {
         struct T
         {
-            T(const T&) = default;
-            T(T&&)      = delete;
+            T(const T&)            = default;
+            T(T&&)                 = delete;
             T& operator=(const T&) = default;
-            T& operator=(T&&) = delete;
+            T& operator=(T&&)      = delete;
         };
         REQUIRE(phi::is_copy_constructible<phi::optional<T>>::value);
         REQUIRE(phi::is_copy_assignable<phi::optional<T>>::value);
@@ -1141,8 +1141,8 @@ TEST_CASE("Noexcept", "[noexcept]")
 
         struct nothrow_move_assign
         {
-            nothrow_move_assign()                               = default;
-            nothrow_move_assign(nothrow_move_assign&&) noexcept = default;
+            nothrow_move_assign()                                      = default;
+            nothrow_move_assign(nothrow_move_assign&&) noexcept        = default;
             nothrow_move_assign& operator=(const nothrow_move_assign&) = default;
         };
 

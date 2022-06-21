@@ -617,29 +617,29 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<int (&)(int, ...)>();
     test_is_referenceable<int (&)(int, ...) noexcept>();
 
-    test_is_referenceable<void(&&)()>();
-    test_is_referenceable<void(&&)() noexcept>();
+    test_is_referenceable<void (&&)()>();
+    test_is_referenceable<void (&&)() noexcept>();
 
-    test_is_referenceable<void(&&)(int)>();
-    test_is_referenceable<void(&&)(int) noexcept>();
+    test_is_referenceable<void (&&)(int)>();
+    test_is_referenceable<void (&&)(int) noexcept>();
 
-    test_is_referenceable<void(&&)(...)>();
-    test_is_referenceable<void(&&)(...) noexcept>();
+    test_is_referenceable<void (&&)(...)>();
+    test_is_referenceable<void (&&)(...) noexcept>();
 
-    test_is_referenceable<void(&&)(int, ...)>();
-    test_is_referenceable<void(&&)(int, ...) noexcept>();
+    test_is_referenceable<void (&&)(int, ...)>();
+    test_is_referenceable<void (&&)(int, ...) noexcept>();
 
-    test_is_referenceable<int(&&)()>();
-    test_is_referenceable<int(&&)() noexcept>();
+    test_is_referenceable<int (&&)()>();
+    test_is_referenceable<int (&&)() noexcept>();
 
-    test_is_referenceable<int(&&)(int)>();
-    test_is_referenceable<int(&&)(int) noexcept>();
+    test_is_referenceable<int (&&)(int)>();
+    test_is_referenceable<int (&&)(int) noexcept>();
 
-    test_is_referenceable<int(&&)(...)>();
-    test_is_referenceable<int(&&)(...) noexcept>();
+    test_is_referenceable<int (&&)(...)>();
+    test_is_referenceable<int (&&)(...) noexcept>();
 
-    test_is_referenceable<int(&&)(int, ...)>();
-    test_is_referenceable<int(&&)(int, ...) noexcept>();
+    test_is_referenceable<int (&&)(int, ...)>();
+    test_is_referenceable<int (&&)(int, ...) noexcept>();
 
     test_is_referenceable<void (class_type::*)()>();
     test_is_referenceable<void (class_type::*)()&>();

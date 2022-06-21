@@ -490,29 +490,29 @@ TEST_CASE("remove_cv")
     test_remove_cv<int (&)(int, ...)>();
     test_remove_cv<int (&)(int, ...) noexcept>();
 
-    test_remove_cv<void(&&)()>();
-    test_remove_cv<void(&&)() noexcept>();
+    test_remove_cv<void (&&)()>();
+    test_remove_cv<void (&&)() noexcept>();
 
-    test_remove_cv<void(&&)(int)>();
-    test_remove_cv<void(&&)(int) noexcept>();
+    test_remove_cv<void (&&)(int)>();
+    test_remove_cv<void (&&)(int) noexcept>();
 
-    test_remove_cv<void(&&)(...)>();
-    test_remove_cv<void(&&)(...) noexcept>();
+    test_remove_cv<void (&&)(...)>();
+    test_remove_cv<void (&&)(...) noexcept>();
 
-    test_remove_cv<void(&&)(int, ...)>();
-    test_remove_cv<void(&&)(int, ...) noexcept>();
+    test_remove_cv<void (&&)(int, ...)>();
+    test_remove_cv<void (&&)(int, ...) noexcept>();
 
-    test_remove_cv<int(&&)()>();
-    test_remove_cv<int(&&)() noexcept>();
+    test_remove_cv<int (&&)()>();
+    test_remove_cv<int (&&)() noexcept>();
 
-    test_remove_cv<int(&&)(int)>();
-    test_remove_cv<int(&&)(int) noexcept>();
+    test_remove_cv<int (&&)(int)>();
+    test_remove_cv<int (&&)(int) noexcept>();
 
-    test_remove_cv<int(&&)(...)>();
-    test_remove_cv<int(&&)(...) noexcept>();
+    test_remove_cv<int (&&)(...)>();
+    test_remove_cv<int (&&)(...) noexcept>();
 
-    test_remove_cv<int(&&)(int, ...)>();
-    test_remove_cv<int(&&)(int, ...) noexcept>();
+    test_remove_cv<int (&&)(int, ...)>();
+    test_remove_cv<int (&&)(int, ...) noexcept>();
 
     test_remove_cv<void (class_type::*)()>();
     test_remove_cv<void (class_type::*)()&>();

@@ -492,29 +492,29 @@ TEST_CASE("type_identity")
     test_type_identity<int (&)(int, ...)>();
     test_type_identity<int (&)(int, ...) noexcept>();
 
-    test_type_identity<void(&&)()>();
-    test_type_identity<void(&&)() noexcept>();
+    test_type_identity<void (&&)()>();
+    test_type_identity<void (&&)() noexcept>();
 
-    test_type_identity<void(&&)(int)>();
-    test_type_identity<void(&&)(int) noexcept>();
+    test_type_identity<void (&&)(int)>();
+    test_type_identity<void (&&)(int) noexcept>();
 
-    test_type_identity<void(&&)(...)>();
-    test_type_identity<void(&&)(...) noexcept>();
+    test_type_identity<void (&&)(...)>();
+    test_type_identity<void (&&)(...) noexcept>();
 
-    test_type_identity<void(&&)(int, ...)>();
-    test_type_identity<void(&&)(int, ...) noexcept>();
+    test_type_identity<void (&&)(int, ...)>();
+    test_type_identity<void (&&)(int, ...) noexcept>();
 
-    test_type_identity<int(&&)()>();
-    test_type_identity<int(&&)() noexcept>();
+    test_type_identity<int (&&)()>();
+    test_type_identity<int (&&)() noexcept>();
 
-    test_type_identity<int(&&)(int)>();
-    test_type_identity<int(&&)(int) noexcept>();
+    test_type_identity<int (&&)(int)>();
+    test_type_identity<int (&&)(int) noexcept>();
 
-    test_type_identity<int(&&)(...)>();
-    test_type_identity<int(&&)(...) noexcept>();
+    test_type_identity<int (&&)(...)>();
+    test_type_identity<int (&&)(...) noexcept>();
 
-    test_type_identity<int(&&)(int, ...)>();
-    test_type_identity<int(&&)(int, ...) noexcept>();
+    test_type_identity<int (&&)(int, ...)>();
+    test_type_identity<int (&&)(int, ...) noexcept>();
 
     test_type_identity<void (class_type::*)()>();
     test_type_identity<void (class_type::*)()&>();

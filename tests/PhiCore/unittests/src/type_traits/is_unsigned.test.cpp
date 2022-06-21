@@ -532,29 +532,29 @@ TEST_CASE("is_unsigned")
     test_is_not_unsigned<int (&)(int, ...)>();
     test_is_not_unsigned<int (&)(int, ...) noexcept>();
 
-    test_is_not_unsigned<void(&&)()>();
-    test_is_not_unsigned<void(&&)() noexcept>();
+    test_is_not_unsigned<void (&&)()>();
+    test_is_not_unsigned<void (&&)() noexcept>();
 
-    test_is_not_unsigned<void(&&)(int)>();
-    test_is_not_unsigned<void(&&)(int) noexcept>();
+    test_is_not_unsigned<void (&&)(int)>();
+    test_is_not_unsigned<void (&&)(int) noexcept>();
 
-    test_is_not_unsigned<void(&&)(...)>();
-    test_is_not_unsigned<void(&&)(...) noexcept>();
+    test_is_not_unsigned<void (&&)(...)>();
+    test_is_not_unsigned<void (&&)(...) noexcept>();
 
-    test_is_not_unsigned<void(&&)(int, ...)>();
-    test_is_not_unsigned<void(&&)(int, ...) noexcept>();
+    test_is_not_unsigned<void (&&)(int, ...)>();
+    test_is_not_unsigned<void (&&)(int, ...) noexcept>();
 
-    test_is_not_unsigned<int(&&)()>();
-    test_is_not_unsigned<int(&&)() noexcept>();
+    test_is_not_unsigned<int (&&)()>();
+    test_is_not_unsigned<int (&&)() noexcept>();
 
-    test_is_not_unsigned<int(&&)(int)>();
-    test_is_not_unsigned<int(&&)(int) noexcept>();
+    test_is_not_unsigned<int (&&)(int)>();
+    test_is_not_unsigned<int (&&)(int) noexcept>();
 
-    test_is_not_unsigned<int(&&)(...)>();
-    test_is_not_unsigned<int(&&)(...) noexcept>();
+    test_is_not_unsigned<int (&&)(...)>();
+    test_is_not_unsigned<int (&&)(...) noexcept>();
 
-    test_is_not_unsigned<int(&&)(int, ...)>();
-    test_is_not_unsigned<int(&&)(int, ...) noexcept>();
+    test_is_not_unsigned<int (&&)(int, ...)>();
+    test_is_not_unsigned<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsigned<void (class_type::*)()>();
     test_is_not_unsigned<void (class_type::*)()&>();

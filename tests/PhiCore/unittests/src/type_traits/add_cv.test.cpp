@@ -571,29 +571,29 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int (&)(int, ...)>();
     test_add_cv<int (&)(int, ...) noexcept>();
 
-    test_add_cv<void(&&)()>();
-    test_add_cv<void(&&)() noexcept>();
+    test_add_cv<void (&&)()>();
+    test_add_cv<void (&&)() noexcept>();
 
-    test_add_cv<void(&&)(int)>();
-    test_add_cv<void(&&)(int) noexcept>();
+    test_add_cv<void (&&)(int)>();
+    test_add_cv<void (&&)(int) noexcept>();
 
-    test_add_cv<void(&&)(...)>();
-    test_add_cv<void(&&)(...) noexcept>();
+    test_add_cv<void (&&)(...)>();
+    test_add_cv<void (&&)(...) noexcept>();
 
-    test_add_cv<void(&&)(int, ...)>();
-    test_add_cv<void(&&)(int, ...) noexcept>();
+    test_add_cv<void (&&)(int, ...)>();
+    test_add_cv<void (&&)(int, ...) noexcept>();
 
-    test_add_cv<int(&&)()>();
-    test_add_cv<int(&&)() noexcept>();
+    test_add_cv<int (&&)()>();
+    test_add_cv<int (&&)() noexcept>();
 
-    test_add_cv<int(&&)(int)>();
-    test_add_cv<int(&&)(int) noexcept>();
+    test_add_cv<int (&&)(int)>();
+    test_add_cv<int (&&)(int) noexcept>();
 
-    test_add_cv<int(&&)(...)>();
-    test_add_cv<int(&&)(...) noexcept>();
+    test_add_cv<int (&&)(...)>();
+    test_add_cv<int (&&)(...) noexcept>();
 
-    test_add_cv<int(&&)(int, ...)>();
-    test_add_cv<int(&&)(int, ...) noexcept>();
+    test_add_cv<int (&&)(int, ...)>();
+    test_add_cv<int (&&)(int, ...) noexcept>();
 
     test_add_cv<void (class_type::*)()>();
     test_add_cv<void (class_type::*)()&>();

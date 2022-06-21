@@ -41,12 +41,12 @@ public:
     scope_guard(const scope_guard&) = delete;
 
     scope_guard& operator=(const scope_guard&) = delete;
-    scope_guard& operator=(scope_guard&&) = delete;
+    scope_guard& operator=(scope_guard&&)      = delete;
 #else
     scope_guard(scope_guard&&)      = default;
     scope_guard(const scope_guard&) = default;
 
-    scope_guard& operator=(const scope_guard&) = default;
+    scope_guard& operator=(const scope_guard&)  = default;
     scope_guard& operator=(scope_guard&&)       = default;
 #endif
 
@@ -86,13 +86,13 @@ public:
     armed_scope_guard(const armed_scope_guard&) = delete;
 
     armed_scope_guard& operator=(const armed_scope_guard&) = delete;
-    armed_scope_guard& operator=(armed_scope_guard&&) = delete;
+    armed_scope_guard& operator=(armed_scope_guard&&)      = delete;
 #else
     armed_scope_guard(armed_scope_guard&&)      = default;
     armed_scope_guard(const armed_scope_guard&) = default;
 
     armed_scope_guard& operator=(const armed_scope_guard&) = default;
-    armed_scope_guard& operator=(armed_scope_guard&&) = default;
+    armed_scope_guard& operator=(armed_scope_guard&&)      = default;
 #endif
 
     PHI_CONSTEXPR_DESTRUCTOR ~armed_scope_guard()

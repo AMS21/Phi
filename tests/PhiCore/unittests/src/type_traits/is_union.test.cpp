@@ -537,29 +537,29 @@ TEST_CASE("is_union")
     test_is_not_union<int (&)(int, ...)>();
     test_is_not_union<int (&)(int, ...) noexcept>();
 
-    test_is_not_union<void(&&)()>();
-    test_is_not_union<void(&&)() noexcept>();
+    test_is_not_union<void (&&)()>();
+    test_is_not_union<void (&&)() noexcept>();
 
-    test_is_not_union<void(&&)(int)>();
-    test_is_not_union<void(&&)(int) noexcept>();
+    test_is_not_union<void (&&)(int)>();
+    test_is_not_union<void (&&)(int) noexcept>();
 
-    test_is_not_union<void(&&)(...)>();
-    test_is_not_union<void(&&)(...) noexcept>();
+    test_is_not_union<void (&&)(...)>();
+    test_is_not_union<void (&&)(...) noexcept>();
 
-    test_is_not_union<void(&&)(int, ...)>();
-    test_is_not_union<void(&&)(int, ...) noexcept>();
+    test_is_not_union<void (&&)(int, ...)>();
+    test_is_not_union<void (&&)(int, ...) noexcept>();
 
-    test_is_not_union<int(&&)()>();
-    test_is_not_union<int(&&)() noexcept>();
+    test_is_not_union<int (&&)()>();
+    test_is_not_union<int (&&)() noexcept>();
 
-    test_is_not_union<int(&&)(int)>();
-    test_is_not_union<int(&&)(int) noexcept>();
+    test_is_not_union<int (&&)(int)>();
+    test_is_not_union<int (&&)(int) noexcept>();
 
-    test_is_not_union<int(&&)(...)>();
-    test_is_not_union<int(&&)(...) noexcept>();
+    test_is_not_union<int (&&)(...)>();
+    test_is_not_union<int (&&)(...) noexcept>();
 
-    test_is_not_union<int(&&)(int, ...)>();
-    test_is_not_union<int(&&)(int, ...) noexcept>();
+    test_is_not_union<int (&&)(int, ...)>();
+    test_is_not_union<int (&&)(int, ...) noexcept>();
 
     test_is_not_union<void (class_type::*)()>();
     test_is_not_union<void (class_type::*)()&>();

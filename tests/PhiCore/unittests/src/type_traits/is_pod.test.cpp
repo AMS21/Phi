@@ -734,29 +734,29 @@ TEST_CASE("is_pod")
     test_is_not_pod<int (&)(int, ...)>();
     test_is_not_pod<int (&)(int, ...) noexcept>();
 
-    test_is_not_pod<void(&&)()>();
-    test_is_not_pod<void(&&)() noexcept>();
+    test_is_not_pod<void (&&)()>();
+    test_is_not_pod<void (&&)() noexcept>();
 
-    test_is_not_pod<void(&&)(int)>();
-    test_is_not_pod<void(&&)(int) noexcept>();
+    test_is_not_pod<void (&&)(int)>();
+    test_is_not_pod<void (&&)(int) noexcept>();
 
-    test_is_not_pod<void(&&)(...)>();
-    test_is_not_pod<void(&&)(...) noexcept>();
+    test_is_not_pod<void (&&)(...)>();
+    test_is_not_pod<void (&&)(...) noexcept>();
 
-    test_is_not_pod<void(&&)(int, ...)>();
-    test_is_not_pod<void(&&)(int, ...) noexcept>();
+    test_is_not_pod<void (&&)(int, ...)>();
+    test_is_not_pod<void (&&)(int, ...) noexcept>();
 
-    test_is_not_pod<int(&&)()>();
-    test_is_not_pod<int(&&)() noexcept>();
+    test_is_not_pod<int (&&)()>();
+    test_is_not_pod<int (&&)() noexcept>();
 
-    test_is_not_pod<int(&&)(int)>();
-    test_is_not_pod<int(&&)(int) noexcept>();
+    test_is_not_pod<int (&&)(int)>();
+    test_is_not_pod<int (&&)(int) noexcept>();
 
-    test_is_not_pod<int(&&)(...)>();
-    test_is_not_pod<int(&&)(...) noexcept>();
+    test_is_not_pod<int (&&)(...)>();
+    test_is_not_pod<int (&&)(...) noexcept>();
 
-    test_is_not_pod<int(&&)(int, ...)>();
-    test_is_not_pod<int(&&)(int, ...) noexcept>();
+    test_is_not_pod<int (&&)(int, ...)>();
+    test_is_not_pod<int (&&)(int, ...) noexcept>();
 
     test_is_pod<void (class_type::*)()>();
     test_is_pod<void (class_type::*)()&>();

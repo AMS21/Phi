@@ -489,29 +489,29 @@ TEST_CASE("make_safe")
     test_make_safe<int (&)(int, ...)>();
     test_make_safe<int (&)(int, ...) noexcept>();
 
-    test_make_safe<void(&&)()>();
-    test_make_safe<void(&&)() noexcept>();
+    test_make_safe<void (&&)()>();
+    test_make_safe<void (&&)() noexcept>();
 
-    test_make_safe<void(&&)(int)>();
-    test_make_safe<void(&&)(int) noexcept>();
+    test_make_safe<void (&&)(int)>();
+    test_make_safe<void (&&)(int) noexcept>();
 
-    test_make_safe<void(&&)(...)>();
-    test_make_safe<void(&&)(...) noexcept>();
+    test_make_safe<void (&&)(...)>();
+    test_make_safe<void (&&)(...) noexcept>();
 
-    test_make_safe<void(&&)(int, ...)>();
-    test_make_safe<void(&&)(int, ...) noexcept>();
+    test_make_safe<void (&&)(int, ...)>();
+    test_make_safe<void (&&)(int, ...) noexcept>();
 
-    test_make_safe<int(&&)()>();
-    test_make_safe<int(&&)() noexcept>();
+    test_make_safe<int (&&)()>();
+    test_make_safe<int (&&)() noexcept>();
 
-    test_make_safe<int(&&)(int)>();
-    test_make_safe<int(&&)(int) noexcept>();
+    test_make_safe<int (&&)(int)>();
+    test_make_safe<int (&&)(int) noexcept>();
 
-    test_make_safe<int(&&)(...)>();
-    test_make_safe<int(&&)(...) noexcept>();
+    test_make_safe<int (&&)(...)>();
+    test_make_safe<int (&&)(...) noexcept>();
 
-    test_make_safe<int(&&)(int, ...)>();
-    test_make_safe<int(&&)(int, ...) noexcept>();
+    test_make_safe<int (&&)(int, ...)>();
+    test_make_safe<int (&&)(int, ...) noexcept>();
 
     test_make_safe<void (class_type::*)()>();
     test_make_safe<void (class_type::*)()&>();

@@ -691,29 +691,29 @@ TEST_CASE("is_array")
     test_is_not_array<int (&)(int, ...)>();
     test_is_not_array<int (&)(int, ...) noexcept>();
 
-    test_is_not_array<void(&&)()>();
-    test_is_not_array<void(&&)() noexcept>();
+    test_is_not_array<void (&&)()>();
+    test_is_not_array<void (&&)() noexcept>();
 
-    test_is_not_array<void(&&)(int)>();
-    test_is_not_array<void(&&)(int) noexcept>();
+    test_is_not_array<void (&&)(int)>();
+    test_is_not_array<void (&&)(int) noexcept>();
 
-    test_is_not_array<void(&&)(...)>();
-    test_is_not_array<void(&&)(...) noexcept>();
+    test_is_not_array<void (&&)(...)>();
+    test_is_not_array<void (&&)(...) noexcept>();
 
-    test_is_not_array<void(&&)(int, ...)>();
-    test_is_not_array<void(&&)(int, ...) noexcept>();
+    test_is_not_array<void (&&)(int, ...)>();
+    test_is_not_array<void (&&)(int, ...) noexcept>();
 
-    test_is_not_array<int(&&)()>();
-    test_is_not_array<int(&&)() noexcept>();
+    test_is_not_array<int (&&)()>();
+    test_is_not_array<int (&&)() noexcept>();
 
-    test_is_not_array<int(&&)(int)>();
-    test_is_not_array<int(&&)(int) noexcept>();
+    test_is_not_array<int (&&)(int)>();
+    test_is_not_array<int (&&)(int) noexcept>();
 
-    test_is_not_array<int(&&)(...)>();
-    test_is_not_array<int(&&)(...) noexcept>();
+    test_is_not_array<int (&&)(...)>();
+    test_is_not_array<int (&&)(...) noexcept>();
 
-    test_is_not_array<int(&&)(int, ...)>();
-    test_is_not_array<int(&&)(int, ...) noexcept>();
+    test_is_not_array<int (&&)(int, ...)>();
+    test_is_not_array<int (&&)(int, ...) noexcept>();
 
     test_is_not_array<void (class_type::*)()>();
     test_is_not_array<void (class_type::*)()&>();

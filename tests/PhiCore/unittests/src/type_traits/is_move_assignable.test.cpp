@@ -540,29 +540,29 @@ TEST_CASE("is_move_assignable")
     test_is_not_move_assignable<int (&)(int, ...)>();
     test_is_not_move_assignable<int (&)(int, ...) noexcept>();
 
-    test_is_not_move_assignable<void(&&)()>();
-    test_is_not_move_assignable<void(&&)() noexcept>();
+    test_is_not_move_assignable<void (&&)()>();
+    test_is_not_move_assignable<void (&&)() noexcept>();
 
-    test_is_not_move_assignable<void(&&)(int)>();
-    test_is_not_move_assignable<void(&&)(int) noexcept>();
+    test_is_not_move_assignable<void (&&)(int)>();
+    test_is_not_move_assignable<void (&&)(int) noexcept>();
 
-    test_is_not_move_assignable<void(&&)(...)>();
-    test_is_not_move_assignable<void(&&)(...) noexcept>();
+    test_is_not_move_assignable<void (&&)(...)>();
+    test_is_not_move_assignable<void (&&)(...) noexcept>();
 
-    test_is_not_move_assignable<void(&&)(int, ...)>();
-    test_is_not_move_assignable<void(&&)(int, ...) noexcept>();
+    test_is_not_move_assignable<void (&&)(int, ...)>();
+    test_is_not_move_assignable<void (&&)(int, ...) noexcept>();
 
-    test_is_not_move_assignable<int(&&)()>();
-    test_is_not_move_assignable<int(&&)() noexcept>();
+    test_is_not_move_assignable<int (&&)()>();
+    test_is_not_move_assignable<int (&&)() noexcept>();
 
-    test_is_not_move_assignable<int(&&)(int)>();
-    test_is_not_move_assignable<int(&&)(int) noexcept>();
+    test_is_not_move_assignable<int (&&)(int)>();
+    test_is_not_move_assignable<int (&&)(int) noexcept>();
 
-    test_is_not_move_assignable<int(&&)(...)>();
-    test_is_not_move_assignable<int(&&)(...) noexcept>();
+    test_is_not_move_assignable<int (&&)(...)>();
+    test_is_not_move_assignable<int (&&)(...) noexcept>();
 
-    test_is_not_move_assignable<int(&&)(int, ...)>();
-    test_is_not_move_assignable<int(&&)(int, ...) noexcept>();
+    test_is_not_move_assignable<int (&&)(int, ...)>();
+    test_is_not_move_assignable<int (&&)(int, ...) noexcept>();
 
     test_is_move_assignable<void (class_type::*)()>();
     test_is_move_assignable<void (class_type::*)()&>();

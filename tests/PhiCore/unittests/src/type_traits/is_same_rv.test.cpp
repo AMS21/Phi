@@ -682,29 +682,29 @@ TEST_CASE("is_same_rv")
     test_is_same_rv_ref<int (&)(int, ...)>();
     test_is_same_rv_ref<int (&)(int, ...) noexcept>();
 
-    test_is_same_rv_ref<void(&&)()>();
-    test_is_same_rv_ref<void(&&)() noexcept>();
+    test_is_same_rv_ref<void (&&)()>();
+    test_is_same_rv_ref<void (&&)() noexcept>();
 
-    test_is_same_rv_ref<void(&&)(int)>();
-    test_is_same_rv_ref<void(&&)(int) noexcept>();
+    test_is_same_rv_ref<void (&&)(int)>();
+    test_is_same_rv_ref<void (&&)(int) noexcept>();
 
-    test_is_same_rv_ref<void(&&)(...)>();
-    test_is_same_rv_ref<void(&&)(...) noexcept>();
+    test_is_same_rv_ref<void (&&)(...)>();
+    test_is_same_rv_ref<void (&&)(...) noexcept>();
 
-    test_is_same_rv_ref<void(&&)(int, ...)>();
-    test_is_same_rv_ref<void(&&)(int, ...) noexcept>();
+    test_is_same_rv_ref<void (&&)(int, ...)>();
+    test_is_same_rv_ref<void (&&)(int, ...) noexcept>();
 
-    test_is_same_rv_ref<int(&&)()>();
-    test_is_same_rv_ref<int(&&)() noexcept>();
+    test_is_same_rv_ref<int (&&)()>();
+    test_is_same_rv_ref<int (&&)() noexcept>();
 
-    test_is_same_rv_ref<int(&&)(int)>();
-    test_is_same_rv_ref<int(&&)(int) noexcept>();
+    test_is_same_rv_ref<int (&&)(int)>();
+    test_is_same_rv_ref<int (&&)(int) noexcept>();
 
-    test_is_same_rv_ref<int(&&)(...)>();
-    test_is_same_rv_ref<int(&&)(...) noexcept>();
+    test_is_same_rv_ref<int (&&)(...)>();
+    test_is_same_rv_ref<int (&&)(...) noexcept>();
 
-    test_is_same_rv_ref<int(&&)(int, ...)>();
-    test_is_same_rv_ref<int(&&)(int, ...) noexcept>();
+    test_is_same_rv_ref<int (&&)(int, ...)>();
+    test_is_same_rv_ref<int (&&)(int, ...) noexcept>();
 
     test_is_same_rv<void (class_type::*)()>();
     test_is_same_rv<void (class_type::*)()&>();

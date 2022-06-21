@@ -561,29 +561,29 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<int (&)(int, ...)>();
     test_is_copy_constructible<int (&)(int, ...) noexcept>();
 
-    test_is_copy_constructible<void(&&)()>();
-    test_is_copy_constructible<void(&&)() noexcept>();
+    test_is_copy_constructible<void (&&)()>();
+    test_is_copy_constructible<void (&&)() noexcept>();
 
-    test_is_copy_constructible<void(&&)(int)>();
-    test_is_copy_constructible<void(&&)(int) noexcept>();
+    test_is_copy_constructible<void (&&)(int)>();
+    test_is_copy_constructible<void (&&)(int) noexcept>();
 
-    test_is_copy_constructible<void(&&)(...)>();
-    test_is_copy_constructible<void(&&)(...) noexcept>();
+    test_is_copy_constructible<void (&&)(...)>();
+    test_is_copy_constructible<void (&&)(...) noexcept>();
 
-    test_is_copy_constructible<void(&&)(int, ...)>();
-    test_is_copy_constructible<void(&&)(int, ...) noexcept>();
+    test_is_copy_constructible<void (&&)(int, ...)>();
+    test_is_copy_constructible<void (&&)(int, ...) noexcept>();
 
-    test_is_copy_constructible<int(&&)()>();
-    test_is_copy_constructible<int(&&)() noexcept>();
+    test_is_copy_constructible<int (&&)()>();
+    test_is_copy_constructible<int (&&)() noexcept>();
 
-    test_is_copy_constructible<int(&&)(int)>();
-    test_is_copy_constructible<int(&&)(int) noexcept>();
+    test_is_copy_constructible<int (&&)(int)>();
+    test_is_copy_constructible<int (&&)(int) noexcept>();
 
-    test_is_copy_constructible<int(&&)(...)>();
-    test_is_copy_constructible<int(&&)(...) noexcept>();
+    test_is_copy_constructible<int (&&)(...)>();
+    test_is_copy_constructible<int (&&)(...) noexcept>();
 
-    test_is_copy_constructible<int(&&)(int, ...)>();
-    test_is_copy_constructible<int(&&)(int, ...) noexcept>();
+    test_is_copy_constructible<int (&&)(int, ...)>();
+    test_is_copy_constructible<int (&&)(int, ...) noexcept>();
 
 #if PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_copy_constructible<void (class_type::*)()>();

@@ -117,10 +117,10 @@ public:
 
 struct S
 {
-    S(S const&) = default;
-    S(S&&)      = default;
+    S(S const&)            = default;
+    S(S&&)                 = default;
     S& operator=(S const&) = delete;
-    S& operator=(S&&) = delete;
+    S& operator=(S&&)      = delete;
 };
 
 TEST_CASE("is_trivially_copyable")
@@ -594,29 +594,29 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<int (&)(int, ...)>();
     test_is_not_trivially_copyable<int (&)(int, ...) noexcept>();
 
-    test_is_not_trivially_copyable<void(&&)()>();
-    test_is_not_trivially_copyable<void(&&)() noexcept>();
+    test_is_not_trivially_copyable<void (&&)()>();
+    test_is_not_trivially_copyable<void (&&)() noexcept>();
 
-    test_is_not_trivially_copyable<void(&&)(int)>();
-    test_is_not_trivially_copyable<void(&&)(int) noexcept>();
+    test_is_not_trivially_copyable<void (&&)(int)>();
+    test_is_not_trivially_copyable<void (&&)(int) noexcept>();
 
-    test_is_not_trivially_copyable<void(&&)(...)>();
-    test_is_not_trivially_copyable<void(&&)(...) noexcept>();
+    test_is_not_trivially_copyable<void (&&)(...)>();
+    test_is_not_trivially_copyable<void (&&)(...) noexcept>();
 
-    test_is_not_trivially_copyable<void(&&)(int, ...)>();
-    test_is_not_trivially_copyable<void(&&)(int, ...) noexcept>();
+    test_is_not_trivially_copyable<void (&&)(int, ...)>();
+    test_is_not_trivially_copyable<void (&&)(int, ...) noexcept>();
 
-    test_is_not_trivially_copyable<int(&&)()>();
-    test_is_not_trivially_copyable<int(&&)() noexcept>();
+    test_is_not_trivially_copyable<int (&&)()>();
+    test_is_not_trivially_copyable<int (&&)() noexcept>();
 
-    test_is_not_trivially_copyable<int(&&)(int)>();
-    test_is_not_trivially_copyable<int(&&)(int) noexcept>();
+    test_is_not_trivially_copyable<int (&&)(int)>();
+    test_is_not_trivially_copyable<int (&&)(int) noexcept>();
 
-    test_is_not_trivially_copyable<int(&&)(...)>();
-    test_is_not_trivially_copyable<int(&&)(...) noexcept>();
+    test_is_not_trivially_copyable<int (&&)(...)>();
+    test_is_not_trivially_copyable<int (&&)(...) noexcept>();
 
-    test_is_not_trivially_copyable<int(&&)(int, ...)>();
-    test_is_not_trivially_copyable<int(&&)(int, ...) noexcept>();
+    test_is_not_trivially_copyable<int (&&)(int, ...)>();
+    test_is_not_trivially_copyable<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_copyable_gcc_compat<void (class_type::*)()>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)()&>();

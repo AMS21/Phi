@@ -521,29 +521,29 @@ TEST_CASE("is_safe_integral")
     test_is_not_safe_integral<int (&)(int, ...)>();
     test_is_not_safe_integral<int (&)(int, ...) noexcept>();
 
-    test_is_not_safe_integral<void(&&)()>();
-    test_is_not_safe_integral<void(&&)() noexcept>();
+    test_is_not_safe_integral<void (&&)()>();
+    test_is_not_safe_integral<void (&&)() noexcept>();
 
-    test_is_not_safe_integral<void(&&)(int)>();
-    test_is_not_safe_integral<void(&&)(int) noexcept>();
+    test_is_not_safe_integral<void (&&)(int)>();
+    test_is_not_safe_integral<void (&&)(int) noexcept>();
 
-    test_is_not_safe_integral<void(&&)(...)>();
-    test_is_not_safe_integral<void(&&)(...) noexcept>();
+    test_is_not_safe_integral<void (&&)(...)>();
+    test_is_not_safe_integral<void (&&)(...) noexcept>();
 
-    test_is_not_safe_integral<void(&&)(int, ...)>();
-    test_is_not_safe_integral<void(&&)(int, ...) noexcept>();
+    test_is_not_safe_integral<void (&&)(int, ...)>();
+    test_is_not_safe_integral<void (&&)(int, ...) noexcept>();
 
-    test_is_not_safe_integral<int(&&)()>();
-    test_is_not_safe_integral<int(&&)() noexcept>();
+    test_is_not_safe_integral<int (&&)()>();
+    test_is_not_safe_integral<int (&&)() noexcept>();
 
-    test_is_not_safe_integral<int(&&)(int)>();
-    test_is_not_safe_integral<int(&&)(int) noexcept>();
+    test_is_not_safe_integral<int (&&)(int)>();
+    test_is_not_safe_integral<int (&&)(int) noexcept>();
 
-    test_is_not_safe_integral<int(&&)(...)>();
-    test_is_not_safe_integral<int(&&)(...) noexcept>();
+    test_is_not_safe_integral<int (&&)(...)>();
+    test_is_not_safe_integral<int (&&)(...) noexcept>();
 
-    test_is_not_safe_integral<int(&&)(int, ...)>();
-    test_is_not_safe_integral<int(&&)(int, ...) noexcept>();
+    test_is_not_safe_integral<int (&&)(int, ...)>();
+    test_is_not_safe_integral<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_integral<void (class_type::*)()>();
     test_is_not_safe_integral<void (class_type::*)()&>();

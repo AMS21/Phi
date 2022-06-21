@@ -559,29 +559,29 @@ TEST_CASE("is_void")
     test_void_t<int (&)(int, ...)>();
     test_void_t<int (&)(int, ...) noexcept>();
 
-    test_void_t<void(&&)()>();
-    test_void_t<void(&&)() noexcept>();
+    test_void_t<void (&&)()>();
+    test_void_t<void (&&)() noexcept>();
 
-    test_void_t<void(&&)(int)>();
-    test_void_t<void(&&)(int) noexcept>();
+    test_void_t<void (&&)(int)>();
+    test_void_t<void (&&)(int) noexcept>();
 
-    test_void_t<void(&&)(...)>();
-    test_void_t<void(&&)(...) noexcept>();
+    test_void_t<void (&&)(...)>();
+    test_void_t<void (&&)(...) noexcept>();
 
-    test_void_t<void(&&)(int, ...)>();
-    test_void_t<void(&&)(int, ...) noexcept>();
+    test_void_t<void (&&)(int, ...)>();
+    test_void_t<void (&&)(int, ...) noexcept>();
 
-    test_void_t<int(&&)()>();
-    test_void_t<int(&&)() noexcept>();
+    test_void_t<int (&&)()>();
+    test_void_t<int (&&)() noexcept>();
 
-    test_void_t<int(&&)(int)>();
-    test_void_t<int(&&)(int) noexcept>();
+    test_void_t<int (&&)(int)>();
+    test_void_t<int (&&)(int) noexcept>();
 
-    test_void_t<int(&&)(...)>();
-    test_void_t<int(&&)(...) noexcept>();
+    test_void_t<int (&&)(...)>();
+    test_void_t<int (&&)(...) noexcept>();
 
-    test_void_t<int(&&)(int, ...)>();
-    test_void_t<int(&&)(int, ...) noexcept>();
+    test_void_t<int (&&)(int, ...)>();
+    test_void_t<int (&&)(int, ...) noexcept>();
 
     test_void_t<void (class_type::*)()>();
     test_void_t<void (class_type::*)()&>();

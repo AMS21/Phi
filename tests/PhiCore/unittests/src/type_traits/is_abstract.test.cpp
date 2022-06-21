@@ -521,29 +521,29 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int (&)(int, ...)>();
     test_is_not_abstract<int (&)(int, ...) noexcept>();
 
-    test_is_not_abstract<void(&&)()>();
-    test_is_not_abstract<void(&&)() noexcept>();
+    test_is_not_abstract<void (&&)()>();
+    test_is_not_abstract<void (&&)() noexcept>();
 
-    test_is_not_abstract<void(&&)(int)>();
-    test_is_not_abstract<void(&&)(int) noexcept>();
+    test_is_not_abstract<void (&&)(int)>();
+    test_is_not_abstract<void (&&)(int) noexcept>();
 
-    test_is_not_abstract<void(&&)(...)>();
-    test_is_not_abstract<void(&&)(...) noexcept>();
+    test_is_not_abstract<void (&&)(...)>();
+    test_is_not_abstract<void (&&)(...) noexcept>();
 
-    test_is_not_abstract<void(&&)(int, ...)>();
-    test_is_not_abstract<void(&&)(int, ...) noexcept>();
+    test_is_not_abstract<void (&&)(int, ...)>();
+    test_is_not_abstract<void (&&)(int, ...) noexcept>();
 
-    test_is_not_abstract<int(&&)()>();
-    test_is_not_abstract<int(&&)() noexcept>();
+    test_is_not_abstract<int (&&)()>();
+    test_is_not_abstract<int (&&)() noexcept>();
 
-    test_is_not_abstract<int(&&)(int)>();
-    test_is_not_abstract<int(&&)(int) noexcept>();
+    test_is_not_abstract<int (&&)(int)>();
+    test_is_not_abstract<int (&&)(int) noexcept>();
 
-    test_is_not_abstract<int(&&)(...)>();
-    test_is_not_abstract<int(&&)(...) noexcept>();
+    test_is_not_abstract<int (&&)(...)>();
+    test_is_not_abstract<int (&&)(...) noexcept>();
 
-    test_is_not_abstract<int(&&)(int, ...)>();
-    test_is_not_abstract<int(&&)(int, ...) noexcept>();
+    test_is_not_abstract<int (&&)(int, ...)>();
+    test_is_not_abstract<int (&&)(int, ...) noexcept>();
 
     test_is_not_abstract<void (class_type::*)()>();
     test_is_not_abstract<void (class_type::*)()&>();

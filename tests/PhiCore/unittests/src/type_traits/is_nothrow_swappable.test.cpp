@@ -16,13 +16,13 @@ namespace MyNS
     // Make the test types non-copyable so that generic swap is not valid.
     struct A
     {
-        A(A const&) = delete;
+        A(A const&)            = delete;
         A& operator=(A const&) = delete;
     };
 
     struct B
     {
-        B(B const&) = delete;
+        B(B const&)            = delete;
         B& operator=(B const&) = delete;
     };
 
@@ -34,7 +34,7 @@ namespace MyNS
 
     struct M
     {
-        M(M const&) = delete;
+        M(M const&)            = delete;
         M& operator=(M const&) = delete;
     };
 

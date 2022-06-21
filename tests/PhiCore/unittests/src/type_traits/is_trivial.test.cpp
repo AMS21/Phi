@@ -620,29 +620,29 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int (&)(int, ...)>();
     test_is_not_trivial<int (&)(int, ...) noexcept>();
 
-    test_is_not_trivial<void(&&)()>();
-    test_is_not_trivial<void(&&)() noexcept>();
+    test_is_not_trivial<void (&&)()>();
+    test_is_not_trivial<void (&&)() noexcept>();
 
-    test_is_not_trivial<void(&&)(int)>();
-    test_is_not_trivial<void(&&)(int) noexcept>();
+    test_is_not_trivial<void (&&)(int)>();
+    test_is_not_trivial<void (&&)(int) noexcept>();
 
-    test_is_not_trivial<void(&&)(...)>();
-    test_is_not_trivial<void(&&)(...) noexcept>();
+    test_is_not_trivial<void (&&)(...)>();
+    test_is_not_trivial<void (&&)(...) noexcept>();
 
-    test_is_not_trivial<void(&&)(int, ...)>();
-    test_is_not_trivial<void(&&)(int, ...) noexcept>();
+    test_is_not_trivial<void (&&)(int, ...)>();
+    test_is_not_trivial<void (&&)(int, ...) noexcept>();
 
-    test_is_not_trivial<int(&&)()>();
-    test_is_not_trivial<int(&&)() noexcept>();
+    test_is_not_trivial<int (&&)()>();
+    test_is_not_trivial<int (&&)() noexcept>();
 
-    test_is_not_trivial<int(&&)(int)>();
-    test_is_not_trivial<int(&&)(int) noexcept>();
+    test_is_not_trivial<int (&&)(int)>();
+    test_is_not_trivial<int (&&)(int) noexcept>();
 
-    test_is_not_trivial<int(&&)(...)>();
-    test_is_not_trivial<int(&&)(...) noexcept>();
+    test_is_not_trivial<int (&&)(...)>();
+    test_is_not_trivial<int (&&)(...) noexcept>();
 
-    test_is_not_trivial<int(&&)(int, ...)>();
-    test_is_not_trivial<int(&&)(int, ...) noexcept>();
+    test_is_not_trivial<int (&&)(int, ...)>();
+    test_is_not_trivial<int (&&)(int, ...) noexcept>();
 
     test_is_trivial<void (class_type::*)()>();
     test_is_trivial<void (class_type::*)()&>();

@@ -117,7 +117,7 @@ struct I
 {
     I() = default;
     I(const I&);
-    I(I&&)     = default;
+    I(I&&) = default;
     I& operator=(I&&);
     I& operator=(const I&) = default;
 };
@@ -686,29 +686,29 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<int (&)(int, ...)>();
     test_is_not_nothrow_constructible<int (&)(int, ...) noexcept>();
 
-    test_is_not_nothrow_constructible<void(&&)()>();
-    test_is_not_nothrow_constructible<void(&&)() noexcept>();
+    test_is_not_nothrow_constructible<void (&&)()>();
+    test_is_not_nothrow_constructible<void (&&)() noexcept>();
 
-    test_is_not_nothrow_constructible<void(&&)(int)>();
-    test_is_not_nothrow_constructible<void(&&)(int) noexcept>();
+    test_is_not_nothrow_constructible<void (&&)(int)>();
+    test_is_not_nothrow_constructible<void (&&)(int) noexcept>();
 
-    test_is_not_nothrow_constructible<void(&&)(...)>();
-    test_is_not_nothrow_constructible<void(&&)(...) noexcept>();
+    test_is_not_nothrow_constructible<void (&&)(...)>();
+    test_is_not_nothrow_constructible<void (&&)(...) noexcept>();
 
-    test_is_not_nothrow_constructible<void(&&)(int, ...)>();
-    test_is_not_nothrow_constructible<void(&&)(int, ...) noexcept>();
+    test_is_not_nothrow_constructible<void (&&)(int, ...)>();
+    test_is_not_nothrow_constructible<void (&&)(int, ...) noexcept>();
 
-    test_is_not_nothrow_constructible<int(&&)()>();
-    test_is_not_nothrow_constructible<int(&&)() noexcept>();
+    test_is_not_nothrow_constructible<int (&&)()>();
+    test_is_not_nothrow_constructible<int (&&)() noexcept>();
 
-    test_is_not_nothrow_constructible<int(&&)(int)>();
-    test_is_not_nothrow_constructible<int(&&)(int) noexcept>();
+    test_is_not_nothrow_constructible<int (&&)(int)>();
+    test_is_not_nothrow_constructible<int (&&)(int) noexcept>();
 
-    test_is_not_nothrow_constructible<int(&&)(...)>();
-    test_is_not_nothrow_constructible<int(&&)(...) noexcept>();
+    test_is_not_nothrow_constructible<int (&&)(...)>();
+    test_is_not_nothrow_constructible<int (&&)(...) noexcept>();
 
-    test_is_not_nothrow_constructible<int(&&)(int, ...)>();
-    test_is_not_nothrow_constructible<int(&&)(int, ...) noexcept>();
+    test_is_not_nothrow_constructible<int (&&)(int, ...)>();
+    test_is_not_nothrow_constructible<int (&&)(int, ...) noexcept>();
 
     test_is_nothrow_constructible<void (class_type::*)()>();
     test_is_nothrow_constructible<void (class_type::*)()&>();

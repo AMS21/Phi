@@ -583,29 +583,29 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int (&)(int, ...)>();
     test_is_not_aggregate<int (&)(int, ...) noexcept>();
 
-    test_is_not_aggregate<void(&&)()>();
-    test_is_not_aggregate<void(&&)() noexcept>();
+    test_is_not_aggregate<void (&&)()>();
+    test_is_not_aggregate<void (&&)() noexcept>();
 
-    test_is_not_aggregate<void(&&)(int)>();
-    test_is_not_aggregate<void(&&)(int) noexcept>();
+    test_is_not_aggregate<void (&&)(int)>();
+    test_is_not_aggregate<void (&&)(int) noexcept>();
 
-    test_is_not_aggregate<void(&&)(...)>();
-    test_is_not_aggregate<void(&&)(...) noexcept>();
+    test_is_not_aggregate<void (&&)(...)>();
+    test_is_not_aggregate<void (&&)(...) noexcept>();
 
-    test_is_not_aggregate<void(&&)(int, ...)>();
-    test_is_not_aggregate<void(&&)(int, ...) noexcept>();
+    test_is_not_aggregate<void (&&)(int, ...)>();
+    test_is_not_aggregate<void (&&)(int, ...) noexcept>();
 
-    test_is_not_aggregate<int(&&)()>();
-    test_is_not_aggregate<int(&&)() noexcept>();
+    test_is_not_aggregate<int (&&)()>();
+    test_is_not_aggregate<int (&&)() noexcept>();
 
-    test_is_not_aggregate<int(&&)(int)>();
-    test_is_not_aggregate<int(&&)(int) noexcept>();
+    test_is_not_aggregate<int (&&)(int)>();
+    test_is_not_aggregate<int (&&)(int) noexcept>();
 
-    test_is_not_aggregate<int(&&)(...)>();
-    test_is_not_aggregate<int(&&)(...) noexcept>();
+    test_is_not_aggregate<int (&&)(...)>();
+    test_is_not_aggregate<int (&&)(...) noexcept>();
 
-    test_is_not_aggregate<int(&&)(int, ...)>();
-    test_is_not_aggregate<int(&&)(int, ...) noexcept>();
+    test_is_not_aggregate<int (&&)(int, ...)>();
+    test_is_not_aggregate<int (&&)(int, ...) noexcept>();
 
     test_is_not_aggregate<void (class_type::*)()>();
     test_is_not_aggregate<void (class_type::*)()&>();

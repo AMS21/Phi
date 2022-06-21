@@ -491,29 +491,29 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int (&)(int, ...), int(int, ...)>();
     test_remove_cvref<int (&)(int, ...) noexcept, int(int, ...) noexcept>();
 
-    test_remove_cvref<void(&&)(), void()>();
-    test_remove_cvref<void(&&)() noexcept, void() noexcept>();
+    test_remove_cvref<void (&&)(), void()>();
+    test_remove_cvref<void (&&)() noexcept, void() noexcept>();
 
-    test_remove_cvref<void(&&)(int), void(int)>();
-    test_remove_cvref<void(&&)(int) noexcept, void(int) noexcept>();
+    test_remove_cvref<void (&&)(int), void(int)>();
+    test_remove_cvref<void (&&)(int) noexcept, void(int) noexcept>();
 
-    test_remove_cvref<void(&&)(...), void(...)>();
-    test_remove_cvref<void(&&)(...) noexcept, void(...) noexcept>();
+    test_remove_cvref<void (&&)(...), void(...)>();
+    test_remove_cvref<void (&&)(...) noexcept, void(...) noexcept>();
 
-    test_remove_cvref<void(&&)(int, ...), void(int, ...)>();
-    test_remove_cvref<void(&&)(int, ...) noexcept, void(int, ...) noexcept>();
+    test_remove_cvref<void (&&)(int, ...), void(int, ...)>();
+    test_remove_cvref<void (&&)(int, ...) noexcept, void(int, ...) noexcept>();
 
-    test_remove_cvref<int(&&)(), int()>();
-    test_remove_cvref<int(&&)() noexcept, int() noexcept>();
+    test_remove_cvref<int (&&)(), int()>();
+    test_remove_cvref<int (&&)() noexcept, int() noexcept>();
 
-    test_remove_cvref<int(&&)(int), int(int)>();
-    test_remove_cvref<int(&&)(int) noexcept, int(int) noexcept>();
+    test_remove_cvref<int (&&)(int), int(int)>();
+    test_remove_cvref<int (&&)(int) noexcept, int(int) noexcept>();
 
-    test_remove_cvref<int(&&)(...), int(...)>();
-    test_remove_cvref<int(&&)(...) noexcept, int(...) noexcept>();
+    test_remove_cvref<int (&&)(...), int(...)>();
+    test_remove_cvref<int (&&)(...) noexcept, int(...) noexcept>();
 
-    test_remove_cvref<int(&&)(int, ...), int(int, ...)>();
-    test_remove_cvref<int(&&)(int, ...) noexcept, int(int, ...) noexcept>();
+    test_remove_cvref<int (&&)(int, ...), int(int, ...)>();
+    test_remove_cvref<int (&&)(int, ...) noexcept, int(int, ...) noexcept>();
 
     test_remove_cvref<void (class_type::*)()>();
     test_remove_cvref<void (class_type::*)()&>();

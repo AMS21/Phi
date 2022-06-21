@@ -628,29 +628,29 @@ TEST_CASE("is_enum")
     test_is_not_enum<int (&)(int, ...)>();
     test_is_not_enum<int (&)(int, ...) noexcept>();
 
-    test_is_not_enum<void(&&)()>();
-    test_is_not_enum<void(&&)() noexcept>();
+    test_is_not_enum<void (&&)()>();
+    test_is_not_enum<void (&&)() noexcept>();
 
-    test_is_not_enum<void(&&)(int)>();
-    test_is_not_enum<void(&&)(int) noexcept>();
+    test_is_not_enum<void (&&)(int)>();
+    test_is_not_enum<void (&&)(int) noexcept>();
 
-    test_is_not_enum<void(&&)(...)>();
-    test_is_not_enum<void(&&)(...) noexcept>();
+    test_is_not_enum<void (&&)(...)>();
+    test_is_not_enum<void (&&)(...) noexcept>();
 
-    test_is_not_enum<void(&&)(int, ...)>();
-    test_is_not_enum<void(&&)(int, ...) noexcept>();
+    test_is_not_enum<void (&&)(int, ...)>();
+    test_is_not_enum<void (&&)(int, ...) noexcept>();
 
-    test_is_not_enum<int(&&)()>();
-    test_is_not_enum<int(&&)() noexcept>();
+    test_is_not_enum<int (&&)()>();
+    test_is_not_enum<int (&&)() noexcept>();
 
-    test_is_not_enum<int(&&)(int)>();
-    test_is_not_enum<int(&&)(int) noexcept>();
+    test_is_not_enum<int (&&)(int)>();
+    test_is_not_enum<int (&&)(int) noexcept>();
 
-    test_is_not_enum<int(&&)(...)>();
-    test_is_not_enum<int(&&)(...) noexcept>();
+    test_is_not_enum<int (&&)(...)>();
+    test_is_not_enum<int (&&)(...) noexcept>();
 
-    test_is_not_enum<int(&&)(int, ...)>();
-    test_is_not_enum<int(&&)(int, ...) noexcept>();
+    test_is_not_enum<int (&&)(int, ...)>();
+    test_is_not_enum<int (&&)(int, ...) noexcept>();
 
     test_is_not_enum<void (class_type::*)()>();
     test_is_not_enum<void (class_type::*)()&>();

@@ -522,29 +522,29 @@ TEST_CASE("is_complete")
     test_is_complete<int (&)(int, ...)>();
     test_is_complete<int (&)(int, ...) noexcept>();
 
-    test_is_complete<void(&&)()>();
-    test_is_complete<void(&&)() noexcept>();
+    test_is_complete<void (&&)()>();
+    test_is_complete<void (&&)() noexcept>();
 
-    test_is_complete<void(&&)(int)>();
-    test_is_complete<void(&&)(int) noexcept>();
+    test_is_complete<void (&&)(int)>();
+    test_is_complete<void (&&)(int) noexcept>();
 
-    test_is_complete<void(&&)(...)>();
-    test_is_complete<void(&&)(...) noexcept>();
+    test_is_complete<void (&&)(...)>();
+    test_is_complete<void (&&)(...) noexcept>();
 
-    test_is_complete<void(&&)(int, ...)>();
-    test_is_complete<void(&&)(int, ...) noexcept>();
+    test_is_complete<void (&&)(int, ...)>();
+    test_is_complete<void (&&)(int, ...) noexcept>();
 
-    test_is_complete<int(&&)()>();
-    test_is_complete<int(&&)() noexcept>();
+    test_is_complete<int (&&)()>();
+    test_is_complete<int (&&)() noexcept>();
 
-    test_is_complete<int(&&)(int)>();
-    test_is_complete<int(&&)(int) noexcept>();
+    test_is_complete<int (&&)(int)>();
+    test_is_complete<int (&&)(int) noexcept>();
 
-    test_is_complete<int(&&)(...)>();
-    test_is_complete<int(&&)(...) noexcept>();
+    test_is_complete<int (&&)(...)>();
+    test_is_complete<int (&&)(...) noexcept>();
 
-    test_is_complete<int(&&)(int, ...)>();
-    test_is_complete<int(&&)(int, ...) noexcept>();
+    test_is_complete<int (&&)(int, ...)>();
+    test_is_complete<int (&&)(int, ...) noexcept>();
 
     test_is_complete<void (class_type::*)()>();
     test_is_complete<void (class_type::*)()&>();

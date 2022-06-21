@@ -522,29 +522,29 @@ TEST_CASE("is_integer")
     test_is_not_integer<int (&)(int, ...)>();
     test_is_not_integer<int (&)(int, ...) noexcept>();
 
-    test_is_not_integer<void(&&)()>();
-    test_is_not_integer<void(&&)() noexcept>();
+    test_is_not_integer<void (&&)()>();
+    test_is_not_integer<void (&&)() noexcept>();
 
-    test_is_not_integer<void(&&)(int)>();
-    test_is_not_integer<void(&&)(int) noexcept>();
+    test_is_not_integer<void (&&)(int)>();
+    test_is_not_integer<void (&&)(int) noexcept>();
 
-    test_is_not_integer<void(&&)(...)>();
-    test_is_not_integer<void(&&)(...) noexcept>();
+    test_is_not_integer<void (&&)(...)>();
+    test_is_not_integer<void (&&)(...) noexcept>();
 
-    test_is_not_integer<void(&&)(int, ...)>();
-    test_is_not_integer<void(&&)(int, ...) noexcept>();
+    test_is_not_integer<void (&&)(int, ...)>();
+    test_is_not_integer<void (&&)(int, ...) noexcept>();
 
-    test_is_not_integer<int(&&)()>();
-    test_is_not_integer<int(&&)() noexcept>();
+    test_is_not_integer<int (&&)()>();
+    test_is_not_integer<int (&&)() noexcept>();
 
-    test_is_not_integer<int(&&)(int)>();
-    test_is_not_integer<int(&&)(int) noexcept>();
+    test_is_not_integer<int (&&)(int)>();
+    test_is_not_integer<int (&&)(int) noexcept>();
 
-    test_is_not_integer<int(&&)(...)>();
-    test_is_not_integer<int(&&)(...) noexcept>();
+    test_is_not_integer<int (&&)(...)>();
+    test_is_not_integer<int (&&)(...) noexcept>();
 
-    test_is_not_integer<int(&&)(int, ...)>();
-    test_is_not_integer<int(&&)(int, ...) noexcept>();
+    test_is_not_integer<int (&&)(int, ...)>();
+    test_is_not_integer<int (&&)(int, ...) noexcept>();
 
     test_is_not_integer<void (class_type::*)()>();
     test_is_not_integer<void (class_type::*)()&>();

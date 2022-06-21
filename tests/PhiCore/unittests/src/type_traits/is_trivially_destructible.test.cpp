@@ -536,29 +536,29 @@ TEST_CASE("is_trivially_destructible")
     test_is_trivially_destructible<int (&)(int, ...)>();
     test_is_trivially_destructible<int (&)(int, ...) noexcept>();
 
-    test_is_trivially_destructible<void(&&)()>();
-    test_is_trivially_destructible<void(&&)() noexcept>();
+    test_is_trivially_destructible<void (&&)()>();
+    test_is_trivially_destructible<void (&&)() noexcept>();
 
-    test_is_trivially_destructible<void(&&)(int)>();
-    test_is_trivially_destructible<void(&&)(int) noexcept>();
+    test_is_trivially_destructible<void (&&)(int)>();
+    test_is_trivially_destructible<void (&&)(int) noexcept>();
 
-    test_is_trivially_destructible<void(&&)(...)>();
-    test_is_trivially_destructible<void(&&)(...) noexcept>();
+    test_is_trivially_destructible<void (&&)(...)>();
+    test_is_trivially_destructible<void (&&)(...) noexcept>();
 
-    test_is_trivially_destructible<void(&&)(int, ...)>();
-    test_is_trivially_destructible<void(&&)(int, ...) noexcept>();
+    test_is_trivially_destructible<void (&&)(int, ...)>();
+    test_is_trivially_destructible<void (&&)(int, ...) noexcept>();
 
-    test_is_trivially_destructible<int(&&)()>();
-    test_is_trivially_destructible<int(&&)() noexcept>();
+    test_is_trivially_destructible<int (&&)()>();
+    test_is_trivially_destructible<int (&&)() noexcept>();
 
-    test_is_trivially_destructible<int(&&)(int)>();
-    test_is_trivially_destructible<int(&&)(int) noexcept>();
+    test_is_trivially_destructible<int (&&)(int)>();
+    test_is_trivially_destructible<int (&&)(int) noexcept>();
 
-    test_is_trivially_destructible<int(&&)(...)>();
-    test_is_trivially_destructible<int(&&)(...) noexcept>();
+    test_is_trivially_destructible<int (&&)(...)>();
+    test_is_trivially_destructible<int (&&)(...) noexcept>();
 
-    test_is_trivially_destructible<int(&&)(int, ...)>();
-    test_is_trivially_destructible<int(&&)(int, ...) noexcept>();
+    test_is_trivially_destructible<int (&&)(int, ...)>();
+    test_is_trivially_destructible<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_destructible<void (class_type::*)()>();
     test_is_trivially_destructible<void (class_type::*)()&>();

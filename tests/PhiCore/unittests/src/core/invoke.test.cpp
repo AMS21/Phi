@@ -25,7 +25,7 @@ struct NonCopyable
     {}
 
 private:
-    NonCopyable(NonCopyable const&) = delete;
+    NonCopyable(NonCopyable const&)            = delete;
     NonCopyable& operator=(NonCopyable const&) = delete;
 };
 
@@ -72,7 +72,7 @@ struct TestClass
     int data;
 
 private:
-    TestClass(TestClass const&) = delete;
+    TestClass(TestClass const&)            = delete;
     TestClass& operator=(TestClass const&) = delete;
 };
 

@@ -609,29 +609,29 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<int (&)(int, ...)>();
     test_is_not_safe_scalar<int (&)(int, ...) noexcept>();
 
-    test_is_not_safe_scalar<void(&&)()>();
-    test_is_not_safe_scalar<void(&&)() noexcept>();
+    test_is_not_safe_scalar<void (&&)()>();
+    test_is_not_safe_scalar<void (&&)() noexcept>();
 
-    test_is_not_safe_scalar<void(&&)(int)>();
-    test_is_not_safe_scalar<void(&&)(int) noexcept>();
+    test_is_not_safe_scalar<void (&&)(int)>();
+    test_is_not_safe_scalar<void (&&)(int) noexcept>();
 
-    test_is_not_safe_scalar<void(&&)(...)>();
-    test_is_not_safe_scalar<void(&&)(...) noexcept>();
+    test_is_not_safe_scalar<void (&&)(...)>();
+    test_is_not_safe_scalar<void (&&)(...) noexcept>();
 
-    test_is_not_safe_scalar<void(&&)(int, ...)>();
-    test_is_not_safe_scalar<void(&&)(int, ...) noexcept>();
+    test_is_not_safe_scalar<void (&&)(int, ...)>();
+    test_is_not_safe_scalar<void (&&)(int, ...) noexcept>();
 
-    test_is_not_safe_scalar<int(&&)()>();
-    test_is_not_safe_scalar<int(&&)() noexcept>();
+    test_is_not_safe_scalar<int (&&)()>();
+    test_is_not_safe_scalar<int (&&)() noexcept>();
 
-    test_is_not_safe_scalar<int(&&)(int)>();
-    test_is_not_safe_scalar<int(&&)(int) noexcept>();
+    test_is_not_safe_scalar<int (&&)(int)>();
+    test_is_not_safe_scalar<int (&&)(int) noexcept>();
 
-    test_is_not_safe_scalar<int(&&)(...)>();
-    test_is_not_safe_scalar<int(&&)(...) noexcept>();
+    test_is_not_safe_scalar<int (&&)(...)>();
+    test_is_not_safe_scalar<int (&&)(...) noexcept>();
 
-    test_is_not_safe_scalar<int(&&)(int, ...)>();
-    test_is_not_safe_scalar<int(&&)(int, ...) noexcept>();
+    test_is_not_safe_scalar<int (&&)(int, ...)>();
+    test_is_not_safe_scalar<int (&&)(int, ...) noexcept>();
 
     test_is_safe_scalar<void (class_type::*)()>();
     test_is_safe_scalar<void (class_type::*)()&>();

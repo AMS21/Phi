@@ -522,29 +522,29 @@ TEST_CASE("is_arithmetic")
     test_is_not_arithmetic<int (&)(int, ...)>();
     test_is_not_arithmetic<int (&)(int, ...) noexcept>();
 
-    test_is_not_arithmetic<void(&&)()>();
-    test_is_not_arithmetic<void(&&)() noexcept>();
+    test_is_not_arithmetic<void (&&)()>();
+    test_is_not_arithmetic<void (&&)() noexcept>();
 
-    test_is_not_arithmetic<void(&&)(int)>();
-    test_is_not_arithmetic<void(&&)(int) noexcept>();
+    test_is_not_arithmetic<void (&&)(int)>();
+    test_is_not_arithmetic<void (&&)(int) noexcept>();
 
-    test_is_not_arithmetic<void(&&)(...)>();
-    test_is_not_arithmetic<void(&&)(...) noexcept>();
+    test_is_not_arithmetic<void (&&)(...)>();
+    test_is_not_arithmetic<void (&&)(...) noexcept>();
 
-    test_is_not_arithmetic<void(&&)(int, ...)>();
-    test_is_not_arithmetic<void(&&)(int, ...) noexcept>();
+    test_is_not_arithmetic<void (&&)(int, ...)>();
+    test_is_not_arithmetic<void (&&)(int, ...) noexcept>();
 
-    test_is_not_arithmetic<int(&&)()>();
-    test_is_not_arithmetic<int(&&)() noexcept>();
+    test_is_not_arithmetic<int (&&)()>();
+    test_is_not_arithmetic<int (&&)() noexcept>();
 
-    test_is_not_arithmetic<int(&&)(int)>();
-    test_is_not_arithmetic<int(&&)(int) noexcept>();
+    test_is_not_arithmetic<int (&&)(int)>();
+    test_is_not_arithmetic<int (&&)(int) noexcept>();
 
-    test_is_not_arithmetic<int(&&)(...)>();
-    test_is_not_arithmetic<int(&&)(...) noexcept>();
+    test_is_not_arithmetic<int (&&)(...)>();
+    test_is_not_arithmetic<int (&&)(...) noexcept>();
 
-    test_is_not_arithmetic<int(&&)(int, ...)>();
-    test_is_not_arithmetic<int(&&)(int, ...) noexcept>();
+    test_is_not_arithmetic<int (&&)(int, ...)>();
+    test_is_not_arithmetic<int (&&)(int, ...) noexcept>();
 
     test_is_not_arithmetic<void (class_type::*)()>();
     test_is_not_arithmetic<void (class_type::*)()&>();

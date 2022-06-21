@@ -796,29 +796,29 @@ TEST_CASE("is_member_pointer")
     test_is_not_member_pointer<int (&)(int, ...)>();
     test_is_not_member_pointer<int (&)(int, ...) noexcept>();
 
-    test_is_not_member_pointer<void(&&)()>();
-    test_is_not_member_pointer<void(&&)() noexcept>();
+    test_is_not_member_pointer<void (&&)()>();
+    test_is_not_member_pointer<void (&&)() noexcept>();
 
-    test_is_not_member_pointer<void(&&)(int)>();
-    test_is_not_member_pointer<void(&&)(int) noexcept>();
+    test_is_not_member_pointer<void (&&)(int)>();
+    test_is_not_member_pointer<void (&&)(int) noexcept>();
 
-    test_is_not_member_pointer<void(&&)(...)>();
-    test_is_not_member_pointer<void(&&)(...) noexcept>();
+    test_is_not_member_pointer<void (&&)(...)>();
+    test_is_not_member_pointer<void (&&)(...) noexcept>();
 
-    test_is_not_member_pointer<void(&&)(int, ...)>();
-    test_is_not_member_pointer<void(&&)(int, ...) noexcept>();
+    test_is_not_member_pointer<void (&&)(int, ...)>();
+    test_is_not_member_pointer<void (&&)(int, ...) noexcept>();
 
-    test_is_not_member_pointer<int(&&)()>();
-    test_is_not_member_pointer<int(&&)() noexcept>();
+    test_is_not_member_pointer<int (&&)()>();
+    test_is_not_member_pointer<int (&&)() noexcept>();
 
-    test_is_not_member_pointer<int(&&)(int)>();
-    test_is_not_member_pointer<int(&&)(int) noexcept>();
+    test_is_not_member_pointer<int (&&)(int)>();
+    test_is_not_member_pointer<int (&&)(int) noexcept>();
 
-    test_is_not_member_pointer<int(&&)(...)>();
-    test_is_not_member_pointer<int(&&)(...) noexcept>();
+    test_is_not_member_pointer<int (&&)(...)>();
+    test_is_not_member_pointer<int (&&)(...) noexcept>();
 
-    test_is_not_member_pointer<int(&&)(int, ...)>();
-    test_is_not_member_pointer<int(&&)(int, ...) noexcept>();
+    test_is_not_member_pointer<int (&&)(int, ...)>();
+    test_is_not_member_pointer<int (&&)(int, ...) noexcept>();
 
     test_is_member_pointer<void (class_type::*)()>();
     test_is_member_pointer<void (class_type::*)()&>();

@@ -591,29 +591,29 @@ TEST_CASE("is_pointer")
     test_is_not_pointer<int (&)(int, ...)>();
     test_is_not_pointer<int (&)(int, ...) noexcept>();
 
-    test_is_not_pointer<void(&&)()>();
-    test_is_not_pointer<void(&&)() noexcept>();
+    test_is_not_pointer<void (&&)()>();
+    test_is_not_pointer<void (&&)() noexcept>();
 
-    test_is_not_pointer<void(&&)(int)>();
-    test_is_not_pointer<void(&&)(int) noexcept>();
+    test_is_not_pointer<void (&&)(int)>();
+    test_is_not_pointer<void (&&)(int) noexcept>();
 
-    test_is_not_pointer<void(&&)(...)>();
-    test_is_not_pointer<void(&&)(...) noexcept>();
+    test_is_not_pointer<void (&&)(...)>();
+    test_is_not_pointer<void (&&)(...) noexcept>();
 
-    test_is_not_pointer<void(&&)(int, ...)>();
-    test_is_not_pointer<void(&&)(int, ...) noexcept>();
+    test_is_not_pointer<void (&&)(int, ...)>();
+    test_is_not_pointer<void (&&)(int, ...) noexcept>();
 
-    test_is_not_pointer<int(&&)()>();
-    test_is_not_pointer<int(&&)() noexcept>();
+    test_is_not_pointer<int (&&)()>();
+    test_is_not_pointer<int (&&)() noexcept>();
 
-    test_is_not_pointer<int(&&)(int)>();
-    test_is_not_pointer<int(&&)(int) noexcept>();
+    test_is_not_pointer<int (&&)(int)>();
+    test_is_not_pointer<int (&&)(int) noexcept>();
 
-    test_is_not_pointer<int(&&)(...)>();
-    test_is_not_pointer<int(&&)(...) noexcept>();
+    test_is_not_pointer<int (&&)(...)>();
+    test_is_not_pointer<int (&&)(...) noexcept>();
 
-    test_is_not_pointer<int(&&)(int, ...)>();
-    test_is_not_pointer<int(&&)(int, ...) noexcept>();
+    test_is_not_pointer<int (&&)(int, ...)>();
+    test_is_not_pointer<int (&&)(int, ...) noexcept>();
 
     test_is_not_pointer<void (class_type::*)()>();
     test_is_not_pointer<void (class_type::*)()&>();

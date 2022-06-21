@@ -601,29 +601,29 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<int (&)(int, ...)>();
     test_is_nothrow_move_constructible_cv<int (&)(int, ...) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<void(&&)()>();
-    test_is_nothrow_move_constructible_cv<void(&&)() noexcept>();
+    test_is_nothrow_move_constructible_cv<void (&&)()>();
+    test_is_nothrow_move_constructible_cv<void (&&)() noexcept>();
 
-    test_is_nothrow_move_constructible_cv<void(&&)(int)>();
-    test_is_nothrow_move_constructible_cv<void(&&)(int) noexcept>();
+    test_is_nothrow_move_constructible_cv<void (&&)(int)>();
+    test_is_nothrow_move_constructible_cv<void (&&)(int) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<void(&&)(...)>();
-    test_is_nothrow_move_constructible_cv<void(&&)(...) noexcept>();
+    test_is_nothrow_move_constructible_cv<void (&&)(...)>();
+    test_is_nothrow_move_constructible_cv<void (&&)(...) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<void(&&)(int, ...)>();
-    test_is_nothrow_move_constructible_cv<void(&&)(int, ...) noexcept>();
+    test_is_nothrow_move_constructible_cv<void (&&)(int, ...)>();
+    test_is_nothrow_move_constructible_cv<void (&&)(int, ...) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<int(&&)()>();
-    test_is_nothrow_move_constructible_cv<int(&&)() noexcept>();
+    test_is_nothrow_move_constructible_cv<int (&&)()>();
+    test_is_nothrow_move_constructible_cv<int (&&)() noexcept>();
 
-    test_is_nothrow_move_constructible_cv<int(&&)(int)>();
-    test_is_nothrow_move_constructible_cv<int(&&)(int) noexcept>();
+    test_is_nothrow_move_constructible_cv<int (&&)(int)>();
+    test_is_nothrow_move_constructible_cv<int (&&)(int) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<int(&&)(...)>();
-    test_is_nothrow_move_constructible_cv<int(&&)(...) noexcept>();
+    test_is_nothrow_move_constructible_cv<int (&&)(...)>();
+    test_is_nothrow_move_constructible_cv<int (&&)(...) noexcept>();
 
-    test_is_nothrow_move_constructible_cv<int(&&)(int, ...)>();
-    test_is_nothrow_move_constructible_cv<int(&&)(int, ...) noexcept>();
+    test_is_nothrow_move_constructible_cv<int (&&)(int, ...)>();
+    test_is_nothrow_move_constructible_cv<int (&&)(int, ...) noexcept>();
 
     test_is_nothrow_move_constructible_cv<void (class_type::*)()>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)()&>();

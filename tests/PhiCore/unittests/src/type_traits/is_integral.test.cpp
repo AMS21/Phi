@@ -520,29 +520,29 @@ TEST_CASE("is_integral")
     test_is_not_integral<int (&)(int, ...)>();
     test_is_not_integral<int (&)(int, ...) noexcept>();
 
-    test_is_not_integral<void(&&)()>();
-    test_is_not_integral<void(&&)() noexcept>();
+    test_is_not_integral<void (&&)()>();
+    test_is_not_integral<void (&&)() noexcept>();
 
-    test_is_not_integral<void(&&)(int)>();
-    test_is_not_integral<void(&&)(int) noexcept>();
+    test_is_not_integral<void (&&)(int)>();
+    test_is_not_integral<void (&&)(int) noexcept>();
 
-    test_is_not_integral<void(&&)(...)>();
-    test_is_not_integral<void(&&)(...) noexcept>();
+    test_is_not_integral<void (&&)(...)>();
+    test_is_not_integral<void (&&)(...) noexcept>();
 
-    test_is_not_integral<void(&&)(int, ...)>();
-    test_is_not_integral<void(&&)(int, ...) noexcept>();
+    test_is_not_integral<void (&&)(int, ...)>();
+    test_is_not_integral<void (&&)(int, ...) noexcept>();
 
-    test_is_not_integral<int(&&)()>();
-    test_is_not_integral<int(&&)() noexcept>();
+    test_is_not_integral<int (&&)()>();
+    test_is_not_integral<int (&&)() noexcept>();
 
-    test_is_not_integral<int(&&)(int)>();
-    test_is_not_integral<int(&&)(int) noexcept>();
+    test_is_not_integral<int (&&)(int)>();
+    test_is_not_integral<int (&&)(int) noexcept>();
 
-    test_is_not_integral<int(&&)(...)>();
-    test_is_not_integral<int(&&)(...) noexcept>();
+    test_is_not_integral<int (&&)(...)>();
+    test_is_not_integral<int (&&)(...) noexcept>();
 
-    test_is_not_integral<int(&&)(int, ...)>();
-    test_is_not_integral<int(&&)(int, ...) noexcept>();
+    test_is_not_integral<int (&&)(int, ...)>();
+    test_is_not_integral<int (&&)(int, ...) noexcept>();
 
     test_is_not_integral<void (class_type::*)()>();
     test_is_not_integral<void (class_type::*)()&>();

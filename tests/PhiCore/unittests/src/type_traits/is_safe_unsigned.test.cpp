@@ -605,29 +605,29 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int (&)(int, ...)>();
     test_is_not_safe_unsigned<int (&)(int, ...) noexcept>();
 
-    test_is_not_safe_unsigned<void(&&)()>();
-    test_is_not_safe_unsigned<void(&&)() noexcept>();
+    test_is_not_safe_unsigned<void (&&)()>();
+    test_is_not_safe_unsigned<void (&&)() noexcept>();
 
-    test_is_not_safe_unsigned<void(&&)(int)>();
-    test_is_not_safe_unsigned<void(&&)(int) noexcept>();
+    test_is_not_safe_unsigned<void (&&)(int)>();
+    test_is_not_safe_unsigned<void (&&)(int) noexcept>();
 
-    test_is_not_safe_unsigned<void(&&)(...)>();
-    test_is_not_safe_unsigned<void(&&)(...) noexcept>();
+    test_is_not_safe_unsigned<void (&&)(...)>();
+    test_is_not_safe_unsigned<void (&&)(...) noexcept>();
 
-    test_is_not_safe_unsigned<void(&&)(int, ...)>();
-    test_is_not_safe_unsigned<void(&&)(int, ...) noexcept>();
+    test_is_not_safe_unsigned<void (&&)(int, ...)>();
+    test_is_not_safe_unsigned<void (&&)(int, ...) noexcept>();
 
-    test_is_not_safe_unsigned<int(&&)()>();
-    test_is_not_safe_unsigned<int(&&)() noexcept>();
+    test_is_not_safe_unsigned<int (&&)()>();
+    test_is_not_safe_unsigned<int (&&)() noexcept>();
 
-    test_is_not_safe_unsigned<int(&&)(int)>();
-    test_is_not_safe_unsigned<int(&&)(int) noexcept>();
+    test_is_not_safe_unsigned<int (&&)(int)>();
+    test_is_not_safe_unsigned<int (&&)(int) noexcept>();
 
-    test_is_not_safe_unsigned<int(&&)(...)>();
-    test_is_not_safe_unsigned<int(&&)(...) noexcept>();
+    test_is_not_safe_unsigned<int (&&)(...)>();
+    test_is_not_safe_unsigned<int (&&)(...) noexcept>();
 
-    test_is_not_safe_unsigned<int(&&)(int, ...)>();
-    test_is_not_safe_unsigned<int(&&)(int, ...) noexcept>();
+    test_is_not_safe_unsigned<int (&&)(int, ...)>();
+    test_is_not_safe_unsigned<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_unsigned<void (class_type::*)()>();
     test_is_not_safe_unsigned<void (class_type::*)()&>();

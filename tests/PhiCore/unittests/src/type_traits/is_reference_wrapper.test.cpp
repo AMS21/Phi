@@ -543,29 +543,29 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int (&)(int, ...)>();
     test_is_not_reference_wrapper<int (&)(int, ...) noexcept>();
 
-    test_is_not_reference_wrapper<void(&&)()>();
-    test_is_not_reference_wrapper<void(&&)() noexcept>();
+    test_is_not_reference_wrapper<void (&&)()>();
+    test_is_not_reference_wrapper<void (&&)() noexcept>();
 
-    test_is_not_reference_wrapper<void(&&)(int)>();
-    test_is_not_reference_wrapper<void(&&)(int) noexcept>();
+    test_is_not_reference_wrapper<void (&&)(int)>();
+    test_is_not_reference_wrapper<void (&&)(int) noexcept>();
 
-    test_is_not_reference_wrapper<void(&&)(...)>();
-    test_is_not_reference_wrapper<void(&&)(...) noexcept>();
+    test_is_not_reference_wrapper<void (&&)(...)>();
+    test_is_not_reference_wrapper<void (&&)(...) noexcept>();
 
-    test_is_not_reference_wrapper<void(&&)(int, ...)>();
-    test_is_not_reference_wrapper<void(&&)(int, ...) noexcept>();
+    test_is_not_reference_wrapper<void (&&)(int, ...)>();
+    test_is_not_reference_wrapper<void (&&)(int, ...) noexcept>();
 
-    test_is_not_reference_wrapper<int(&&)()>();
-    test_is_not_reference_wrapper<int(&&)() noexcept>();
+    test_is_not_reference_wrapper<int (&&)()>();
+    test_is_not_reference_wrapper<int (&&)() noexcept>();
 
-    test_is_not_reference_wrapper<int(&&)(int)>();
-    test_is_not_reference_wrapper<int(&&)(int) noexcept>();
+    test_is_not_reference_wrapper<int (&&)(int)>();
+    test_is_not_reference_wrapper<int (&&)(int) noexcept>();
 
-    test_is_not_reference_wrapper<int(&&)(...)>();
-    test_is_not_reference_wrapper<int(&&)(...) noexcept>();
+    test_is_not_reference_wrapper<int (&&)(...)>();
+    test_is_not_reference_wrapper<int (&&)(...) noexcept>();
 
-    test_is_not_reference_wrapper<int(&&)(int, ...)>();
-    test_is_not_reference_wrapper<int(&&)(int, ...) noexcept>();
+    test_is_not_reference_wrapper<int (&&)(int, ...)>();
+    test_is_not_reference_wrapper<int (&&)(int, ...) noexcept>();
 
     test_is_not_reference_wrapper<void (class_type::*)()>();
     test_is_not_reference_wrapper<void (class_type::*)()&>();

@@ -536,29 +536,29 @@ TEST_CASE("is_const")
     test_is_not_const<int (&)(int, ...)>();
     test_is_not_const<int (&)(int, ...) noexcept>();
 
-    test_is_not_const<void(&&)()>();
-    test_is_not_const<void(&&)() noexcept>();
+    test_is_not_const<void (&&)()>();
+    test_is_not_const<void (&&)() noexcept>();
 
-    test_is_not_const<void(&&)(int)>();
-    test_is_not_const<void(&&)(int) noexcept>();
+    test_is_not_const<void (&&)(int)>();
+    test_is_not_const<void (&&)(int) noexcept>();
 
-    test_is_not_const<void(&&)(...)>();
-    test_is_not_const<void(&&)(...) noexcept>();
+    test_is_not_const<void (&&)(...)>();
+    test_is_not_const<void (&&)(...) noexcept>();
 
-    test_is_not_const<void(&&)(int, ...)>();
-    test_is_not_const<void(&&)(int, ...) noexcept>();
+    test_is_not_const<void (&&)(int, ...)>();
+    test_is_not_const<void (&&)(int, ...) noexcept>();
 
-    test_is_not_const<int(&&)()>();
-    test_is_not_const<int(&&)() noexcept>();
+    test_is_not_const<int (&&)()>();
+    test_is_not_const<int (&&)() noexcept>();
 
-    test_is_not_const<int(&&)(int)>();
-    test_is_not_const<int(&&)(int) noexcept>();
+    test_is_not_const<int (&&)(int)>();
+    test_is_not_const<int (&&)(int) noexcept>();
 
-    test_is_not_const<int(&&)(...)>();
-    test_is_not_const<int(&&)(...) noexcept>();
+    test_is_not_const<int (&&)(...)>();
+    test_is_not_const<int (&&)(...) noexcept>();
 
-    test_is_not_const<int(&&)(int, ...)>();
-    test_is_not_const<int(&&)(int, ...) noexcept>();
+    test_is_not_const<int (&&)(int, ...)>();
+    test_is_not_const<int (&&)(int, ...) noexcept>();
 
     test_is_const<void (class_type::*)()>();
     test_is_const<void (class_type::*)()&>();

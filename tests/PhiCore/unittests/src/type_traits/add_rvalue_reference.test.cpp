@@ -526,29 +526,29 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (&)(int, ...)>();
     test_add_rvalue_reference<int (&)(int, ...) noexcept>();
 
-    test_add_rvalue_reference<void(&&)()>();
-    test_add_rvalue_reference<void(&&)() noexcept>();
+    test_add_rvalue_reference<void (&&)()>();
+    test_add_rvalue_reference<void (&&)() noexcept>();
 
-    test_add_rvalue_reference<void(&&)(int)>();
-    test_add_rvalue_reference<void(&&)(int) noexcept>();
+    test_add_rvalue_reference<void (&&)(int)>();
+    test_add_rvalue_reference<void (&&)(int) noexcept>();
 
-    test_add_rvalue_reference<void(&&)(...)>();
-    test_add_rvalue_reference<void(&&)(...) noexcept>();
+    test_add_rvalue_reference<void (&&)(...)>();
+    test_add_rvalue_reference<void (&&)(...) noexcept>();
 
-    test_add_rvalue_reference<void(&&)(int, ...)>();
-    test_add_rvalue_reference<void(&&)(int, ...) noexcept>();
+    test_add_rvalue_reference<void (&&)(int, ...)>();
+    test_add_rvalue_reference<void (&&)(int, ...) noexcept>();
 
-    test_add_rvalue_reference<int(&&)()>();
-    test_add_rvalue_reference<int(&&)() noexcept>();
+    test_add_rvalue_reference<int (&&)()>();
+    test_add_rvalue_reference<int (&&)() noexcept>();
 
-    test_add_rvalue_reference<int(&&)(int)>();
-    test_add_rvalue_reference<int(&&)(int) noexcept>();
+    test_add_rvalue_reference<int (&&)(int)>();
+    test_add_rvalue_reference<int (&&)(int) noexcept>();
 
-    test_add_rvalue_reference<int(&&)(...)>();
-    test_add_rvalue_reference<int(&&)(...) noexcept>();
+    test_add_rvalue_reference<int (&&)(...)>();
+    test_add_rvalue_reference<int (&&)(...) noexcept>();
 
-    test_add_rvalue_reference<int(&&)(int, ...)>();
-    test_add_rvalue_reference<int(&&)(int, ...) noexcept>();
+    test_add_rvalue_reference<int (&&)(int, ...)>();
+    test_add_rvalue_reference<int (&&)(int, ...) noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)()>();
     test_add_rvalue_reference<void (class_type::*)()&>();

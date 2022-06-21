@@ -494,29 +494,29 @@ TEST_CASE("add_volatile")
     test_add_volatile<int (&)(int, ...)>();
     test_add_volatile<int (&)(int, ...) noexcept>();
 
-    test_add_volatile<void(&&)()>();
-    test_add_volatile<void(&&)() noexcept>();
+    test_add_volatile<void (&&)()>();
+    test_add_volatile<void (&&)() noexcept>();
 
-    test_add_volatile<void(&&)(int)>();
-    test_add_volatile<void(&&)(int) noexcept>();
+    test_add_volatile<void (&&)(int)>();
+    test_add_volatile<void (&&)(int) noexcept>();
 
-    test_add_volatile<void(&&)(...)>();
-    test_add_volatile<void(&&)(...) noexcept>();
+    test_add_volatile<void (&&)(...)>();
+    test_add_volatile<void (&&)(...) noexcept>();
 
-    test_add_volatile<void(&&)(int, ...)>();
-    test_add_volatile<void(&&)(int, ...) noexcept>();
+    test_add_volatile<void (&&)(int, ...)>();
+    test_add_volatile<void (&&)(int, ...) noexcept>();
 
-    test_add_volatile<int(&&)()>();
-    test_add_volatile<int(&&)() noexcept>();
+    test_add_volatile<int (&&)()>();
+    test_add_volatile<int (&&)() noexcept>();
 
-    test_add_volatile<int(&&)(int)>();
-    test_add_volatile<int(&&)(int) noexcept>();
+    test_add_volatile<int (&&)(int)>();
+    test_add_volatile<int (&&)(int) noexcept>();
 
-    test_add_volatile<int(&&)(...)>();
-    test_add_volatile<int(&&)(...) noexcept>();
+    test_add_volatile<int (&&)(...)>();
+    test_add_volatile<int (&&)(...) noexcept>();
 
-    test_add_volatile<int(&&)(int, ...)>();
-    test_add_volatile<int(&&)(int, ...) noexcept>();
+    test_add_volatile<int (&&)(int, ...)>();
+    test_add_volatile<int (&&)(int, ...) noexcept>();
 
     test_add_volatile<void (class_type::*)()>();
     test_add_volatile<void (class_type::*)()&>();

@@ -562,29 +562,29 @@ TEST_CASE("is_nothrow_copy_assignable")
     test_is_not_nothrow_copy_assignable_cv<int (&)(int, ...)>();
     test_is_not_nothrow_copy_assignable_cv<int (&)(int, ...) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<void(&&)()>();
-    test_is_not_nothrow_copy_assignable_cv<void(&&)() noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)()>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)() noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(int)>();
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(int) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(int)>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(int) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(...)>();
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(...) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(...)>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(...) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(int, ...)>();
-    test_is_not_nothrow_copy_assignable_cv<void(&&)(int, ...) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(int, ...)>();
+    test_is_not_nothrow_copy_assignable_cv<void (&&)(int, ...) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<int(&&)()>();
-    test_is_not_nothrow_copy_assignable_cv<int(&&)() noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)()>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)() noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(int)>();
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(int) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(int)>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(int) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(...)>();
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(...) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(...)>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(...) noexcept>();
 
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(int, ...)>();
-    test_is_not_nothrow_copy_assignable_cv<int(&&)(int, ...) noexcept>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(int, ...)>();
+    test_is_not_nothrow_copy_assignable_cv<int (&&)(int, ...) noexcept>();
 
     test_is_nothrow_copy_assignable_v<void (class_type::*)()>();
     test_is_nothrow_copy_assignable_v<void (class_type::*)()&>();

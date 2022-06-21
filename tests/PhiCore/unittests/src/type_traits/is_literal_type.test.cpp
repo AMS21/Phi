@@ -761,29 +761,29 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<int (&)(int, ...)>();
     test_is_literal_type<int (&)(int, ...) noexcept>();
 
-    test_is_literal_type<void(&&)()>();
-    test_is_literal_type<void(&&)() noexcept>();
+    test_is_literal_type<void (&&)()>();
+    test_is_literal_type<void (&&)() noexcept>();
 
-    test_is_literal_type<void(&&)(int)>();
-    test_is_literal_type<void(&&)(int) noexcept>();
+    test_is_literal_type<void (&&)(int)>();
+    test_is_literal_type<void (&&)(int) noexcept>();
 
-    test_is_literal_type<void(&&)(...)>();
-    test_is_literal_type<void(&&)(...) noexcept>();
+    test_is_literal_type<void (&&)(...)>();
+    test_is_literal_type<void (&&)(...) noexcept>();
 
-    test_is_literal_type<void(&&)(int, ...)>();
-    test_is_literal_type<void(&&)(int, ...) noexcept>();
+    test_is_literal_type<void (&&)(int, ...)>();
+    test_is_literal_type<void (&&)(int, ...) noexcept>();
 
-    test_is_literal_type<int(&&)()>();
-    test_is_literal_type<int(&&)() noexcept>();
+    test_is_literal_type<int (&&)()>();
+    test_is_literal_type<int (&&)() noexcept>();
 
-    test_is_literal_type<int(&&)(int)>();
-    test_is_literal_type<int(&&)(int) noexcept>();
+    test_is_literal_type<int (&&)(int)>();
+    test_is_literal_type<int (&&)(int) noexcept>();
 
-    test_is_literal_type<int(&&)(...)>();
-    test_is_literal_type<int(&&)(...) noexcept>();
+    test_is_literal_type<int (&&)(...)>();
+    test_is_literal_type<int (&&)(...) noexcept>();
 
-    test_is_literal_type<int(&&)(int, ...)>();
-    test_is_literal_type<int(&&)(int, ...) noexcept>();
+    test_is_literal_type<int (&&)(int, ...)>();
+    test_is_literal_type<int (&&)(int, ...) noexcept>();
 
     test_is_literal_type<void (class_type::*)()>();
     test_is_literal_type<void (class_type::*)()&>();

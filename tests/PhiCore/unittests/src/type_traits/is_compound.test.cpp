@@ -527,29 +527,29 @@ TEST_CASE("is_compound")
     test_is_compound<int (&)(int, ...)>();
     test_is_compound<int (&)(int, ...) noexcept>();
 
-    test_is_compound<void(&&)()>();
-    test_is_compound<void(&&)() noexcept>();
+    test_is_compound<void (&&)()>();
+    test_is_compound<void (&&)() noexcept>();
 
-    test_is_compound<void(&&)(int)>();
-    test_is_compound<void(&&)(int) noexcept>();
+    test_is_compound<void (&&)(int)>();
+    test_is_compound<void (&&)(int) noexcept>();
 
-    test_is_compound<void(&&)(...)>();
-    test_is_compound<void(&&)(...) noexcept>();
+    test_is_compound<void (&&)(...)>();
+    test_is_compound<void (&&)(...) noexcept>();
 
-    test_is_compound<void(&&)(int, ...)>();
-    test_is_compound<void(&&)(int, ...) noexcept>();
+    test_is_compound<void (&&)(int, ...)>();
+    test_is_compound<void (&&)(int, ...) noexcept>();
 
-    test_is_compound<int(&&)()>();
-    test_is_compound<int(&&)() noexcept>();
+    test_is_compound<int (&&)()>();
+    test_is_compound<int (&&)() noexcept>();
 
-    test_is_compound<int(&&)(int)>();
-    test_is_compound<int(&&)(int) noexcept>();
+    test_is_compound<int (&&)(int)>();
+    test_is_compound<int (&&)(int) noexcept>();
 
-    test_is_compound<int(&&)(...)>();
-    test_is_compound<int(&&)(...) noexcept>();
+    test_is_compound<int (&&)(...)>();
+    test_is_compound<int (&&)(...) noexcept>();
 
-    test_is_compound<int(&&)(int, ...)>();
-    test_is_compound<int(&&)(int, ...) noexcept>();
+    test_is_compound<int (&&)(int, ...)>();
+    test_is_compound<int (&&)(int, ...) noexcept>();
 
     test_is_compound<void (class_type::*)()>();
     test_is_compound<void (class_type::*)()&>();

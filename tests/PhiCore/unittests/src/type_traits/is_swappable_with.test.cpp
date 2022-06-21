@@ -62,13 +62,13 @@ namespace is_swappable_with_ns
 {
     struct A
     {
-        A(A const&) = delete;
+        A(A const&)            = delete;
         A& operator=(A const&) = delete;
     };
 
     struct B
     {
-        B(B const&) = delete;
+        B(B const&)            = delete;
         B& operator=(B const&) = delete;
     };
 

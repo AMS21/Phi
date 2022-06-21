@@ -567,29 +567,29 @@ TEST_CASE("is_nothrow_destructible")
     test_is_nothrow_destructible<int (&)(int, ...)>();
     test_is_nothrow_destructible<int (&)(int, ...) noexcept>();
 
-    test_is_nothrow_destructible<void(&&)()>();
-    test_is_nothrow_destructible<void(&&)() noexcept>();
+    test_is_nothrow_destructible<void (&&)()>();
+    test_is_nothrow_destructible<void (&&)() noexcept>();
 
-    test_is_nothrow_destructible<void(&&)(int)>();
-    test_is_nothrow_destructible<void(&&)(int) noexcept>();
+    test_is_nothrow_destructible<void (&&)(int)>();
+    test_is_nothrow_destructible<void (&&)(int) noexcept>();
 
-    test_is_nothrow_destructible<void(&&)(...)>();
-    test_is_nothrow_destructible<void(&&)(...) noexcept>();
+    test_is_nothrow_destructible<void (&&)(...)>();
+    test_is_nothrow_destructible<void (&&)(...) noexcept>();
 
-    test_is_nothrow_destructible<void(&&)(int, ...)>();
-    test_is_nothrow_destructible<void(&&)(int, ...) noexcept>();
+    test_is_nothrow_destructible<void (&&)(int, ...)>();
+    test_is_nothrow_destructible<void (&&)(int, ...) noexcept>();
 
-    test_is_nothrow_destructible<int(&&)()>();
-    test_is_nothrow_destructible<int(&&)() noexcept>();
+    test_is_nothrow_destructible<int (&&)()>();
+    test_is_nothrow_destructible<int (&&)() noexcept>();
 
-    test_is_nothrow_destructible<int(&&)(int)>();
-    test_is_nothrow_destructible<int(&&)(int) noexcept>();
+    test_is_nothrow_destructible<int (&&)(int)>();
+    test_is_nothrow_destructible<int (&&)(int) noexcept>();
 
-    test_is_nothrow_destructible<int(&&)(...)>();
-    test_is_nothrow_destructible<int(&&)(...) noexcept>();
+    test_is_nothrow_destructible<int (&&)(...)>();
+    test_is_nothrow_destructible<int (&&)(...) noexcept>();
 
-    test_is_nothrow_destructible<int(&&)(int, ...)>();
-    test_is_nothrow_destructible<int(&&)(int, ...) noexcept>();
+    test_is_nothrow_destructible<int (&&)(int, ...)>();
+    test_is_nothrow_destructible<int (&&)(int, ...) noexcept>();
 
     test_is_nothrow_destructible<void (class_type::*)()>();
     test_is_nothrow_destructible<void (class_type::*)()&>();

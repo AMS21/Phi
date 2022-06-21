@@ -358,7 +358,7 @@ namespace detail
             }
         }
         optional_move_base& operator=(const optional_move_base& rhs) = default;
-        optional_move_base& operator=(optional_move_base&& rhs) = default;
+        optional_move_base& operator=(optional_move_base&& rhs)      = default;
     };
 
     // This class manages conditionally having a trivial copy assignment operator
@@ -423,40 +423,40 @@ namespace detail
               bool EnableMove = is_move_constructible<TypeT>::value>
     struct optional_delete_ctor_base
     {
-        optional_delete_ctor_base()                                     = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept = default;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base()                                                = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)                = default;
+        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = default;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
         optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, true, false>
     {
-        optional_delete_ctor_base()                                     = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept = delete;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base()                                                = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)                = default;
+        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = delete;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
         optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, false, true>
     {
-        optional_delete_ctor_base()                                     = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)     = delete;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept = default;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base()                                                = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)                = delete;
+        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = default;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
         optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, false, false>
     {
-        optional_delete_ctor_base()                                     = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)     = delete;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept = delete;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base()                                                = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)                = delete;
+        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = delete;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
         optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
     };
 
@@ -469,40 +469,40 @@ namespace detail
                       (is_move_constructible<TypeT>::value && is_move_assignable<TypeT>::value)>
     struct optional_delete_assign_base
     {
-        optional_delete_assign_base()                                       = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = default;
+        optional_delete_assign_base()                                                  = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
+        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = default;
         optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = default;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, true, false>
     {
-        optional_delete_assign_base()                                       = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = default;
+        optional_delete_assign_base()                                                  = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
+        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = default;
         optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = delete;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, false, true>
     {
-        optional_delete_assign_base()                                       = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = delete;
+        optional_delete_assign_base()                                                  = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
+        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = delete;
         optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = default;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, false, false>
     {
-        optional_delete_assign_base()                                       = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = delete;
+        optional_delete_assign_base()                                                  = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
+        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = delete;
         optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = delete;
     };
 } // namespace detail

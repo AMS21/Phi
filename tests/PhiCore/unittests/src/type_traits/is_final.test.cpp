@@ -549,29 +549,29 @@ TEST_CASE("is_final")
     test_is_not_final<int (&)(int, ...)>();
     test_is_not_final<int (&)(int, ...) noexcept>();
 
-    test_is_not_final<void(&&)()>();
-    test_is_not_final<void(&&)() noexcept>();
+    test_is_not_final<void (&&)()>();
+    test_is_not_final<void (&&)() noexcept>();
 
-    test_is_not_final<void(&&)(int)>();
-    test_is_not_final<void(&&)(int) noexcept>();
+    test_is_not_final<void (&&)(int)>();
+    test_is_not_final<void (&&)(int) noexcept>();
 
-    test_is_not_final<void(&&)(...)>();
-    test_is_not_final<void(&&)(...) noexcept>();
+    test_is_not_final<void (&&)(...)>();
+    test_is_not_final<void (&&)(...) noexcept>();
 
-    test_is_not_final<void(&&)(int, ...)>();
-    test_is_not_final<void(&&)(int, ...) noexcept>();
+    test_is_not_final<void (&&)(int, ...)>();
+    test_is_not_final<void (&&)(int, ...) noexcept>();
 
-    test_is_not_final<int(&&)()>();
-    test_is_not_final<int(&&)() noexcept>();
+    test_is_not_final<int (&&)()>();
+    test_is_not_final<int (&&)() noexcept>();
 
-    test_is_not_final<int(&&)(int)>();
-    test_is_not_final<int(&&)(int) noexcept>();
+    test_is_not_final<int (&&)(int)>();
+    test_is_not_final<int (&&)(int) noexcept>();
 
-    test_is_not_final<int(&&)(...)>();
-    test_is_not_final<int(&&)(...) noexcept>();
+    test_is_not_final<int (&&)(...)>();
+    test_is_not_final<int (&&)(...) noexcept>();
 
-    test_is_not_final<int(&&)(int, ...)>();
-    test_is_not_final<int(&&)(int, ...) noexcept>();
+    test_is_not_final<int (&&)(int, ...)>();
+    test_is_not_final<int (&&)(int, ...) noexcept>();
 
     test_is_not_final<void (class_type::*)()>();
     test_is_not_final<void (class_type::*)()&>();

@@ -528,29 +528,29 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int (&)(int, ...)>();
     test_is_not_unsafe_arithmetic<int (&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_arithmetic<void(&&)()>();
-    test_is_not_unsafe_arithmetic<void(&&)() noexcept>();
+    test_is_not_unsafe_arithmetic<void (&&)()>();
+    test_is_not_unsafe_arithmetic<void (&&)() noexcept>();
 
-    test_is_not_unsafe_arithmetic<void(&&)(int)>();
-    test_is_not_unsafe_arithmetic<void(&&)(int) noexcept>();
+    test_is_not_unsafe_arithmetic<void (&&)(int)>();
+    test_is_not_unsafe_arithmetic<void (&&)(int) noexcept>();
 
-    test_is_not_unsafe_arithmetic<void(&&)(...)>();
-    test_is_not_unsafe_arithmetic<void(&&)(...) noexcept>();
+    test_is_not_unsafe_arithmetic<void (&&)(...)>();
+    test_is_not_unsafe_arithmetic<void (&&)(...) noexcept>();
 
-    test_is_not_unsafe_arithmetic<void(&&)(int, ...)>();
-    test_is_not_unsafe_arithmetic<void(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_arithmetic<void (&&)(int, ...)>();
+    test_is_not_unsafe_arithmetic<void (&&)(int, ...) noexcept>();
 
-    test_is_not_unsafe_arithmetic<int(&&)()>();
-    test_is_not_unsafe_arithmetic<int(&&)() noexcept>();
+    test_is_not_unsafe_arithmetic<int (&&)()>();
+    test_is_not_unsafe_arithmetic<int (&&)() noexcept>();
 
-    test_is_not_unsafe_arithmetic<int(&&)(int)>();
-    test_is_not_unsafe_arithmetic<int(&&)(int) noexcept>();
+    test_is_not_unsafe_arithmetic<int (&&)(int)>();
+    test_is_not_unsafe_arithmetic<int (&&)(int) noexcept>();
 
-    test_is_not_unsafe_arithmetic<int(&&)(...)>();
-    test_is_not_unsafe_arithmetic<int(&&)(...) noexcept>();
+    test_is_not_unsafe_arithmetic<int (&&)(...)>();
+    test_is_not_unsafe_arithmetic<int (&&)(...) noexcept>();
 
-    test_is_not_unsafe_arithmetic<int(&&)(int, ...)>();
-    test_is_not_unsafe_arithmetic<int(&&)(int, ...) noexcept>();
+    test_is_not_unsafe_arithmetic<int (&&)(int, ...)>();
+    test_is_not_unsafe_arithmetic<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_arithmetic<void (class_type::*)()>();
     test_is_not_unsafe_arithmetic<void (class_type::*)()&>();

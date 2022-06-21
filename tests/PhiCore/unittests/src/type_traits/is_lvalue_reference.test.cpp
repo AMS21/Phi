@@ -693,29 +693,29 @@ TEST_CASE("is_lvalue_reference")
     test_is_lvalue_reference<int (&)(int, ...)>();
     test_is_lvalue_reference<int (&)(int, ...) noexcept>();
 
-    test_is_not_lvalue_reference<void(&&)()>();
-    test_is_not_lvalue_reference<void(&&)() noexcept>();
+    test_is_not_lvalue_reference<void (&&)()>();
+    test_is_not_lvalue_reference<void (&&)() noexcept>();
 
-    test_is_not_lvalue_reference<void(&&)(int)>();
-    test_is_not_lvalue_reference<void(&&)(int) noexcept>();
+    test_is_not_lvalue_reference<void (&&)(int)>();
+    test_is_not_lvalue_reference<void (&&)(int) noexcept>();
 
-    test_is_not_lvalue_reference<void(&&)(...)>();
-    test_is_not_lvalue_reference<void(&&)(...) noexcept>();
+    test_is_not_lvalue_reference<void (&&)(...)>();
+    test_is_not_lvalue_reference<void (&&)(...) noexcept>();
 
-    test_is_not_lvalue_reference<void(&&)(int, ...)>();
-    test_is_not_lvalue_reference<void(&&)(int, ...) noexcept>();
+    test_is_not_lvalue_reference<void (&&)(int, ...)>();
+    test_is_not_lvalue_reference<void (&&)(int, ...) noexcept>();
 
-    test_is_not_lvalue_reference<int(&&)()>();
-    test_is_not_lvalue_reference<int(&&)() noexcept>();
+    test_is_not_lvalue_reference<int (&&)()>();
+    test_is_not_lvalue_reference<int (&&)() noexcept>();
 
-    test_is_not_lvalue_reference<int(&&)(int)>();
-    test_is_not_lvalue_reference<int(&&)(int) noexcept>();
+    test_is_not_lvalue_reference<int (&&)(int)>();
+    test_is_not_lvalue_reference<int (&&)(int) noexcept>();
 
-    test_is_not_lvalue_reference<int(&&)(...)>();
-    test_is_not_lvalue_reference<int(&&)(...) noexcept>();
+    test_is_not_lvalue_reference<int (&&)(...)>();
+    test_is_not_lvalue_reference<int (&&)(...) noexcept>();
 
-    test_is_not_lvalue_reference<int(&&)(int, ...)>();
-    test_is_not_lvalue_reference<int(&&)(int, ...) noexcept>();
+    test_is_not_lvalue_reference<int (&&)(int, ...)>();
+    test_is_not_lvalue_reference<int (&&)(int, ...) noexcept>();
 
     test_is_not_lvalue_reference<void (class_type::*)()>();
     test_is_not_lvalue_reference<void (class_type::*)()&>();

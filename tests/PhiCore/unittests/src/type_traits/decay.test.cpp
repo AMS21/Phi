@@ -534,29 +534,29 @@ TEST_CASE("decay")
     test_decay<int (&)(int, ...), int (*)(int, ...)>();
     test_decay<int (&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
-    test_decay<void(&&)(), void (*)()>();
-    test_decay<void(&&)() noexcept, void (*)() noexcept>();
+    test_decay<void (&&)(), void (*)()>();
+    test_decay<void (&&)() noexcept, void (*)() noexcept>();
 
-    test_decay<void(&&)(int), void (*)(int)>();
-    test_decay<void(&&)(int) noexcept, void (*)(int) noexcept>();
+    test_decay<void (&&)(int), void (*)(int)>();
+    test_decay<void (&&)(int) noexcept, void (*)(int) noexcept>();
 
-    test_decay<void(&&)(...), void (*)(...)>();
-    test_decay<void(&&)(...) noexcept, void (*)(...) noexcept>();
+    test_decay<void (&&)(...), void (*)(...)>();
+    test_decay<void (&&)(...) noexcept, void (*)(...) noexcept>();
 
-    test_decay<void(&&)(int, ...), void (*)(int, ...)>();
-    test_decay<void(&&)(int, ...) noexcept, void (*)(int, ...) noexcept>();
+    test_decay<void (&&)(int, ...), void (*)(int, ...)>();
+    test_decay<void (&&)(int, ...) noexcept, void (*)(int, ...) noexcept>();
 
-    test_decay<int(&&)(), int (*)()>();
-    test_decay<int(&&)() noexcept, int (*)() noexcept>();
+    test_decay<int (&&)(), int (*)()>();
+    test_decay<int (&&)() noexcept, int (*)() noexcept>();
 
-    test_decay<int(&&)(int), int (*)(int)>();
-    test_decay<int(&&)(int) noexcept, int (*)(int) noexcept>();
+    test_decay<int (&&)(int), int (*)(int)>();
+    test_decay<int (&&)(int) noexcept, int (*)(int) noexcept>();
 
-    test_decay<int(&&)(...), int (*)(...)>();
-    test_decay<int(&&)(...) noexcept, int (*)(...) noexcept>();
+    test_decay<int (&&)(...), int (*)(...)>();
+    test_decay<int (&&)(...) noexcept, int (*)(...) noexcept>();
 
-    test_decay<int(&&)(int, ...), int (*)(int, ...)>();
-    test_decay<int(&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
+    test_decay<int (&&)(int, ...), int (*)(int, ...)>();
+    test_decay<int (&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
     test_decay<void (class_type::*)()>();
     test_decay<void (class_type::*)()&>();
