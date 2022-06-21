@@ -8,8 +8,12 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_default_constructible.hpp"
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -39,6 +43,8 @@ template <typename TypeT>
 struct is_not_implicitly_default_constructible
     : public bool_constant<!is_implicitly_default_constructible<TypeT>::value>
 {};
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
