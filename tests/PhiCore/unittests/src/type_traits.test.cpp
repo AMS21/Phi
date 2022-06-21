@@ -321,6 +321,9 @@ TEST_CASE("type_traits")
         int b;
     };
 
+    struct C : public A, B
+    {};
+
 #if PHI_HAS_WORKING_IS_CORRESPONDING_MEMBER()
     STATIC_REQUIRE(phi::is_corresponding_member(&C::a, &C::b));
 #endif
