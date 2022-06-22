@@ -276,4 +276,21 @@ TEST_CASE("sized_types")
         CHECK_SAME_TYPE(phi::uint_least64_t, std::uint_least64_t);
 #endif
     }
+
+    SECTION("float32")
+    {
+        STATIC_REQUIRE(SIZE_IN_BITS(phi::float32) == 32);
+    }
+
+    SECTION("float64")
+    {
+        STATIC_REQUIRE(SIZE_IN_BITS(phi::float64) == 64);
+    }
+
+#if PHI_TYPE_SYSTEM_HAS_FLOAT128()
+    SECTION("float128")
+    {
+        STATIC_REQUIRE(SIZE_IN_BITS(phi::detail::float128) == 128);
+    }
+#endif
 }
