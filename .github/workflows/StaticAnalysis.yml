@@ -161,10 +161,10 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
           # Run include-what-you-use
-          iwyu_tool.py -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
+          iwyu_tool.py ../examples ../libs ../tests --jobs $(nproc) -p . -o clang -- -Xiwyu --cxx17ns | tee iwyu.log
 
           # Filter out correct includes and generated code
           cat iwyu.log | grep -Ev "#includes/fwd-decls are correct|tests/integration" > iwyu_filtered.log || true
