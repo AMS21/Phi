@@ -181,9 +181,7 @@ endif()
 # Emscriptens warning suppression for some reason doesn't work correctly so we disable all
 if(PHI_PLATFORM_EMSCRIPTEN)
   set(phi_warning_flags "Wundef")
-  set(phi_disabled_warnings_flags
-      "${phi_disabled_warnings_flags};Wno-assume;Wno-unused-result;Wno-deprecated-volatile;Wno-deprecated-declarations"
-  )
+  set(phi_disabled_warnings_flags "W")
 endif()
 
 # Checks
