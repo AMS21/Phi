@@ -13,11 +13,16 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 struct CopyOnly
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     CopyOnly()
     {}
-    CopyOnly(CopyOnly const&) noexcept
+
+    // NOLINTNEXTLINE(modernize-use-equals-default)
+    CopyOnly(const CopyOnly& /*other*/) noexcept
     {}
-    CopyOnly& operator=(CopyOnly const&)
+
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,modernize-use-equals-default)
+    CopyOnly& operator=(const CopyOnly& /*other*/)
     {
         return *this;
     }
@@ -25,11 +30,15 @@ struct CopyOnly
 
 struct MoveOnly
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     MoveOnly()
     {}
-    MoveOnly(MoveOnly&&)
+
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+    MoveOnly(MoveOnly&& /*other*/)
     {}
-    MoveOnly& operator=(MoveOnly&&) noexcept
+
+    MoveOnly& operator=(MoveOnly&& /*other*/) noexcept
     {
         return *this;
     }
@@ -37,11 +46,14 @@ struct MoveOnly
 
 struct NoexceptMoveOnly
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     NoexceptMoveOnly()
     {}
-    NoexceptMoveOnly(NoexceptMoveOnly&&) noexcept
+
+    NoexceptMoveOnly(NoexceptMoveOnly&& /*other*/) noexcept
     {}
-    NoexceptMoveOnly& operator=(NoexceptMoveOnly&&) noexcept
+
+    NoexceptMoveOnly& operator=(NoexceptMoveOnly&& /*other*/) noexcept
     {
         return *this;
     }
@@ -49,20 +61,22 @@ struct NoexceptMoveOnly
 
 struct NotMoveConstructible
 {
-    NotMoveConstructible& operator=(NotMoveConstructible&&)
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+    NotMoveConstructible& operator=(NotMoveConstructible&& /*other*/)
     {
         return *this;
     }
 
-private:
-    NotMoveConstructible(NotMoveConstructible&&);
+    NotMoveConstructible(NotMoveConstructible&&) = delete;
 };
 
 struct NotMoveAssignable
 {
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     NotMoveAssignable(NotMoveAssignable&&);
 
 private:
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     NotMoveAssignable& operator=(NotMoveAssignable&&);
 };
 
@@ -81,30 +95,30 @@ constexpr bool can_swap()
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
 constexpr bool test_swap_constexpr()
 {
-    int i = 1;
-    int j = 2;
-    phi::swap(i, j);
-    return i == 2 && j == 1;
+    int lhs = 1;
+    int rhs = 2;
+    phi::swap(lhs, rhs);
+    return lhs == 2 && rhs == 1;
 }
 #endif
 
 TEST_CASE("swap")
 {
     {
-        int i = 1;
-        int j = 2;
-        phi::swap(i, j);
-        CHECK(i == 2);
-        CHECK(j == 1);
+        int lhs = 1;
+        int rhs = 2;
+        phi::swap(lhs, rhs);
+        CHECK(lhs == 2);
+        CHECK(rhs == 1);
     }
 
     // phi::scope_ptr
     {
-        phi::scope_ptr<int> i(new int(1));
-        phi::scope_ptr<int> j(new int(2));
-        phi::swap(i, j);
-        CHECK(*i == 2);
-        CHECK(*j == 1);
+        phi::scope_ptr<int> lhs(new int(1));
+        phi::scope_ptr<int> rhs(new int(2));
+        phi::swap(lhs, rhs);
+        CHECK(*lhs == 2);
+        CHECK(*rhs == 1);
     }
     {
         // test that the swap
@@ -115,76 +129,76 @@ TEST_CASE("swap")
         STATIC_REQUIRE_FALSE(can_swap<NotMoveConstructible&>());
         STATIC_REQUIRE_FALSE(can_swap<NotMoveAssignable&>());
 
-        CopyOnly         c;
-        MoveOnly         m;
-        NoexceptMoveOnly nm;
-        CHECK_NOT_NOEXCEPT(phi::swap(c, c));
-        CHECK_NOT_NOEXCEPT(phi::swap(m, m));
-        CHECK_NOEXCEPT(phi::swap(nm, nm));
+        CopyOnly         copy_only;
+        MoveOnly         move_only;
+        NoexceptMoveOnly noexcept_move_only;
+        CHECK_NOT_NOEXCEPT(phi::swap(copy_only, copy_only));
+        CHECK_NOT_NOEXCEPT(phi::swap(move_only, move_only));
+        CHECK_NOEXCEPT(phi::swap(noexcept_move_only, noexcept_move_only));
     }
 
     {
         // Check that swap does not call any copy constructor
-        non_copyable a;
-        non_copyable b;
+        non_copyable lhs;
+        non_copyable rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        tracked a;
-        tracked b;
+        tracked lhs;
+        tracked rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_constructible a;
-        trap_constructible b;
+        trap_constructible lhs;
+        trap_constructible rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_implicit_conversion a;
-        trap_implicit_conversion b;
+        trap_implicit_conversion lhs;
+        trap_implicit_conversion rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_comma a;
-        trap_comma b;
+        trap_comma lhs;
+        trap_comma rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_call a;
-        trap_call b;
+        trap_call lhs;
+        trap_call rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_self_assign a;
-        trap_self_assign b;
+        trap_self_assign lhs;
+        trap_self_assign rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_deref a;
-        trap_deref b;
+        trap_deref lhs;
+        trap_deref rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
     {
-        trap_array_subscript a;
-        trap_array_subscript b;
+        trap_array_subscript lhs;
+        trap_array_subscript rhs;
 
-        phi::swap(a, b);
+        phi::swap(lhs, rhs);
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()

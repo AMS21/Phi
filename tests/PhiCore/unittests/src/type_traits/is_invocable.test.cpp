@@ -20,20 +20,20 @@ struct DerFromTag : Tag
 
 struct Implicit
 {
-    Implicit(int)
+    Implicit(int /*unused*/)
     {}
 };
 
 struct Explicit
 {
-    explicit Explicit(int)
+    explicit Explicit(int /*unused*/)
     {}
 };
 
 struct NotCallableWithInt
 {
     int operator()(int) = delete;
-    int operator()(Tag)
+    int operator()(Tag /*unused*/)
     {
         return 42;
     }
@@ -41,8 +41,8 @@ struct NotCallableWithInt
 
 struct Sink
 {
-    template <class... Args>
-    void operator()(Args&&...) const
+    template <typename... ArgsT>
+    void operator()(ArgsT&&... /*unused*/) const
     {}
 };
 

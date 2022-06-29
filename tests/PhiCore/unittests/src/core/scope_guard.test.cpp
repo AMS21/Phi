@@ -9,6 +9,7 @@ void increment(int& val)
     val += 1;
 }
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static int global_value = 0;
 
 void set_global_to_zero()
@@ -19,48 +20,49 @@ void set_global_to_zero()
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
 TEST_CASE("scope_guard lambda", "[Core][scope_guard]")
 {
-    int i = 3;
-    CHECK(i == 3);
+    int value = 3;
+    CHECK(value == 3);
     {
-        phi::scope_guard guard([&i]() { i = 7; });
-        CHECK(i == 3);
+        phi::scope_guard guard([&value]() { value = 7; });
+        CHECK(value == 3);
     }
-    CHECK(i == 7);
+    CHECK(value == 7);
 }
 
 TEST_CASE("scope_guard const lvalue lambda", "[Core][scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        const auto       const_lvalue_lambda = [&i]() { increment(i); };
+        const auto       const_lvalue_lambda = [&value]() { increment(value); };
         phi::scope_guard guard(const_lvalue_lambda);
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("scope_guard mutable lvalue lambda", "[Core][scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto             mutable_lvalue_lambda = [&i]() { increment(i); };
+        auto             mutable_lvalue_lambda = [&value]() { increment(value); };
         phi::scope_guard guard(mutable_lvalue_lambda);
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("scope_guard bind", "[Core][scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        phi::scope_guard guard(std::bind(&increment, std::ref(i)));
-        CHECK(i == 0);
+        phi::scope_guard guard(
+                std::bind(&increment, std::ref(value))); // NOLINT(modernize-avoid-bind)
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("scope_guard function pointer", "[Core][scope_guard]")
@@ -77,48 +79,49 @@ TEST_CASE("scope_guard function pointer", "[Core][scope_guard]")
 
 TEST_CASE("make_scope_guard lambda", "[Core][scope_guard][make_scope_guard]")
 {
-    int i = 3;
-    CHECK(i == 3);
+    int value = 3;
+    CHECK(value == 3);
     {
-        auto guard = phi::make_scope_guard([&i]() { i = 7; });
-        CHECK(i == 3);
+        auto guard = phi::make_scope_guard([&value]() { value = 7; });
+        CHECK(value == 3);
     }
-    CHECK(i == 7);
+    CHECK(value == 7);
 }
 
 TEST_CASE("make_scope_guard const lvalue lambda", "[Core][scope_guard][make_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        const auto const_lvalue_lambda = [&i]() { increment(i); };
+        const auto const_lvalue_lambda = [&value]() { increment(value); };
         auto       guard               = phi::make_scope_guard(const_lvalue_lambda);
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("make_scope_guard mutable lvalue lambda", "[Core][scope_guard][make_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto mutable_lvalue_lambda = [&i]() { increment(i); };
+        auto mutable_lvalue_lambda = [&value]() { increment(value); };
         auto guard                 = phi::make_scope_guard(mutable_lvalue_lambda);
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("make_scope_guard bind", "[Core][scope_guard][make_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto guard = phi::make_scope_guard(std::bind(&increment, std::ref(i)));
-        CHECK(i == 0);
+        auto guard = phi::make_scope_guard(
+                std::bind(&increment, std::ref(value))); // NOLINT(modernize-avoid-bind)
+        CHECK(value == 0);
     }
-    CHECK(i == 1);
+    CHECK(value == 1);
 }
 
 TEST_CASE("make_scope_guard function pointer", "[Core][scope_guard][make_scope_guard]")
@@ -137,113 +140,113 @@ TEST_CASE("make_scope_guard function pointer", "[Core][scope_guard][make_scope_g
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
 TEST_CASE("armed_scope_guard default", "[Core][armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        phi::armed_scope_guard guard([&i] { i = 17; });
+        phi::armed_scope_guard guard([&value] { value = 17; });
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 17);
+    CHECK(value == 17);
 }
 
 TEST_CASE("armed_scope_guard disarm", "[Core][armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        phi::armed_scope_guard guard([&i] { i = 21; });
+        phi::armed_scope_guard guard([&value] { value = 21; });
 
         CHECK(guard.is_armed());
         guard.disarm();
         CHECK_FALSE(guard.is_armed());
 
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 0);
+    CHECK(value == 0);
 }
 
 TEST_CASE("armed_scope_guard rearm", "[Core][armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        phi::armed_scope_guard guard([&i] { i = 21; });
+        phi::armed_scope_guard guard([&value] { value = 21; });
 
         guard.rearm();
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 21);
+    CHECK(value == 21);
 
-    i = 0;
+    value = 0;
     {
-        phi::armed_scope_guard guard([&i] { i = 21; });
+        phi::armed_scope_guard guard([&value] { value = 21; });
 
         guard.disarm();
         guard.rearm();
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 21);
+    CHECK(value == 21);
 }
 #endif
 
 TEST_CASE("make_armed_scope_guard default", "[Core][armed_scope_guard][make_armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto guard = phi::make_armed_scope_guard([&i] { i = 17; });
+        auto guard = phi::make_armed_scope_guard([&value] { value = 17; });
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 17);
+    CHECK(value == 17);
 }
 
 TEST_CASE("make_armed_scope_guard disarm", "[Core][armed_scope_guard][make_armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        auto guard = phi::make_armed_scope_guard([&value] { value = 21; });
 
         CHECK(guard.is_armed());
         guard.disarm();
         CHECK_FALSE(guard.is_armed());
 
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 0);
+    CHECK(value == 0);
 }
 
 TEST_CASE("make_armed_scope_guard rearm", "[Core][armed_scope_guard][make_armed_scope_guard]")
 {
-    int i = 0;
-    CHECK(i == 0);
+    int value = 0;
+    CHECK(value == 0);
     {
-        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        auto guard = phi::make_armed_scope_guard([&value] { value = 21; });
 
         guard.rearm();
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 21);
+    CHECK(value == 21);
 
-    i = 0;
+    value = 0;
     {
-        auto guard = phi::make_armed_scope_guard([&i] { i = 21; });
+        auto guard = phi::make_armed_scope_guard([&value] { value = 21; });
 
         guard.disarm();
         guard.rearm();
 
         CHECK(guard.is_armed());
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
-    CHECK(i == 21);
+    CHECK(value == 21);
 }

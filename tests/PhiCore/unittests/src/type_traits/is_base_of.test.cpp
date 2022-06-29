@@ -6,92 +6,92 @@
 
 // NOTE: emscripten before 1.39.0 have problems with incomplete unions
 
-template <typename T, typename U>
+template <typename BaseT, typename DerivedT>
 void test_is_base_of_impl()
 {
 #if PHI_HAS_WORKING_IS_BASE_OF()
-    STATIC_REQUIRE(phi::is_base_of<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_base_of<T, U>::value);
+    STATIC_REQUIRE(phi::is_base_of<BaseT, DerivedT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_base_of<BaseT, DerivedT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_base_of_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_not_base_of_v<T, U>);
+    STATIC_REQUIRE(phi::is_base_of_v<BaseT, DerivedT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_base_of_v<BaseT, DerivedT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<BaseT, DerivedT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<BaseT, DerivedT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_base_of<T, U>::value);
+    STATIC_REQUIRE(std::is_base_of<BaseT, DerivedT>::value);
 #endif
 }
 
-template <typename T, typename U>
+template <typename BaseT, typename DerivedT>
 void test_is_not_base_of_impl()
 {
 #if PHI_HAS_WORKING_IS_BASE_OF()
-    STATIC_REQUIRE_FALSE(phi::is_base_of<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_base_of<T, U>::value);
+    STATIC_REQUIRE_FALSE(phi::is_base_of<BaseT, DerivedT>::value);
+    STATIC_REQUIRE(phi::is_not_base_of<BaseT, DerivedT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_base_of_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_base_of_v<T, U>);
+    STATIC_REQUIRE_FALSE(phi::is_base_of_v<BaseT, DerivedT>);
+    STATIC_REQUIRE(phi::is_not_base_of_v<BaseT, DerivedT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_base_of<BaseT, DerivedT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_base_of<BaseT, DerivedT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_base_of<T, U>::value);
+    STATIC_REQUIRE_FALSE(std::is_base_of<BaseT, DerivedT>::value);
 #endif
 }
 
-template <typename T, typename U>
+template <typename BaseT, typename DerivedT>
 void test_is_base_of()
 {
-    test_is_base_of_impl<T, U>();
-    test_is_base_of_impl<T, const U>();
-    test_is_base_of_impl<T, volatile U>();
-    test_is_base_of_impl<T, const volatile U>();
+    test_is_base_of_impl<BaseT, DerivedT>();
+    test_is_base_of_impl<BaseT, const DerivedT>();
+    test_is_base_of_impl<BaseT, volatile DerivedT>();
+    test_is_base_of_impl<BaseT, const volatile DerivedT>();
 
-    test_is_base_of_impl<const T, U>();
-    test_is_base_of_impl<const T, const U>();
-    test_is_base_of_impl<const T, volatile U>();
-    test_is_base_of_impl<const T, const volatile U>();
+    test_is_base_of_impl<const BaseT, DerivedT>();
+    test_is_base_of_impl<const BaseT, const DerivedT>();
+    test_is_base_of_impl<const BaseT, volatile DerivedT>();
+    test_is_base_of_impl<const BaseT, const volatile DerivedT>();
 
-    test_is_base_of_impl<volatile T, U>();
-    test_is_base_of_impl<volatile T, const U>();
-    test_is_base_of_impl<volatile T, volatile U>();
-    test_is_base_of_impl<volatile T, const volatile U>();
+    test_is_base_of_impl<volatile BaseT, DerivedT>();
+    test_is_base_of_impl<volatile BaseT, const DerivedT>();
+    test_is_base_of_impl<volatile BaseT, volatile DerivedT>();
+    test_is_base_of_impl<volatile BaseT, const volatile DerivedT>();
 
-    test_is_base_of_impl<const volatile T, U>();
-    test_is_base_of_impl<const volatile T, const U>();
-    test_is_base_of_impl<const volatile T, volatile U>();
-    test_is_base_of_impl<const volatile T, const volatile U>();
+    test_is_base_of_impl<const volatile BaseT, DerivedT>();
+    test_is_base_of_impl<const volatile BaseT, const DerivedT>();
+    test_is_base_of_impl<const volatile BaseT, volatile DerivedT>();
+    test_is_base_of_impl<const volatile BaseT, const volatile DerivedT>();
 }
 
-template <typename T, typename U>
+template <typename BaseT, typename DerivedT>
 void test_is_not_base_of()
 {
-    test_is_not_base_of_impl<T, U>();
-    test_is_not_base_of_impl<T, const U>();
-    test_is_not_base_of_impl<T, volatile U>();
-    test_is_not_base_of_impl<T, const volatile U>();
+    test_is_not_base_of_impl<BaseT, DerivedT>();
+    test_is_not_base_of_impl<BaseT, const DerivedT>();
+    test_is_not_base_of_impl<BaseT, volatile DerivedT>();
+    test_is_not_base_of_impl<BaseT, const volatile DerivedT>();
 
-    test_is_not_base_of_impl<const T, U>();
-    test_is_not_base_of_impl<const T, const U>();
-    test_is_not_base_of_impl<const T, volatile U>();
-    test_is_not_base_of_impl<const T, const volatile U>();
+    test_is_not_base_of_impl<const BaseT, DerivedT>();
+    test_is_not_base_of_impl<const BaseT, const DerivedT>();
+    test_is_not_base_of_impl<const BaseT, volatile DerivedT>();
+    test_is_not_base_of_impl<const BaseT, const volatile DerivedT>();
 
-    test_is_not_base_of_impl<volatile T, U>();
-    test_is_not_base_of_impl<volatile T, const U>();
-    test_is_not_base_of_impl<volatile T, volatile U>();
-    test_is_not_base_of_impl<volatile T, const volatile U>();
+    test_is_not_base_of_impl<volatile BaseT, DerivedT>();
+    test_is_not_base_of_impl<volatile BaseT, const DerivedT>();
+    test_is_not_base_of_impl<volatile BaseT, volatile DerivedT>();
+    test_is_not_base_of_impl<volatile BaseT, const volatile DerivedT>();
 
-    test_is_not_base_of_impl<const volatile T, U>();
-    test_is_not_base_of_impl<const volatile T, const U>();
-    test_is_not_base_of_impl<const volatile T, volatile U>();
-    test_is_not_base_of_impl<const volatile T, const volatile U>();
+    test_is_not_base_of_impl<const volatile BaseT, DerivedT>();
+    test_is_not_base_of_impl<const volatile BaseT, const DerivedT>();
+    test_is_not_base_of_impl<const volatile BaseT, volatile DerivedT>();
+    test_is_not_base_of_impl<const volatile BaseT, const volatile DerivedT>();
 }
 
 struct B

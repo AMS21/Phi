@@ -7,125 +7,125 @@
 #include <phi/type_traits/void_t.hpp>
 #include <type_traits>
 
-template <typename T, typename Expected>
+template <typename TypeT, typename ExpectedT>
 void test_common_type()
 {
-    CHECK_SAME_TYPE(typename phi::common_type<T>::type, Expected);
-    CHECK_SAME_TYPE(phi::common_type_t<T>, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::common_type_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::common_type<T>::type, typename std::common_type<T>::type);
-    CHECK_SAME_TYPE(typename std::common_type<T>::type, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<TypeT>::type, typename std::common_type<TypeT>::type);
+    CHECK_SAME_TYPE(typename std::common_type<TypeT>::type, ExpectedT);
 }
 
-template <typename T1, typename T2, typename Expected>
+template <typename Type1T, typename Type2T, typename ExpectedT>
 void test_common_type_impl()
 {
-    CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type, Expected);
-    CHECK_SAME_TYPE(phi::common_type_t<T1, T2>, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<Type1T, Type2T>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::common_type_t<Type1T, Type2T>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type,
-                    typename std::common_type<T1, T2>::type);
-    CHECK_SAME_TYPE(typename std::common_type<T1, T2>::type, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<Type1T, Type2T>::type,
+                    typename std::common_type<Type1T, Type2T>::type);
+    CHECK_SAME_TYPE(typename std::common_type<Type1T, Type2T>::type, ExpectedT);
 }
 
-template <typename T1, typename T2, typename Expected>
+template <typename Type1T, typename Type2T, typename ExpectedT>
 void test_common_type_no_std_impl()
 {
-    CHECK_SAME_TYPE(typename phi::common_type<T1, T2>::type, Expected);
-    CHECK_SAME_TYPE(phi::common_type_t<T1, T2>, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<Type1T, Type2T>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::common_type_t<Type1T, Type2T>, ExpectedT);
 }
 
-template <typename T1, typename T2, typename Expected>
+template <typename Type1T, typename Type2T, typename ExpectedT>
 void test_common_type()
 {
-    test_common_type_impl<T1, T2, Expected>();
-    test_common_type_impl<T2, T1, Expected>();
+    test_common_type_impl<Type1T, Type2T, ExpectedT>();
+    test_common_type_impl<Type2T, Type1T, ExpectedT>();
 }
 
-template <typename T1, typename T2, typename Expected>
+template <typename Type1T, typename Type2T, typename ExpectedT>
 void test_common_type_new()
 {
 #if (PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) || PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)) &&        \
         PHI_CPP_STANDARD_IS_ATLEAST(20)
-    test_common_type_impl<T1, T2, Expected>();
-    test_common_type_impl<T2, T1, Expected>();
+    test_common_type_impl<Type1T, Type2T, ExpectedT>();
+    test_common_type_impl<Type2T, Type1T, ExpectedT>();
 #else
     test_common_type_no_std_impl<T1, T2, Expected>();
     test_common_type_no_std_impl<T2, T1, Expected>();
 #endif
 }
 
-template <typename T1, typename T2, typename Expected>
+template <typename Type1T, typename Type2T, typename ExpectedT>
 void test_common_type_cv()
 {
-    test_common_type<T1, T2, Expected>();
-    test_common_type<T1, const T2, Expected>();
-    test_common_type<T1, volatile T2, Expected>();
-    test_common_type<T1, const volatile T2, Expected>();
+    test_common_type<Type1T, Type2T, ExpectedT>();
+    test_common_type<Type1T, const Type2T, ExpectedT>();
+    test_common_type<Type1T, volatile Type2T, ExpectedT>();
+    test_common_type<Type1T, const volatile Type2T, ExpectedT>();
 
-    test_common_type<const T1, T2, Expected>();
-    test_common_type<const T1, const T2, Expected>();
-    test_common_type<const T1, volatile T2, Expected>();
-    test_common_type<const T1, const volatile T2, Expected>();
+    test_common_type<const Type1T, Type2T, ExpectedT>();
+    test_common_type<const Type1T, const Type2T, ExpectedT>();
+    test_common_type<const Type1T, volatile Type2T, ExpectedT>();
+    test_common_type<const Type1T, const volatile Type2T, ExpectedT>();
 
-    test_common_type<volatile T1, T2, Expected>();
-    test_common_type<volatile T1, const T2, Expected>();
-    test_common_type<volatile T1, volatile T2, Expected>();
-    test_common_type<volatile T1, const volatile T2, Expected>();
+    test_common_type<volatile Type1T, Type2T, ExpectedT>();
+    test_common_type<volatile Type1T, const Type2T, ExpectedT>();
+    test_common_type<volatile Type1T, volatile Type2T, ExpectedT>();
+    test_common_type<volatile Type1T, const volatile Type2T, ExpectedT>();
 
-    test_common_type<const volatile T1, T2, Expected>();
-    test_common_type<const volatile T1, const T2, Expected>();
-    test_common_type<const volatile T1, volatile T2, Expected>();
-    test_common_type<const volatile T1, const volatile T2, Expected>();
+    test_common_type<const volatile Type1T, Type2T, ExpectedT>();
+    test_common_type<const volatile Type1T, const Type2T, ExpectedT>();
+    test_common_type<const volatile Type1T, volatile Type2T, ExpectedT>();
+    test_common_type<const volatile Type1T, const volatile Type2T, ExpectedT>();
 }
 
-template <typename T1, typename T2, typename T3, typename Expected>
+template <typename Type1T, typename Type2T, typename Type3T, typename ExpectedT>
 void test_common_type_impl()
 {
-    CHECK_SAME_TYPE(typename phi::common_type<T1, T2, T3>::type, Expected);
-    CHECK_SAME_TYPE(phi::common_type_t<T1, T2, T3>, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<Type1T, Type2T, Type3T>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::common_type_t<Type1T, Type2T, Type3T>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::common_type<T1, T2, T3>::type,
-                    typename std::common_type<T1, T2, T3>::type);
-    CHECK_SAME_TYPE(typename std::common_type<T1, T2, T3>::type, Expected);
+    CHECK_SAME_TYPE(typename phi::common_type<Type1T, Type2T, Type3T>::type,
+                    typename std::common_type<Type1T, Type2T, Type3T>::type);
+    CHECK_SAME_TYPE(typename std::common_type<Type1T, Type2T, Type3T>::type, ExpectedT);
 }
 
-template <typename T1, typename T2, typename T3, typename Expected>
+template <typename Type1T, typename Type2T, typename Type3T, typename ExpectedT>
 void test_common_type()
 {
-    test_common_type_impl<T1, T2, T3, Expected>();
-    test_common_type_impl<T1, T3, T2, Expected>();
-    test_common_type_impl<T2, T1, T3, Expected>();
-    test_common_type_impl<T2, T3, T1, Expected>();
-    test_common_type_impl<T3, T1, T2, Expected>();
-    test_common_type_impl<T3, T2, T1, Expected>();
+    test_common_type_impl<Type1T, Type2T, Type3T, ExpectedT>();
+    test_common_type_impl<Type1T, Type3T, Type2T, ExpectedT>();
+    test_common_type_impl<Type2T, Type1T, Type3T, ExpectedT>();
+    test_common_type_impl<Type2T, Type3T, Type1T, ExpectedT>();
+    test_common_type_impl<Type3T, Type1T, Type2T, ExpectedT>();
+    test_common_type_impl<Type3T, Type2T, Type1T, ExpectedT>();
 }
 
 #if PHI_CPP_STANDARD_IS_BELOW(11)
-template <typename Trait, typename = void>
+template <typename TraitT, typename = void>
 struct no_common_type_imp : public phi::true_type
 {};
 
-template <typename Trait>
-struct no_common_type_imp<Trait, typename phi::void_t<typename Trait::type>::type>
+template <typename TraitT>
+struct no_common_type_imp<TraitT, typename phi::void_t<typename TraitT::type>::type>
     : public phi::false_type
 {};
 
 struct NoArgTag;
 
-template <typename Tp = NoArgTag, typename Up = NoArgTag, typename Vp = NoArgTag>
-struct no_common_type : no_common_type_imp<phi::common_type<Tp, Up, Vp>>
+template <typename Type1T = NoArgTag, typename Type2T = NoArgTag, typename Type3T = NoArgTag>
+struct no_common_type : public no_common_type_imp<phi::common_type<Type1T, Type2T, Type3T>>
 {};
 
-template <typename Tp, typename Up>
-struct no_common_type<Tp, Up> : public no_common_type_imp<phi::common_type<Tp, Up>>
+template <typename Type1T, typename Type2T>
+struct no_common_type<Type1T, Type2T> : public no_common_type_imp<phi::common_type<Type1T, Type2T>>
 {};
 
-template <typename Tp>
-struct no_common_type<Tp> : public no_common_type_imp<phi::common_type<Tp>>
+template <typename TypeT>
+struct no_common_type<TypeT> : public no_common_type_imp<phi::common_type<TypeT>>
 {};
 
 template <>
@@ -134,81 +134,82 @@ struct no_common_type<> : public no_common_type_imp<phi::common_type<>>
 
 #else
 
-template <typename Tp>
+template <typename TypeT>
 struct always_bool_imp
 {
     using type = bool;
 };
 
-template <typename Tp>
-using always_bool = typename always_bool_imp<Tp>::type;
+template <typename TypeT>
+using always_bool = typename always_bool_imp<TypeT>::type;
 
-template <typename... Args>
-constexpr auto no_common_type_imp(int) -> always_bool<typename phi::common_type<Args...>::type>
+template <typename... ArgsT>
+constexpr auto no_common_type_imp(int /*unused*/)
+        -> always_bool<typename phi::common_type<ArgsT...>::type>
 {
     return false;
 }
 
-template <typename... Args>
-constexpr bool no_common_type_imp(long)
+template <typename... ArgsT>
+constexpr bool no_common_type_imp(long /*unused*/)
 {
     return true;
 }
 
-template <typename... Args>
-using no_common_type = phi::bool_constant<no_common_type_imp<Args...>(0)>;
+template <typename... ArgsT>
+using no_common_type = phi::bool_constant<no_common_type_imp<ArgsT...>(0)>;
 #endif
 
-template <typename... Ts>
+template <typename... ArgsT>
 void test_no_common_type()
 {
-    STATIC_REQUIRE(no_common_type<Ts...>::value);
+    STATIC_REQUIRE(no_common_type<ArgsT...>::value);
 }
 
 struct E
 {};
 
-template <typename T>
+template <typename TypeT>
 struct X
 {
-    explicit X(T const&)
+    explicit X(TypeT const& /*unused*/)
     {}
 };
 
-template <typename T>
+template <typename TypeT>
 struct S
 {
-    explicit S(T const&)
+    explicit S(TypeT const& /*unused*/)
     {}
 };
 
-template <typename T>
+template <typename TypeT>
 struct bad_reference_wrapper
 {
-    bad_reference_wrapper(T&);
-    bad_reference_wrapper(T&&) = delete;
-    operator T&() const;
+    bad_reference_wrapper(TypeT&);
+    bad_reference_wrapper(TypeT&&) = delete;
+    operator TypeT&() const;
 };
 
 namespace phi
 {
-    template <typename T>
-    struct common_type<T, ::S<T>>
+    template <typename TypeT>
+    struct common_type<TypeT, ::S<TypeT>>
     {
-        using type = S<T>;
+        using type = S<TypeT>;
     };
 
-    template <typename T>
-    struct common_type<::S<T>, T>
+    template <typename TypeT>
+    struct common_type<::S<TypeT>, TypeT>
     {
-        using type = S<T>;
+        using type = S<TypeT>;
     };
 
     //  P0548
-    template <typename T>
-    struct common_type<::S<T>, ::S<T>>
+    template <typename TypeT>
+    struct common_type<::S<TypeT>, ::S<TypeT>>
     {
-        using type = S<T>;
+        using type = S<TypeT>;
     };
 
     template <>
@@ -224,13 +225,13 @@ namespace phi
     {};
 } // namespace phi
 
-template <typename T1, typename T2>
+template <typename Type1T, typename Type2T>
 struct TernaryOp
 {
-    static_assert((phi::is_same<typename phi::decay<T1>::type, T1>::value), "must be same");
-    static_assert((phi::is_same<typename phi::decay<T2>::type, T2>::value), "must be same");
-    using type =
-            typename phi::decay<decltype(false ? phi::declval<T1>() : phi::declval<T2>())>::type;
+    static_assert((phi::is_same<typename phi::decay<Type1T>::type, Type1T>::value), "must be same");
+    static_assert((phi::is_same<typename phi::decay<Type2T>::type, Type2T>::value), "must be same");
+    using type = typename phi::decay<decltype(false ? phi::declval<Type1T>() :
+                                                      phi::declval<Type2T>())>::type;
 };
 
 // (4.1)
@@ -255,18 +256,18 @@ void test_bullet_two()
     test_no_common_type<X<double>>();
 }
 
-template <typename T, typename U, typename Expect>
+template <typename TypeT, typename OtherT, typename ExpectT>
 void test_bullet_three_one_imp()
 {
-    using DT = typename phi::decay<T>::type;
-    using DU = typename phi::decay<U>::type;
-    STATIC_REQUIRE(phi::is_not_same<T, DT>::value || phi::is_not_same<U, DU>::value);
+    using DT = typename phi::decay<TypeT>::type;
+    using DU = typename phi::decay<OtherT>::type;
+    STATIC_REQUIRE(phi::is_not_same<TypeT, DT>::value || phi::is_not_same<OtherT, DU>::value);
 
     /*
-    test_common_type<T, U, Expect>();
-    test_common_type<U, T, Expect>();
-    test_common_type<T, U, typename phi::common_type<DT, DU>::type>();
-    test_common_type<T, U, phi::common_type_t<DT, DU>>();
+    test_common_type<TypeT, OtherT, ExpectT>();
+    test_common_type<OtherT, TypeT, ExpectT>();
+    test_common_type<TypeT, OtherT, typename phi::common_type<DT, DU>::type>();
+    test_common_type<TypeT, OtherT, phi::common_type_t<DT, DU>>();
     */
 }
 

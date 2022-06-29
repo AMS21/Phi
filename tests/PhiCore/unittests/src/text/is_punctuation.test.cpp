@@ -3,60 +3,60 @@
 #include "phi/text/is_punctuation.hpp"
 #include <cctype>
 
-void test_is_punctuation(const char c) noexcept
+void test_is_punctuation(const char character) noexcept
 {
-    CHECK(phi::is_punctuation(c));
-    CHECK(std::ispunct(c));
-    CHECK_NOEXCEPT(phi::is_punctuation(c));
+    CHECK(phi::is_punctuation(character));
+    CHECK(std::ispunct(character));
+    CHECK_NOEXCEPT(phi::is_punctuation(character));
 }
 
-void test_is_not_punctuation(const char c) noexcept
+void test_is_not_punctuation(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_punctuation(c));
-    CHECK_FALSE(std::ispunct(c));
-    CHECK_NOEXCEPT(phi::is_punctuation(c));
+    CHECK_FALSE(phi::is_punctuation(character));
+    CHECK_FALSE(std::ispunct(character));
+    CHECK_NOEXCEPT(phi::is_punctuation(character));
 }
 
 TEST_CASE("is_punctuation")
 {
-    for (char c{0}; c <= 32; ++c)
+    for (char character{0}; character <= 32; ++character)
     {
-        test_is_not_punctuation(c);
+        test_is_not_punctuation(character);
     }
 
-    for (char c{33}; c <= 47; ++c)
+    for (char character{33}; character <= 47; ++character)
     {
-        test_is_punctuation(c);
+        test_is_punctuation(character);
     }
 
-    for (char c{48}; c <= 57; ++c)
+    for (char character{48}; character <= 57; ++character)
     {
-        test_is_not_punctuation(c);
+        test_is_not_punctuation(character);
     }
 
-    for (char c{58}; c <= 64; ++c)
+    for (char character{58}; character <= 64; ++character)
     {
-        test_is_punctuation(c);
+        test_is_punctuation(character);
     }
 
-    for (char c{65}; c <= 90; ++c)
+    for (char character{65}; character <= 90; ++character)
     {
-        test_is_not_punctuation(c);
+        test_is_not_punctuation(character);
     }
 
-    for (char c{91}; c <= 96; ++c)
+    for (char character{91}; character <= 96; ++character)
     {
-        test_is_punctuation(c);
+        test_is_punctuation(character);
     }
 
-    for (char c{97}; c <= 122; ++c)
+    for (char character{97}; character <= 122; ++character)
     {
-        test_is_not_punctuation(c);
+        test_is_not_punctuation(character);
     }
 
-    for (char c{123}; c <= 126; ++c)
+    for (char character{123}; character <= 126; ++character)
     {
-        test_is_punctuation(c);
+        test_is_punctuation(character);
     }
 
     test_is_not_punctuation(127);

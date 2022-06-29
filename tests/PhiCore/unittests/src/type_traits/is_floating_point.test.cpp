@@ -11,52 +11,52 @@
 #include <phi/type_traits/is_floating_point.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_floating_point_impl()
 {
-    STATIC_REQUIRE(phi::is_floating_point<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_floating_point<T>::value);
+    STATIC_REQUIRE(phi::is_floating_point<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_floating_point<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_floating_point_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_floating_point_v<T>);
+    STATIC_REQUIRE(phi::is_floating_point_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_floating_point_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_floating_point<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_floating_point<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_floating_point<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_floating_point<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_floating_point()
 {
-    test_is_floating_point_impl<T>();
-    test_is_floating_point_impl<const T>();
-    test_is_floating_point_impl<volatile T>();
-    test_is_floating_point_impl<const volatile T>();
+    test_is_floating_point_impl<TypeT>();
+    test_is_floating_point_impl<const TypeT>();
+    test_is_floating_point_impl<volatile TypeT>();
+    test_is_floating_point_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_floating_point_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
-    STATIC_REQUIRE(phi::is_not_floating_point<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_floating_point<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
-    STATIC_REQUIRE(phi::is_not_floating_point_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_floating_point_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_floating_point<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_floating_point<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_floating_point<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_floating_point<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_floating_point()
 {
-    test_is_not_floating_point_impl<T>();
-    test_is_not_floating_point_impl<const T>();
-    test_is_not_floating_point_impl<volatile T>();
-    test_is_not_floating_point_impl<const volatile T>();
+    test_is_not_floating_point_impl<TypeT>();
+    test_is_not_floating_point_impl<const TypeT>();
+    test_is_not_floating_point_impl<volatile TypeT>();
+    test_is_not_floating_point_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_floating_point")

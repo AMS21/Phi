@@ -11,56 +11,56 @@
 #include <phi/type_traits/is_unsigned_integer.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_unsigned_integer_impl()
 {
-    STATIC_REQUIRE(phi::is_unsigned_integer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_integer<T>::value);
-    STATIC_REQUIRE(phi::is_integer<T>::value && phi::is_unsigned<T>::value);
+    STATIC_REQUIRE(phi::is_unsigned_integer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_integer<TypeT>::value);
+    STATIC_REQUIRE(phi::is_integer<TypeT>::value && phi::is_unsigned<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_unsigned_integer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_integer_v<T>);
-    STATIC_REQUIRE(phi::is_integer_v<T> && phi::is_unsigned_v<T>);
+    STATIC_REQUIRE(phi::is_unsigned_integer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_integer_v<TypeT>);
+    STATIC_REQUIRE(phi::is_integer_v<TypeT> && phi::is_unsigned_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned_integer<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned_integer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned_integer<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned_integer<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_unsigned_integer_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_unsigned_integer<T>::value);
-    STATIC_REQUIRE(phi::is_not_unsigned_integer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_integer<T>::value && phi::is_unsigned<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unsigned_integer<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_unsigned_integer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_integer<TypeT>::value && phi::is_unsigned<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_unsigned_integer_v<T>);
-    STATIC_REQUIRE(phi::is_not_unsigned_integer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_integer_v<T> && phi::is_unsigned_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_unsigned_integer_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_unsigned_integer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_integer_v<TypeT> && phi::is_unsigned_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned_integer<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned_integer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned_integer<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned_integer<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_unsigned_integer()
 {
-    test_is_unsigned_integer_impl<T>();
-    test_is_unsigned_integer_impl<const T>();
-    test_is_unsigned_integer_impl<volatile T>();
-    test_is_unsigned_integer_impl<const volatile T>();
+    test_is_unsigned_integer_impl<TypeT>();
+    test_is_unsigned_integer_impl<const TypeT>();
+    test_is_unsigned_integer_impl<volatile TypeT>();
+    test_is_unsigned_integer_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_unsigned_integer()
 {
-    test_is_not_unsigned_integer_impl<T>();
-    test_is_not_unsigned_integer_impl<const T>();
-    test_is_not_unsigned_integer_impl<volatile T>();
-    test_is_not_unsigned_integer_impl<const volatile T>();
+    test_is_not_unsigned_integer_impl<TypeT>();
+    test_is_not_unsigned_integer_impl<const TypeT>();
+    test_is_not_unsigned_integer_impl<volatile TypeT>();
+    test_is_not_unsigned_integer_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_unsigned_integer")

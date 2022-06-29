@@ -12,52 +12,52 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_complete_impl()
 {
-    STATIC_REQUIRE(phi::is_complete<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_complete<T>::value);
+    STATIC_REQUIRE(phi::is_complete<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_complete<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_complete_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_complete_v<T>);
+    STATIC_REQUIRE(phi::is_complete_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_complete_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_complete()
 {
-    test_is_complete_impl<T>();
-    test_is_complete_impl<const T>();
-    test_is_complete_impl<volatile T>();
-    test_is_complete_impl<const volatile T>();
+    test_is_complete_impl<TypeT>();
+    test_is_complete_impl<const TypeT>();
+    test_is_complete_impl<volatile TypeT>();
+    test_is_complete_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_complete_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_complete<T>::value);
-    STATIC_REQUIRE(phi::is_not_complete<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_complete<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_complete<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_complete_v<T>);
-    STATIC_REQUIRE(phi::is_not_complete_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_complete_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_complete_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_complete()
 {
-    test_is_not_complete_impl<T>();
-    test_is_not_complete_impl<const T>();
-    test_is_not_complete_impl<volatile T>();
-    test_is_not_complete_impl<const volatile T>();
+    test_is_not_complete_impl<TypeT>();
+    test_is_not_complete_impl<const TypeT>();
+    test_is_not_complete_impl<volatile TypeT>();
+    test_is_not_complete_impl<const volatile TypeT>();
 }
 
 class A;

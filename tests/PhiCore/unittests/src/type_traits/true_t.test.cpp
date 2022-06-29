@@ -4,21 +4,21 @@
 #include <phi/core/types.hpp>
 #include <phi/type_traits/true_t.hpp>
 
-class CustomClass
+struct Custom
 {};
 
-template <typename... T>
+template <typename... ArgsT>
 void test_true_t()
 {
-    STATIC_REQUIRE(phi::true_t<T...>::value);
-    STATIC_REQUIRE_FALSE(!phi::true_t<T...>::value);
+    STATIC_REQUIRE(phi::true_t<ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(!phi::true_t<ArgsT...>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::true_v<T...>);
-    STATIC_REQUIRE_FALSE(!phi::true_v<T...>);
+    STATIC_REQUIRE(phi::true_v<ArgsT...>);
+    STATIC_REQUIRE_FALSE(!phi::true_v<ArgsT...>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::true_t<T...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::true_t<ArgsT...>);
 }
 
 template <typename TypeT>
@@ -38,7 +38,7 @@ TEST_CASE("true_t")
     test_true_t<float>();
     test_true_t<phi::i32>();
     test_true_t<phi::f64>();
-    test_true_t<CustomClass>();
+    test_true_t<Custom>();
 
     test_true_t<>();
     test_true_t<int>();

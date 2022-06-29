@@ -8,19 +8,19 @@
 
 PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_CONST bool voidify_constexpr_test()
 {
-    int   a{21};
-    void* adr = phi::voidify(a);
+    int   integer{21};
+    void* adr = phi::voidify(integer);
 
-    return (&a == adr);
+    return (&integer == adr);
 }
 
 TEST_CASE("core.voidify")
 {
-    int   a{21};
-    void* adr = phi::voidify(a);
+    int   integer{21};
+    void* adr = phi::voidify(integer);
 
-    CHECK(&a == adr);
-    CHECK_NOEXCEPT(phi::voidify(a));
+    CHECK(&integer == adr);
+    CHECK_NOEXCEPT(phi::voidify(integer));
 
 #if PHI_SUPPORTS_ADDRESS_OF()
     EXT_STATIC_REQUIRE(voidify_constexpr_test());

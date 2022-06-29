@@ -49,6 +49,8 @@ private:
                   "phi::not_null: Type cannot be compared to nullptr.");
 
 public:
+    ~not_null() = default;
+
     template <typename = enable_if_t<!is_same<nullptr_t, TypeT>::value>>
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(TypeT other) noexcept
         : m_Pointer{move(other)}
@@ -57,6 +59,7 @@ public:
     }
 
     template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
+    // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(OtherT&& other) noexcept
         : m_Pointer(forward(other))
     {
@@ -89,6 +92,7 @@ public:
         PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR not_null& operator=(const not_null& other) noexcept
     {
         m_Pointer = other.m_Pointer;
@@ -123,8 +127,8 @@ public:
     // Explicitly remove pointer operations
     not_null& operator++()                = delete;
     not_null& operator--()                = delete;
-    not_null  operator++(int)             = delete;
-    not_null  operator--(int)             = delete;
+    not_null  operator++(int)             = delete; // NOLINT(cert-dcl21-cpp)
+    not_null  operator--(int)             = delete; // NOLINT(cert-dcl21-cpp)
     not_null& operator+=(ptrdiff_t)       = delete;
     not_null& operator-=(ptrdiff_t)       = delete;
     void      operator[](ptrdiff_t) const = delete;

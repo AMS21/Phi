@@ -32,10 +32,11 @@ PHI_NODISCARD constexpr TypeT* end(TypeT (&array)[Size]) noexcept
     return array + Size;
 }
 
-template <typename C>
-PHI_NODISCARD constexpr auto cend(const C& c) noexcept(noexcept(end(c))) -> decltype(end(c))
+template <typename ContainerT>
+PHI_NODISCARD constexpr auto cend(const ContainerT& container) noexcept(noexcept(end(container)))
+        -> decltype(end(container))
 {
-    return end(c);
+    return end(container);
 }
 
 DETAIL_PHI_END_NAMESPACE()

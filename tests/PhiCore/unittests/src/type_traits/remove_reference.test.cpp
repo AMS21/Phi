@@ -11,29 +11,29 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_reference_impl()
 {
-    CHECK_SAME_TYPE(typename phi::remove_reference<T>::type, U);
-    CHECK_SAME_TYPE(phi::remove_reference_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::remove_reference<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::remove_reference_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_reference<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_reference<TypeT>::type, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_remove_reference()
 {
-    test_remove_reference_impl<T, U>();
-    test_remove_reference_impl<const T, const U>();
-    test_remove_reference_impl<volatile T, volatile U>();
-    test_remove_reference_impl<const volatile T, const volatile U>();
+    test_remove_reference_impl<TypeT, ExpectedT>();
+    test_remove_reference_impl<const TypeT, const ExpectedT>();
+    test_remove_reference_impl<volatile TypeT, volatile ExpectedT>();
+    test_remove_reference_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_reference_ref()
 {
-    test_remove_reference_impl<T, U>();
+    test_remove_reference_impl<TypeT, ExpectedT>();
 }
 
 TEST_CASE("remove_reference")

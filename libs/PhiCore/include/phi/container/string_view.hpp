@@ -84,7 +84,6 @@ public:
 
     basic_string_view(basic_string_view&& other) noexcept = default;
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
         , m_Length(string_length(string))
@@ -104,14 +103,12 @@ public:
 #endif
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(
             const std::basic_string_view<CharT, std::char_traits<CharT>>& other) noexcept
         : m_Data{other.data()}
         , m_Length{other.length()}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR basic_string_view(
             std::basic_string_view<CharT, std::char_traits<CharT>>&& other) noexcept
         : m_Data{other.data()}
@@ -146,7 +143,6 @@ public:
 
     basic_string_view& operator=(nullptr_t) = delete;
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, std::char_traits<CharT>>()
             const noexcept
     {
@@ -404,9 +400,9 @@ public:
         return length() >= view.length() && compare(0u, view.length(), view) == 0;
     }
 
-    PHI_NODISCARD constexpr boolean starts_with(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean starts_with(CharT character) const noexcept
     {
-        return starts_with(basic_string_view(&c, 1u));
+        return starts_with(basic_string_view(&character, 1u));
     }
 
     PHI_NODISCARD constexpr boolean starts_with(const CharT* string) const noexcept
@@ -419,9 +415,9 @@ public:
         return length() >= view.length() && compare(length() - view.length(), npos, view) == 0;
     }
 
-    PHI_NODISCARD constexpr boolean ends_with(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean ends_with(CharT character) const noexcept
     {
-        return ends_with(basic_string_view(&c, 1u));
+        return ends_with(basic_string_view(&character, 1u));
     }
 
     PHI_NODISCARD constexpr boolean ends_with(const CharT* string) const noexcept
@@ -436,9 +432,9 @@ public:
         return find(view) != npos;
     }
 
-    PHI_NODISCARD constexpr boolean contains(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean contains(CharT character) const noexcept
     {
-        return find(c) != npos;
+        return find(character) != npos;
     }
 
     PHI_NODISCARD constexpr boolean contains(const CharT* string) const noexcept
@@ -458,9 +454,9 @@ public:
                                                     view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find(CharT character, size_type pos = 0u) const noexcept
     {
-        return find(basic_string_view(&c, 1u), pos);
+        return find(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find(const CharT* string, size_type pos = 0u) const noexcept
@@ -500,9 +496,9 @@ public:
         return npos;
     }
 
-    PHI_NODISCARD constexpr size_type rfind(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type rfind(CharT character, size_type pos = npos) const noexcept
     {
-        return rfind(basic_string_view(&c, 1u), pos);
+        return rfind(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type rfind(const CharT* string,
@@ -525,9 +521,10 @@ public:
                                                            view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find_first_of(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find_first_of(CharT     character,
+                                                    size_type pos = 0u) const noexcept
     {
-        return find_first_of(basic_string_view(&c, 1u), pos);
+        return find_first_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_first_of(const CharT* string,
@@ -559,9 +556,10 @@ public:
                                          view.cbegin(), view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find_last_of(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type find_last_of(CharT     character,
+                                                   size_type pos = npos) const noexcept
     {
-        return find_last_of(basic_string_view(&c, 1u), pos);
+        return find_last_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_last_of(const CharT* string,
@@ -583,9 +581,10 @@ public:
                                  to_pos(std::find_if(cbegin() + pos, cend(), not_in_view(view)));
     }
 
-    PHI_NODISCARD constexpr size_type find_first_not_of(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find_first_not_of(CharT     character,
+                                                        size_type pos = 0u) const noexcept
     {
-        return find_first_not_of(basic_string_view(&c, 1u), pos);
+        return find_first_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_first_not_of(const CharT* string,
@@ -617,9 +616,10 @@ public:
                                    not_in_view(view)));
     }
 
-    PHI_NODISCARD constexpr size_type find_last_not_of(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type find_last_not_of(CharT     character,
+                                                       size_type pos = npos) const noexcept
     {
-        return find_last_not_of(basic_string_view(&c, 1u), pos);
+        return find_last_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_last_not_of(const CharT* string,
@@ -643,9 +643,9 @@ private:
             : view(other)
         {}
 
-        PHI_NODISCARD constexpr bool operator()(CharT c) const noexcept
+        PHI_NODISCARD constexpr bool operator()(CharT character) const noexcept
         {
-            return npos == view.find_first_of(c);
+            return npos == view.find_first_of(character);
         }
     };
 
@@ -656,14 +656,14 @@ private:
         return m_Data[pos.unsafe()];
     }
 
-    PHI_NODISCARD constexpr size_type to_pos(const_iterator it) const noexcept
+    PHI_NODISCARD constexpr size_type to_pos(const_iterator position) const noexcept
     {
-        return it == cend() ? npos : size_type(it - cbegin());
+        return position == cend() ? npos : size_type(position - cbegin());
     }
 
-    PHI_NODISCARD constexpr size_type to_pos(const_reverse_iterator it) const noexcept
+    PHI_NODISCARD constexpr size_type to_pos(const_reverse_iterator position) const noexcept
     {
-        return it == crend() ? npos : size_type(crend() - it - 1);
+        return position == crend() ? npos : size_type(crend() - position - 1);
     }
 
     const CharT* m_Data;
@@ -891,6 +891,7 @@ using u16string_view = basic_string_view<char16_t>;
 using u32string_view = basic_string_view<char32_t>;
 
 template <typename CharT, typename TraitsT>
+// NOLINTNEXTLINE(readability-redundant-declaration)
 constexpr size_t basic_string_view<CharT, TraitsT>::npos;
 
 DETAIL_PHI_END_NAMESPACE()

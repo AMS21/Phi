@@ -3,35 +3,35 @@
 #include "phi/text/is_lower_case.hpp"
 #include <cctype>
 
-void test_is_lower_case(const char c) noexcept
+void test_is_lower_case(const char character) noexcept
 {
-    CHECK(phi::is_lower_case(c));
-    CHECK(std::islower(c));
-    CHECK_NOEXCEPT(phi::is_lower_case(c));
+    CHECK(phi::is_lower_case(character));
+    CHECK(std::islower(character));
+    CHECK_NOEXCEPT(phi::is_lower_case(character));
 }
 
-void test_is_not_lower_case(const char c) noexcept
+void test_is_not_lower_case(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_lower_case(c));
-    CHECK_FALSE(std::islower(c));
-    CHECK_NOEXCEPT(phi::is_lower_case(c));
+    CHECK_FALSE(phi::is_lower_case(character));
+    CHECK_FALSE(std::islower(character));
+    CHECK_NOEXCEPT(phi::is_lower_case(character));
 }
 
 TEST_CASE("is_lower_case")
 {
-    for (char c{0}; c <= 96; ++c)
+    for (char character{0}; character <= 96; ++character)
     {
-        test_is_not_lower_case(c);
+        test_is_not_lower_case(character);
     }
 
-    for (char c{97}; c <= 122; ++c)
+    for (char character{97}; character <= 122; ++character)
     {
-        test_is_lower_case(c);
+        test_is_lower_case(character);
     }
 
-    for (char c{123}; c <= 126; ++c)
+    for (char character{123}; character <= 126; ++character)
     {
-        test_is_not_lower_case(c);
+        test_is_not_lower_case(character);
     }
 
     test_is_not_lower_case(127);

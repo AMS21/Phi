@@ -96,19 +96,10 @@ public:
         PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
     }
 
-    PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(const observer_ptr<TypeT>& other) noexcept
-    {
-        m_Ptr = other.m_Ptr;
+    observer_ptr<TypeT>& operator=(const observer_ptr<TypeT>& other) = default;
 
-        return *this;
-    }
-
-    PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(observer_ptr<TypeT>&& other) noexcept
-    {
-        m_Ptr = move(other.m_Ptr);
-
-        return *this;
-    }
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+    observer_ptr<TypeT>& operator=(observer_ptr<TypeT>&& other) = default;
 
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
@@ -373,6 +364,7 @@ public:
                        "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             const not_null_observer_ptr<TypeT>& other) noexcept
     {

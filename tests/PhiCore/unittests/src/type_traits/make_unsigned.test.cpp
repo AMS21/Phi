@@ -12,20 +12,20 @@
 #include <cstdint>
 #include <vector>
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_make_unsigned_impl()
 {
-    CHECK_SAME_TYPE(typename phi::make_unsigned<T>::type, U);
-    CHECK_SAME_TYPE(phi::make_unsigned_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::make_unsigned<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::make_unsigned_t<TypeT>, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_make_unsigned()
 {
-    test_make_unsigned_impl<T, U>();
-    test_make_unsigned_impl<const T, const U>();
-    test_make_unsigned_impl<volatile T, volatile U>();
-    test_make_unsigned_impl<const volatile T, const volatile U>();
+    test_make_unsigned_impl<TypeT, ExpectedT>();
+    test_make_unsigned_impl<const TypeT, const ExpectedT>();
+    test_make_unsigned_impl<volatile TypeT, volatile ExpectedT>();
+    test_make_unsigned_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
 enum BigEnum : unsigned long long

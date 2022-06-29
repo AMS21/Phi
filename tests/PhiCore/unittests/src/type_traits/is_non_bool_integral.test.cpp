@@ -11,52 +11,52 @@
 #include <phi/type_traits/is_non_bool_integral.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_non_bool_integral_impl()
 {
-    STATIC_REQUIRE(phi::is_non_bool_integral<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_non_bool_integral<T>::value);
+    STATIC_REQUIRE(phi::is_non_bool_integral<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_non_bool_integral<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_non_bool_integral_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_non_bool_integral_v<T>);
+    STATIC_REQUIRE(phi::is_non_bool_integral_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_non_bool_integral_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_non_bool_integral<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_non_bool_integral<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_non_bool_integral<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_non_bool_integral<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_non_bool_integral()
 {
-    test_is_non_bool_integral_impl<T>();
-    test_is_non_bool_integral_impl<const T>();
-    test_is_non_bool_integral_impl<volatile T>();
-    test_is_non_bool_integral_impl<const volatile T>();
+    test_is_non_bool_integral_impl<TypeT>();
+    test_is_non_bool_integral_impl<const TypeT>();
+    test_is_non_bool_integral_impl<volatile TypeT>();
+    test_is_non_bool_integral_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_non_bool_integral_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_non_bool_integral<T>::value);
-    STATIC_REQUIRE(phi::is_not_non_bool_integral<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_non_bool_integral<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_non_bool_integral<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_non_bool_integral_v<T>);
-    STATIC_REQUIRE(phi::is_not_non_bool_integral_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_non_bool_integral_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_non_bool_integral_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_non_bool_integral<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_non_bool_integral<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_non_bool_integral<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_non_bool_integral<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_non_bool_integral()
 {
-    test_is_not_non_bool_integral_impl<T>();
-    test_is_not_non_bool_integral_impl<const T>();
-    test_is_not_non_bool_integral_impl<volatile T>();
-    test_is_not_non_bool_integral_impl<const volatile T>();
+    test_is_not_non_bool_integral_impl<TypeT>();
+    test_is_not_non_bool_integral_impl<const TypeT>();
+    test_is_not_non_bool_integral_impl<volatile TypeT>();
+    test_is_not_non_bool_integral_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_non_bool_integral")

@@ -12,19 +12,19 @@ void test_to_upper_case(char original, char expected)
 
 TEST_CASE("to_upper_case")
 {
-    for (char c{0}; c <= 96; ++c)
+    for (char character{0}; character <= 96; ++character)
     {
-        test_to_upper_case(c, c);
+        test_to_upper_case(character, character);
     }
 
-    for (char c{97}; c <= 122; ++c)
+    for (char character{97}; character <= 122; ++character)
     {
-        test_to_upper_case(c, static_cast<char>(c - 32));
+        test_to_upper_case(character, static_cast<char>(character - 32));
     }
 
-    for (char c{123}; c <= 126; ++c)
+    for (char character{123}; character <= 126; ++character)
     {
-        test_to_upper_case(c, c);
+        test_to_upper_case(character, character);
     }
 
     test_to_upper_case(127, 127);

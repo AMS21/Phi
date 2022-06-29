@@ -11,110 +11,110 @@
 #include <phi/type_traits/is_layout_compatible.hpp>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_layout_compatible_impl()
 {
 #if PHI_HAS_WORKING_IS_LAYOUT_COMPATIBLE()
-    STATIC_REQUIRE(phi::is_layout_compatible<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible<T, U>::value);
-    STATIC_REQUIRE(phi::is_layout_compatible<U, T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible<U, T>::value);
+    STATIC_REQUIRE(phi::is_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_layout_compatible<OtherT, TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible<OtherT, TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_layout_compatible_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible_v<T, U>);
-    STATIC_REQUIRE(phi::is_layout_compatible_v<U, T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible_v<U, T>);
+    STATIC_REQUIRE(phi::is_layout_compatible_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_layout_compatible_v<OtherT, TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_layout_compatible_v<OtherT, TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<U, T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<OtherT, TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<OtherT, TypeT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    STATIC_REQUIRE(std::is_layout_compatible<T, U>::value);
-    STATIC_REQUIRE(std::is_layout_compatible<U, T>::value);
+    STATIC_REQUIRE(std::is_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE(std::is_layout_compatible<OtherT, TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_not_layout_compatible_impl()
 {
 #if PHI_HAS_WORKING_IS_LAYOUT_COMPATIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_layout_compatible<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_layout_compatible<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_layout_compatible<U, T>::value);
-    STATIC_REQUIRE(phi::is_not_layout_compatible<U, T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_not_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_layout_compatible<OtherT, TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_layout_compatible<OtherT, TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_layout_compatible_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_layout_compatible_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_layout_compatible_v<U, T>);
-    STATIC_REQUIRE(phi::is_not_layout_compatible_v<U, T>);
+    STATIC_REQUIRE_FALSE(phi::is_layout_compatible_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_not_layout_compatible_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_layout_compatible_v<OtherT, TypeT>);
+    STATIC_REQUIRE(phi::is_not_layout_compatible_v<OtherT, TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<U, T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_layout_compatible<OtherT, TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_layout_compatible<OtherT, TypeT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    STATIC_REQUIRE_FALSE(std::is_layout_compatible<T, U>::value);
-    STATIC_REQUIRE_FALSE(std::is_layout_compatible<U, T>::value);
+    STATIC_REQUIRE_FALSE(std::is_layout_compatible<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(std::is_layout_compatible<OtherT, TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_layout_compatible()
 {
-    test_is_layout_compatible_impl<T, U>();
-    test_is_layout_compatible_impl<T, const U>();
-    test_is_layout_compatible_impl<T, volatile U>();
-    test_is_layout_compatible_impl<T, const volatile U>();
+    test_is_layout_compatible_impl<TypeT, OtherT>();
+    test_is_layout_compatible_impl<TypeT, const OtherT>();
+    test_is_layout_compatible_impl<TypeT, volatile OtherT>();
+    test_is_layout_compatible_impl<TypeT, const volatile OtherT>();
 
-    test_is_layout_compatible_impl<const T, U>();
-    test_is_layout_compatible_impl<const T, const U>();
-    test_is_layout_compatible_impl<const T, volatile U>();
-    test_is_layout_compatible_impl<const T, const volatile U>();
+    test_is_layout_compatible_impl<const TypeT, OtherT>();
+    test_is_layout_compatible_impl<const TypeT, const OtherT>();
+    test_is_layout_compatible_impl<const TypeT, volatile OtherT>();
+    test_is_layout_compatible_impl<const TypeT, const volatile OtherT>();
 
-    test_is_layout_compatible_impl<volatile T, U>();
-    test_is_layout_compatible_impl<volatile T, const U>();
-    test_is_layout_compatible_impl<volatile T, volatile U>();
-    test_is_layout_compatible_impl<volatile T, const volatile U>();
+    test_is_layout_compatible_impl<volatile TypeT, OtherT>();
+    test_is_layout_compatible_impl<volatile TypeT, const OtherT>();
+    test_is_layout_compatible_impl<volatile TypeT, volatile OtherT>();
+    test_is_layout_compatible_impl<volatile TypeT, const volatile OtherT>();
 
-    test_is_layout_compatible_impl<const volatile T, U>();
-    test_is_layout_compatible_impl<const volatile T, const U>();
-    test_is_layout_compatible_impl<const volatile T, volatile U>();
-    test_is_layout_compatible_impl<const volatile T, const volatile U>();
+    test_is_layout_compatible_impl<const volatile TypeT, OtherT>();
+    test_is_layout_compatible_impl<const volatile TypeT, const OtherT>();
+    test_is_layout_compatible_impl<const volatile TypeT, volatile OtherT>();
+    test_is_layout_compatible_impl<const volatile TypeT, const volatile OtherT>();
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_not_layout_compatible()
 {
-    test_is_not_layout_compatible_impl<T, U>();
-    test_is_not_layout_compatible_impl<T, const U>();
-    test_is_not_layout_compatible_impl<T, volatile U>();
-    test_is_not_layout_compatible_impl<T, const volatile U>();
+    test_is_not_layout_compatible_impl<TypeT, OtherT>();
+    test_is_not_layout_compatible_impl<TypeT, const OtherT>();
+    test_is_not_layout_compatible_impl<TypeT, volatile OtherT>();
+    test_is_not_layout_compatible_impl<TypeT, const volatile OtherT>();
 
-    test_is_not_layout_compatible_impl<const T, U>();
-    test_is_not_layout_compatible_impl<const T, const U>();
-    test_is_not_layout_compatible_impl<const T, volatile U>();
-    test_is_not_layout_compatible_impl<const T, const volatile U>();
+    test_is_not_layout_compatible_impl<const TypeT, OtherT>();
+    test_is_not_layout_compatible_impl<const TypeT, const OtherT>();
+    test_is_not_layout_compatible_impl<const TypeT, volatile OtherT>();
+    test_is_not_layout_compatible_impl<const TypeT, const volatile OtherT>();
 
-    test_is_not_layout_compatible_impl<volatile T, U>();
-    test_is_not_layout_compatible_impl<volatile T, const U>();
-    test_is_not_layout_compatible_impl<volatile T, volatile U>();
-    test_is_not_layout_compatible_impl<volatile T, const volatile U>();
+    test_is_not_layout_compatible_impl<volatile TypeT, OtherT>();
+    test_is_not_layout_compatible_impl<volatile TypeT, const OtherT>();
+    test_is_not_layout_compatible_impl<volatile TypeT, volatile OtherT>();
+    test_is_not_layout_compatible_impl<volatile TypeT, const volatile OtherT>();
 
-    test_is_not_layout_compatible_impl<const volatile T, U>();
-    test_is_not_layout_compatible_impl<const volatile T, const U>();
-    test_is_not_layout_compatible_impl<const volatile T, volatile U>();
-    test_is_not_layout_compatible_impl<const volatile T, const volatile U>();
+    test_is_not_layout_compatible_impl<const volatile TypeT, OtherT>();
+    test_is_not_layout_compatible_impl<const volatile TypeT, const OtherT>();
+    test_is_not_layout_compatible_impl<const volatile TypeT, volatile OtherT>();
+    test_is_not_layout_compatible_impl<const volatile TypeT, const volatile OtherT>();
 }
 
 struct Incomplete;
@@ -178,10 +178,10 @@ struct Foo
     char y;
 };
 
-class Bar
+class bar
 {
-    const int     u = 42;
-    volatile char v = '*';
+    const int     m_U = 42;
+    volatile char m_V = '*';
 };
 
 TEST_CASE("is_layout_compatible")
@@ -219,8 +219,8 @@ TEST_CASE("is_layout_compatible")
 
     test_is_not_layout_compatible<E, A>();
 
-    test_is_layout_compatible<Foo, Bar>();
-    test_is_not_layout_compatible<Foo[2], Bar[2]>();
+    test_is_layout_compatible<Foo, bar>();
+    test_is_not_layout_compatible<Foo[2], bar[2]>();
 
     test_is_not_layout_compatible<int, E8>();
     test_is_layout_compatible<E8, E9>();

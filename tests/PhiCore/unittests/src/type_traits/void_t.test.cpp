@@ -12,53 +12,53 @@
 #include <phi/type_traits/void_t.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_void_t()
 {
-    CHECK_SAME_TYPE(void, phi::void_t<T>);
-    CHECK_SAME_TYPE(void, phi::void_t<const T>);
-    CHECK_SAME_TYPE(void, phi::void_t<volatile T>);
-    CHECK_SAME_TYPE(void, phi::void_t<const volatile T>);
+    CHECK_SAME_TYPE(void, phi::void_t<TypeT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const TypeT>);
+    CHECK_SAME_TYPE(void, phi::void_t<volatile TypeT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const volatile TypeT>);
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_void_t()
 {
-    CHECK_SAME_TYPE(void, phi::void_t<T, U>);
-    CHECK_SAME_TYPE(void, phi::void_t<T, const U>);
-    CHECK_SAME_TYPE(void, phi::void_t<T, volatile U>);
-    CHECK_SAME_TYPE(void, phi::void_t<T, const volatile U>);
+    CHECK_SAME_TYPE(void, phi::void_t<TypeT, OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<TypeT, const OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<TypeT, volatile OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<TypeT, const volatile OtherT>);
 
-    CHECK_SAME_TYPE(void, phi::void_t<const T, U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const T, const U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const T, volatile U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const T, const volatile U>);
+    CHECK_SAME_TYPE(void, phi::void_t<const TypeT, OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const TypeT, const OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const TypeT, volatile OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const TypeT, const volatile OtherT>);
 
-    CHECK_SAME_TYPE(void, phi::void_t<volatile T, U>);
-    CHECK_SAME_TYPE(void, phi::void_t<volatile T, const U>);
-    CHECK_SAME_TYPE(void, phi::void_t<volatile T, volatile U>);
-    CHECK_SAME_TYPE(void, phi::void_t<volatile T, const volatile U>);
+    CHECK_SAME_TYPE(void, phi::void_t<volatile TypeT, OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<volatile TypeT, const OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<volatile TypeT, volatile OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<volatile TypeT, const volatile OtherT>);
 
-    CHECK_SAME_TYPE(void, phi::void_t<const volatile T, U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const volatile T, const U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const volatile T, volatile U>);
-    CHECK_SAME_TYPE(void, phi::void_t<const volatile T, const volatile U>);
+    CHECK_SAME_TYPE(void, phi::void_t<const volatile TypeT, OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const volatile TypeT, const OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const volatile TypeT, volatile OtherT>);
+    CHECK_SAME_TYPE(void, phi::void_t<const volatile TypeT, const volatile OtherT>);
 }
 
 struct X
 {};
 
-PHI_ATTRIBUTE_CONST X operator+(const X& x)
+PHI_ATTRIBUTE_CONST X operator+(const X& val)
 {
-    return x;
+    return val;
 }
 
-template <typename T, typename U = phi::void_t<>>
-struct has_unary_plus : phi::false_type
+template <typename TypeT, typename OtherT = phi::void_t<>>
+struct has_unary_plus : public phi::false_type
 {};
 
-template <typename T>
-struct has_unary_plus<T, phi::void_t<decltype(+phi::declval<X>())>> : public phi::true_type
+template <typename TypeT>
+struct has_unary_plus<TypeT, phi::void_t<decltype(+phi::declval<X>())>> : public phi::true_type
 {};
 
 TEST_CASE("is_void")

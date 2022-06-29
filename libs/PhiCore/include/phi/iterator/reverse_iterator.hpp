@@ -31,8 +31,8 @@ public:
         : m_Current()
     {}
 
-    constexpr explicit reverse_iterator(IteratorT x)
-        : m_Current(x)
+    constexpr explicit reverse_iterator(IteratorT value)
+        : m_Current(value)
     {}
 
     template <typename TypeT>
@@ -47,7 +47,7 @@ public:
         return *this;
     }
 
-    constexpr IteratorT base() const
+    PHI_NODISCARD constexpr IteratorT base() const
     {
         return m_Current;
     }
@@ -89,6 +89,7 @@ public:
     }
 
     PHI_EXTENDED_CONSTEXPR
+    // NOLINTNEXTLINE(cert-dcl21-cpp)
     reverse_iterator operator++(int)
     {
         reverse_iterator tmp(*this);
@@ -97,6 +98,7 @@ public:
     }
 
     PHI_EXTENDED_CONSTEXPR
+    // NOLINTNEXTLINE(cert-dcl21-cpp)
     reverse_iterator operator--(int)
     {
         reverse_iterator tmp(*this);
@@ -135,9 +137,9 @@ protected:
 };
 
 template <typename IteratorT>
-constexpr reverse_iterator<IteratorT> make_reverse_iterator(IteratorT it)
+constexpr reverse_iterator<IteratorT> make_reverse_iterator(IteratorT iterator)
 {
-    return reverse_iterator<IteratorT>(it);
+    return reverse_iterator<IteratorT>(iterator);
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
@@ -185,9 +187,9 @@ constexpr bool operator>=(const reverse_iterator<LhsIteratorT>& lhs,
 template <typename IteratorT>
 constexpr reverse_iterator<IteratorT> operator+(
         typename reverse_iterator<IteratorT>::difference_type n,
-        const reverse_iterator<IteratorT>&                    it)
+        const reverse_iterator<IteratorT>&                    iterator)
 {
-    return reverse_iterator<IteratorT>(it.base() - n);
+    return reverse_iterator<IteratorT>(iterator.base() - n);
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>

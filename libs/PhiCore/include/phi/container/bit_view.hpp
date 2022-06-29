@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/move.hpp"
@@ -29,7 +30,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-class bit_view
+class PHI_ATTRIBUTE_POINTER bit_view
 {
 public:
     using this_type  = bit_view<TypeT>;
@@ -43,6 +44,8 @@ public:
     constexpr bit_view() noexcept(is_nothrow_default_constructible<TypeT>::value)
         : m_Value{}
     {}
+
+    ~bit_view() = default;
 
     template <typename = enable_if_t<is_copy_constructible<TypeT>::value>>
     constexpr bit_view(const TypeT& other) noexcept(is_nothrow_copy_constructible<TypeT>::value)
@@ -82,16 +85,9 @@ public:
     constexpr bit_view& operator=(const bit_type& other) noexcept
     {
         m_Bits = other;
-
-        return *this;
     }
 
-    constexpr bit_view& operator=(const bit_view& other) noexcept
-    {
-        m_Bits = other.m_Bits;
-
-        return *this;
-    }
+    bit_view& operator=(const bit_view& other) = default;
 
     template <typename = enable_if_t<is_move_assignable<TypeT>::value>>
     constexpr bit_view& operator=(TypeT&& other) noexcept(is_nothrow_move_assignable<TypeT>::value)
@@ -235,8 +231,8 @@ public:
 private:
     union
     {
-        std::bitset<sizeof(TypeT)> m_Bits;
-        TypeT                      m_Value;
+        std::bitset<sizeof(TypeT)> m_Bits;  // NOLINT(readability-identifier-naming)
+        TypeT                      m_Value; // NOLINT(readability-identifier-naming)
     };
 };
 

@@ -12,10 +12,10 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_alpha(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_alpha(const char character) noexcept
 {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise,readability-implicit-bool-conversion)
-    return static_cast<bool>((c >= 'a' && c <= 'z') | (c >= 'A' && c <= 'Z'));
+    return static_cast<bool>(static_cast<int>(character >= 'a' && character <= 'z') |
+                             static_cast<int>(character >= 'A' && character <= 'Z'));
 }
 
 DETAIL_PHI_END_NAMESPACE()

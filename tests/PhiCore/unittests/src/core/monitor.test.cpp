@@ -75,7 +75,7 @@ TEST_CASE("core.monitor.functions")
         auto lock = mon.ManuallyLock();
 
         CHECK(lock->val == 2u);
-        CHECK(lock.m_Monitor == &mon);
+        CHECK(lock.monitor == &mon);
     }
 
     SECTION("GetThreadUnsafeAccess")
@@ -94,11 +94,11 @@ TEST_CASE("core.monitor.functions")
 static PHI_CONSTEXPR_AND_CONST phi::size_t test_thread_count{20u};
 static PHI_CONSTEXPR_AND_CONST phi::size_t test_write_count{10000u};
 
-static void test_function(phi::monitor<MonitorTestData>& a) noexcept
+static void test_function(phi::monitor<MonitorTestData>& test_data) noexcept
 {
     for (phi::size_t i{0u}; i < test_write_count; ++i)
     {
-        a->val++;
+        test_data->val++;
     }
 }
 

@@ -11,67 +11,67 @@
 #include <phi/type_traits/is_volatile.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_volatile_impl()
 {
-    STATIC_REQUIRE(phi::is_volatile<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_volatile<T>::value);
+    STATIC_REQUIRE(phi::is_volatile<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_volatile<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_volatile_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_volatile_v<T>);
+    STATIC_REQUIRE(phi::is_volatile_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_volatile_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_volatile<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_volatile<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_volatile<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_volatile<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_volatile<T>::value);
+    STATIC_REQUIRE(std::is_volatile<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_volatile_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_volatile<T>::value);
-    STATIC_REQUIRE(phi::is_not_volatile<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_volatile<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_volatile<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_volatile_v<T>);
-    STATIC_REQUIRE(phi::is_not_volatile_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_volatile_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_volatile_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_volatile<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_volatile<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_volatile<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_volatile<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_volatile<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_volatile<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_volatile()
 {
-    test_is_not_volatile_impl<T>();
-    test_is_not_volatile_impl<const T>();
-    test_is_volatile_impl<volatile T>();
-    test_is_volatile_impl<const volatile T>();
+    test_is_not_volatile_impl<TypeT>();
+    test_is_not_volatile_impl<const TypeT>();
+    test_is_volatile_impl<volatile TypeT>();
+    test_is_volatile_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_volatile_cv()
 {
-    test_is_volatile_impl<T>();
-    test_is_volatile_impl<const T>();
-    test_is_volatile_impl<volatile T>();
-    test_is_volatile_impl<const volatile T>();
+    test_is_volatile_impl<TypeT>();
+    test_is_volatile_impl<const TypeT>();
+    test_is_volatile_impl<volatile TypeT>();
+    test_is_volatile_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_volatile()
 {
-    test_is_not_volatile_impl<T>();
-    test_is_not_volatile_impl<const T>();
-    test_is_not_volatile_impl<volatile T>();
-    test_is_not_volatile_impl<const volatile T>();
+    test_is_not_volatile_impl<TypeT>();
+    test_is_not_volatile_impl<const TypeT>();
+    test_is_not_volatile_impl<volatile TypeT>();
+    test_is_not_volatile_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_volatile")

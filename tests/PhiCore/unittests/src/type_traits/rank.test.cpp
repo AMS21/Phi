@@ -12,32 +12,33 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, unsigned A>
+template <typename TypeT, unsigned Expected>
 void test_rank_impl()
 {
-    STATIC_REQUIRE(phi::rank<T>::value == A);
+    STATIC_REQUIRE(phi::rank<TypeT>::value == Expected);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::rank_v<T> == A);
+    STATIC_REQUIRE(phi::rank_v<TypeT> == Expected);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::rank<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::rank<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::rank<T>::value == A);
+    STATIC_REQUIRE(std::rank<TypeT>::value == Expected);
 }
-template <typename T, unsigned A = 0>
+
+template <typename TypeT, unsigned Expected = 0>
 void test_rank()
 {
-    test_rank_impl<T, A>();
-    test_rank_impl<const T, A>();
-    test_rank_impl<volatile T, A>();
-    test_rank_impl<const volatile T, A>();
+    test_rank_impl<TypeT, Expected>();
+    test_rank_impl<const TypeT, Expected>();
+    test_rank_impl<volatile TypeT, Expected>();
+    test_rank_impl<const volatile TypeT, Expected>();
 
-    test_rank_impl<phi::remove_all_extents_t<T>, 0>();
-    test_rank_impl<phi::remove_all_extents_t<const T>, 0>();
-    test_rank_impl<phi::remove_all_extents_t<volatile T>, 0>();
-    test_rank_impl<phi::remove_all_extents_t<const volatile T>, 0>();
+    test_rank_impl<phi::remove_all_extents_t<TypeT>, 0>();
+    test_rank_impl<phi::remove_all_extents_t<const TypeT>, 0>();
+    test_rank_impl<phi::remove_all_extents_t<volatile TypeT>, 0>();
+    test_rank_impl<phi::remove_all_extents_t<const volatile TypeT>, 0>();
 }
 
 TEST_CASE("rank")

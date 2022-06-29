@@ -9,7 +9,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-enum class compare_result : signed char
+enum class CompareResult : signed char
 {
     Equal       = 0,
     LessThan    = -1,

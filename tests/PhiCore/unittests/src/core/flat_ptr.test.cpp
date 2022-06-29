@@ -12,6 +12,7 @@
 
 struct A
 {
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     bool f()
     {
         return true;

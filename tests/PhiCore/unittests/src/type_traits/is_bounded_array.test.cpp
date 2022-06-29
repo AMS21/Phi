@@ -13,67 +13,67 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_bounded_array_impl()
 {
-    STATIC_REQUIRE(phi::is_bounded_array<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_bounded_array<T>::value);
+    STATIC_REQUIRE(phi::is_bounded_array<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_bounded_array<TypeT>::value);
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<TypeT>);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_bounded_array_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_bounded_array_v<T>);
+    STATIC_REQUIRE(phi::is_bounded_array_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_bounded_array_v<TypeT>);
 #endif
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
         !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
-    STATIC_REQUIRE(std::is_bounded_array<T>::value);
+    STATIC_REQUIRE(std::is_bounded_array<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_bounded_array()
 {
-    test_is_bounded_array_impl<T>();
-    test_is_bounded_array_impl<const T>();
-    test_is_bounded_array_impl<volatile T>();
-    test_is_bounded_array_impl<const volatile T>();
+    test_is_bounded_array_impl<TypeT>();
+    test_is_bounded_array_impl<const TypeT>();
+    test_is_bounded_array_impl<volatile TypeT>();
+    test_is_bounded_array_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_bounded_array_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_bounded_array<T>::value);
-    STATIC_REQUIRE(phi::is_not_bounded_array<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_bounded_array<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_bounded_array<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<T>);
-    STATIC_REQUIRE(phi::is_not_bounded_array_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_bounded_array_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_bounded_array_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bounded_array<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bounded_array<TypeT>);
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(20) && !PHI_COMPILER_IS_BELOW(GCC, 9, 0, 0) &&                     \
         !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
-    STATIC_REQUIRE_FALSE(std::is_bounded_array<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_bounded_array<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_bounded_array()
 {
-    test_is_not_bounded_array_impl<T>();
-    test_is_not_bounded_array_impl<const T>();
-    test_is_not_bounded_array_impl<volatile T>();
-    test_is_not_bounded_array_impl<const volatile T>();
+    test_is_not_bounded_array_impl<TypeT>();
+    test_is_not_bounded_array_impl<const TypeT>();
+    test_is_not_bounded_array_impl<volatile TypeT>();
+    test_is_not_bounded_array_impl<const volatile TypeT>();
 }
 
-class A
+struct A
 {};
 
 TEST_CASE("is_bounded_array")

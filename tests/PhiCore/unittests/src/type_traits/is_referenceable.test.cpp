@@ -11,52 +11,52 @@
 #include <phi/type_traits/is_referenceable.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_referenceable_impl()
 {
-    STATIC_REQUIRE(phi::is_referenceable<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_referenceable<T>::value);
+    STATIC_REQUIRE(phi::is_referenceable<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_referenceable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_referenceable_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_referenceable_v<T>);
+    STATIC_REQUIRE(phi::is_referenceable_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_referenceable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_referenceable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_referenceable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_referenceable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_referenceable<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_referenceable_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_referenceable<T>::value);
-    STATIC_REQUIRE(phi::is_not_referenceable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_referenceable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_referenceable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_referenceable_v<T>);
-    STATIC_REQUIRE(phi::is_not_referenceable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_referenceable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_referenceable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_referenceable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_referenceable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_referenceable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_referenceable<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_referenceable()
 {
-    test_is_referenceable_impl<T>();
-    test_is_referenceable_impl<const T>();
-    test_is_referenceable_impl<volatile T>();
-    test_is_referenceable_impl<const volatile T>();
+    test_is_referenceable_impl<TypeT>();
+    test_is_referenceable_impl<const TypeT>();
+    test_is_referenceable_impl<volatile TypeT>();
+    test_is_referenceable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_referenceable()
 {
-    test_is_not_referenceable_impl<T>();
-    test_is_not_referenceable_impl<const T>();
-    test_is_not_referenceable_impl<volatile T>();
-    test_is_not_referenceable_impl<const volatile T>();
+    test_is_not_referenceable_impl<TypeT>();
+    test_is_not_referenceable_impl<const TypeT>();
+    test_is_not_referenceable_impl<volatile TypeT>();
+    test_is_not_referenceable_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_referenceable")

@@ -115,14 +115,12 @@ public:
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_ALWAYS_INLINE constexpr floating_point(const TypeT& val) noexcept
         : m_Value(static_cast<FloatT>(val))
     {}
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_ALWAYS_INLINE constexpr floating_point(const floating_point<TypeT>& val) noexcept
         : m_Value(static_cast<FloatT>(static_cast<TypeT>(val)))
     {}

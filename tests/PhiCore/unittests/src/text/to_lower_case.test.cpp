@@ -12,19 +12,19 @@ void test_to_lower_case(char original, char expected)
 
 TEST_CASE("to_lower_case")
 {
-    for (char c{0}; c <= 64; ++c)
+    for (char character{0}; character <= 64; ++character)
     {
-        test_to_lower_case(c, c);
+        test_to_lower_case(character, character);
     }
 
-    for (char c{65}; c <= 90; ++c)
+    for (char character{65}; character <= 90; ++character)
     {
-        test_to_lower_case(c, static_cast<char>(c + 32));
+        test_to_lower_case(character, static_cast<char>(character + 32));
     }
 
-    for (char c{91}; c <= 126; ++c)
+    for (char character{91}; character <= 126; ++character)
     {
-        test_to_lower_case(c, c);
+        test_to_lower_case(character, character);
     }
 
     test_to_lower_case(127, 127);

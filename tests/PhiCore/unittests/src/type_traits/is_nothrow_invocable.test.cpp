@@ -17,44 +17,45 @@ struct Tag
 
 struct Implicit
 {
-    Implicit(int) noexcept
+    Implicit(int /*unused*/) noexcept
     {}
 };
 
 struct ThrowsImplicit
 {
-    ThrowsImplicit(int)
+    ThrowsImplicit(int /*unused*/)
     {}
 };
 
 struct Explicit
 {
-    explicit Explicit(int) noexcept
+    explicit Explicit(int /*unused*/) noexcept
     {}
 };
 
-template <bool IsNoexcept, typename Ret, typename... Args>
+template <bool IsNoexcept, typename RetT, typename... ArgsT>
 struct CallObject
 {
-    Ret operator()(Args&&...) const noexcept(IsNoexcept);
+    RetT operator()(ArgsT&&...) const noexcept(IsNoexcept);
 };
 
 struct Sink
 {
-    template <typename... Args>
-    void operator()(Args&&...) const noexcept
+    template <typename... ArgsT>
+    void operator()(ArgsT&&... /*unused*/) const noexcept
     {}
 };
 
-template <typename Fn, typename... Args>
+template <typename FunctionT, typename... ArgsT>
 constexpr bool throws_invocable()
 {
-    return phi::is_invocable<Fn, Args...>::value && !phi::is_not_invocable<Fn, Args...>::value &&
-           !phi::is_nothrow_invocable<Fn, Args...>::value &&
-           phi::is_not_nothrow_invocable<Fn, Args...>::value
+    return phi::is_invocable<FunctionT, ArgsT...>::value &&
+           !phi::is_not_invocable<FunctionT, ArgsT...>::value &&
+           !phi::is_nothrow_invocable<FunctionT, ArgsT...>::value &&
+           phi::is_not_nothrow_invocable<FunctionT, ArgsT...>::value
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-           && std::is_invocable<Fn, Args...>::value &&
-           !std::is_nothrow_invocable<Fn, Args...>::value
+           && std::is_invocable<FunctionT, ArgsT...>::value &&
+           !std::is_nothrow_invocable<FunctionT, ArgsT...>::value
 #endif
             ;
 }
@@ -63,8 +64,6 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-member-function")
 
-// FIXME(EricWF) Don't test the where noexcept is *not* part of the type system
-// once implementations have caught up.
 void test_noexcept_function_pointers()
 {
     struct Dummy

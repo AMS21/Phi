@@ -13,24 +13,24 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsT, typename RhsT>
-PHI_NODISCARD constexpr compare_result compare(LhsT lhs,
-                                               RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
+PHI_NODISCARD constexpr CompareResult compare(LhsT lhs,
+                                              RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
 {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     if (lhs == rhs)
     {
-        return compare_result::Equal;
+        return CompareResult::Equal;
     }
     if (lhs < rhs)
     {
-        return compare_result::LessThan;
+        return CompareResult::LessThan;
     }
 
-    return compare_result::GreaterThan;
+    return CompareResult::GreaterThan;
 #else
-    return (lhs == rhs) ? compare_result::Equal :
-           (lhs < rhs)  ? compare_result::LessThan :
-                          compare_result::GreaterThan;
+    return (lhs == rhs) ? CompareResult::Equal :
+           (lhs < rhs)  ? CompareResult::LessThan :
+                          CompareResult::GreaterThan;
 #endif
 }
 

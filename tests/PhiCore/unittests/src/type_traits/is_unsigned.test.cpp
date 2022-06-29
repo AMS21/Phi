@@ -14,58 +14,58 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_unsigned_impl()
 {
-    STATIC_REQUIRE(phi::is_unsigned<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_unsigned<T>::value);
+    STATIC_REQUIRE(phi::is_unsigned<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsigned<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_unsigned_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_v<T>);
+    STATIC_REQUIRE(phi::is_unsigned_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_unsigned_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_unsigned<phi::make_unsafe_t<T>>::value);
+    STATIC_REQUIRE(std::is_unsigned<phi::make_unsafe_t<TypeT>>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_unsigned_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_unsigned<T>::value);
-    STATIC_REQUIRE(phi::is_not_unsigned<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unsigned<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_unsigned<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_unsigned_v<T>);
-    STATIC_REQUIRE(phi::is_not_unsigned_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_unsigned_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_unsigned_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_unsigned<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_unsigned<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_unsigned<phi::make_unsafe_t<T>>::value);
+    STATIC_REQUIRE_FALSE(std::is_unsigned<phi::make_unsafe_t<TypeT>>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_unsigned()
 {
-    test_is_unsigned_impl<T>();
-    test_is_unsigned_impl<const T>();
-    test_is_unsigned_impl<volatile T>();
-    test_is_unsigned_impl<const volatile T>();
+    test_is_unsigned_impl<TypeT>();
+    test_is_unsigned_impl<const TypeT>();
+    test_is_unsigned_impl<volatile TypeT>();
+    test_is_unsigned_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_unsigned()
 {
-    test_is_not_unsigned_impl<T>();
-    test_is_not_unsigned_impl<const T>();
-    test_is_not_unsigned_impl<volatile T>();
-    test_is_not_unsigned_impl<const volatile T>();
+    test_is_not_unsigned_impl<TypeT>();
+    test_is_not_unsigned_impl<const TypeT>();
+    test_is_not_unsigned_impl<volatile TypeT>();
+    test_is_not_unsigned_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_unsigned")

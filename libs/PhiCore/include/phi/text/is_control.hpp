@@ -12,10 +12,10 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_control(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_control(const char character) noexcept
 {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise,readability-implicit-bool-conversion)
-    return static_cast<bool>((c >= 0 && c <= 31) | (c == 127));
+    // NOLINTNEXTLINE(readability-implicit-bool-conversion)
+    return static_cast<bool>((character >= 0 && character <= 31) | (character == 127));
 }
 
 DETAIL_PHI_END_NAMESPACE()

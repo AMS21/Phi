@@ -72,12 +72,10 @@ public:
     {}
 
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr scope_ptr(scope_ptr<OtherT>&& other) noexcept
         : m_Ptr{other.leak_ptr()}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<TypeT>&& other) noexcept
         : m_Ptr{other.leak_ptr()}
     {
@@ -85,7 +83,6 @@ public:
     }
 
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
         : m_Ptr{other.leak_ptr()}
     {
@@ -342,7 +339,6 @@ public:
     }
 
     template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {

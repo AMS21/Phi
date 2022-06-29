@@ -111,12 +111,14 @@ public:
     {
         PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 
+        // NOLINTNEXTLINE(misc-unconventional-assign-operator)
         named_type operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
             return named_type(phi::forward<TypeT>(value));
         }
 
         template <typename OtherT>
+        // NOLINTNEXTLINE(misc-unconventional-assign-operator)
         named_type operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
             return named_type(phi::forward<OtherT>(value));
@@ -125,6 +127,7 @@ public:
         PHI_GCC_SUPPRESS_WARNING_POP()
 
         argument()                           = default;
+        ~argument()                          = default;
         argument(argument const&)            = delete;
         argument(argument&&)                 = delete;
         argument& operator=(argument const&) = delete;
@@ -156,6 +159,7 @@ struct PHI_EBCO pre_incrementable : public crtp<TypeT, pre_incrementable>
 template <typename TypeT>
 struct PHI_EBCO post_incrementable : public crtp<TypeT, post_incrementable>
 {
+    // NOLINTNEXTLINE(cert-dcl21-cpp)
     PHI_EXTENDED_CONSTEXPR TypeT operator++(int)
     {
         return TypeT(this->underlying().unsafe()++);
@@ -175,6 +179,7 @@ struct PHI_EBCO pre_decrementable : public crtp<TypeT, pre_decrementable>
 template <typename TypeT>
 struct PHI_EBCO post_decrementable : public crtp<TypeT, post_decrementable>
 {
+    // NOLINTNEXTLINE(cert-dcl21-cpp)
     PHI_EXTENDED_CONSTEXPR TypeT operator--(int)
     {
         return TypeT(this->underlying().unsafe()--);

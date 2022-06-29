@@ -4,7 +4,7 @@
 
 TEST_CASE("ConstexprHelper CONSTEXPR_RUNTIME", "[selftest][ConstexprHelper]")
 {
-    CONSTEXPR_RUNTIME int a = 3;
+    CONSTEXPR_RUNTIME int integer = 3;
 
-    STATIC_REQUIRE(a == 3);
+    STATIC_REQUIRE(integer == 3);
 }

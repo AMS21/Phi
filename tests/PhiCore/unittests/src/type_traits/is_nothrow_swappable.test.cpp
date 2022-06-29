@@ -11,7 +11,7 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 #include <phi/type_traits/is_nothrow_swappable.hpp>
 #include <phi/type_traits/is_swappable.hpp>
 
-namespace MyNS
+namespace my_ns
 {
     // Make the test types non-copyable so that generic swap is not valid.
     struct A
@@ -26,10 +26,10 @@ namespace MyNS
         B& operator=(B const&) = delete;
     };
 
-    void swap(A&, A&) noexcept
+    void swap(A& /*unused*/, A& /*unused*/) noexcept
     {}
 
-    void swap(B&, B&)
+    void swap(B& /*unused*/, B& /*unused*/)
     {}
 
     struct M
@@ -38,68 +38,70 @@ namespace MyNS
         M& operator=(M const&) = delete;
     };
 
-    void swap(M&&, M&&) noexcept
+    void swap(M&& /*unused*/, M&& /*unused*/) noexcept
     {}
 
     struct ThrowingMove
     {
-        ThrowingMove(ThrowingMove&&)
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        ThrowingMove(ThrowingMove&& /*unused*/)
         {}
 
-        ThrowingMove& operator=(ThrowingMove&&)
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        ThrowingMove& operator=(ThrowingMove&& /*unused*/)
         {
             return *this;
         }
     };
 
-} // namespace MyNS
+} // namespace my_ns
 
-template <typename T>
+template <typename TypeT>
 void test_is_nothrow_swappable()
 {
-    STATIC_REQUIRE(phi::is_nothrow_swappable<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable<T>::value);
-    STATIC_REQUIRE(phi::is_swappable<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_swappable<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_swappable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_swappable_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable_v<T>);
-    STATIC_REQUIRE(phi::is_swappable_v<T>);
+    STATIC_REQUIRE(phi::is_nothrow_swappable_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_swappable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_swappable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable<TypeT>);
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_nothrow_swappable<T>::value);
-    STATIC_REQUIRE(std::is_swappable<T>::value);
+    STATIC_REQUIRE(std::is_nothrow_swappable<TypeT>::value);
+    STATIC_REQUIRE(std::is_swappable<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_nothrow_swappable()
 {
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable<T>::value);
-    STATIC_REQUIRE(phi::is_not_nothrow_swappable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_swappable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable_v<T>);
-    STATIC_REQUIRE(phi::is_not_nothrow_swappable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_swappable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_nothrow_swappable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_swappable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_swappable<TypeT>);
 
     // Standard compatibility
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_nothrow_swappable<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_swappable<TypeT>::value);
 #endif
 }
 
 TEST_CASE("is_nothrow_swappable")
 {
-    using namespace MyNS;
+    using namespace my_ns;
 
     // Test that is_swappable applies an lvalue reference to the type.
     test_is_nothrow_swappable<int>();

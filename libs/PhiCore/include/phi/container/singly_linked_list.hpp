@@ -459,7 +459,6 @@ public:
     boolean try_emplace_front(ArgsT&&... args) noexcept(
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         if (node == nullptr)
         {
@@ -474,7 +473,6 @@ public:
     boolean try_emplace_back(ArgsT&&... args) noexcept(
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         if (node == nullptr)
         {
@@ -487,7 +485,6 @@ public:
 
     boolean try_push_front(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(value);
         if (node == nullptr)
         {
@@ -500,7 +497,6 @@ public:
 
     boolean try_push_front(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         if (node == nullptr)
         {
@@ -513,7 +509,6 @@ public:
 
     boolean try_push_back(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(value);
         if (node == nullptr)
         {
@@ -526,7 +521,6 @@ public:
 
     boolean try_push_back(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         if (node == nullptr)
         {
@@ -541,7 +535,6 @@ public:
     reference emplace_front(ArgsT&&... args) noexcept(
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -552,7 +545,6 @@ public:
     reference emplace_back(ArgsT&&... args) noexcept(
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -561,7 +553,6 @@ public:
 
     void push_front(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(value);
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -570,7 +561,6 @@ public:
 
     void push_front(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -579,7 +569,6 @@ public:
 
     void push_back(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(value);
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -588,7 +577,6 @@ public:
 
     void push_back(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         PHI_DBG_ASSERT(node != nullptr, "");
 
@@ -606,7 +594,7 @@ public:
         }
 
         m_Head = m_Head->next();
-        delete prev_head; // NOLINT(cppcoreguidelines-owning-memory)
+        delete prev_head;
     }
 
     PHI_NODISCARD value_type take_front() noexcept(
@@ -623,27 +611,27 @@ public:
         }
 
         m_Head = m_Head->next();
-        delete prev_head; // NOLINT(cppcoreguidelines-owning-memory)
+        delete prev_head;
 
         return value;
     }
 
     template <typename... ArgsT>
     iterator emplace_after(const_iterator position, ArgsT&&... args);
-    iterator insert_after(const_iterator position, const TypeT& x);
-    iterator insert_after(const_iterator position, TypeT&& x);
+    iterator insert_after(const_iterator position, const TypeT& value);
+    iterator insert_after(const_iterator position, TypeT&& value);
 
-    iterator insert_after(const_iterator position, size_type n, const TypeT& x);
+    iterator insert_after(const_iterator position, size_type count, const TypeT& value);
     template <typename InputIteratorT>
     iterator insert_after(const_iterator position, InputIteratorT first, InputIteratorT last);
     //iterator insert_after(const_iterator position, initializer_list<TypeT> il);
 
     template <typename... ArgsT>
     iterator emplace_before(const_iterator position, ArgsT&&... args);
-    iterator insert_before(const_iterator position, const TypeT& x);
-    iterator insert_before(const_iterator position, TypeT&& x);
+    iterator insert_before(const_iterator position, const TypeT& value);
+    iterator insert_before(const_iterator position, TypeT&& value);
 
-    iterator insert_before(const_iterator position, size_type n, const TypeT& x);
+    iterator insert_before(const_iterator position, size_type count, const TypeT& value);
     template <typename InputIteratorT>
     iterator insert_before(const_iterator position, InputIteratorT first, InputIteratorT last);
     //iterator insert_before(const_iterator position, initializer_list<TypeT> il);
@@ -656,15 +644,15 @@ public:
 
     void swap(singly_linked_list&); // TODO: NOEXCEPT
 
-    void resize(size_type sz);
-    void resize(size_type sz, const value_type& c);
+    void resize(size_type new_size);
+    void resize(size_type new_size, const value_type& value);
 
     void clear() noexcept
     {
         for (node_type* node = m_Head; node != nullptr;)
         {
             node_type* next = node->next();
-            delete node; // NOLINT(cppcoreguidelines-owning-memory)
+            delete node;
             node = next;
         }
 
@@ -672,13 +660,13 @@ public:
         m_Tail = nullptr;
     }
 
-    void splice_after(const_iterator position, singly_linked_list& x);
-    void splice_after(const_iterator position, singly_linked_list&& x);
-    void splice_after(const_iterator position, singly_linked_list& x, const_iterator i);
-    void splice_after(const_iterator position, singly_linked_list&& x, const_iterator i);
-    void splice_after(const_iterator position, singly_linked_list& x, const_iterator first,
+    void splice_after(const_iterator position, singly_linked_list& other);
+    void splice_after(const_iterator position, singly_linked_list&& other);
+    void splice_after(const_iterator position, singly_linked_list& other, const_iterator iterator);
+    void splice_after(const_iterator position, singly_linked_list&& other, const_iterator iterator);
+    void splice_after(const_iterator position, singly_linked_list& other, const_iterator first,
                       const_iterator last);
-    void splice_after(const_iterator position, singly_linked_list&& x, const_iterator first,
+    void splice_after(const_iterator position, singly_linked_list&& otheer, const_iterator first,
                       const_iterator last);
 
     size_type remove(const TypeT& value);
@@ -689,12 +677,12 @@ public:
     template <typename BinaryPredicateT>
     size_type unique(BinaryPredicateT binary_pred);
 
-    void merge(singly_linked_list& x);
-    void merge(singly_linked_list&& x);
+    void merge(singly_linked_list& other);
+    void merge(singly_linked_list&& other);
     template <typename CompareT>
-    void merge(singly_linked_list& x, CompareT comp);
+    void merge(singly_linked_list& other, CompareT comp);
     template <typename CompareT>
-    void merge(singly_linked_list&& x, CompareT comp);
+    void merge(singly_linked_list&& other, CompareT comp);
 
     void sort();
     template <typename CompareT>
@@ -702,10 +690,10 @@ public:
 
     void reverse() noexcept;
 
-    boolean contains(const TypeT& value) const;
+    PHI_NODISCARD boolean contains(const TypeT& value) const;
 
-    iterator       find(const TypeT& value);
-    const_iterator find(const TypeT& value) const;
+    iterator                     find(const TypeT& value);
+    PHI_NODISCARD const_iterator find(const TypeT& value) const;
 
     template <typename UnaryPredicateT>
     iterator find_if(UnaryPredicateT predicate);
@@ -713,14 +701,14 @@ public:
     template <typename UnaryPredicateT>
     const_iterator find_if(UnaryPredicateT predicate) const;
 
-    TypeT max() const noexcept;
-    TypeT min() const noexcept;
+    PHI_NODISCARD TypeT max() const noexcept;
+    PHI_NODISCARD TypeT min() const noexcept;
 
-    iterator       max_index() noexcept;
-    const_iterator max_index() const noexcept;
+    PHI_NODISCARD iterator       max_index() noexcept;
+    PHI_NODISCARD const_iterator max_index() const noexcept;
 
-    iterator       min_index() noexcept;
-    const_iterator min_index() const noexcept;
+    PHI_NODISCARD iterator       min_index() noexcept;
+    PHI_NODISCARD const_iterator min_index() const noexcept;
 
 private:
     void assign_back(node_type* node) noexcept

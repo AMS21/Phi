@@ -12,54 +12,55 @@ struct nothing
 {
     operator char&()
     {
-        static char c;
-        return c;
+        static char character;
+        return character;
     }
 };
 
 TEST_CASE("address_of")
 {
     {
-        int    i;
-        double d;
-        CHECK(phi::address_of(i) == &i);
-        CHECK(phi::address_of(d) == &d);
+        int    integer{0};
+        double double_val{0.0};
+        CHECK(phi::address_of(integer) == &integer);
+        CHECK(phi::address_of(double_val) == &double_val);
     }
 
     {
-        A*       tp  = new A;
-        const A* ctp = tp;
-        CHECK(phi::address_of(*tp) == tp);
-        CHECK(phi::address_of(*ctp) == tp);
-        delete tp;
+        A*       pointer       = new A;
+        const A* const_pointer = pointer;
+        CHECK(phi::address_of(*pointer) == pointer);
+        CHECK(phi::address_of(*const_pointer) == pointer);
+        delete pointer;
     }
 
     {
         union
         {
-            nothing n;
-            int     i;
+            nothing nothing_val;
+            int     integer{0};
         };
-        CHECK(phi::address_of(n) == reinterpret_cast<void*>(phi::address_of(i)));
+        CHECK(phi::address_of(nothing_val) == reinterpret_cast<void*>(phi::address_of(integer)));
     }
 }
 
 struct Pointer
 {
-    constexpr Pointer(void* v)
-        : value(v)
+    constexpr Pointer(void* new_value)
+        : value(new_value)
     {}
+
     void* value;
 };
 
 struct B
 {
-    constexpr B()
-        : n(42)
-    {}
+    B() = default;
+
     void operator&() const
     {}
-    int n;
+
+    int magic_value{42};
 };
 
 #if PHI_SUPPORTS_ADDRESS_OF()
@@ -70,15 +71,15 @@ struct B
 #    define CONSTEXPR_ADR
 #endif
 
-constexpr int    i = 0;
-constexpr double d = 0.0;
-constexpr B      a{};
+constexpr int    integer    = 0;
+constexpr double double_val = 0.0;
+constexpr B      class_value{};
 
 TEST_CASE("address_of - constexpr")
 {
-    STATIC_REQUIRE_ADR(phi::address_of(i) == &i);
-    STATIC_REQUIRE_ADR(phi::address_of(d) == &d);
+    STATIC_REQUIRE_ADR(phi::address_of(integer) == &integer);
+    STATIC_REQUIRE_ADR(phi::address_of(double_val) == &double_val);
 
-    CONSTEXPR_ADR const B* ap = phi::address_of(a);
-    STATIC_REQUIRE_ADR(&ap->n == &a.n);
+    CONSTEXPR_ADR const B* address_of_class = phi::address_of(class_value);
+    STATIC_REQUIRE_ADR(&address_of_class->magic_value == &class_value.magic_value);
 }

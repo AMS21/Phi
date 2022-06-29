@@ -12,9 +12,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_graphical_character(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_graphical_character(const char character) noexcept
 {
-    return (c >= 33 && c <= 126);
+    return (character >= 33 && character <= 126);
 }
 
 DETAIL_PHI_END_NAMESPACE()

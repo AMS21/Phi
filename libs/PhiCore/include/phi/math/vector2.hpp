@@ -69,23 +69,11 @@ public:
 
     // Operators
 
-    PHI_EXTENDED_CONSTEXPR vector2<TypeT>& operator=(const vector2<TypeT>& other) noexcept
-    {
-        x = other.x;
-        y = other.y;
+    vector2<TypeT>& operator=(const vector2<TypeT>& other) = default;
 
-        return *this;
-    }
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+    vector2<TypeT>& operator=(vector2<TypeT>&& other) = default;
 
-    PHI_EXTENDED_CONSTEXPR vector2<TypeT>& operator=(vector2<TypeT>&& other) noexcept
-    {
-        x = move(other.x);
-        y = move(other.y);
-
-        return *this;
-    }
-
-public:
     TypeT x;
     TypeT y;
 };

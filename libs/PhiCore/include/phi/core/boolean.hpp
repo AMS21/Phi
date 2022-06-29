@@ -66,7 +66,7 @@ public:
     boolean() = delete;
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
+    // cppcheck-suppress noExplicitConstructor
     PHI_ALWAYS_INLINE constexpr boolean(TypeT value) noexcept
         : m_Value(value)
     {}
@@ -78,7 +78,6 @@ public:
         return *this;
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_ALWAYS_INLINE constexpr operator bool() const noexcept
     {
         return m_Value;

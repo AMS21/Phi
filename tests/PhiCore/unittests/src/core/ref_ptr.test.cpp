@@ -13,6 +13,7 @@
 
 struct A
 {
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     bool f()
     {
         return true;
@@ -85,8 +86,6 @@ TEST_CASE("ref_ptr")
         phi::ref_ptr<int> base(raw_ptr);
         phi::ref_ptr<int> copy(phi::move(base));
 
-        CHECK_FALSE(base);
-        CHECK(base.get() == nullptr);
         CHECK(copy);
         CHECK(copy.get() == raw_ptr);
     }
@@ -319,15 +318,18 @@ TEST_CASE("ref_ptr")
         CHECK(ptr.use_count() == 1u);
 
         {
+            // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
             phi::ref_ptr<int> shared_ptr_1(ptr);
 
             CHECK(ptr.use_count() == 2u);
 
             {
+                // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                 phi::ref_ptr<int> shared_ptr_2(ptr);
 
                 CHECK(ptr.use_count() == 3u);
                 {
+                    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                     phi::ref_ptr<int> shared_ptr_3(ptr);
 
                     CHECK(ptr.use_count() == 4u);
@@ -335,6 +337,7 @@ TEST_CASE("ref_ptr")
 
                 CHECK(ptr.use_count() == 3u);
 
+                // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                 phi::ref_ptr<int> shared_ptr_4(ptr);
 
                 CHECK(ptr.use_count() == 4u);
@@ -596,15 +599,18 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         CHECK(ptr.use_count() == 1u);
 
         {
+            // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
             phi::not_null_ref_ptr<int> shared_ptr_1(ptr);
 
             CHECK(ptr.use_count() == 2u);
 
             {
+                // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                 phi::not_null_ref_ptr<int> shared_ptr_2(ptr);
 
                 CHECK(ptr.use_count() == 3u);
                 {
+                    // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                     phi::not_null_ref_ptr<int> shared_ptr_3(ptr);
 
                     CHECK(ptr.use_count() == 4u);
@@ -612,6 +618,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
                 CHECK(ptr.use_count() == 3u);
 
+                // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
                 phi::not_null_ref_ptr<int> shared_ptr_4(ptr);
 
                 CHECK(ptr.use_count() == 4u);

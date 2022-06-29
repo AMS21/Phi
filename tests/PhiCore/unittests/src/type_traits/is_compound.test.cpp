@@ -13,58 +13,58 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_compound_impl()
 {
-    STATIC_REQUIRE(phi::is_compound<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_compound<T>::value);
+    STATIC_REQUIRE(phi::is_compound<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_compound<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_compound_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_compound_v<T>);
+    STATIC_REQUIRE(phi::is_compound_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_compound_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_compound<T>::value);
+    STATIC_REQUIRE(std::is_compound<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_compound()
 {
-    test_is_compound_impl<T>();
-    test_is_compound_impl<const T>();
-    test_is_compound_impl<volatile T>();
-    test_is_compound_impl<const volatile T>();
+    test_is_compound_impl<TypeT>();
+    test_is_compound_impl<const TypeT>();
+    test_is_compound_impl<volatile TypeT>();
+    test_is_compound_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_compound_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
-    STATIC_REQUIRE(phi::is_not_compound<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_compound<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_compound<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
-    STATIC_REQUIRE(phi::is_not_compound_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_compound_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_compound_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_compound<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_compound<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_compound<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_compound<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_compound()
 {
-    test_is_not_compound_impl<T>();
-    test_is_not_compound_impl<const T>();
-    test_is_not_compound_impl<volatile T>();
-    test_is_not_compound_impl<const volatile T>();
+    test_is_not_compound_impl<TypeT>();
+    test_is_not_compound_impl<const TypeT>();
+    test_is_not_compound_impl<volatile TypeT>();
+    test_is_not_compound_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_compound")

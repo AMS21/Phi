@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/unused.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -12,64 +13,64 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename... Args>
+template <typename TypeT, typename... ArgsT>
 void test_is_nothrow_constructible()
 {
 #if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_nothrow_constructible<T, Args...>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<T, Args...>::value);
-    STATIC_REQUIRE(phi::is_constructible<T, Args...>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_constructible_v<T, Args...>);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<T, Args...>);
-    STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
+    STATIC_REQUIRE(phi::is_nothrow_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_nothrow_constructible<T, Args...>::value);
+    STATIC_REQUIRE(std::is_nothrow_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 
-template <typename T, typename... Args>
+template <typename TypeT, typename... ArgsT>
 void test_is_nothrow_constructible_no_std()
 {
 #if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_nothrow_constructible<T, Args...>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<T, Args...>::value);
-    STATIC_REQUIRE(phi::is_constructible<T, Args...>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_constructible_v<T, Args...>);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<T, Args...>);
-    STATIC_REQUIRE(phi::is_constructible_v<T, Args...>);
+    STATIC_REQUIRE(phi::is_nothrow_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T, Args...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T, Args...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<TypeT, ArgsT...>);
 #endif
 }
 
-template <typename T, typename... Args>
+template <typename TypeT, typename... ArgsT>
 void test_is_not_nothrow_constructible()
 {
 #if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<T, Args...>::value);
-    STATIC_REQUIRE(phi::is_not_nothrow_constructible<T, Args...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible_v<T, Args...>);
-    STATIC_REQUIRE(phi::is_not_nothrow_constructible_v<T, Args...>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_nothrow_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<T, Args...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<T, Args...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_constructible<TypeT, ArgsT...>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<T, Args...>::value);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 
@@ -85,7 +86,9 @@ struct B
 
 struct C
 {
-    C(C&);              // not const
+    C(C&); // not const
+
+    // NOLINTNEXTLINE(misc-unconventional-assign-operator)
     void operator=(C&); // not const
 };
 
@@ -118,12 +121,15 @@ struct I
     I() = default;
     I(const I&);
     I(I&&) = default;
+
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     I& operator=(I&&);
     I& operator=(const I&) = default;
 };
 
 struct J
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     ~J() noexcept(false)
     {}
 };
@@ -132,37 +138,40 @@ struct K
 {
     K() = default;
 
-    template <class... U>
-    K(U...)
+    // TODO: Weird clang formatting here
+
+    template <typename... OtherT>
+    K(OtherT...)
     noexcept;
 };
 
 struct L
 {
-    template <class... U>
-    L(U...);
+    template <typename... OtherT>
+    L(OtherT...);
 };
 
-template <typename k>
+template <typename TypeT>
 struct N
 {
     N() noexcept
     {
-        k::error;
+        TypeT::error;
     }
 };
 
 struct Tuple
 {
-    Tuple(empty&&) noexcept
+    Tuple(empty&& /*unused*/) noexcept
     {}
 };
 
 struct DThrows
 {
-    DThrows(int) noexcept(true)
+    DThrows(int /*unused*/) noexcept(true)
     {}
 
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     ~DThrows() noexcept(false)
     {}
 };
@@ -214,9 +223,12 @@ TEST_CASE("is_nothrow_constructible")
     test_is_nothrow_constructible<K>();
     test_is_not_nothrow_constructible<L>();
 
-    int  x{0};
-    auto l  = [=] { return x; };
-    using M = decltype(l);
+    int  integer{0};
+    auto lambda = [=] { return integer; };
+    using M     = decltype(lambda);
+    PHI_UNUSED_VARIABLE(integer);
+    PHI_UNUSED_VARIABLE(lambda);
+
     test_is_nothrow_constructible<M, M>();
     test_is_nothrow_constructible<N<int>>();
 

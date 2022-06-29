@@ -10,10 +10,11 @@
 #include <cmath>
 #include <limits>
 
-template <typename T>
-void test_is_nan(T val)
+template <typename TypeT>
+void test_is_nan(TypeT val)
 {
     CHECK(phi::is_nan(val));
+    CHECK_NOEXCEPT(phi::is_nan(val));
 
     // Standard compatibility
     CHECK(std::isnan(phi::to_unsafe(val)));
@@ -35,6 +36,7 @@ using sf = phi::floating_point<float>;
 using sd = phi::floating_point<double>;
 using sl = phi::floating_point<long double>;
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE("is_nan")
 {
     PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -42,8 +44,8 @@ TEST_CASE("is_nan")
 
     // Test if the compiler floats support NaN values
     // See godbolt link for an example: https://godbolt.org/z/vWM8zdn97
-    volatile float n1 = NAN;
-    if (n1 == n1 || !std::numeric_limits<float>::has_quiet_NaN ||
+    volatile float nan_value = NAN;
+    if (nan_value == nan_value || !std::numeric_limits<float>::has_quiet_NaN ||
         !std::numeric_limits<float>::has_signaling_NaN)
     {
         return;

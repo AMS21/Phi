@@ -4,34 +4,34 @@
 
 TEST_CASE("Likely", "[Likely]")
 {
-    int i = 5;
+    int integer = 5;
 
-    if (PHI_LIKELY(i % 2 == 1))
+    if (PHI_LIKELY(integer % 2 == 1))
     {
         CHECK(true);
     }
 
-    if (PHI_UNLIKELY(i % 2 == 1))
+    if (PHI_UNLIKELY(integer % 2 == 1))
     {
         CHECK(true);
     }
 
-    for (int j = 0; j < 10; ++j)
+    for (int index = 0; index < 10; ++index)
     {
-        switch (j)
+        switch (index)
         {
             PHI_UNLIKELY_CASE case 3:
             {
-                CHECK(j == 3);
+                CHECK(index == 3);
                 break;
             }
             PHI_LIKELY_CASE case 5:
             {
-                CHECK(j == 5);
+                CHECK(index == 5);
                 break;
             }
             default: {
-                CHECK(j < 10);
+                CHECK(index < 10);
                 break;
             }
         }

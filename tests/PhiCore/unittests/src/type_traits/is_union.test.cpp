@@ -12,68 +12,68 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_union_impl()
 {
 #if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE(phi::is_union<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_union<T>::value);
+    STATIC_REQUIRE(phi::is_union<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_union<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_union_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_union_v<T>);
+    STATIC_REQUIRE(phi::is_union_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_union_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_union<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_union<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_union<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_union<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_union<T>::value);
+    STATIC_REQUIRE(std::is_union<TypeT>::value);
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_union_v<T>);
+    STATIC_REQUIRE(std::is_union_v<TypeT>);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_union()
 {
-    test_is_union_impl<T>();
-    test_is_union_impl<const T>();
-    test_is_union_impl<volatile T>();
-    test_is_union_impl<const volatile T>();
+    test_is_union_impl<TypeT>();
+    test_is_union_impl<const TypeT>();
+    test_is_union_impl<volatile TypeT>();
+    test_is_union_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_union_impl()
 {
 #if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
-    STATIC_REQUIRE(phi::is_not_union<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_union<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_union<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
-    STATIC_REQUIRE(phi::is_not_union_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_union_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_union_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_union<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_union<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_union<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_union<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_union<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_union<TypeT>::value);
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_union_v<T>);
+    STATIC_REQUIRE_FALSE(std::is_union_v<TypeT>);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_union()
 {
-    test_is_not_union_impl<T>();
-    test_is_not_union_impl<const T>();
-    test_is_not_union_impl<volatile T>();
-    test_is_not_union_impl<const volatile T>();
+    test_is_not_union_impl<TypeT>();
+    test_is_not_union_impl<const TypeT>();
+    test_is_not_union_impl<volatile TypeT>();
+    test_is_not_union_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_union")

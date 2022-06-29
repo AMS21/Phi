@@ -19,7 +19,7 @@ namespace detail
     template <typename InputIteratorT>
     PHI_EXTENDED_CONSTEXPR typename iterator_traits<InputIteratorT>::difference_type distance_impl(
             InputIteratorT first, InputIteratorT last,
-            input_iterator_tag) noexcept(noexcept(first != last, ++first))
+            input_iterator_tag /*tag*/) noexcept(noexcept(first != last, ++first))
     {
         typename iterator_traits<InputIteratorT>::difference_type ret(0);
         for (; first != last; ++first)
@@ -33,7 +33,7 @@ namespace detail
     template <typename RandomAccessIteratorT>
     constexpr typename iterator_traits<RandomAccessIteratorT>::difference_type distance_impl(
             RandomAccessIteratorT first, RandomAccessIteratorT last,
-            random_access_iterator_tag) noexcept(noexcept(last - first))
+            random_access_iterator_tag /*tag*/) noexcept(noexcept(last - first))
     {
         return last - first;
     }

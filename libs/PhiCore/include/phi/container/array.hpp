@@ -303,7 +303,6 @@ public:
         return copy_of_this;
     }
 
-    // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes)
     TypeT elements[Size];
 };
 
@@ -468,13 +467,13 @@ public:
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
         PHI_UNREACHABLE();
@@ -486,7 +485,7 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
         PHI_UNREACHABLE();
@@ -498,7 +497,7 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
     {
         PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();

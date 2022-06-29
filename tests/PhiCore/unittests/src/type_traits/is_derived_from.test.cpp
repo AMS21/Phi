@@ -32,92 +32,93 @@ enum Enumeration
     Yes,
     No
 };
+
 enum class ScopedEnumeration : int
 {
     No,
     Yes
 };
 
-template <typename From, typename To>
+template <typename FromT, typename ToT>
 void test_is_derived_from_impl()
 {
 #if PHI_HAS_WORKING_IS_DERIVED_FROM()
-    STATIC_REQUIRE(phi::is_derived_from<From, To>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_derived_from<From, To>::value);
+    STATIC_REQUIRE(phi::is_derived_from<FromT, ToT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_derived_from<FromT, ToT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_derived_from_v<From, To>);
-    STATIC_REQUIRE_FALSE(phi::is_not_derived_from_v<From, To>);
+    STATIC_REQUIRE(phi::is_derived_from_v<FromT, ToT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_derived_from_v<FromT, ToT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<From, To>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<From, To>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<FromT, ToT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<FromT, ToT>);
 #endif
 }
 
-template <typename From, typename To>
+template <typename FromT, typename ToT>
 void test_is_not_derived_from_impl()
 {
 #if PHI_HAS_WORKING_IS_DERIVED_FROM()
-    STATIC_REQUIRE_FALSE(phi::is_derived_from<From, To>::value);
-    STATIC_REQUIRE(phi::is_not_derived_from<From, To>::value);
+    STATIC_REQUIRE_FALSE(phi::is_derived_from<FromT, ToT>::value);
+    STATIC_REQUIRE(phi::is_not_derived_from<FromT, ToT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_derived_from_v<From, To>);
-    STATIC_REQUIRE(phi::is_not_derived_from_v<From, To>);
+    STATIC_REQUIRE_FALSE(phi::is_derived_from_v<FromT, ToT>);
+    STATIC_REQUIRE(phi::is_not_derived_from_v<FromT, ToT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<From, To>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<From, To>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_derived_from<FromT, ToT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_derived_from<FromT, ToT>);
 #endif
 }
 
-template <typename From, typename To>
+template <typename FromT, typename ToT>
 void test_is_derived_from()
 {
-    test_is_derived_from_impl<From, To>();
-    test_is_derived_from_impl<From, const To>();
-    test_is_derived_from_impl<From, volatile To>();
-    test_is_derived_from_impl<From, const volatile To>();
+    test_is_derived_from_impl<FromT, ToT>();
+    test_is_derived_from_impl<FromT, const ToT>();
+    test_is_derived_from_impl<FromT, volatile ToT>();
+    test_is_derived_from_impl<FromT, const volatile ToT>();
 
-    test_is_derived_from_impl<const From, To>();
-    test_is_derived_from_impl<const From, const To>();
-    test_is_derived_from_impl<const From, volatile To>();
-    test_is_derived_from_impl<const From, const volatile To>();
+    test_is_derived_from_impl<const FromT, ToT>();
+    test_is_derived_from_impl<const FromT, const ToT>();
+    test_is_derived_from_impl<const FromT, volatile ToT>();
+    test_is_derived_from_impl<const FromT, const volatile ToT>();
 
-    test_is_derived_from_impl<volatile From, To>();
-    test_is_derived_from_impl<volatile From, const To>();
-    test_is_derived_from_impl<volatile From, volatile To>();
-    test_is_derived_from_impl<volatile From, const volatile To>();
+    test_is_derived_from_impl<volatile FromT, ToT>();
+    test_is_derived_from_impl<volatile FromT, const ToT>();
+    test_is_derived_from_impl<volatile FromT, volatile ToT>();
+    test_is_derived_from_impl<volatile FromT, const volatile ToT>();
 
-    test_is_derived_from_impl<const volatile From, To>();
-    test_is_derived_from_impl<const volatile From, const To>();
-    test_is_derived_from_impl<const volatile From, volatile To>();
-    test_is_derived_from_impl<const volatile From, const volatile To>();
+    test_is_derived_from_impl<const volatile FromT, ToT>();
+    test_is_derived_from_impl<const volatile FromT, const ToT>();
+    test_is_derived_from_impl<const volatile FromT, volatile ToT>();
+    test_is_derived_from_impl<const volatile FromT, const volatile ToT>();
 }
 
-template <typename From, typename To>
+template <typename FromT, typename ToT>
 void test_is_not_derived_from()
 {
-    test_is_not_derived_from_impl<From, To>();
-    test_is_not_derived_from_impl<From, const To>();
-    test_is_not_derived_from_impl<From, volatile To>();
-    test_is_not_derived_from_impl<From, const volatile To>();
+    test_is_not_derived_from_impl<FromT, ToT>();
+    test_is_not_derived_from_impl<FromT, const ToT>();
+    test_is_not_derived_from_impl<FromT, volatile ToT>();
+    test_is_not_derived_from_impl<FromT, const volatile ToT>();
 
-    test_is_not_derived_from_impl<const From, To>();
-    test_is_not_derived_from_impl<const From, const To>();
-    test_is_not_derived_from_impl<const From, volatile To>();
-    test_is_not_derived_from_impl<const From, const volatile To>();
+    test_is_not_derived_from_impl<const FromT, ToT>();
+    test_is_not_derived_from_impl<const FromT, const ToT>();
+    test_is_not_derived_from_impl<const FromT, volatile ToT>();
+    test_is_not_derived_from_impl<const FromT, const volatile ToT>();
 
-    test_is_not_derived_from_impl<volatile From, To>();
-    test_is_not_derived_from_impl<volatile From, const To>();
-    test_is_not_derived_from_impl<volatile From, volatile To>();
-    test_is_not_derived_from_impl<volatile From, const volatile To>();
+    test_is_not_derived_from_impl<volatile FromT, ToT>();
+    test_is_not_derived_from_impl<volatile FromT, const ToT>();
+    test_is_not_derived_from_impl<volatile FromT, volatile ToT>();
+    test_is_not_derived_from_impl<volatile FromT, const volatile ToT>();
 
-    test_is_not_derived_from_impl<const volatile From, To>();
-    test_is_not_derived_from_impl<const volatile From, const To>();
-    test_is_not_derived_from_impl<const volatile From, volatile To>();
-    test_is_not_derived_from_impl<const volatile From, const volatile To>();
+    test_is_not_derived_from_impl<const volatile FromT, ToT>();
+    test_is_not_derived_from_impl<const volatile FromT, const ToT>();
+    test_is_not_derived_from_impl<const volatile FromT, volatile ToT>();
+    test_is_not_derived_from_impl<const volatile FromT, const volatile ToT>();
 }
 
 TEST_CASE("is_derived_from")

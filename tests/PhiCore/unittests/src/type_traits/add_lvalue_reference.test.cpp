@@ -11,59 +11,63 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U = T&>
+template <typename TypeT, typename OtherT = TypeT&>
 void test_add_lvalue_reference()
 {
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<T>::type, U);
-    CHECK_SAME_TYPE(const typename phi::add_lvalue_reference<T>::type, const U);
-    CHECK_SAME_TYPE(volatile typename phi::add_lvalue_reference<T>::type, volatile U);
-    CHECK_SAME_TYPE(const volatile typename phi::add_lvalue_reference<T>::type, const volatile U);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<TypeT>::type, OtherT);
+    CHECK_SAME_TYPE(const typename phi::add_lvalue_reference<TypeT>::type, const OtherT);
+    CHECK_SAME_TYPE(volatile typename phi::add_lvalue_reference<TypeT>::type, volatile OtherT);
+    CHECK_SAME_TYPE(const volatile typename phi::add_lvalue_reference<TypeT>::type,
+                    const volatile OtherT);
 
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<T>, U);
-    CHECK_SAME_TYPE(const phi::add_lvalue_reference_t<T>, const U);
-    CHECK_SAME_TYPE(volatile phi::add_lvalue_reference_t<T>, volatile U);
-    CHECK_SAME_TYPE(const volatile phi::add_lvalue_reference_t<T>, const volatile U);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<TypeT>, OtherT);
+    CHECK_SAME_TYPE(const phi::add_lvalue_reference_t<TypeT>, const OtherT);
+    CHECK_SAME_TYPE(volatile phi::add_lvalue_reference_t<TypeT>, volatile OtherT);
+    CHECK_SAME_TYPE(const volatile phi::add_lvalue_reference_t<TypeT>, const volatile OtherT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<T>::type,
-                    typename std::add_lvalue_reference<T>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<T>, typename std::add_lvalue_reference<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const T>::type,
-                    typename std::add_lvalue_reference<const T>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<const T>,
-                    typename std::add_lvalue_reference<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<volatile T>::type,
-                    typename std::add_lvalue_reference<volatile T>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<volatile T>,
-                    typename std::add_lvalue_reference<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const volatile T>::type,
-                    typename std::add_lvalue_reference<const volatile T>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<const volatile T>,
-                    typename std::add_lvalue_reference<const volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<TypeT>::type,
+                    typename std::add_lvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<TypeT>,
+                    typename std::add_lvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const TypeT>::type,
+                    typename std::add_lvalue_reference<const TypeT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<const TypeT>,
+                    typename std::add_lvalue_reference<const TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<volatile TypeT>::type,
+                    typename std::add_lvalue_reference<volatile TypeT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<volatile TypeT>,
+                    typename std::add_lvalue_reference<volatile TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<const volatile TypeT>::type,
+                    typename std::add_lvalue_reference<const volatile TypeT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<const volatile TypeT>,
+                    typename std::add_lvalue_reference<const volatile TypeT>::type);
 }
 
-template <typename F>
+template <typename FunctionT>
 void test_add_lvalue_reference_function0()
 {
-    CHECK_SAME_TYPE(F&, typename phi::add_lvalue_reference<F>::type);
-    CHECK_SAME_TYPE(F&, phi::add_lvalue_reference_t<F>);
+    CHECK_SAME_TYPE(FunctionT&, typename phi::add_lvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(FunctionT&, phi::add_lvalue_reference_t<FunctionT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<F>::type,
-                    typename std::add_lvalue_reference<F>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<F>, typename std::add_lvalue_reference<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<FunctionT>::type,
+                    typename std::add_lvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<FunctionT>,
+                    typename std::add_lvalue_reference<FunctionT>::type);
 }
 
-template <typename F>
+template <typename FunctionT>
 void test_add_lvalue_reference_function1()
 {
-    CHECK_SAME_TYPE(F, typename phi::add_lvalue_reference<F>::type);
-    CHECK_SAME_TYPE(F, phi::add_lvalue_reference_t<F>);
+    CHECK_SAME_TYPE(FunctionT, typename phi::add_lvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(FunctionT, phi::add_lvalue_reference_t<FunctionT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<F>::type,
-                    typename std::add_lvalue_reference<F>::type);
-    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<F>, typename std::add_lvalue_reference<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_lvalue_reference<FunctionT>::type,
+                    typename std::add_lvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(phi::add_lvalue_reference_t<FunctionT>,
+                    typename std::add_lvalue_reference<FunctionT>::type);
 }
 
 struct A; // incomplete

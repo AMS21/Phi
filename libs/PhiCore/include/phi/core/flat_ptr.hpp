@@ -44,13 +44,9 @@ public:
         : m_Ptr(static_cast<void*>(ptr))
     {}
 
-    constexpr flat_ptr(const flat_ptr& other) noexcept
-        : m_Ptr(other.m_Ptr)
-    {}
+    flat_ptr(const flat_ptr& other) = default;
 
-    constexpr flat_ptr(flat_ptr&& other) noexcept
-        : m_Ptr(other.get())
-    {}
+    flat_ptr(flat_ptr&& other) = default;
 
     constexpr flat_ptr(const not_null_flat_ptr& other) noexcept;
 
@@ -73,19 +69,9 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(const flat_ptr& other) noexcept
-    {
-        m_Ptr = other.m_Ptr;
+    flat_ptr& operator=(const flat_ptr& other) = default;
 
-        return *this;
-    }
-
-    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(flat_ptr&& other) noexcept
-    {
-        m_Ptr = other.get();
-
-        return *this;
-    }
+    flat_ptr& operator=(flat_ptr&& other) = default;
 
     PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(const not_null_flat_ptr& other) noexcept;
 

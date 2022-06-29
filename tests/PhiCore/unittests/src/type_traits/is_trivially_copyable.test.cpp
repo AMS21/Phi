@@ -12,85 +12,85 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copyable_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
-    STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_copyable<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_trivially_copyable_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable_v<T>);
+    STATIC_REQUIRE(phi::is_trivially_copyable_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copyable_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copyable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copyable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copyable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copyable<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_trivially_copyable<T>::value);
+    STATIC_REQUIRE(std::is_trivially_copyable<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivially_copyable_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<T>::value);
-    STATIC_REQUIRE(phi::is_not_trivially_copyable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_copyable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_trivially_copyable<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<T>);
-    STATIC_REQUIRE(phi::is_not_trivially_copyable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_copyable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_trivially_copyable_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copyable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copyable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copyable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copyable<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_trivially_copyable<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_trivially_copyable<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copyable()
 {
-    test_is_trivially_copyable_impl<T>();
-    test_is_trivially_copyable_impl<const T>();
-    test_is_trivially_copyable_impl<volatile T>();
-    test_is_trivially_copyable_impl<const volatile T>();
+    test_is_trivially_copyable_impl<TypeT>();
+    test_is_trivially_copyable_impl<const TypeT>();
+    test_is_trivially_copyable_impl<volatile TypeT>();
+    test_is_trivially_copyable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivially_copyable()
 {
-    test_is_not_trivially_copyable_impl<T>();
-    test_is_not_trivially_copyable_impl<const T>();
-    test_is_not_trivially_copyable_impl<volatile T>();
-    test_is_not_trivially_copyable_impl<const volatile T>();
+    test_is_not_trivially_copyable_impl<TypeT>();
+    test_is_not_trivially_copyable_impl<const TypeT>();
+    test_is_not_trivially_copyable_impl<volatile TypeT>();
+    test_is_not_trivially_copyable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copyable_gcc_compat()
 {
-    test_is_trivially_copyable_impl<T>();
-    test_is_trivially_copyable_impl<const T>();
+    test_is_trivially_copyable_impl<TypeT>();
+    test_is_trivially_copyable_impl<const TypeT>();
 #if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
-    test_is_not_trivially_copyable_impl<volatile T>();
-    test_is_not_trivially_copyable_impl<const volatile T>();
+    test_is_not_trivially_copyable_impl<volatile TypeT>();
+    test_is_not_trivially_copyable_impl<const volatile TypeT>();
 #else
-    test_is_trivially_copyable_impl<volatile T>();
-    test_is_trivially_copyable_impl<const volatile T>();
+    test_is_trivially_copyable_impl<volatile TypeT>();
+    test_is_trivially_copyable_impl<const volatile TypeT>();
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copyable_gcc_compat_volatile()
 {
 #if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
-    test_is_not_trivially_copyable<T>();
+    test_is_not_trivially_copyable<TypeT>();
 #else
-    test_is_trivially_copyable<T>();
+    test_is_trivially_copyable<TypeT>();
 #endif
 }
 
@@ -109,9 +109,8 @@ struct B
     }
 };
 
-class C
+struct C
 {
-public:
     C();
 };
 

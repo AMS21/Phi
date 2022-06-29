@@ -16,74 +16,74 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_object_impl()
 {
 #if PHI_HAS_WORKING_IS_OBJECT()
-    STATIC_REQUIRE(phi::is_object<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_object<T>::value);
+    STATIC_REQUIRE(phi::is_object<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_object<TypeT>::value);
 
-    STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_void<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_object_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_object_v<T>);
+    STATIC_REQUIRE(phi::is_object_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_object_v<TypeT>);
 
-    STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_function_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_void_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_object<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_object<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_object<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_object<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_object<T>::value);
+    STATIC_REQUIRE(std::is_object<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_object_impl()
 {
 #if PHI_HAS_WORKING_IS_OBJECT()
-    STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
-    STATIC_REQUIRE(phi::is_not_object<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_object<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_object<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
-    STATIC_REQUIRE(phi::is_not_object_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_object_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_object_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_object<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_object<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_object<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_object<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_object<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_object<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_object()
 {
-    test_is_object_impl<T>();
-    test_is_object_impl<const T>();
-    test_is_object_impl<volatile T>();
-    test_is_object_impl<const volatile T>();
+    test_is_object_impl<TypeT>();
+    test_is_object_impl<const TypeT>();
+    test_is_object_impl<volatile TypeT>();
+    test_is_object_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_object()
 {
-    test_is_not_object_impl<T>();
-    test_is_not_object_impl<const T>();
-    test_is_not_object_impl<volatile T>();
-    test_is_not_object_impl<const volatile T>();
+    test_is_not_object_impl<TypeT>();
+    test_is_not_object_impl<const TypeT>();
+    test_is_not_object_impl<volatile TypeT>();
+    test_is_not_object_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_object")

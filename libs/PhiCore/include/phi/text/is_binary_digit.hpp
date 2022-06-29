@@ -14,9 +14,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 // Implementation comparison: https://godbolt.org/z/8G1EvYTGP
 
-PHI_NODISCARD constexpr phi::boolean is_binary_digit(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_binary_digit(const char character) noexcept
 {
-    return (c == '0' || c == '1');
+    return (character == '0' || character == '1');
 }
 
 DETAIL_PHI_END_NAMESPACE()

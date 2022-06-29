@@ -13,40 +13,40 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_copy_assignable()
 {
-    STATIC_REQUIRE(phi::is_copy_assignable<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_copy_assignable<T>::value);
+    STATIC_REQUIRE(phi::is_copy_assignable<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_copy_assignable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_copy_assignable_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_copy_assignable_v<T>);
+    STATIC_REQUIRE(phi::is_copy_assignable_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_copy_assignable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_assignable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_assignable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_assignable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_assignable<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_copy_assignable<T>::value);
+    STATIC_REQUIRE(std::is_copy_assignable<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_copy_assignable()
 {
-    STATIC_REQUIRE_FALSE(phi::is_copy_assignable<T>::value);
-    STATIC_REQUIRE(phi::is_not_copy_assignable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_copy_assignable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_copy_assignable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_copy_assignable_v<T>);
-    STATIC_REQUIRE(phi::is_not_copy_assignable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_copy_assignable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_copy_assignable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_assignable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_assignable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_assignable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_assignable<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_copy_assignable<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_copy_assignable<TypeT>::value);
 }
 
 struct A
@@ -54,13 +54,15 @@ struct A
     A();
 };
 
-class B
+class B // NOLINT(readability-identifier-naming)
 {
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     B& operator=(const B&);
 };
 
 struct C
 {
+    // NOLINTNEXTLINE(misc-unconventional-assign-operator)
     void operator=(C&); // not const
 };
 

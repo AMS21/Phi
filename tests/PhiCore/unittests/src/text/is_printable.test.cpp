@@ -3,30 +3,30 @@
 #include "phi/text/is_printable.hpp"
 #include <cctype>
 
-void test_is_printable(const char c) noexcept
+void test_is_printable(const char character) noexcept
 {
-    CHECK(phi::is_printable(c));
-    CHECK(std::isprint(c));
-    CHECK_NOEXCEPT(phi::is_printable(c));
+    CHECK(phi::is_printable(character));
+    CHECK(std::isprint(character));
+    CHECK_NOEXCEPT(phi::is_printable(character));
 }
 
-void test_is_not_printable(const char c) noexcept
+void test_is_not_printable(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_printable(c));
-    CHECK_FALSE(std::isprint(c));
-    CHECK_NOEXCEPT(phi::is_printable(c));
+    CHECK_FALSE(phi::is_printable(character));
+    CHECK_FALSE(std::isprint(character));
+    CHECK_NOEXCEPT(phi::is_printable(character));
 }
 
 TEST_CASE("is_printable")
 {
-    for (char c{0}; c <= 31; ++c)
+    for (char character{0}; character <= 31; ++character)
     {
-        test_is_not_printable(c);
+        test_is_not_printable(character);
     }
 
-    for (char c{32}; c <= 126; ++c)
+    for (char character{32}; character <= 126; ++character)
     {
-        test_is_printable(c);
+        test_is_printable(character);
     }
 
     test_is_not_printable(127);

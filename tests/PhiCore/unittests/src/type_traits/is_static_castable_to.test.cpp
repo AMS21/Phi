@@ -36,7 +36,7 @@ void test_is_not_static_castable_to()
 
 struct ConstructFromInt
 {
-    ConstructFromInt(int)
+    ConstructFromInt(int /*unused*/)
     {}
 };
 

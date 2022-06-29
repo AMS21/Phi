@@ -54,21 +54,21 @@ struct F
 struct FD : public F
 {};
 
-template <typename Tp>
+template <typename TypeT>
 struct Voider
 {
     using type = void;
 };
 
-template <typename T, typename = void>
+template <typename TypeT, typename = void>
 struct HasType : public phi::false_type
 {};
 
-template <typename T>
-struct HasType<T, typename Voider<typename T::type>::type> : public phi::true_type
+template <typename TypeT>
+struct HasType<TypeT, typename Voider<typename TypeT::type>::type> : public phi::true_type
 {};
 
-template <typename TypeT, typename U>
+template <typename TypeT, typename OtherT>
 struct test_invoke_result;
 
 template <typename FnT, typename... ArgsT, typename RetT>
@@ -99,10 +99,10 @@ struct test_invoke_result<FnT(ArgsT...), RetT>
     }
 };
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_result_of()
 {
-    test_invoke_result<T, U>::call();
+    test_invoke_result<TypeT, OtherT>::call();
 }
 
 template <typename TypeT>

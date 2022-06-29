@@ -56,7 +56,7 @@ extern int main();
     static const ::phi::test::detail::register_test_case PHI_GLUE(name, _register){&(name)};       \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     static void                                                                                    \
-    name() /* NOLINT(readability-function-cognitive-complexity, readability-function-size) */
+    name() /* NOLINT(readability-function-cognitive-complexity,readability-function-size) */
 
 #define TEST_CASE(...) DEFINE_TEST_CASE(GET_TEST_CASE_NAME())
 

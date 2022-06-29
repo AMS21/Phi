@@ -18,46 +18,46 @@ struct Tag
 
 struct Implicit
 {
-    Implicit(int) noexcept
+    Implicit(int /*unused*/) noexcept
     {}
 };
 
 struct ThrowsImplicit
 {
-    ThrowsImplicit(int)
+    ThrowsImplicit(int /*unused*/)
     {}
 };
 
 struct Explicit
 {
-    explicit Explicit(int) noexcept
+    explicit Explicit(int /*unused*/) noexcept
     {}
 };
 
-template <bool IsNoexcept, typename Ret, typename... Args>
+template <bool IsNoexcept, typename RetT, typename... ArgsT>
 struct CallObject
 {
-    Ret operator()(Args&&...) const noexcept(IsNoexcept);
+    RetT operator()(ArgsT&&...) const noexcept(IsNoexcept);
 };
 
 struct Sink
 {
-    template <typename... Args>
-    void operator()(Args&&...) const noexcept
+    template <typename... ArgsT>
+    void operator()(ArgsT&&... /*unused*/) const noexcept // NOLINT(cert-dcl50-cpp)
     {}
 };
 
-template <typename Ret, typename Fn, typename... Args>
+template <typename RetT, typename FuncT, typename... ArgsT>
 constexpr bool throws_invocable_r()
 {
 #if PHI_HAS_WORKING_IS_INVOCABLE()
-    return phi::is_invocable_r<Ret, Fn, Args...>::value &&
-           !phi::is_not_invocable_r<Ret, Fn, Args...>::value &&
-           !phi::is_nothrow_invocable_r<Ret, Fn, Args...>::value &&
-           phi::is_not_nothrow_invocable_r<Ret, Fn, Args...>::value
+    return phi::is_invocable_r<RetT, FuncT, ArgsT...>::value &&
+           !phi::is_not_invocable_r<RetT, FuncT, ArgsT...>::value &&
+           !phi::is_nothrow_invocable_r<RetT, FuncT, ArgsT...>::value &&
+           phi::is_not_nothrow_invocable_r<RetT, FuncT, ArgsT...>::value
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-           && std::is_invocable_r<Ret, Fn, Args...>::value &&
-           !std::is_nothrow_invocable_r<Ret, Fn, Args...>::value
+           && std::is_invocable_r<RetT, FuncT, ArgsT...>::value &&
+           !std::is_nothrow_invocable_r<RetT, FuncT, ArgsT...>::value
 #    endif
             ;
 #else

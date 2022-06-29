@@ -46,6 +46,7 @@ struct B
 
 struct C
 {
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     int f()
     {
         return 21;

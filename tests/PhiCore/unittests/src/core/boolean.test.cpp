@@ -74,81 +74,81 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
     SECTION("constructor")
     {
-        CONSTEXPR_RUNTIME phi::boolean b1(true);
-        STATIC_REQUIRE(static_cast<bool>(b1));
+        CONSTEXPR_RUNTIME phi::boolean bool1(true);
+        STATIC_REQUIRE(static_cast<bool>(bool1));
 
-        CONSTEXPR_RUNTIME phi::boolean b2(false);
-        STATIC_REQUIRE_FALSE(static_cast<bool>(b2));
+        CONSTEXPR_RUNTIME phi::boolean bool2(false);
+        STATIC_REQUIRE_FALSE(static_cast<bool>(bool2));
 
-        CONSTEXPR_RUNTIME phi::boolean b3(b1);
-        STATIC_REQUIRE(static_cast<bool>(b3));
+        CONSTEXPR_RUNTIME phi::boolean bool3(bool1);
+        STATIC_REQUIRE(static_cast<bool>(bool3));
 
-        CONSTEXPR_RUNTIME phi::boolean b4(phi::move(b2));
-        STATIC_REQUIRE_FALSE(static_cast<bool>(b4));
+        CONSTEXPR_RUNTIME phi::boolean bool4(phi::move(bool2));
+        STATIC_REQUIRE_FALSE(static_cast<bool>(bool4));
     }
 
     SECTION("assignment")
     {
-        phi::boolean b1(true);
-        phi::boolean b2(false);
-        phi::boolean b3(true);
+        phi::boolean bool1(true);
+        phi::boolean bool2(false);
+        phi::boolean bool3(true);
 
-        b1 = false;
-        CHECK_FALSE(static_cast<bool>(b1));
-        b1 = true;
-        CHECK(static_cast<bool>(b1));
+        bool1 = false;
+        CHECK_FALSE(static_cast<bool>(bool1));
+        bool1 = true;
+        CHECK(static_cast<bool>(bool1));
 
-        b1 = b2;
-        CHECK_FALSE(static_cast<bool>(b1));
-        b1 = b3;
-        CHECK(static_cast<bool>(b1));
+        bool1 = bool2;
+        CHECK_FALSE(static_cast<bool>(bool1));
+        bool1 = bool3;
+        CHECK(static_cast<bool>(bool1));
     }
 
     SECTION("negate")
     {
-        CONSTEXPR_RUNTIME phi::boolean b1(true);
-        STATIC_REQUIRE_FALSE(!b1);
+        CONSTEXPR_RUNTIME phi::boolean bool1(true);
+        STATIC_REQUIRE_FALSE(!bool1);
 
-        CONSTEXPR_RUNTIME phi::boolean b2(false);
-        STATIC_REQUIRE(!b2);
+        CONSTEXPR_RUNTIME phi::boolean bool2(false);
+        STATIC_REQUIRE(!bool2);
     }
 
     SECTION("comparison")
     {
-        CONSTEXPR_RUNTIME phi::boolean b1(true);
-        STATIC_REQUIRE(bool(b1 == true));
-        STATIC_REQUIRE(bool(true == b1));
-        STATIC_REQUIRE(bool(b1 != false));
-        STATIC_REQUIRE(bool(false != b1));
-        STATIC_REQUIRE(bool(b1 == phi::boolean(true)));
-        STATIC_REQUIRE(bool(b1 != phi::boolean(false)));
+        CONSTEXPR_RUNTIME phi::boolean bool1(true);
+        STATIC_REQUIRE(bool(bool1 == true));
+        STATIC_REQUIRE(bool(true == bool1));
+        STATIC_REQUIRE(bool(bool1 != false));
+        STATIC_REQUIRE(bool(false != bool1));
+        STATIC_REQUIRE(bool(bool1 == phi::boolean(true)));
+        STATIC_REQUIRE(bool(bool1 != phi::boolean(false)));
 
-        CONSTEXPR_RUNTIME phi::boolean b2(false);
-        STATIC_REQUIRE(bool(b2 == false));
-        STATIC_REQUIRE(bool(false == b2));
-        STATIC_REQUIRE(bool(b2 != true));
-        STATIC_REQUIRE(bool(true != b2));
-        STATIC_REQUIRE(bool(b2 == phi::boolean(false)));
-        STATIC_REQUIRE(bool(b2 != phi::boolean(true)));
+        CONSTEXPR_RUNTIME phi::boolean bool2(false);
+        STATIC_REQUIRE(bool(bool2 == false));
+        STATIC_REQUIRE(bool(false == bool2));
+        STATIC_REQUIRE(bool(bool2 != true));
+        STATIC_REQUIRE(bool(true != bool2));
+        STATIC_REQUIRE(bool(bool2 == phi::boolean(false)));
+        STATIC_REQUIRE(bool(bool2 != phi::boolean(true)));
     }
 
     SECTION("i/o")
     {
-        std::ostringstream out;
-        std::istringstream in("0");
+        std::ostringstream out_stream;
+        std::istringstream in_stream("0");
 
-        phi::boolean b(true);
-        out << b;
-        CHECK(out.str() == "1");
+        phi::boolean boolean(true);
+        out_stream << boolean;
+        CHECK(out_stream.str() == "1");
 
-        in >> b;
-        CHECK_FALSE(static_cast<bool>(b));
+        in_stream >> boolean;
+        CHECK_FALSE(static_cast<bool>(boolean));
     }
 
     SECTION("unsafe")
     {
-        CONSTEXPR_RUNTIME phi::boolean b(true);
-        STATIC_REQUIRE(b.unsafe());
+        CONSTEXPR_RUNTIME phi::boolean boolean(true);
+        STATIC_REQUIRE(boolean.unsafe());
     }
 
     SECTION("std::hash")

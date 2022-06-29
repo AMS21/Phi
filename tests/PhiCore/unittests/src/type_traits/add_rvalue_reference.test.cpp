@@ -11,50 +11,51 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U = T&&>
+template <typename TypeT, typename ExpectedT = TypeT&&>
 void test_add_rvalue_reference()
 {
-    CHECK_SAME_TYPE(U, typename phi::add_rvalue_reference<T>::type);
-    CHECK_SAME_TYPE(const U, const typename phi::add_rvalue_reference<T>::type);
-    CHECK_SAME_TYPE(volatile U, volatile typename phi::add_rvalue_reference<T>::type);
-    CHECK_SAME_TYPE(const volatile U, const volatile typename phi::add_rvalue_reference<T>::type);
+    CHECK_SAME_TYPE(ExpectedT, typename phi::add_rvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(const ExpectedT, const typename phi::add_rvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(volatile ExpectedT, volatile typename phi::add_rvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(const volatile ExpectedT,
+                    const volatile typename phi::add_rvalue_reference<TypeT>::type);
 
-    CHECK_SAME_TYPE(U, phi::add_rvalue_reference_t<T>);
-    CHECK_SAME_TYPE(const U, const phi::add_rvalue_reference_t<T>);
-    CHECK_SAME_TYPE(volatile U, volatile phi::add_rvalue_reference_t<T>);
-    CHECK_SAME_TYPE(const volatile U, const volatile phi::add_rvalue_reference_t<T>);
+    CHECK_SAME_TYPE(ExpectedT, phi::add_rvalue_reference_t<TypeT>);
+    CHECK_SAME_TYPE(const ExpectedT, const phi::add_rvalue_reference_t<TypeT>);
+    CHECK_SAME_TYPE(volatile ExpectedT, volatile phi::add_rvalue_reference_t<TypeT>);
+    CHECK_SAME_TYPE(const volatile ExpectedT, const volatile phi::add_rvalue_reference_t<TypeT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<T>::type,
-                    typename std::add_rvalue_reference<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<const T>::type,
-                    typename std::add_rvalue_reference<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<volatile T>::type,
-                    typename std::add_rvalue_reference<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<const volatile T>::type,
-                    typename std::add_rvalue_reference<const volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<TypeT>::type,
+                    typename std::add_rvalue_reference<TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<const TypeT>::type,
+                    typename std::add_rvalue_reference<const TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<volatile TypeT>::type,
+                    typename std::add_rvalue_reference<volatile TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<const volatile TypeT>::type,
+                    typename std::add_rvalue_reference<const volatile TypeT>::type);
 }
 
-template <typename F>
+template <typename FunctionT>
 void test_function0()
 {
-    CHECK_SAME_TYPE(F&&, typename phi::add_rvalue_reference<F>::type);
-    CHECK_SAME_TYPE(F&&, phi::add_rvalue_reference_t<F>);
+    CHECK_SAME_TYPE(FunctionT&&, typename phi::add_rvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(FunctionT&&, phi::add_rvalue_reference_t<FunctionT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<F>::type,
-                    typename std::add_rvalue_reference<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<FunctionT>::type,
+                    typename std::add_rvalue_reference<FunctionT>::type);
 }
 
-template <typename F>
+template <typename FunctionT>
 void test_function1()
 {
-    CHECK_SAME_TYPE(F, typename phi::add_rvalue_reference<F>::type);
-    CHECK_SAME_TYPE(F, phi::add_rvalue_reference_t<F>);
+    CHECK_SAME_TYPE(FunctionT, typename phi::add_rvalue_reference<FunctionT>::type);
+    CHECK_SAME_TYPE(FunctionT, phi::add_rvalue_reference_t<FunctionT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<F>::type,
-                    typename std::add_rvalue_reference<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_rvalue_reference<FunctionT>::type,
+                    typename std::add_rvalue_reference<FunctionT>::type);
 }
 
 struct Foo

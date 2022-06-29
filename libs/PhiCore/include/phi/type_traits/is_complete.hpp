@@ -58,7 +58,8 @@ namespace detail
         template <typename OtherT>
         static no_type check(...);
 
-        static const bool value = sizeof(check<TypeT>(0)) == sizeof_yes_type;
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+        static constexpr const bool value = sizeof(check<TypeT>(nullptr)) == sizeof_yes_type;
     };
 } // namespace detail
 

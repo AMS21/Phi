@@ -2,23 +2,23 @@
 
 #include "phi/text/is_ascii.hpp"
 
-void test_is_ascii(const char c) noexcept
+void test_is_ascii(const char character) noexcept
 {
-    CHECK(phi::is_ascii(c));
-    CHECK_NOEXCEPT(phi::is_ascii(c));
+    CHECK(phi::is_ascii(character));
+    CHECK_NOEXCEPT(phi::is_ascii(character));
 }
 
-void test_is_not_ascii(const char c) noexcept
+void test_is_not_ascii(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_ascii(c));
-    CHECK_NOEXCEPT(phi::is_ascii(c));
+    CHECK_FALSE(phi::is_ascii(character));
+    CHECK_NOEXCEPT(phi::is_ascii(character));
 }
 
 TEST_CASE("is_ascii")
 {
-    for (char c{0}; c <= 126; ++c)
+    for (char character{0}; character <= 126; ++character)
     {
-        test_is_ascii(c);
+        test_is_ascii(character);
     }
 
     test_is_ascii(127);

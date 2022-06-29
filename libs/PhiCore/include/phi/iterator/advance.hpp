@@ -18,53 +18,54 @@ namespace detail
 {
     template <typename InputIteratorT>
     inline PHI_EXTENDED_CONSTEXPR void advance_impl(
-            InputIteratorT& it, typename iterator_traits<InputIteratorT>::difference_type n,
-            input_iterator_tag)
+            InputIteratorT& iterator, typename iterator_traits<InputIteratorT>::difference_type n,
+            input_iterator_tag /*tag*/)
     {
         for (; n > 0; --n)
         {
-            ++it;
+            ++iterator;
         }
     }
 
     template <typename BiDirectionalIteratorT>
     inline PHI_EXTENDED_CONSTEXPR void advance_impl(
-            BiDirectionalIteratorT&                                           it,
+            BiDirectionalIteratorT&                                           iterator,
             typename iterator_traits<BiDirectionalIteratorT>::difference_type n,
-            bidirectional_iterator_tag)
+            bidirectional_iterator_tag /*tag*/)
     {
         if (n >= 0)
         {
             for (; n > 0; --n)
             {
-                ++it;
+                ++iterator;
             }
         }
         else
         {
             for (; n < 0; ++n)
             {
-                --it;
+                --iterator;
             }
         }
     }
 
     template <typename RandomAccessIteratorT>
     inline PHI_EXTENDED_CONSTEXPR void advance_impl(
-            RandomAccessIteratorT&                                           it,
+            RandomAccessIteratorT&                                           iterator,
             typename iterator_traits<RandomAccessIteratorT>::difference_type n,
-            random_access_iterator_tag)
+            random_access_iterator_tag /*tag*/)
     {
-        it += n;
+        iterator += n;
     }
 } // namespace detail
 /// \endcond
 
 template <typename InputIteratorT>
 inline PHI_EXTENDED_CONSTEXPR void advance(
-        InputIteratorT& it, typename iterator_traits<InputIteratorT>::difference_type n)
+        InputIteratorT& iterator, typename iterator_traits<InputIteratorT>::difference_type n)
 {
-    detail::advance_impl(it, n, typename iterator_traits<InputIteratorT>::iterator_category());
+    detail::advance_impl(iterator, n,
+                         typename iterator_traits<InputIteratorT>::iterator_category());
 }
 
 DETAIL_PHI_END_NAMESPACE()

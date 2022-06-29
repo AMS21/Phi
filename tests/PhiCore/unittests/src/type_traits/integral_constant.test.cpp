@@ -72,12 +72,12 @@ TEST_CASE("type_traits.true_type")
 
     STATIC_REQUIRE(phi::true_type::value != false);
 
-    constexpr phi::true_type t1;
-    constexpr phi::true_type t2 = t1;
-    STATIC_REQUIRE(t1);
-    STATIC_REQUIRE(t2);
-    STATIC_REQUIRE(static_cast<bool>(t1));
-    STATIC_REQUIRE(static_cast<bool>(t2));
+    constexpr phi::true_type true1;
+    constexpr phi::true_type true2 = true1;
+    STATIC_REQUIRE(true1);
+    STATIC_REQUIRE(true2);
+    STATIC_REQUIRE(static_cast<bool>(true1));
+    STATIC_REQUIRE(static_cast<bool>(true2));
 }
 
 TEST_CASE("type_traits.false_type")
@@ -96,10 +96,10 @@ TEST_CASE("type_traits.false_type")
 
     STATIC_REQUIRE(phi::false_type::value != true);
 
-    constexpr phi::false_type f1;
-    constexpr phi::false_type f2 = f1;
-    STATIC_REQUIRE_FALSE(f1);
-    STATIC_REQUIRE_FALSE(f2);
-    STATIC_REQUIRE_FALSE(static_cast<bool>(f1));
-    STATIC_REQUIRE_FALSE(static_cast<bool>(f2));
+    constexpr phi::false_type false1;
+    constexpr phi::false_type false2 = false1;
+    STATIC_REQUIRE_FALSE(false1);
+    STATIC_REQUIRE_FALSE(false2);
+    STATIC_REQUIRE_FALSE(static_cast<bool>(false1));
+    STATIC_REQUIRE_FALSE(static_cast<bool>(false2));
 }

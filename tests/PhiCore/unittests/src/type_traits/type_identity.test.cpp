@@ -10,26 +10,26 @@
 #include <phi/type_traits/type_identity.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_type_identity()
 {
-    CHECK_SAME_TYPE(T, typename phi::type_identity<T>::type);
-    CHECK_SAME_TYPE(const T, const typename phi::type_identity<T>::type);
-    CHECK_SAME_TYPE(volatile T, volatile typename phi::type_identity<T>::type);
-    CHECK_SAME_TYPE(const volatile T, const volatile typename phi::type_identity<T>::type);
+    CHECK_SAME_TYPE(TypeT, typename phi::type_identity<TypeT>::type);
+    CHECK_SAME_TYPE(const TypeT, const typename phi::type_identity<TypeT>::type);
+    CHECK_SAME_TYPE(volatile TypeT, volatile typename phi::type_identity<TypeT>::type);
+    CHECK_SAME_TYPE(const volatile TypeT, const volatile typename phi::type_identity<TypeT>::type);
 
-    CHECK_SAME_TYPE(const T, typename phi::type_identity<const T>::type);
-    CHECK_SAME_TYPE(volatile T, typename phi::type_identity<volatile T>::type);
-    CHECK_SAME_TYPE(const volatile T, typename phi::type_identity<const volatile T>::type);
+    CHECK_SAME_TYPE(const TypeT, typename phi::type_identity<const TypeT>::type);
+    CHECK_SAME_TYPE(volatile TypeT, typename phi::type_identity<volatile TypeT>::type);
+    CHECK_SAME_TYPE(const volatile TypeT, typename phi::type_identity<const volatile TypeT>::type);
 
-    CHECK_SAME_TYPE(T, phi::type_identity_t<T>);
-    CHECK_SAME_TYPE(const T, const phi::type_identity_t<T>);
-    CHECK_SAME_TYPE(volatile T, volatile phi::type_identity_t<T>);
-    CHECK_SAME_TYPE(const volatile T, const volatile phi::type_identity_t<T>);
+    CHECK_SAME_TYPE(TypeT, phi::type_identity_t<TypeT>);
+    CHECK_SAME_TYPE(const TypeT, const phi::type_identity_t<TypeT>);
+    CHECK_SAME_TYPE(volatile TypeT, volatile phi::type_identity_t<TypeT>);
+    CHECK_SAME_TYPE(const volatile TypeT, const volatile phi::type_identity_t<TypeT>);
 
-    CHECK_SAME_TYPE(const T, phi::type_identity_t<const T>);
-    CHECK_SAME_TYPE(volatile T, phi::type_identity_t<volatile T>);
-    CHECK_SAME_TYPE(const volatile T, phi::type_identity_t<const volatile T>);
+    CHECK_SAME_TYPE(const TypeT, phi::type_identity_t<const TypeT>);
+    CHECK_SAME_TYPE(volatile TypeT, phi::type_identity_t<volatile TypeT>);
+    CHECK_SAME_TYPE(const volatile TypeT, phi::type_identity_t<const volatile TypeT>);
 }
 
 TEST_CASE("type_identity")

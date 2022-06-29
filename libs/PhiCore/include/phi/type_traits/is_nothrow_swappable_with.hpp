@@ -25,8 +25,9 @@ namespace detail
               bool IsSwappable = is_swappable_with<TypeT, OtherT>::value>
     struct is_nothrow_swappable_with_impl
     {
-        static const bool value = noexcept(swap(declval<TypeT>(), declval<OtherT>()))&& noexcept(
-                swap(declval<OtherT>(), declval<TypeT>()));
+        static constexpr const bool value =
+                noexcept(swap(declval<TypeT>(), declval<OtherT>()))&& noexcept(
+                        swap(declval<OtherT>(), declval<TypeT>()));
     };
 
     template <typename TypeT, typename OtherT>

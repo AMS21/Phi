@@ -92,7 +92,9 @@ namespace detail
     struct select_align
     {
     private:
+        // NOLINTNEXTLINE(bugprone-branch-clone)
         static PHI_CONSTEXPR_AND_CONST size_t min = Align2 < Align1 ? Align2 : Align1;
+        // NOLINTNEXTLINE(bugprone-branch-clone)
         static PHI_CONSTEXPR_AND_CONST size_t max = Align1 < Align2 ? Align2 : Align1;
 
     public:

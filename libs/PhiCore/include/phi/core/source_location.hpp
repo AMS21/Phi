@@ -26,6 +26,7 @@ struct source_location
         , m_Column(0)
     {}
 
+    // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
     constexpr source_location(const char* file, const char* function, uint_least32_t line,
                               uint_least32_t column) noexcept
         : m_FileName(file)

@@ -19,8 +19,6 @@ PHI_MSVC_SUPPRESS_WARNING(
 PHI_MSVC_SUPPRESS_WARNING(
         4265) // 'x': class has virtual functions, but its non-trivial destructor is not virtual; instances of the class may not be destructed correctly
 
-// NOLINTBEGIN(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
-
 class class_type
 {
 public:
@@ -73,14 +71,14 @@ union union_type
 
 union non_empty_union
 {
-    int      m_X;
-    unsigned m_Y;
+    int      x;
+    unsigned y;
 };
 
 union non_trivial_union
 {
-    int         m_I;
-    non_trivial m_N;
+    int         i;
+    non_trivial n;
 };
 
 struct bit_zero
@@ -113,19 +111,23 @@ PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 class polymorphic
 {
     virtual void rotate(int);
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 class derived_polymorphic : public polymorphic
 {};
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 class abstract
 {
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     virtual ~abstract() = 0;
 };
 
@@ -170,6 +172,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnon-virtual-dtor")
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct public_abstract_deleted_destructor
 {
     ~public_abstract_deleted_destructor() = delete;
@@ -178,6 +181,7 @@ public:
     virtual void foo() = 0;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct protected_abstract_deleted_destructor
 {
     ~protected_abstract_deleted_destructor() = delete;
@@ -186,6 +190,7 @@ protected:
     virtual void foo() = 0;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct private_abstract_deleted_destructor
 {
     ~private_abstract_deleted_destructor() = delete;
@@ -227,12 +232,14 @@ public:
     virtual ~virtual_public_destructor() = default;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct virtual_protected_destructor
 {
 protected:
     virtual ~virtual_protected_destructor() = default;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct virtual_private_destructor
 {
 private:
@@ -245,15 +252,18 @@ public:
     virtual ~pure_public_destructor() = 0;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct pure_protected_destructor
 {
 protected:
     virtual ~pure_protected_destructor() = 0;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct pure_private_destructor
 {
 private:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     virtual ~pure_private_destructor() = 0;
 };
 
@@ -266,12 +276,14 @@ public:
 struct deleted_protected_destructor
 {
 protected:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     ~deleted_protected_destructor() = delete;
 };
 
 struct deleted_private_destructor
 {
 private:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     ~deleted_private_destructor() = delete;
 };
 
@@ -281,21 +293,24 @@ public:
     virtual ~deleted_virtual_public_destructor() = delete;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct deleted_virtual_protected_destructor
 {
 protected:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     virtual ~deleted_virtual_protected_destructor() = delete;
 };
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct deleted_virtual_private_destructor
 {
 private:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     virtual ~deleted_virtual_private_destructor() = delete;
 };
 
 struct explicit_class
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     explicit_class(double&);
     explicit explicit_class(int&);
     explicit_class(double&, int&, double&);
@@ -303,7 +318,6 @@ struct explicit_class
 
 struct nothrow_explicit_class
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     nothrow_explicit_class(double&) noexcept;
     explicit nothrow_explicit_class(int&) noexcept;
     nothrow_explicit_class(double&, int&, double&) noexcept;
@@ -311,7 +325,6 @@ struct nothrow_explicit_class
 
 struct throw_explicit_class
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     throw_explicit_class(double&) noexcept(false);
     explicit throw_explicit_class(int&) noexcept(false);
     throw_explicit_class(double&, int&, double&) noexcept(false);
@@ -339,7 +352,6 @@ struct throw_destructor
 
 struct noexcept_explicit_class
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     noexcept_explicit_class(double&) noexcept;
     explicit noexcept_explicit_class(int&) noexcept;
     noexcept_explicit_class(double&, int&, double&) noexcept;
@@ -347,7 +359,6 @@ struct noexcept_explicit_class
 
 struct except_explicit_class
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     except_explicit_class(double&) noexcept(false);
     explicit except_explicit_class(int&) noexcept(false);
     except_explicit_class(double&, int&, double&) noexcept(false);
@@ -454,7 +465,6 @@ struct except_move_constructible_and_assign_class
 template <typename ToT>
 struct implicit_to
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     operator ToT();
 };
 
@@ -491,7 +501,7 @@ struct deleted_ellipsis
 
 struct copy_constructible_only_type
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
+    ~copy_constructible_only_type() = default;
     copy_constructible_only_type(int /*unused*/)
     {}
     copy_constructible_only_type(copy_constructible_only_type&&)                 = delete;
@@ -502,7 +512,7 @@ struct copy_constructible_only_type
 
 struct move_constructible_only_type
 {
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
+    ~move_constructible_only_type() = default;
     move_constructible_only_type(int /*unused*/)
     {}
     move_constructible_only_type(const move_constructible_only_type&)            = delete;
@@ -513,21 +523,25 @@ struct move_constructible_only_type
 
 struct overloaded_operators
 {
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     PHI_NODISCARD int foo()
     {
         return 1;
     }
 
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     PHI_NODISCARD int foo_c() const
     {
         return 2;
     }
 
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     PHI_NODISCARD int foo_v() volatile
     {
         return 3;
     }
 
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     PHI_NODISCARD int foo_cv() const volatile
     {
         return 4;
@@ -540,7 +554,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
 struct public_int_member
 {
 public:
-    int m_Member;
+    int m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables,readability-identifier-naming)
 };
 
 struct protected_int_member
@@ -558,26 +572,26 @@ private:
 struct public_static_int_member
 {
 public:
-    static int m_Member;
+    static int m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 struct protected_static_int_member
 {
 protected:
-    static int m_Member;
+    static int m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 struct private_static_int_member
 {
 private:
-    static int m_Member;
+    static int m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 template <typename TypeT>
 struct public_template_member
 {
 public:
-    TypeT m_Member;
+    TypeT m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables,readability-identifier-naming)
 };
 
 template <typename TypeT>
@@ -598,21 +612,21 @@ template <typename TypeT>
 struct public_static_template_member
 {
 public:
-    static TypeT m_Member;
+    static TypeT m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 template <typename TypeT>
 struct protected_static_template_member
 {
 protected:
-    static TypeT m_Member;
+    static TypeT m_Member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 template <typename TypeT>
 struct private_static_template_member
 {
 private:
-    static TypeT member;
+    static TypeT member; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 };
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
@@ -628,10 +642,10 @@ class cannot_instantiate
 
 struct natural_alignment
 {
-    long        m_T1;
-    long long   m_T2;
-    double      m_T3;
-    long double m_T4;
+    long        t1;
+    long long   t2;
+    double      t3;
+    long double t4;
 };
 
 enum Enum
@@ -673,10 +687,13 @@ using member_function_ptr = void (class_type::*)();
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static auto Lambda = []() {};
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static auto LambdaNoexcept = []() noexcept {};
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 static auto LambdaThrows = []() noexcept(false) {};
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
@@ -708,6 +725,7 @@ enum struct IncompleteEnumStruct;
 struct non_default_constructible
 {
     non_default_constructible()                                 = delete;
+    ~non_default_constructible()                                = default;
     non_default_constructible(const non_default_constructible&) = default;
     non_default_constructible(non_default_constructible&&)      = default;
 
@@ -718,6 +736,7 @@ struct non_default_constructible
 struct non_copy_constructible
 {
     non_copy_constructible()                              = default;
+    ~non_copy_constructible()                             = default;
     non_copy_constructible(const non_copy_constructible&) = delete;
     non_copy_constructible(non_copy_constructible&&)      = default;
 
@@ -728,6 +747,7 @@ struct non_copy_constructible
 struct non_move_constructible
 {
     non_move_constructible()                              = default;
+    ~non_move_constructible()                             = default;
     non_move_constructible(const non_move_constructible&) = default;
     non_move_constructible(non_move_constructible&&)      = delete;
 
@@ -738,6 +758,7 @@ struct non_move_constructible
 struct non_copy_assignable
 {
     non_copy_assignable()                           = default;
+    ~non_copy_assignable()                          = default;
     non_copy_assignable(const non_copy_assignable&) = default;
     non_copy_assignable(non_copy_assignable&&)      = default;
 
@@ -748,6 +769,7 @@ struct non_copy_assignable
 struct non_move_assignable
 {
     non_move_assignable()                           = default;
+    ~non_move_assignable()                          = default;
     non_move_assignable(const non_move_assignable&) = default;
     non_move_assignable(non_move_assignable&&)      = default;
 
@@ -758,6 +780,7 @@ struct non_move_assignable
 struct non_assignable
 {
     non_assignable()                      = default;
+    ~non_assignable()                     = default;
     non_assignable(const non_assignable&) = default;
     non_assignable(non_assignable&&)      = default;
 
@@ -768,6 +791,7 @@ struct non_assignable
 struct non_copyable
 {
     non_copyable()                    = default;
+    ~non_copyable()                   = default;
     non_copyable(const non_copyable&) = delete;
     non_copyable(non_copyable&&)      = default;
 
@@ -778,6 +802,7 @@ struct non_copyable
 struct non_moveable
 {
     non_moveable()                    = default;
+    ~non_moveable()                   = default;
     non_moveable(const non_moveable&) = default;
     non_moveable(non_moveable&&)      = delete;
 
@@ -788,6 +813,7 @@ struct non_moveable
 struct non_constructible
 {
     non_constructible()                         = delete;
+    ~non_constructible()                        = default;
     non_constructible(const non_constructible&) = delete;
     non_constructible(non_constructible&&)      = delete;
 
@@ -847,7 +873,7 @@ public:
         other.m_State = State::MovedFrom;
     }
 
-    // NOLINTNEXTLINE(cert-oop54-cpp)
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
     {
         assert(m_State != State::Destroyed);
@@ -911,7 +937,6 @@ struct trap_constructible
     trap_constructible& operator=(trap_constructible&&)      = default;
 
     template <typename... ArgsT>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr trap_constructible(ArgsT&&... /*args*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
@@ -922,7 +947,6 @@ struct trap_constructible
 struct trap_implicit_conversion
 {
     template <typename TypeT>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator TypeT() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
@@ -972,6 +996,7 @@ struct trap_self_assign
     trap_self_assign(const trap_self_assign&) = default;
     trap_self_assign(trap_self_assign&&)      = default;
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
@@ -1018,8 +1043,6 @@ struct trap_array_subscript
         return false;
     }
 };
-
-// NOLINTEND(cppcoreguidelines-special-member-functions,cppcoreguidelines-virtual-class-destructor,modernize-use-equals-delete,readability-convert-member-functions-to-static,cppcoreguidelines-avoid-non-const-global-variables)
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()

@@ -2,35 +2,35 @@
 
 #include <phi/type_traits/copy_cv.hpp>
 
-template <typename T, typename U, typename V>
+template <typename Type1T, typename Type2T, typename Type3T>
 void test_copy_cv_impl()
 {
-    CHECK_SAME_TYPE(typename phi::copy_cv<T, U>::type, V);
-    CHECK_SAME_TYPE(phi::copy_cv_t<T, U>, V);
+    CHECK_SAME_TYPE(typename phi::copy_cv<Type1T, Type2T>::type, Type3T);
+    CHECK_SAME_TYPE(phi::copy_cv_t<Type1T, Type2T>, Type3T);
 }
 
-template <typename T, typename U>
+template <typename Type1T, typename Type2T>
 void test_copy_cv()
 {
-    test_copy_cv_impl<T, U, U>();
-    test_copy_cv_impl<const T, U, const U>();
-    test_copy_cv_impl<volatile T, U, volatile U>();
-    test_copy_cv_impl<const volatile T, U, const volatile U>();
+    test_copy_cv_impl<Type1T, Type2T, Type2T>();
+    test_copy_cv_impl<const Type1T, Type2T, const Type2T>();
+    test_copy_cv_impl<volatile Type1T, Type2T, volatile Type2T>();
+    test_copy_cv_impl<const volatile Type1T, Type2T, const volatile Type2T>();
 
-    test_copy_cv_impl<T, const U, const U>();
-    test_copy_cv_impl<const T, const U, const U>();
-    test_copy_cv_impl<volatile T, const U, const volatile U>();
-    test_copy_cv_impl<const volatile T, const U, const volatile U>();
+    test_copy_cv_impl<Type1T, const Type2T, const Type2T>();
+    test_copy_cv_impl<const Type1T, const Type2T, const Type2T>();
+    test_copy_cv_impl<volatile Type1T, const Type2T, const volatile Type2T>();
+    test_copy_cv_impl<const volatile Type1T, const Type2T, const volatile Type2T>();
 
-    test_copy_cv_impl<T, volatile U, volatile U>();
-    test_copy_cv_impl<const T, volatile U, const volatile U>();
-    test_copy_cv_impl<volatile T, volatile U, volatile U>();
-    test_copy_cv_impl<const volatile T, volatile U, const volatile U>();
+    test_copy_cv_impl<Type1T, volatile Type2T, volatile Type2T>();
+    test_copy_cv_impl<const Type1T, volatile Type2T, const volatile Type2T>();
+    test_copy_cv_impl<volatile Type1T, volatile Type2T, volatile Type2T>();
+    test_copy_cv_impl<const volatile Type1T, volatile Type2T, const volatile Type2T>();
 
-    test_copy_cv_impl<T, const volatile U, const volatile U>();
-    test_copy_cv_impl<const T, const volatile U, const volatile U>();
-    test_copy_cv_impl<volatile T, const volatile U, const volatile U>();
-    test_copy_cv_impl<const volatile T, const volatile U, const volatile U>();
+    test_copy_cv_impl<Type1T, const volatile Type2T, const volatile Type2T>();
+    test_copy_cv_impl<const Type1T, const volatile Type2T, const volatile Type2T>();
+    test_copy_cv_impl<volatile Type1T, const volatile Type2T, const volatile Type2T>();
+    test_copy_cv_impl<const volatile Type1T, const volatile Type2T, const volatile Type2T>();
 }
 
 struct A

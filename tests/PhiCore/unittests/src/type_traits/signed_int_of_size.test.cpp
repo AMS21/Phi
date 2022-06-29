@@ -4,11 +4,11 @@
 #include <phi/core/sized_types.hpp>
 #include <phi/type_traits/signed_int_of_size.hpp>
 
-template <phi::size_t Size, typename T>
+template <phi::size_t Size, typename TypeT>
 void test_signed_int_of_size()
 {
-    CHECK_SAME_TYPE(typename phi::signed_int_of_size<Size>::type, T);
-    CHECK_SAME_TYPE(phi::signed_int_of_size_t<Size>, T);
+    CHECK_SAME_TYPE(typename phi::signed_int_of_size<Size>::type, TypeT);
+    CHECK_SAME_TYPE(phi::signed_int_of_size_t<Size>, TypeT);
 
     STATIC_REQUIRE(sizeof(typename phi::signed_int_of_size<Size>::type) == Size);
     STATIC_REQUIRE(sizeof(phi::signed_int_of_size_t<Size>) == Size);

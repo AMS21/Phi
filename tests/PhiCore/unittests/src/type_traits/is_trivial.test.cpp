@@ -12,70 +12,69 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivial_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIAL()
-    STATIC_REQUIRE(phi::is_trivial<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivial<T>::value);
+    STATIC_REQUIRE(phi::is_trivial<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivial<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_trivial_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivial_v<T>);
+    STATIC_REQUIRE(phi::is_trivial_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivial_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivial<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivial<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_trivial<T>::value);
+    STATIC_REQUIRE(std::is_trivial<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivial_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIAL()
-    STATIC_REQUIRE_FALSE(phi::is_trivial<T>::value);
-    STATIC_REQUIRE(phi::is_not_trivial<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_trivial<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_trivial<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_trivial_v<T>);
-    STATIC_REQUIRE(phi::is_not_trivial_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_trivial_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_trivial_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivial<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivial<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_trivial<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_trivial<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivial()
 {
-    test_is_trivial_impl<T>();
-    test_is_trivial_impl<const T>();
-    test_is_trivial_impl<volatile T>();
-    test_is_trivial_impl<const volatile T>();
+    test_is_trivial_impl<TypeT>();
+    test_is_trivial_impl<const TypeT>();
+    test_is_trivial_impl<volatile TypeT>();
+    test_is_trivial_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivial()
 {
-    test_is_not_trivial_impl<T>();
-    test_is_not_trivial_impl<const T>();
-    test_is_not_trivial_impl<volatile T>();
-    test_is_not_trivial_impl<const volatile T>();
+    test_is_not_trivial_impl<TypeT>();
+    test_is_not_trivial_impl<const TypeT>();
+    test_is_not_trivial_impl<volatile TypeT>();
+    test_is_not_trivial_impl<const volatile TypeT>();
 }
 
 struct A
 {};
 
-class B
+struct B
 {
-public:
     B();
 };
 

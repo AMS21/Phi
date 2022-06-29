@@ -7,15 +7,15 @@ TEST_CASE("NotNull", "[Core][NotNull]")
 {
     SECTION("NotNull(T)")
     {
-        int  i   = 3;
-        int* ptr = &i;
+        int  integer = 3;
+        int* pointer = &integer;
 
-        phi::not_null<int*> not_null(&i);
-        phi::not_null<int*> not_null_ptr(ptr);
+        phi::not_null<int*> not_null(&integer);
+        phi::not_null<int*> not_null_ptr(pointer);
 
-        CHECK(not_null.get() == &i);
-        CHECK(not_null.get() == ptr);
-        CHECK(not_null_ptr.get() == &i);
-        CHECK(not_null_ptr.get() == ptr);
+        CHECK(not_null.get() == &integer);
+        CHECK(not_null.get() == pointer);
+        CHECK(not_null_ptr.get() == &integer);
+        CHECK(not_null_ptr.get() == pointer);
     }
 }

@@ -56,36 +56,36 @@ SOFTWARE.
 #include <sstream>
 #include <string>
 
-template <typename T>
+template <typename TypeT>
 void test_integer_layout()
 {
-    STATIC_REQUIRE(sizeof(T) == sizeof(typename T::value_type));
+    STATIC_REQUIRE(sizeof(TypeT) == sizeof(typename TypeT::value_type));
 
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
-    STATIC_REQUIRE(phi::is_standard_layout<T>::value);
+    STATIC_REQUIRE(phi::is_standard_layout<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
-    STATIC_REQUIRE(phi::is_trivially_copyable<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_copyable<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_trivially_destructible<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_destructible<TypeT>::value);
 #endif
 
 #if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_NOTHROW_DEFAULT_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_default_constructible<TypeT>::value);
 #endif
 
-    STATIC_REQUIRE(phi::is_copy_assignable<T>::value);
-    STATIC_REQUIRE(phi::is_nothrow_copy_assignable<T>::value);
-    STATIC_REQUIRE(phi::is_copy_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_nothrow_copy_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_move_assignable<T>::value);
-    STATIC_REQUIRE(phi::is_nothrow_move_assignable<T>::value);
-    STATIC_REQUIRE(phi::is_move_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_nothrow_move_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_copy_assignable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_copy_assignable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_copy_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_copy_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_move_assignable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_move_assignable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_move_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_nothrow_move_constructible<TypeT>::value);
 }
 
 template <typename LhsT, typename RhsT>
@@ -128,6 +128,7 @@ PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-compare")
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE("integer")
 {
     SECTION("integer layout", "[Utility][Types][integer]")
@@ -374,44 +375,45 @@ TEST_CASE("integer")
 
         SECTION("constructor")
         {
-            CONSTEXPR_RUNTIME int_t a(0);
-            STATIC_REQUIRE(static_cast<phi::int32_t>(a) == 0);
-            CONSTEXPR_RUNTIME int_t b(32);
-            STATIC_REQUIRE(static_cast<phi::int32_t>(b) == 32);
-            CONSTEXPR_RUNTIME int_t c(-25);
-            STATIC_REQUIRE(static_cast<phi::int32_t>(c) == -25);
+            CONSTEXPR_RUNTIME int_t val_a(0);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(val_a) == 0);
+            CONSTEXPR_RUNTIME int_t val_b(32);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(val_b) == 32);
+            CONSTEXPR_RUNTIME int_t val_c(-25);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(val_c) == -25);
         }
 
         SECTION("assignment")
         {
-            int_t a(0);
-            a = 32;
-            CHECK(static_cast<phi::int32_t>(a) == 32);
-            a = -25;
-            CHECK(static_cast<phi::int32_t>(a) == -25);
+            int_t val_a(0);
+            val_a = 32;
+            CHECK(static_cast<phi::int32_t>(val_a) == 32);
+            val_a = -25;
+            CHECK(static_cast<phi::int32_t>(val_a) == -25);
         }
 
         SECTION("unary")
         {
-            CONSTEXPR_RUNTIME int_t a(13);
-            STATIC_REQUIRE(static_cast<phi::int32_t>(+a) == static_cast<phi::int32_t>(a));
-            EXT_STATIC_REQUIRE(static_cast<phi::int32_t>(-a) == -static_cast<phi::int32_t>(a));
+            CONSTEXPR_RUNTIME int_t val_a(13);
+            STATIC_REQUIRE(static_cast<phi::int32_t>(+val_a) == static_cast<phi::int32_t>(val_a));
+            EXT_STATIC_REQUIRE(static_cast<phi::int32_t>(-val_a) ==
+                               -static_cast<phi::int32_t>(val_a));
         }
 
         SECTION("increment")
         {
-            int_t a(0);
-            CHECK(static_cast<phi::int32_t>(++a) == 1);
-            CHECK(static_cast<phi::int32_t>(a++) == 1);
-            CHECK(static_cast<phi::int32_t>(a) == 2);
+            int_t val_a(0);
+            CHECK(static_cast<phi::int32_t>(++val_a) == 1);
+            CHECK(static_cast<phi::int32_t>(val_a++) == 1);
+            CHECK(static_cast<phi::int32_t>(val_a) == 2);
         }
 
         SECTION("decrement")
         {
-            int_t a(0);
-            CHECK(static_cast<phi::int32_t>(--a) == -1);
-            CHECK(static_cast<phi::int32_t>(a--) == -1);
-            CHECK(static_cast<phi::int32_t>(a) == -2);
+            int_t val_a(0);
+            CHECK(static_cast<phi::int32_t>(--val_a) == -1);
+            CHECK(static_cast<phi::int32_t>(val_a--) == -1);
+            CHECK(static_cast<phi::int32_t>(val_a) == -2);
         }
 
         SECTION("addition")
@@ -626,15 +628,15 @@ TEST_CASE("integer")
 
         SECTION("i/o")
         {
-            std::ostringstream out;
-            std::istringstream in("10");
+            std::ostringstream out_stream;
+            std::istringstream in_stream("10");
 
-            int_t i(0);
-            out << i;
-            CHECK(out.str() == "0");
+            int_t integer{0};
+            out_stream << integer;
+            CHECK(out_stream.str() == "0");
 
-            in >> i;
-            CHECK(static_cast<phi::int32_t>(i) == 10);
+            in_stream >> integer;
+            CHECK(static_cast<phi::int32_t>(integer) == 10);
         }
 
         SECTION("signed_to_unsigned")

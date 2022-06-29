@@ -242,13 +242,11 @@ public:
     integer() = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    // cppcheck-suppress noExplicitConstructor; NOLINTNEXTLINE(hicpp-explicit-conversions)
     PHI_ALWAYS_INLINE constexpr integer(const integer<TypeT>& val) noexcept
         : m_Value(static_cast<TypeT>(val))
     {}
@@ -880,11 +878,11 @@ constexpr int operator%(integer<LhsT>, RhsT) = delete;
 
 template <typename CharT, typename CharTraitsT, typename IntegerT>
 std::basic_istream<CharT, CharTraitsT>& operator>>(std::basic_istream<CharT, CharTraitsT>& stream,
-                                                   integer<IntegerT>&                      i)
+                                                   integer<IntegerT>&                      integer)
 {
     IntegerT val{IntegerT(0)};
     stream >> val;
-    i = val;
+    integer = val;
     return stream;
 }
 

@@ -11,56 +11,56 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_has_virtual_destructor_impl()
 {
 #if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
-    STATIC_REQUIRE(phi::has_virtual_destructor<T>::value);
-    STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor<T>::value);
+    STATIC_REQUIRE(phi::has_virtual_destructor<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::has_virtual_destructor_v<T>);
-    STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor_v<T>);
+    STATIC_REQUIRE(phi::has_virtual_destructor_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::has_no_virtual_destructor_v<TypeT>);
 #    endif
 
     // Standard compatibility
-    STATIC_REQUIRE(std::has_virtual_destructor<T>::value);
+    STATIC_REQUIRE(std::has_virtual_destructor<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_virtual_destructor()
 {
-    test_has_virtual_destructor_impl<T>();
-    test_has_virtual_destructor_impl<const T>();
-    test_has_virtual_destructor_impl<volatile T>();
-    test_has_virtual_destructor_impl<const volatile T>();
+    test_has_virtual_destructor_impl<TypeT>();
+    test_has_virtual_destructor_impl<const TypeT>();
+    test_has_virtual_destructor_impl<volatile TypeT>();
+    test_has_virtual_destructor_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_no_virtual_destructor_impl()
 {
 #if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
-    STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<T>::value);
-    STATIC_REQUIRE(phi::has_no_virtual_destructor<T>::value);
+    STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<TypeT>::value);
+    STATIC_REQUIRE(phi::has_no_virtual_destructor<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<T>);
-    STATIC_REQUIRE(phi::has_no_virtual_destructor_v<T>);
+    STATIC_REQUIRE_FALSE(phi::has_virtual_destructor_v<TypeT>);
+    STATIC_REQUIRE(phi::has_no_virtual_destructor_v<TypeT>);
 #    endif
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::has_virtual_destructor<T>::value);
+    STATIC_REQUIRE_FALSE(std::has_virtual_destructor<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_no_virtual_destructor()
 {
-    test_has_no_virtual_destructor_impl<T>();
-    test_has_no_virtual_destructor_impl<const T>();
-    test_has_no_virtual_destructor_impl<volatile T>();
-    test_has_no_virtual_destructor_impl<const volatile T>();
+    test_has_no_virtual_destructor_impl<TypeT>();
+    test_has_no_virtual_destructor_impl<const TypeT>();
+    test_has_no_virtual_destructor_impl<volatile TypeT>();
+    test_has_no_virtual_destructor_impl<const volatile TypeT>();
 }
 
 struct A

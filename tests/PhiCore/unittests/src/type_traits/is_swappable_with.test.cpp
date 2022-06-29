@@ -6,55 +6,55 @@
 #include <phi/type_traits/is_swappable_with.hpp>
 #include <type_traits>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_swappable_with()
 {
-    STATIC_REQUIRE(phi::is_swappable_with<T, U>::value);
-    STATIC_REQUIRE(phi::is_swappable_with<U, T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with<U, T>::value);
+    STATIC_REQUIRE(phi::is_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_swappable_with<OtherT, TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_swappable_with_v<T, U>);
-    STATIC_REQUIRE(phi::is_swappable_with_v<U, T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with_v<U, T>);
+    STATIC_REQUIRE(phi::is_swappable_with_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_swappable_with_v<OtherT, TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable_with_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<U, T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<OtherT, TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<OtherT, TypeT>);
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_swappable_with<T, U>::value);
-    STATIC_REQUIRE(std::is_swappable_with<U, T>::value);
+    STATIC_REQUIRE(std::is_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE(std::is_swappable_with<OtherT, TypeT>::value);
 #endif
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_not_swappable_with()
 {
-    STATIC_REQUIRE_FALSE(phi::is_swappable_with<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_swappable_with<U, T>::value);
-    STATIC_REQUIRE(phi::is_not_swappable_with<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_swappable_with<U, T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_swappable_with<OtherT, TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_not_swappable_with<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_swappable_with_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_swappable_with_v<U, T>);
-    STATIC_REQUIRE(phi::is_not_swappable_with_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_swappable_with_v<U, T>);
+    STATIC_REQUIRE_FALSE(phi::is_swappable_with_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_swappable_with_v<OtherT, TypeT>);
+    STATIC_REQUIRE(phi::is_not_swappable_with_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_not_swappable_with_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<U, T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<U, T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable_with<OtherT, TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable_with<OtherT, TypeT>);
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_swappable_with<T, U>::value);
-    STATIC_REQUIRE_FALSE(std::is_swappable_with<U, T>::value);
+    STATIC_REQUIRE_FALSE(std::is_swappable_with<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(std::is_swappable_with<OtherT, TypeT>::value);
 #endif
 }
 
@@ -77,23 +77,23 @@ namespace is_swappable_with_ns
     struct D
     {};
 
-    void swap(A&, A&)
+    void swap(A& /*unused*/, A& /*unused*/)
     {}
 
-    void swap(A&, B&)
+    void swap(A& /*unused*/, B& /*unused*/)
     {}
-    void swap(B&, A&)
+    void swap(B& /*unused*/, A& /*unused*/)
     {}
 
-    void swap(A&, C&)
+    void swap(A& /*unused*/, C& /*unused*/)
     {} // missing swap(C, A)
-    void swap(D&, C&)
+    void swap(D& /*unused*/, C& /*unused*/)
     {}
 
     struct M
     {};
 
-    void swap(M&&, M&&)
+    void swap(M&& /*unused*/, M&& /*unused*/)
     {}
 
     struct T0

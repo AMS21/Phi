@@ -4,24 +4,24 @@
 
 #define FN_TEST()                                                                                  \
     PHI_BEGIN_MACRO()                                                                              \
-    int i = 3;                                                                                     \
-    j     = i;                                                                                     \
+    int integer2 = 3;                                                                              \
+    integer      = integer2;                                                                       \
     PHI_END_MACRO()
 
 #define FN_TEST_2() PHI_EMPTY_MACRO()
 
 TEST_CASE("FunctionLikeMacro", "[Config][FunctionLikeMacro]")
 {
-    int j = 0;
+    int integer = 0;
 
-    REQUIRE(j == 0);
+    REQUIRE(integer == 0);
 
     FN_TEST();
 
-    CHECK(j == 3);
+    CHECK(integer == 3);
 
     FN_TEST_2();
 
-    int i = 42;
-    CHECK(i == 42);
+    int integer2 = 42;
+    CHECK(integer2 == 42);
 }

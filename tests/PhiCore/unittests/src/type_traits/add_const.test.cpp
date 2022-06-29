@@ -11,27 +11,27 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_add_const_impl()
 {
-    CHECK_SAME_TYPE(typename phi::add_const<T>::type, U);
-    CHECK_SAME_TYPE(phi::add_const_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::add_const<TypeT>::type, OtherT);
+    CHECK_SAME_TYPE(phi::add_const_t<TypeT>, OtherT);
 
-    CHECK_SAME_TYPE(typename phi::add_const<T>::type, phi::add_const_t<T>);
+    CHECK_SAME_TYPE(typename phi::add_const<TypeT>::type, phi::add_const_t<TypeT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::add_const<T>::type, U);
-    CHECK_SAME_TYPE(typename phi::add_const<T>::type, typename std::add_const<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_const_t<T>, typename std::add_const<T>::type);
+    CHECK_SAME_TYPE(typename std::add_const<TypeT>::type, OtherT);
+    CHECK_SAME_TYPE(typename phi::add_const<TypeT>::type, typename std::add_const<TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_const_t<TypeT>, typename std::add_const<TypeT>::type);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_add_const()
 {
-    test_add_const_impl<T, const T>();
-    test_add_const_impl<const T, const T>();
-    test_add_const_impl<volatile T, const volatile T>();
-    test_add_const_impl<const volatile T, const volatile T>();
+    test_add_const_impl<TypeT, const TypeT>();
+    test_add_const_impl<const TypeT, const TypeT>();
+    test_add_const_impl<volatile TypeT, const volatile TypeT>();
+    test_add_const_impl<const volatile TypeT, const volatile TypeT>();
 }
 
 TEST_CASE("type_traits.add_const")

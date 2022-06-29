@@ -12,52 +12,52 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_complete_or_unbounded_void_impl()
 {
-    STATIC_REQUIRE(phi::is_complete_or_unbounded_void<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_complete_or_unbounded_void<T>::value);
+    STATIC_REQUIRE(phi::is_complete_or_unbounded_void<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_complete_or_unbounded_void<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_complete_or_unbounded_void_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_complete_or_unbounded_void_v<T>);
+    STATIC_REQUIRE(phi::is_complete_or_unbounded_void_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_complete_or_unbounded_void_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete_or_unbounded_void<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete_or_unbounded_void<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete_or_unbounded_void<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete_or_unbounded_void<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_complete_or_unbounded_void()
 {
-    test_is_complete_or_unbounded_void_impl<T>();
-    test_is_complete_or_unbounded_void_impl<const T>();
-    test_is_complete_or_unbounded_void_impl<volatile T>();
-    test_is_complete_or_unbounded_void_impl<const volatile T>();
+    test_is_complete_or_unbounded_void_impl<TypeT>();
+    test_is_complete_or_unbounded_void_impl<const TypeT>();
+    test_is_complete_or_unbounded_void_impl<volatile TypeT>();
+    test_is_complete_or_unbounded_void_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_complete_or_unbounded_void_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_complete_or_unbounded_void<T>::value);
-    STATIC_REQUIRE(phi::is_not_complete_or_unbounded_void<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_complete_or_unbounded_void<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_complete_or_unbounded_void<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_complete_or_unbounded_void_v<T>);
-    STATIC_REQUIRE(phi::is_not_complete_or_unbounded_void_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_complete_or_unbounded_void_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_complete_or_unbounded_void_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete_or_unbounded_void<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete_or_unbounded_void<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_complete_or_unbounded_void<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_complete_or_unbounded_void<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_complete_or_unbounded_void()
 {
-    test_is_not_complete_or_unbounded_void_impl<T>();
-    test_is_not_complete_or_unbounded_void_impl<const T>();
-    test_is_not_complete_or_unbounded_void_impl<volatile T>();
-    test_is_not_complete_or_unbounded_void_impl<const volatile T>();
+    test_is_not_complete_or_unbounded_void_impl<TypeT>();
+    test_is_not_complete_or_unbounded_void_impl<const TypeT>();
+    test_is_not_complete_or_unbounded_void_impl<volatile TypeT>();
+    test_is_not_complete_or_unbounded_void_impl<const volatile TypeT>();
 }
 
 class A;

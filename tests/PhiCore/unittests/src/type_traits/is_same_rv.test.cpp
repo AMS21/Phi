@@ -13,98 +13,98 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_same_rv_impl()
 {
-    STATIC_REQUIRE(phi::is_same_rv<T, U>::value);
-    STATIC_REQUIRE(phi::is_same_rv<U, T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rv<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rv<U, T>::value);
+    STATIC_REQUIRE(phi::is_same_rv<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_same_rv<OtherT, TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rv<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rv<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_same_rv_v<T, U>);
-    STATIC_REQUIRE(phi::is_same_rv_v<U, T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rv_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rv_v<U, T>);
+    STATIC_REQUIRE(phi::is_same_rv_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_same_rv_v<OtherT, TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rv_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rv_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rv<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rv<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rv<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rv<TypeT, OtherT>);
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_not_same_rv()
 {
-    STATIC_REQUIRE_FALSE(phi::is_same_rv<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_same_rv<U, T>::value);
-    STATIC_REQUIRE(phi::is_not_same_rv<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_same_rv<U, T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_same_rv<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_same_rv<OtherT, TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_same_rv<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_not_same_rv<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_same_rv_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_same_rv_v<U, T>);
-    STATIC_REQUIRE(phi::is_not_same_rv_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_same_rv_v<U, T>);
+    STATIC_REQUIRE_FALSE(phi::is_same_rv_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_same_rv_v<OtherT, TypeT>);
+    STATIC_REQUIRE(phi::is_not_same_rv_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_not_same_rv_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rv<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rv<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rv<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rv<TypeT, OtherT>);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename OtherT = TypeT>
 void test_is_same_rv()
 {
-    test_is_same_rv_impl<T, U>();
-    test_is_not_same_rv<T, const U>();
-    test_is_same_rv_impl<T, volatile U>();
-    test_is_not_same_rv<T, const volatile U>();
+    test_is_same_rv_impl<TypeT, OtherT>();
+    test_is_not_same_rv<TypeT, const OtherT>();
+    test_is_same_rv_impl<TypeT, volatile OtherT>();
+    test_is_not_same_rv<TypeT, const volatile OtherT>();
 
-    test_is_not_same_rv<const T, U>();
-    test_is_same_rv_impl<const T, const U>();
-    test_is_not_same_rv<const T, volatile U>();
-    test_is_same_rv_impl<const T, const volatile U>();
+    test_is_not_same_rv<const TypeT, OtherT>();
+    test_is_same_rv_impl<const TypeT, const OtherT>();
+    test_is_not_same_rv<const TypeT, volatile OtherT>();
+    test_is_same_rv_impl<const TypeT, const volatile OtherT>();
 
-    test_is_same_rv_impl<volatile T, U>();
-    test_is_not_same_rv<volatile T, const U>();
-    test_is_same_rv_impl<volatile T, volatile U>();
-    test_is_not_same_rv<volatile T, const volatile U>();
+    test_is_same_rv_impl<volatile TypeT, OtherT>();
+    test_is_not_same_rv<volatile TypeT, const OtherT>();
+    test_is_same_rv_impl<volatile TypeT, volatile OtherT>();
+    test_is_not_same_rv<volatile TypeT, const volatile OtherT>();
 
-    test_is_not_same_rv<const volatile T, U>();
-    test_is_same_rv_impl<const volatile T, const U>();
-    test_is_not_same_rv<const volatile T, volatile U>();
-    test_is_same_rv_impl<const volatile T, const volatile U>();
+    test_is_not_same_rv<const volatile TypeT, OtherT>();
+    test_is_same_rv_impl<const volatile TypeT, const OtherT>();
+    test_is_not_same_rv<const volatile TypeT, volatile OtherT>();
+    test_is_same_rv_impl<const volatile TypeT, const volatile OtherT>();
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename OtherT = TypeT>
 void test_is_same_rv_ref()
 {
-    test_is_same_rv_impl<T, U>();
-    test_is_same_rv_impl<T, const U>();
-    test_is_same_rv_impl<T, volatile U>();
-    test_is_same_rv_impl<T, const volatile U>();
+    test_is_same_rv_impl<TypeT, OtherT>();
+    test_is_same_rv_impl<TypeT, const OtherT>();
+    test_is_same_rv_impl<TypeT, volatile OtherT>();
+    test_is_same_rv_impl<TypeT, const volatile OtherT>();
 
-    test_is_same_rv_impl<const T, U>();
-    test_is_same_rv_impl<const T, const U>();
-    test_is_same_rv_impl<const T, volatile U>();
-    test_is_same_rv_impl<const T, const volatile U>();
+    test_is_same_rv_impl<const TypeT, OtherT>();
+    test_is_same_rv_impl<const TypeT, const OtherT>();
+    test_is_same_rv_impl<const TypeT, volatile OtherT>();
+    test_is_same_rv_impl<const TypeT, const volatile OtherT>();
 
-    test_is_same_rv_impl<volatile T, U>();
-    test_is_same_rv_impl<volatile T, const U>();
-    test_is_same_rv_impl<volatile T, volatile U>();
-    test_is_same_rv_impl<volatile T, const volatile U>();
+    test_is_same_rv_impl<volatile TypeT, OtherT>();
+    test_is_same_rv_impl<volatile TypeT, const OtherT>();
+    test_is_same_rv_impl<volatile TypeT, volatile OtherT>();
+    test_is_same_rv_impl<volatile TypeT, const volatile OtherT>();
 
-    test_is_same_rv_impl<const volatile T, U>();
-    test_is_same_rv_impl<const volatile T, const U>();
-    test_is_same_rv_impl<const volatile T, volatile U>();
-    test_is_same_rv_impl<const volatile T, const volatile U>();
+    test_is_same_rv_impl<const volatile TypeT, OtherT>();
+    test_is_same_rv_impl<const volatile TypeT, const OtherT>();
+    test_is_same_rv_impl<const volatile TypeT, volatile OtherT>();
+    test_is_same_rv_impl<const volatile TypeT, const volatile OtherT>();
 }
 
-template <typename T>
+template <typename TypeT>
 struct OverloadTest
 {
-    void fn(phi::is_same_rv<T, int>)
+    void fn(phi::is_same_rv<TypeT, int> /*unused*/)
     {}
-    void fn(phi::false_type)
+    void fn(phi::false_type /*unused*/)
     {}
     void x()
     {
@@ -133,8 +133,8 @@ TEST_CASE("is_same_rv")
     test_is_not_same_rv<int, volatile int&&>();
     test_is_not_same_rv<int, const volatile int&&>();
 
-    OverloadTest<char> t;
-    (void)t;
+    OverloadTest<char> test;
+    (void)test;
 
     test_is_same_rv<void>();
     test_is_same_rv<phi::nullptr_t>();

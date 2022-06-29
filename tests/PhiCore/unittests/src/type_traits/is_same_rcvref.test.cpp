@@ -14,90 +14,94 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_same_rcvref_impl2()
 {
-    STATIC_REQUIRE(phi::is_same_rcvref<T, U>::value);
-    STATIC_REQUIRE(phi::is_same_rcvref<U, T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref<U, T>::value);
+    STATIC_REQUIRE(phi::is_same_rcvref<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_same_rcvref<OtherT, TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_same_rcvref_v<T, U>);
-    STATIC_REQUIRE(phi::is_same_rcvref_v<U, T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref_v<U, T>);
+    STATIC_REQUIRE(phi::is_same_rcvref_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_same_rcvref_v<OtherT, TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_same_rcvref_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcvref<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rcvref<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcvref<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rcvref<TypeT, OtherT>);
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_same_rcvref_impl()
 {
-    test_is_same_rcvref_impl2<T, U>();
-    test_is_same_rcvref_impl2<T, const U>();
-    test_is_same_rcvref_impl2<T, volatile U>();
-    test_is_same_rcvref_impl2<T, const volatile U>();
+    test_is_same_rcvref_impl2<TypeT, OtherT>();
+    test_is_same_rcvref_impl2<TypeT, const OtherT>();
+    test_is_same_rcvref_impl2<TypeT, volatile OtherT>();
+    test_is_same_rcvref_impl2<TypeT, const volatile OtherT>();
 
-    test_is_same_rcvref_impl2<const T, U>();
-    test_is_same_rcvref_impl2<const T, const U>();
-    test_is_same_rcvref_impl2<const T, volatile U>();
-    test_is_same_rcvref_impl2<const T, const volatile U>();
+    test_is_same_rcvref_impl2<const TypeT, OtherT>();
+    test_is_same_rcvref_impl2<const TypeT, const OtherT>();
+    test_is_same_rcvref_impl2<const TypeT, volatile OtherT>();
+    test_is_same_rcvref_impl2<const TypeT, const volatile OtherT>();
 
-    test_is_same_rcvref_impl2<volatile T, U>();
-    test_is_same_rcvref_impl2<volatile T, const U>();
-    test_is_same_rcvref_impl2<volatile T, volatile U>();
-    test_is_same_rcvref_impl2<volatile T, const volatile U>();
+    test_is_same_rcvref_impl2<volatile TypeT, OtherT>();
+    test_is_same_rcvref_impl2<volatile TypeT, const OtherT>();
+    test_is_same_rcvref_impl2<volatile TypeT, volatile OtherT>();
+    test_is_same_rcvref_impl2<volatile TypeT, const volatile OtherT>();
 
-    test_is_same_rcvref_impl2<const volatile T, U>();
-    test_is_same_rcvref_impl2<const volatile T, const U>();
-    test_is_same_rcvref_impl2<const volatile T, volatile U>();
-    test_is_same_rcvref_impl2<const volatile T, const volatile U>();
+    test_is_same_rcvref_impl2<const volatile TypeT, OtherT>();
+    test_is_same_rcvref_impl2<const volatile TypeT, const OtherT>();
+    test_is_same_rcvref_impl2<const volatile TypeT, volatile OtherT>();
+    test_is_same_rcvref_impl2<const volatile TypeT, const volatile OtherT>();
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename OtherT = TypeT>
 void test_is_same_rcvref()
 {
-    test_is_same_rcvref_impl<T, U>();
-    test_is_same_rcvref_impl<T, phi::add_lvalue_reference_t<U>>();
-    test_is_same_rcvref_impl<T, phi::add_rvalue_reference_t<U>>();
+    test_is_same_rcvref_impl<TypeT, OtherT>();
+    test_is_same_rcvref_impl<TypeT, phi::add_lvalue_reference_t<OtherT>>();
+    test_is_same_rcvref_impl<TypeT, phi::add_rvalue_reference_t<OtherT>>();
 
-    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<T>, U>();
-    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<T>, phi::add_lvalue_reference_t<U>>();
-    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<T>, phi::add_rvalue_reference_t<U>>();
+    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<TypeT>, OtherT>();
+    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<TypeT>,
+                             phi::add_lvalue_reference_t<OtherT>>();
+    test_is_same_rcvref_impl<phi::add_lvalue_reference_t<TypeT>,
+                             phi::add_rvalue_reference_t<OtherT>>();
 
-    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<T>, U>();
-    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<T>, phi::add_lvalue_reference_t<U>>();
-    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<T>, phi::add_rvalue_reference_t<U>>();
+    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<TypeT>, OtherT>();
+    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<TypeT>,
+                             phi::add_lvalue_reference_t<OtherT>>();
+    test_is_same_rcvref_impl<phi::add_rvalue_reference_t<TypeT>,
+                             phi::add_rvalue_reference_t<OtherT>>();
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_is_not_same_rcvref()
 {
-    STATIC_REQUIRE_FALSE(phi::is_same_rcvref<T, U>::value);
-    STATIC_REQUIRE_FALSE(phi::is_same_rcvref<U, T>::value);
-    STATIC_REQUIRE(phi::is_not_same_rcvref<T, U>::value);
-    STATIC_REQUIRE(phi::is_not_same_rcvref<U, T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcvref<TypeT, OtherT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcvref<OtherT, TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_same_rcvref<TypeT, OtherT>::value);
+    STATIC_REQUIRE(phi::is_not_same_rcvref<OtherT, TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_same_rcvref_v<T, U>);
-    STATIC_REQUIRE_FALSE(phi::is_same_rcvref_v<U, T>);
-    STATIC_REQUIRE(phi::is_not_same_rcvref_v<T, U>);
-    STATIC_REQUIRE(phi::is_not_same_rcvref_v<U, T>);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcvref_v<TypeT, OtherT>);
+    STATIC_REQUIRE_FALSE(phi::is_same_rcvref_v<OtherT, TypeT>);
+    STATIC_REQUIRE(phi::is_not_same_rcvref_v<TypeT, OtherT>);
+    STATIC_REQUIRE(phi::is_not_same_rcvref_v<OtherT, TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcvref<T, U>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rcvref<T, U>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_same_rcvref<TypeT, OtherT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_same_rcvref<TypeT, OtherT>);
 }
 
-template <typename T>
+template <typename TypeT>
 struct OverloadTest
 {
-    void fn(phi::is_same_rcvref<T, int>)
+    void fn(phi::is_same_rcvref<TypeT, int> /*unused*/)
     {}
-    void fn(phi::false_type)
+    void fn(phi::false_type /*unused*/)
     {}
     void x()
     {
@@ -114,8 +118,8 @@ TEST_CASE("is_same_rcvref")
     test_is_not_same_rcvref<class_type, int*>();
     test_is_not_same_rcvref<int*, int&>();
 
-    OverloadTest<char> t;
-    (void)t;
+    OverloadTest<char> test;
+    (void)test;
 
     test_is_same_rcvref<void>();
     test_is_same_rcvref<phi::nullptr_t>();

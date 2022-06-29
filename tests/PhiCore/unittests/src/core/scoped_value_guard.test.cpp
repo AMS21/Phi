@@ -11,250 +11,254 @@ TEST_CASE("scoped_value_guard", "[Core][scoped_value_guard]")
     // ScopeValueGuard
     SECTION("default")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard(i);
+            phi::scoped_value_guard<int> guard(value);
             CHECK(guard.get_saved_value() == 0);
 
-            i = 21;
+            value = 21;
 
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("get_variable")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard(i);
+            phi::scoped_value_guard<int> guard(value);
 
             guard.get_variable() = 21;
 
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("get_variable const")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            const phi::scoped_value_guard<int> guard(i);
+            const phi::scoped_value_guard<int> guard(value);
 
-            i = 21;
+            value = 21;
 
             CHECK(guard.get_variable() == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("override_saved_value")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard(i);
+            phi::scoped_value_guard<int> guard(value);
 
-            i = 21;
+            value = 21;
             guard.override_saved_value(99);
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 99);
+        CHECK(value == 99);
     }
 
     // make_scope_value_guard
     SECTION("default")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(i);
+            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(value);
             CHECK(guard.get_saved_value() == 0);
 
-            i = 21;
+            value = 21;
 
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("get_variable")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(i);
+            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(value);
 
             guard.get_variable() = 21;
 
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("get_variable const")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(i);
+            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(value);
 
-            i = 21;
+            value = 21;
 
             CHECK(guard.get_variable() == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("override_saved_value")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(i);
+            phi::scoped_value_guard<int> guard = phi::make_scoped_value_guard<int>(value);
 
-            i = 21;
+            value = 21;
             guard.override_saved_value(99);
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 99);
+        CHECK(value == 99);
     }
 
     // armed_scoped_value_guard
     SECTION("Default")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard(i);
+            phi::armed_scoped_value_guard<int> guard(value);
 
-            i = 21;
+            value = 21;
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("disarm")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard(i);
+            phi::armed_scoped_value_guard<int> guard(value);
 
-            i = 21;
+            value = 21;
 
             CHECK(guard.is_armed());
             guard.disarm();
             CHECK_FALSE(guard.is_armed());
 
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 21);
+        CHECK(value == 21);
     }
 
     SECTION("rearm already armed")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard(i);
+            phi::armed_scoped_value_guard<int> guard(value);
 
-            i = 21;
+            value = 21;
             guard.rearm();
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("rearm after disarm")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard(i);
+            phi::armed_scoped_value_guard<int> guard(value);
 
             guard.disarm();
-            i = 21;
+            value = 21;
             guard.rearm();
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     // make_armed_scoped_value_guard
     SECTION("Default")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
 
-            i = 21;
+            value = 21;
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("disarm")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
 
             CHECK(guard.is_armed());
             guard.disarm();
             CHECK_FALSE(guard.is_armed());
 
-            i = 21;
-            CHECK(i == 21);
+            value = 21;
+            CHECK(value == 21);
         }
-        CHECK(i == 21);
+        CHECK(value == 21);
     }
 
     SECTION("rearm already armed")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
 
-            i = 21;
+            value = 21;
             guard.rearm();
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 
     SECTION("rearm after disarm")
     {
-        int i = 0;
-        CHECK(i == 0);
+        int value = 0;
+        CHECK(value == 0);
         {
-            phi::armed_scoped_value_guard<int> guard = phi::make_armed_scoped_value_guard<int>(i);
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
 
             guard.disarm();
-            i = 21;
+            value = 21;
             guard.rearm();
 
             CHECK(guard.is_armed());
-            CHECK(i == 21);
+            CHECK(value == 21);
         }
-        CHECK(i == 0);
+        CHECK(value == 0);
     }
 }
 

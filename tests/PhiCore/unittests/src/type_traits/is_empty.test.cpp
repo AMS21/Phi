@@ -12,71 +12,74 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_empty_impl()
 {
 #if PHI_HAS_WORKING_IS_EMPTY()
-    STATIC_REQUIRE(phi::is_empty<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_empty<T>::value);
+    STATIC_REQUIRE(phi::is_empty<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_empty<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_empty_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_empty_v<T>);
+    STATIC_REQUIRE(phi::is_empty_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_empty_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_empty<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_empty<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_empty<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_empty<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_empty<T>::value);
+    STATIC_REQUIRE(std::is_empty<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_empty()
 {
-    test_is_empty_impl<T>();
-    test_is_empty_impl<const T>();
-    test_is_empty_impl<volatile T>();
-    test_is_empty_impl<const volatile T>();
+    test_is_empty_impl<TypeT>();
+    test_is_empty_impl<const TypeT>();
+    test_is_empty_impl<volatile TypeT>();
+    test_is_empty_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_empty_impl()
 {
 #if PHI_HAS_WORKING_IS_EMPTY()
-    STATIC_REQUIRE_FALSE(phi::is_empty<T>::value);
-    STATIC_REQUIRE(phi::is_not_empty<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_empty<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_empty<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_empty_v<T>);
-    STATIC_REQUIRE(phi::is_not_empty_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_empty_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_empty_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_empty<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_empty<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_empty<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_empty<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_empty<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_empty<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_empty()
 {
-    test_is_not_empty_impl<T>();
-    test_is_not_empty_impl<const T>();
-    test_is_not_empty_impl<volatile T>();
-    test_is_not_empty_impl<const volatile T>();
+    test_is_not_empty_impl<TypeT>();
+    test_is_not_empty_impl<const TypeT>();
+    test_is_not_empty_impl<volatile TypeT>();
+    test_is_not_empty_impl<const volatile TypeT>();
 }
 
-class VirtualFn
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
+class virtual_fn
 {
-    virtual ~VirtualFn();
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
+    virtual ~virtual_fn();
 };
 
 struct StaticMember
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static int foo;
 };
 
@@ -87,7 +90,7 @@ struct NonStaticMember
 
 TEST_CASE("is_empty")
 {
-    test_is_not_empty<VirtualFn>();
+    test_is_not_empty<virtual_fn>();
     test_is_not_empty<virtual_base>();
     test_is_not_empty<non_empty_base>();
     test_is_not_empty<NonStaticMember>();

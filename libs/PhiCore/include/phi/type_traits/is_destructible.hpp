@@ -61,7 +61,8 @@ namespace detail
         template <typename Type1T>
         static no_type test(...);
 
-        static const bool value = sizeof(test<TypeT>(12)) == sizeof_yes_type;
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
+        static constexpr const bool value = sizeof(test<TypeT>(12)) == sizeof_yes_type;
     };
 
     template <typename TypeT, bool>

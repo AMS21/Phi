@@ -106,14 +106,15 @@ TEST_CASE("source_location")
 
     SECTION("Constexpr")
     {
-        constexpr phi::source_location l = phi::source_location{"file.cpp", "function", 3u, 1u};
+        constexpr phi::source_location location =
+                phi::source_location{"file.cpp", "function", 3u, 1u};
 
-        EXT_STATIC_REQUIRE(phi::string_equals(l.file_name(), "file.cpp"));
+        EXT_STATIC_REQUIRE(phi::string_equals(location.file_name(), "file.cpp"));
         //EXT_STATIC_REQUIRE(l.file_name_view() == "file.cpp");
-        EXT_STATIC_REQUIRE(phi::string_equals(l.function_name(), "function"));
+        EXT_STATIC_REQUIRE(phi::string_equals(location.function_name(), "function"));
         //EXT_STATIC_REQUIRE(l.function_name_view() == "function");
-        STATIC_REQUIRE(l.line() == 3u);
-        STATIC_REQUIRE(l.column() == 1u);
+        STATIC_REQUIRE(location.line() == 3u);
+        STATIC_REQUIRE(location.column() == 1u);
     }
 
     SECTION("PHI_SOURCE_LOCATION_CURRENT")

@@ -5,8 +5,6 @@ path_classifiers:
     - examples
   test:
     - tests
-  library:
-    - external
   tools:
     - tools
 

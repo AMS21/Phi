@@ -12,10 +12,10 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_space(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_space(const char character) noexcept
 {
     // NOLINTNEXTLINE(readability-implicit-bool-conversion)
-    return static_cast<bool>((c >= 9 && c <= 13) | (c == ' '));
+    return static_cast<bool>((character >= 9 && character <= 13) | (character == ' '));
 }
 
 DETAIL_PHI_END_NAMESPACE()

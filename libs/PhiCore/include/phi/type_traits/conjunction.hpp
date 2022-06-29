@@ -21,18 +21,19 @@ template <typename...>
 struct conjunction : public true_type
 {};
 
-template <typename B1>
-struct conjunction<B1> : public B1
+template <typename Bool1T>
+struct conjunction<Bool1T> : public Bool1T
 {};
 
-template <typename B1, typename... Bn>
-struct conjunction<B1, Bn...> : public conditional_t<bool(B1::value), conjunction<Bn...>, B1>
+template <typename Bool1T, typename... BoolsT>
+struct conjunction<Bool1T, BoolsT...>
+    : public conditional_t<bool(Bool1T::value), conjunction<BoolsT...>, Bool1T>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
-template <typename... B>
-PHI_INLINE_VARIABLE constexpr bool conjunction_v = conjunction<B...>::value;
+template <typename... BoolsT>
+PHI_INLINE_VARIABLE constexpr bool conjunction_v = conjunction<BoolsT...>::value;
 
 #endif
 

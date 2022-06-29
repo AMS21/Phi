@@ -24,6 +24,7 @@ template <typename FloatT>
 PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_nan(
         FloatT val) noexcept
 {
+    // NOLINTNEXTLINE(misc-redundant-expression)
     return val != val;
 }
 

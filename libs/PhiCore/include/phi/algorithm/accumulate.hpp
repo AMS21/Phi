@@ -8,13 +8,15 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/move.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 // TODO: noexcept
 template <typename InputIteratorT, typename TypeT>
-PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last, TypeT init)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last,
+                                                      TypeT init)
 {
     for (; first != last; ++first)
     {
@@ -26,12 +28,12 @@ PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT las
 
 // TODO: noexcept
 template <typename InputIteratorT, typename TypeT, typename BinaryOperationT>
-PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last, TypeT init,
-                                        BinaryOperationT op)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last,
+                                                      TypeT init, BinaryOperationT binary_operator)
 {
     for (; first != last; ++first)
     {
-        init = op(move(init), *first);
+        init = binary_operator(move(init), *first);
     }
 
     return init;

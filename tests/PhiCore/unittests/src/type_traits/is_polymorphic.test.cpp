@@ -12,64 +12,64 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_polymorphic_impl()
 {
-    STATIC_REQUIRE(phi::is_polymorphic<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_polymorphic<T>::value);
+    STATIC_REQUIRE(phi::is_polymorphic<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_polymorphic<TypeT>::value);
 #if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_union<TypeT>::value);
 #endif
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_polymorphic_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_polymorphic_v<T>);
+    STATIC_REQUIRE(phi::is_polymorphic_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_polymorphic_v<TypeT>);
 #    if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_union_v<TypeT>);
 #    endif
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_polymorphic<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_polymorphic<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_polymorphic<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_polymorphic<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_polymorphic<T>::value);
+    STATIC_REQUIRE(std::is_polymorphic<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_polymorphic_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_polymorphic<T>::value);
-    STATIC_REQUIRE(phi::is_not_polymorphic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_polymorphic<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_polymorphic<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_polymorphic_v<T>);
-    STATIC_REQUIRE(phi::is_not_polymorphic_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_polymorphic_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_polymorphic_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_polymorphic<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_polymorphic<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_polymorphic<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_polymorphic<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_polymorphic<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_polymorphic<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_polymorphic()
 {
-    test_is_polymorphic_impl<T>();
-    test_is_polymorphic_impl<const T>();
-    test_is_polymorphic_impl<volatile T>();
-    test_is_polymorphic_impl<const volatile T>();
+    test_is_polymorphic_impl<TypeT>();
+    test_is_polymorphic_impl<const TypeT>();
+    test_is_polymorphic_impl<volatile TypeT>();
+    test_is_polymorphic_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_polymorphic()
 {
-    test_is_not_polymorphic_impl<T>();
-    test_is_not_polymorphic_impl<const T>();
-    test_is_not_polymorphic_impl<volatile T>();
-    test_is_not_polymorphic_impl<const volatile T>();
+    test_is_not_polymorphic_impl<TypeT>();
+    test_is_not_polymorphic_impl<const TypeT>();
+    test_is_not_polymorphic_impl<volatile TypeT>();
+    test_is_not_polymorphic_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_polymorphic")

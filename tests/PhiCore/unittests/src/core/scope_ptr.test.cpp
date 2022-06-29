@@ -13,6 +13,7 @@
 
 struct A
 {
+    // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
     bool f()
     {
         return true;
@@ -85,8 +86,6 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         phi::scope_ptr<int> base(raw_ptr);
         phi::scope_ptr<int> ptr(phi::move(base));
 
-        CHECK_FALSE(base);
-        CHECK(base.get() == nullptr);
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
     }
@@ -111,8 +110,6 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         ptr = phi::move(base);
 
-        CHECK_FALSE(base);
-        CHECK(base.get() == nullptr);
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
 
@@ -122,8 +119,6 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         ptr = phi::move(ptr2);
 
-        CHECK_FALSE(ptr2);
-        CHECK(ptr2.get() == nullptr);
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
     }

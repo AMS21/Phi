@@ -16,70 +16,71 @@ private:
     A(char);
 };
 
-class AbstractFunc
+struct AbstractFunc
 {
     virtual ~AbstractFunc();
     virtual void foo() = 0;
 };
 
-class AbstractDestructor
+struct AbstractDestructor
 {
     virtual ~AbstractDestructor() = 0;
 };
 
 struct PrivateDtor
 {
-    PrivateDtor(int)
+    PrivateDtor(int /*unused*/)
     {}
 
 private:
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     ~PrivateDtor()
     {}
 };
 
 struct S
 {
-    template <typename T>
-    explicit operator T() const;
+    template <typename TypeT>
+    explicit operator TypeT() const;
 };
 
-template <typename T, typename... ArgsT>
+template <typename TypeT, typename... ArgsT>
 void test_is_constructible()
 {
 #if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_constructible<T, ArgsT...>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_constructible_v<T, ArgsT...>);
-    STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE(phi::is_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<T, ArgsT...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<TypeT, ArgsT...>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE(std::is_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 
-template <typename T, typename... ArgsT>
+template <typename TypeT, typename... ArgsT>
 void test_is_not_constructible()
 {
 #if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_constructible<T, ArgsT...>::value);
-    STATIC_REQUIRE(phi::is_not_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_constructible_v<T, ArgsT...>);
-    STATIC_REQUIRE(phi::is_not_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<T, ArgsT...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_constructible<TypeT, ArgsT...>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(std::is_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 

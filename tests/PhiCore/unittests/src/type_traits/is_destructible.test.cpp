@@ -12,63 +12,65 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_destructible_impl()
 {
-    STATIC_REQUIRE(phi::is_destructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_destructible<T>::value);
+    STATIC_REQUIRE(phi::is_destructible<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_destructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_destructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_destructible_v<T>);
+    STATIC_REQUIRE(phi::is_destructible_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_destructible_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_destructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_destructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_destructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_destructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_destructible<T>::value);
+    STATIC_REQUIRE(std::is_destructible<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_destructible()
 {
-    test_is_destructible_impl<T>();
-    test_is_destructible_impl<const T>();
-    test_is_destructible_impl<volatile T>();
-    test_is_destructible_impl<const volatile T>();
+    test_is_destructible_impl<TypeT>();
+    test_is_destructible_impl<const TypeT>();
+    test_is_destructible_impl<volatile TypeT>();
+    test_is_destructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_destructible_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_destructible<T>::value);
-    STATIC_REQUIRE(phi::is_not_destructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_destructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_destructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_destructible_v<T>);
-    STATIC_REQUIRE(phi::is_not_destructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_destructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_destructible_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_destructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_destructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_destructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_destructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_destructible<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_destructible<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_destructible()
 {
-    test_is_not_destructible_impl<T>();
-    test_is_not_destructible_impl<const T>();
-    test_is_not_destructible_impl<volatile T>();
-    test_is_not_destructible_impl<const volatile T>();
+    test_is_not_destructible_impl<TypeT>();
+    test_is_not_destructible_impl<const TypeT>();
+    test_is_not_destructible_impl<volatile TypeT>();
+    test_is_not_destructible_impl<const volatile TypeT>();
 }
 
-class NotEmpty2
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
+class not_empty2
 {
-    virtual ~NotEmpty2();
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
+    virtual ~not_empty2();
 };
 
 struct A
@@ -79,7 +81,7 @@ struct A
 TEST_CASE("is_destructible")
 {
     test_is_destructible<A>();
-    test_is_not_destructible<NotEmpty2>();
+    test_is_not_destructible<not_empty2>();
 
     test_is_not_destructible<void>();
     test_is_destructible<phi::nullptr_t>();

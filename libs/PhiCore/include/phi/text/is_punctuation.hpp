@@ -12,11 +12,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_punctuation(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_punctuation(const char character) noexcept
 {
     // NOLINTBEGIN
-    return (c >= 33 && c <= 47) || (c >= 58 && c <= 64) || (c >= 91 && c <= 96) ||
-           (c >= 123 && c <= 126);
+    return (character >= 33 && character <= 47) || (character >= 58 && character <= 64) ||
+           (character >= 91 && character <= 96) || (character >= 123 && character <= 126);
     // NOLINTEND
 }
 

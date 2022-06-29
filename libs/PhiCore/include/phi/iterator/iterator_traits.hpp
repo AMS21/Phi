@@ -14,7 +14,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-template <typename Iterator>
+template <typename IteratorT>
 struct iterator_traits;
 
 /// \cond detail

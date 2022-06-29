@@ -21,48 +21,48 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING(
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
-        4996) // 'std::is_literal_type<T>': warning STL4013: std::is_literal_type and std::is_literal_type_v are deprecated in C++17. You can define _SILENCE_CXX17_IS_LITERAL_TYPE_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+        4996) // 'std::is_literal_type<TypeT>': warning STL4013: std::is_literal_type and std::is_literal_type_v are deprecated in C++17. You can define _SILENCE_CXX17_IS_LITERAL_TYPE_DEPRECATION_WARNING or _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
 
-template <typename T>
+template <typename TypeT>
 void test_is_literal_type_impl()
 {
 #if PHI_HAS_WORKING_IS_LITERAL_TYPE()
-    STATIC_REQUIRE(phi::is_literal_type<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_literal_type<T>::value);
+    STATIC_REQUIRE(phi::is_literal_type<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_literal_type<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_literal_type_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_literal_type_v<T>);
+    STATIC_REQUIRE(phi::is_literal_type_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_literal_type_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_literal_type<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_literal_type<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_literal_type<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_literal_type<TypeT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_BELOW(20)
-    STATIC_REQUIRE(std::is_literal_type<T>::value);
+    STATIC_REQUIRE(std::is_literal_type<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_literal_type_impl()
 {
 #if PHI_HAS_WORKING_IS_LITERAL_TYPE()
-    STATIC_REQUIRE_FALSE(phi::is_literal_type<T>::value);
-    STATIC_REQUIRE(phi::is_not_literal_type<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_literal_type<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_literal_type<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_literal_type_v<T>);
-    STATIC_REQUIRE(phi::is_not_literal_type_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_literal_type_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_literal_type_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_literal_type<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_literal_type<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_literal_type<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_literal_type<TypeT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_BELOW(20)
-    STATIC_REQUIRE_FALSE(std::is_literal_type<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_literal_type<TypeT>::value);
 #    endif
 #endif
 }
@@ -70,61 +70,61 @@ void test_is_not_literal_type_impl()
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
-template <typename T>
+template <typename TypeT>
 void test_is_literal_type()
 {
-    test_is_literal_type_impl<T>();
-    test_is_literal_type_impl<const T>();
-    test_is_literal_type_impl<volatile T>();
-    test_is_literal_type_impl<const volatile T>();
+    test_is_literal_type_impl<TypeT>();
+    test_is_literal_type_impl<const TypeT>();
+    test_is_literal_type_impl<volatile TypeT>();
+    test_is_literal_type_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_literal_type()
 {
-    test_is_not_literal_type_impl<T>();
-    test_is_not_literal_type_impl<const T>();
-    test_is_not_literal_type_impl<volatile T>();
-    test_is_not_literal_type_impl<const volatile T>();
+    test_is_not_literal_type_impl<TypeT>();
+    test_is_not_literal_type_impl<const TypeT>();
+    test_is_not_literal_type_impl<volatile TypeT>();
+    test_is_not_literal_type_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_literal_type_cxx20()
 {
 #if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    test_is_literal_type<T>();
+    test_is_literal_type<TypeT>();
 #else
-    test_is_not_literal_type<T>();
+    test_is_not_literal_type<TypeT>();
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_literal_type_cxx17()
 {
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    test_is_literal_type<T>();
+    test_is_literal_type<TypeT>();
 #else
-    test_is_not_literal_type<T>();
+    test_is_not_literal_type<TypeT>();
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_literal_type_cxx23()
 {
 #if PHI_CPP_STANDARD_IS_ATLEAST(23)
-    test_is_not_literal_type<T>();
+    test_is_not_literal_type<TypeT>();
 #else
-    test_is_literal_type<T>();
+    test_is_literal_type<TypeT>();
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_literal_type_cxx20()
 {
 #if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    test_is_not_literal_type<T>();
+    test_is_not_literal_type<TypeT>();
 #else
-    test_is_literal_type<T>();
+    test_is_literal_type<TypeT>();
 #endif
 }
 

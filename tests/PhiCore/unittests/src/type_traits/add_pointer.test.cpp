@@ -11,47 +11,48 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U = T*>
+template <typename TypeT, typename ExpectedT = TypeT*>
 void test_add_pointer()
 {
-    CHECK_SAME_TYPE(typename phi::add_pointer<T>::type, U);
-    CHECK_SAME_TYPE(const typename phi::add_pointer<T>::type, const U);
-    CHECK_SAME_TYPE(volatile typename phi::add_pointer<T>::type, volatile U);
-    CHECK_SAME_TYPE(const volatile typename phi::add_pointer<T>::type, const volatile U);
+    CHECK_SAME_TYPE(typename phi::add_pointer<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(const typename phi::add_pointer<TypeT>::type, const ExpectedT);
+    CHECK_SAME_TYPE(volatile typename phi::add_pointer<TypeT>::type, volatile ExpectedT);
+    CHECK_SAME_TYPE(const volatile typename phi::add_pointer<TypeT>::type,
+                    const volatile ExpectedT);
 
-    CHECK_SAME_TYPE(phi::add_pointer_t<T>, U);
-    CHECK_SAME_TYPE(const phi::add_pointer_t<T>, const U);
-    CHECK_SAME_TYPE(volatile phi::add_pointer_t<T>, volatile U);
-    CHECK_SAME_TYPE(const volatile phi::add_pointer_t<T>, const volatile U);
+    CHECK_SAME_TYPE(phi::add_pointer_t<TypeT>, ExpectedT);
+    CHECK_SAME_TYPE(const phi::add_pointer_t<TypeT>, const ExpectedT);
+    CHECK_SAME_TYPE(volatile phi::add_pointer_t<TypeT>, volatile ExpectedT);
+    CHECK_SAME_TYPE(const volatile phi::add_pointer_t<TypeT>, const volatile ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_pointer<T>::type, typename std::add_pointer<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_pointer<const T>::type,
-                    typename std::add_pointer<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_pointer<volatile T>::type,
-                    typename std::add_pointer<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_pointer<const volatile T>::type,
-                    typename std::add_pointer<const volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<TypeT>::type, typename std::add_pointer<TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<const TypeT>::type,
+                    typename std::add_pointer<const TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<volatile TypeT>::type,
+                    typename std::add_pointer<volatile TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<const volatile TypeT>::type,
+                    typename std::add_pointer<const volatile TypeT>::type);
 }
 
-template <typename F>
+template <typename FuncT>
 void test_function0()
 {
-    CHECK_SAME_TYPE(F*, typename phi::add_pointer<F>::type);
-    CHECK_SAME_TYPE(F*, phi::add_pointer_t<F>);
+    CHECK_SAME_TYPE(FuncT*, typename phi::add_pointer<FuncT>::type);
+    CHECK_SAME_TYPE(FuncT*, phi::add_pointer_t<FuncT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_pointer<F>::type, typename std::add_pointer<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<FuncT>::type, typename std::add_pointer<FuncT>::type);
 }
 
-template <typename F>
+template <typename FuncT>
 void test_function1()
 {
-    CHECK_SAME_TYPE(F, typename phi::add_pointer<F>::type);
-    CHECK_SAME_TYPE(F, phi::add_pointer_t<F>);
+    CHECK_SAME_TYPE(FuncT, typename phi::add_pointer<FuncT>::type);
+    CHECK_SAME_TYPE(FuncT, phi::add_pointer_t<FuncT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_pointer<F>::type, typename std::add_pointer<F>::type);
+    CHECK_SAME_TYPE(typename phi::add_pointer<FuncT>::type, typename std::add_pointer<FuncT>::type);
 }
 
 struct Foo

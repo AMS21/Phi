@@ -277,9 +277,9 @@ public:
         return length() >= view.length() && compare(0u, view.length(), view) == 0;
     }
 
-    PHI_NODISCARD constexpr boolean starts_with(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean starts_with(CharT character) const noexcept
     {
-        return starts_with(basic_zstring(&c, 1u));
+        return starts_with(basic_zstring(&character, 1u));
     }
 
     PHI_NODISCARD constexpr boolean starts_with(const CharT* string) const noexcept
@@ -292,9 +292,9 @@ public:
         return length() >= view.length() && compare(length() - view.length(), npos, view) == 0;
     }
 
-    PHI_NODISCARD constexpr boolean ends_with(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean ends_with(CharT character) const noexcept
     {
-        return ends_with(basic_zstring(&c, 1u));
+        return ends_with(basic_zstring(&character, 1u));
     }
 
     PHI_NODISCARD constexpr boolean ends_with(const CharT* string) const noexcept
@@ -309,9 +309,9 @@ public:
         return find(view) != npos;
     }
 
-    PHI_NODISCARD constexpr boolean contains(CharT c) const noexcept
+    PHI_NODISCARD constexpr boolean contains(CharT character) const noexcept
     {
-        return find(c) != npos;
+        return find(character) != npos;
     }
 
     PHI_NODISCARD constexpr boolean contains(const CharT* string) const noexcept
@@ -331,9 +331,9 @@ public:
                                                     view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find(CharT character, size_type pos = 0u) const noexcept
     {
-        return find(basic_zstring(&c, 1u), pos);
+        return find(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find(const CharT* string, size_type pos = 0u) const noexcept
@@ -374,9 +374,9 @@ public:
         return npos;
     }
 
-    PHI_NODISCARD constexpr size_type rfind(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type rfind(CharT character, size_type pos = npos) const noexcept
     {
-        return rfind(basic_zstring(&c, 1u), pos);
+        return rfind(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type rfind(const CharT* string,
@@ -399,9 +399,10 @@ public:
                                                            view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find_first_of(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find_first_of(CharT     character,
+                                                    size_type pos = 0u) const noexcept
     {
-        return find_first_of(basic_zstring(&c, 1u), pos);
+        return find_first_of(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_first_of(const CharT* string,
@@ -433,9 +434,10 @@ public:
                                          view.cbegin(), view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD constexpr size_type find_last_of(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type find_last_of(CharT     character,
+                                                   size_type pos = npos) const noexcept
     {
-        return find_last_of(basic_zstring(&c, 1u), pos);
+        return find_last_of(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_last_of(const CharT* string,
@@ -457,9 +459,10 @@ public:
                                  to_pos(std::find_if(cbegin() + pos, cend(), not_in_view(view)));
     }
 
-    PHI_NODISCARD constexpr size_type find_first_not_of(CharT c, size_type pos = 0u) const noexcept
+    PHI_NODISCARD constexpr size_type find_first_not_of(CharT     character,
+                                                        size_type pos = 0u) const noexcept
     {
-        return find_first_not_of(basic_zstring(&c, 1u), pos);
+        return find_first_not_of(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_first_not_of(const CharT* string,
@@ -491,9 +494,10 @@ public:
                                    not_in_view(view)));
     }
 
-    PHI_NODISCARD constexpr size_type find_last_not_of(CharT c, size_type pos = npos) const noexcept
+    PHI_NODISCARD constexpr size_type find_last_not_of(CharT     character,
+                                                       size_type pos = npos) const noexcept
     {
-        return find_last_not_of(basic_zstring(&c, 1u), pos);
+        return find_last_not_of(basic_zstring(&character, 1u), pos);
     }
 
     PHI_NODISCARD constexpr size_type find_last_not_of(const CharT* string,
@@ -517,9 +521,9 @@ private:
             : view(other)
         {}
 
-        constexpr bool operator()(CharT c) const noexcept
+        constexpr bool operator()(CharT character) const noexcept
         {
-            return npos == view.find_first_of(c);
+            return npos == view.find_first_of(character);
         }
     };
 
@@ -530,14 +534,14 @@ private:
         return m_Data[pos.unsafe()];
     }
 
-    PHI_NODISCARD constexpr size_type to_pos(const_iterator it) const noexcept
+    PHI_NODISCARD constexpr size_type to_pos(const_iterator position) const noexcept
     {
-        return it == cend() ? npos : size_type(it - cbegin());
+        return position == cend() ? npos : size_type(position - cbegin());
     }
 
-    PHI_NODISCARD constexpr size_type to_pos(const_reverse_iterator it) const noexcept
+    PHI_NODISCARD constexpr size_type to_pos(const_reverse_iterator position) const noexcept
     {
-        return it == crend() ? npos : size_type(crend() - it - 1);
+        return position == crend() ? npos : size_type(crend() - position - 1);
     }
 
     CharT* m_Data;
@@ -550,6 +554,7 @@ using u16zstring = basic_zstring<char16_t>;
 using u32zstring = basic_zstring<char32_t>;
 
 template <typename CharT, typename TraitsT>
+// NOLINTNEXTLINE(readability-redundant-declaration)
 constexpr size_t basic_zstring<CharT, TraitsT>::npos;
 
 DETAIL_PHI_END_NAMESPACE()

@@ -14,12 +14,11 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 // Comparison of implementations: https://godbolt.org/z/d33183nbh
 
-PHI_NODISCARD constexpr phi::boolean is_alpha_numeric(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_alpha_numeric(const char character) noexcept
 {
-    // NOLINTBEGIN(hicpp-signed-bitwise,readability-implicit-bool-conversion)
-    return static_cast<bool>((c >= '0' && c <= '9') | (c >= 'a' && c <= 'z') |
-                             (c >= 'A' && c <= 'Z'));
-    // NOLINTEND(hicpp-signed-bitwise,readability-implicit-bool-conversion)
+    return static_cast<bool>(static_cast<int>(character >= '0' && character <= '9') |
+                             static_cast<int>(character >= 'a' && character <= 'z') |
+                             static_cast<int>(character >= 'A' && character <= 'Z'));
 }
 
 DETAIL_PHI_END_NAMESPACE()

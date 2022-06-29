@@ -5,14 +5,14 @@
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivial.hpp>
 
-template <typename T>
+template <typename TypeT>
 void test_aligned_union()
 {
 #if PHI_HAS_WORKING_IS_TRIVIAL()
-    STATIC_REQUIRE(phi::is_trivial<T>::value);
+    STATIC_REQUIRE(phi::is_trivial<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
-    STATIC_REQUIRE(phi::is_standard_layout<T>::value);
+    STATIC_REQUIRE(phi::is_standard_layout<TypeT>::value);
 #endif
 }
 

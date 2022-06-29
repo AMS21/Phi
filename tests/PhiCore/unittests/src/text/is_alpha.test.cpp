@@ -3,45 +3,45 @@
 #include "phi/text/is_alpha.hpp"
 #include <cctype>
 
-void test_is_alpha(const char c) noexcept
+void test_is_alpha(const char character) noexcept
 {
-    CHECK(phi::is_alpha(c));
-    CHECK(std::isalpha(c));
-    CHECK_NOEXCEPT(phi::is_alpha(c));
+    CHECK(phi::is_alpha(character));
+    CHECK(std::isalpha(character));
+    CHECK_NOEXCEPT(phi::is_alpha(character));
 }
 
-void test_is_not_alpha(const char c) noexcept
+void test_is_not_alpha(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_alpha(c));
-    CHECK_FALSE(std::isalpha(c));
-    CHECK_NOEXCEPT(phi::is_alpha(c));
+    CHECK_FALSE(phi::is_alpha(character));
+    CHECK_FALSE(std::isalpha(character));
+    CHECK_NOEXCEPT(phi::is_alpha(character));
 }
 
 TEST_CASE("is_alpha")
 {
-    for (char c{0}; c <= 64; ++c)
+    for (char character{0}; character <= 64; ++character)
     {
-        test_is_not_alpha(c);
+        test_is_not_alpha(character);
     }
 
-    for (char c{65}; c <= 90; ++c)
+    for (char character{65}; character <= 90; ++character)
     {
-        test_is_alpha(c);
+        test_is_alpha(character);
     }
 
-    for (char c{91}; c <= 96; ++c)
+    for (char character{91}; character <= 96; ++character)
     {
-        test_is_not_alpha(c);
+        test_is_not_alpha(character);
     }
 
-    for (char c{97}; c <= 122; ++c)
+    for (char character{97}; character <= 122; ++character)
     {
-        test_is_alpha(c);
+        test_is_alpha(character);
     }
 
-    for (char c{123}; c <= 126; ++c)
+    for (char character{123}; character <= 126; ++character)
     {
-        test_is_not_alpha(c);
+        test_is_not_alpha(character);
     }
 
     test_is_not_alpha(127);

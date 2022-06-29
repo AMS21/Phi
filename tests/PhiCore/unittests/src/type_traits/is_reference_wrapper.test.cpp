@@ -16,66 +16,66 @@
 #include <functional>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_reference_wrapper_impl()
 {
-    STATIC_REQUIRE(phi::is_reference_wrapper<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_reference_wrapper<T>::value);
+    STATIC_REQUIRE(phi::is_reference_wrapper<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_reference_wrapper<TypeT>::value);
 
 #if PHI_HAS_WORKING_IS_CLASS()
-    STATIC_REQUIRE(phi::is_class<T>::value);
+    STATIC_REQUIRE(phi::is_class<TypeT>::value);
 #endif
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_reference_wrapper_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_reference_wrapper_v<T>);
+    STATIC_REQUIRE(phi::is_reference_wrapper_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_reference_wrapper_v<TypeT>);
 
 #    if PHI_HAS_WORKING_IS_CLASS()
-    STATIC_REQUIRE(phi::is_class_v<T>);
+    STATIC_REQUIRE(phi::is_class_v<TypeT>);
 #    endif
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_reference_wrapper<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_reference_wrapper<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_reference_wrapper<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_reference_wrapper<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_reference_wrapper_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_reference_wrapper<T>::value);
-    STATIC_REQUIRE(phi::is_not_reference_wrapper<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference_wrapper<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_reference_wrapper<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_reference_wrapper_v<T>);
-    STATIC_REQUIRE(phi::is_not_reference_wrapper_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_wrapper_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_reference_wrapper_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_reference_wrapper<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_reference_wrapper<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_reference_wrapper<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_reference_wrapper<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_reference_wrapper()
 {
-    test_is_reference_wrapper_impl<T>();
-    test_is_reference_wrapper_impl<const T>();
-    test_is_reference_wrapper_impl<volatile T>();
-    test_is_reference_wrapper_impl<const volatile T>();
+    test_is_reference_wrapper_impl<TypeT>();
+    test_is_reference_wrapper_impl<const TypeT>();
+    test_is_reference_wrapper_impl<volatile TypeT>();
+    test_is_reference_wrapper_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_reference_wrapper()
 {
-    test_is_not_reference_wrapper_impl<T>();
-    test_is_not_reference_wrapper_impl<const T>();
-    test_is_not_reference_wrapper_impl<volatile T>();
-    test_is_not_reference_wrapper_impl<const volatile T>();
+    test_is_not_reference_wrapper_impl<TypeT>();
+    test_is_not_reference_wrapper_impl<const TypeT>();
+    test_is_not_reference_wrapper_impl<volatile TypeT>();
+    test_is_not_reference_wrapper_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_refenrece_wrapper")

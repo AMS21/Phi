@@ -3,10 +3,13 @@
 #include <phi/core/declval.hpp>
 #include <phi/type_traits/is_same.hpp>
 
-class A
+struct A
 {
     A(const A&);
+    A(A&&) noexcept;
+    ~A();
     A& operator=(const A&);
+    A& operator=(A&&) noexcept;
 };
 
 TEST_CASE("declval")

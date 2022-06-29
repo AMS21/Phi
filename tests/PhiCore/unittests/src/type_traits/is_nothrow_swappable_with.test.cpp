@@ -30,23 +30,23 @@ namespace is_nothrow_swappable_with_ns
     struct D
     {};
 
-    void swap(A&, A&)
+    void swap(A& /*unused*/, A& /*unused*/)
     {}
 
-    void swap(A&, B&) noexcept
+    void swap(A& /*unused*/, B& /*unused*/) noexcept
     {}
-    void swap(B&, A&) noexcept
+    void swap(B& /*unused*/, A& /*unused*/) noexcept
     {}
 
-    void swap(A&, C&) noexcept
+    void swap(A& /*unused*/, C& /*unused*/) noexcept
     {}
-    void swap(C&, A&)
+    void swap(C& /*unused*/, A& /*unused*/)
     {}
 
     struct M
     {};
 
-    void swap(M&&, M&&) noexcept
+    void swap(M&& /*unused*/, M&& /*unused*/) noexcept
     {}
 
 } // namespace is_nothrow_swappable_with_ns

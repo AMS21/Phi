@@ -13,67 +13,68 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_default_constructible_impl()
 {
 #if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_default_constructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_default_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_default_constructible<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_default_constructible<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_default_constructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_default_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_default_constructible_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_default_constructible_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_default_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_default_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_default_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_default_constructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_default_constructible<T>::value);
+    STATIC_REQUIRE(std::is_default_constructible<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_default_constructible_impl()
 {
 #if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_not_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_default_constructible<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<T>);
-    STATIC_REQUIRE(phi::is_not_default_constructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_default_constructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_default_constructible_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_default_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_default_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_default_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_default_constructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_default_constructible<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_default_constructible()
 {
-    test_is_default_constructible_impl<T>();
-    test_is_default_constructible_impl<const T>();
-    test_is_default_constructible_impl<volatile T>();
-    test_is_default_constructible_impl<const volatile T>();
+    test_is_default_constructible_impl<TypeT>();
+    test_is_default_constructible_impl<const TypeT>();
+    test_is_default_constructible_impl<volatile TypeT>();
+    test_is_default_constructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_default_constructible()
 {
-    test_is_not_default_constructible_impl<T>();
-    test_is_not_default_constructible_impl<const T>();
-    test_is_not_default_constructible_impl<volatile T>();
-    test_is_not_default_constructible_impl<const volatile T>();
+    test_is_not_default_constructible_impl<TypeT>();
+    test_is_not_default_constructible_impl<const TypeT>();
+    test_is_not_default_constructible_impl<volatile TypeT>();
+    test_is_not_default_constructible_impl<const volatile TypeT>();
 }
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class NoDefaultConstructor
 {
-    NoDefaultConstructor(int)
+    NoDefaultConstructor(int /*unused*/)
     {}
 };
 
@@ -82,8 +83,10 @@ struct A
     A();
 };
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class B
 {
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     B();
 };
 

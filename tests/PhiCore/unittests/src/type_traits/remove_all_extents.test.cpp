@@ -11,26 +11,26 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_all_extents_impl()
 {
-    CHECK_SAME_TYPE(typename phi::remove_all_extents<T>::type, U);
+    CHECK_SAME_TYPE(typename phi::remove_all_extents<TypeT>::type, ExpectedT);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    CHECK_SAME_TYPE(phi::remove_all_extents_t<T>, U);
+    CHECK_SAME_TYPE(phi::remove_all_extents_t<TypeT>, ExpectedT);
 #endif
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_all_extents<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_all_extents<TypeT>::type, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_remove_all_extents()
 {
-    test_remove_all_extents_impl<T, U>();
-    test_remove_all_extents_impl<const T, const U>();
-    test_remove_all_extents_impl<volatile T, volatile U>();
-    test_remove_all_extents_impl<const volatile T, const volatile U>();
+    test_remove_all_extents_impl<TypeT, ExpectedT>();
+    test_remove_all_extents_impl<const TypeT, const ExpectedT>();
+    test_remove_all_extents_impl<volatile TypeT, volatile ExpectedT>();
+    test_remove_all_extents_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
 TEST_CASE("remove_all_extents")

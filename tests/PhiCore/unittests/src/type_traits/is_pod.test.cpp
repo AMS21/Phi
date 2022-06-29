@@ -6,7 +6,7 @@ PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
         4647) // behavior change: __is_pod(x) has different value in previous versions
 PHI_MSVC_SUPPRESS_WARNING(
-        4996) // 'std::is_pod<T>': warning STL4025: std::is_pod and std::is_pod_v are deprecated in C++20. The std::is_trivially_copyable and/or std::is_standard_layout traits likely suit your use case. You can define _SILENCE_CXX20_IS_POD_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
+        4996) // 'std::is_pod<TypeT>': warning STL4025: std::is_pod and std::is_pod_v are deprecated in C++20. The std::is_trivially_copyable and/or std::is_standard_layout traits likely suit your use case. You can define _SILENCE_CXX20_IS_POD_DEPRECATION_WARNING or _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS to acknowledge that you have received this warning.
 
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
@@ -25,65 +25,65 @@ PHI_MSVC_SUPPRESS_WARNING(
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wdeprecated-declarations") // is_pod was deprecated in C++-20
 
-template <typename T>
+template <typename TypeT>
 void test_is_pod_impl()
 {
 #if PHI_HAS_WORKING_IS_POD()
-    STATIC_REQUIRE(phi::is_pod<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_pod<T>::value);
+    STATIC_REQUIRE(phi::is_pod<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_pod<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_pod_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_pod_v<T>);
+    STATIC_REQUIRE(phi::is_pod_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_pod_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_pod<T>::value);
+    STATIC_REQUIRE(std::is_pod<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_pod_impl()
 {
 #if PHI_HAS_WORKING_IS_POD()
-    STATIC_REQUIRE_FALSE(phi::is_pod<T>::value);
-    STATIC_REQUIRE(phi::is_not_pod<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_pod<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_pod<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_pod_v<T>);
-    STATIC_REQUIRE(phi::is_not_pod_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_pod_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_pod_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pod<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pod<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_pod<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_pod<TypeT>::value);
 #endif
 }
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
-template <typename T>
+template <typename TypeT>
 void test_is_pod()
 {
-    test_is_pod_impl<T>();
-    test_is_pod_impl<const T>();
-    test_is_pod_impl<volatile T>();
-    test_is_pod_impl<const volatile T>();
+    test_is_pod_impl<TypeT>();
+    test_is_pod_impl<const TypeT>();
+    test_is_pod_impl<volatile TypeT>();
+    test_is_pod_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_pod()
 {
-    test_is_not_pod_impl<T>();
-    test_is_not_pod_impl<const T>();
-    test_is_not_pod_impl<volatile T>();
-    test_is_not_pod_impl<const volatile T>();
+    test_is_not_pod_impl<TypeT>();
+    test_is_not_pod_impl<const TypeT>();
+    test_is_not_pod_impl<volatile TypeT>();
+    test_is_not_pod_impl<const volatile TypeT>();
 }
 
 struct A
@@ -96,7 +96,7 @@ struct B
     int m1;
 
 private:
-    int m2;
+    int m_Private;
 };
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -106,6 +106,7 @@ PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
         5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor)
 struct C
 {
     virtual void foo();
@@ -114,9 +115,10 @@ struct C
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 
-template <typename T>
+template <typename TypeT>
 struct D
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     D()
     {}
 };
@@ -136,8 +138,8 @@ TEST_CASE("is_pod")
     test_is_not_pod<D<double>>();
 
 #if PHI_HAS_WORKING_IS_POD()
-    int t[phi::is_pod<D<int>>::value ? -1 : 1];
-    (void)t;
+    int arr[phi::is_pod<D<int>>::value ? -1 : 1];
+    (void)arr;
 #endif
 
 #if PHI_COMPILER_IS(MSVC)

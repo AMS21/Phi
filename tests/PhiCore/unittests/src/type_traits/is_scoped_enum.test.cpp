@@ -14,79 +14,79 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_scoped_enum_impl()
 {
 #if PHI_HAS_WORKING_IS_SCOPED_ENUM()
-    STATIC_REQUIRE(phi::is_scoped_enum<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_scoped_enum<T>::value);
+    STATIC_REQUIRE(phi::is_scoped_enum<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_scoped_enum<TypeT>::value);
 #    if PHI_HAS_WORKING_IS_UNSCOPED_ENUM()
-    STATIC_REQUIRE_FALSE(phi::is_unscoped_enum<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unscoped_enum<TypeT>::value);
 #    endif
 #    if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE(phi::is_enum<T>::value);
+    STATIC_REQUIRE(phi::is_enum<TypeT>::value);
 #    endif
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_scoped_enum_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_scoped_enum_v<T>);
+    STATIC_REQUIRE(phi::is_scoped_enum_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_scoped_enum_v<TypeT>);
 #        if PHI_HAS_WORKING_IS_UNSCOPED_ENUM()
-    STATIC_REQUIRE_FALSE(phi::is_unscoped_enum_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_unscoped_enum_v<TypeT>);
 #        endif
 #        if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE(phi::is_enum_v<T>);
+    STATIC_REQUIRE(phi::is_enum_v<TypeT>);
 #        endif
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scoped_enum<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scoped_enum<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scoped_enum<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scoped_enum<TypeT>);
 
 #    if PHI_CPP_STANDARD_IS_ATLEAST(23) && defined(__cpp_lib_is_scoped_enum)
-    STATIC_REQUIRE(std::is_scoped_enum<T>::value);
+    STATIC_REQUIRE(std::is_scoped_enum<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_scoped_enum_impl()
 {
 #if PHI_HAS_WORKING_IS_SCOPED_ENUM()
-    STATIC_REQUIRE_FALSE(phi::is_scoped_enum<T>::value);
-    STATIC_REQUIRE(phi::is_not_scoped_enum<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_scoped_enum<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_scoped_enum<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<T>);
-    STATIC_REQUIRE(phi::is_not_scoped_enum_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_scoped_enum_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_scoped_enum_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scoped_enum<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scoped_enum<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scoped_enum<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scoped_enum<TypeT>);
 
 #    if PHI_CPP_STANDARD_IS_ATLEAST(23) && defined(__cpp_lib_is_scoped_enum)
-    STATIC_REQUIRE_FALSE(std::is_scoped_enum<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_scoped_enum<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_scoped_enum()
 {
-    test_is_scoped_enum_impl<T>();
-    test_is_scoped_enum_impl<const T>();
-    test_is_scoped_enum_impl<volatile T>();
-    test_is_scoped_enum_impl<const volatile T>();
+    test_is_scoped_enum_impl<TypeT>();
+    test_is_scoped_enum_impl<const TypeT>();
+    test_is_scoped_enum_impl<volatile TypeT>();
+    test_is_scoped_enum_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_scoped_enum()
 {
-    test_is_not_scoped_enum_impl<T>();
-    test_is_not_scoped_enum_impl<const T>();
-    test_is_not_scoped_enum_impl<volatile T>();
-    test_is_not_scoped_enum_impl<const volatile T>();
+    test_is_not_scoped_enum_impl<TypeT>();
+    test_is_not_scoped_enum_impl<const TypeT>();
+    test_is_not_scoped_enum_impl<volatile TypeT>();
+    test_is_not_scoped_enum_impl<const volatile TypeT>();
 }
 
-class A
+struct A
 {};
 
 enum E

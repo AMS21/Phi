@@ -3,39 +3,39 @@
 #include "phi/text/is_blank.hpp"
 #include <cctype>
 
-void test_is_blank(const char c) noexcept
+void test_is_blank(const char character) noexcept
 {
-    CHECK(phi::is_blank(c));
-    CHECK(std::isblank(c));
-    CHECK_NOEXCEPT(phi::is_blank(c));
+    CHECK(phi::is_blank(character));
+    CHECK(std::isblank(character));
+    CHECK_NOEXCEPT(phi::is_blank(character));
 }
 
-void test_is_not_blank(const char c) noexcept
+void test_is_not_blank(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_blank(c));
-    CHECK_FALSE(std::isblank(c));
-    CHECK_NOEXCEPT(phi::is_blank(c));
+    CHECK_FALSE(phi::is_blank(character));
+    CHECK_FALSE(std::isblank(character));
+    CHECK_NOEXCEPT(phi::is_blank(character));
 }
 
 TEST_CASE("is_blank")
 {
-    for (char c{0}; c <= 8; ++c)
+    for (char character{0}; character <= 8; ++character)
     {
-        test_is_not_blank(c);
+        test_is_not_blank(character);
     }
 
     test_is_blank('\t');
 
-    for (char c{10}; c <= 31; ++c)
+    for (char character{10}; character <= 31; ++character)
     {
-        test_is_not_blank(c);
+        test_is_not_blank(character);
     }
 
     test_is_blank(' ');
 
-    for (char c{33}; c <= 126; ++c)
+    for (char character{33}; character <= 126; ++character)
     {
-        test_is_not_blank(c);
+        test_is_not_blank(character);
     }
 
     test_is_not_blank(127);

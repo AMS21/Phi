@@ -12,9 +12,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_lower_case(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_lower_case(const char character) noexcept
 {
-    return (c >= 'a' && c <= 'z');
+    return (character >= 'a' && character <= 'z');
 }
 
 DETAIL_PHI_END_NAMESPACE()

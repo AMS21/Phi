@@ -9,6 +9,7 @@
 
 #include "phi/algorithm/exchange.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
@@ -18,7 +19,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-class dynamic_array
+class PHI_ATTRIBUTE_OWNER dynamic_array
 {
 public:
     using this_type              = dynamic_array<TypeT>;

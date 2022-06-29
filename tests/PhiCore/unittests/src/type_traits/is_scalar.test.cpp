@@ -11,56 +11,56 @@
 #include <phi/type_traits/is_scalar.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_scalar_impl()
 {
 #if PHI_HAS_WORKING_IS_SCALAR()
-    STATIC_REQUIRE(phi::is_scalar<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_scalar<T>::value);
+    STATIC_REQUIRE(phi::is_scalar<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_scalar<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_scalar_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_scalar_v<T>);
+    STATIC_REQUIRE(phi::is_scalar_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_scalar_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scalar<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scalar<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scalar<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scalar<TypeT>);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_scalar_impl()
 {
 #if PHI_HAS_WORKING_IS_SCALAR()
-    STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
-    STATIC_REQUIRE(phi::is_not_scalar<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_scalar<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_scalar<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
-    STATIC_REQUIRE(phi::is_not_scalar_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_scalar_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_scalar_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scalar<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scalar<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_scalar<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_scalar<TypeT>);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_scalar()
 {
-    test_is_scalar_impl<T>();
-    test_is_scalar_impl<const T>();
-    test_is_scalar_impl<volatile T>();
-    test_is_scalar_impl<const volatile T>();
+    test_is_scalar_impl<TypeT>();
+    test_is_scalar_impl<const TypeT>();
+    test_is_scalar_impl<volatile TypeT>();
+    test_is_scalar_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_scalar()
 {
-    test_is_not_scalar_impl<T>();
-    test_is_not_scalar_impl<const T>();
-    test_is_not_scalar_impl<volatile T>();
-    test_is_not_scalar_impl<const volatile T>();
+    test_is_not_scalar_impl<TypeT>();
+    test_is_not_scalar_impl<const TypeT>();
+    test_is_not_scalar_impl<volatile TypeT>();
+    test_is_not_scalar_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_scalar")

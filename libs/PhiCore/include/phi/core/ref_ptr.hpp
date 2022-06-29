@@ -90,13 +90,11 @@ public:
         , m_ControlBlock{nullptr}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(nullptr_t) noexcept
         : m_Ptr{nullptr}
         , m_ControlBlock{nullptr}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(TypeT* ptr)
         : m_Ptr{ptr}
         , m_ControlBlock{allocate_control_block()}
@@ -118,7 +116,6 @@ public:
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(const ref_ptr<OtherT>& other) noexcept
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
@@ -130,13 +127,11 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(ref_ptr<OtherT>&& other) noexcept
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(const not_null_ref_ptr<TypeT>& other) noexcept
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
@@ -150,7 +145,6 @@ public:
         }
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(not_null_ref_ptr<TypeT>&& other) noexcept
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
@@ -160,7 +154,6 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(const not_null_ref_ptr<OtherT>& other) noexcept
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
@@ -175,7 +168,6 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr ref_ptr(not_null_ref_ptr<OtherT>&& other) noexcept
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
@@ -214,6 +206,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     constexpr ref_ptr& operator=(const ref_ptr& other) noexcept
     {
         ref_ptr<TypeT>(other).swap(*this);
@@ -402,7 +395,6 @@ public:
 private:
     detail::ref_ptr_control_block* allocate_control_block()
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         m_ControlBlock = new (std::nothrow) detail::ref_ptr_control_block();
 
         if (m_ControlBlock == nullptr)
@@ -492,7 +484,6 @@ public:
 
     not_null_ref_ptr(nullptr_t) = delete;
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr not_null_ref_ptr(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
         : m_Ptr{ptr},
           m_ControlBlock{allocate_control_block()}
@@ -518,7 +509,6 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr not_null_ref_ptr(const not_null_ref_ptr<OtherT>& other) noexcept
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
@@ -527,7 +517,6 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value> = 0>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr not_null_ref_ptr(not_null_ref_ptr<OtherT>&& other) noexcept
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
@@ -555,6 +544,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     constexpr not_null_ref_ptr& operator=(const not_null_ref_ptr& other) noexcept
     {
         not_null_ref_ptr<TypeT>(other).swap(*this);
@@ -713,7 +703,6 @@ private:
 
     PHI_ATTRIBUTE_RETURNS_NONNULL detail::ref_ptr_control_block* allocate_control_block() noexcept
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
         m_ControlBlock = new (std::nothrow) detail::ref_ptr_control_block();
 
         PHI_DBG_ASSERT(m_ControlBlock != nullptr, "Failed to allocate control block");

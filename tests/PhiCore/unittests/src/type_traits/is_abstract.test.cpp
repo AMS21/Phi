@@ -12,62 +12,62 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_abstract_impl()
 {
 #if PHI_HAS_WORKING_IS_ABSTRACT()
-    STATIC_REQUIRE(phi::is_abstract<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_abstract<T>::value);
+    STATIC_REQUIRE(phi::is_abstract<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_abstract<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_abstract_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_abstract_v<T>);
+    STATIC_REQUIRE(phi::is_abstract_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_abstract_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_abstract<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_abstract<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_abstract<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_abstract<TypeT>);
 
     // Stndard compatbility
-    STATIC_REQUIRE(std::is_abstract<T>::value);
+    STATIC_REQUIRE(std::is_abstract<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_abstract()
 {
-    test_is_abstract_impl<T>();
-    test_is_abstract_impl<const T>();
-    test_is_abstract_impl<volatile T>();
-    test_is_abstract_impl<const volatile T>();
+    test_is_abstract_impl<TypeT>();
+    test_is_abstract_impl<const TypeT>();
+    test_is_abstract_impl<volatile TypeT>();
+    test_is_abstract_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_abstract_impl()
 {
 #if PHI_HAS_WORKING_IS_ABSTRACT()
-    STATIC_REQUIRE_FALSE(phi::is_abstract<T>::value);
-    STATIC_REQUIRE(phi::is_not_abstract<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_abstract<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_abstract<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_abstract_v<T>);
-    STATIC_REQUIRE(phi::is_not_abstract_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_abstract_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_abstract_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_abstract<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_abstract<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_abstract<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_abstract<TypeT>);
 
     // Standard compatbility
-    STATIC_REQUIRE_FALSE(std::is_abstract<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_abstract<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_abstract()
 {
-    test_is_not_abstract_impl<T>();
-    test_is_not_abstract_impl<const T>();
-    test_is_not_abstract_impl<volatile T>();
-    test_is_not_abstract_impl<const volatile T>();
+    test_is_not_abstract_impl<TypeT>();
+    test_is_not_abstract_impl<const TypeT>();
+    test_is_not_abstract_impl<volatile TypeT>();
+    test_is_not_abstract_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_abstract")

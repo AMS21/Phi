@@ -3,113 +3,103 @@
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/move_if_noexcept.hpp>
 
-class A
+struct A
 {
-    A(const A&);
-    A& operator=(const A&);
+    A()  = default;
+    ~A() = default;
 
-public:
-    A()
-    {}
+    A(A&&)            = default;
+    A& operator=(A&&) = default;
 
-    A(A&&)
-    {}
+    A(const A&)            = delete;
+    A& operator=(const A&) = delete;
 };
 
 struct legacy
 {
-    legacy()
-    {}
+    legacy() = default;
 
     legacy(const legacy&);
 };
 
 struct noexcept_move_copy
 {
-    noexcept_move_copy()
-        : status(true)
-    {}
+    noexcept_move_copy() = default;
 
-    noexcept_move_copy(noexcept_move_copy&& r) noexcept
+    noexcept_move_copy(noexcept_move_copy&& other) noexcept
     {
-        r.status = false;
+        other.m_Status = false;
     }
 
     noexcept_move_copy(const noexcept_move_copy&) = default;
 
     operator bool() const
     {
-        return status;
+        return m_Status;
     }
 
 private:
-    bool status;
+    bool m_Status{true};
 };
 
 struct noexcept_move_no_copy
 {
-    noexcept_move_no_copy()
-        : status(true)
-    {}
+    noexcept_move_no_copy() = default;
 
-    noexcept_move_no_copy(noexcept_move_no_copy&& r) noexcept
+    noexcept_move_no_copy(noexcept_move_no_copy&& other) noexcept
     {
-        r.status = false;
+        other.m_Status = false;
     }
 
     noexcept_move_no_copy(const noexcept_move_no_copy&) = delete;
 
     operator bool() const
     {
-        return status;
+        return m_Status;
     }
 
 private:
-    bool status;
+    bool m_Status{true};
 };
 
 struct except_move_copy
 {
-    except_move_copy()
-        : status(true)
-    {}
+    except_move_copy() = default;
 
-    except_move_copy(except_move_copy&& r) noexcept(false)
+    except_move_copy(except_move_copy&& other) noexcept(false)
     {
-        r.status = false;
+        other.m_Status = false;
     }
 
     except_move_copy(const except_move_copy&) = default;
 
     operator bool() const
     {
-        return status;
+        return m_Status;
     }
 
 private:
-    bool status;
+    bool m_Status{true};
 };
 
 struct except_move_no_copy
 {
-    except_move_no_copy()
-        : status(true)
-    {}
+    except_move_no_copy() = default;
 
-    except_move_no_copy(except_move_no_copy&& r) noexcept(false)
+    except_move_no_copy(except_move_no_copy&& other) noexcept(false)
     {
-        r.status = false;
+        other.m_Status = false;
     }
 
     except_move_no_copy(const except_move_no_copy&) = delete;
 
     operator bool() const
     {
-        return status;
+        return m_Status;
     }
 
 private:
-    bool status;
+    bool m_Status{true};
 };
 
 struct simple
@@ -119,29 +109,29 @@ struct simple
 
 TEST_CASE("move_if_noexcept")
 {
-    int       i  = 0;
-    const int ci = 0;
+    int       integer       = 0;
+    const int const_integer = 0;
 
-    legacy  l;
-    A       a;
-    const A ca;
+    legacy  legacy_class;
+    A       a_class;
+    const A const_a;
 
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(i)), int&&);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(i));
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(ci)), const int&&);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(ci));
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(a)), A &&);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(a));
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(ca)), const A&&);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(ca));
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(l)), const legacy&);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(l));
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(integer)), int&&);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(integer));
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(const_integer)), const int&&);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(const_integer));
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(a_class)), A &&);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(a_class));
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(const_a)), const A&&);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(const_a));
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(legacy_class)), const legacy&);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(legacy_class));
 
-    constexpr int i1 = 23;
-    constexpr int i2 = phi::move_if_noexcept(i1);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(i1));
-    PHI_UNUSED_VARIABLE(i2);
-    STATIC_REQUIRE(i2 == 23);
+    constexpr int integer1 = 23;
+    constexpr int integer2 = phi::move_if_noexcept(integer1);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(integer1));
+    PHI_UNUSED_VARIABLE(integer2);
+    STATIC_REQUIRE(integer2 == 23);
 
     noexcept_move_copy nemc1;
     noexcept_move_copy nemc2 = phi::move_if_noexcept(nemc1);
@@ -167,8 +157,8 @@ TEST_CASE("move_if_noexcept")
     PHI_UNUSED_VARIABLE(emnc2);
     CHECK_FALSE(emnc1);
 
-    constexpr simple s{5};
-    constexpr simple s2 = phi::move_if_noexcept(s);
-    CHECK_NOEXCEPT(phi::move_if_noexcept(s2));
-    PHI_UNUSED_VARIABLE(s2);
+    constexpr simple simple_class{5};
+    constexpr simple simple_class2 = phi::move_if_noexcept(simple_class);
+    CHECK_NOEXCEPT(phi::move_if_noexcept(simple_class2));
+    PHI_UNUSED_VARIABLE(simple_class2);
 }

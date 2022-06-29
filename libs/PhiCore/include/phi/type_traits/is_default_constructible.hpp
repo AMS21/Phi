@@ -71,49 +71,49 @@ namespace detail
         static no_type test(...);
     };
 
-    template <typename T, bool b>
+    template <typename TypeT, bool Boolean>
     struct is_default_constructible_abstract_filter
     {
-        static const bool value =
-                sizeof(is_default_constructible_imp::test<T>(0)) == detail::sizeof_yes_type;
+        static constexpr const bool value =
+                sizeof(is_default_constructible_imp::test<TypeT>(0)) == detail::sizeof_yes_type;
     };
 
-    template <typename T>
-    struct is_default_constructible_abstract_filter<T, true>
+    template <typename TypeT>
+    struct is_default_constructible_abstract_filter<TypeT, true>
     {
-        static const bool value = false;
+        static constexpr const bool value = false;
     };
 } // namespace detail
 
-template <typename T>
+template <typename TypeT>
 struct is_default_constructible
-    : public bool_constant<
-              detail::is_default_constructible_abstract_filter<T, is_abstract<T>::value>::value>
+    : public bool_constant<detail::is_default_constructible_abstract_filter<
+              TypeT, is_abstract<TypeT>::value>::value>
 {
-    static_assert(is_complete<T>::value,
+    static_assert(is_complete<TypeT>::value,
                   "Arguments to is_default_constructible must be complete types");
 };
 
-template <typename T, size_t N>
-struct is_default_constructible<T[N]> : public is_default_constructible<T>
+template <typename TypeT, size_t Size>
+struct is_default_constructible<TypeT[Size]> : public is_default_constructible<TypeT>
 {};
 
-template <typename T>
-struct is_default_constructible<T[]> : public is_default_constructible<T>
+template <typename TypeT>
+struct is_default_constructible<TypeT[]> : public is_default_constructible<TypeT>
 {};
 
-template <typename T>
-struct is_default_constructible<T&> : public false_type
+template <typename TypeT>
+struct is_default_constructible<TypeT&> : public false_type
 {};
 
-template <typename T, typename U>
-struct is_default_constructible<std::pair<T, U>>
-    : public integral_constant<bool, is_default_constructible<T>::value &&
-                                             is_default_constructible<U>::value>
+template <typename TypeT, typename OtherT>
+struct is_default_constructible<std::pair<TypeT, OtherT>>
+    : public bool_constant<is_default_constructible<TypeT>::value &&
+                           is_default_constructible<OtherT>::value>
 {};
 
-template <typename T>
-struct is_default_constructible<T&&> : public false_type
+template <typename TypeT>
+struct is_default_constructible<TypeT&&> : public false_type
 {};
 
 template <>

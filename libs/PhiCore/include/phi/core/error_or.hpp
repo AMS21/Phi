@@ -38,6 +38,7 @@ public:
     {}
 
     template <typename OtherT>
+    // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
     PHI_ALWAYS_INLINE constexpr error_or(OtherT&& value) noexcept
         : m_Value(forward<OtherT>(value))
     {}
@@ -46,12 +47,14 @@ public:
         : m_Error(move(error))
     {}
 
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     error_or(error_or&& other) = default;
 
     error_or(error_or const& other) = default;
 
     ~error_or() = default;
 
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     error_or& operator=(error_or&& other) = default;
 
     error_or& operator=(error_or const& other) = default;
@@ -106,12 +109,14 @@ public:
 
     error_or(error_or const& other) = default;
 
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     error_or(error_or&& other) = default;
 
     ~error_or() = default;
 
     error_or& operator=(error_or const& other) = default;
 
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
     error_or& operator=(error_or&& other) = default;
 
     template <typename ReturnT>

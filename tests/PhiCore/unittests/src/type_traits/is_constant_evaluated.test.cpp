@@ -18,8 +18,8 @@ TEST_CASE("is_constant_evaluated")
     CHECK_SAME_TYPE(decltype(phi::is_constant_evaluated()), bool);
     CHECK_NOEXCEPT(phi::is_constant_evaluated());
 
-    bool b = phi::is_constant_evaluated();
-    CHECK_FALSE(b);
+    bool boolean = phi::is_constant_evaluated();
+    CHECK_FALSE(boolean);
 
     // Actual tests
 #if TEST_SUPPORT_IS_CONSTANT_EVALUATED()

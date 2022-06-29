@@ -3,35 +3,35 @@
 #include "phi/text/is_digit.hpp"
 #include <cctype>
 
-void test_is_digit(const char c) noexcept
+void test_is_digit(const char character) noexcept
 {
-    CHECK(phi::is_digit(c));
-    CHECK(std::isdigit(c));
-    CHECK_NOEXCEPT(phi::is_digit(c));
+    CHECK(phi::is_digit(character));
+    CHECK(std::isdigit(character));
+    CHECK_NOEXCEPT(phi::is_digit(character));
 }
 
-void test_is_not_digit(const char c) noexcept
+void test_is_not_digit(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_digit(c));
-    CHECK_FALSE(std::isdigit(c));
-    CHECK_NOEXCEPT(phi::is_digit(c));
+    CHECK_FALSE(phi::is_digit(character));
+    CHECK_FALSE(std::isdigit(character));
+    CHECK_NOEXCEPT(phi::is_digit(character));
 }
 
 TEST_CASE("is_digit")
 {
-    for (char c{0}; c <= 47; ++c)
+    for (char character{0}; character <= 47; ++character)
     {
-        test_is_not_digit(c);
+        test_is_not_digit(character);
     }
 
-    for (char c{48}; c <= 57; ++c)
+    for (char character{48}; character <= 57; ++character)
     {
-        test_is_digit(c);
+        test_is_digit(character);
     }
 
-    for (char c{58}; c <= 126; ++c)
+    for (char character{58}; character <= 126; ++character)
     {
-        test_is_not_digit(c);
+        test_is_not_digit(character);
     }
 
     test_is_not_digit(127);

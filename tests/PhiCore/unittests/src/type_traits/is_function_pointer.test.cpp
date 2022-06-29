@@ -11,52 +11,52 @@
 #include <phi/type_traits/is_function_pointer.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_function_pointer_impl()
 {
-    STATIC_REQUIRE(phi::is_function_pointer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_function_pointer<T>::value);
+    STATIC_REQUIRE(phi::is_function_pointer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_function_pointer<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_function_pointer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_function_pointer_v<T>);
+    STATIC_REQUIRE(phi::is_function_pointer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_function_pointer_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_function_pointer<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_function_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_function_pointer<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_function_pointer<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_function_pointer()
 {
-    test_is_function_pointer_impl<T>();
-    test_is_function_pointer_impl<const T>();
-    test_is_function_pointer_impl<volatile T>();
-    test_is_function_pointer_impl<const volatile T>();
+    test_is_function_pointer_impl<TypeT>();
+    test_is_function_pointer_impl<const TypeT>();
+    test_is_function_pointer_impl<volatile TypeT>();
+    test_is_function_pointer_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_function_pointer_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_function_pointer<T>::value);
-    STATIC_REQUIRE(phi::is_not_function_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function_pointer<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_function_pointer<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_function_pointer_v<T>);
-    STATIC_REQUIRE(phi::is_not_function_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_function_pointer_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_function_pointer_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_function_pointer<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_function_pointer<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_function_pointer<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_function_pointer<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_function_pointer()
 {
-    test_is_not_function_pointer_impl<T>();
-    test_is_not_function_pointer_impl<const T>();
-    test_is_not_function_pointer_impl<volatile T>();
-    test_is_not_function_pointer_impl<const volatile T>();
+    test_is_not_function_pointer_impl<TypeT>();
+    test_is_not_function_pointer_impl<const TypeT>();
+    test_is_not_function_pointer_impl<volatile TypeT>();
+    test_is_not_function_pointer_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_function_pointer")

@@ -3,34 +3,34 @@
 #include "phi/text/is_octal_digit.hpp"
 #include <cctype>
 
-void test_is_octal_digit(const char c) noexcept
+void test_is_octal_digit(const char character) noexcept
 {
-    CHECK(phi::is_octal_digit(c));
-    CHECK(std::isdigit(c));
-    CHECK_NOEXCEPT(phi::is_octal_digit(c));
+    CHECK(phi::is_octal_digit(character));
+    CHECK(std::isdigit(character));
+    CHECK_NOEXCEPT(phi::is_octal_digit(character));
 }
 
-void test_is_not_octal_digit(const char c) noexcept
+void test_is_not_octal_digit(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_octal_digit(c));
-    CHECK_NOEXCEPT(phi::is_octal_digit(c));
+    CHECK_FALSE(phi::is_octal_digit(character));
+    CHECK_NOEXCEPT(phi::is_octal_digit(character));
 }
 
 TEST_CASE("is_octal_digit")
 {
-    for (char c{0}; c <= 47; ++c)
+    for (char character{0}; character <= 47; ++character)
     {
-        test_is_not_octal_digit(c);
+        test_is_not_octal_digit(character);
     }
 
-    for (char c{48}; c <= 55; ++c)
+    for (char character{48}; character <= 55; ++character)
     {
-        test_is_octal_digit(c);
+        test_is_octal_digit(character);
     }
 
-    for (char c{56}; c <= 126; ++c)
+    for (char character{56}; character <= 126; ++character)
     {
-        test_is_not_octal_digit(c);
+        test_is_not_octal_digit(character);
     }
 
     test_is_not_octal_digit(127);

@@ -13,6 +13,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 enum class byte : unsigned char
 {
 };
@@ -53,9 +54,9 @@ byte& operator^=(byte& lhs, byte rhs) noexcept
     return lhs = lhs ^ rhs;
 }
 
-constexpr byte operator~(byte b) noexcept
+constexpr byte operator~(byte value) noexcept
 {
-    return static_cast<byte>(static_cast<unsigned char>(~static_cast<unsigned int>(b)));
+    return static_cast<byte>(static_cast<unsigned char>(~static_cast<unsigned int>(value)));
 }
 
 template <typename IntegerT>
@@ -88,9 +89,9 @@ constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type op
 
 template <typename IntegerT>
 constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, IntegerT>::type to_integer(
-        byte b) noexcept
+        byte value) noexcept
 {
-    return static_cast<IntegerT>(b);
+    return static_cast<IntegerT>(value);
 }
 
 DETAIL_PHI_END_NAMESPACE()

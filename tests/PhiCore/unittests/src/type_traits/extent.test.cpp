@@ -11,42 +11,42 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, unsigned A = 0>
+template <typename TypeT, unsigned A = 0>
 void test_extent()
 {
-    STATIC_REQUIRE(phi::extent<T>::value == A);
-    STATIC_REQUIRE(phi::extent<const T>::value == A);
-    STATIC_REQUIRE(phi::extent<volatile T>::value == A);
-    STATIC_REQUIRE(phi::extent<const volatile T>::value == A);
+    STATIC_REQUIRE(phi::extent<TypeT>::value == A);
+    STATIC_REQUIRE(phi::extent<const TypeT>::value == A);
+    STATIC_REQUIRE(phi::extent<volatile TypeT>::value == A);
+    STATIC_REQUIRE(phi::extent<const volatile TypeT>::value == A);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::extent_v<T> == A);
-    STATIC_REQUIRE(phi::extent_v<const T> == A);
-    STATIC_REQUIRE(phi::extent_v<volatile T> == A);
-    STATIC_REQUIRE(phi::extent_v<const volatile T> == A);
+    STATIC_REQUIRE(phi::extent_v<TypeT> == A);
+    STATIC_REQUIRE(phi::extent_v<const TypeT> == A);
+    STATIC_REQUIRE(phi::extent_v<volatile TypeT> == A);
+    STATIC_REQUIRE(phi::extent_v<const volatile TypeT> == A);
 #endif
 
     // Standard compatbility
-    STATIC_REQUIRE(phi::extent<T>::value == std::extent<T>::value);
+    STATIC_REQUIRE(phi::extent<TypeT>::value == std::extent<TypeT>::value);
 }
 
-template <typename T, unsigned Val, unsigned A>
+template <typename TypeT, unsigned Val, unsigned A>
 void test_extent_var()
 {
-    STATIC_REQUIRE(phi::extent<T, Val>::value == A);
-    STATIC_REQUIRE(phi::extent<const T, Val>::value == A);
-    STATIC_REQUIRE(phi::extent<volatile T, Val>::value == A);
-    STATIC_REQUIRE(phi::extent<const volatile T, Val>::value == A);
+    STATIC_REQUIRE(phi::extent<TypeT, Val>::value == A);
+    STATIC_REQUIRE(phi::extent<const TypeT, Val>::value == A);
+    STATIC_REQUIRE(phi::extent<volatile TypeT, Val>::value == A);
+    STATIC_REQUIRE(phi::extent<const volatile TypeT, Val>::value == A);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::extent_v<T, Val> == A);
-    STATIC_REQUIRE(phi::extent_v<const T, Val> == A);
-    STATIC_REQUIRE(phi::extent_v<volatile T, Val> == A);
-    STATIC_REQUIRE(phi::extent_v<const volatile T, Val> == A);
+    STATIC_REQUIRE(phi::extent_v<TypeT, Val> == A);
+    STATIC_REQUIRE(phi::extent_v<const TypeT, Val> == A);
+    STATIC_REQUIRE(phi::extent_v<volatile TypeT, Val> == A);
+    STATIC_REQUIRE(phi::extent_v<const volatile TypeT, Val> == A);
 #endif
 
     // Standard compatbility
-    STATIC_REQUIRE(phi::extent<T, Val>::value == std::extent<T, Val>::value);
+    STATIC_REQUIRE(phi::extent<TypeT, Val>::value == std::extent<TypeT, Val>::value);
 }
 
 TEST_CASE("extent")

@@ -13,10 +13,10 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 // Implementation comparison: https://godbolt.org/z/1bEsG5nrE
 
-PHI_NODISCARD constexpr char to_lower_case(const char c) noexcept
+PHI_NODISCARD constexpr char to_lower_case(const char character) noexcept
 {
     // NOLINTNEXTLINE(bugprone-narrowing-conversions,readability,cppcoreguidelines-narrowing-conversions)
-    return (c >= 'A' && c <= 'Z') ? static_cast<char>(c + 32) : c;
+    return (character >= 'A' && character <= 'Z') ? static_cast<char>(character + 32) : character;
 }
 
 DETAIL_PHI_END_NAMESPACE()

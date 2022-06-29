@@ -5,60 +5,60 @@
 #include <phi/type_traits/has_unique_object_representations.hpp>
 #include <type_traits>
 
-template <typename T>
+template <typename TypeT>
 void test_has_unique_object_representations_impl()
 {
 #if PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
-    STATIC_REQUIRE(phi::has_unique_object_representations<T>::value);
-    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations<T>::value);
+    STATIC_REQUIRE(phi::has_unique_object_representations<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::has_unique_object_representations_v<T>);
-    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations_v<T>);
+    STATIC_REQUIRE(phi::has_unique_object_representations_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::has_no_unique_object_representations_v<TypeT>);
 #    endif
 
     // Standard compatbility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::has_unique_object_representations<T>::value);
+    STATIC_REQUIRE(std::has_unique_object_representations<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_unique_object_representations()
 {
-    test_has_unique_object_representations_impl<T>();
-    test_has_unique_object_representations_impl<const T>();
-    test_has_unique_object_representations_impl<volatile T>();
-    test_has_unique_object_representations_impl<const volatile T>();
+    test_has_unique_object_representations_impl<TypeT>();
+    test_has_unique_object_representations_impl<const TypeT>();
+    test_has_unique_object_representations_impl<volatile TypeT>();
+    test_has_unique_object_representations_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_no_unique_object_representations_impl()
 {
 #if PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
-    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations<T>::value);
-    STATIC_REQUIRE(phi::has_no_unique_object_representations<T>::value);
+    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations<TypeT>::value);
+    STATIC_REQUIRE(phi::has_no_unique_object_representations<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations_v<T>);
-    STATIC_REQUIRE(phi::has_no_unique_object_representations_v<T>);
+    STATIC_REQUIRE_FALSE(phi::has_unique_object_representations_v<TypeT>);
+    STATIC_REQUIRE(phi::has_no_unique_object_representations_v<TypeT>);
 #    endif
 
 // Standard compatbility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::has_unique_object_representations<T>::value);
+    STATIC_REQUIRE_FALSE(std::has_unique_object_representations<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_has_no_unique_object_representations()
 {
-    test_has_no_unique_object_representations_impl<T>();
-    test_has_no_unique_object_representations_impl<const T>();
-    test_has_no_unique_object_representations_impl<volatile T>();
-    test_has_no_unique_object_representations_impl<const volatile T>();
+    test_has_no_unique_object_representations_impl<TypeT>();
+    test_has_no_unique_object_representations_impl<const TypeT>();
+    test_has_no_unique_object_representations_impl<volatile TypeT>();
+    test_has_no_unique_object_representations_impl<const volatile TypeT>();
 }
 
 union EmptyUnion

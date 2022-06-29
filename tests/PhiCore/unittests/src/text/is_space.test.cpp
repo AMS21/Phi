@@ -3,42 +3,42 @@
 #include "phi/text/is_space.hpp"
 #include <cctype>
 
-void test_is_space(const char c) noexcept
+void test_is_space(const char character) noexcept
 {
-    CHECK(phi::is_space(c));
-    CHECK(std::isspace(c));
-    CHECK_NOEXCEPT(phi::is_space(c));
+    CHECK(phi::is_space(character));
+    CHECK(std::isspace(character));
+    CHECK_NOEXCEPT(phi::is_space(character));
 }
 
-void test_is_not_space(const char c) noexcept
+void test_is_not_space(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_space(c));
-    CHECK_FALSE(std::isspace(c));
-    CHECK_NOEXCEPT(phi::is_space(c));
+    CHECK_FALSE(phi::is_space(character));
+    CHECK_FALSE(std::isspace(character));
+    CHECK_NOEXCEPT(phi::is_space(character));
 }
 
 TEST_CASE("is_space")
 {
-    for (char c{0}; c <= 8; ++c)
+    for (char character{0}; character <= 8; ++character)
     {
-        test_is_not_space(c);
+        test_is_not_space(character);
     }
 
-    for (char c{9}; c <= 13; ++c)
+    for (char character{9}; character <= 13; ++character)
     {
-        test_is_space(c);
+        test_is_space(character);
     }
 
-    for (char c{14}; c <= 31; ++c)
+    for (char character{14}; character <= 31; ++character)
     {
-        test_is_not_space(c);
+        test_is_not_space(character);
     }
 
     test_is_space(32);
 
-    for (char c{33}; c <= 126; ++c)
+    for (char character{33}; character <= 126; ++character)
     {
-        test_is_not_space(c);
+        test_is_not_space(character);
     }
 
     test_is_not_space(127);

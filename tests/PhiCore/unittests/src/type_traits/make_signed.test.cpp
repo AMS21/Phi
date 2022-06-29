@@ -12,20 +12,20 @@
 #include <cstdint>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_make_signed_impl()
 {
-    CHECK_SAME_TYPE(typename phi::make_signed<T>::type, U);
-    CHECK_SAME_TYPE(phi::make_signed_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::make_signed<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::make_signed_t<TypeT>, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_make_signed()
 {
-    test_make_signed_impl<T, U>();
-    test_make_signed_impl<const T, const U>();
-    test_make_signed_impl<volatile T, volatile U>();
-    test_make_signed_impl<const volatile T, const volatile U>();
+    test_make_signed_impl<TypeT, ExpectedT>();
+    test_make_signed_impl<const TypeT, const ExpectedT>();
+    test_make_signed_impl<volatile TypeT, volatile ExpectedT>();
+    test_make_signed_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
 enum BigEnum : long long

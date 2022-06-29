@@ -5,46 +5,46 @@
 #include <phi/type_traits/is_pointer_interconvertible_base_of.hpp>
 #include <type_traits>
 
-template <typename B, typename D>
+template <typename BaseT, typename DerivedT>
 void test_is_pointer_interconvertible_base_of()
 {
 #if PHI_HAS_WORKING_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
-    STATIC_REQUIRE(phi::is_pointer_interconvertible_base_of<B, D>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_pointer_interconvertible_base_of<B, D>::value);
+    STATIC_REQUIRE(phi::is_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_pointer_interconvertible_base_of_v<B, D>);
-    STATIC_REQUIRE_FALSE(phi::is_not_pointer_interconvertible_base_of_v<B, D>);
+    STATIC_REQUIRE(phi::is_pointer_interconvertible_base_of_v<BaseT, DerivedT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_pointer_interconvertible_base_of_v<BaseT, DerivedT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<B, D>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<B, D>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<BaseT, DerivedT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<BaseT, DerivedT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    STATIC_REQUIRE(std::is_pointer_interconvertible_base_of<B, D>::value);
+    STATIC_REQUIRE(std::is_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
 #    endif
 #endif
 }
 
-template <typename B, typename D>
+template <typename BaseT, typename DerivedT>
 void test_is_not_pointer_interconvertible_base_of()
 {
 #if PHI_HAS_WORKING_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
-    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of<B, D>::value);
-    STATIC_REQUIRE(phi::is_not_pointer_interconvertible_base_of<B, D>::value);
+    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
+    STATIC_REQUIRE(phi::is_not_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of_v<B, D>);
-    STATIC_REQUIRE(phi::is_not_pointer_interconvertible_base_of_v<B, D>);
+    STATIC_REQUIRE_FALSE(phi::is_pointer_interconvertible_base_of_v<BaseT, DerivedT>);
+    STATIC_REQUIRE(phi::is_not_pointer_interconvertible_base_of_v<BaseT, DerivedT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<B, D>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<B, D>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_pointer_interconvertible_base_of<BaseT, DerivedT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_pointer_interconvertible_base_of<BaseT, DerivedT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(20)
-    STATIC_REQUIRE_FALSE(std::is_pointer_interconvertible_base_of<B, D>::value);
+    STATIC_REQUIRE_FALSE(std::is_pointer_interconvertible_base_of<BaseT, DerivedT>::value);
 #    endif
 #endif
 }
@@ -84,14 +84,14 @@ struct Bar
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunused-private-field")
 
-class Baz : Foo, public Bar
+class baz : Foo, public Bar
 {
-    int x;
+    int m_X;
 };
 
-class NonStdLayout : public Baz
+class non_std_layout : public baz
 {
-    int y;
+    int m_Y;
 };
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
@@ -126,9 +126,9 @@ TEST_CASE("is_pointer_interconvertible_base_of")
 #if PHI_COMPILER_IS(MSVC)
     test_is_not_pointer_interconvertible_base_of<Bar, Baz>();
 #else
-    test_is_pointer_interconvertible_base_of<Bar, Baz>();
+    test_is_pointer_interconvertible_base_of<Bar, baz>();
 #endif
-    test_is_pointer_interconvertible_base_of<Foo, Baz>();
-    test_is_not_pointer_interconvertible_base_of<Baz, NonStdLayout>();
-    test_is_pointer_interconvertible_base_of<NonStdLayout, NonStdLayout>();
+    test_is_pointer_interconvertible_base_of<Foo, baz>();
+    test_is_not_pointer_interconvertible_base_of<baz, non_std_layout>();
+    test_is_pointer_interconvertible_base_of<non_std_layout, non_std_layout>();
 }

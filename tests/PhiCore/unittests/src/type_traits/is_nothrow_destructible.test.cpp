@@ -14,61 +14,61 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_nothrow_destructible_impl()
 {
-    STATIC_REQUIRE(phi::is_nothrow_destructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_destructible<T>::value);
-    STATIC_REQUIRE(phi::is_destructible<T>::value);
+    STATIC_REQUIRE(phi::is_nothrow_destructible<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_destructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_destructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_nothrow_destructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_destructible_v<T>);
-    STATIC_REQUIRE(phi::is_destructible_v<T>);
+    STATIC_REQUIRE(phi::is_nothrow_destructible_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_nothrow_destructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_destructible_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_destructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_destructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_destructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_destructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_nothrow_destructible<T>::value);
-    STATIC_REQUIRE(std::is_destructible<T>::value);
+    STATIC_REQUIRE(std::is_nothrow_destructible<TypeT>::value);
+    STATIC_REQUIRE(std::is_destructible<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_nothrow_destructible_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_destructible<T>::value);
-    STATIC_REQUIRE(phi::is_not_nothrow_destructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_destructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_nothrow_destructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_nothrow_destructible_v<T>);
-    STATIC_REQUIRE(phi::is_not_nothrow_destructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_destructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_nothrow_destructible_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_destructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_destructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_nothrow_destructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_nothrow_destructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_nothrow_destructible<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_nothrow_destructible<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_nothrow_destructible()
 {
-    test_is_nothrow_destructible_impl<T>();
-    test_is_nothrow_destructible_impl<const T>();
-    test_is_nothrow_destructible_impl<volatile T>();
-    test_is_nothrow_destructible_impl<const volatile T>();
+    test_is_nothrow_destructible_impl<TypeT>();
+    test_is_nothrow_destructible_impl<const TypeT>();
+    test_is_nothrow_destructible_impl<volatile TypeT>();
+    test_is_nothrow_destructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_nothrow_destructible()
 {
-    test_is_not_nothrow_destructible_impl<T>();
-    test_is_not_nothrow_destructible_impl<const T>();
-    test_is_not_nothrow_destructible_impl<volatile T>();
-    test_is_not_nothrow_destructible_impl<const volatile T>();
+    test_is_not_nothrow_destructible_impl<TypeT>();
+    test_is_not_nothrow_destructible_impl<const TypeT>();
+    test_is_not_nothrow_destructible_impl<volatile TypeT>();
+    test_is_not_nothrow_destructible_impl<const volatile TypeT>();
 }
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
@@ -79,6 +79,7 @@ PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
         5204) // 'name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 
+// NOLINTNEXTLINE(cppcoreguidelines-virtual-class-destructor,readability-identifier-naming)
 class A
 {
     virtual void foo() = 0;

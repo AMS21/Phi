@@ -9,45 +9,45 @@ TEST_CASE("stop_watch", "[Core][stop_watch]")
 {
     SECTION("defaulted")
     {
-        phi::stop_watch<> sw;
+        phi::stop_watch<> watch;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
-        std::chrono::duration<double, std::milli> elapsed = sw.get_elapsed();
+        std::chrono::duration<double, std::milli> elapsed = watch.get_elapsed();
 
         CHECK(elapsed.count() >= 1);
     }
 
     SECTION("system clock")
     {
-        phi::stop_watch<std::chrono::system_clock> sw;
+        phi::stop_watch<std::chrono::system_clock> watch;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
-        std::chrono::duration<double, std::milli> elapsed = sw.get_elapsed();
+        std::chrono::duration<double, std::milli> elapsed = watch.get_elapsed();
 
         CHECK(elapsed.count() >= 1);
     }
 
     SECTION("steady clock")
     {
-        phi::stop_watch<std::chrono::steady_clock> sw;
+        phi::stop_watch<std::chrono::steady_clock> watch;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
-        std::chrono::duration<double, std::milli> elapsed = sw.get_elapsed();
+        std::chrono::duration<double, std::milli> elapsed = watch.get_elapsed();
 
         CHECK(elapsed.count() >= 1);
     }
 
     SECTION("Elapsed cast")
     {
-        phi::stop_watch<std::chrono::system_clock> sw;
+        phi::stop_watch<std::chrono::system_clock> watch;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
         std::chrono::duration<std::int32_t, std::micro> elapsed =
-                sw.get_elapsed<std::int32_t, std::micro>();
+                watch.get_elapsed<std::int32_t, std::micro>();
 
         CHECK(elapsed.count() >= 1000);
     }

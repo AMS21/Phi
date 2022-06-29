@@ -7,7 +7,7 @@ upgraded_pip=0
 added_llvm_apt=0
 root_dir=$(pwd)
 
-cmake_build_flags="-O3 -DNDEBUG -W -march=native -mtune=native"
+cmake_build_flags="-O3 -DNDEBUG -w -march=native -mtune=native"
 
 # Make sure pip is using the latest version
 upgrade_pip() {
@@ -97,7 +97,6 @@ install_clang() {
 
     echo "CC=clang-$1" >>"$GITHUB_ENV"
     echo "CXX=clang++-$1" >>"$GITHUB_ENV"
-
 }
 
 # Expects first parameter to the the requested version
@@ -124,7 +123,6 @@ install_gcc() {
 
     echo "CC=gcc-$1" >>"$GITHUB_ENV"
     echo "CXX=g++-$1" >>"$GITHUB_ENV"
-
 }
 
 install_valgrind() {
@@ -136,7 +134,6 @@ install_valgrind() {
     echo "-- Verifying valgrind..."
     valgrind --version
     echo "-- Verifying valgrind done"
-
 }
 
 # Expects first parameter to the the requested version

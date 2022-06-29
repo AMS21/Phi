@@ -24,8 +24,8 @@ public:
     using reference         = void;
     using iterator_category = output_iterator_tag;
 
-    constexpr explicit back_insert_iterator(ContainerT& c) noexcept
-        : m_Container(address_of(c))
+    constexpr explicit back_insert_iterator(ContainerT& container) noexcept
+        : m_Container(address_of(container))
     {}
 
     constexpr back_insert_iterator<ContainerT>& operator=(
@@ -52,6 +52,7 @@ public:
         return *this;
     }
 
+    // NOLINTNEXTLINE(cert-dcl21-cpp)
     constexpr back_insert_iterator operator++(int) noexcept
     {
         return *this;

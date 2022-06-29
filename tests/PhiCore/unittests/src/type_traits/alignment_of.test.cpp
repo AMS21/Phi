@@ -8,32 +8,32 @@
 #include <cstdint>
 #include <type_traits>
 
-template <typename T, unsigned A>
+template <typename TypeT, unsigned A>
 void test_alignment_of()
 {
-    constexpr static unsigned alignof_result = alignof(T);
+    constexpr static unsigned alignof_result = alignof(TypeT);
 
     // Test that the golden value is correct
     STATIC_REQUIRE(alignof_result == A);
 
-    STATIC_REQUIRE(phi::alignment_of<T>::value == alignof_result);
-    STATIC_REQUIRE(phi::alignment_of<T>::value == A);
-    STATIC_REQUIRE(phi::alignment_of<const T>::value == A);
-    STATIC_REQUIRE(phi::alignment_of<volatile T>::value == A);
-    STATIC_REQUIRE(phi::alignment_of<const volatile T>::value == A);
+    STATIC_REQUIRE(phi::alignment_of<TypeT>::value == alignof_result);
+    STATIC_REQUIRE(phi::alignment_of<TypeT>::value == A);
+    STATIC_REQUIRE(phi::alignment_of<const TypeT>::value == A);
+    STATIC_REQUIRE(phi::alignment_of<volatile TypeT>::value == A);
+    STATIC_REQUIRE(phi::alignment_of<const volatile TypeT>::value == A);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::alignment_of_v<T> == alignof_result);
-    STATIC_REQUIRE(phi::alignment_of_v<T> == A);
-    STATIC_REQUIRE(phi::alignment_of_v<const T> == A);
-    STATIC_REQUIRE(phi::alignment_of_v<volatile T> == A);
-    STATIC_REQUIRE(phi::alignment_of_v<const volatile T> == A);
+    STATIC_REQUIRE(phi::alignment_of_v<TypeT> == alignof_result);
+    STATIC_REQUIRE(phi::alignment_of_v<TypeT> == A);
+    STATIC_REQUIRE(phi::alignment_of_v<const TypeT> == A);
+    STATIC_REQUIRE(phi::alignment_of_v<volatile TypeT> == A);
+    STATIC_REQUIRE(phi::alignment_of_v<const volatile TypeT> == A);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::alignment_of<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::alignment_of<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(phi::alignment_of<T>::value == std::alignment_of<T>::value);
+    STATIC_REQUIRE(phi::alignment_of<TypeT>::value == std::alignment_of<TypeT>::value);
 }
 
 TEST_CASE("alignment_of")

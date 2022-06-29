@@ -12,9 +12,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_digit(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_digit(const char character) noexcept
 {
-    return (c >= '0' && c <= '9');
+    return (character >= '0' && character <= '9');
 }
 
 DETAIL_PHI_END_NAMESPACE()

@@ -11,49 +11,49 @@
 #include <phi/type_traits/is_bool.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_bool_impl()
 {
-    STATIC_REQUIRE(phi::is_bool<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_bool<T>::value);
+    STATIC_REQUIRE(phi::is_bool<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_bool<TypeT>::value);
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bool<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bool<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_bool<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_bool<TypeT>);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_bool_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_bool_v<T>);
+    STATIC_REQUIRE(phi::is_bool_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_bool_v<TypeT>);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_bool()
 {
-    test_is_bool_impl<T>();
-    test_is_bool_impl<const T>();
-    test_is_bool_impl<volatile T>();
-    test_is_bool_impl<const volatile T>();
+    test_is_bool_impl<TypeT>();
+    test_is_bool_impl<const TypeT>();
+    test_is_bool_impl<volatile TypeT>();
+    test_is_bool_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_bool_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
-    STATIC_REQUIRE(phi::is_not_bool<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_bool<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_bool<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
-    STATIC_REQUIRE(phi::is_not_bool_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_bool_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_bool_v<TypeT>);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_bool()
 {
-    test_is_not_bool_impl<T>();
-    test_is_not_bool_impl<const T>();
-    test_is_not_bool_impl<volatile T>();
-    test_is_not_bool_impl<const volatile T>();
+    test_is_not_bool_impl<TypeT>();
+    test_is_not_bool_impl<const TypeT>();
+    test_is_not_bool_impl<volatile TypeT>();
+    test_is_not_bool_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_bool")

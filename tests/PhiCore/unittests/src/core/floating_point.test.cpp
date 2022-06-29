@@ -138,30 +138,30 @@ TEST_CASE("floating_point")
 
         SECTION("constructor")
         {
-            CONSTEXPR_RUNTIME FloatT a(0.0);
-            STATIC_REQUIRE(static_cast<double>(a) == 0.0);
+            CONSTEXPR_RUNTIME FloatT test1(0.0);
+            STATIC_REQUIRE(static_cast<double>(test1) == 0.0);
 
-            CONSTEXPR_RUNTIME FloatT b(3.14);
-            STATIC_REQUIRE(static_cast<double>(b) == 3.14);
+            CONSTEXPR_RUNTIME FloatT test2(3.14);
+            STATIC_REQUIRE(static_cast<double>(test2) == 3.14);
 
-            CONSTEXPR_RUNTIME FloatT c(-42.5);
-            STATIC_REQUIRE(static_cast<double>(c) == -42.5);
+            CONSTEXPR_RUNTIME FloatT test3(-42.5);
+            STATIC_REQUIRE(static_cast<double>(test3) == -42.5);
         }
 
         SECTION("assignment")
         {
-            FloatT a(0.0);
-            a = 3.14;
-            CHECK(static_cast<double>(a) == 3.14);
-            a = -42.5;
-            CHECK(static_cast<double>(a) == -42.5);
+            FloatT test(0.0);
+            test = 3.14;
+            CHECK(static_cast<double>(test) == 3.14);
+            test = -42.5;
+            CHECK(static_cast<double>(test) == -42.5);
         }
 
         SECTION("unary")
         {
-            CONSTEXPR_RUNTIME FloatT a(13.255);
-            STATIC_REQUIRE(static_cast<double>(+a) == static_cast<double>(a));
-            STATIC_REQUIRE(static_cast<double>(-a) == -static_cast<double>(a));
+            CONSTEXPR_RUNTIME FloatT test(13.255);
+            STATIC_REQUIRE(static_cast<double>(+test) == static_cast<double>(test));
+            STATIC_REQUIRE(static_cast<double>(-test) == -static_cast<double>(test));
         }
 
         SECTION("addition")
@@ -340,21 +340,21 @@ TEST_CASE("floating_point")
 
         SECTION("i/o")
         {
-            std::ostringstream out;
-            std::istringstream in("1.0");
+            std::ostringstream out_stream;
+            std::istringstream in_stream("1.0");
 
-            FloatT f(0.0);
-            out << f;
-            CHECK(out.str() == "0");
+            FloatT float_value(0.0);
+            out_stream << float_value;
+            CHECK(out_stream.str() == "0");
 
-            in >> f;
-            CHECK(static_cast<double>(f) == 1.0);
+            in_stream >> float_value;
+            CHECK(static_cast<double>(float_value) == 1.0);
         }
 
         SECTION("unsafe")
         {
-            CONSTEXPR_RUNTIME FloatT f(0.0);
-            STATIC_REQUIRE(f.unsafe() == 0.0);
+            CONSTEXPR_RUNTIME FloatT test(0.0);
+            STATIC_REQUIRE(test.unsafe() == 0.0);
         }
 
         SECTION("std::hash")

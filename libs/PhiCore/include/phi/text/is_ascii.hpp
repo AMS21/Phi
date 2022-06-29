@@ -12,10 +12,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_ascii(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_ascii(const char character) noexcept
 {
-    // NOLINTNEXTLINE(hicpp-signed-bitwise)
-    return ((c & ~0x7f) == 0);
+    return ((character & ~0x7f) == 0);
 }
 
 DETAIL_PHI_END_NAMESPACE()

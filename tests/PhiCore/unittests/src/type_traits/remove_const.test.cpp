@@ -11,23 +11,23 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_const_impl()
 {
-    CHECK_SAME_TYPE(typename phi::remove_const<T>::type, U);
-    CHECK_SAME_TYPE(phi::remove_const_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::remove_const<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::remove_const_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_const<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_const<TypeT>::type, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_remove_const()
 {
-    test_remove_const_impl<T, U>();
-    test_remove_const_impl<const T, U>();
-    test_remove_const_impl<volatile T, volatile U>();
-    test_remove_const_impl<const volatile T, volatile U>();
+    test_remove_const_impl<TypeT, ExpectedT>();
+    test_remove_const_impl<const TypeT, ExpectedT>();
+    test_remove_const_impl<volatile TypeT, volatile ExpectedT>();
+    test_remove_const_impl<const volatile TypeT, volatile ExpectedT>();
 }
 
 TEST_CASE("remove_const")

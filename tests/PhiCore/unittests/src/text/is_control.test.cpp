@@ -3,30 +3,30 @@
 #include "phi/text/is_control.hpp"
 #include <cctype>
 
-void test_is_control(const char c) noexcept
+void test_is_control(const char character) noexcept
 {
-    CHECK(phi::is_control(c));
-    CHECK(std::iscntrl(c));
-    CHECK_NOEXCEPT(phi::is_control(c));
+    CHECK(phi::is_control(character));
+    CHECK(std::iscntrl(character));
+    CHECK_NOEXCEPT(phi::is_control(character));
 }
 
-void test_is_not_control(const char c) noexcept
+void test_is_not_control(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_control(c));
-    CHECK_FALSE(std::iscntrl(c));
-    CHECK_NOEXCEPT(phi::is_control(c));
+    CHECK_FALSE(phi::is_control(character));
+    CHECK_FALSE(std::iscntrl(character));
+    CHECK_NOEXCEPT(phi::is_control(character));
 }
 
 TEST_CASE("is_control")
 {
-    for (char c{0}; c <= 31; ++c)
+    for (char character{0}; character <= 31; ++character)
     {
-        test_is_control(c);
+        test_is_control(character);
     }
 
-    for (char c{32}; c <= 126; ++c)
+    for (char character{32}; character <= 126; ++character)
     {
-        test_is_not_control(c);
+        test_is_not_control(character);
     }
 
     test_is_control(127);

@@ -11,26 +11,26 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename OtherT>
 void test_add_cv_impl()
 {
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, U);
-    CHECK_SAME_TYPE(phi::add_cv_t<T>, U);
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, phi::add_cv_t<T>);
+    CHECK_SAME_TYPE(typename phi::add_cv<TypeT>::type, OtherT);
+    CHECK_SAME_TYPE(phi::add_cv_t<TypeT>, OtherT);
+    CHECK_SAME_TYPE(typename phi::add_cv<TypeT>::type, phi::add_cv_t<TypeT>);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::add_cv<T>::type, U);
-    CHECK_SAME_TYPE(typename phi::add_cv<T>::type, typename std::add_cv<T>::type);
-    CHECK_SAME_TYPE(phi::add_cv_t<T>, typename std::add_cv<T>::type);
+    CHECK_SAME_TYPE(typename std::add_cv<TypeT>::type, OtherT);
+    CHECK_SAME_TYPE(typename phi::add_cv<TypeT>::type, typename std::add_cv<TypeT>::type);
+    CHECK_SAME_TYPE(phi::add_cv_t<TypeT>, typename std::add_cv<TypeT>::type);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_add_cv()
 {
-    test_add_cv_impl<T, const volatile T>();
-    test_add_cv_impl<const T, const volatile T>();
-    test_add_cv_impl<volatile T, const volatile T>();
-    test_add_cv_impl<const volatile T, const volatile T>();
+    test_add_cv_impl<TypeT, const volatile TypeT>();
+    test_add_cv_impl<const TypeT, const volatile TypeT>();
+    test_add_cv_impl<volatile TypeT, const volatile TypeT>();
+    test_add_cv_impl<const volatile TypeT, const volatile TypeT>();
 }
 
 TEST_CASE("type_traits.add_cv")

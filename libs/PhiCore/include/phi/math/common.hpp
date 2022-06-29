@@ -13,15 +13,15 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-constexpr PHI_ALWAYS_INLINE TypeT square(const TypeT val) noexcept
+constexpr PHI_ALWAYS_INLINE TypeT square(const TypeT value) noexcept
 {
-    return val * val;
+    return value * value;
 }
 
 template <typename TypeT>
-constexpr PHI_ALWAYS_INLINE TypeT cube(const TypeT val) noexcept
+constexpr PHI_ALWAYS_INLINE TypeT cube(const TypeT value) noexcept
 {
-    return val * val * val;
+    return value * value * value;
 }
 
 // Credits: https://gist.github.com/alexshtf/eb5128b3e3e143187794
@@ -29,9 +29,10 @@ constexpr PHI_ALWAYS_INLINE TypeT cube(const TypeT val) noexcept
 namespace detail
 {
     template <typename TypeT>
-    constexpr TypeT sqrtNewtonRaphson(const TypeT x, const TypeT curr, const TypeT prev) noexcept
+    constexpr TypeT sqrtNewtonRaphson(const TypeT value, const TypeT curr,
+                                      const TypeT prev) noexcept
     {
-        return curr == prev ? curr : sqrtNewtonRaphson(x, 0.5 * (curr + x / curr), curr);
+        return curr == prev ? curr : sqrtNewtonRaphson(value, 0.5 * (curr + value / curr), curr);
     }
 } // namespace detail
 /// \endcond
@@ -39,17 +40,17 @@ namespace detail
 /*!
  * \brief Constexpr version of the square root function
  *
- * \param x Value to calculate the square root of.
+ * \param value Value to calculate the square root of.
  *
- * \return For a finite and non-negative value of "x", returns an approximation for the square root of "x"
+ * \return For a finite and non-negative value of "value", returns an approximation for the square root of "value"
  *         Otherwise, returns NaN.
  *
 **/
 template <typename TypeT>
-constexpr TypeT sqrt(const TypeT x) noexcept
+constexpr TypeT sqrt(const TypeT value) noexcept
 {
-    return x >= 0 && x < std::numeric_limits<TypeT>::infinity() ?
-                   detail::sqrtNewtonRaphson(x, x, 0) :
+    return value >= 0 && value < std::numeric_limits<TypeT>::infinity() ?
+                   detail::sqrtNewtonRaphson(value, value, 0) :
                    std::numeric_limits<TypeT>::quiet_NaN();
 }
 

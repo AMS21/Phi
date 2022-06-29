@@ -20,42 +20,42 @@ template <typename, typename = phi::void_t<>>
 struct has_type_member : public phi::false_type
 {};
 
-template <typename T>
-struct has_type_member<T, phi::void_t<typename phi::underlying_type<T>::type>>
+template <typename TypeT>
+struct has_type_member<TypeT, phi::void_t<typename phi::underlying_type<TypeT>::type>>
     : public phi::true_type
 {};
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_underlying_type_impl()
 {
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    STATIC_REQUIRE(has_type_member<T>::value);
+    STATIC_REQUIRE(has_type_member<TypeT>::value);
 
-    CHECK_SAME_TYPE(typename phi::underlying_type<T>::type, U);
-    CHECK_SAME_TYPE(phi::underlying_type_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::underlying_type<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::underlying_type_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::underlying_type<T>::type, U);
+    CHECK_SAME_TYPE(typename std::underlying_type<TypeT>::type, ExpectedT);
 #endif
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_underlying_type()
 {
-    test_underlying_type_impl<T, U>();
-    test_underlying_type_impl<const T, U>();
-    test_underlying_type_impl<volatile T, U>();
-    test_underlying_type_impl<const volatile T, U>();
+    test_underlying_type_impl<TypeT, ExpectedT>();
+    test_underlying_type_impl<const TypeT, ExpectedT>();
+    test_underlying_type_impl<volatile TypeT, ExpectedT>();
+    test_underlying_type_impl<const volatile TypeT, ExpectedT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_no_underlying_type()
 {
 #if PHI_HAS_WORKING_UNDERLYING_TYPE()
-    STATIC_REQUIRE_FALSE(has_type_member<T>::value);
-    STATIC_REQUIRE_FALSE(has_type_member<const T>::value);
-    STATIC_REQUIRE_FALSE(has_type_member<volatile T>::value);
-    STATIC_REQUIRE_FALSE(has_type_member<const volatile T>::value);
+    STATIC_REQUIRE_FALSE(has_type_member<TypeT>::value);
+    STATIC_REQUIRE_FALSE(has_type_member<const TypeT>::value);
+    STATIC_REQUIRE_FALSE(has_type_member<volatile TypeT>::value);
+    STATIC_REQUIRE_FALSE(has_type_member<const volatile TypeT>::value);
 #endif
 }
 

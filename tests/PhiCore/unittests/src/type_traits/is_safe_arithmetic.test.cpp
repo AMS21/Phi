@@ -12,54 +12,54 @@
 #include <phi/type_traits/is_safe_arithmetic.hpp>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_safe_arithmetic_impl()
 {
-    STATIC_REQUIRE(phi::is_safe_arithmetic<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_safe_arithmetic<T>::value);
-    STATIC_REQUIRE(phi::is_arithmetic<T>::value);
+    STATIC_REQUIRE(phi::is_safe_arithmetic<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_safe_arithmetic<TypeT>::value);
+    STATIC_REQUIRE(phi::is_arithmetic<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_safe_arithmetic_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_safe_arithmetic_v<T>);
-    STATIC_REQUIRE(phi::is_arithmetic_v<T>);
+    STATIC_REQUIRE(phi::is_safe_arithmetic_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_safe_arithmetic_v<TypeT>);
+    STATIC_REQUIRE(phi::is_arithmetic_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_safe_arithmetic<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_safe_arithmetic<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_safe_arithmetic<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_safe_arithmetic<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_safe_arithmetic_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_safe_arithmetic<T>::value);
-    STATIC_REQUIRE(phi::is_not_safe_arithmetic<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_safe_arithmetic<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_safe_arithmetic<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_safe_arithmetic_v<T>);
-    STATIC_REQUIRE(phi::is_not_safe_arithmetic_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_safe_arithmetic_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_safe_arithmetic_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_safe_arithmetic<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_safe_arithmetic<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_safe_arithmetic<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_safe_arithmetic<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_safe_arithmetic()
 {
-    test_is_safe_arithmetic_impl<T>();
-    test_is_safe_arithmetic_impl<const T>();
-    test_is_safe_arithmetic_impl<volatile T>();
-    test_is_safe_arithmetic_impl<const volatile T>();
+    test_is_safe_arithmetic_impl<TypeT>();
+    test_is_safe_arithmetic_impl<const TypeT>();
+    test_is_safe_arithmetic_impl<volatile TypeT>();
+    test_is_safe_arithmetic_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_safe_arithmetic()
 {
-    test_is_not_safe_arithmetic_impl<T>();
-    test_is_not_safe_arithmetic_impl<const T>();
-    test_is_not_safe_arithmetic_impl<volatile T>();
-    test_is_not_safe_arithmetic_impl<const volatile T>();
+    test_is_not_safe_arithmetic_impl<TypeT>();
+    test_is_not_safe_arithmetic_impl<const TypeT>();
+    test_is_not_safe_arithmetic_impl<volatile TypeT>();
+    test_is_not_safe_arithmetic_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_safe_arithmetic")

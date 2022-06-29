@@ -18,78 +18,78 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_swappable.hpp>
 
-template <typename T>
+template <typename TypeT>
 void test_is_swappable_impl()
 {
-    STATIC_REQUIRE(phi::is_swappable<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable<T>::value);
+    STATIC_REQUIRE(phi::is_swappable<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_swappable_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_swappable_v<T>);
+    STATIC_REQUIRE(phi::is_swappable_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_swappable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<TypeT>);
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_swappable<T>::value);
+    STATIC_REQUIRE(std::is_swappable<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_swappable_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_swappable<T>::value);
-    STATIC_REQUIRE(phi::is_not_swappable<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_swappable<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_swappable<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_swappable_v<T>);
-    STATIC_REQUIRE(phi::is_not_swappable_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_swappable_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_swappable_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_swappable<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_swappable<TypeT>);
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_swappable<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_swappable<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_swappable()
 {
-    test_is_swappable_impl<T>();
-    test_is_not_swappable_impl<const T>();
-    test_is_not_swappable_impl<volatile T>();
-    test_is_not_swappable_impl<const volatile T>();
+    test_is_swappable_impl<TypeT>();
+    test_is_not_swappable_impl<const TypeT>();
+    test_is_not_swappable_impl<volatile TypeT>();
+    test_is_not_swappable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_swappable_v()
 {
-    test_is_swappable_impl<T>();
-    test_is_not_swappable_impl<const T>();
-    test_is_swappable_impl<volatile T>();
-    test_is_not_swappable_impl<const volatile T>();
+    test_is_swappable_impl<TypeT>();
+    test_is_not_swappable_impl<const TypeT>();
+    test_is_swappable_impl<volatile TypeT>();
+    test_is_not_swappable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_swappable_cv()
 {
-    test_is_swappable_impl<T>();
-    test_is_swappable_impl<const T>();
-    test_is_swappable_impl<volatile T>();
-    test_is_swappable_impl<const volatile T>();
+    test_is_swappable_impl<TypeT>();
+    test_is_swappable_impl<const TypeT>();
+    test_is_swappable_impl<volatile TypeT>();
+    test_is_swappable_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_swappable()
 {
-    test_is_not_swappable_impl<T>();
-    test_is_not_swappable_impl<const T>();
-    test_is_not_swappable_impl<volatile T>();
-    test_is_not_swappable_impl<const volatile T>();
+    test_is_not_swappable_impl<TypeT>();
+    test_is_not_swappable_impl<const TypeT>();
+    test_is_not_swappable_impl<volatile TypeT>();
+    test_is_not_swappable_impl<const volatile TypeT>();
 }
 
 namespace is_swappable_ns
@@ -113,19 +113,19 @@ namespace is_swappable_ns
     struct D
     {};
 
-    void swap(A&, A&)
+    void swap(A& /*unused*/, A& /*unused*/)
     {}
 
-    void swap(A&, B&)
+    void swap(A& /*unused*/, B& /*unused*/)
     {}
 
-    void swap(B&, A&)
+    void swap(B& /*unused*/, A& /*unused*/)
     {}
 
-    void swap(A&, C&)
+    void swap(A& /*unused*/, C& /*unused*/)
     {} // missing swap(C, A)
 
-    void swap(D&, C&)
+    void swap(D& /*unused*/, C& /*unused*/)
     {}
 
     struct M
@@ -134,7 +134,7 @@ namespace is_swappable_ns
         M& operator=(M const&) = delete;
     };
 
-    void swap(M&&, M&&)
+    void swap(M&& /*unused*/, M&& /*unused*/)
     {}
 
     struct DeletedSwap
@@ -160,7 +160,7 @@ namespace is_swappable_ns
 
     struct F3
     {
-        friend void swap(F3&, F3)
+        friend void swap(F3& /*unused*/, F3 /*unused*/)
         {}
     };
 } // namespace is_swappable_ns
@@ -170,8 +170,8 @@ namespace is_swappable_ns_2
     struct AmbiguousSwap
     {};
 
-    template <typename T>
-    void swap(T&, T&)
+    template <typename TypeT>
+    void swap(TypeT& /*unused*/, TypeT& /*unused*/)
     {}
 
 } // namespace is_swappable_ns_2

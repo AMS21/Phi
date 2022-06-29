@@ -15,66 +15,66 @@
 
 // TODO: No idea why gcc thinks some types here are aggregate although they aren't
 
-template <typename T>
+template <typename TypeT>
 void test_is_aggregate_impl()
 {
 #if PHI_HAS_WORKING_IS_AGGREGATE()
-    STATIC_REQUIRE(phi::is_aggregate<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_aggregate<T>::value);
+    STATIC_REQUIRE(phi::is_aggregate<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_aggregate<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_aggregate_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_aggregate_v<T>);
+    STATIC_REQUIRE(phi::is_aggregate_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_aggregate_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_aggregate<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_aggregate<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_aggregate<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_aggregate<TypeT>);
 
     // standard compatbility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_aggregate<T>::value);
+    STATIC_REQUIRE(std::is_aggregate<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_aggregate()
 {
-    test_is_aggregate_impl<T>();
-    test_is_aggregate_impl<const T>();
-    test_is_aggregate_impl<volatile T>();
-    test_is_aggregate_impl<const volatile T>();
+    test_is_aggregate_impl<TypeT>();
+    test_is_aggregate_impl<const TypeT>();
+    test_is_aggregate_impl<volatile TypeT>();
+    test_is_aggregate_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_aggregate_impl()
 {
 #if PHI_HAS_WORKING_IS_AGGREGATE()
-    STATIC_REQUIRE_FALSE(phi::is_aggregate<T>::value);
-    STATIC_REQUIRE(phi::is_not_aggregate<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_aggregate<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_aggregate<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_aggregate_v<T>);
-    STATIC_REQUIRE(phi::is_not_aggregate_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_aggregate_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_aggregate_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_aggregate<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_aggregate<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_aggregate<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_aggregate<TypeT>);
 
     // standard compatbility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_aggregate<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_aggregate<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_aggregate()
 {
-    test_is_not_aggregate_impl<T>();
-    test_is_not_aggregate_impl<const T>();
-    test_is_not_aggregate_impl<volatile T>();
-    test_is_not_aggregate_impl<const volatile T>();
+    test_is_not_aggregate_impl<TypeT>();
+    test_is_not_aggregate_impl<const TypeT>();
+    test_is_not_aggregate_impl<volatile TypeT>();
+    test_is_not_aggregate_impl<const volatile TypeT>();
 }
 
 struct Aggregate
@@ -96,7 +96,7 @@ struct HasPriv
     void PreventUnusedPrivateMemberWarning();
 
 private:
-    int x;
+    int m_X;
 };
 
 TEST_CASE("is_aggregate")

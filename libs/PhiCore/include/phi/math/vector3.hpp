@@ -38,6 +38,8 @@ public:
     using reverse_iterator       = phi::reverse_iterator<iterator>;
     using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
+    ~vector3() = default;
+
     constexpr vector3(TypeT val_x, TypeT val_y, TypeT val_z) noexcept
         : x(val_x)
         , y(val_y)
@@ -104,25 +106,11 @@ public:
 
     // Operators
 
-    PHI_EXTENDED_CONSTEXPR vector3<TypeT>& operator=(const vector3<TypeT>& other) noexcept
-    {
-        x = other.x;
-        y = other.y;
-        z = other.z;
+    vector3<TypeT>& operator=(const vector3<TypeT>& other) = default;
 
-        return *this;
-    }
+    // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+    vector3<TypeT>& operator=(vector3<TypeT>&& other) = default;
 
-    PHI_EXTENDED_CONSTEXPR vector3<TypeT>& operator=(vector3<TypeT>&& other) noexcept
-    {
-        x = phi::move(other.x);
-        y = phi::move(other.y);
-        z = phi::move(other.z);
-
-        return *this;
-    }
-
-public:
     TypeT x;
     TypeT y;
     TypeT z;

@@ -10,17 +10,17 @@
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivial.hpp>
 
-template <typename T>
+template <typename TypeT>
 void test_aligned_storage()
 {
 #if PHI_HAS_WORKING_IS_POD()
-    STATIC_REQUIRE(phi::is_pod<T>::value);
+    STATIC_REQUIRE(phi::is_pod<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_TRIVIAL()
-    STATIC_REQUIRE(phi::is_trivial<T>::value);
+    STATIC_REQUIRE(phi::is_trivial<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
-    STATIC_REQUIRE(phi::is_standard_layout<T>::value);
+    STATIC_REQUIRE(phi::is_standard_layout<TypeT>::value);
 #endif
 }
 
@@ -215,16 +215,16 @@ TEST_CASE("aligned_storage")
         // Max align on MSVC is 8192
         // https://docs.microsoft.com/en-us/cpp/cpp/align-cpp
 #if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
-        PHI_CONSTEXPR_AND_CONST int Align = 8192;
+        PHI_CONSTEXPR_AND_CONST int align = 8192;
 #else
-        PHI_CONSTEXPR_AND_CONST int Align = 65536;
+        PHI_CONSTEXPR_AND_CONST int align = 65536;
 #endif
-        using T1 = typename phi::aligned_storage<1, Align>::type;
-        CHECK_SAME_TYPE(T1, phi::aligned_storage_t<1, Align>);
+        using T1 = typename phi::aligned_storage<1, align>::type;
+        CHECK_SAME_TYPE(T1, phi::aligned_storage_t<1, align>);
 
         test_aligned_storage<T1>();
-        STATIC_REQUIRE(phi::alignment_of<T1>::value == Align);
-        STATIC_REQUIRE(sizeof(T1) == Align);
+        STATIC_REQUIRE(phi::alignment_of<T1>::value == align);
+        STATIC_REQUIRE(sizeof(T1) == align);
     }
 
     {

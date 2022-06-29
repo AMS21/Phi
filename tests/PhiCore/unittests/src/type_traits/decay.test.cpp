@@ -11,18 +11,18 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_decay()
 {
-    CHECK_SAME_TYPE(typename phi::decay<T>::type, U);
-    CHECK_SAME_TYPE(phi::decay_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::decay<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::decay_t<TypeT>, ExpectedT);
 
     // Standard compatbility
-    CHECK_SAME_TYPE(typename std::decay<T>::type, typename phi::decay<T>::type);
-    CHECK_SAME_TYPE(typename std::decay<T>::type, U);
+    CHECK_SAME_TYPE(typename std::decay<TypeT>::type, typename phi::decay<TypeT>::type);
+    CHECK_SAME_TYPE(typename std::decay<TypeT>::type, ExpectedT);
 }
 
-class A
+struct A
 {};
 
 TEST_CASE("decay")

@@ -8,6 +8,6 @@ int main()
 
     phi::string_view view("test");
 
-    char c = view[6u];
-    PHI_UNUSED_VARIABLE(c);
+    char character = view[6u];
+    PHI_UNUSED_VARIABLE(character);
 }

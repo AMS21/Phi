@@ -29,3 +29,4 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS
 include(Formatting)
 
 include(CompilerFeatures)
+include(Cache)

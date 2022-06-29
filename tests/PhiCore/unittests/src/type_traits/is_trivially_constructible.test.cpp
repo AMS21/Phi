@@ -5,45 +5,45 @@
 #include <phi/type_traits/is_trivially_constructible.hpp>
 #include <type_traits>
 
-template <typename T, typename... ArgsT>
+template <typename TypeT, typename... ArgsT>
 void test_is_trivially_constructible()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_trivially_constructible<T, ArgsT...>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_constructible<T, ArgsT...>::value);
-    STATIC_REQUIRE(phi::is_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_trivially_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_trivially_constructible_v<T, ArgsT...>);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_constructible_v<T, ArgsT...>);
-    STATIC_REQUIRE(phi::is_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE(phi::is_trivially_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_constructible<T, ArgsT...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_constructible<TypeT, ArgsT...>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_trivially_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE(std::is_trivially_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 
-template <typename T, typename... ArgsT>
+template <typename TypeT, typename... ArgsT>
 void test_is_not_trivially_constructible()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_constructible<T, ArgsT...>::value);
-    STATIC_REQUIRE(phi::is_not_trivially_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_constructible<TypeT, ArgsT...>::value);
+    STATIC_REQUIRE(phi::is_not_trivially_constructible<TypeT, ArgsT...>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_constructible_v<T, ArgsT...>);
-    STATIC_REQUIRE(phi::is_not_trivially_constructible_v<T, ArgsT...>);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_constructible_v<TypeT, ArgsT...>);
+    STATIC_REQUIRE(phi::is_not_trivially_constructible_v<TypeT, ArgsT...>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_constructible<T, ArgsT...>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_constructible<T, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_constructible<TypeT, ArgsT...>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_constructible<TypeT, ArgsT...>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_trivially_constructible<T, ArgsT...>::value);
+    STATIC_REQUIRE_FALSE(std::is_trivially_constructible<TypeT, ArgsT...>::value);
 #endif
 }
 
@@ -57,7 +57,7 @@ struct B
 {
     B() = default;
 
-    B(int)
+    B(int /*unused*/)
     {}
 };
 

@@ -4,30 +4,30 @@
 #include <phi/core/move.hpp>
 #include <phi/core/non_copyable.hpp>
 
-class A : phi::non_copyable
+struct A : public phi::non_copyable
 {};
 
 TEST_CASE("NonCopyable", "[Core][NonCopyable]")
 {
     SECTION("Default constructable")
     {
-        A a;
-        PHI_UNUSED_PARAMETER(a);
+        A class_a;
+        PHI_UNUSED_PARAMETER(class_a);
     }
 
     SECTION("Move constructable")
     {
-        A a;
+        A class_a;
 
-        A b(phi::move(a));
-        PHI_UNUSED_PARAMETER(b);
+        A class_b(phi::move(class_a));
+        PHI_UNUSED_PARAMETER(class_b);
     }
 
     SECTION("Move assignable")
     {
-        A a;
+        A class_a;
 
-        A b = phi::move(a);
-        PHI_UNUSED_PARAMETER(b);
+        A class_b = phi::move(class_a);
+        PHI_UNUSED_PARAMETER(class_b);
     }
 }

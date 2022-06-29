@@ -13,59 +13,60 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_implicitly_default_constructible_impl()
 {
-    STATIC_REQUIRE(phi::is_implicitly_default_constructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_implicitly_default_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_implicitly_default_constructible<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_implicitly_default_constructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_implicitly_default_constructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_implicitly_default_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_implicitly_default_constructible_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_implicitly_default_constructible_v<TypeT>);
 #endif
 
-    STATIC_REQUIRE(phi::is_default_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_default_constructible<TypeT>::value);
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_implicitly_default_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_implicitly_default_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_implicitly_default_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_implicitly_default_constructible<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_implicitly_default_constructible_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_implicitly_default_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_not_implicitly_default_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_implicitly_default_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_implicitly_default_constructible<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_implicitly_default_constructible_v<T>);
-    STATIC_REQUIRE(phi::is_not_implicitly_default_constructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_implicitly_default_constructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_implicitly_default_constructible_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_implicitly_default_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_implicitly_default_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_implicitly_default_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_implicitly_default_constructible<TypeT>);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_implicitly_default_constructible()
 {
-    test_is_implicitly_default_constructible_impl<T>();
-    test_is_implicitly_default_constructible_impl<const T>();
-    test_is_not_implicitly_default_constructible_impl<volatile T>();
-    test_is_not_implicitly_default_constructible_impl<const volatile T>();
+    test_is_implicitly_default_constructible_impl<TypeT>();
+    test_is_implicitly_default_constructible_impl<const TypeT>();
+    test_is_not_implicitly_default_constructible_impl<volatile TypeT>();
+    test_is_not_implicitly_default_constructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_implicitly_default_constructible()
 {
-    test_is_not_implicitly_default_constructible_impl<T>();
-    test_is_not_implicitly_default_constructible_impl<const T>();
-    test_is_not_implicitly_default_constructible_impl<volatile T>();
-    test_is_not_implicitly_default_constructible_impl<const volatile T>();
+    test_is_not_implicitly_default_constructible_impl<TypeT>();
+    test_is_not_implicitly_default_constructible_impl<const TypeT>();
+    test_is_not_implicitly_default_constructible_impl<volatile TypeT>();
+    test_is_not_implicitly_default_constructible_impl<const volatile TypeT>();
 }
 
-class NoDefaultConstructor
+struct NoDefaultConstructor
 {
-    NoDefaultConstructor(int)
+private:
+    NoDefaultConstructor(int /*unused*/)
     {}
 };
 
@@ -74,8 +75,10 @@ struct A
     A();
 };
 
-class B
+struct B
 {
+private:
+    // NOLINTNEXTLINE(modernize-use-equals-delete)
     B();
 };
 
@@ -96,12 +99,14 @@ struct ExplicitlyDefaultConstructible1
 
 struct ExplicitlyDefaultConstructible2
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     explicit ExplicitlyDefaultConstructible2()
     {}
 };
 
 struct ImplicitlyDefaultConstructible1
 {
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     ImplicitlyDefaultConstructible1()
     {}
 };
@@ -121,7 +126,6 @@ struct NonDefaultConstructible2
     explicit NonDefaultConstructible2() = delete;
 };
 
-// NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
 struct NonDefaultConstructible3
 {
     NonDefaultConstructible3(NonDefaultConstructible3&& /*other*/) noexcept

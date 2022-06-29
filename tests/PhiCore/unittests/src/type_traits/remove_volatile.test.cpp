@@ -10,23 +10,23 @@
 #include <phi/type_traits/remove_volatile.hpp>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_volatile_impl()
 {
-    CHECK_SAME_TYPE(typename phi::remove_volatile<T>::type, U);
-    CHECK_SAME_TYPE(phi::remove_volatile_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::remove_volatile<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::remove_volatile_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_volatile<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_volatile<TypeT>::type, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_remove_volatile()
 {
-    test_remove_volatile_impl<T, U>();
-    test_remove_volatile_impl<const T, const U>();
-    test_remove_volatile_impl<volatile T, U>();
-    test_remove_volatile_impl<const volatile T, const U>();
+    test_remove_volatile_impl<TypeT, ExpectedT>();
+    test_remove_volatile_impl<const TypeT, const ExpectedT>();
+    test_remove_volatile_impl<volatile TypeT, ExpectedT>();
+    test_remove_volatile_impl<const volatile TypeT, const ExpectedT>();
 }
 
 TEST_CASE("remove_volatile")

@@ -10,8 +10,8 @@
 #include <cmath>
 #include <limits>
 
-template <typename T>
-void test_is_infinity(T val)
+template <typename TypeT>
+void test_is_infinity(TypeT val)
 {
     CHECK(phi::is_infinity(val));
     CHECK_NOEXCEPT(phi::is_infinity(val));
@@ -20,8 +20,8 @@ void test_is_infinity(T val)
     CHECK(std::isinf(phi::to_unsafe(val)));
 }
 
-template <typename T>
-void test_is_not_infinity(T val)
+template <typename TypeT>
+void test_is_not_infinity(TypeT val)
 {
     CHECK_FALSE(phi::is_infinity(val));
     CHECK_NOEXCEPT(phi::is_infinity(val));
@@ -46,9 +46,8 @@ using sf = phi::floating_point<float>;
 using sd = phi::floating_point<double>;
 using sl = phi::floating_point<long double>;
 
-TEST_CASE("math.is_infinity")
+TEST_CASE("math.is_infinity - float")
 {
-    // Float
     STATIC_TEST_IS_INFINITY(INFINITY);
     STATIC_TEST_IS_INFINITY(-INFINITY);
     STATIC_TEST_IS_INFINITY(HUGE_VALF);
@@ -68,8 +67,10 @@ TEST_CASE("math.is_infinity")
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<float>::lowest());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<float>::denorm_min());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<float>::round_error());
+}
 
-    // Double
+TEST_CASE("math.is_infinity - double")
+{
     STATIC_TEST_IS_INFINITY(std::numeric_limits<double>::infinity());
     STATIC_TEST_IS_INFINITY(-std::numeric_limits<double>::infinity());
 
@@ -86,8 +87,10 @@ TEST_CASE("math.is_infinity")
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<double>::lowest());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<double>::denorm_min());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<double>::round_error());
+}
 
-    // Long double
+TEST_CASE("math.is_infinity - long double")
+{
     STATIC_TEST_IS_INFINITY(std::numeric_limits<long double>::infinity());
     STATIC_TEST_IS_INFINITY(-std::numeric_limits<long double>::infinity());
 
@@ -104,8 +107,10 @@ TEST_CASE("math.is_infinity")
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<long double>::lowest());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<long double>::denorm_min());
     STATIC_TEST_IS_NOT_INFINITY(std::numeric_limits<long double>::round_error());
+}
 
-    // floating_point<float>
+TEST_CASE("math.is_infinity - floating_point<float>")
+{
     STATIC_TEST_IS_INFINITY(sf(INFINITY));
     STATIC_TEST_IS_INFINITY(sf(-INFINITY));
     STATIC_TEST_IS_INFINITY(sf(HUGE_VALF));
@@ -125,8 +130,10 @@ TEST_CASE("math.is_infinity")
     STATIC_TEST_IS_NOT_INFINITY(sf(std::numeric_limits<float>::lowest()));
     STATIC_TEST_IS_NOT_INFINITY(sf(std::numeric_limits<float>::denorm_min()));
     STATIC_TEST_IS_NOT_INFINITY(sf(std::numeric_limits<float>::round_error()));
+}
 
-    // floating_point<double>
+TEST_CASE("math.is_infinity - floating_point<double>")
+{
     STATIC_TEST_IS_INFINITY(sd(std::numeric_limits<double>::infinity()));
     STATIC_TEST_IS_INFINITY(sd(-std::numeric_limits<double>::infinity()));
 
@@ -143,8 +150,10 @@ TEST_CASE("math.is_infinity")
     STATIC_TEST_IS_NOT_INFINITY(sd(std::numeric_limits<double>::lowest()));
     STATIC_TEST_IS_NOT_INFINITY(sd(std::numeric_limits<double>::denorm_min()));
     STATIC_TEST_IS_NOT_INFINITY(sd(std::numeric_limits<double>::round_error()));
+}
 
-    // floating_point<long double>
+TEST_CASE("math.is_infinity - floating_point<long double>")
+{
     STATIC_TEST_IS_INFINITY(sl(std::numeric_limits<long double>::infinity()));
     STATIC_TEST_IS_INFINITY(sl(-std::numeric_limits<long double>::infinity()));
 

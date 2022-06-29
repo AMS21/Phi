@@ -10,33 +10,33 @@
 #include <phi/type_traits/remove_pointer.hpp>
 #include <vector>
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_pointer_impl()
 {
-    CHECK_SAME_TYPE(typename phi::remove_pointer<T>::type, U);
-    CHECK_SAME_TYPE(phi::remove_pointer_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::remove_pointer<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::remove_pointer_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_pointer<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_pointer<TypeT>::type, ExpectedT);
 }
 
-template <typename T, typename U = T>
+template <typename TypeT, typename ExpectedT = TypeT>
 void test_remove_pointer()
 {
-    test_remove_pointer_impl<T, U>();
-    test_remove_pointer_impl<const T, const U>();
-    test_remove_pointer_impl<volatile T, volatile U>();
-    test_remove_pointer_impl<const volatile T, const volatile U>();
+    test_remove_pointer_impl<TypeT, ExpectedT>();
+    test_remove_pointer_impl<const TypeT, const ExpectedT>();
+    test_remove_pointer_impl<volatile TypeT, volatile ExpectedT>();
+    test_remove_pointer_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
-template <typename T, typename U>
+template <typename TypeT, typename ExpectedT>
 void test_remove_pointer_ptr()
 {
-    CHECK_SAME_TYPE(typename phi::remove_pointer<T>::type, U);
-    CHECK_SAME_TYPE(phi::remove_pointer_t<T>, U);
+    CHECK_SAME_TYPE(typename phi::remove_pointer<TypeT>::type, ExpectedT);
+    CHECK_SAME_TYPE(phi::remove_pointer_t<TypeT>, ExpectedT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename std::remove_pointer<T>::type, U);
+    CHECK_SAME_TYPE(typename std::remove_pointer<TypeT>::type, ExpectedT);
 }
 
 TEST_CASE("remove_pointer")

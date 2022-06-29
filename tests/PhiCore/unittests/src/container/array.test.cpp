@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include "phi/compiler_support/unused.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
@@ -18,6 +19,7 @@ PHI_MSVC_SUPPRESS_WARNING(4702) // unreachable code
 PHI_MSVC_SUPPRESS_WARNING(
         5246) // 'member': the initialization of a subobject should be wrapped in braces
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE("Array")
 {
     using T   = phi::array<int, 3>;
@@ -29,93 +31,93 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            EXT_CONSTEXPR_RUNTIME T a = {1, 2, 4};
+            EXT_CONSTEXPR_RUNTIME T arr = {1, 2, 4};
 
-            EXT_STATIC_REQUIRE(a.at(0u) == 1);
-            EXT_STATIC_REQUIRE(a[0u] == 1);
-            EXT_STATIC_REQUIRE(a.at(1u) == 2);
-            EXT_STATIC_REQUIRE(a[1u] == 2);
-            EXT_STATIC_REQUIRE(a.at(2u) == 4);
-            EXT_STATIC_REQUIRE(a[2u] == 4);
+            EXT_STATIC_REQUIRE(arr.at(0u) == 1);
+            EXT_STATIC_REQUIRE(arr[0u] == 1);
+            EXT_STATIC_REQUIRE(arr.at(1u) == 2);
+            EXT_STATIC_REQUIRE(arr[1u] == 2);
+            EXT_STATIC_REQUIRE(arr.at(2u) == 4);
+            EXT_STATIC_REQUIRE(arr[2u] == 4);
         }
 
         SECTION("non const")
         {
-            T a = {1, 2, 4};
+            T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.at(0u)), T::reference);
-            CHECK_SAME_TYPE(decltype(a.at(0u)), int&);
-            CHECK_SAME_TYPE(decltype(a[0u]), T::reference);
-            CHECK_SAME_TYPE(decltype(a[0u]), int&);
-            CHECK_NOEXCEPT(a.at(0u));
-            CHECK_NOEXCEPT(a[0u]);
+            CHECK_SAME_TYPE(decltype(arr.at(0u)), T::reference);
+            CHECK_SAME_TYPE(decltype(arr.at(0u)), int&);
+            CHECK_SAME_TYPE(decltype(arr[0u]), T::reference);
+            CHECK_SAME_TYPE(decltype(arr[0u]), int&);
+            CHECK_NOEXCEPT(arr.at(0u));
+            CHECK_NOEXCEPT(arr[0u]);
 
-            typename T::reference r1 = a.at(0u);
-            CHECK(r1 == 1);
-            r1 = 5;
-            CHECK(r1 == 5);
-            CHECK(a.at(0u) == 5);
-            CHECK(a[0u] == 5);
+            typename T::reference ref1 = arr.at(0u);
+            CHECK(ref1 == 1);
+            ref1 = 5;
+            CHECK(ref1 == 5);
+            CHECK(arr.at(0u) == 5);
+            CHECK(arr[0u] == 5);
 
-            typename T::reference r2 = a.at(1u);
-            CHECK(r2 == 2);
-            r2 = 21;
-            CHECK(r2 == 21);
-            CHECK(a.at(1u) == 21);
-            CHECK(a[1u] == 21);
+            typename T::reference ref2 = arr.at(1u);
+            CHECK(ref2 == 2);
+            ref2 = 21;
+            CHECK(ref2 == 21);
+            CHECK(arr.at(1u) == 21);
+            CHECK(arr[1u] == 21);
         }
 
         SECTION("const")
         {
-            const T a = {1, 2, 4};
+            const T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.at(0u)), T::const_reference);
-            CHECK_SAME_TYPE(decltype(a.at(0u)), const int&);
-            CHECK_SAME_TYPE(decltype(a[0u]), T::const_reference);
-            CHECK_SAME_TYPE(decltype(a[0u]), const int&);
-            CHECK_NOEXCEPT(a.at(0u));
-            CHECK_NOEXCEPT(a[0u]);
+            CHECK_SAME_TYPE(decltype(arr.at(0u)), T::const_reference);
+            CHECK_SAME_TYPE(decltype(arr.at(0u)), const int&);
+            CHECK_SAME_TYPE(decltype(arr[0u]), T::const_reference);
+            CHECK_SAME_TYPE(decltype(arr[0u]), const int&);
+            CHECK_NOEXCEPT(arr.at(0u));
+            CHECK_NOEXCEPT(arr[0u]);
 
-            typename T::const_reference r3 = a.at(0u);
-            CHECK(r3 == 1);
+            typename T::const_reference ref1 = arr.at(0u);
+            CHECK(ref1 == 1);
 
-            typename T::const_reference r4 = a.at(1u);
-            CHECK(r4 == 2);
+            typename T::const_reference ref2 = arr.at(1u);
+            CHECK(ref2 == 2);
         }
 
         SECTION("Zero sized non const")
         {
             {
-                T0 a = {};
+                T0 arr = {};
 
-                CHECK_SAME_TYPE(decltype(a.at(0u)), T0::reference);
-                CHECK_SAME_TYPE(decltype(a.at(0u)), int&);
-                CHECK_SAME_TYPE(decltype(a[0u]), T0::reference);
-                CHECK_SAME_TYPE(decltype(a[0u]), int&);
-                CHECK_NOEXCEPT(a.at(0u));
-                CHECK_NOEXCEPT(a[0u]);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), T0::reference);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), int&);
+                CHECK_SAME_TYPE(decltype(arr[0u]), T0::reference);
+                CHECK_SAME_TYPE(decltype(arr[0u]), int&);
+                CHECK_NOEXCEPT(arr.at(0u));
+                CHECK_NOEXCEPT(arr[0u]);
 
-                if (a.size() > 0u) // always false
+                if (arr.size() > 0u) // always false
                 {
-                    T0::reference r1 = a.at(0u);
-                    T0::reference r2 = a[0u];
+                    T0::reference ref1 = arr.at(0u);
+                    T0::reference ref2 = arr[0u];
                 }
             }
 
             {
-                TC0 a = {};
+                TC0 arr = {};
 
-                CHECK_SAME_TYPE(decltype(a.at(0u)), TC0::reference);
-                CHECK_SAME_TYPE(decltype(a.at(0u)), const int&);
-                CHECK_SAME_TYPE(decltype(a[0u]), TC0::reference);
-                CHECK_SAME_TYPE(decltype(a[0u]), const int&);
-                CHECK_NOEXCEPT(a.at(0u));
-                CHECK_NOEXCEPT(a[0u]);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), TC0::reference);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), const int&);
+                CHECK_SAME_TYPE(decltype(arr[0u]), TC0::reference);
+                CHECK_SAME_TYPE(decltype(arr[0u]), const int&);
+                CHECK_NOEXCEPT(arr.at(0u));
+                CHECK_NOEXCEPT(arr[0u]);
 
-                if (a.size() > 0u) // always false
+                if (arr.size() > 0u) // always false
                 {
-                    TC0::reference r1 = a.at(0u);
-                    TC0::reference r2 = a[0u];
+                    TC0::reference ref1 = arr.at(0u);
+                    TC0::reference ref2 = arr[0u];
                 }
             }
         }
@@ -123,36 +125,36 @@ TEST_CASE("Array")
         SECTION("Zero sized const")
         {
             {
-                const T0 a = {};
+                const T0 arr = {};
 
-                CHECK_SAME_TYPE(decltype(a.at(0u)), T0::const_reference);
-                CHECK_SAME_TYPE(decltype(a.at(0u)), const int&);
-                CHECK_SAME_TYPE(decltype(a[0u]), T0::const_reference);
-                CHECK_SAME_TYPE(decltype(a[0u]), const int&);
-                CHECK_NOEXCEPT(a.at(0u));
-                CHECK_NOEXCEPT(a[0u]);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), T0::const_reference);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), const int&);
+                CHECK_SAME_TYPE(decltype(arr[0u]), T0::const_reference);
+                CHECK_SAME_TYPE(decltype(arr[0u]), const int&);
+                CHECK_NOEXCEPT(arr.at(0u));
+                CHECK_NOEXCEPT(arr[0u]);
 
-                if (a.size() > 0u) // always false
+                if (arr.size() > 0u) // always false
                 {
-                    T0::const_reference r1 = a.at(0u);
-                    T0::const_reference r2 = a[0u];
+                    T0::const_reference ref1 = arr.at(0u);
+                    T0::const_reference ref2 = arr[0u];
                 }
             }
 
             {
-                const TC0 a = {};
+                const TC0 arr = {};
 
-                CHECK_SAME_TYPE(decltype(a.at(0u)), TC0::const_reference);
-                CHECK_SAME_TYPE(decltype(a.at(0u)), const int&);
-                CHECK_SAME_TYPE(decltype(a[0u]), TC0::const_reference);
-                CHECK_SAME_TYPE(decltype(a[0u]), const int&);
-                CHECK_NOEXCEPT(a.at(0u));
-                CHECK_NOEXCEPT(a[0u]);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), TC0::const_reference);
+                CHECK_SAME_TYPE(decltype(arr.at(0u)), const int&);
+                CHECK_SAME_TYPE(decltype(arr[0u]), TC0::const_reference);
+                CHECK_SAME_TYPE(decltype(arr[0u]), const int&);
+                CHECK_NOEXCEPT(arr.at(0u));
+                CHECK_NOEXCEPT(arr[0u]);
 
-                if (a.size() > 0u) // always false
+                if (arr.size() > 0u) // always false
                 {
-                    TC0::const_reference r1 = a.at(0u);
-                    TC0::const_reference r2 = a[0u];
+                    TC0::const_reference ref1 = arr.at(0u);
+                    TC0::const_reference ref2 = arr[0u];
                 }
             }
         }
@@ -170,25 +172,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<trap_constructible, 3> a = {};
+            phi::array<trap_constructible, 3> test1 = {};
+            trap_constructible&               a_ref = test1.at(0u);
+            PHI_UNUSED_VARIABLE(a_ref);
 
-            trap_constructible& a_ref = a.at(0u);
+            phi::array<trap_implicit_conversion, 3> test2 = {};
+            trap_implicit_conversion&               b_ref = test2.at(0u);
+            PHI_UNUSED_VARIABLE(b_ref);
 
-            phi::array<trap_implicit_conversion, 3> b = {};
+            phi::array<trap_comma, 3> test3 = {};
+            trap_comma&               c_ref = test3.at(0u);
+            PHI_UNUSED_VARIABLE(c_ref);
 
-            trap_implicit_conversion& b_ref = b.at(0u);
+            phi::array<trap_call, 3> test4 = {};
+            trap_call&               d_ref = test4.at(0u);
+            PHI_UNUSED_VARIABLE(d_ref);
 
-            phi::array<trap_comma, 3> c = {};
-
-            trap_comma& c_ref = c.at(0u);
-
-            phi::array<trap_call, 3> d = {};
-
-            trap_call& d_ref = d.at(0u);
-
-            phi::array<trap_self_assign, 3> e = {};
-
-            trap_self_assign& e_ref = e.at(0u);
+            phi::array<trap_self_assign, 3> test5 = {};
+            trap_self_assign&               e_ref = test5.at(0u);
+            PHI_UNUSED_VARIABLE(e_ref);
         }
     }
 
@@ -203,82 +205,82 @@ TEST_CASE("Array")
 
         SECTION("non const")
         {
-            T a = {1, 2, 4};
+            T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.front()), T::reference);
-            CHECK_SAME_TYPE(decltype(a.front()), int&);
-            CHECK_NOEXCEPT(a.front());
+            CHECK_SAME_TYPE(decltype(arr.front()), T::reference);
+            CHECK_SAME_TYPE(decltype(arr.front()), int&);
+            CHECK_NOEXCEPT(arr.front());
 
-            typename T::reference r1 = a.front();
-            CHECK(r1 == 1);
-            CHECK(a.front() == 1);
-            CHECK(a.at(0u) == 1);
-            CHECK(a[0u] == 1);
-            r1 = 5;
-            CHECK(r1 == 5);
-            CHECK(a.front() == 5);
-            CHECK(a.at(0u) == 5);
-            CHECK(a[0u] == 5);
+            typename T::reference ref = arr.front();
+            CHECK(ref == 1);
+            CHECK(arr.front() == 1);
+            CHECK(arr.at(0u) == 1);
+            CHECK(arr[0u] == 1);
+            ref = 5;
+            CHECK(ref == 5);
+            CHECK(arr.front() == 5);
+            CHECK(arr.at(0u) == 5);
+            CHECK(arr[0u] == 5);
         }
 
         SECTION("const")
         {
-            const T a = {1, 2, 4};
+            const T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.front()), T::const_reference);
-            CHECK_SAME_TYPE(decltype(a.front()), const int&);
-            CHECK_NOEXCEPT(a.front());
+            CHECK_SAME_TYPE(decltype(arr.front()), T::const_reference);
+            CHECK_SAME_TYPE(decltype(arr.front()), const int&);
+            CHECK_NOEXCEPT(arr.front());
 
-            typename T::const_reference r1 = a.front();
-            CHECK(r1 == 1);
-            CHECK(a.front() == 1);
-            CHECK(a.at(0u) == 1);
-            CHECK(a[0u] == 1);
+            typename T::const_reference ref = arr.front();
+            CHECK(ref == 1);
+            CHECK(arr.front() == 1);
+            CHECK(arr.at(0u) == 1);
+            CHECK(arr[0u] == 1);
         }
 
         SECTION("Zero size non const")
         {
-            T0 a = {};
-            CHECK_SAME_TYPE(decltype(a.front()), T0::reference);
-            CHECK_SAME_TYPE(decltype(a.front()), int&);
-            CHECK_NOEXCEPT(a.front());
+            T0 arr = {};
+            CHECK_SAME_TYPE(decltype(arr.front()), T0::reference);
+            CHECK_SAME_TYPE(decltype(arr.front()), int&);
+            CHECK_NOEXCEPT(arr.front());
 
-            if (a.size() > 0u) // always false
+            if (arr.size() > 0u) // always false
             {
-                a.front();
+                arr.front();
             }
 
-            TC0 b = {};
-            CHECK_SAME_TYPE(decltype(b.front()), TC0::reference);
-            CHECK_SAME_TYPE(decltype(b.front()), const int&);
-            CHECK_NOEXCEPT(b.front());
+            TC0 arr2 = {};
+            CHECK_SAME_TYPE(decltype(arr2.front()), TC0::reference);
+            CHECK_SAME_TYPE(decltype(arr2.front()), const int&);
+            CHECK_NOEXCEPT(arr2.front());
 
-            if (b.size() > 0u) // always false
+            if (arr2.size() > 0u) // always false
             {
-                b.front();
+                arr2.front();
             }
         }
 
         SECTION("Zero size const")
         {
-            const T0 a = {};
-            CHECK_SAME_TYPE(decltype(a.front()), T0::const_reference);
-            CHECK_SAME_TYPE(decltype(a.front()), const int&);
-            CHECK_NOEXCEPT(a.front());
+            const T0 arr = {};
+            CHECK_SAME_TYPE(decltype(arr.front()), T0::const_reference);
+            CHECK_SAME_TYPE(decltype(arr.front()), const int&);
+            CHECK_NOEXCEPT(arr.front());
 
-            if (a.size() > 0u) // always false
+            if (arr.size() > 0u) // always false
             {
-                a.front();
+                arr.front();
             }
 
-            const TC0 b = {};
-            CHECK_SAME_TYPE(decltype(b.front()), TC0::const_reference);
-            CHECK_SAME_TYPE(decltype(b.front()), const int&);
-            CHECK_NOEXCEPT(b.front());
+            const TC0 arr2 = {};
+            CHECK_SAME_TYPE(decltype(arr2.front()), TC0::const_reference);
+            CHECK_SAME_TYPE(decltype(arr2.front()), const int&);
+            CHECK_NOEXCEPT(arr2.front());
 
-            if (b.size() > 0u) // always false
+            if (arr2.size() > 0u) // always false
             {
-                b.front();
+                arr2.front();
             }
         }
 
@@ -295,25 +297,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<trap_constructible, 3> a = {};
+            phi::array<trap_constructible, 3> test1 = {};
+            trap_constructible&               a_ref = test1.front();
+            PHI_UNUSED_VARIABLE(a_ref);
 
-            trap_constructible& a_ref = a.front();
+            phi::array<trap_implicit_conversion, 3> test2 = {};
+            trap_implicit_conversion&               b_ref = test2.front();
+            PHI_UNUSED_VARIABLE(b_ref);
 
-            phi::array<trap_implicit_conversion, 3> b = {};
+            phi::array<trap_comma, 3> test3 = {};
+            trap_comma&               c_ref = test3.front();
+            PHI_UNUSED_VARIABLE(c_ref);
 
-            trap_implicit_conversion& b_ref = b.front();
+            phi::array<trap_call, 3> test4 = {};
+            trap_call&               d_ref = test4.front();
+            PHI_UNUSED_VARIABLE(d_ref);
 
-            phi::array<trap_comma, 3> c = {};
-
-            trap_comma& c_ref = c.front();
-
-            phi::array<trap_call, 3> d = {};
-
-            trap_call& d_ref = d.front();
-
-            phi::array<trap_self_assign, 3> e = {};
-
-            trap_self_assign& e_ref = e.front();
+            phi::array<trap_self_assign, 3> test5 = {};
+            trap_self_assign&               e_ref = test5.front();
+            PHI_UNUSED_VARIABLE(e_ref);
         }
     }
 
@@ -328,82 +330,82 @@ TEST_CASE("Array")
 
         SECTION("non const")
         {
-            T a = {1, 2, 4};
+            T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.back()), T::reference);
-            CHECK_SAME_TYPE(decltype(a.back()), int&);
-            CHECK_NOEXCEPT(a.back());
+            CHECK_SAME_TYPE(decltype(arr.back()), T::reference);
+            CHECK_SAME_TYPE(decltype(arr.back()), int&);
+            CHECK_NOEXCEPT(arr.back());
 
-            typename T::reference r1 = a.back();
-            CHECK(r1 == 4);
-            CHECK(a.back() == 4);
-            CHECK(a.at(2u) == 4);
-            CHECK(a[2u] == 4);
-            r1 = 5;
-            CHECK(r1 == 5);
-            CHECK(a.back() == 5);
-            CHECK(a.at(2u) == 5);
-            CHECK(a[2u] == 5);
+            typename T::reference ref = arr.back();
+            CHECK(ref == 4);
+            CHECK(arr.back() == 4);
+            CHECK(arr.at(2u) == 4);
+            CHECK(arr[2u] == 4);
+            ref = 5;
+            CHECK(ref == 5);
+            CHECK(arr.back() == 5);
+            CHECK(arr.at(2u) == 5);
+            CHECK(arr[2u] == 5);
         }
 
         SECTION("const")
         {
-            const T a = {1, 2, 4};
+            const T arr = {1, 2, 4};
 
-            CHECK_SAME_TYPE(decltype(a.back()), T::const_reference);
-            CHECK_SAME_TYPE(decltype(a.back()), const int&);
-            CHECK_NOEXCEPT(a.back());
+            CHECK_SAME_TYPE(decltype(arr.back()), T::const_reference);
+            CHECK_SAME_TYPE(decltype(arr.back()), const int&);
+            CHECK_NOEXCEPT(arr.back());
 
-            typename T::const_reference r1 = a.back();
-            CHECK(r1 == 4);
-            CHECK(a.back() == 4);
-            CHECK(a.at(2u) == 4);
-            CHECK(a[2u] == 4);
+            typename T::const_reference ref = arr.back();
+            CHECK(ref == 4);
+            CHECK(arr.back() == 4);
+            CHECK(arr.at(2u) == 4);
+            CHECK(arr[2u] == 4);
         }
 
         SECTION("Zero size non const")
         {
-            T0 a = {};
-            CHECK_SAME_TYPE(decltype(a.back()), T0::reference);
-            CHECK_SAME_TYPE(decltype(a.back()), int&);
-            CHECK_NOEXCEPT(a.back());
+            T0 arr = {};
+            CHECK_SAME_TYPE(decltype(arr.back()), T0::reference);
+            CHECK_SAME_TYPE(decltype(arr.back()), int&);
+            CHECK_NOEXCEPT(arr.back());
 
-            if (a.size() > 0u) // always false
+            if (arr.size() > 0u) // always false
             {
-                a.back();
+                arr.back();
             }
 
-            TC0 b = {};
-            CHECK_SAME_TYPE(decltype(b.back()), TC0::reference);
-            CHECK_SAME_TYPE(decltype(b.back()), const int&);
-            CHECK_NOEXCEPT(b.back());
+            TC0 arr2 = {};
+            CHECK_SAME_TYPE(decltype(arr2.back()), TC0::reference);
+            CHECK_SAME_TYPE(decltype(arr2.back()), const int&);
+            CHECK_NOEXCEPT(arr2.back());
 
-            if (b.size() > 0u) // always false
+            if (arr2.size() > 0u) // always false
             {
-                b.back();
+                arr2.back();
             }
         }
 
         SECTION("Zero size const")
         {
-            const T0 a = {};
-            CHECK_SAME_TYPE(decltype(a.back()), T0::const_reference);
-            CHECK_SAME_TYPE(decltype(a.back()), const int&);
-            CHECK_NOEXCEPT(a.back());
+            const T0 arr = {};
+            CHECK_SAME_TYPE(decltype(arr.back()), T0::const_reference);
+            CHECK_SAME_TYPE(decltype(arr.back()), const int&);
+            CHECK_NOEXCEPT(arr.back());
 
-            if (a.size() > 0u) // always false
+            if (arr.size() > 0u) // always false
             {
-                a.back();
+                arr.back();
             }
 
-            const TC0 b = {};
-            CHECK_SAME_TYPE(decltype(b.back()), TC0::const_reference);
-            CHECK_SAME_TYPE(decltype(b.back()), const int&);
-            CHECK_NOEXCEPT(b.back());
+            const TC0 arr2 = {};
+            CHECK_SAME_TYPE(decltype(arr2.back()), TC0::const_reference);
+            CHECK_SAME_TYPE(decltype(arr2.back()), const int&);
+            CHECK_NOEXCEPT(arr2.back());
 
-            if (b.size() > 0u) // always false
+            if (arr2.size() > 0u) // always false
             {
-                b.back();
+                arr2.back();
             }
         }
 
@@ -420,25 +422,25 @@ TEST_CASE("Array")
 
         SECTION("Traps")
         {
-            phi::array<trap_constructible, 3> a = {};
+            phi::array<trap_constructible, 3> test1 = {};
+            trap_constructible&               a_ref = test1.back();
+            PHI_UNUSED_VARIABLE(a_ref);
 
-            trap_constructible& a_ref = a.back();
+            phi::array<trap_implicit_conversion, 3> test2 = {};
+            trap_implicit_conversion&               b_ref = test2.back();
+            PHI_UNUSED_VARIABLE(b_ref);
 
-            phi::array<trap_implicit_conversion, 3> b = {};
+            phi::array<trap_comma, 3> test3 = {};
+            trap_comma&               c_ref = test3.back();
+            PHI_UNUSED_VARIABLE(c_ref);
 
-            trap_implicit_conversion& b_ref = b.back();
+            phi::array<trap_call, 3> test4 = {};
+            trap_call&               d_ref = test4.back();
+            PHI_UNUSED_VARIABLE(d_ref);
 
-            phi::array<trap_comma, 3> c = {};
-
-            trap_comma& c_ref = c.back();
-
-            phi::array<trap_call, 3> d = {};
-
-            trap_call& d_ref = d.back();
-
-            phi::array<trap_self_assign, 3> e = {};
-
-            trap_self_assign& e_ref = e.back();
+            phi::array<trap_self_assign, 3> test5 = {};
+            trap_self_assign&               e_ref = test5.back();
+            PHI_UNUSED_VARIABLE(e_ref);
         }
     }
 
@@ -447,198 +449,198 @@ TEST_CASE("Array")
         SECTION("non const")
         {
             {
-                T    a = {1, 2, 4};
-                int* p = a.data();
+                T    arr     = {1, 2, 4};
+                int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T::pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(a.data() == &a[0u]);
-                CHECK(*a.data() == a[0u]);
+                CHECK(arr.data() == &arr[0u]); // NOLINT(readability-container-data-pointer)
+                CHECK(*arr.data() == arr[0u]);
 
-                CHECK(p != nullptr);
-                CHECK(*p == 1);
-                CHECK(p[0] == 1);
-                CHECK(p[1] == 2);
-                CHECK(p[2] == 4);
+                CHECK(pointer != nullptr);
+                CHECK(*pointer == 1);
+                CHECK(pointer[0] == 1);
+                CHECK(pointer[1] == 2);
+                CHECK(pointer[2] == 4);
 
-                p[0] = 5;
+                pointer[0] = 5;
 
-                CHECK(*p == 5);
-                CHECK(p[0] == 5);
-                CHECK(*a.data() == 5);
-                CHECK(a.data()[0] == 5);
-                CHECK(a.at(0u) == 5);
-                CHECK(a[0u] == 5);
+                CHECK(*pointer == 5);
+                CHECK(pointer[0] == 5);
+                CHECK(*arr.data() == 5);
+                CHECK(arr.data()[0] == 5);
+                CHECK(arr.at(0u) == 5);
+                CHECK(arr[0u] == 5);
             }
 
             {
-                TC         a = {1, 2, 4};
-                const int* p = a.data();
+                TC         arr     = {1, 2, 4};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), TC::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), TC::pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(a.data() == &a[0u]);
-                CHECK(*a.data() == a[0u]);
+                CHECK(arr.data() == &arr[0u]); // NOLINT(readability-container-data-pointer)
+                CHECK(*arr.data() == arr[0u]);
 
-                CHECK(p != nullptr);
-                CHECK(*p == 1);
-                CHECK(p[0] == 1);
-                CHECK(p[1] == 2);
-                CHECK(p[2] == 4);
+                CHECK(pointer != nullptr);
+                CHECK(*pointer == 1);
+                CHECK(pointer[0] == 1);
+                CHECK(pointer[1] == 2);
+                CHECK(pointer[2] == 4);
             }
         }
 
         SECTION("const")
         {
             {
-                const T    a = {1, 2, 4};
-                const int* p = a.data();
+                const T    arr     = {1, 2, 4};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T::const_pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(a.data() == &a[0u]);
-                CHECK(*a.data() == a[0u]);
+                CHECK(arr.data() == &arr[0u]); // NOLINT(readability-container-data-pointer)
+                CHECK(*arr.data() == arr[0u]);
 
-                CHECK(p != nullptr);
-                CHECK(*p == 1);
-                CHECK(p[0] == 1);
-                CHECK(p[1] == 2);
-                CHECK(p[2] == 4);
+                CHECK(pointer != nullptr);
+                CHECK(*pointer == 1);
+                CHECK(pointer[0] == 1);
+                CHECK(pointer[1] == 2);
+                CHECK(pointer[2] == 4);
             }
 
             {
-                const TC   a = {1, 2, 4};
-                const int* p = a.data();
+                const TC   arr     = {1, 2, 4};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), TC::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), TC::const_pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(a.data() == &a[0u]);
-                CHECK(*a.data() == a[0u]);
+                CHECK(arr.data() == &arr[0u]); // NOLINT(readability-container-data-pointer)
+                CHECK(*arr.data() == arr[0u]);
 
-                CHECK(p != nullptr);
-                CHECK(*p == 1);
-                CHECK(p[0] == 1);
-                CHECK(p[1] == 2);
-                CHECK(p[2] == 4);
+                CHECK(pointer != nullptr);
+                CHECK(*pointer == 1);
+                CHECK(pointer[0] == 1);
+                CHECK(pointer[1] == 2);
+                CHECK(pointer[2] == 4);
             }
         }
 
         SECTION("zero sized non const")
         {
             {
-                T0   a = {};
-                int* p = a.data();
+                T0   arr     = {};
+                int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T0::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T0::pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
 
             {
-                TC0        a = {};
-                const int* p = a.data();
+                TC0        arr     = {};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), TC0::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), TC0::pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
 
             {
-                using T2                     = phi::array<non_default_constructible, 0>;
-                T2                         a = {};
-                non_default_constructible* p = a.data();
+                using T2                           = phi::array<non_default_constructible, 0>;
+                T2                         arr     = {};
+                non_default_constructible* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T2::pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), non_default_constructible*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T2::pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), non_default_constructible*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
         }
 
         SECTION("zero sized const")
         {
             {
-                const T0   a = {};
-                const int* p = a.data();
+                const T0   arr     = {};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T0::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T0::const_pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
 
             {
-                const TC0  a = {};
-                const int* p = a.data();
+                const TC0  arr     = {};
+                const int* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), TC0::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const int*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), TC0::const_pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const int*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
 
             {
-                using T2                           = phi::array<non_default_constructible, 0>;
-                const T2                         a = {};
-                const non_default_constructible* p = a.data();
+                using T2                                 = phi::array<non_default_constructible, 0>;
+                const T2                         arr     = {};
+                const non_default_constructible* pointer = arr.data();
 
-                CHECK_SAME_TYPE(decltype(a.data()), T2::const_pointer);
-                CHECK_SAME_TYPE(decltype(a.data()), const non_default_constructible*);
-                CHECK_NOEXCEPT(a.data());
+                CHECK_SAME_TYPE(decltype(arr.data()), T2::const_pointer);
+                CHECK_SAME_TYPE(decltype(arr.data()), const non_default_constructible*);
+                CHECK_NOEXCEPT(arr.data());
 
-                CHECK(p == nullptr);
+                CHECK(pointer == nullptr);
             }
         }
 
         SECTION("alignment")
         {
             {
-                using T2                       = phi::array<natural_alignment, 0>;
-                const T2                 a     = {};
-                const natural_alignment* p     = a.data();
-                std::uintptr_t           p_int = reinterpret_cast<std::uintptr_t>(p);
+                using T2                         = phi::array<natural_alignment, 0>;
+                const T2                 arr     = {};
+                const natural_alignment* pointer = arr.data();
+                std::uintptr_t           p_int   = reinterpret_cast<std::uintptr_t>(pointer);
 
                 CHECK(p_int % alignof(natural_alignment) == 0);
             }
 
             {
-                using T2                       = phi::array<natural_alignment, 3>;
-                const T2                 a     = {};
-                const natural_alignment* p     = a.data();
-                std::uintptr_t           p_int = reinterpret_cast<std::uintptr_t>(p);
+                using T2                         = phi::array<natural_alignment, 3>;
+                const T2                 arr     = {};
+                const natural_alignment* pointer = arr.data();
+                std::uintptr_t           p_int   = reinterpret_cast<std::uintptr_t>(pointer);
 
                 CHECK(p_int % alignof(natural_alignment) == 0);
             }
 
             {
-                using T2                      = phi::array<phi::max_align_t, 0>;
-                const T2                a     = {};
-                const phi::max_align_t* p     = a.data();
-                std::uintptr_t          p_int = reinterpret_cast<std::uintptr_t>(p);
+                using T2                        = phi::array<phi::max_align_t, 0>;
+                const T2                arr     = {};
+                const phi::max_align_t* pointer = arr.data();
+                std::uintptr_t          p_int   = reinterpret_cast<std::uintptr_t>(pointer);
 
                 CHECK(p_int % alignof(phi::max_align_t) == 0);
             }
 
             {
-                using T2                      = phi::array<phi::max_align_t, 3>;
-                const T2                a     = {};
-                const phi::max_align_t* p     = a.data();
-                std::uintptr_t          p_int = reinterpret_cast<std::uintptr_t>(p);
+                using T2                        = phi::array<phi::max_align_t, 3>;
+                const T2                arr     = {};
+                const phi::max_align_t* pointer = arr.data();
+                std::uintptr_t          p_int   = reinterpret_cast<std::uintptr_t>(pointer);
 
                 CHECK(p_int % alignof(phi::max_align_t) == 0);
             }
@@ -647,98 +649,98 @@ TEST_CASE("Array")
         SECTION("tracked")
         {
             phi::array<tracked, 3> tracked_array;
-            tracked*               p = tracked_array.data();
+            tracked*               pointer = tracked_array.data();
 
-            CHECK(p->value() == 0);
+            CHECK(pointer->value() == 0);
 
-            p->set_value(25);
+            pointer->set_value(25);
 
-            CHECK(p->value() == 25);
+            CHECK(pointer->value() == 25);
         }
 
         SECTION("Traps")
         {
-            phi::array<trap_constructible, 3> a = {};
+            phi::array<trap_constructible, 3> test1 = {};
+            trap_constructible*               a_p   = test1.data();
+            PHI_UNUSED_VARIABLE(a_p);
 
-            trap_constructible* a_p = a.data();
+            phi::array<trap_implicit_conversion, 3> test2 = {};
+            trap_implicit_conversion*               b_p   = test2.data();
+            PHI_UNUSED_VARIABLE(b_p);
 
-            phi::array<trap_implicit_conversion, 3> b = {};
+            phi::array<trap_comma, 3> test3 = {};
+            trap_comma*               c_p   = test3.data();
+            PHI_UNUSED_VARIABLE(c_p);
 
-            trap_implicit_conversion* b_p = b.data();
+            phi::array<trap_call, 3> test4 = {};
+            trap_call*               d_p   = test4.data();
+            PHI_UNUSED_VARIABLE(d_p);
 
-            phi::array<trap_comma, 3> c = {};
-
-            trap_comma* c_p = c.data();
-
-            phi::array<trap_call, 3> d = {};
-
-            trap_call* d_p = d.data();
-
-            phi::array<trap_self_assign, 3> e = {};
-
-            trap_self_assign* e_p = e.data();
+            phi::array<trap_self_assign, 3> test5 = {};
+            trap_self_assign*               e_p   = test5.data();
+            PHI_UNUSED_VARIABLE(e_p);
         }
     }
 
     SECTION("reverse")
     {
         {
-            T a = {1, 2, 3};
-            a.reverse();
+            T arr = {1, 2, 3};
+            arr.reverse();
 
-            CHECK_NOEXCEPT(a.reverse());
+            CHECK_NOEXCEPT(arr.reverse());
 
-            CHECK(a.at(0u) == 3u);
-            CHECK(a.at(1u) == 2u);
-            CHECK(a.at(2u) == 1u);
+            CHECK(arr.at(0u) == 3u);
+            CHECK(arr.at(1u) == 2u);
+            CHECK(arr.at(2u) == 1u);
         }
 
         SECTION("Traps")
         {
-            phi::array<trap_implicit_conversion, 3> b = {};
-            b.reverse();
+            phi::array<trap_implicit_conversion, 3> test1 = {};
+            test1.reverse();
 
-            phi::array<trap_comma, 3> c = {};
-            c.reverse();
+            phi::array<trap_comma, 3> test2 = {};
+            test2.reverse();
 
-            phi::array<trap_call, 3> d = {};
-            d.reverse();
+            phi::array<trap_call, 3> test3 = {};
+            test3.reverse();
 
-            phi::array<trap_self_assign, 3> e = {};
-            e.reverse();
+            phi::array<trap_self_assign, 3> test4 = {};
+            test4.reverse();
         }
     }
 
     SECTION("to_reversed")
     {
         {
-            const T a = {1, 2, 3};
-            T       b = a.to_reversed();
+            const T arr      = {1, 2, 3};
+            T       reversed = arr.to_reversed();
 
-            CHECK_NOEXCEPT(a.to_reversed());
+            CHECK_NOEXCEPT(arr.to_reversed());
 
-            CHECK(a.at(0u) == 1u);
-            CHECK(a.at(1u) == 2u);
-            CHECK(a.at(2u) == 3u);
+            CHECK(arr.at(0u) == 1u);
+            CHECK(arr.at(1u) == 2u);
+            CHECK(arr.at(2u) == 3u);
 
-            CHECK(b.at(0u) == 3u);
-            CHECK(b.at(1u) == 2u);
-            CHECK(b.at(2u) == 1u);
+            CHECK(reversed.at(0u) == 3u);
+            CHECK(reversed.at(1u) == 2u);
+            CHECK(reversed.at(2u) == 1u);
         }
 
         SECTION("Traps")
         {
-            phi::array<trap_implicit_conversion, 3> b = {};
-            (void)b.to_reversed();
+            phi::array<trap_implicit_conversion, 3> test1 = {};
+            (void)test1.to_reversed();
 
-            phi::array<trap_comma, 3> c = {};
-            (void)c.to_reversed();
+            phi::array<trap_comma, 3> test2 = {};
+            (void)test2.to_reversed();
 
-            phi::array<trap_call, 3> d = {};
-            (void)d.to_reversed();
+            phi::array<trap_call, 3> test3 = {};
+            (void)test3.to_reversed();
 
-            phi::array<trap_self_assign, 3> e = {};
-            (void)e.to_reversed();
+            phi::array<trap_self_assign, 3> test4 = {};
+            (void)test4.to_reversed();
         }
     }
 }

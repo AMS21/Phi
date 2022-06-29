@@ -56,7 +56,7 @@ struct A
 
 struct B
 {
-public:
+    // NOLINTNEXTLINE(readability-make-member-function-const)
     operator A()
     {
         return a;
@@ -64,12 +64,15 @@ public:
     A a;
 };
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class C
 {};
 
+// NOLINTNEXTLINE(readability-identifier-naming)
 class D
 {
 public:
+    // NOLINTNEXTLINE(readability-make-member-function-const)
     operator C() noexcept
     {
         return c;
@@ -79,9 +82,10 @@ public:
 
 struct DThrows
 {
-    DThrows(int) noexcept
+    DThrows(int /*unused*/) noexcept
     {}
 
+    // NOLINTNEXTLINE(modernize-use-equals-default)
     ~DThrows() noexcept(false)
     {}
 };

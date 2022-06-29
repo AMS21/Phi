@@ -13,85 +13,85 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_standard_layout_impl()
 {
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
-    STATIC_REQUIRE(phi::is_standard_layout<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_standard_layout<T>::value);
+    STATIC_REQUIRE(phi::is_standard_layout<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_standard_layout<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_standard_layout_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_standard_layout_v<T>);
+    STATIC_REQUIRE(phi::is_standard_layout_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_standard_layout_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_standard_layout<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_standard_layout<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_standard_layout<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_standard_layout<TypeT>);
 
     // Standard compatbilility
-    STATIC_REQUIRE(std::is_standard_layout<T>::value);
+    STATIC_REQUIRE(std::is_standard_layout<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_standard_layout_impl()
 {
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
-    STATIC_REQUIRE_FALSE(phi::is_standard_layout<T>::value);
-    STATIC_REQUIRE(phi::is_not_standard_layout<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_standard_layout<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_standard_layout<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_standard_layout_v<T>);
-    STATIC_REQUIRE(phi::is_not_standard_layout_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_standard_layout_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_standard_layout_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_standard_layout<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_standard_layout<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_standard_layout<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_standard_layout<TypeT>);
 
     // Standard compatbilility
-    STATIC_REQUIRE_FALSE(std::is_standard_layout<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_standard_layout<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_standard_layout()
 {
-    test_is_standard_layout_impl<T>();
-    test_is_standard_layout_impl<const T>();
-    test_is_standard_layout_impl<volatile T>();
-    test_is_standard_layout_impl<const volatile T>();
+    test_is_standard_layout_impl<TypeT>();
+    test_is_standard_layout_impl<const TypeT>();
+    test_is_standard_layout_impl<volatile TypeT>();
+    test_is_standard_layout_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_standard_layout()
 {
-    test_is_not_standard_layout_impl<T>();
-    test_is_not_standard_layout_impl<const T>();
-    test_is_not_standard_layout_impl<volatile T>();
-    test_is_not_standard_layout_impl<const volatile T>();
+    test_is_not_standard_layout_impl<TypeT>();
+    test_is_not_standard_layout_impl<const TypeT>();
+    test_is_not_standard_layout_impl<volatile TypeT>();
+    test_is_not_standard_layout_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_standard_layout_function()
 {
 #if PHI_COMPILER_IS(MSVC)
-    test_is_standard_layout<T>();
-    test_is_standard_layout<const T>();
-    test_is_standard_layout<volatile T>();
-    test_is_standard_layout<const volatile T>();
+    test_is_standard_layout<TypeT>();
+    test_is_standard_layout<const TypeT>();
+    test_is_standard_layout<volatile TypeT>();
+    test_is_standard_layout<const volatile TypeT>();
 #else
-    test_is_not_standard_layout<T>();
-    test_is_not_standard_layout<const T>();
-    test_is_not_standard_layout<volatile T>();
-    test_is_not_standard_layout<const volatile T>();
+    test_is_not_standard_layout<TypeT>();
+    test_is_not_standard_layout<const TypeT>();
+    test_is_not_standard_layout<volatile TypeT>();
+    test_is_not_standard_layout<const volatile TypeT>();
 #endif
 }
 
-template <typename T1, typename T2>
+template <typename FirstT, typename SecondT>
 struct pair
 {
-    T1 first;
-    T2 second;
+    FirstT  first;
+    SecondT second;
 };
 
 struct A
@@ -107,7 +107,7 @@ struct B
     int m1;
 
 private:
-    int m2;
+    int m_Private;
 };
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

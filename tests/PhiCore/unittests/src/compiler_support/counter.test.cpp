@@ -4,8 +4,8 @@
 
 TEST_CASE("counter")
 {
-    int i = PHI_COUNTER();
-    int j = PHI_COUNTER();
+    int first  = PHI_COUNTER();
+    int second = PHI_COUNTER();
 
-    CHECK(i != j);
+    CHECK(first != second);
 }

@@ -17,6 +17,7 @@ struct S
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE("type_traits")
 {
     // add_const

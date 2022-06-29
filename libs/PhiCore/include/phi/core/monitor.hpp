@@ -29,18 +29,18 @@ class monitor final
 private:
     struct monitor_helper
     {
-        constexpr explicit monitor_helper(monitor* monitor) noexcept PHI_ATTRIBUTE_NONNULL
-            : m_Monitor(monitor),
-              m_Lock(monitor->m_Mutex)
+        constexpr explicit monitor_helper(monitor* monitor_arg) noexcept PHI_ATTRIBUTE_NONNULL
+            : monitor(monitor_arg),
+              lock(monitor->m_Mutex)
         {}
 
         PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr SharedDataT* operator->() noexcept
         {
-            return &m_Monitor->m_SharedData;
+            return &monitor->m_SharedData;
         }
 
-        monitor*                     m_Monitor;
-        std::unique_lock<std::mutex> m_Lock;
+        monitor*                     monitor;
+        std::unique_lock<std::mutex> lock;
     };
 
 public:
@@ -65,6 +65,7 @@ public:
         return monitor_helper(this);
     }
 
+    // NOLINTNEXTLINE(readability-const-return-type)
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper operator->() const noexcept
     {
         return monitor_helper(this);
@@ -92,6 +93,7 @@ public:
         return monitor_helper{this};
     }
 
+    // NOLINTNEXTLINE(readability-const-return-type)
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper ManuallyLock() const noexcept
     {
         return monitor_helper{this};

@@ -146,7 +146,6 @@ public:
     template <typename OtherFirstT, typename OtherSecondT,
               typename enable_if<enable_implicit_constructor<const OtherFirstT&,
                                                              const OtherSecondT&>>::type* = nullptr>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr pair(const pair<OtherFirstT, SecondT>& other_pair) noexcept(
             is_nothrow_constructible<FirstT, const OtherFirstT&>::value&&
                     is_nothrow_constructible<SecondT, const OtherSecondT&>::value)
@@ -169,7 +168,6 @@ public:
     template <typename OtherFirstT, typename OtherSecondT,
               typename enable_if<enable_implicit_constructor<OtherFirstT, OtherSecondT>()>::type* =
                       nullptr>
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr pair(pair<OtherFirstT, OtherSecondT>&& other_pair) noexcept(
             is_nothrow_constructible<FirstT, OtherFirstT&&>::value&&
                     is_nothrow_constructible<SecondT, OtherSecondT&&>::value)
@@ -232,9 +230,7 @@ public:
         return pair<SecondT, FirstT>(second, first);
     }
 
-    // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes,modernize-use-default-member-init)
-    FirstT first;
-    // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes,modernize-use-default-member-init)
+    FirstT  first;
     SecondT second;
 };
 

@@ -11,27 +11,28 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_add_volatile()
 {
-    CHECK_SAME_TYPE(typename phi::add_volatile<T>::type, volatile T);
-    CHECK_SAME_TYPE(typename phi::add_volatile<const T>::type, const volatile T);
-    CHECK_SAME_TYPE(typename phi::add_volatile<volatile T>::type, volatile T);
-    CHECK_SAME_TYPE(typename phi::add_volatile<const volatile T>::type, const volatile T);
+    CHECK_SAME_TYPE(typename phi::add_volatile<TypeT>::type, volatile TypeT);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const TypeT>::type, const volatile TypeT);
+    CHECK_SAME_TYPE(typename phi::add_volatile<volatile TypeT>::type, volatile TypeT);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const volatile TypeT>::type, const volatile TypeT);
 
-    CHECK_SAME_TYPE(phi::add_volatile_t<T>, volatile T);
-    CHECK_SAME_TYPE(phi::add_volatile_t<const T>, const volatile T);
-    CHECK_SAME_TYPE(phi::add_volatile_t<volatile T>, volatile T);
-    CHECK_SAME_TYPE(phi::add_volatile_t<const volatile T>, const volatile T);
+    CHECK_SAME_TYPE(phi::add_volatile_t<TypeT>, volatile TypeT);
+    CHECK_SAME_TYPE(phi::add_volatile_t<const TypeT>, const volatile TypeT);
+    CHECK_SAME_TYPE(phi::add_volatile_t<volatile TypeT>, volatile TypeT);
+    CHECK_SAME_TYPE(phi::add_volatile_t<const volatile TypeT>, const volatile TypeT);
 
     // Standard compatibility
-    CHECK_SAME_TYPE(typename phi::add_volatile<T>::type, typename std::add_volatile<T>::type);
-    CHECK_SAME_TYPE(typename phi::add_volatile<const T>::type,
-                    typename std::add_volatile<const T>::type);
-    CHECK_SAME_TYPE(typename phi::add_volatile<volatile T>::type,
-                    typename std::add_volatile<volatile T>::type);
-    CHECK_SAME_TYPE(typename phi::add_volatile<const volatile T>::type,
-                    typename std::add_volatile<const volatile T>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<TypeT>::type,
+                    typename std::add_volatile<TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const TypeT>::type,
+                    typename std::add_volatile<const TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<volatile TypeT>::type,
+                    typename std::add_volatile<volatile TypeT>::type);
+    CHECK_SAME_TYPE(typename phi::add_volatile<const volatile TypeT>::type,
+                    typename std::add_volatile<const volatile TypeT>::type);
 }
 
 TEST_CASE("add_volatile")

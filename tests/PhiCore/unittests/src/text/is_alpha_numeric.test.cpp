@@ -3,55 +3,57 @@
 #include "phi/text/is_alpha_numeric.hpp"
 #include <cctype>
 
-void test_is_alpha_numeric(const char c) noexcept
+// TODO: Test with constexpr
+
+void test_is_alpha_numeric(const char character) noexcept
 {
-    CHECK(phi::is_alpha_numeric(c));
-    CHECK(std::isalnum(c));
-    CHECK_NOEXCEPT(phi::is_alpha_numeric(c));
+    CHECK(phi::is_alpha_numeric(character));
+    CHECK(std::isalnum(character));
+    CHECK_NOEXCEPT(phi::is_alpha_numeric(character));
 }
 
-void test_is_not_alpha_numeric(const char c) noexcept
+void test_is_not_alpha_numeric(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_alpha_numeric(c));
-    CHECK_FALSE(std::isalnum(c));
-    CHECK_NOEXCEPT(phi::is_alpha_numeric(c));
+    CHECK_FALSE(phi::is_alpha_numeric(character));
+    CHECK_FALSE(std::isalnum(character));
+    CHECK_NOEXCEPT(phi::is_alpha_numeric(character));
 }
 
 TEST_CASE("is_alpha_numeric")
 {
-    for (char c{0}; c <= 47; ++c)
+    for (char character{0}; character <= 47; ++character)
     {
-        test_is_not_alpha_numeric(c);
+        test_is_not_alpha_numeric(character);
     }
 
-    for (char c{48}; c <= 57; ++c)
+    for (char character{48}; character <= 57; ++character)
     {
-        test_is_alpha_numeric(c);
+        test_is_alpha_numeric(character);
     }
 
-    for (char c{58}; c <= 64; ++c)
+    for (char character{58}; character <= 64; ++character)
     {
-        test_is_not_alpha_numeric(c);
+        test_is_not_alpha_numeric(character);
     }
 
-    for (char c{65}; c <= 90; ++c)
+    for (char character{65}; character <= 90; ++character)
     {
-        test_is_alpha_numeric(c);
+        test_is_alpha_numeric(character);
     }
 
-    for (char c{91}; c <= 96; ++c)
+    for (char character{91}; character <= 96; ++character)
     {
-        test_is_not_alpha_numeric(c);
+        test_is_not_alpha_numeric(character);
     }
 
-    for (char c{97}; c <= 122; ++c)
+    for (char character{97}; character <= 122; ++character)
     {
-        test_is_alpha_numeric(c);
+        test_is_alpha_numeric(character);
     }
 
-    for (char c{123}; c <= 126; ++c)
+    for (char character{123}; character <= 126; ++character)
     {
-        test_is_not_alpha_numeric(c);
+        test_is_not_alpha_numeric(character);
     }
 
     test_is_not_alpha_numeric(127);

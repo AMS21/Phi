@@ -8,40 +8,41 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T>
+template <typename TypeT>
 void test_signum_signed()
 {
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(0)) == 0);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(-1)) == -1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(1)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(21)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(-21)) == -1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::max())) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::min())) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(0)) == 0);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(-1)) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(1)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(21)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(-21)) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::max())) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::min())) == -1);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_signum_unsigned()
 {
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(0)) == 0);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(1)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(21)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::max())) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::min())) == 0);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(0)) == 0);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(1)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(21)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::max())) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::min())) == 0);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_signum_float()
 {
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(0.0)) == 0);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(-0.0)) == 0);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(-1.0)) == -1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(1.0)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(21.0)) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(-21.0)) == -1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::max())) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::min())) == 1);
-    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<T>(std::numeric_limits<T>::lowest())) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(0.0)) == 0);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(-0.0)) == 0);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(-1.0)) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(1.0)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(21.0)) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(-21.0)) == -1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::max())) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::min())) == 1);
+    STATIC_REQUIRE(phi::signum(phi::unsafe_cast<TypeT>(std::numeric_limits<TypeT>::lowest())) ==
+                   -1);
 }
 
 TEST_CASE("signum")

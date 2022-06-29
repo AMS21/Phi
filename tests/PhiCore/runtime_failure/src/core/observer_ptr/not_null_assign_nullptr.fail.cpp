@@ -6,9 +6,9 @@ int main()
 {
     SetupRuntimeFailure();
 
-    int                             i    = 12;
-    int*                            null = nullptr;
-    phi::not_null_observer_ptr<int> ptr(&i);
+    int                             integer = 12;
+    int*                            null    = nullptr;
+    phi::not_null_observer_ptr<int> ptr(&integer);
 
     ptr = null;
 }

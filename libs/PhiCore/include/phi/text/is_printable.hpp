@@ -12,9 +12,9 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_printable(const char c) noexcept
+PHI_NODISCARD constexpr phi::boolean is_printable(const char character) noexcept
 {
-    return (c >= 32 && c <= 126);
+    return (character >= 32 && character <= 126);
 }
 
 DETAIL_PHI_END_NAMESPACE()

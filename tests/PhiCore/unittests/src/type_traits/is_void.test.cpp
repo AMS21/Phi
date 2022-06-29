@@ -35,124 +35,124 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_void_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_arithmetic<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_array<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_bool<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_arithmetic<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_array<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_bool<TypeT>::value);
 #if PHI_HAS_WORKING_IS_CLASS()
-    STATIC_REQUIRE_FALSE(phi::is_class<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_class<TypeT>::value);
 #endif
-    STATIC_REQUIRE_FALSE(phi::is_compound<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_compound<TypeT>::value);
 #if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE_FALSE(phi::is_enum<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_enum<TypeT>::value);
 #endif
-    STATIC_REQUIRE_FALSE(phi::is_floating_point<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_function<T>::value);
-    STATIC_REQUIRE(phi::is_fundamental<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_integer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_integral<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_member_pointer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_null_pointer<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_function<TypeT>::value);
+    STATIC_REQUIRE(phi::is_fundamental<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_integer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_integral<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer<TypeT>::value);
 #if PHI_HAS_WORKING_IS_OBJECT()
-    STATIC_REQUIRE_FALSE(phi::is_object<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_object<TypeT>::value);
 #endif
-    STATIC_REQUIRE_FALSE(phi::is_pointer<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_reference<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_pointer<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_reference<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference<TypeT>::value);
 #if PHI_HAS_WORKING_IS_SCALAR()
-    STATIC_REQUIRE_FALSE(phi::is_scalar<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_scalar<TypeT>::value);
 #endif
 #if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE_FALSE(phi::is_union<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_union<TypeT>::value);
 #endif
-    STATIC_REQUIRE(phi::is_void<T>::value);
+    STATIC_REQUIRE(phi::is_void<TypeT>::value);
 
-    STATIC_REQUIRE_FALSE(phi::is_not_void<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_void<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_array_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_bool_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_arithmetic_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_array_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_bool_v<TypeT>);
 #    if PHI_HAS_WORKING_IS_CLASS()
-    STATIC_REQUIRE_FALSE(phi::is_class_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_class_v<TypeT>);
 #    endif
-    STATIC_REQUIRE_FALSE(phi::is_compound_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_compound_v<TypeT>);
 #    if PHI_HAS_WORKING_IS_ENUM()
-    STATIC_REQUIRE_FALSE(phi::is_enum_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_enum_v<TypeT>);
 #    endif
-    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_function_v<T>);
-    STATIC_REQUIRE(phi::is_fundamental_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_integer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_integral_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_floating_point_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_function_v<TypeT>);
+    STATIC_REQUIRE(phi::is_fundamental_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_integer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_integral_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_lvalue_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_member_function_pointer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_member_object_pointer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_member_pointer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_null_pointer_v<TypeT>);
 #    if PHI_HAS_WORKING_IS_OBJECT()
-    STATIC_REQUIRE_FALSE(phi::is_object_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_object_v<TypeT>);
 #    endif
-    STATIC_REQUIRE_FALSE(phi::is_pointer_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_reference_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_pointer_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_reference_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_rvalue_reference_v<TypeT>);
 #    if PHI_HAS_WORKING_IS_SCALAR()
-    STATIC_REQUIRE_FALSE(phi::is_scalar_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_scalar_v<TypeT>);
 #    endif
 #    if PHI_HAS_WORKING_IS_UNION()
-    STATIC_REQUIRE_FALSE(phi::is_union_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_union_v<TypeT>);
 #    endif
-    STATIC_REQUIRE(phi::is_void_v<T>);
+    STATIC_REQUIRE(phi::is_void_v<TypeT>);
 
-    STATIC_REQUIRE_FALSE(phi::is_not_void_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_not_void_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_void<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_void<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_void<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_void<TypeT>);
 
     // Standard compatbility
-    STATIC_REQUIRE(std::is_void<T>::value);
+    STATIC_REQUIRE(std::is_void<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_void()
 {
-    test_is_void_impl<T>();
-    test_is_void_impl<const T>();
-    test_is_void_impl<volatile T>();
-    test_is_void_impl<const volatile T>();
+    test_is_void_impl<TypeT>();
+    test_is_void_impl<const TypeT>();
+    test_is_void_impl<volatile TypeT>();
+    test_is_void_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_void_impl()
 {
-    STATIC_REQUIRE_FALSE(phi::is_void<T>::value);
-    STATIC_REQUIRE(phi::is_not_void<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_void<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_void<TypeT>::value);
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_void_v<T>);
-    STATIC_REQUIRE(phi::is_not_void_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_void_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_void_v<TypeT>);
 #endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_void<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_void<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_void<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_void<TypeT>);
 
     // Standard compatbility
-    STATIC_REQUIRE_FALSE(std::is_void<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_void<TypeT>::value);
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_void()
 {
-    test_is_not_void_impl<T>();
-    test_is_not_void_impl<const T>();
-    test_is_not_void_impl<volatile T>();
-    test_is_not_void_impl<const volatile T>();
+    test_is_not_void_impl<TypeT>();
+    test_is_not_void_impl<const TypeT>();
+    test_is_not_void_impl<volatile TypeT>();
+    test_is_not_void_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_void")

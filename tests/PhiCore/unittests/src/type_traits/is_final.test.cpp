@@ -31,63 +31,63 @@ union U1
 union U2 final
 {};
 
-template <typename T>
+template <typename TypeT>
 void test_is_final_impl()
 {
 #if PHI_HAS_WORKING_IS_FINAL()
-    STATIC_REQUIRE(phi::is_final<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_final<T>::value);
+    STATIC_REQUIRE(phi::is_final<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_final<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_final_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_final_v<T>);
+    STATIC_REQUIRE(phi::is_final_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_final_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_final<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_final<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_final<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_final<TypeT>);
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE(std::is_final<T>::value);
+    STATIC_REQUIRE(std::is_final<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_final()
 {
-    test_is_final_impl<T>();
-    test_is_final_impl<const T>();
-    test_is_final_impl<volatile T>();
-    test_is_final_impl<const volatile T>();
+    test_is_final_impl<TypeT>();
+    test_is_final_impl<const TypeT>();
+    test_is_final_impl<volatile TypeT>();
+    test_is_final_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_final_impl()
 {
 #if PHI_HAS_WORKING_IS_FINAL()
-    STATIC_REQUIRE_FALSE(phi::is_final<T>::value);
-    STATIC_REQUIRE(phi::is_not_final<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_final<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_final<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_final_v<T>);
-    STATIC_REQUIRE(phi::is_not_final_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_final_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_final_v<TypeT>);
 #    endif
 
     // Standard compatibility
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
-    STATIC_REQUIRE_FALSE(std::is_final<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_final<TypeT>::value);
 #    endif
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_final()
 {
-    test_is_not_final_impl<T>();
-    test_is_not_final_impl<const T>();
-    test_is_not_final_impl<volatile T>();
-    test_is_not_final_impl<const volatile T>();
+    test_is_not_final_impl<TypeT>();
+    test_is_not_final_impl<const TypeT>();
+    test_is_not_final_impl<volatile TypeT>();
+    test_is_not_final_impl<const volatile TypeT>();
 }
 
 TEST_CASE("is_final")

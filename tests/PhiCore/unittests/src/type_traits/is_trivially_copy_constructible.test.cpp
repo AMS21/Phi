@@ -13,73 +13,73 @@
 #include <type_traits>
 #include <vector>
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copy_constructible_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()
-    STATIC_REQUIRE(phi::is_trivially_copy_constructible<T>::value);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copy_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_copy_constructible<T>::value);
+    STATIC_REQUIRE(phi::is_trivially_copy_constructible<TypeT>::value);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copy_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_copy_constructible<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE(phi::is_trivially_copy_constructible_v<T>);
-    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copy_constructible_v<T>);
-    STATIC_REQUIRE(phi::is_copy_constructible_v<T>);
+    STATIC_REQUIRE(phi::is_trivially_copy_constructible_v<TypeT>);
+    STATIC_REQUIRE_FALSE(phi::is_not_trivially_copy_constructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_copy_constructible_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copy_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copy_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copy_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copy_constructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE(std::is_trivially_copy_constructible<T>::value);
+    STATIC_REQUIRE(std::is_trivially_copy_constructible<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivially_copy_constructible_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible<T>::value);
-    STATIC_REQUIRE(phi::is_not_trivially_copy_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible<TypeT>::value);
+    STATIC_REQUIRE(phi::is_not_trivially_copy_constructible<TypeT>::value);
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
-    STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible_v<T>);
-    STATIC_REQUIRE(phi::is_not_trivially_copy_constructible_v<T>);
+    STATIC_REQUIRE_FALSE(phi::is_trivially_copy_constructible_v<TypeT>);
+    STATIC_REQUIRE(phi::is_not_trivially_copy_constructible_v<TypeT>);
 #    endif
 
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copy_constructible<T>);
-    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copy_constructible<T>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_copy_constructible<TypeT>);
+    TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_copy_constructible<TypeT>);
 
     // Standard compatibility
-    STATIC_REQUIRE_FALSE(std::is_trivially_copy_constructible<T>::value);
+    STATIC_REQUIRE_FALSE(std::is_trivially_copy_constructible<TypeT>::value);
 #endif
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copy_constructible()
 {
-    test_is_trivially_copy_constructible_impl<T>();
-    test_is_trivially_copy_constructible_impl<const T>();
-    test_is_not_trivially_copy_constructible_impl<volatile T>();
-    test_is_not_trivially_copy_constructible_impl<const volatile T>();
+    test_is_trivially_copy_constructible_impl<TypeT>();
+    test_is_trivially_copy_constructible_impl<const TypeT>();
+    test_is_not_trivially_copy_constructible_impl<volatile TypeT>();
+    test_is_not_trivially_copy_constructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_trivially_copy_constructible_cv()
 {
-    test_is_trivially_copy_constructible_impl<T>();
-    test_is_trivially_copy_constructible_impl<const T>();
-    test_is_trivially_copy_constructible_impl<volatile T>();
-    test_is_trivially_copy_constructible_impl<const volatile T>();
+    test_is_trivially_copy_constructible_impl<TypeT>();
+    test_is_trivially_copy_constructible_impl<const TypeT>();
+    test_is_trivially_copy_constructible_impl<volatile TypeT>();
+    test_is_trivially_copy_constructible_impl<const volatile TypeT>();
 }
 
-template <typename T>
+template <typename TypeT>
 void test_is_not_trivially_copy_constructible()
 {
-    test_is_not_trivially_copy_constructible_impl<T>();
-    test_is_not_trivially_copy_constructible_impl<const T>();
-    test_is_not_trivially_copy_constructible_impl<volatile T>();
-    test_is_not_trivially_copy_constructible_impl<const volatile T>();
+    test_is_not_trivially_copy_constructible_impl<TypeT>();
+    test_is_not_trivially_copy_constructible_impl<const TypeT>();
+    test_is_not_trivially_copy_constructible_impl<volatile TypeT>();
+    test_is_not_trivially_copy_constructible_impl<const volatile TypeT>();
 }
 
 struct A
@@ -89,7 +89,8 @@ struct A
 
 struct B
 {
-    B(const B&)
+    // NOLINTNEXTLINE(modernize-use-equals-default)
+    B(const B& /*unused*/)
     {}
 };
 

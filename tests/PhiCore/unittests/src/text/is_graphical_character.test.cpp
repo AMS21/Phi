@@ -3,30 +3,30 @@
 #include "phi/text/is_graphical_character.hpp"
 #include <cctype>
 
-void test_is_graphical_character(const char c) noexcept
+void test_is_graphical_character(const char character) noexcept
 {
-    CHECK(phi::is_graphical_character(c));
-    CHECK(std::isgraph(c));
-    CHECK_NOEXCEPT(phi::is_graphical_character(c));
+    CHECK(phi::is_graphical_character(character));
+    CHECK(std::isgraph(character));
+    CHECK_NOEXCEPT(phi::is_graphical_character(character));
 }
 
-void test_is_not_graphical_character(const char c) noexcept
+void test_is_not_graphical_character(const char character) noexcept
 {
-    CHECK_FALSE(phi::is_graphical_character(c));
-    CHECK_FALSE(std::isgraph(c));
-    CHECK_NOEXCEPT(phi::is_graphical_character(c));
+    CHECK_FALSE(phi::is_graphical_character(character));
+    CHECK_FALSE(std::isgraph(character));
+    CHECK_NOEXCEPT(phi::is_graphical_character(character));
 }
 
 TEST_CASE("is_graphical_character")
 {
-    for (char c{0}; c <= 32; ++c)
+    for (char character{0}; character <= 32; ++character)
     {
-        test_is_not_graphical_character(c);
+        test_is_not_graphical_character(character);
     }
 
-    for (char c{33}; c <= 126; ++c)
+    for (char character{33}; character <= 126; ++character)
     {
-        test_is_graphical_character(c);
+        test_is_graphical_character(character);
     }
 
     test_is_not_graphical_character(127);
