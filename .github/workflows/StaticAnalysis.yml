@@ -107,10 +107,10 @@ jobs:
           run-clang-tidy-${{ env.LLVM_VERSION }} -quiet -header-filter=.* -j $(nproc) | tee clang_tidy.log
 
           # Filter out external libraries and test code
-          cat clang_tidy.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > clang_tidy_filtered.log || true
+          cat clang_tidy.log | grep -E "warning: |error: " > clang_tidy_filtered.log || true
 
           # Remove duplicate entries
-          sort clang_tidy_filtered.log | uniq -d > clang_tidy_output.log
+          sort clang_tidy_filtered.log | uniq > clang_tidy_output.log
 
       - name: Print results
         run: cat build/clang_tidy_output.log
