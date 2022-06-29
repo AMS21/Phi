@@ -263,7 +263,8 @@ install_pvs_studio() {
 
     # Verify
     echo "-- Verifying pvs-studio..."
-    pvs-studio-analyzer --version
+    # NOTE pvs-studio doens't support a --version flag so we use which
+    which pvs-studio-analyzer
     echo "-- Verifying pvs-studio done"
 }
 
