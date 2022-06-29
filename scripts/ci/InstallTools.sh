@@ -7,6 +7,8 @@ upgraded_pip=0
 added_llvm_apt=0
 root_dir=$(pwd)
 
+cmake_build_flags="-O3 -DNDEBUG -W -march=native -mtune=native"
+
 # Make sure pip is using the latest version
 upgrade_pip() {
     if [[ "$upgraded_pip" == 0 ]]; then
@@ -153,7 +155,7 @@ install_cppcheck() {
     mkdir build -p
     cd build || exit
 
-    cmake .. -DCMAKE_BUILD_TYPE:STRING="Release" -DUSE_MATCHCOMPILER:BOOL=ON
+    cmake .. -DCMAKE_BUILD_TYPE:STRING="Release" -DUSE_MATCHCOMPILER:BOOL=ON -DHAVE_RULES:BOOL=ON -DCMAKE_CXX_FLAGS:STRING="$cmake_build_flags"
     cmake --build . "-j$(nproc)"
     echo "-- Building cppcheck done"
 
@@ -224,7 +226,7 @@ install_iwyu() {
     mkdir build -p
     cd build || exit
 
-    cmake .. -DCMAKE_PREFIX_PATH:STRING="/usr/lib/llvm-$1" -DCMAKE_BUILD_TYPE:STRING="Release"
+    cmake .. -DCMAKE_PREFIX_PATH:STRING="/usr/lib/llvm-$1" -DCMAKE_BUILD_TYPE:STRING="Release" -DCMAKE_CXX_FLAGS:STRING="$cmake_build_flags"
     cmake --build . "-j$(nproc)"
     echo "-- Building iwyu done"
 
