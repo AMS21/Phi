@@ -159,9 +159,9 @@ function(phi_configure_project)
       # Soure dir to relative
       file(RELATIVE_PATH target_src_dir_rel ${CMAKE_CURRENT_SOURCE_DIR} ${target_source_dir})
 
-      string(SUBSTRING ${target_src_dir_rel} 0 ${external_length} test_string)
+      string(SUBSTRING "${target_src_dir_rel}" 0 ${external_length} test_string)
 
-      if(${test_string} STREQUAL ${conf_EXTERNAL})
+      if("${test_string}" STREQUAL ${conf_EXTERNAL})
         set(is_external TRUE)
       endif()
     endif()
