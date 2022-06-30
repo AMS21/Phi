@@ -20,6 +20,12 @@ struct A
     }
 };
 
+struct Base
+{};
+
+struct Derived : public Base
+{};
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 
@@ -79,6 +85,15 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(*ptr == 19);
     }
 
+    SECTION("scope_ptr(OtherT*)")
+    {
+        Derived*             raw_ptr = new Derived;
+        phi::scope_ptr<Base> ptr(raw_ptr);
+
+        REQUIRE(ptr);
+        CHECK(ptr.get() == raw_ptr);
+    }
+
     SECTION("scope_ptr(scope_ptr&&)")
     {
         int* raw_ptr = new int(21);
@@ -136,7 +151,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr);
     }
 
-    SECTION("scope_ptr(TypeT*)")
+    SECTION("operator=(TypeT*)")
     {
         int* raw_ptr = new int(21);
 
@@ -148,6 +163,25 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr);
 
         int* raw_ptr2 = new int(22);
+
+        ptr = raw_ptr2;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("operator=(OtherT*)")
+    {
+        Derived* raw_ptr = new Derived();
+
+        phi::scope_ptr<Base> ptr;
+
+        ptr = raw_ptr;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr);
+
+        Derived* raw_ptr2 = new Derived();
 
         ptr = raw_ptr2;
 
@@ -311,7 +345,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr1 == ptr2);
 
         // Need to leak the pointer otherwise we get a double free
-        ptr2.leak_ptr();
+        (void)ptr2.leak_ptr();
     }
 
     SECTION("operator!=")
@@ -340,7 +374,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK_FALSE(ptr1 != ptr2);
 
         // Need to leak the pointer otherwise we get a double free
-        ptr2.leak_ptr();
+        (void)ptr2.leak_ptr();
     }
 
     SECTION("make_scope")
@@ -393,6 +427,14 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(*ptr == 19);
     }
 
+    SECTION("not_null_scope_ptr(OtherT*)")
+    {
+        Derived*                      raw_ptr = new Derived();
+        phi::not_null_scope_ptr<Base> ptr(raw_ptr);
+
+        CHECK(ptr.get() == raw_ptr);
+    }
+
     SECTION("not_null_scope_ptr(not_null_scope_ptr&&)")
     {
         int* raw_ptr = new int(21);
@@ -423,7 +465,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr2);
     }
 
-    SECTION("not_null_scope_ptr(TypeT*)")
+    SECTION("operator=(TypeT*)")
     {
         int* raw_ptr = new int(21);
 
@@ -434,6 +476,23 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr);
 
         int* raw_ptr2 = new int(22);
+
+        ptr = raw_ptr2;
+
+        CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("operator=(OtherT*)")
+    {
+        Derived* raw_ptr = new Derived();
+
+        phi::not_null_scope_ptr<Base> ptr(new Base());
+
+        ptr = raw_ptr;
+
+        CHECK(ptr.get() == raw_ptr);
+
+        Derived* raw_ptr2 = new Derived();
 
         ptr = raw_ptr2;
 
@@ -534,7 +593,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr1 == ptr2);
 
         // Need to leak the pointer otherwise we get a double free
-        ptr2.leak_ptr();
+        (void)ptr2.leak_ptr();
     }
 
     SECTION("operator!=")
@@ -556,10 +615,10 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK_FALSE(ptr1 != ptr2);
 
         // Need to leak the pointer otherwise we get a double free
-        ptr2.leak_ptr();
+        (void)ptr2.leak_ptr();
     }
 
-    SECTION("make_scope")
+    SECTION("make_not_null_scope")
     {
         phi::not_null_scope_ptr<int> int_ptr  = phi::make_not_null_scope<int>();
         phi::not_null_scope_ptr<int> int_ptr2 = phi::make_not_null_scope<int>(3);

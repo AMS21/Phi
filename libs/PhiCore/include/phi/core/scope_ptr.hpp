@@ -61,7 +61,8 @@ public:
         : m_Ptr{nullptr}
     {}
 
-    constexpr explicit scope_ptr(TypeT* ptr) noexcept
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    constexpr explicit scope_ptr(OtherT* ptr) noexcept
         : m_Ptr{ptr}
     {}
 
@@ -71,7 +72,7 @@ public:
         : m_Ptr(other.leak_ptr())
     {}
 
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     constexpr scope_ptr(scope_ptr<OtherT>&& other) noexcept
         : m_Ptr{other.leak_ptr()}
     {}
@@ -82,7 +83,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign from moved not_null_scope_ptr");
     }
 
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
         : m_Ptr{other.leak_ptr()}
     {
@@ -96,14 +97,7 @@ public:
 
     scope_ptr<TypeT>& operator=(const scope_ptr<TypeT>&) = delete;
 
-    PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(scope_ptr<TypeT>&& other) noexcept
-    {
-        reset(other.leak_ptr());
-
-        return *this;
-    }
-
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(scope_ptr<OtherT>&& other) noexcept
     {
         reset(other.leak_ptr());
@@ -111,16 +105,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(not_null_scope_ptr<TypeT>&& other) noexcept
-    {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from moved not_null_scope_ptr");
-
-        reset(other.leak_ptr());
-
-        return *this;
-    }
-
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(not_null_scope_ptr<OtherT>&& other) noexcept
     {
         PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from moved not_null_scope_ptr");
@@ -130,7 +115,8 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(TypeT* ptr) noexcept
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(OtherT* ptr) noexcept
     {
         if (m_Ptr != ptr)
         {
@@ -162,25 +148,20 @@ public:
         return ptr;
     }
 
-    PHI_NODISCARD constexpr observer_ptr<TypeT> observer() noexcept
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD constexpr observer_ptr<OtherT> observer() noexcept
     {
-        return observer_ptr<TypeT>{get()};
+        return observer_ptr<OtherT>{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null_observer() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<TypeT>{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT> release_not_null() noexcept
-    {
-        PHI_DBG_ASSERT(get() != nullptr, "Can not release to not_null_scope_ptr from nullptr");
-
-        return not_null_scope_ptr<TypeT>(leak_ptr());
-    }
-
-    template <typename OtherT>
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<OtherT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Can not release to not_null_scope_ptr from nullptr");
@@ -188,18 +169,14 @@ public:
         return not_null_scope_ptr<OtherT>(static_cast<OtherT*>(leak_ptr()));
     }
 
-    PHI_EXTENDED_CONSTEXPR void reset(TypeT* new_ptr) noexcept
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_EXTENDED_CONSTEXPR void reset(OtherT* new_ptr) noexcept
     {
         delete m_Ptr;
         m_Ptr = new_ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(scope_ptr<TypeT>& other) noexcept
-    {
-        phi::swap(m_Ptr, other.m_Ptr);
-    }
-
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR void swap(scope_ptr<OtherT>& other) noexcept
     {
         phi::swap(m_Ptr, other.m_Ptr);
@@ -324,8 +301,9 @@ public:
 
     not_null_scope_ptr(nullptr_t) = delete;
 
-    PHI_EXTENDED_CONSTEXPR explicit not_null_scope_ptr(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
-        : m_Ptr(ptr)
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_EXTENDED_CONSTEXPR explicit not_null_scope_ptr(OtherT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
+        : m_Ptr{ptr}
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
     }
@@ -338,7 +316,7 @@ public:
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
     }
 
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
     {
@@ -352,18 +330,7 @@ public:
 
     not_null_scope_ptr<TypeT>& operator=(const not_null_scope_ptr<TypeT>&) = delete;
 
-    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(
-            not_null_scope_ptr<TypeT>&& other) noexcept
-    {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_scope_ptr");
-
-        reset(other.leak_ptr());
-
-        return *this;
-    }
-
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(
             not_null_scope_ptr<OtherT>&& other) noexcept
     {
@@ -375,7 +342,8 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(TypeT* ptr) noexcept
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(OtherT* ptr) noexcept
             PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
@@ -398,13 +366,15 @@ public:
         return exchange(m_Ptr, nullptr);
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> observer() noexcept
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> observer() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
-        return not_null_observer_ptr<TypeT>{get()};
+        return not_null_observer_ptr<OtherT>{get()};
     }
 
-    PHI_EXTENDED_CONSTEXPR void reset(TypeT* new_ptr) noexcept PHI_ATTRIBUTE_NONNULL
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_EXTENDED_CONSTEXPR void reset(OtherT* new_ptr) noexcept PHI_ATTRIBUTE_NONNULL
     {
         PHI_DBG_ASSERT(new_ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
 
@@ -414,16 +384,7 @@ public:
 
     void reset(nullptr_t) = delete;
 
-    PHI_EXTENDED_CONSTEXPR void swap(not_null_scope_ptr<TypeT>& other) noexcept
-    {
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_scope_ptr");
-
-        phi::swap(m_Ptr, other.m_Ptr);
-    }
-
-    template <typename OtherT, typename enable_if<is_convertible<OtherT*, TypeT*>::value>::type = 0>
+    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR void swap(not_null_scope_ptr<OtherT>& other) noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
@@ -437,13 +398,14 @@ public:
 
     operator boolean() = delete;
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR TypeT* get() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Accessing phi::not_null_scope_ptr after it was deleted");
 
         return m_Ptr;
     }
 
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR const TypeT* get()
             const noexcept
     {
@@ -451,6 +413,7 @@ public:
 
         return m_Ptr;
     }
+#endif
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL explicit operator const TypeT*()
             const noexcept
