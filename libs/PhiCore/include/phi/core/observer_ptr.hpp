@@ -405,7 +405,7 @@ public:
     ~not_null_observer_ptr() = default;
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(OtherT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(OtherT* ptr) noexcept
         : m_Ptr(ptr)
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr.");
@@ -459,8 +459,8 @@ public:
     not_null_observer_ptr<TypeT>& operator=(nullptr_t) = delete;
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(OtherT* ptr) noexcept
-            PHI_ATTRIBUTE_NONNULL
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
+            OtherT* ptr) noexcept
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
 

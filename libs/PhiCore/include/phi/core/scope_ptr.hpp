@@ -302,7 +302,7 @@ public:
     not_null_scope_ptr(nullptr_t) = delete;
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR explicit not_null_scope_ptr(OtherT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null_scope_ptr(OtherT* ptr) noexcept
         : m_Ptr{ptr}
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
@@ -343,8 +343,8 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(OtherT* ptr) noexcept
-            PHI_ATTRIBUTE_NONNULL
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(
+            OtherT* ptr) noexcept
     {
         PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
 
@@ -374,7 +374,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR void reset(OtherT* new_ptr) noexcept PHI_ATTRIBUTE_NONNULL
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR void reset(OtherT* new_ptr) noexcept
     {
         PHI_DBG_ASSERT(new_ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
 
