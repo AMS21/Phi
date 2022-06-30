@@ -154,7 +154,7 @@ public:
         m_Ptr = nullptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT* leak_ptr() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT* leak_ptr() noexcept
     {
         TypeT* ptr = get();
         m_Ptr      = nullptr;
@@ -173,7 +173,7 @@ public:
         return not_null_observer_ptr<TypeT>{get()};
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT> release_not_null() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Can not release to not_null_scope_ptr from nullptr");
 
@@ -181,7 +181,7 @@ public:
     }
 
     template <typename OtherT>
-    PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<OtherT> release_not_null() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<OtherT> release_not_null() noexcept
     {
         PHI_DBG_ASSERT(get() != nullptr, "Can not release to not_null_scope_ptr from nullptr");
 
@@ -391,14 +391,14 @@ public:
 
     not_null_scope_ptr<TypeT>& operator=(nullptr_t) = delete;
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR TypeT* leak_ptr() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR TypeT* leak_ptr() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to leak nullptr from phi::not_null_scope_ptr");
 
         return exchange(m_Ptr, nullptr);
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> observer() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> observer() noexcept
     {
         PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<TypeT>{get()};

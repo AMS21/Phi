@@ -2,6 +2,14 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/core/observer_ptr.hpp>
+#include <phi/core/ref_ptr.hpp>
+#include <phi/core/scope_ptr.hpp>
+
+struct Base
+{};
+
+struct Derived : public Base
+{};
 
 TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 {
@@ -40,6 +48,15 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 22);
+    }
+
+    SECTION("observer_ptr(OtherT*)")
+    {
+        Derived                 base;
+        phi::observer_ptr<Base> ptr{&base};
+
+        CHECK(ptr);
+        CHECK(ptr.get() == &base);
     }
 
     SECTION("observer_ptr(const observer_ptr&)")
@@ -84,6 +101,85 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 25);
+    }
+
+    SECTION("observer_ptr(scope_ptr&)")
+    {
+        phi::scope_ptr<int> scope = phi::make_scope<int>(23);
+
+        CHECK(scope);
+
+        phi::observer_ptr<int> ptr{scope};
+
+        CHECK(scope);
+        CHECK(ptr);
+        CHECK(ptr.get() == scope.get());
+    }
+
+    SECTION("observer_ptr(not_null_scope_ptr&)")
+    {
+        phi::not_null_scope_ptr<int> scope = phi::make_not_null_scope<int>(23);
+        phi::observer_ptr<int>       ptr{scope};
+
+        CHECK(ptr);
+        CHECK(ptr.get() == scope.get());
+    }
+
+    SECTION("observer_ptr(scope_ptr&)")
+    {
+        phi::ref_ptr<int> ref = phi::make_ref<int>(23);
+
+        CHECK(ref);
+
+        phi::observer_ptr<int> ptr{ref};
+
+        CHECK(ref);
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("observer_ptr(not_null_scope_ptr&)")
+    {
+        phi::not_null_ref_ptr<int> ref = phi::make_not_null_ref<int>(23);
+        phi::observer_ptr<int>     ptr{ref};
+
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(nullptr_t)")
+    {
+        int                    integer = 8;
+        phi::observer_ptr<int> ptr(&integer);
+
+        ptr = nullptr;
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+    }
+
+    SECTION("operator=(TypeT*)")
+    {
+        int integer = 23;
+
+        phi::observer_ptr<int> ptr;
+
+        ptr = &integer;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == &integer);
+        CHECK(*ptr == 23);
+    }
+
+    SECTION("operator=(OtherT*)")
+    {
+        Derived                 base;
+        phi::observer_ptr<Base> ptr;
+
+        ptr = &base;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == &base);
     }
 
     SECTION("operator=(const observer_ptr&)")
@@ -133,28 +229,48 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(*ptr == 92);
     }
 
-    SECTION("operator=(nullptr_t)")
+    SECTION("operator=(scope_ptr&)")
     {
-        int                    integer = 8;
-        phi::observer_ptr<int> ptr(&integer);
-
-        ptr = nullptr;
-
-        CHECK_FALSE(ptr);
-        CHECK(ptr.get() == nullptr);
-    }
-
-    SECTION("operator=(TypeT*)")
-    {
-        int integer = 23;
-
+        phi::scope_ptr<int>    scope = phi::make_scope<int>(42);
         phi::observer_ptr<int> ptr;
 
-        ptr = &integer;
+        ptr = scope;
 
         CHECK(ptr);
-        CHECK(ptr.get() == &integer);
-        CHECK(*ptr == 23);
+        CHECK(ptr.get() == scope.get());
+    }
+
+    SECTION("operator=(not_null_scope_ptr&)")
+    {
+        phi::not_null_scope_ptr<int> scope = phi::make_not_null_scope<int>(42);
+        phi::observer_ptr<int>       ptr;
+
+        ptr = scope;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == scope.get());
+    }
+
+    SECTION("operator=(ref_ptr&)")
+    {
+        phi::ref_ptr<int>      ref = phi::make_ref<int>(42);
+        phi::observer_ptr<int> ptr;
+
+        ptr = ref;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(not_null_ref_ptr&)")
+    {
+        phi::not_null_ref_ptr<int> ref = phi::make_not_null_ref<int>(42);
+        phi::observer_ptr<int>     ptr;
+
+        ptr = ref;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
     }
 
     SECTION("operator bool")
@@ -437,6 +553,30 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(*ptr == 22);
     }
 
+    SECTION("not_null_observer_ptr(OtherT*)")
+    {
+        Derived                          dervied;
+        phi::not_null_observer_ptr<Base> ptr(&dervied);
+
+        CHECK(ptr.get() == &dervied);
+    }
+
+    SECTION("not_null_observer_ptr(not_null_scope_ptr&)")
+    {
+        phi::not_null_scope_ptr<int>    scope = phi::make_not_null_scope<int>(42);
+        phi::not_null_observer_ptr<int> ptr{scope};
+
+        CHECK(ptr.get() == scope.get());
+    }
+
+    SECTION("not_null_observer_ptr(not_null_ref_ptr&)")
+    {
+        phi::not_null_ref_ptr<int>      ref = phi::make_not_null_ref<int>(42);
+        phi::not_null_observer_ptr<int> ptr{ref};
+
+        CHECK(ptr.get() == ref.get());
+    }
+
     SECTION("not_null_observer_ptr(const not_null_observer_ptr&)")
     {
         int                             integer = 21;
@@ -455,6 +595,19 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
 
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 19);
+    }
+
+    SECTION("operator=(TypeT*)")
+    {
+        int integer1 = 11;
+        int integer2 = 23;
+
+        phi::not_null_observer_ptr<int> ptr(&integer1);
+
+        ptr = &integer2;
+
+        CHECK(ptr.get() == &integer2);
+        CHECK(*ptr == 23);
     }
 
     SECTION("operator=(const not_null_observer_ptr&)")
@@ -481,17 +634,26 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(*ptr == 17);
     }
 
-    SECTION("operator=(TypeT*)")
+    SECTION("operator=(not_null_scope_ptr&)")
     {
-        int integer1 = 11;
-        int integer2 = 23;
+        int                             dummy = 42;
+        phi::not_null_scope_ptr<int>    scope = phi::make_not_null_scope<int>(42);
+        phi::not_null_observer_ptr<int> ptr{&dummy};
 
-        phi::not_null_observer_ptr<int> ptr(&integer1);
+        ptr = scope;
 
-        ptr = &integer2;
+        CHECK(ptr.get() == scope.get());
+    }
 
-        CHECK(ptr.get() == &integer2);
-        CHECK(*ptr == 23);
+    SECTION("operator=(not_null_ref_ptr&)")
+    {
+        int                             dummy = 21;
+        phi::not_null_ref_ptr<int>      ref   = phi::make_not_null_ref<int>(42);
+        phi::not_null_observer_ptr<int> ptr{&dummy};
+
+        ptr = ref;
+
+        CHECK(ptr.get() == ref.get());
     }
 
     SECTION("operator TypeT*")
