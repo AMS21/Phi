@@ -90,3 +90,7 @@ runtime_failure_test(NAME "core_not_null_scope_ptr_AccessAfterMoved" SOURCE
                      "src/core/scope_ptr/not_null_get_after_move.fail.cpp")
 runtime_failure_test(NAME "core_not_null_scope_ptr_ResetNullptr" SOURCE
                      "src/core/scope_ptr/not_null_reset_nullptr.fail.cpp")
+
+# text
+runtime_failure_test(NAME "text_digit_value_OutOfBounds" SOURCE
+                     "src/text/digit_value/out_of_bounds.fail.cpp")

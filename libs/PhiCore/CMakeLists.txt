@@ -214,6 +214,7 @@ file(
   # text
   "include/phi/text/ascii_char.hpp"
   "include/phi/text/char_traits.hpp"
+  "include/phi/text/digit_value.hpp"
   "include/phi/text/is_alpha_numeric.hpp"
   "include/phi/text/is_alpha.hpp"
   "include/phi/text/is_ascii.hpp"
