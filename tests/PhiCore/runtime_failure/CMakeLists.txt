@@ -97,6 +97,12 @@ runtime_failure_test(NAME "text_binary_digit_value_OutOfBounds" SOURCE
 runtime_failure_test(NAME "text_binary_digit_value_OutOfBounds2" SOURCE
                      "src/text/binary_digit_value/out_of_bounds2.fail.cpp")
 
-# Digit value
+# digit_value
 runtime_failure_test(NAME "text_digit_value_OutOfBounds" SOURCE
                      "src/text/digit_value/out_of_bounds.fail.cpp")
+
+# octal_digit_value
+runtime_failure_test(NAME "text_octal_digit_value_OutOfBounds" SOURCE
+                     "src/text/octal_digit_value/out_of_bounds.fail.cpp")
+runtime_failure_test(NAME "text_octal_digit_value_OutOfBounds2" SOURCE
+                     "src/text/octal_digit_value/out_of_bounds2.fail.cpp")

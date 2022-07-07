@@ -99,6 +99,7 @@ file(
   "src/text/is_punctuation.test.cpp"
   "src/text/is_space.test.cpp"
   "src/text/is_upper_case.test.cpp"
+  "src/text/octal_digit_value.test.cpp"
   "src/text/to_lower_case.test.cpp"
   "src/text/to_upper_case.test.cpp"
   # type_traits
