@@ -82,6 +82,7 @@ file(
   # selftest
   "src/selftest/constexpr_helper.test.cpp"
   # text
+  "src/text/binary_digit_value.test.cpp"
   "src/text/digit_value.test.cpp"
   "src/text/is_alpha_numeric.test.cpp"
   "src/text/is_alpha.test.cpp"
