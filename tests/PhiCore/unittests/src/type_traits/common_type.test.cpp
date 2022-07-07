@@ -52,8 +52,8 @@ void test_common_type_new()
     test_common_type_impl<Type1T, Type2T, ExpectedT>();
     test_common_type_impl<Type2T, Type1T, ExpectedT>();
 #else
-    test_common_type_no_std_impl<T1, T2, Expected>();
-    test_common_type_no_std_impl<T2, T1, Expected>();
+    test_common_type_no_std_impl<Type1T, Type2T, ExpectedT>();
+    test_common_type_no_std_impl<Type2T, Type1T, ExpectedT>();
 #endif
 }
 

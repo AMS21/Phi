@@ -690,9 +690,9 @@ TEST_CASE("Array")
 
             CHECK_NOEXCEPT(arr.reverse());
 
-            CHECK(arr.at(0u) == 3u);
-            CHECK(arr.at(1u) == 2u);
-            CHECK(arr.at(2u) == 1u);
+            CHECK(arr.at(0u) == 3);
+            CHECK(arr.at(1u) == 2);
+            CHECK(arr.at(2u) == 1);
         }
 
         SECTION("Traps")
@@ -719,13 +719,13 @@ TEST_CASE("Array")
 
             CHECK_NOEXCEPT(arr.to_reversed());
 
-            CHECK(arr.at(0u) == 1u);
-            CHECK(arr.at(1u) == 2u);
-            CHECK(arr.at(2u) == 3u);
+            CHECK(arr.at(0u) == 1);
+            CHECK(arr.at(1u) == 2);
+            CHECK(arr.at(2u) == 3);
 
-            CHECK(reversed.at(0u) == 3u);
-            CHECK(reversed.at(1u) == 2u);
-            CHECK(reversed.at(2u) == 1u);
+            CHECK(reversed.at(0u) == 3);
+            CHECK(reversed.at(1u) == 2);
+            CHECK(reversed.at(2u) == 1);
         }
 
         SECTION("Traps")
