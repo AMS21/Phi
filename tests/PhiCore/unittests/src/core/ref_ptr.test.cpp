@@ -8,8 +8,6 @@
 #include <phi/type_traits/is_default_constructible.hpp>
 #include <phi/type_traits/is_move_assignable.hpp>
 #include <phi/type_traits/is_move_constructible.hpp>
-#include <thread>
-#include <vector>
 
 struct A
 {
@@ -19,6 +17,12 @@ struct A
         return true;
     }
 };
+
+struct Base
+{};
+
+struct Derived : public Base
+{};
 
 TEST_CASE("ref_ptr")
 {
@@ -63,6 +67,15 @@ TEST_CASE("ref_ptr")
     {
         int*              raw_ptr = new int(22);
         phi::ref_ptr<int> ptr(raw_ptr);
+
+        REQUIRE(ptr);
+        CHECK(ptr.get() == raw_ptr);
+    }
+
+    SECTION("ref_ptr(OtherT*)")
+    {
+        Derived*           raw_ptr = new Derived();
+        phi::ref_ptr<Base> ptr{raw_ptr};
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr);
@@ -227,31 +240,31 @@ TEST_CASE("ref_ptr")
 
     SECTION("operator=(not_null_ref_ptr&&)")
     {
-        // int*                    raw_ptr  = new int(21);
-        // int*                    raw_ptr2 = new int(22);
-        // phi::ref_ptr<int>        ptr(raw_ptr);
-        // phi::not_null_ref_ptr<int> not_null(raw_ptr2);
+        int*                       raw_ptr  = new int(21);
+        int*                       raw_ptr2 = new int(22);
+        phi::ref_ptr<int>          ptr(raw_ptr);
+        phi::not_null_ref_ptr<int> not_null(raw_ptr2);
 
-        // ptr = phi::move(not_null);
+        ptr = phi::move(not_null);
 
-        // CHECK(ptr);
-        // CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
 
-        // int*                    raw_ptr3 = new int(23);
-        // phi::not_null_ref_ptr<int> not_null2(raw_ptr3);
-        // ptr = phi::move(not_null2);
+        int*                       raw_ptr3 = new int(23);
+        phi::not_null_ref_ptr<int> not_null2(raw_ptr3);
+        ptr = phi::move(not_null2);
 
-        // CHECK(ptr);
-        // CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr3);
 
-        // ptr.clear();
+        ptr.clear();
 
-        // int*                    raw_ptr4 = new int(24);
-        // phi::not_null_ref_ptr<int> not_null3(raw_ptr4);
-        // ptr = phi::move(not_null3);
+        int*                       raw_ptr4 = new int(24);
+        phi::not_null_ref_ptr<int> not_null3(raw_ptr4);
+        ptr = phi::move(not_null3);
 
-        // CHECK(ptr);
-        // CHECK(ptr.get() == raw_ptr4);
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr4);
     }
 
     SECTION("clear")
@@ -477,6 +490,14 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
     {
         int*                       raw_ptr = new int(22);
         phi::not_null_ref_ptr<int> ptr(raw_ptr);
+
+        CHECK(ptr.get() == raw_ptr);
+    }
+
+    SECTION("not_null_ref_ptr(OtherT*)")
+    {
+        Derived*                    raw_ptr = new Derived();
+        phi::not_null_ref_ptr<Base> ptr(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
     }
