@@ -340,8 +340,8 @@ foreach(file IN ITEMS ${TEST_SOURCES})
 
   foreach(std IN ITEMS ${used_standards})
     # Set tests names
-    set(test_name "PhiCoreUnittests_${test_file_name}_${std}")
-    set(no_intrinsic_test_name "PhiCoreUnittestsNoIntrinsics_${test_file_name}_${std}")
+    set(test_name "Phi_${test_file_name}-${std}")
+    set(no_intrinsic_test_name "Phi_${test_file_name}-${std}-ni")
 
     if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
       phi_add_executable(
