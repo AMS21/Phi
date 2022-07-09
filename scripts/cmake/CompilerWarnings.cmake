@@ -150,7 +150,12 @@ set(phi_disabled_warnings_flags
     # GCC
     Wno-unused-function)
 
-set(phi_check_required_flags Werror=unknown-attributes Werror=attributes)
+set(phi_check_required_flags
+    Werror=unknown-attributes
+    Werror=attributes
+    # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c4800-through-c4999
+    # "attribute 'attribute-name' is not recognized"
+    we5030)
 
 # Clang only requires -Weverything
 if(PHI_COMPILER_CLANG)
