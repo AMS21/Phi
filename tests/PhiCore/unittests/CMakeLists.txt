@@ -321,42 +321,63 @@ else()
   set(used_standards ${phi_standard_version})
 endif()
 
-# Add test files
-foreach(std IN ITEMS ${used_standards})
-  if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
-    phi_add_executable(
-      NAME
-      "PhiCoreUnittests${std}"
-      SOURCES
-      ${TEST_SOURCES}
-      FOLDER
-      "Tests/PhiCore"
-      PRIVATE_LINK_LIBRARIES
-      Phi::Core
-      Phi::Test
-      PRIVATE_INCLUDE_DIRS
-      "include"
-      STANDARD
-      ${std})
-    phi_add_test(TARGET "PhiCoreUnittests${std}")
+# Add tests
+foreach(file IN ITEMS ${TEST_SOURCES})
+  # Compute test name
+  get_filename_component(file_name ${file} NAME)
+  string(REPLACE ".test.cpp" "" file_name ${file_name})
+  string(REPLACE "." "_" file_name ${file_name})
 
-    # No Intrinsic
-    phi_add_executable(
-      NAME
-      "PhiCoreUnittestsNoIntrinsics${std}"
-      SOURCES
-      ${TEST_SOURCES}
-      FOLDER
-      "Tests/PhiCore"
-      PRIVATE_LINK_LIBRARIES
-      Phi::Core
-      Phi::Test
-      PRIVATE_INCLUDE_DIRS
-      "include"
-      STANDARD
-      ${std}
-      PRIVATE_DEFINITIONS
-      "PHI_CONFIG_NO_INTRINSICS")
-    phi_add_test(TARGET "PhiCoreUnittestsNoIntrinsics${std}")
+  get_filename_component(directory ${file} DIRECTORY)
+  file(RELATIVE_PATH directory "${CMAKE_CURRENT_SOURCE_DIR}/src" ${directory})
+  string(REPLACE "/" "_" directory "${directory}")
+
+  if(directory)
+    set(test_file_name "${directory}_${file_name}")
+  else()
+    set(test_file_name "${file_name}")
   endif()
+
+  foreach(std IN ITEMS ${used_standards})
+    # Set tests names
+    set(test_name "PhiCoreUnittests_${test_file_name}_${std}")
+    set(no_intrinsic_test_name "PhiCoreUnittestsNoIntrinsics_${test_file_name}_${std}")
+
+    if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
+      phi_add_executable(
+        NAME
+        "${test_name}"
+        SOURCES
+        ${file}
+        FOLDER
+        "Tests/PhiCore"
+        PRIVATE_LINK_LIBRARIES
+        Phi::Core
+        Phi::Test
+        PRIVATE_INCLUDE_DIRS
+        "include"
+        STANDARD
+        ${std})
+      phi_add_test(TARGET "${test_name}")
+
+      # No Intrinsic
+      phi_add_executable(
+        NAME
+        "${no_intrinsic_test_name}"
+        SOURCES
+        ${file}
+        FOLDER
+        "Tests/PhiCore"
+        PRIVATE_LINK_LIBRARIES
+        Phi::Core
+        Phi::Test
+        PRIVATE_INCLUDE_DIRS
+        "include"
+        STANDARD
+        ${std}
+        PRIVATE_DEFINITIONS
+        "PHI_CONFIG_NO_INTRINSICS")
+      phi_add_test(TARGET "${no_intrinsic_test_name}")
+    endif()
+  endforeach()
 endforeach()
