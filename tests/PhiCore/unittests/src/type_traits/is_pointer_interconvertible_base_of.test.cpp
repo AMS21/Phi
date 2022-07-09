@@ -124,7 +124,7 @@ TEST_CASE("is_pointer_interconvertible_base_of")
     test_is_pointer_interconvertible_base_of<I, const I>();
 
 #if PHI_COMPILER_IS(MSVC)
-    test_is_not_pointer_interconvertible_base_of<Bar, Baz>();
+    test_is_not_pointer_interconvertible_base_of<Bar, baz>();
 #else
     test_is_pointer_interconvertible_base_of<Bar, baz>();
 #endif
