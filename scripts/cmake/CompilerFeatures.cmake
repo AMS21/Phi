@@ -431,19 +431,21 @@ int main() {}"
 set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")
 
 # Type system
-check_type_size("void*" PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR BUILTIN_TYPES_ONLY LANGUAGE CXX)
+include(internal/PhiCXXCheckTypeSize)
 
-check_type_size("bool" PHI_TYPE_SYSTEM_SIZEOF_BOOL BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("char" PHI_TYPE_SYSTEM_SIZEOF_CHAR BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("wchar_t" PHI_TYPE_SYSTEM_SIZEOF_WCHAR_T BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("short" PHI_TYPE_SYSTEM_SIZEOF_SHORT BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("int" PHI_TYPE_SYSTEM_SIZEOF_INT BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("long" PHI_TYPE_SYSTEM_SIZEOF_LONG BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("long long" PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG BUILTIN_TYPES_ONLY LANGUAGE CXX)
+phi_cxx_check_type_size("void*" PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR)
 
-check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
-check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE BUILTIN_TYPES_ONLY LANGUAGE CXX)
+phi_cxx_check_type_size("bool" PHI_TYPE_SYSTEM_SIZEOF_BOOL)
+phi_cxx_check_type_size("char" PHI_TYPE_SYSTEM_SIZEOF_CHAR)
+phi_cxx_check_type_size("wchar_t" PHI_TYPE_SYSTEM_SIZEOF_WCHAR_T)
+phi_cxx_check_type_size("short" PHI_TYPE_SYSTEM_SIZEOF_SHORT)
+phi_cxx_check_type_size("int" PHI_TYPE_SYSTEM_SIZEOF_INT)
+phi_cxx_check_type_size("long" PHI_TYPE_SYSTEM_SIZEOF_LONG)
+phi_cxx_check_type_size("long long" PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG)
+
+phi_cxx_check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT)
+phi_cxx_check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE)
+phi_cxx_check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE)
 
 # configure files
 configure_file("scripts/cmake/features.hpp.in"
