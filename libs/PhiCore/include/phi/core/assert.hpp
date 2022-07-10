@@ -16,6 +16,7 @@
 #include "phi/preprocessor/stringify.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
