@@ -38,6 +38,9 @@ DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+template <typename TypeT, size_t Size>
+class array;
+
 template <typename CharT, typename TraitsT = std::char_traits<CharT>>
 class PHI_ATTRIBUTE_POINTER basic_string_view
 {
@@ -84,6 +87,20 @@ public:
 
     basic_string_view(basic_string_view&& other) noexcept = default;
 
+    template <size_t Size>
+    constexpr basic_string_view(CharT (&array)[Size]) noexcept
+        : m_Data{array}
+        , m_Length{Size}
+    {}
+
+    template <size_t Size>
+    constexpr basic_string_view(const array<CharT, Size>& array) noexcept
+        : m_Data{array.data()}
+        , m_Length{array.size()}
+    {
+        PHI_DBG_ASSERT(array.size() > 0u, "Do not construct a basic_string_view from empty array");
+    }
+
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
         , m_Length(string_length(string))
@@ -123,20 +140,20 @@ public:
 
     basic_string_view& operator=(basic_string_view&& other) noexcept = default;
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(
-            const std::basic_string_view<CharT, std::char_traits<CharT>>& other) noexcept
+    template <size_t Size>
+    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(CharT (&array)[Size]) noexcept
     {
-        m_Data   = other.data();
-        m_Length = other.length();
+        m_Data   = array;
+        m_Length = Size;
 
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(
-            std::basic_string_view<CharT, std::char_traits<CharT>>&& other) noexcept
+    template <size_t Size>
+    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(const array<CharT, Size>& array) noexcept
     {
-        m_Data   = other.data();
-        m_Length = other.length();
+        m_Data   = array.data();
+        m_Length = Size;
 
         return *this;
     }

@@ -4,12 +4,17 @@
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/container/array.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/types.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
 #include <limits>
 #include <utility>
+
+#if PHI_HAS_LIB_STRING_VIEW()
+#    include <string_view>
+#endif
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
@@ -28,6 +33,33 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(view.is_null());
         EXT_STATIC_REQUIRE(view.begin() == nullptr);
         EXT_STATIC_REQUIRE(view.end() == nullptr);
+    }
+
+    SECTION("basic_string_view(CharT[])")
+    {
+        constexpr phi::string_view view{"Hello World"};
+
+        EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
+        STATIC_REQUIRE(view.length() == 11u);
+        STATIC_REQUIRE_FALSE(view.is_null());
+        STATIC_REQUIRE_FALSE(view.is_empty());
+
+        EXT_STATIC_REQUIRE(view.front() == 'H');
+        EXT_STATIC_REQUIRE(view.back() == 'd');
+    }
+
+    SECTION("basic_string_view(phi::array)")
+    {
+        static constexpr phi::array<char, 2> array{'H', 'i'};
+        constexpr phi::string_view           view{array};
+
+        EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hi", 2u));
+        STATIC_REQUIRE(view.length() == 2u);
+        STATIC_REQUIRE_FALSE(view.is_null());
+        STATIC_REQUIRE_FALSE(view.is_empty());
+
+        EXT_STATIC_REQUIRE(view.front() == 'H');
+        EXT_STATIC_REQUIRE(view.back() == 'i');
     }
 
     SECTION("BasicStringView(CharT*)")
@@ -131,6 +163,34 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE_FALSE(move_view2.end() == nullptr);
     }
 
+#if PHI_HAS_LIB_STRING_VIEW()
+    SECTION("basic_string_view(const std::string_view&)")
+    {
+        std::string_view std_view{"Hello World"};
+        phi::string_view view{std_view};
+
+        CHECK(phi::string_equals(view.data(), "Hello World"));
+        CHECK(view.length() == 11u);
+
+        CHECK(view.data() == std_view.data());
+        CHECK(view.length() == std_view.length());
+        CHECK_FALSE(view.is_empty());
+        CHECK_FALSE(view.is_null());
+    }
+
+    SECTION("basic_string_view(std::string_view&&)")
+    {
+        std::string_view std_view{"Hello World"};
+        phi::string_view view{phi::move(std_view)};
+
+        CHECK(phi::string_equals(view.data(), "Hello World"));
+        CHECK(view.length() == 11u);
+
+        CHECK_FALSE(view.is_empty());
+        CHECK_FALSE(view.is_null());
+    }
+#endif
+
     SECTION("operator=(const BasicStringView&)")
     {
         phi::string_view base_view;
@@ -195,6 +255,85 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK_FALSE(move_view2.begin() == nullptr);
         CHECK_FALSE(move_view2.end() == nullptr);
     }
+
+    SECTION("operator=(CharT[Size])")
+    {
+        phi::string_view view;
+
+        CHECK(view.is_empty());
+        CHECK(view.is_null());
+
+        view = "Hello World";
+
+        CHECK(phi::string_equals(view.data(), "Hello World"));
+        CHECK(view.length() == 11u);
+        CHECK_FALSE(view.is_null());
+        CHECK_FALSE(view.is_empty());
+
+        CHECK(view.front() == 'H');
+        CHECK(view.back() == 'd');
+    }
+
+    SECTION("operator=(phi::array)")
+    {
+        static constexpr phi::array<char, 2> array{'H', 'i'};
+        phi::string_view                     view;
+
+        view = array;
+
+        CHECK(phi::string_equals(view.data(), "Hi", 2u));
+        REQUIRE(view.length() == 2u);
+        CHECK_FALSE(view.is_null());
+        CHECK_FALSE(view.is_empty());
+
+        CHECK(view.front() == 'H');
+        CHECK(view.back() == 'i');
+    }
+
+#if PHI_HAS_LIB_STRING_VIEW()
+    SECTION("operator=(const std::strinb_view&)")
+    {
+        std::string_view std_view{"Hello World"};
+        phi::string_view view;
+
+        view = std_view;
+
+        CHECK(phi::string_equals(view.data(), "Hello World"));
+        CHECK(view.length() == 11u);
+
+        CHECK(view.data() == std_view.data());
+        CHECK(view.length() == std_view.length());
+        CHECK_FALSE(view.is_empty());
+        CHECK_FALSE(view.is_null());
+    }
+
+    SECTION("operator=(std::strinb_view&&)")
+    {
+        std::string_view std_view{"Hello World"};
+        phi::string_view view;
+
+        view = phi::move(std_view);
+
+        CHECK(phi::string_equals(view.data(), "Hello World"));
+        CHECK(view.length() == 11u);
+
+        CHECK_FALSE(view.is_empty());
+        CHECK_FALSE(view.is_null());
+    }
+
+    SECTION("implicit conversion to std::string_view")
+    {
+        phi::string_view view{"Hello World"};
+
+        std::string_view std_view{view};
+
+        CHECK(phi::string_equals(std_view.data(), "Hello World"));
+        CHECK(std_view.length() == 11u);
+
+        CHECK(view.data() == std_view.data());
+        CHECK(view.length() == std_view.length());
+    }
+#endif
 
     SECTION("begin")
     {
