@@ -40,8 +40,9 @@ if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
   list(REMOVE_ITEM phi_opt_compile_flags "GT")
 endif()
 
-# Clang on windows seems to give errors when compiling with `fsemantic-interposition`
-if(PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
+# Clang on windows and emscripten seems to give errors when compiling with `fsemantic-interposition`
+# (https://godbolt.org/z/cGd1WWrsW)
+if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS) OR PHI_COMPILER_EMCC)
   list(REMOVE_ITEM phi_opt_compile_flags "fsemantic-interposition")
 endif()
 
