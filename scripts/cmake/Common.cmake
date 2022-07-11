@@ -19,6 +19,11 @@ if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
   list(REMOVE_ITEM phi_common_flags bigobj)
 endif()
 
+# Old emscripten versions don't seem to like the `-Wa,-mbig-obj` flag
+if(PHI_COMPILER_EMCC AND "${PHI_EMCC_VERSION}" VERSION_LESS "1.39")
+  list(REMOVE_ITEM phi_common_flags Wa,-mbig-obj)
+endif()
+
 set(_phi_common_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_common_flags})
   string(REPLACE "-" "_" _testName ${_test})
