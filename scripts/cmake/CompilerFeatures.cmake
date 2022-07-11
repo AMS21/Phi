@@ -66,6 +66,14 @@ phi_check_cxx_source_compiles(
   "#include <compare>
 struct Point {int x; int y; friend auto operator<=>(const Point&, const Point&) = default;};
 int main() {}" PHI_HAS_FEATURE_THREE_WAY_COMPARISON)
+phi_check_cxx_source_compiles("consteval void f(); int main() { return 0; }"
+                              PHI_HAS_FEATURE_CONSTEVAL)
+phi_check_cxx_source_compiles("int main() { constinit static int a = 21; }"
+                              PHI_HAS_FEATURE_CONSTINIT)
+
+# C++-23 Features
+phi_check_cxx_source_compiles("int main() { if consteval { return 1; } else { return 0; } }"
+                              PHI_HAS_FEATURE_IF_CONSTEVAL)
 
 # Lib
 phi_check_cxx_source_compiles("#include <string_view>
@@ -329,6 +337,7 @@ phi_check_cxx_source_compiles("struct A { int a; };
 int main() { return __builtin_offsetof(A, a); }" PHI_HAS_INTRINSIC_BUILTIN_OFFSET_OF)
 phi_check_cxx_source_compiles("int main() { return __builtin_isinf(0.0); }"
                               PHI_HAS_INTRINSIC_BUILTIN_ISINF)
+phi_check_cxx_source_compiles("int main() { __builtin_abort(); }" PHI_HAS_INTRINSIC_BUILTIN_ABORT)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
