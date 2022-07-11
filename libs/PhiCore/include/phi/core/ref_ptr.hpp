@@ -298,17 +298,17 @@ public:
         swap(m_ControlBlock, other.m_ControlBlock);
     }
 
-    [[nodiscard]] constexpr TypeT* get() noexcept
+    PHI_NODISCARD constexpr TypeT* get() noexcept
     {
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr const TypeT* get() const noexcept
+    PHI_NODISCARD constexpr const TypeT* get() const noexcept
     {
         return m_Ptr;
     }
 
-    [[nodiscard]] constexpr usize use_count() const noexcept
+    PHI_NODISCARD constexpr usize use_count() const noexcept
     {
         if (m_ControlBlock != nullptr)
         {
@@ -747,13 +747,13 @@ constexpr void swap(not_null_ref_ptr<TypeT>& lhs, not_null_ref_ptr<TypeT>& rhs) 
 // make functions
 
 template <typename TypeT, typename... ArgsT>
-[[nodiscard]] enable_if_t<is_not_array<TypeT>::value, ref_ptr<TypeT>> make_ref(ArgsT&&... args)
+PHI_NODISCARD enable_if_t<is_not_array<TypeT>::value, ref_ptr<TypeT>> make_ref(ArgsT&&... args)
 {
     return ref_ptr<TypeT>(new TypeT(forward<ArgsT>(args)...));
 }
 
 template <typename TypeT, typename... ArgsT>
-[[nodiscard]] enable_if_t<is_not_array<TypeT>::value, not_null_ref_ptr<TypeT>> make_not_null_ref(
+PHI_NODISCARD enable_if_t<is_not_array<TypeT>::value, not_null_ref_ptr<TypeT>> make_not_null_ref(
         ArgsT&&... args)
 {
     return not_null_ref_ptr<TypeT>(new TypeT(forward<ArgsT>(args)...));

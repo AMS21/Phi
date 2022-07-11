@@ -911,7 +911,7 @@ public:
         m_Value = new_val;
     }
 
-    [[nodiscard]] PHI_EXTENDED_CONSTEXPR int value() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const noexcept
     {
         assert(m_State != State::Destroyed);
         assert(m_State != State::MovedFrom);

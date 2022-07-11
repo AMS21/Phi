@@ -72,32 +72,32 @@ struct source_location
     }
 #endif
 
-    [[nodiscard]] constexpr uint_least32_t line() const noexcept
+    PHI_NODISCARD constexpr uint_least32_t line() const noexcept
     {
         return m_LineNumber;
     }
 
-    [[nodiscard]] constexpr uint_least32_t column() const noexcept
+    PHI_NODISCARD constexpr uint_least32_t column() const noexcept
     {
         return m_Column;
     }
 
-    [[nodiscard]] constexpr const char* file_name() const noexcept
+    PHI_NODISCARD constexpr const char* file_name() const noexcept
     {
         return m_FileName;
     }
 
-    [[nodiscard]] PHI_EXTENDED_CONSTEXPR string_view file_name_view() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR string_view file_name_view() const noexcept
     {
         return m_FileName;
     }
 
-    [[nodiscard]] constexpr const char* function_name() const noexcept
+    PHI_NODISCARD constexpr const char* function_name() const noexcept
     {
         return m_FunctionName;
     }
 
-    [[nodiscard]] PHI_EXTENDED_CONSTEXPR string_view function_name_view() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR string_view function_name_view() const noexcept
     {
         return m_FunctionName;
     }

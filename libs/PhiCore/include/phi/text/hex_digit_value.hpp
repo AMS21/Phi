@@ -7,8 +7,8 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/warning.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
 
@@ -59,8 +59,8 @@ namespace detail
             return static_cast<unsigned char>(m_Table[static_cast<size_t>(index)]);
         }
 
-        private:
-            unsigned long long m_Table[103];
+    private:
+        unsigned long long m_Table[103];
     };
 
     static constexpr hex_digit_value_lookup_table lookup_table;
