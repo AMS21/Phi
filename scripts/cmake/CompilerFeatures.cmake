@@ -407,6 +407,9 @@ phi_check_cxx_source_compiles("void* _Ret_notnull_ f(); int main() {}"
                               PHI_HAS_EXTENSION_RET_NONNULL)
 phi_check_cxx_source_compiles("void f(void* a) __attribute__((nonnull)); int main(){}"
                               PHI_HAS_EXTENSION_ATTRIBUTE_NONNULL)
+phi_check_cxx_source_compiles(
+  "extern \"C\" void __fastfail(unsigned int); int main() { __fastfail(0); }"
+  PHI_HAS_EXTENSION_FASTFAIL)
 
 # Bugs
 phi_check_cxx_source_compiles(

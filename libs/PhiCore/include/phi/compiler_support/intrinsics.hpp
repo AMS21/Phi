@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "intrinsics/abort.hpp"
 #include "intrinsics/address_of.hpp"
 #include "intrinsics/array_extent.hpp"
 #include "intrinsics/array_rank.hpp"
@@ -87,6 +88,7 @@
 #include "intrinsics/remove_const.hpp"
 #include "intrinsics/remove_cv.hpp"
 #include "intrinsics/remove_volatile.hpp"
+#include "intrinsics/trap.hpp"
 #include "intrinsics/underlying_type.hpp"
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_HPP
