@@ -7,12 +7,6 @@ template <bool>
 struct InTemplate
 {};
 
-#if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
-#    define TEST_SUPPORT_IS_CONSTANT_EVALUATED() 1
-#else
-#    define TEST_SUPPORT_IS_CONSTANT_EVALUATED() 0
-#endif
-
 TEST_CASE("is_constant_evaluated")
 {
     CHECK_SAME_TYPE(decltype(phi::is_constant_evaluated()), bool);
@@ -22,7 +16,7 @@ TEST_CASE("is_constant_evaluated")
     CHECK_FALSE(boolean);
 
     // Actual tests
-#if TEST_SUPPORT_IS_CONSTANT_EVALUATED()
+#if PHI_HAS_WORKING_IS_CONSTANT_EVALUATED()
     static_assert(phi::is_constant_evaluated(), "is_constant_evulated");
     CHECK_SAME_TYPE(InTemplate<phi::is_constant_evaluated()>, InTemplate<true>);
 
