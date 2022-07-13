@@ -63,7 +63,7 @@ endforeach(_test)
 
 set(phi_time_trace_flags ftime-trace)
 
-set(_phi_time_trace_flags_supported)
+set(_phi_time_trace_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_time_trace_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})

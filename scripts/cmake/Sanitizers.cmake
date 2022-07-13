@@ -134,7 +134,7 @@ if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
                       "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
       set(_phi_ubsan_extra_flags_supported
-          ${_phi_ubsan_extra_flags_supported};${test}
+          ${_phi_ubsan_extra_flags_supported};${_test}
           CACHE INTERNAL "")
     endif()
   endforeach(_test)
