@@ -21,6 +21,12 @@
 #    define PHI_ATTRIBUTE_PURE /* Nothing */
 #endif
 
+#if PHI_HAS_EXTENSION_ATTRIBUTE_COLD()
+#    define PHI_ATTRIBUTE_COLD __attribute__((cold))
+#else
+#    define PHI_ATTRIBUTE_COLD /* Nothing */
+#endif
+
 #if PHI_HAS_EXTENSION_GSL_OWNER()
 #    define PHI_ATTRIBUTE_OWNER [[gsl::Owner]]
 #else

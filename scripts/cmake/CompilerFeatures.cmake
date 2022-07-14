@@ -410,6 +410,8 @@ phi_check_cxx_source_compiles("void f(void* a) __attribute__((nonnull)); int mai
 phi_check_cxx_source_compiles(
   "extern \"C\" void __fastfail(unsigned int); int main() { __fastfail(0); }"
   PHI_HAS_EXTENSION_FASTFAIL)
+phi_check_cxx_source_compiles("__attribute__ ((cold)) void f(); int main() { return 0; }"
+                              PHI_HAS_EXTENSION_ATTRIBUTE_COLD)
 
 # Bugs
 phi_check_cxx_source_compiles(
