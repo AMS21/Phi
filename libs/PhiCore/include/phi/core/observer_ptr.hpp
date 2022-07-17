@@ -92,14 +92,14 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr(const not_null_observer_ptr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR observer_ptr(not_null_observer_ptr<OtherT>&& other) noexcept
         : m_Ptr(move(other.get()))
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -111,7 +111,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr(not_null_scope_ptr<OtherT>& other) noexcept
         : m_Ptr{other.get()}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -123,7 +123,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr(not_null_ref_ptr<OtherT>& other) noexcept
         : m_Ptr{other.get()}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_ref_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_ref_ptr");
     }
 
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(nullptr_t) noexcept
@@ -166,7 +166,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             const not_null_observer_ptr<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
 
         m_Ptr = other.get();
 
@@ -176,7 +176,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             not_null_observer_ptr<TypeT>&& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
 
         m_Ptr = move(other.get());
 
@@ -187,7 +187,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             const not_null_observer_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
 
         m_Ptr = other.get();
 
@@ -198,7 +198,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             not_null_observer_ptr<OtherT>&& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_observer_ptr");
 
         m_Ptr = move(other.get());
 
@@ -217,7 +217,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             not_null_scope_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
 
         m_Ptr = other.get();
 
@@ -235,40 +235,45 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(not_null_ref_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Assign nullptr from phi::not_null_scope_ptr");
 
         m_Ptr = other.get();
 
         return *this;
     }
 
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
+
     PHI_EXTENDED_CONSTEXPR TypeT& operator*() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
     constexpr explicit operator bool() const noexcept
     {
@@ -299,7 +304,7 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> release_not_null() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
         return not_null_observer_ptr<TypeT>(release());
     }
@@ -307,7 +312,7 @@ public:
     template <typename OtherT>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> release_not_null() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
         return not_null_observer_ptr<OtherT>(static_cast<OtherT*>(release()));
     }
@@ -408,19 +413,19 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(OtherT* ptr) noexcept
         : m_Ptr(ptr)
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
     PHI_CONSTEXPR not_null_observer_ptr(const not_null_observer_ptr<TypeT>& other) noexcept
         : m_Ptr{other.get()}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Trying to assign from phi::not_null_observer_ptr");
     }
 
     PHI_CONSTEXPR not_null_observer_ptr(not_null_observer_ptr<TypeT>&& other) noexcept
         : m_Ptr{move(other.get())}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign from phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr, "Trying to assign from phi::not_null_observer_ptr");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -428,32 +433,32 @@ public:
             const not_null_observer_ptr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(not_null_observer_ptr<OtherT>&& other) noexcept
         : m_Ptr(other.get())
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(not_null_scope_ptr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr(not_null_ref_ptr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
     }
 
     not_null_observer_ptr<TypeT>& operator=(nullptr_t) = delete;
@@ -462,7 +467,7 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             OtherT* ptr) noexcept
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
 
         m_Ptr = ptr;
 
@@ -473,8 +478,8 @@ public:
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             const not_null_observer_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
 
         m_Ptr = other.get();
 
@@ -485,8 +490,8 @@ public:
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             not_null_observer_ptr<OtherT>&& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
 
         m_Ptr = move(other.get());
 
@@ -497,8 +502,8 @@ public:
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             not_null_scope_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
 
         m_Ptr = other.get();
 
@@ -509,8 +514,8 @@ public:
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             not_null_ref_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr.");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr.");
 
         m_Ptr = other.get();
 
@@ -519,28 +524,28 @@ public:
 
     PHI_EXTENDED_CONSTEXPR TypeT& operator*() noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return *m_Ptr;
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
+        PHI_ASSERT(get() != nullptr, "Cannot dereference a nullptr.");
 
         return get();
     }
@@ -561,7 +566,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void reset(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
 
         m_Ptr = ptr;
     }
@@ -570,9 +575,9 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void swap(not_null_observer_ptr<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr");
 
         phi::swap(m_Ptr, other.m_Ptr);
     }
@@ -580,9 +585,9 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR void swap(not_null_observer_ptr<OtherT>& other) noexcept
     {
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
-        PHI_DBG_ASSERT(other.get() != nullptr,
-                       "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
+        PHI_ASSERT(other.get() != nullptr,
+                   "Trying to assign nullptr to phi::not_null_observer_ptr");
 
         phi::swap(m_Ptr, other.m_Ptr);
     }

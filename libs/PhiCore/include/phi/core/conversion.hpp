@@ -128,10 +128,9 @@ PHI_NODISCARD
 
     const TargetT target = unsafe_cast<TargetT>(source);
 
-    PHI_DBG_ASSERT(
-            unsafe_cast<SourceT>(target) == source &&
-                    (is_different_signedness || ((target < TargetT{}) == (source < SourceT{}))),
-            "Invalid narrowing conversion. Source {}. Converted {}.");
+    PHI_ASSERT(unsafe_cast<SourceT>(target) == source &&
+                       (is_different_signedness || ((target < TargetT{}) == (source < SourceT{}))),
+               "Invalid narrowing conversion. Source {}. Converted {}.");
 
     return target;
 #else

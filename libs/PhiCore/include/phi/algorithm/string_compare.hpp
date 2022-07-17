@@ -24,8 +24,8 @@ template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR i32
 string_compare(const CharT* lhs, const CharT* rhs) noexcept
 {
-    PHI_DBG_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
-    PHI_DBG_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");
+    PHI_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
+    PHI_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");
 
     while (*lhs != CharT('\0') && (*lhs == *rhs))
     {
@@ -50,8 +50,8 @@ PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR i32 string_compare(co
                                                                               const CharT* rhs,
                                                                               usize count) noexcept
 {
-    PHI_DBG_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
-    PHI_DBG_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");
+    PHI_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare");
+    PHI_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare");
 
     while (*lhs != CharT('\0') && (*lhs == *rhs) && (count-- > 0u))
     {

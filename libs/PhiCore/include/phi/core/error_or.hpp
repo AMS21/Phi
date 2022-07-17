@@ -61,16 +61,16 @@ public:
 
     PHI_NODISCARD constexpr ValueT& value() const noexcept
     {
-        PHI_DBG_ASSERT(!is_error(), "Calling value() with error set");
-        PHI_DBG_ASSERT(has_value(), "Calling value() with no value set");
+        PHI_ASSERT(!is_error(), "Calling value() with error set");
+        PHI_ASSERT(has_value(), "Calling value() with no value set");
 
         return m_Value.value();
     }
 
     PHI_NODISCARD constexpr ErrorT& error() const noexcept
     {
-        PHI_DBG_ASSERT(is_error(), "Calling error() with no error set");
-        PHI_DBG_ASSERT(!has_value(), "Calling error() with value set");
+        PHI_ASSERT(is_error(), "Calling error() with no error set");
+        PHI_ASSERT(!has_value(), "Calling error() with value set");
 
         return m_Error.value();
     }
@@ -124,7 +124,7 @@ public:
 
     PHI_NODISCARD constexpr ErrorT& error() const noexcept
     {
-        PHI_DBG_ASSERT(is_error(), "Calling error() with no error set");
+        PHI_ASSERT(is_error(), "Calling error() with no error set");
 
         return m_Error.value();
     }

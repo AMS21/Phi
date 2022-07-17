@@ -69,7 +69,7 @@ public:
     PHI_EXTENDED_CONSTEXPR basic_zstring(const CharT* string) noexcept
         : m_Data(string)
     {
-        PHI_DBG_ASSERT(string != nullptr, "Do not construct a basic_zstring with nullptr");
+        PHI_ASSERT(string != nullptr, "Do not construct a basic_zstring with nullptr");
     }
 
     basic_zstring(nullptr_t) = delete;
@@ -194,7 +194,7 @@ public:
     PHI_EXTENDED_CONSTEXPR size_type copy(CharT* destination, size_type count,
                                           size_type pos = 0u) const noexcept
     {
-        PHI_DBG_ASSERT(pos <= length(), "Invalid position");
+        PHI_ASSERT(pos <= length(), "Invalid position");
 
         const size_type rlen = min(count, length() - pos);
         TraitsT::copy(destination, data() + pos.unsafe(), rlen.unsafe());
@@ -205,7 +205,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_zstring substr(size_type pos   = 0u,
                                                               size_type count = npos) const noexcept
     {
-        PHI_DBG_ASSERT(pos <= length(), "Invalid position");
+        PHI_ASSERT(pos <= length(), "Invalid position");
 
         return basic_zstring(data() + pos.unsafe(), min(count, length() - pos));
     }
@@ -324,7 +324,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find(basic_zstring view,
                                                         size_type     pos = 0u) const noexcept
     {
-        PHI_DBG_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
+        PHI_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
 
         return pos >= length() ? npos :
                                  to_pos(std::search(cbegin() + pos, cend(), view.cbegin(),
@@ -529,7 +529,7 @@ private:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < length(), "Index out of bounds!");
+        PHI_ASSERT(pos < length(), "Index out of bounds!");
 
         return m_Data[pos.unsafe()];
     }

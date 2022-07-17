@@ -425,7 +425,7 @@ file(
   "include/phi/phi_config.hpp"
   "include/phi/type_traits.hpp")
 
-file(GLOB PHI_CORE_SOURCES "src/dummy.cpp")
+file(GLOB PHI_CORE_SOURCES "src/core/assert.cpp")
 
 phi_add_library(
   NAME

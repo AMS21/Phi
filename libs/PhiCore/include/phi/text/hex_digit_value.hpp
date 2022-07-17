@@ -66,15 +66,19 @@ namespace detail
     static constexpr hex_digit_value_lookup_table lookup_table;
 } // namespace detail
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
+
 PHI_NODISCARD constexpr u8 hex_digit_value(const char character) noexcept
 {
-    PHI_DBG_ASSERT((character >= '0' && character <= '9') ||
-                           (character >= 'a' && character <= 'f') ||
-                           (character >= 'A' && character <= 'F'),
-                   "Character out of bounds");
+    PHI_ASSERT((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f') ||
+                       (character >= 'A' && character <= 'F'),
+               "Character out of bounds");
 
     return detail::lookup_table[character];
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -133,7 +133,7 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR bool operator[](size_t pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
+        PHI_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
 
         return m_Bits[pos];
     }
@@ -141,21 +141,21 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR typename bit_type::reference operator[](
             size_t pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
+        PHI_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
 
         return m_Bits[pos];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR bool at(size_t pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
+        PHI_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
 
         return m_Bits[pos];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR typename bit_type::reference at(size_t pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
+        PHI_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
 
         return m_Bits[pos];
     }
@@ -183,7 +183,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR bit_view& set(size_t pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < m_Bits.size(), "Access out of bounds");
+        PHI_ASSERT(pos < m_Bits.size(), "Access out of bounds");
 
         m_Bits.set(pos);
 
@@ -192,7 +192,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR bit_view& reset(size_t pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < m_Bits.size(), "Access out of bounds");
+        PHI_ASSERT(pos < m_Bits.size(), "Access out of bounds");
 
         m_Bits.reset(pos);
 
@@ -201,7 +201,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR bit_view& flip(size_t pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < m_Bits.size(), "Access out of bounds");
+        PHI_ASSERT(pos < m_Bits.size(), "Access out of bounds");
 
         m_Bits.flip(pos);
 

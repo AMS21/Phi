@@ -1,9 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
-#include <phi/algorithm/string_equals.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/assert.hpp>
-#include <string>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wgnu-zero-variadic-macro-arguments")
@@ -15,10 +13,10 @@ TEST_CASE("PHI_ASSERT", "[Utility][Assert]")
     PHI_ASSERT(true, "Always passes");
 }
 
-TEST_CASE("PHI_DBG_ASSERT", "[Utility][Assert]")
+TEST_CASE("PHI_RELEASE_ASSERT", "[Utility][Assert]")
 {
-    //PHI_DBG_ASSERT(true);
-    PHI_DBG_ASSERT(true, "Always passes");
+    //PHI_RELEASE_ASSERT(true);
+    PHI_RELEASE_ASSERT(true, "Always passes");
 }
 
 static int func()
@@ -38,7 +36,7 @@ TEST_CASE("PHI_ASSERT_NOT_REACHED", "[Core][Assert]")
     }
 }
 
-TEST_CASE("PHI_DBG_ASSERT_NOT_REACHED", "[Core][Assert]")
+TEST_CASE("PHI_RELEASE_ASSERT_NOT_REACHED", "[Core][Assert]")
 {
     if (func() == 21)
     {
@@ -46,17 +44,8 @@ TEST_CASE("PHI_DBG_ASSERT_NOT_REACHED", "[Core][Assert]")
     }
     else
     {
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_RELEASE_ASSERT_NOT_REACHED();
     }
 }
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
-
-TEST_CASE("FormatArguments")
-{
-    CHECK(phi::string_equals(phi::detail::FormatArgument(), "<None>"));
-    /*
-    CHECK(phi::string_equals(phi::detail::FormatArgument("String").c_str(), "String"));
-    CHECK(phi::string_equals(phi::detail::FormatArgument("{}", 42).c_str(), "42"));
-    */
-}

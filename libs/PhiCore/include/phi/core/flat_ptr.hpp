@@ -187,7 +187,7 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PtrT ptr) noexcept
         : m_Ptr(static_cast<void*>(ptr))
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
     }
 
     not_null_flat_ptr(const not_null_flat_ptr&) = default;
@@ -202,7 +202,7 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(
             enable_if_t<is_pointer<PtrT>::value, PtrT> ptr) noexcept
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
 
         m_Ptr = static_cast<void*>(ptr);
 
@@ -215,7 +215,7 @@ public:
 
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr void* get() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
         return m_Ptr;
     }
@@ -223,7 +223,7 @@ public:
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const void* get() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
         return m_Ptr;
     }
@@ -282,12 +282,17 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(not_null_flat_ptr
     return *this;
 }
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
+
 PHI_EXTENDED_CONSTEXPR not_null_flat_ptr flat_ptr::release_not_null() const noexcept
 {
-    PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
+    PHI_ASSERT(m_Ptr != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
 
     return {m_Ptr};
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 constexpr boolean operator==(const not_null_flat_ptr& lhs, const not_null_flat_ptr& rhs) noexcept
 {

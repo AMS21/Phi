@@ -10,52 +10,24 @@
 #include "phi/compiler_support/assume.hpp"
 #include "phi/compiler_support/current_function.hpp"
 #include "phi/compiler_support/likely.hpp"
+#include "phi/compiler_support/noreturn.hpp"
 #include "phi/compiler_support/unreachable.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/preprocessor/source_line.hpp"
-#include "phi/preprocessor/stringify.hpp"
-#include <cstdlib>
-#include <iostream>
-#include <string>
+#include "phi/preprocessor/function_like_macro.hpp"
+#include "phi/type_traits/is_constant_evaluated.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 /// \cond detail
 namespace detail
 {
-    inline constexpr const char* FormatArgument()
-    {
-        return "<None>";
-    }
-
-    template <typename... ArgsT>
-    inline std::string FormatArgument(ArgsT&&... /*arg*/)
-    {
-        return {"<Disabled>"};
-        /*
-        return fmt::format(std::forward<ArgsT>(arg)...);
-        */
-    }
+    PHI_NORETURN extern void phi_assert_failure_handler(const char* condition, const char* file,
+                                                        int         line_number,
+                                                        const char* function) noexcept;
 } // namespace detail
 /// \endcond
 
 DETAIL_PHI_END_NAMESPACE()
-
-#define PHI_ASSERT(condition, ...)                                                                 \
-    PHI_BEGIN_MACRO()                                                                              \
-    if (PHI_UNLIKELY(!(condition)))                                                                \
-    {                                                                                              \
-        ::std::cerr << "SIMPLE ASSERTION VIOLATION\n"                                              \
-                    << "condition:\n " << PHI_STRINGIFY(condition) << '\n'                         \
-                    << "file:\n " << __FILE__ << " (" << PHI_SOURCE_LINE() << ")\n"                \
-                    << "function:\n " << PHI_CURRENT_FUNCTION() << "\nadditional information:\n "  \
-                    << ::phi::detail::FormatArgument(__VA_ARGS__);                                 \
-                                                                                                   \
-        ::std::abort();                                                                            \
-    }                                                                                              \
-    PHI_END_MACRO()
-
-#define PHI_ASSERT_NOT_REACHED() PHI_ASSERT(false, "This code should not be reachable.")
 
 #define DETAIL_PHI_WRAPPED_ASSUME(condition)                                                       \
     PHI_BEGIN_MACRO()                                                                              \
@@ -66,12 +38,37 @@ DETAIL_PHI_END_NAMESPACE()
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     PHI_END_MACRO()
 
-#if defined(PHI_DEBUG)
-#    define PHI_DBG_ASSERT(condition, ...) PHI_ASSERT(condition, __VA_ARGS__)
-#    define PHI_DBG_ASSERT_NOT_REACHED()   PHI_ASSERT_NOT_REACHED()
+#define PHI_RELEASE_ASSERT(condition, ...)                                                         \
+    PHI_BEGIN_MACRO()                                                                              \
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
+    if (PHI_UNLIKELY(!static_cast<bool>(condition)))                                               \
+    {                                                                                              \
+        ::phi::detail::phi_assert_failure_handler(#condition, __FILE__, __LINE__,                  \
+                                                  PHI_CURRENT_FUNCTION());                         \
+    }                                                                                              \
+    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    PHI_END_MACRO()
+
+#if PHI_CONFIG_ENABLE_ASSERTIONS
+#    define PHI_ASSERT(condition, ...) PHI_RELEASE_ASSERT(condition, __VA_ARGS__)
 #else
-#    define PHI_DBG_ASSERT(condition, ...) DETAIL_PHI_WRAPPED_ASSUME(condition)
-#    define PHI_DBG_ASSERT_NOT_REACHED()   PHI_UNREACHABLE()
+#    define PHI_ASSERT(condition, ...)                                                             \
+        PHI_BEGIN_MACRO()                                                                          \
+        DETAIL_PHI_WRAPPED_ASSUME(condition);                                                      \
+        PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                       \
+        if (::phi::is_constant_evaluated() && !static_cast<bool>(condition))                       \
+        {                                                                                          \
+            ::phi::detail::phi_assert_failure_handler(#condition, __FILE__, __LINE__,              \
+                                                      PHI_CURRENT_FUNCTION());                     \
+            PHI_UNREACHABLE();                                                                     \
+        }                                                                                          \
+        PHI_GCC_SUPPRESS_WARNING_POP()                                                             \
+        PHI_END_MACRO()
 #endif
+
+#define PHI_ASSERT_NOT_REACHED() PHI_ASSERT(false, "This code should not be reachable")
+
+#define PHI_RELEASE_ASSERT_NOT_REACHED()                                                           \
+    PHI_RELEASE_ASSERT(false, "This code should not be reachable")
 
 #endif // INCG_PHI_CORE_ASSERT_HPP

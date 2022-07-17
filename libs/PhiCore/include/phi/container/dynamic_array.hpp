@@ -39,8 +39,8 @@ public:
         : m_Size{size}
         , m_Elements{new (std::nothrow) TypeT[size.unsafe()]}
     {
-        PHI_DBG_ASSERT(size > 0u, "Allocating zero elements");
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Failed to allocate");
+        PHI_ASSERT(size > 0u, "Allocating zero elements");
+        PHI_ASSERT(m_Elements != nullptr, "Failed to allocate");
     }
 
     PHI_EXTENDED_CONSTEXPR dynamic_array(const dynamic_array& other) noexcept
@@ -58,8 +58,8 @@ public:
         : m_Elements(exchange(other.m_Elements, nullptr))
         , m_Size(other.m_Size)
     {
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Assigned nullptr");
-        PHI_DBG_ASSERT(m_Size > 0u, "Created zero sized array");
+        PHI_ASSERT(m_Elements != nullptr, "Assigned nullptr");
+        PHI_ASSERT(m_Size > 0u, "Created zero sized array");
     }
 
     PHI_CONSTEXPR_DESTRUCTOR ~dynamic_array() noexcept
@@ -78,8 +78,8 @@ public:
         m_Elements = new (std::nothrow) TypeT[other.m_Size];
         m_Size     = other.m_Size;
 
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Failed to allocate elements");
-        PHI_DBG_ASSERT(m_Size > 0u, "Zero sized array");
+        PHI_ASSERT(m_Elements != nullptr, "Failed to allocate elements");
+        PHI_ASSERT(m_Size > 0u, "Zero sized array");
 
         // Copy elements
         for (usize i{0u}; i < other.m_Size; ++i)
@@ -98,16 +98,16 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(size_type pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < m_Size, "Index out of range");
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
+        PHI_ASSERT(pos < m_Size, "Index out of range");
+        PHI_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
         return m_Elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < m_Size, "Index out of range");
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
+        PHI_ASSERT(pos < m_Size, "Index out of range");
+        PHI_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
         return m_Elements[pos.unsafe()];
     }
@@ -144,14 +144,14 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR pointer data() noexcept
     {
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
+        PHI_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
         return m_Elements;
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_pointer data() const noexcept
     {
-        PHI_DBG_ASSERT(m_Elements != nullptr, "Accessing nullptr");
+        PHI_ASSERT(m_Elements != nullptr, "Accessing nullptr");
 
         return m_Elements;
     }

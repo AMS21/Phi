@@ -20,6 +20,12 @@ compile_failure_test(NAME "container_string_view_assign_nullptr" SOURCE
 # core address_of
 compile_failure_test(NAME "core_address_of_rvalue" SOURCE "src/core/address_of/rvalue.fail.cpp")
 
+# assert
+compile_failure_test(NAME "core_assert_constexpr" SOURCE
+                     "src/core/assert/assert_constexpr.fail.cpp")
+compile_failure_test(NAME "core_assert_not_reached_constexpr" SOURCE
+                     "src/core/assert/assert_not_reached_constexpr.fail.cpp")
+
 # flat_ptr
 compile_failure_test(NAME "core_flat_ptr_not_null_default_constructor" SOURCE
                      "src/core/flat_ptr/not_null_default.fail.cpp")

@@ -52,7 +52,7 @@ namespace detail
 
         void decrement_ref_count() noexcept
         {
-            PHI_DBG_ASSERT(m_NumberOfRefPtrs != 0u, "Double delete");
+            PHI_ASSERT(m_NumberOfRefPtrs != 0u, "Double delete");
 
             m_NumberOfRefPtrs -= 1u;
         }
@@ -138,8 +138,8 @@ public:
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "not_null_ref_ptr was null");
+        PHI_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
+        PHI_ASSERT(m_ControlBlock != nullptr, "not_null_ref_ptr was null");
 
         if (m_ControlBlock != nullptr)
         {
@@ -152,8 +152,8 @@ public:
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
+        PHI_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     PHI_CONSTEXPR_DESTRUCTOR ~ref_ptr() noexcept
@@ -285,7 +285,7 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<TypeT>{get()};
     }
 
@@ -342,28 +342,28 @@ public:
 
     PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
     PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
     TypeT& operator*() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return *get();
     }
 
     const TypeT& operator*() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return *get();
     }
@@ -465,15 +465,15 @@ public:
         : m_Ptr{ptr}
         , m_ControlBlock{allocate_control_block()}
     {
-        PHI_DBG_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
     }
 
     constexpr not_null_ref_ptr(const not_null_ref_ptr& other) noexcept
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
 
         m_ControlBlock->increment_ref_count();
     }
@@ -482,8 +482,8 @@ public:
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControllBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -491,8 +491,8 @@ public:
         : m_Ptr{other.m_Ptr}
         , m_ControlBlock{other.m_ControlBlock}
     {
-        PHI_DBG_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -500,8 +500,8 @@ public:
         : m_Ptr{exchange(other.m_Ptr, nullptr)}
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     PHI_CONSTEXPR_DESTRUCTOR ~not_null_ref_ptr() noexcept
@@ -514,7 +514,7 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr not_null_ref_ptr& operator=(OtherT* ptr)
     {
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
 
         decrement_count_and_delete_if_required();
 
@@ -529,7 +529,7 @@ public:
     {
         not_null_ref_ptr<TypeT>(other).swap(*this);
 
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
         return *this;
     }
@@ -538,7 +538,7 @@ public:
     {
         not_null_ref_ptr<TypeT>(move(other)).swap(*this);
 
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
         return *this;
     }
@@ -548,7 +548,7 @@ public:
     {
         not_null_ref_ptr<TypeT>(other).swap(*this);
 
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
         return *this;
     }
@@ -558,7 +558,7 @@ public:
     {
         not_null_ref_ptr<TypeT>(move(other)).swap(*this);
 
-        PHI_DBG_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
         return *this;
     }
@@ -568,7 +568,7 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr void reset(OtherT* ptr) noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
 
         if (ptr == m_Ptr)
         {
@@ -583,7 +583,7 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
 
         return not_null_observer_ptr<TypeT>{get()};
     }
@@ -593,10 +593,10 @@ public:
     {
         using phi::swap;
 
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
-        PHI_DBG_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_DBG_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
+        PHI_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
 
         swap(m_Ptr, other.m_Ptr);
         swap(m_ControlBlock, other.m_ControlBlock);
@@ -604,21 +604,21 @@ public:
 
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const TypeT* get() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
     PHI_NODISCARD constexpr usize use_count() const noexcept
     {
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
 
         return m_ControlBlock->get_ref_use_count();
     }
@@ -641,28 +641,28 @@ public:
 
     PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* operator->() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return get();
     }
 
     PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const TypeT* operator->() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return get();
     }
 
     constexpr TypeT& operator*() noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return *get();
     }
 
     constexpr const TypeT& operator*() const noexcept
     {
-        PHI_DBG_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return *get();
     }
@@ -690,13 +690,13 @@ private:
     {
         m_ControlBlock = new (std::nothrow) detail::ref_ptr_control_block();
 
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "Failed to allocate control block");
+        PHI_ASSERT(m_ControlBlock != nullptr, "Failed to allocate control block");
         return m_ControlBlock;
     }
 
     void decrement_count_and_delete_if_required() noexcept
     {
-        PHI_DBG_ASSERT(m_ControlBlock != nullptr, "Unexpected nullptr for control block");
+        PHI_ASSERT(m_ControlBlock != nullptr, "Unexpected nullptr for control block");
 
         m_ControlBlock->decrement_ref_count();
         if (m_ControlBlock->should_delete())

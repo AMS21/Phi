@@ -7,6 +7,6 @@ int main()
     SetupRuntimeFailure();
 
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wgnu-zero-variadic-macro-arguments")
-    PHI_DBG_ASSERT(false);
+    PHI_RELEASE_ASSERT(false);
     PHI_CLANG_SUPPRESS_WARNING_POP()
 }

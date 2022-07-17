@@ -57,6 +57,7 @@
 
 // clang-format off
 #    define DETAIL_PHI_END_STD_NAMESPACE() } }
+// clang-format on
 #else
 #    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
         namespace std                                                                              \
@@ -97,6 +98,16 @@
 #    endif
 #else
 #    define PHI_API
+#endif
+
+// Assertions
+#ifndef PHI_CONFIG_ENABLE_ASSERTIONS
+// Automatically enable assertions for debug builds
+#    if defined(PHI_DEBUG)
+#        define PHI_CONFIG_ENABLE_ASSERTIONS 1
+#    else
+#        define PHI_CONFIG_ENABLE_ASSERTIONS 0
+#    endif
 #endif
 
 #endif // INCG_PHI_PHICONFIG_HPP

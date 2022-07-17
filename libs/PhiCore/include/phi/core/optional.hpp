@@ -842,7 +842,7 @@ public:
             return this->m_Value;
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& value() const&
@@ -852,7 +852,7 @@ public:
             return this->m_Value;
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT&& value() &&
@@ -862,7 +862,7 @@ public:
             return phi::move(this->m_Value);
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT&& value() const&&
@@ -872,7 +872,7 @@ public:
             return phi::move(this->m_Value);
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     PHI_GCC_SUPPRESS_WARNING_POP()
@@ -1583,7 +1583,7 @@ public:
             return *m_Value;
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& value() const
@@ -1593,7 +1593,7 @@ public:
             return *m_Value;
         }
 
-        PHI_DBG_ASSERT_NOT_REACHED();
+        PHI_ASSERT_NOT_REACHED();
     }
 
     /// Returns the stored value if there is one, otherwise returns `u`

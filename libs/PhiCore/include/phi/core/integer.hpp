@@ -35,6 +35,7 @@ SOFTWARE.
 
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
@@ -307,17 +308,16 @@ public:
     {
         static_assert(is_signed<IntegerT>::value, "Cannot call unary minus on unsigned integer");
 
-        PHI_DBG_ASSERT(m_Value != limits_type::min(), "Unary minus will overflow. Args {}",
-                       m_Value);
+        PHI_ASSERT(m_Value != limits_type::min(), "Unary minus will overflow. Args {}", m_Value);
 
         return integer(-m_Value);
     }
 
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator++() noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
-                                                    IntegerT(1)),
-                       "Operator++ will result in overflow. Args {}", m_Value);
+        PHI_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
+                                                IntegerT(1)),
+                   "Operator++ will result in overflow. Args {}", m_Value);
 
         m_Value += 1;
         return *this;
@@ -333,9 +333,9 @@ public:
 
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator--() noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<IntegerT>{},
-                                                       m_Value, IntegerT(1)),
-                       "Operator-- will result in underflow. Args {}", m_Value);
+        PHI_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<IntegerT>{}, m_Value,
+                                                   IntegerT(1)),
+                   "Operator-- will result in underflow. Args {}", m_Value);
 
         m_Value -= 1;
         return *this;
@@ -355,9 +355,9 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator+=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_addition_error<IntegerT>(
-                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.unsafe()),
-                       "Addition will result in overflow. Args {} + {}", m_Value, other.unsafe());
+        PHI_ASSERT(!detail::will_addition_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
+                                                          m_Value, other.unsafe()),
+                   "Addition will result in overflow. Args {} + {}", m_Value, other.unsafe());
 
         m_Value += other.unsafe();
         return *this;
@@ -379,10 +379,9 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator-=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_subtraction_error<IntegerT>(
-                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.unsafe()),
-                       "Subtraction will result in underflow. Args {} - {}", m_Value,
-                       other.unsafe());
+        PHI_ASSERT(!detail::will_subtraction_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
+                                                             m_Value, other.unsafe()),
+                   "Subtraction will result in underflow. Args {} - {}", m_Value, other.unsafe());
 
         m_Value -= other.unsafe();
         return *this;
@@ -404,10 +403,9 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator*=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_multiplication_error<IntegerT>(
-                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.unsafe()),
-                       "Multiplication will result in overflow. Args {} * {}", m_Value,
-                       other.unsafe());
+        PHI_ASSERT(!detail::will_multiplication_error<IntegerT>(
+                           detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.unsafe()),
+                   "Multiplication will result in overflow. Args {} * {}", m_Value, other.unsafe());
 
         m_Value *= other.unsafe();
         return *this;
@@ -429,9 +427,9 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator/=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_division_error<IntegerT>(
-                               detail::arithmetic_tag_for<IntegerT>{}, m_Value, other.unsafe()),
-                       "Division error. Args {} / {}", m_Value, other.unsafe());
+        PHI_ASSERT(!detail::will_division_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
+                                                          m_Value, other.unsafe()),
+                   "Division error. Args {} / {}", m_Value, other.unsafe());
 
         m_Value /= other.unsafe();
         return *this;
@@ -453,9 +451,9 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator%=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_DBG_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
-                                                            m_Value, other.unsafe()),
-                       "Modulo error. Args {} % {}", m_Value, other.unsafe());
+        PHI_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
+                                                        m_Value, other.unsafe()),
+                   "Modulo error. Args {} % {}", m_Value, other.unsafe());
 
         m_Value %= other.unsafe();
         return *this;
@@ -693,10 +691,10 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator+(const integer<LhsT>& lhs
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<type>{},
-                                                static_cast<type>(lhs.unsafe()),
-                                                static_cast<type>(rhs.unsafe())),
-                   "Addition will result in overflow. Args {} + {}", lhs.unsafe(), rhs.unsafe());
+    PHI_ASSERT(!detail::will_addition_error(detail::arithmetic_tag_for<type>{},
+                                            static_cast<type>(lhs.unsafe()),
+                                            static_cast<type>(rhs.unsafe())),
+               "Addition will result in overflow. Args {} + {}", lhs.unsafe(), rhs.unsafe());
 
     return integer<type>(static_cast<type>(static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs)));
 }
@@ -725,16 +723,15 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator+(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator-(const integer<LhsT>& lhs,
-                                                        const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE PHI_EXTENDED_CONSTEXPR auto operator-(
+        const integer<LhsT>& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<type>{},
-                                                   static_cast<type>(lhs.unsafe()),
-                                                   static_cast<type>(rhs.unsafe())),
-                   "Subtraction will result in underflow. Args {} - {}", lhs.unsafe(),
-                   rhs.unsafe());
+    PHI_ASSERT(!detail::will_subtraction_error(detail::arithmetic_tag_for<type>{},
+                                               static_cast<type>(lhs.unsafe()),
+                                               static_cast<type>(rhs.unsafe())),
+               "Subtraction will result in underflow. Args {} - {}", lhs.unsafe(), rhs.unsafe());
 
     return integer<type>(static_cast<type>(static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs)));
 }
@@ -768,11 +765,10 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator*(const integer<LhsT>& lhs
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_multiplication_error(detail::arithmetic_tag_for<type>{},
-                                                      static_cast<type>(lhs.unsafe()),
-                                                      static_cast<type>(rhs.unsafe())),
-                   "Multiplication will result in overflow. Args {} * {}", lhs.unsafe(),
-                   rhs.unsafe());
+    PHI_ASSERT(!detail::will_multiplication_error(detail::arithmetic_tag_for<type>{},
+                                                  static_cast<type>(lhs.unsafe()),
+                                                  static_cast<type>(rhs.unsafe())),
+               "Multiplication will result in overflow. Args {} * {}", lhs.unsafe(), rhs.unsafe());
 
     return integer<type>(static_cast<type>(static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs)));
 }
@@ -806,10 +802,10 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator/(const integer<LhsT>& lhs
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_division_error(detail::arithmetic_tag_for<type>{},
-                                                static_cast<type>(lhs.unsafe()),
-                                                static_cast<type>(rhs.unsafe())),
-                   "Division by zero/overflow. Args {} / {}", lhs.unsafe(), rhs.unsafe());
+    PHI_ASSERT(!detail::will_division_error(detail::arithmetic_tag_for<type>{},
+                                            static_cast<type>(lhs.unsafe()),
+                                            static_cast<type>(rhs.unsafe())),
+               "Division by zero/overflow. Args {} / {}", lhs.unsafe(), rhs.unsafe());
 
     return integer<type>(static_cast<type>(static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs)));
 }
@@ -843,10 +839,10 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator%(const integer<LhsT>& lhs
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_DBG_ASSERT(!detail::will_modulo_error(detail::arithmetic_tag_for<type>{},
-                                              static_cast<type>(lhs.unsafe()),
-                                              static_cast<type>(rhs.unsafe())),
-                   "Modulo by zero. Args {} % {}", lhs.unsafe(), rhs.unsafe());
+    PHI_ASSERT(!detail::will_modulo_error(detail::arithmetic_tag_for<type>{},
+                                          static_cast<type>(lhs.unsafe()),
+                                          static_cast<type>(rhs.unsafe())),
+               "Modulo by zero. Args {} % {}", lhs.unsafe(), rhs.unsafe());
 
     return integer<type>(static_cast<type>(static_cast<LhsT>(lhs) % static_cast<RhsT>(rhs)));
 }

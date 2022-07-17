@@ -47,15 +47,17 @@ runtime_failure_test(NAME "container_string_view_Substr" SOURCE
 runtime_failure_test(NAME "core_assert_with_args" SOURCE
                      "src/core/assert/assert_with_args.fail.cpp")
 runtime_failure_test(NAME "core_assert_with_args_regex" SOURCE
-                     "src/core/assert/assert_with_args.fail.cpp" REGEX "[ASSERT FAILED]")
+                     "src/core/assert/assert_with_args.fail.cpp" REGEX "ASSERTION VIOLATION")
 runtime_failure_test(NAME "core_assert_not_reached" SOURCE
                      "src/core/assert/assert_not_reached.fail.cpp")
-runtime_failure_test(NAME "core_dbg_assert_with_args_regex" SOURCE
-                     "src/core/assert/dbg_assert_with_args.fail.cpp")
-runtime_failure_test(NAME "core_dbg_assert_with_args" SOURCE
-                     "src/core/assert/dbg_assert_with_args.fail.cpp" REGEX "[DBG ASSERT FAILED]")
-runtime_failure_test(NAME "core_dbg_assert_not_reached" SOURCE
-                     "src/core/assert/dbg_assert_not_reached.fail.cpp")
+
+runtime_failure_test(NAME "core_release_assert_with_args" SOURCE
+                     "src/core/assert/release_assert_with_args.fail.cpp")
+runtime_failure_test(
+  NAME "core_release_assert_with_args_regex" SOURCE
+  "src/core/assert/release_assert_with_args.fail.cpp" REGEX "ASSERTION VIOLATION")
+runtime_failure_test(NAME "release_assert_not_reached" SOURCE
+                     "src/core/assert/release_assert_not_reached.fail.cpp")
 
 # flat_ptr
 runtime_failure_test(NAME "core_flat_ptr_release_from_nullptr" SOURCE
@@ -67,7 +69,7 @@ runtime_failure_test(NAME "core_flat_ptr_not_null_assign_nullptr" SOURCE
 runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_release_from_nullptr" SOURCE
-                     "src/core/observer_ptr/release_from_null.fail.cpp" CONFIGURATIONS DEBUG)
+                     "src/core/observer_ptr/release_from_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" SOURCE
                      "src/core/observer_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow" SOURCE

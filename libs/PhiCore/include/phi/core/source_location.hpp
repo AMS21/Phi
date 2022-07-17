@@ -35,8 +35,8 @@ struct source_location
         , m_Column(column)
     {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-        PHI_DBG_ASSERT(file != nullptr, "Don't pass nullptr to phi::source_location");
-        PHI_DBG_ASSERT(function != nullptr, "Don't pass nullptr to phi::source_location");
+        PHI_ASSERT(file != nullptr, "Don't pass nullptr to phi::source_location");
+        PHI_ASSERT(function != nullptr, "Don't pass nullptr to phi::source_location");
 #endif
     }
 

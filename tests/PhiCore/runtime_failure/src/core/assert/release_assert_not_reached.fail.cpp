@@ -5,5 +5,5 @@ int main()
 {
     SetupRuntimeFailure();
 
-    PHI_DBG_ASSERT(false, "[DBG ASSERT FAILED]");
+    PHI_RELEASE_ASSERT_NOT_REACHED();
 }

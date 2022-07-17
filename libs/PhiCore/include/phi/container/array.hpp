@@ -40,14 +40,14 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(size_type pos) noexcept
     {
-        PHI_DBG_ASSERT(pos < Size, "Index out of range");
+        PHI_ASSERT(pos < Size, "Index out of range");
 
         return elements[pos.unsafe()];
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < Size, "Index out of range");
+        PHI_ASSERT(pos < Size, "Index out of range");
 
         return elements[pos.unsafe()];
     }
@@ -325,50 +325,50 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference at(size_type /*pos*/) noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference at(size_type /*pos*/) const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::at() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference operator[](size_type /*pos*/) noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference
     operator[](size_type /*pos*/) const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::operator[] on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference front() noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference front() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference back() noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference back() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
@@ -469,37 +469,37 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
     {
-        PHI_DBG_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
+        PHI_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();
     }
 

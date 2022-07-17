@@ -6,6 +6,7 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/core/max_align_t.hpp>
+#include <cstdint>
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")

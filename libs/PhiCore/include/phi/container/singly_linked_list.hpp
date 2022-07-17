@@ -141,32 +141,32 @@ public:
 
     PHI_NODISCARD reference operator*() noexcept
     {
-        PHI_DBG_ASSERT(!m_WasRemoved, "");
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(!m_WasRemoved, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
     PHI_NODISCARD const_reference operator*() const noexcept
     {
-        PHI_DBG_ASSERT(!m_WasRemoved, "");
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(!m_WasRemoved, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
     PHI_NODISCARD pointer operator->() noexcept
     {
-        PHI_DBG_ASSERT(!m_WasRemoved, "");
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(!m_WasRemoved, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
     PHI_NODISCARD const_pointer operator->() const noexcept
     {
-        PHI_DBG_ASSERT(!m_WasRemoved, "");
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(!m_WasRemoved, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
@@ -260,14 +260,14 @@ public:
 
     PHI_NODISCARD const_reference operator*() const noexcept
     {
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
     PHI_NODISCARD const_pointer operator->() const noexcept
     {
-        PHI_DBG_ASSERT(m_Node != nullptr, "");
+        PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
@@ -418,28 +418,28 @@ public:
 
     PHI_NODISCARD reference front() noexcept
     {
-        PHI_DBG_ASSERT(!is_empty(), "");
+        PHI_ASSERT(!is_empty(), "");
 
         return m_Head->m_Value;
     }
 
     PHI_NODISCARD const_reference front() const noexcept
     {
-        PHI_DBG_ASSERT(!is_empty(), "");
+        PHI_ASSERT(!is_empty(), "");
 
         return m_Head->m_Value;
     }
 
     PHI_NODISCARD reference back() noexcept
     {
-        PHI_DBG_ASSERT(!is_empty(), "");
+        PHI_ASSERT(!is_empty(), "");
 
         return m_Tail->m_Value;
     }
 
     PHI_NODISCARD const_reference back() const noexcept
     {
-        PHI_DBG_ASSERT(!is_empty(), "");
+        PHI_ASSERT(!is_empty(), "");
 
         return m_Tail->m_Value;
     }
@@ -536,7 +536,7 @@ public:
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_front(node);
     }
@@ -546,7 +546,7 @@ public:
             is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_back(node);
     }
@@ -554,7 +554,7 @@ public:
     void push_front(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_front(node);
     }
@@ -562,7 +562,7 @@ public:
     void push_front(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_front(node);
     }
@@ -570,7 +570,7 @@ public:
     void push_back(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_back(node);
     }
@@ -578,14 +578,14 @@ public:
     void push_back(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
-        PHI_DBG_ASSERT(node != nullptr, "");
+        PHI_ASSERT(node != nullptr, "");
 
         assign_back(node);
     }
 
     void pop_front() noexcept(is_nothrow_destructible<TypeT>::value)
     {
-        PHI_DBG_ASSERT(m_Head != nullptr, "");
+        PHI_ASSERT(m_Head != nullptr, "");
 
         node_type* prev_head = m_Head;
         if (m_Tail == m_Head)
@@ -600,7 +600,7 @@ public:
     PHI_NODISCARD value_type take_front() noexcept(
             is_nothrow_destructible<TypeT>::value&& is_nothrow_move_assignable<TypeT>::value)
     {
-        PHI_DBG_ASSERT(m_Head != nullptr, "");
+        PHI_ASSERT(m_Head != nullptr, "");
 
         node_type* prev_head = m_Head;
         TypeT      value     = move(front());

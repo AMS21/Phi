@@ -55,7 +55,7 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(TypeT other) noexcept
         : m_Pointer{move(other)}
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
@@ -63,33 +63,33 @@ public:
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null(OtherT&& other) noexcept
         : m_Pointer(forward(other))
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
     PHI_EXTENDED_CONSTEXPR not_null(const not_null<OtherT>& other) noexcept
         : not_null(other.get())
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     template <typename OtherT, typename = enable_if_t<is_convertible<OtherT, TypeT>::value>>
     PHI_EXTENDED_CONSTEXPR not_null(not_null<OtherT>&& other) noexcept
         : not_null(move(other.get()))
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     PHI_EXTENDED_CONSTEXPR not_null(const not_null& other) noexcept
         : m_Pointer(other.m_Pointer)
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     PHI_EXTENDED_CONSTEXPR not_null(not_null&& other) noexcept
         : m_Pointer(move(other.m_Pointer))
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
     }
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
@@ -97,7 +97,7 @@ public:
     {
         m_Pointer = other.m_Pointer;
 
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
 
         return *this;
     }
@@ -106,7 +106,7 @@ public:
     {
         m_Pointer = move(other.m_Pointer);
 
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::AssignNullptrError);
 
         return *this;
     }
@@ -115,7 +115,7 @@ public:
             typename conditional<is_copy_constructible<TypeT>::value, TypeT, const TypeT&>::type
             get() const noexcept
     {
-        PHI_DBG_ASSERT(m_Pointer != nullptr, detail::ReturnNullptrError);
+        PHI_ASSERT(m_Pointer != nullptr, detail::ReturnNullptrError);
 
         return m_Pointer;
     }

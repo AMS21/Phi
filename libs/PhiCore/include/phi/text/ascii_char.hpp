@@ -39,45 +39,45 @@ public:
     constexpr ascii_char(char character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
     constexpr ascii_char(signed char character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
     constexpr ascii_char(unsigned char character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
 #if PHI_HAS_FEATURE_CHAR8_T()
     constexpr ascii_char(char8_t character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 #endif
 
     constexpr ascii_char(char16_t character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
     constexpr ascii_char(char32_t character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
     constexpr ascii_char(wchar_t character) noexcept
         : m_Char{static_cast<value_type>(character)}
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
     }
 
     ascii_char(const ascii_char& other) = default;
@@ -87,7 +87,7 @@ public:
     // Assignment operators
     constexpr ascii_char& operator=(char character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -96,7 +96,7 @@ public:
 
     constexpr ascii_char& operator=(signed char character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -105,7 +105,7 @@ public:
 
     constexpr ascii_char& operator=(unsigned char character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -115,7 +115,7 @@ public:
 #if PHI_HAS_FEATURE_CHAR8_T()
     constexpr ascii_char& operator=(char8_t character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -125,7 +125,7 @@ public:
 
     constexpr ascii_char& operator=(char16_t character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -134,7 +134,7 @@ public:
 
     constexpr ascii_char& operator=(char32_t character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -143,7 +143,7 @@ public:
 
     constexpr ascii_char& operator=(wchar_t character) noexcept
     {
-        PHI_DBG_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
+        PHI_ASSERT(character >= 0 && character <= 127, "Unrepresentable ascii character");
 
         m_Char = static_cast<value_type>(character);
 
@@ -216,8 +216,8 @@ public:
 
     friend constexpr ascii_char& operator++(ascii_char& ascii_character) noexcept
     {
-        PHI_DBG_ASSERT(ascii_character.m_Char < 127,
-                       "Pre-increment would result in unrepresentable ascii character");
+        PHI_ASSERT(ascii_character.m_Char < 127,
+                   "Pre-increment would result in unrepresentable ascii character");
 
         ascii_character.m_Char = static_cast<value_type>(ascii_character.m_Char + 1u);
         return ascii_character;
@@ -226,8 +226,8 @@ public:
     // NOLINTNEXTLINE(cert-dcl21-cpp)
     friend constexpr ascii_char operator++(ascii_char& ascii_character, int) noexcept
     {
-        PHI_DBG_ASSERT(ascii_character.m_Char < 127,
-                       "Post-increment would result in unrepresentable ascii character");
+        PHI_ASSERT(ascii_character.m_Char < 127,
+                   "Post-increment would result in unrepresentable ascii character");
 
         ascii_char old_val     = ascii_character;
         ascii_character.m_Char = static_cast<value_type>(ascii_character.m_Char + 1u);
@@ -236,8 +236,8 @@ public:
 
     friend constexpr ascii_char& operator--(ascii_char& ascii_character) noexcept
     {
-        PHI_DBG_ASSERT(ascii_character.m_Char > 0,
-                       "Pre-decrement would result in unrepresentable ascii character");
+        PHI_ASSERT(ascii_character.m_Char > 0,
+                   "Pre-decrement would result in unrepresentable ascii character");
 
         ascii_character.m_Char = static_cast<value_type>(ascii_character.m_Char - 1u);
         return ascii_character;
@@ -246,8 +246,8 @@ public:
     // NOLINTNEXTLINE(cert-dcl21-cpp)
     friend constexpr ascii_char operator--(ascii_char& ascii_character, int) noexcept
     {
-        PHI_DBG_ASSERT(ascii_character.m_Char > 0,
-                       "Post-decrement would result in unrepresentable ascii character");
+        PHI_ASSERT(ascii_character.m_Char > 0,
+                   "Post-decrement would result in unrepresentable ascii character");
 
         ascii_char old_val     = ascii_character;
         ascii_character.m_Char = static_cast<value_type>(ascii_character.m_Char - 1u);
@@ -257,16 +257,16 @@ public:
     // Binary operators
     friend constexpr ascii_char operator+(const ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
-                       "Addition would result in unrepresentable ascii character");
+        PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+                   "Addition would result in unrepresentable ascii character");
 
         return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char + rhs.m_Char)};
     }
 
     friend constexpr ascii_char& operator+=(ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
-                       "Addition would result in unrepresentable ascii character");
+        PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
+                   "Addition would result in unrepresentable ascii character");
 
         lhs.m_Char = static_cast<value_type>(lhs.m_Char + rhs.m_Char);
         return lhs;
@@ -274,16 +274,16 @@ public:
 
     friend constexpr ascii_char operator-(const ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
-                       "Addition would result in unrepresentable ascii character");
+        PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+                   "Addition would result in unrepresentable ascii character");
 
         return ascii_char{static_cast<ascii_char::value_type>(lhs.m_Char - rhs.m_Char)};
     }
 
     friend constexpr ascii_char& operator-=(ascii_char& lhs, const ascii_char& rhs) noexcept
     {
-        PHI_DBG_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
-                       "Addition would result in unrepresentable ascii character");
+        PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
+                   "Addition would result in unrepresentable ascii character");
 
         lhs.m_Char = static_cast<value_type>(lhs.m_Char - rhs.m_Char);
         return lhs;

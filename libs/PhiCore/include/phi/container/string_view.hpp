@@ -41,6 +41,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 template <typename TypeT, size_t Size>
 class array;
 
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
+
 template <typename CharT, typename TraitsT = std::char_traits<CharT>>
 class PHI_ATTRIBUTE_POINTER basic_string_view
 {
@@ -98,25 +101,25 @@ public:
         : m_Data{array.data()}
         , m_Length{array.size()}
     {
-        PHI_DBG_ASSERT(array.size() > 0u, "Do not construct a basic_string_view from empty array");
+        PHI_ASSERT(array.size() > 0u, "Do not construct a basic_string_view from empty array");
     }
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
         , m_Length(string_length(string))
     {
-        PHI_DBG_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
+        PHI_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
     }
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string, size_type count) noexcept
         : m_Data(string)
         , m_Length(count)
     {
-        PHI_DBG_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
+        PHI_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
 #if defined(PHI_CONFIG_EXTENSIVE_STRING_VIEW_ASSERTS)
-        PHI_DBG_ASSERT(count > 0u, "Cannot construct with 0 size");
-        PHI_DBG_ASSERT(string_length(string, count) == count,
-                       "The supplied string is shorter than the given count");
+        PHI_ASSERT(count > 0u, "Cannot construct with 0 size");
+        PHI_ASSERT(string_length(string, count) == count,
+                   "The supplied string is shorter than the given count");
 #endif
     }
 
@@ -284,7 +287,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR basic_string_view& remove_prefix(size_type count) noexcept
     {
-        PHI_DBG_ASSERT(count <= length(), "Cannot remove more than size");
+        PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
         m_Data += count.unsafe();
         m_Length -= count;
@@ -294,7 +297,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR basic_string_view& remove_suffix(size_type count) noexcept
     {
-        PHI_DBG_ASSERT(count <= length(), "Cannot remove more than size");
+        PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
         m_Length -= count;
 
@@ -320,7 +323,7 @@ public:
     PHI_EXTENDED_CONSTEXPR size_type copy(CharT* destination, size_type count,
                                           size_type pos = 0u) const noexcept
     {
-        PHI_DBG_ASSERT(pos <= length(), "Invalid position");
+        PHI_ASSERT(pos <= length(), "Invalid position");
 
         const size_type rlen = min(count, length() - pos);
         TraitsT::copy(destination, data() + pos.unsafe(), rlen.unsafe());
@@ -331,7 +334,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
     substring_view(size_type pos = 0u, size_type count = npos) const noexcept
     {
-        PHI_DBG_ASSERT(pos <= length(), "Invalid position");
+        PHI_ASSERT(pos <= length(), "Invalid position");
 
         return basic_string_view(data() + pos.unsafe(), min(count, length() - pos));
     }
@@ -339,12 +342,11 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
     substring_view(iterator begin_iterator, iterator end_iterator) const noexcept
     {
-        PHI_DBG_ASSERT(begin_iterator >= begin() && begin_iterator <= end(),
-                       "Invalid position for begin_iterator");
-        PHI_DBG_ASSERT(end_iterator >= begin() && end_iterator <= end(),
-                       "Invalid position for end_iterator");
-        PHI_DBG_ASSERT(end_iterator >= begin_iterator,
-                       "Invalid iterator position for end_iterator");
+        PHI_ASSERT(begin_iterator >= begin() && begin_iterator <= end(),
+                   "Invalid position for begin_iterator");
+        PHI_ASSERT(end_iterator >= begin() && end_iterator <= end(),
+                   "Invalid position for end_iterator");
+        PHI_ASSERT(end_iterator >= begin_iterator, "Invalid iterator position for end_iterator");
 
         return basic_string_view(begin_iterator, static_cast<typename size_type::value_type>(
                                                          end_iterator - begin_iterator));
@@ -464,7 +466,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find(basic_string_view view,
                                                         size_type         pos = 0u) const noexcept
     {
-        PHI_DBG_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
+        PHI_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
 
         return pos >= length() ? npos :
                                  to_pos(std::search(cbegin() + pos, cend(), view.cbegin(),
@@ -668,7 +670,7 @@ private:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
     {
-        PHI_DBG_ASSERT(pos < length(), "Index out of bounds!");
+        PHI_ASSERT(pos < length(), "Index out of bounds!");
 
         return m_Data[pos.unsafe()];
     }
@@ -686,6 +688,8 @@ private:
     const CharT* m_Data;
     usize        m_Length;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 // Comparison functions
 
