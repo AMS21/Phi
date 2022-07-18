@@ -10,9 +10,10 @@ set(phi_common_flags
     fms-extensions
     fdeclspec
     fborland-extensions
-    fchar8_t
-    fcoroutines
-    fconcepts)
+    fchar8_t)
+
+# common useful cxx flags
+set(phi_common_cxx_only_flags fcoroutines fconcepts)
 
 # clang and emcc say they accept "-bigobj" but then give a warning
 if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
@@ -37,6 +38,23 @@ foreach(_test ${phi_common_flags})
   if(PHI_HAS_FLAG_${_testName})
     set(_phi_common_flags_supported
         ${_phi_common_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
+  endif()
+endforeach(_test)
+
+set(_phi_common_cxx_flags_supported CACHE INTERNAL "")
+foreach(_test ${phi_common_cxx_only_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "," "" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    set(_phi_common_cxx_flags_supported
+        ${_phi_common_cxx_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
@@ -118,6 +136,18 @@ function(phi_target_set_common_flags)
   foreach(flag ${_phi_common_flags_supported})
     target_compile_options(${cf_TARGET} ${visibility_scope} ${flag})
   endforeach(flag)
+
+  get_property(
+    target_linker_language
+    TARGET ${cf_TARGET}
+    PROPERTY LINKER_LANGUAGE)
+
+  # Set cxx flags
+  if("${target_linker_language}" STREQUAL "CXX")
+    foreach(flag ${_phi_common_cxx_flags_supported})
+      target_compile_options(${cf_TARGET} ${visibility_scope} ${flag})
+    endforeach(flag)
+  endif()
 
   # Optionally enable color diagnostics
   if(cf_COLOR_DIAGNOSTICS)
