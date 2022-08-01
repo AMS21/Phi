@@ -92,7 +92,6 @@ set(phi_ubsan_extra_flags
     pointer-overflow
     return
     returns-nonnull-attribute
-    shadow-call-stack
     shift
     shift-base
     shift-exponent
