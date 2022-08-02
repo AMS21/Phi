@@ -125,6 +125,9 @@ namespace detail
     using arithmetic_tag_for =
             conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wstrict-overflow")
+
     template <typename TypeT>
     PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag /*tag*/, TypeT lhs,
                                                          TypeT rhs) noexcept
@@ -204,6 +207,8 @@ namespace detail
     {
         return rhs == TypeT(0);
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 } // namespace detail
 /// \endcond
 
