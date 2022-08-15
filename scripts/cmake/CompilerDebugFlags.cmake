@@ -3,7 +3,14 @@ phi_include_guard()
 include(CMakeParseArguments)
 include(internal/PhiCheckCXXCompilerFlag)
 
-set(phi_extra_debug_flags g3 ftrapv ftrivial-auto-var-init=pattern fcheck-new)
+set(phi_extra_debug_flags
+    g3
+    ftrapv
+    ftrivial-auto-var-init=pattern
+    fcheck-new
+    fdebug-macro
+    grecord-gcc-switches
+    grecord-command-line)
 
 # Check extra debug flags
 set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
