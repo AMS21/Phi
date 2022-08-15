@@ -3,18 +3,48 @@ phi_include_guard()
 include(CMakeParseArguments)
 
 # cppcheck
-find_program(PHI_CPPCHECK cppcheck)
+find_program(PHI_CPPCHECK_EXECUTABLE cppcheck)
 
-# TODO: Print version
-if(PHI_CPPCHECK)
-  phi_log("CppCheck found: \"${PHI_CPPCHECK}\"")
+# Extract version from command "cppcheck --version"
+if(PHI_CPPCHECK_EXECUTABLE)
+  execute_process(
+    COMMAND ${PHI_CPPCHECK_EXECUTABLE} --version
+    OUTPUT_VARIABLE CPPCHECK_VERSION
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  # CPPCHECK_VERSION sample: "Cppcheck 2.7"
+  string(REGEX REPLACE "Cppcheck ([.0-9]+).*" "\\1" CPPCHECK_VERSION "${CPPCHECK_VERSION}")
+  # CPPCHECK_VERSION sample: "2.7"
+
+  # Extract version components
+  string(REPLACE "." ";" cppcheck_version_parts "${CPPCHECK_VERSION}")
+  list(LENGTH cppcheck_version_parts CPPCHECK_VERSION_COUNT)
+  if(CPPCHECK_VERSION_COUNT GREATER 0)
+    list(GET cppcheck_version_parts 0 CPPCHECK_VERSION_MAJOR)
+  else()
+    set(CPPCHECK_VERSION_MAJOR 0)
+  endif()
+  if(CPPCHECK_VERSION_COUNT GREATER 1)
+    list(GET cppcheck_version_parts 1 CPPCHECK_VERSION_MINOR)
+  else()
+    set(CPPCHECK_VERSION_MINOR 0)
+  endif()
+  if(CPPCHECK_VERSION_COUNT GREATER 2)
+    list(GET cppcheck_version_parts 2 CPPCHECK_VERSION_PATCH)
+  else()
+    set(CPPCHECK_VERSION_PATCH 0)
+  endif()
+
+  phi_log("Found CppCheck version ${CPPCHECK_VERSION} at \"${PHI_CPPCHECK_EXECUTABLE}\"")
+
 else()
   phi_log("CppCheck not found")
+
 endif()
 
 # clang-tidy
 find_program(
-  PHI_CLANG_TIDY
+  PHI_CLANG_TIDY_EXECUTABLE
   NAMES clang-tidy
         clang-tidy-15
         clang-tidy-14
@@ -36,19 +66,76 @@ find_program(
         clang-tidy-3.4
         clang-tidy-3.3)
 
-# TODO: Print version
-if(PHI_CLANG_TIDY)
-  phi_log("clang-tidy found: \"${PHI_CLANG_TIDY}\"")
+if(PHI_CLANG_TIDY_EXECUTABLE)
+  # Extract version info
+  execute_process(
+    COMMAND ${PHI_CLANG_TIDY_EXECUTABLE} --version
+    OUTPUT_VARIABLE CLANG_TIDY_VERSION
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+  # CLANG_TIDY_VERSION sample: "LLVM (http://llvm.org/): LLVM version 14.0.6 Optimized build.
+  # Default target: x86_64-pc-linux-gnu Host CPU: skylake"
+
+  string(REGEX REPLACE ".*LLVM version ([.0-9]+).*" "\\1" CLANG_TIDY_VERSION
+                       "${CLANG_TIDY_VERSION}")
+
+  # Extract version components
+  string(REPLACE "." ";" clang_tidy_version_parts "${CLANG_TIDY_VERSION}")
+  list(LENGTH clang_tidy_version_parts CLANG_TIDY_VERSION_COUNT)
+  if(CLANG_TIDY_VERSION_COUNT GREATER 0)
+    list(GET clang_tidy_version_parts 0 CLANG_TIDY_VERSION_MAJOR)
+  else()
+    set(CLANG_TIDY_VERSION_MAJOR 0)
+  endif()
+  if(CLANG_TIDY_VERSION_COUNT GREATER 1)
+    list(GET clang_tidy_version_parts 1 CLANG_TIDY_VERSION_MINOR)
+  else()
+    set(CLANG_TIDY_VERSION_MINOR 0)
+  endif()
+  if(CLANG_TIDY_VERSION_COUNT GREATER 2)
+    list(GET clang_tidy_version_parts 2 CLANG_TIDY_VERSION_PATCH)
+  else()
+    set(CLANG_TIDY_VERSION_PATCH 0)
+  endif()
+
+  phi_log("Found clang-tidy version ${CLANG_TIDY_VERSION} at \"${PHI_CLANG_TIDY_EXECUTABLE}\"")
 else()
   phi_log("clang-tidy not found")
 endif()
 
 # include-what-you-use
-find_program(PHI_INCLUDE_WHAT_YOU_USE NAMES include-what-you-use iwyu)
+find_program(PHI_IWYU_EXECUTABLE NAMES include-what-you-use iwyu)
 
-# TODO: Print version
-if(PHI_INCLUDE_WHAT_YOU_USE)
-  phi_log("include-what-you-use found: \"${PHI_INCLUDE_WHAT_YOU_USE}\"")
+if(PHI_IWYU_EXECUTABLE)
+  # Extract version info
+  execute_process(
+    COMMAND ${PHI_IWYU_EXECUTABLE} --version
+    OUTPUT_VARIABLE IWYU_VERSION
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+  # IWYU_VERSION sample: "include-what-you-use 0.18 (git:abd5d2b) based on clang version 14.0.6
+  # (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)"
+
+  string(REGEX REPLACE "include-what-you-use ([.0-9]+).*" "\\1" IWYU_VERSION "${IWYU_VERSION}")
+
+  # Extract version components
+  string(REPLACE "." ";" iwyu_version_parts "${IWYU_VERSION}")
+  list(LENGTH iwyu_version_parts IWYU_VERSION_COUNT)
+  if(IWYU_VERSION_COUNT GREATER 0)
+    list(GET iwyu_version_parts 0 IWYU_VERSION_MAJOR)
+  else()
+    set(IWYU_VERSION_MAJOR 0)
+  endif()
+  if(IWYU_VERSION_COUNT GREATER 1)
+    list(GET iwyu_version_parts 1 IWYU_VERSION_MINOR)
+  else()
+    set(IWYU_VERSION_MINOR 0)
+  endif()
+  if(IWYU_VERSION_COUNT GREATER 2)
+    list(GET iwyu_version_parts 2 IWYU_VERSION_PATCH)
+  else()
+    set(IWYU_VERSION_PATCH 0)
+  endif()
+
+  phi_log("Found include-what-you-use version ${IWYU_VERSION} at \"${PHI_IWYU_EXECUTABLE}\"")
 else()
   phi_log("include-what-you-use not found")
 endif()
@@ -114,30 +201,31 @@ function(phi_target_use_static_analyzers)
   # For SUPPORTED only enable the ones which where found
   if(sa_SUPPORTED)
     # clang-tidy
-    if(PHI_CLANG_TIDY)
+    if(PHI_CLANG_TIDY_EXECUTABLE)
       set(sa_CLANG_TIDY 1)
     endif()
 
     # cppcheck
-    if(PHI_CPPCHECK)
+    if(PHI_CPPCHECK_EXECUTABLE)
       set(sa_CPPCHECK 1)
     endif()
 
     # include-what-you-use
-    if(PHI_INCLUDE_WHAT_YOU_USE)
+    if(PHI_IWYU_EXECUTABLE)
       set(sa_IWYU 1)
     endif()
   endif()
 
   # Enable clang-tidy for the specified target if requested
   if(sa_CLANG_TIDY)
-    if(NOT PHI_CLANG_TIDY)
+    if(NOT PHI_CLANG_TIDY_EXECUTABLE)
       phi_error(
         "phi_target_use_static_analyzers: clang-tidy was explicitly enabled for target \"${sa_TARGET}\" but seems to be missing"
       )
     endif()
 
-    set(ct_cmdline ${PHI_CLANG_TIDY} -header-filter=.* -extra-arg=-Wno-unknown-warning-option)
+    set(ct_cmdline ${PHI_CLANG_TIDY_EXECUTABLE} -header-filter=.*
+                   -extra-arg=-Wno-unknown-warning-option)
 
     # Optionally enable warnings as errors
     if(sa_WARNINGS_AS_ERRORS)
@@ -155,7 +243,7 @@ function(phi_target_use_static_analyzers)
 
   # Enable cppcheck for the specified target if requested
   if(sa_CPPCHECK)
-    if(NOT PHI_CPPCHECK)
+    if(NOT PHI_CPPCHECK_EXECUTABLE)
       phi_error(
         "phi_target_use_static_analyzers: cppcheck was explicitly enabled for target \"${sa_TARGET}\" but seems to be missing"
       )
@@ -167,7 +255,7 @@ function(phi_target_use_static_analyzers)
       set(CPPCHECK_TEMPLATE "gcc")
     endif()
 
-    set(cc_cmdline ${PHI_CPPCHECK})
+    set(cc_cmdline ${PHI_CPPCHECK_EXECUTABLE})
 
     # Optionally add user options
     if(DEFINED sa_CPPCHECK_OPTIONS)
@@ -200,13 +288,13 @@ function(phi_target_use_static_analyzers)
 
   # Enable include-what-you-use for the specified target if requested
   if(sa_IWYU)
-    if(NOT PHI_INCLUDE_WHAT_YOU_USE)
+    if(NOT PHI_IWYU_EXECUTABLE)
       phi_error(
         "phi_target_use_static_analyzers: include-what-you-use was explicitly enabled for target \"${sa_TARGET}\" but seems to be missing"
       )
     endif()
 
-    set(iwyu_cmdline ${PHI_INCLUDE_WHAT_YOU_USE})
+    set(iwyu_cmdline ${PHI_IWYU_EXECUTABLE})
 
     # Optionally add user options
     if(DEFINED sa_IWYU_OPTIONS)
