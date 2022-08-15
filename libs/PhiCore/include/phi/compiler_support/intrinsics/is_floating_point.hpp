@@ -14,7 +14,6 @@
 #        define PHI_IS_FLOATING_POINT(type)      __is_floating_point(type)
 #        define PHI_SUPPORTS_IS_FLOATING_POINT() 1
 #    else
-#        define PHI_IS_FLOATING_POINT(type)      false
 #        define PHI_SUPPORTS_IS_FLOATING_POINT() 0
 #    endif
 

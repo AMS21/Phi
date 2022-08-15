@@ -16,7 +16,6 @@
 #        define PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(type)      __has_nothrow_copy(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_COPY_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_NOTHROW_COPY_CONSTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_NOTHROW_COPY_CONSTRUCTIBLE() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_IS_FUNCTION(type)      __is_function(type)
 #        define PHI_SUPPORTS_IS_FUNCTION() 1
 #    else
-#        define PHI_IS_FUNCTION(type)      false
 #        define PHI_SUPPORTS_IS_FUNCTION() 0
 #    endif
 

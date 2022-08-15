@@ -14,7 +14,6 @@
 #        define PHI_IS_POLYMORPHIC(type)      __is_polymorphic(type)
 #        define PHI_SUPPORTS_IS_POLYMORPHIC() 1
 #    else
-#        define PHI_IS_POLYMORPHIC(type)      false
 #        define PHI_SUPPORTS_IS_POLYMORPHIC() 0
 #    endif
 

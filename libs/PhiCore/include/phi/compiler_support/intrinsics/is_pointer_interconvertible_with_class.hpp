@@ -14,8 +14,7 @@
             __is_pointer_interconvertible_with_class(member_pointer)
 #        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 1
 #    else
-#        define PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer) false
-#        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS()      0
+#        define PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS() 0
 #    endif
 
 #    if defined(PHI_CONFIG_NO_INTRINSICS)

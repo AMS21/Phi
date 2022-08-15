@@ -14,8 +14,7 @@
 #        define PHI_ARRAY_EXTENT(type, dimension) __array_extent(type, dimension)
 #        define PHI_SUPPORTS_ARRAY_EXTENT()       1
 #    else
-#        define PHI_ARRAY_EXTENT(type, dimension) 0
-#        define PHI_SUPPORTS_ARRAY_EXTENT()       0
+#        define PHI_SUPPORTS_ARRAY_EXTENT() 0
 #    endif
 
 #    if defined(PHI_CONFIG_NO_INTRINSICS)

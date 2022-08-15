@@ -14,7 +14,6 @@
 #        define PHI_REMOVE_CV(type)      __remove_cv(type)
 #        define PHI_SUPPORTS_REMOVE_CV() 1
 #    else
-#        define PHI_REMOVE_CV(type)      false
 #        define PHI_SUPPORTS_REMOVE_CV() 0
 #    endif
 

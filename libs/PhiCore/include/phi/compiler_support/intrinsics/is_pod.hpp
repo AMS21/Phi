@@ -14,7 +14,6 @@
 #        define PHI_IS_POD(type)      __is_pod(type)
 #        define PHI_SUPPORTS_IS_POD() 1
 #    else
-#        define PHI_IS_POD(type)      false
 #        define PHI_SUPPORTS_IS_POD() 0
 #    endif
 

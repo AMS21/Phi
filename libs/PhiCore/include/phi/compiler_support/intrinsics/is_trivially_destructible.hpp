@@ -17,7 +17,6 @@
 #        define PHI_IS_TRIVIALLY_DESTRUCTIBLE(type)      __has_trivial_destructor(type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_DESTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE() 0
 #    endif
 

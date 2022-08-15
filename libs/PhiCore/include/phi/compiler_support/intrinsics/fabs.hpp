@@ -14,7 +14,6 @@
 #        define PHI_FABS(value)     __builtin_fabs(value)
 #        define PHI_SUPPORTS_FABS() 1
 #    else
-#        define PHI_FABS(value)     (value > 0.0 ? value : -value)
 #        define PHI_SUPPORTS_FABS() 0
 #    endif
 

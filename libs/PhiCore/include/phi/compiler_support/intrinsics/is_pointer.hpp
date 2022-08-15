@@ -16,7 +16,6 @@
 #        define PHI_IS_POINTER(type)      __is_pointer(type)
 #        define PHI_SUPPORTS_IS_POINTER() 1
 #    else
-#        define PHI_IS_POINTER(type)      false
 #        define PHI_SUPPORTS_IS_POINTER() 0
 #    endif
 

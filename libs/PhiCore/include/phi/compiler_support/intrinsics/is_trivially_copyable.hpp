@@ -14,7 +14,6 @@
 #        define PHI_IS_TRIVIALLY_COPYABLE(type)      __is_trivially_copyable(type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_COPYABLE(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE() 0
 #    endif
 

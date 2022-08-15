@@ -14,7 +14,6 @@
 #        define PHI_IS_STANDARD_LAYOUT(type)      __is_standard_layout(type)
 #        define PHI_SUPPORTS_IS_STANDARD_LAYOUT() 1
 #    else
-#        define PHI_IS_STANDARD_LAYOUT(type)      false
 #        define PHI_SUPPORTS_IS_STANDARD_LAYOUT() 0
 #    endif
 

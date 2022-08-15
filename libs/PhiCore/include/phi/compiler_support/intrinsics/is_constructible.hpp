@@ -14,7 +14,6 @@
 #        define PHI_IS_CONSTRUCTIBLE(...)       __is_constructible(__VA_ARGS__)
 #        define PHI_SUPPORTS_IS_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_CONSTRUCTIBLE(...)       false
 #        define PHI_SUPPORTS_IS_CONSTRUCTIBLE() 0
 #    endif
 

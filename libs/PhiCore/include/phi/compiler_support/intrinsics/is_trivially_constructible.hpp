@@ -14,7 +14,6 @@
 #        define PHI_IS_TRIVIALLY_CONSTRUCTIBLE(...)       __is_trivially_constructible(__VA_ARGS__)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_CONSTRUCTIBLE(...)       false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_CONSTRUCTIBLE() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_IS_SIGNED(type)      __is_signed(type)
 #        define PHI_SUPPORTS_IS_SIGNED() 1
 #    else
-#        define PHI_IS_SIGNED(type)      false
 #        define PHI_SUPPORTS_IS_SIGNED() 0
 #    endif
 

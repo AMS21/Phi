@@ -14,7 +14,6 @@
 #        define PHI_IS_UNSIGNED(type)      __is_unsigned(type)
 #        define PHI_SUPPORTS_IS_UNSIGNED() 1
 #    else
-#        define PHI_IS_UNSIGNED(type)      false
 #        define PHI_SUPPORTS_IS_UNSIGNED() 0
 #    endif
 

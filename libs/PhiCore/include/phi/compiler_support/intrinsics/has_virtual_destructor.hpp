@@ -14,7 +14,6 @@
 #        define PHI_HAS_VIRTUAL_DESTRUCTOR(obj)       __has_virtual_destructor(obj)
 #        define PHI_SUPPORTS_HAS_VIRTUAL_DESTRUCTOR() 1
 #    else
-#        define PHI_HAS_VIRTUAL_DESTRUCTOR(obj)       false
 #        define PHI_SUPPORTS_HAS_VIRTUAL_DESTRUCTOR() 0
 #    endif
 

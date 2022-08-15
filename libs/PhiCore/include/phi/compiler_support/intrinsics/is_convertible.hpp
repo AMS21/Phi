@@ -17,7 +17,6 @@
 #        define PHI_IS_CONVERTIBLE(from, to)  __is_convertible_to(from, to)
 #        define PHI_SUPPORTS_IS_CONVERTIBLE() 1
 #    else
-#        define PHI_IS_CONVERTIBLE(from, to)  false
 #        define PHI_SUPPORTS_IS_CONVERTIBLE() 0
 #    endif
 

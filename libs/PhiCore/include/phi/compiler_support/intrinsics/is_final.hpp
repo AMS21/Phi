@@ -17,7 +17,6 @@
 #        define PHI_IS_FINAL(type)      __is_sealed(type)
 #        define PHI_SUPPORTS_IS_FINAL() 1
 #    else
-#        define PHI_IS_FINAL(type)      false
 #        define PHI_SUPPORTS_IS_FINAL() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_IS_NOTHROW_DESTRUCTIBLE(type)      __is_nothrow_destructible(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE() 1
 #    else
-#        define PHI_IS_NOTHROW_DESTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE() 0
 #    endif
 

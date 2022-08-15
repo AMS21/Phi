@@ -14,7 +14,6 @@
 #        define PHI_ADDRESS_OF(obj)       __builtin_addressof(obj)
 #        define PHI_SUPPORTS_ADDRESS_OF() 1
 #    else
-#        define PHI_ADDRESS_OF(obj)       0
 #        define PHI_SUPPORTS_ADDRESS_OF() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_IS_INFINITY(value)     __builtin_isinf(value)
 #        define PHI_SUPPORTS_IS_INFINITY() 1
 #    else
-#        define PHI_IS_INFINITY(value)     false
 #        define PHI_SUPPORTS_IS_INFINITY() 0
 #    endif
 

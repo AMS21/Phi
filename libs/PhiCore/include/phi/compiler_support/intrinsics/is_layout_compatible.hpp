@@ -14,8 +14,7 @@
 #        define PHI_IS_LAYOUT_COMPATIBLE(type, with) __is_layout_compatible(type, with)
 #        define PHI_SUPPORTS_IS_LAYOUT_COMPATIBLE()  1
 #    else
-#        define PHI_IS_LAYOUT_COMPATIBLE(type, with) false
-#        define PHI_SUPPORTS_IS_LAYOUT_COMPATIBLE()  0
+#        define PHI_SUPPORTS_IS_LAYOUT_COMPATIBLE() 0
 #    endif
 
 #    if defined(PHI_CONFIG_NO_INTRINSICS)

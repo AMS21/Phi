@@ -14,7 +14,6 @@
 #        define PHI_IS_REFERENCE(type)      __is_reference(type)
 #        define PHI_SUPPORTS_IS_REFERENCE() 1
 #    else
-#        define PHI_IS_REFERENCE(type)      false
 #        define PHI_SUPPORTS_IS_REFERENCE() 0
 #    endif
 

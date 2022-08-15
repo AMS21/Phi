@@ -13,8 +13,7 @@
             __builtin_is_corresponding_member(member_lhs, member_rhs)
 #        define PHI_SUPPORTS_IS_CORRESPONDING_MEMBER() 1
 #    else
-#        define PHI_IS_CORRESPONDING_MEMBER(member_lhs, member_rhs) false
-#        define PHI_SUPPORTS_IS_CORRESPONDING_MEMBER()              0
+#        define PHI_SUPPORTS_IS_CORRESPONDING_MEMBER() 0
 #    endif
 
 #    if defined(PHI_CONFIG_NO_INTRINSICS)

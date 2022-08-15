@@ -14,7 +14,6 @@
 #        define PHI_IS_COMPLETE(type)      __is_complete_type(type)
 #        define PHI_SUPPORTS_IS_COMPLETE() 1
 #    else
-#        define PHI_IS_COMPLETE(type)      false
 #        define PHI_SUPPORTS_IS_COMPLETE() 0
 #    endif
 

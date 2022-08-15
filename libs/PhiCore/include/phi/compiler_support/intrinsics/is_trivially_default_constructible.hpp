@@ -15,7 +15,6 @@
 #        define PHI_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE(type)      __has_trivial_constructor(type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_DEFAULT_CONSTRUCTIBLE() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_IS_ARRAY(type)      __is_array(type)
 #        define PHI_SUPPORTS_IS_ARRAY() 1
 #    else
-#        define PHI_IS_ARRAY(type)      false
 #        define PHI_SUPPORTS_IS_ARRAY() 0
 #    endif
 

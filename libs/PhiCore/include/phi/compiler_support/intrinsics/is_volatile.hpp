@@ -14,7 +14,6 @@
 #        define PHI_IS_VOLATILE(type)      __is_volatile(type)
 #        define PHI_SUPPORTS_IS_VOLATILE() 1
 #    else
-#        define PHI_IS_VOLATILE(type)      false
 #        define PHI_SUPPORTS_IS_VOLATILE() 0
 #    endif
 

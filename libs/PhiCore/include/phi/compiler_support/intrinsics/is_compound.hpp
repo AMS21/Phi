@@ -14,7 +14,6 @@
 #        define PHI_IS_COMPOUND(type)      __is_compound(type)
 #        define PHI_SUPPORTS_IS_COMPOUND() 1
 #    else
-#        define PHI_IS_COMPOUND(type)      false
 #        define PHI_SUPPORTS_IS_COMPOUND() 0
 #    endif
 

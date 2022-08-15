@@ -14,7 +14,6 @@
 #        define PHI_IS_ARITHMETIC(type)      __is_arithmetic(type)
 #        define PHI_SUPPORTS_IS_ARITHMETIC() 1
 #    else
-#        define PHI_IS_ARITHMETIC(type)      false
 #        define PHI_SUPPORTS_IS_ARITHMETIC() 0
 #    endif
 

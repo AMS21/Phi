@@ -14,7 +14,6 @@
 #        define PHI_IS_CONST(type)      __is_const(type)
 #        define PHI_SUPPORTS_IS_CONST() 1
 #    else
-#        define PHI_IS_CONST(type)      false
 #        define PHI_SUPPORTS_IS_CONST() 0
 #    endif
 

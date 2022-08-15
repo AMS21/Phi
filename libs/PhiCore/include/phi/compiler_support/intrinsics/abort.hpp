@@ -14,7 +14,6 @@
 #        define PHI_ABORT()          __builtin_abort()
 #        define PHI_SUPPORTS_ABORT() 1
 #    else
-#        define PHI_ABORT()          ((void)0)
 #        define PHI_SUPPORTS_ABORT() 0
 #    endif
 

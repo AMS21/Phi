@@ -15,7 +15,6 @@
 #        define PHI_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(type)      __has_trivial_copy(type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_COPY_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_COPY_CONSTRUCTIBLE() 0
 #    endif
 

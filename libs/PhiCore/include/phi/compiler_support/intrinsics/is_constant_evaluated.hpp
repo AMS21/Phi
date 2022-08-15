@@ -14,7 +14,6 @@
 #        define PHI_IS_CONSTANT_EVALUATED()          __builtin_is_constant_evaluated()
 #        define PHI_SUPPORTS_IS_CONSTANT_EVALUATED() 1
 #    else
-#        define PHI_IS_CONSTANT_EVALUATED()          false
 #        define PHI_SUPPORTS_IS_CONSTANT_EVALUATED() 0
 #    endif
 

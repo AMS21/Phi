@@ -14,7 +14,6 @@
 #        define PHI_IS_LVALUE_REFERENCE(type)      __is_lvalue_reference(type)
 #        define PHI_SUPPORTS_IS_LVALUE_REFERENCE() 1
 #    else
-#        define PHI_IS_LVALUE_REFERENCE(type)      false
 #        define PHI_SUPPORTS_IS_LVALUE_REFERENCE() 0
 #    endif
 

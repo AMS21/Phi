@@ -17,7 +17,6 @@
 #        define PHI_IS_LVALUE_EXPR(expr)      __is_lvalue_reference(decltype((expr)))
 #        define PHI_SUPPORTS_IS_LVALUE_EXPR() 1
 #    else
-#        define PHI_IS_LVALUE_EXPR(type)      false
 #        define PHI_SUPPORTS_IS_LVALUE_EXPR() 0
 #    endif
 

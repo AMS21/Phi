@@ -14,7 +14,6 @@
 #        define PHI_IS_COPY_ASSIGNABLE(type)      __has_assign(type)
 #        define PHI_SUPPORTS_IS_COPY_ASSIGNABLE() 1
 #    else
-#        define PHI_IS_COPY_ASSIGNABLE(type)      false
 #        define PHI_SUPPORTS_IS_COPY_ASSIGNABLE() 0
 #    endif
 

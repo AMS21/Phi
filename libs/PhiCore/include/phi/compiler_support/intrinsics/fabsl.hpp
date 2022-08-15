@@ -14,7 +14,6 @@
 #        define PHI_FABSL(value)     __builtin_fabsl(value)
 #        define PHI_SUPPORTS_FABSL() 1
 #    else
-#        define PHI_FABSL(value)     (value > 0.0L ? value : -value)
 #        define PHI_SUPPORTS_FABSL() 0
 #    endif
 

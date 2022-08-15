@@ -14,7 +14,6 @@
 #        define PHI_IS_SCALAR(type)      __is_scalar(type)
 #        define PHI_SUPPORTS_IS_SCALAR() 1
 #    else
-#        define PHI_IS_SCALAR(type)      false
 #        define PHI_SUPPORTS_IS_SCALAR() 0
 #    endif
 

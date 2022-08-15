@@ -14,7 +14,6 @@
 #        define PHI_IS_DESTRUCTIBLE(type)      __is_destructible(type)
 #        define PHI_SUPPORTS_IS_DESTRUCTIBLE() 1
 #    else
-#        define PHI_IS_DESTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_DESTRUCTIBLE() 0
 #    endif
 

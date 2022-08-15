@@ -15,7 +15,6 @@
 #        define PHI_IS_TRIVIALLY_MOVE_ASSIGNABLE(type)      __has_trivial_move_assign(type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_ASSIGNABLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_MOVE_ASSIGNABLE(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIALLY_MOVE_ASSIGNABLE() 0
 #    endif
 

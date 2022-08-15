@@ -16,7 +16,6 @@
 #        define PHI_IS_VOID(type)      __is_void(type)
 #        define PHI_SUPPORTS_IS_VOID() 1
 #    else
-#        define PHI_IS_VOID(type)      false
 #        define PHI_SUPPORTS_IS_VOID() 0
 #    endif
 

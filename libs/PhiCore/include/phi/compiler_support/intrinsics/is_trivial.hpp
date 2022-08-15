@@ -14,7 +14,6 @@
 #        define PHI_IS_TRIVIAL(type)      __is_trivial(type)
 #        define PHI_SUPPORTS_IS_TRIVIAL() 1
 #    else
-#        define PHI_IS_TRIVIAL(type)      false
 #        define PHI_SUPPORTS_IS_TRIVIAL() 0
 #    endif
 

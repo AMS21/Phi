@@ -12,8 +12,7 @@
 #        define PHI_OFFSETOF(type, member) __builtin_offsetof(type, member)
 #        define PHI_SUPPORTS_OFFSETOF()    1
 #    else
-#        define PHI_OFFSETOF(type, member) 0
-#        define PHI_SUPPORTS_OFFSETOF()    0
+#        define PHI_SUPPORTS_OFFSETOF() 0
 #    endif
 #endif
 

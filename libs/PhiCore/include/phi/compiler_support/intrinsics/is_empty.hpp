@@ -14,7 +14,6 @@
 #        define PHI_IS_EMPTY(type)      __is_empty(type)
 #        define PHI_SUPPORTS_IS_EMPTY() 1
 #    else
-#        define PHI_IS_EMPTY(type)      false
 #        define PHI_SUPPORTS_IS_EMPTY() 0
 #    endif
 

@@ -19,7 +19,6 @@ extern "C" void __fastfail(unsigned int);
 #        define PHI_TRAP()          __fastfail(0);
 #        define PHI_SUPPORTS_TRAP() 1
 #    else
-#        define PHI_TRAP()          ((void)0)
 #        define PHI_SUPPORTS_TRAP() 0
 #    endif
 

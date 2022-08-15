@@ -15,8 +15,7 @@
             __is_trivially_assignable(type, with_type)
 #        define PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE() 1
 #    else
-#        define PHI_IS_TRIVIALLY_ASSIGNABLE(type, with_type) false
-#        define PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE()       0
+#        define PHI_SUPPORTS_IS_TRIVIALLY_ASSIGNABLE() 0
 #    endif
 
 #    if defined(PHI_CONFIG_NO_INTRINSICS)

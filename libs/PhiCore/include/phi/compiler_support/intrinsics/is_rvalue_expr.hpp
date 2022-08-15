@@ -17,7 +17,6 @@
 #        define PHI_IS_RVALUE_EXPR(expr)      (!__is_reference(decltype((expr))))
 #        define PHI_SUPPORTS_IS_RVALUE_EXPR() 1
 #    else
-#        define PHI_IS_RVALUE_EXPR(type)      false
 #        define PHI_SUPPORTS_IS_RVALUE_EXPR() 0
 #    endif
 

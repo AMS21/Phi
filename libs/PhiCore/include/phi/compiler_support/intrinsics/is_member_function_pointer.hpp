@@ -14,7 +14,6 @@
 #        define PHI_IS_MEMBER_FUNCTION_POINTER(type)      __is_member_function_pointer(type)
 #        define PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER() 1
 #    else
-#        define PHI_IS_MEMBER_FUNCTION_POINTER(type)      false
 #        define PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER() 0
 #    endif
 

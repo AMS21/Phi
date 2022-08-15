@@ -14,7 +14,6 @@
 #        define PHI_FLOORF(value)     __builtin_floorf(value)
 #        define PHI_SUPPORTS_FLOORF() 1
 #    else
-#        define PHI_FLOORF(value)     (value > 0.0 ? value : -value)
 #        define PHI_SUPPORTS_FLOORF() 0
 #    endif
 

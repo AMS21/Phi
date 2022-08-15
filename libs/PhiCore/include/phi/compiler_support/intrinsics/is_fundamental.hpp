@@ -14,7 +14,6 @@
 #        define PHI_IS_FUNDAMENTAL(type)      __is_fundamental(type)
 #        define PHI_SUPPORTS_IS_FUNDAMENTAL() 1
 #    else
-#        define PHI_IS_FUNDAMENTAL(type)      false
 #        define PHI_SUPPORTS_IS_FUNDAMENTAL() 0
 #    endif
 

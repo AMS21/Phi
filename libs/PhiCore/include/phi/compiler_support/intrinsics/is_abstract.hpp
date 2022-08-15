@@ -14,7 +14,6 @@
 #        define PHI_IS_ABSTRACT(type)      __is_abstract(type)
 #        define PHI_SUPPORTS_IS_ABSTRACT() 1
 #    else
-#        define PHI_IS_ABSTRACT(type)      false
 #        define PHI_SUPPORTS_IS_ABSTRACT() 0
 #    endif
 

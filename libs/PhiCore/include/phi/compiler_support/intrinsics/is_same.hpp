@@ -17,7 +17,6 @@
 #        define PHI_IS_SAME(lhs, rhs)  __is_same_as(lhs, rhs)
 #        define PHI_SUPPORTS_IS_SAME() 1
 #    else
-#        define PHI_IS_SAME(lhs, rhs)  false
 #        define PHI_SUPPORTS_IS_SAME() 0
 #    endif
 

@@ -14,7 +14,6 @@
 #        define PHI_UNDERLYING_TYPE(type)      __underlying_type(type)
 #        define PHI_SUPPORTS_UNDERLYING_TYPE() 1
 #    else
-#        define PHI_UNDERLYING_TYPE(type)      false
 #        define PHI_SUPPORTS_UNDERLYING_TYPE() 0
 #    endif
 

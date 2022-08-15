@@ -14,7 +14,6 @@
 #        define PHI_IS_CLASS(type)      __is_class(type)
 #        define PHI_SUPPORTS_IS_CLASS() 1
 #    else
-#        define PHI_IS_CLASS(type)      false
 #        define PHI_SUPPORTS_IS_CLASS() 0
 #    endif
 

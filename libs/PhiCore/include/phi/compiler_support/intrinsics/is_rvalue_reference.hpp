@@ -14,7 +14,6 @@
 #        define PHI_IS_RVALUE_REFERENCE(type)      __is_rvalue_reference(type)
 #        define PHI_SUPPORTS_IS_RVALUE_REFERENCE() 1
 #    else
-#        define PHI_IS_RVALUE_REFERENCE(type)      false
 #        define PHI_SUPPORTS_IS_RVALUE_REFERENCE() 0
 #    endif
 

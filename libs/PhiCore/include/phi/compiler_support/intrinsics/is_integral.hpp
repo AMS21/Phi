@@ -14,7 +14,6 @@
 #        define PHI_IS_INTEGRAL(type)      __is_integral(type)
 #        define PHI_SUPPORTS_IS_INTEGRAL() 1
 #    else
-#        define PHI_IS_INTEGRAL(type)      false
 #        define PHI_SUPPORTS_IS_INTEGRAL() 0
 #    endif
 

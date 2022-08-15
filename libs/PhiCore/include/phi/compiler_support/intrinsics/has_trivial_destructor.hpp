@@ -14,7 +14,6 @@
 #        define PHI_HAS_TRIVIAL_DESTRUCTOR(type)      __has_trivial_destructor(type)
 #        define PHI_SUPPORTS_HAS_TRIVIAL_DESTRUCTOR() 1
 #    else
-#        define PHI_HAS_TRIVIAL_DESTRUCTOR(type)      false
 #        define PHI_SUPPORTS_HAS_TRIVIAL_DESTRUCTOR() 0
 #    endif
 

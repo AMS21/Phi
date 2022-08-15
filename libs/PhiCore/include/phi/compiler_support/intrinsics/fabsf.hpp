@@ -14,7 +14,6 @@
 #        define PHI_FABSF(value)     __builtin_fabsf(value)
 #        define PHI_SUPPORTS_FABSF() 1
 #    else
-#        define PHI_FABSF(value)     (value > 0.0f ? value : -value)
 #        define PHI_SUPPORTS_FABSF() 0
 #    endif
 

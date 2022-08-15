@@ -15,7 +15,6 @@
 #        define PHI_IS_NOTHROW_MOVE_CONSTRUCTIBLE(type)      __has_nothrow_move_constructor(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 1
 #    else
-#        define PHI_IS_NOTHROW_MOVE_CONSTRUCTIBLE(type)      false
 #        define PHI_SUPPORTS_IS_NOTHROW_MOVE_CONSTRUCTIBLE() 0
 #    endif
 

@@ -7,11 +7,17 @@
 #    pragma once
 #endif
 
-#if !defined(PHI_IS_NAN)
+#if !defined(PHI_IS_NAN) && !defined(PHI_SUPPORTS_IS_NAN)
 #    if PHI_HAS_INTRINSIC_BUILTIN_ISNAN()
-#        define PHI_IS_NAN(value) __builtin_isnan(value)
+#        define PHI_IS_NAN(value)     __builtin_isnan(value)
+#        define PHI_SUPPORTS_IS_NAN() 1
 #    else
-#        define PHI_IS_NAN(value) (value != value)
+#        define PHI_SUPPORTS_IS_NAN() 0
+#    endif
+
+#    if defined(PHI_CONFIG_NO_INTRINSICS)
+#        undef PHI_SUPPORTS_IS_NAN
+#        define PHI_SUPPORTS_IS_NAN() 0
 #    endif
 #endif
 

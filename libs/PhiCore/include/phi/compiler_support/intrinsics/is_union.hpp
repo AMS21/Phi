@@ -14,7 +14,6 @@
 #        define PHI_IS_UNION(type)      __is_union(type)
 #        define PHI_SUPPORTS_IS_UNION() 1
 #    else
-#        define PHI_IS_UNION(type)      false
 #        define PHI_SUPPORTS_IS_UNION() 0
 #    endif
 

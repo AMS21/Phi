@@ -14,7 +14,6 @@
 #        define PHI_REMOVE_CONST(type)      __remove_const(type)
 #        define PHI_SUPPORTS_REMOVE_CONST() 1
 #    else
-#        define PHI_REMOVE_CONST(type)      false
 #        define PHI_SUPPORTS_REMOVE_CONST() 0
 #    endif
 

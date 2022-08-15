@@ -14,7 +14,6 @@
 #        define PHI_IS_NOTHROW_MOVE_ASSIGNABLE(type)      __has_nothrow_move_assign(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_MOVE_ASSIGNABLE() 1
 #    else
-#        define PHI_IS_NOTHROW_MOVE_ASSIGNABLE(type)      false
 #        define PHI_SUPPORTS_IS_NOTHROW_MOVE_ASSIGNABLE() 0
 #    endif
 

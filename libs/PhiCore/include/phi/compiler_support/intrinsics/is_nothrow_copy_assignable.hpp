@@ -14,7 +14,6 @@
 #        define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      __has_nothrow_assign(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 1
 #    else
-#        define PHI_IS_NOTHROW_COPY_ASSIGNABLE(type)      false
 #        define PHI_SUPPORTS_IS_NOTHROW_COPY_ASSIGNABLE() 0
 #    endif
 

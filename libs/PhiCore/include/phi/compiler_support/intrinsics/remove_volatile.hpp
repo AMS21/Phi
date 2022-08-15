@@ -14,7 +14,6 @@
 #        define PHI_REMOVE_VOLATILE(type)      __remove_volatile(type)
 #        define PHI_SUPPORTS_REMOVE_VOLATILE() 1
 #    else
-#        define PHI_REMOVE_VOLATILE(type)      false
 #        define PHI_SUPPORTS_REMOVE_VOLATILE() 0
 #    endif
 

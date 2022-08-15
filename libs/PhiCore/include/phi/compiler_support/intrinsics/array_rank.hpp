@@ -14,7 +14,6 @@
 #        define PHI_ARRAY_RANK(type)      __array_rank(type)
 #        define PHI_SUPPORTS_ARRAY_RANK() 1
 #    else
-#        define PHI_ARRAY_RANK(type)      0
 #        define PHI_SUPPORTS_ARRAY_RANK() 0
 #    endif
 

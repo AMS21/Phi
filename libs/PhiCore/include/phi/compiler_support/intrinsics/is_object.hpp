@@ -14,7 +14,6 @@
 #        define PHI_IS_OBJECT(type)      __is_object(type)
 #        define PHI_SUPPORTS_IS_OBJECT() 1
 #    else
-#        define PHI_IS_OBJECT(type)      false
 #        define PHI_SUPPORTS_IS_OBJECT() 0
 #    endif
 

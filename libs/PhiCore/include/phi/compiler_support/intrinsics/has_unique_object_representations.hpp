@@ -15,7 +15,6 @@
 #        define PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(obj)       __has_unique_object_representations(obj)
 #        define PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 1
 #    else
-#        define PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(obj)       false
 #        define PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 0
 #    endif
 

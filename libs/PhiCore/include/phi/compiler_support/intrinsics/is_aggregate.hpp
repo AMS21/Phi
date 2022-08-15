@@ -14,7 +14,6 @@
 #        define PHI_IS_AGGREGATE(type)      __is_aggregate(type)
 #        define PHI_SUPPORTS_IS_AGGREGATE() 1
 #    else
-#        define PHI_IS_AGGREGATE(type)      false
 #        define PHI_SUPPORTS_IS_AGGREGATE() 0
 #    endif
 
