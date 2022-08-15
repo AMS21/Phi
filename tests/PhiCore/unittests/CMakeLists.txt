@@ -65,7 +65,9 @@ file(
   "src/core/voidify.test.cpp"
   # math
   "src/math/abs.test.cpp"
+  "src/math/ceil.test.cpp"
   "src/math/constants.test.cpp"
+  "src/math/floor.test.cpp"
   "src/math/is_infinity.test.cpp"
   "src/math/is_nan.test.cpp"
   "src/math/signum.test.cpp"

@@ -8,9 +8,8 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/core/sized_types.hpp"
 #include "phi/type_traits/is_floating_point.hpp"
-
-// godbolt link: https://godbolt.org/z/64asPzfW6
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -18,15 +17,17 @@ template <typename FloatT>
 class floating_point;
 
 template <typename FloatT>
-PHI_NODISCARD constexpr FloatT floor(FloatT value) noexcept
+PHI_NODISCARD constexpr int64_t floor(FloatT value) noexcept
 {
     static_assert(is_floating_point<FloatT>::value, "phi::floor requires a floating point type");
 
-    return static_cast<FloatT>(static_cast<int>(value));
+    return (value < static_cast<FloatT>(static_cast<int64_t>(value))) ?
+                   static_cast<int64_t>(value) - 1 :
+                   static_cast<int64_t>(value);
 }
 
 template <typename FloatT>
-PHI_NODISCARD constexpr floating_point<FloatT> floor(floating_point<FloatT> value) noexcept
+PHI_NODISCARD constexpr int64_t floor(floating_point<FloatT> value) noexcept
 {
     return floor(value.unsafe());
 }

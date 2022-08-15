@@ -194,6 +194,7 @@ file(
   "include/phi/iterator/reverse_iterator.hpp"
   # math
   "include/phi/math/abs.hpp"
+  "include/phi/math/ceil.hpp"
   "include/phi/math/common.hpp"
   "include/phi/math/constants.hpp"
   "include/phi/math/floor.hpp"
