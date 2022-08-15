@@ -69,6 +69,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("Type traits")
     {
         CHECK_SAME_TYPE(phi::boolean::this_type, phi::boolean);
+        CHECK_SAME_TYPE(phi::boolean::value_type, bool);
         CHECK_SAME_TYPE(phi::boolean::limits_type, std::numeric_limits<bool>);
     }
 
@@ -149,6 +150,37 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     {
         CONSTEXPR_RUNTIME phi::boolean boolean(true);
         STATIC_REQUIRE(boolean.unsafe());
+    }
+
+    SECTION("flip")
+    {
+        phi::boolean boolean{true};
+        CHECK(boolean);
+
+        boolean.flip();
+        CHECK_FALSE(boolean);
+
+        boolean.flip();
+        CHECK(boolean);
+
+        CHECK_NOEXCEPT(boolean.flip());
+    }
+
+    SECTION("as_flipped")
+    {
+        constexpr phi::boolean boolean{true};
+        STATIC_REQUIRE(boolean);
+
+        constexpr phi::boolean flipped_bool = boolean.as_flipped();
+        STATIC_REQUIRE(boolean);
+        STATIC_REQUIRE_FALSE(flipped_bool);
+
+        constexpr phi::boolean double_flipped_bool = flipped_bool.as_flipped();
+        STATIC_REQUIRE(boolean);
+        STATIC_REQUIRE_FALSE(flipped_bool);
+        STATIC_REQUIRE(double_flipped_bool);
+
+        CHECK_NOEXCEPT(boolean.as_flipped());
     }
 
     SECTION("std::hash")

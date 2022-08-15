@@ -46,8 +46,6 @@ SOFTWARE.
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-class boolean;
-
 /// \cond detail
 namespace detail
 {
@@ -91,6 +89,16 @@ public:
     PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool unsafe() const noexcept
     {
         return m_Value;
+    }
+
+    PHI_ALWAYS_INLINE constexpr void flip() noexcept
+    {
+        m_Value = !m_Value;
+    }
+
+    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr boolean as_flipped() const noexcept
+    {
+        return boolean{!m_Value};
     }
 
     PHI_EXTENDED_CONSTEXPR void swap(boolean& other) noexcept
