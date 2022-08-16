@@ -31,37 +31,140 @@ SOFTWARE.
 #include <phi/core/move.hpp>
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_constructible.hpp>
+#include <phi/type_traits/is_convertible.hpp>
+#include <phi/type_traits/is_copy_assignable.hpp>
+#include <phi/type_traits/is_copy_constructible.hpp>
 #include <phi/type_traits/is_default_constructible.hpp>
+#include <phi/type_traits/is_destructible.hpp>
+#include <phi/type_traits/is_move_assignable.hpp>
+#include <phi/type_traits/is_move_constructible.hpp>
+#include <phi/type_traits/is_nothrow_assignable.hpp>
+#include <phi/type_traits/is_nothrow_constructible.hpp>
+#include <phi/type_traits/is_nothrow_convertible.hpp>
+#include <phi/type_traits/is_nothrow_copy_assignable.hpp>
+#include <phi/type_traits/is_nothrow_copy_constructible.hpp>
+#include <phi/type_traits/is_nothrow_destructible.hpp>
+#include <phi/type_traits/is_nothrow_move_assignable.hpp>
+#include <phi/type_traits/is_nothrow_move_constructible.hpp>
 #include <phi/type_traits/is_standard_layout.hpp>
+#include <phi/type_traits/is_trivial.hpp>
+#include <phi/type_traits/is_trivially_copy_assignable.hpp>
+#include <phi/type_traits/is_trivially_copy_constructible.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
+#include <phi/type_traits/is_trivially_destructible.hpp>
+#include <phi/type_traits/is_trivially_move_assignable.hpp>
+#include <phi/type_traits/is_trivially_move_constructible.hpp>
 #include <sstream>
 #include <string>
 
 TEST_CASE("boolean layout", "[Utility][Types][boolean]")
 {
     STATIC_REQUIRE(sizeof(phi::boolean) == sizeof(bool));
+
 #if PHI_HAS_WORKING_IS_TRIVIALLY_COPYABLE()
     STATIC_REQUIRE(phi::is_trivially_copyable<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIAL()
+    STATIC_REQUIRE(phi::is_trivial<phi::boolean>::value);
 #endif
 #if PHI_HAS_WORKING_IS_STANDARD_LAYOUT()
     STATIC_REQUIRE(phi::is_standard_layout<phi::boolean>::value);
 #endif
+
 #if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::boolean>::value);
 #endif
+    STATIC_REQUIRE(phi::is_copy_constructible<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_move_constructible<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_copy_assignable<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_move_assignable<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_destructible<phi::boolean>::value);
+
+    // Trivially
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_trivially_copy_constructible<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_trivially_move_constructible<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_COPY_ASSIGNABLE()
+    STATIC_REQUIRE(phi::is_trivially_copy_assignable<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE()
+    STATIC_REQUIRE(phi::is_trivially_move_assignable<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_trivially_destructible<phi::boolean>::value);
+#endif
+
+    // noexcept
+#if PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_nothrow_copy_constructible<phi::boolean>::value);
+#endif
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
+    STATIC_REQUIRE(phi::is_nothrow_move_constructible<phi::boolean>::value);
+#endif
+    STATIC_REQUIRE(phi::is_nothrow_copy_assignable<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_move_assignable<phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_destructible<phi::boolean>::value);
 
     // conversion checks
-    STATIC_REQUIRE(phi::is_constructible<phi::boolean, bool>::value);
-    STATIC_REQUIRE(phi::is_constructible<phi::boolean, phi::boolean>::value);
-    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, int>::value);
-    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, float>::value);
-    STATIC_REQUIRE(phi::is_constructible<bool, phi::boolean>::value);
 
-    STATIC_REQUIRE(phi::is_assignable<phi::boolean, bool>::value);
+    // boolean - boolean
+    STATIC_REQUIRE(phi::is_constructible<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<phi::boolean, phi::boolean>::value);
     STATIC_REQUIRE(phi::is_assignable<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_assignable<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_convertible<phi::boolean, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_convertible<phi::boolean, phi::boolean>::value);
+
+    // boolean - bool
+    STATIC_REQUIRE(phi::is_constructible<phi::boolean, bool>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<phi::boolean, bool>::value);
+    STATIC_REQUIRE(phi::is_assignable<phi::boolean, bool>::value);
+    STATIC_REQUIRE(phi::is_nothrow_assignable<phi::boolean, bool>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<phi::boolean, bool>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<phi::boolean, bool>::value);
+
+    // boolean - int
+    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<phi::boolean, int>::value);
     STATIC_REQUIRE_FALSE(phi::is_assignable<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<phi::boolean, int>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<phi::boolean, int>::value);
+
+    // boolean - float
+    STATIC_REQUIRE_FALSE(phi::is_constructible<phi::boolean, float>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<phi::boolean, float>::value);
     STATIC_REQUIRE_FALSE(phi::is_assignable<phi::boolean, float>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<phi::boolean, float>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<phi::boolean, float>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<phi::boolean, float>::value);
+
+    // bool - boolean
+    STATIC_REQUIRE(phi::is_constructible<bool, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_constructible<bool, phi::boolean>::value);
     STATIC_REQUIRE_FALSE(phi::is_assignable<bool, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<bool, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_convertible<bool, phi::boolean>::value);
+    STATIC_REQUIRE(phi::is_nothrow_convertible<bool, phi::boolean>::value);
+
+    // int - boolean
+    STATIC_REQUIRE_FALSE(phi::is_constructible<int, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<int, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<int, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<int, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<int, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<int, phi::boolean>::value);
+
+    // float - boolean
+    STATIC_REQUIRE_FALSE(phi::is_constructible<float, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_constructible<float, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_assignable<float, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_assignable<float, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_convertible<float, phi::boolean>::value);
+    STATIC_REQUIRE_FALSE(phi::is_nothrow_convertible<float, phi::boolean>::value);
 }
 
 TEST_CASE("boolean", "[Utility][Types][boolean]")
@@ -75,17 +178,17 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
     SECTION("constructor")
     {
-        CONSTEXPR_RUNTIME phi::boolean bool1(true);
-        STATIC_REQUIRE(static_cast<bool>(bool1));
+        constexpr phi::boolean bool1(true);
+        STATIC_REQUIRE(bool1);
 
-        CONSTEXPR_RUNTIME phi::boolean bool2(false);
-        STATIC_REQUIRE_FALSE(static_cast<bool>(bool2));
+        constexpr phi::boolean bool2(false);
+        STATIC_REQUIRE_FALSE(bool2);
 
-        CONSTEXPR_RUNTIME phi::boolean bool3(bool1);
-        STATIC_REQUIRE(static_cast<bool>(bool3));
+        constexpr phi::boolean bool3(bool1);
+        STATIC_REQUIRE(bool3);
 
-        CONSTEXPR_RUNTIME phi::boolean bool4(phi::move(bool2));
-        STATIC_REQUIRE_FALSE(static_cast<bool>(bool4));
+        constexpr phi::boolean bool4(phi::move(bool2));
+        STATIC_REQUIRE_FALSE(bool4);
     }
 
     SECTION("assignment")
@@ -103,34 +206,45 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         CHECK_FALSE(static_cast<bool>(bool1));
         bool1 = bool3;
         CHECK(static_cast<bool>(bool1));
+
+        CHECK_NOEXCEPT(bool1 = false);
     }
 
     SECTION("negate")
     {
-        CONSTEXPR_RUNTIME phi::boolean bool1(true);
+        constexpr phi::boolean bool1(true);
         STATIC_REQUIRE_FALSE(!bool1);
 
-        CONSTEXPR_RUNTIME phi::boolean bool2(false);
+        constexpr phi::boolean bool2(false);
         STATIC_REQUIRE(!bool2);
+
+        CHECK_NOEXCEPT(!bool2);
     }
 
     SECTION("comparison")
     {
-        CONSTEXPR_RUNTIME phi::boolean bool1(true);
-        STATIC_REQUIRE(bool(bool1 == true));
-        STATIC_REQUIRE(bool(true == bool1));
-        STATIC_REQUIRE(bool(bool1 != false));
-        STATIC_REQUIRE(bool(false != bool1));
-        STATIC_REQUIRE(bool(bool1 == phi::boolean(true)));
-        STATIC_REQUIRE(bool(bool1 != phi::boolean(false)));
+        constexpr phi::boolean bool1(true);
+        STATIC_REQUIRE(bool1 == true);
+        STATIC_REQUIRE(true == bool1);
+        STATIC_REQUIRE(bool1 != false);
+        STATIC_REQUIRE(false != bool1);
+        STATIC_REQUIRE(bool1 == phi::boolean(true));
+        STATIC_REQUIRE(bool1 != phi::boolean(false));
 
-        CONSTEXPR_RUNTIME phi::boolean bool2(false);
-        STATIC_REQUIRE(bool(bool2 == false));
-        STATIC_REQUIRE(bool(false == bool2));
-        STATIC_REQUIRE(bool(bool2 != true));
-        STATIC_REQUIRE(bool(true != bool2));
-        STATIC_REQUIRE(bool(bool2 == phi::boolean(false)));
-        STATIC_REQUIRE(bool(bool2 != phi::boolean(true)));
+        constexpr phi::boolean bool2(false);
+        STATIC_REQUIRE(bool2 == false);
+        STATIC_REQUIRE(false == bool2);
+        STATIC_REQUIRE(bool2 != true);
+        STATIC_REQUIRE(true != bool2);
+        STATIC_REQUIRE(bool2 == phi::boolean(false));
+        STATIC_REQUIRE(bool2 != phi::boolean(true));
+
+        CHECK_NOEXCEPT(bool2 == false);
+        CHECK_NOEXCEPT(false == bool2);
+        CHECK_NOEXCEPT(bool2 != true);
+        CHECK_NOEXCEPT(true != bool2);
+        CHECK_NOEXCEPT(bool2 == phi::boolean(false));
+        CHECK_NOEXCEPT(bool2 != phi::boolean(true));
     }
 
     SECTION("i/o")
@@ -143,13 +257,15 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         CHECK(out_stream.str() == "1");
 
         in_stream >> boolean;
-        CHECK_FALSE(static_cast<bool>(boolean));
+        CHECK_FALSE(boolean);
     }
 
     SECTION("unsafe")
     {
-        CONSTEXPR_RUNTIME phi::boolean boolean(true);
+        constexpr phi::boolean boolean(true);
         STATIC_REQUIRE(boolean.unsafe());
+
+        CHECK_NOEXCEPT(boolean.unsafe());
     }
 
     SECTION("flip")
@@ -181,6 +297,16 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         STATIC_REQUIRE(double_flipped_bool);
 
         CHECK_NOEXCEPT(boolean.as_flipped());
+    }
+
+    SECTION("usable in an if expression")
+    {
+        const phi::boolean bool_true{true};
+
+        if (bool_true)
+        {
+            CHECK(true);
+        }
     }
 
     SECTION("std::hash")
