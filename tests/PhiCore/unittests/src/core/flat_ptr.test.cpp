@@ -4,6 +4,9 @@
 #include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/nullptr_t.hpp>
+#include <phi/core/observer_ptr.hpp>
+#include <phi/core/ref_ptr.hpp>
+#include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_copy_assignable.hpp>
 #include <phi/type_traits/is_copy_constructible.hpp>
 #include <phi/type_traits/is_default_constructible.hpp>
@@ -71,6 +74,84 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         CHECK(ptr.get() == raw_ptr1);
     }
 
+    SECTION("flat_ptr(observer_ptr)")
+    {
+        phi::observer_ptr<int> null_obs;
+        phi::flat_ptr          null_ptr(null_obs);
+        CHECK_FALSE(null_ptr);
+        CHECK(null_ptr.get() == null_obs.get());
+
+        phi::observer_ptr<int> obs(raw_ptr1);
+        phi::flat_ptr          ptr(obs);
+        CHECK(ptr);
+        CHECK(ptr.get() == obs);
+    }
+
+    SECTION("flat_ptr(not_null_observer_ptr)")
+    {
+        phi::not_null_observer_ptr<int> obs(raw_ptr1);
+        phi::flat_ptr                   ptr(obs);
+        CHECK(ptr);
+        CHECK(obs.get() == ptr.get());
+
+        phi::not_null_observer_ptr<int> obs2(raw_ptr1);
+        phi::flat_ptr                   ptr2(obs2);
+        CHECK(ptr2);
+        CHECK(obs2.get() == ptr2.get());
+    }
+
+    SECTION("flat_ptr(ref_ptr)")
+    {
+        phi::ref_ptr<int> null_ref;
+        phi::flat_ptr     null_ptr(null_ref);
+        CHECK_FALSE(null_ptr);
+        CHECK(null_ptr.get() == null_ptr.get());
+
+        phi::ref_ptr<int> ref = phi::make_ref<int>(3);
+        phi::flat_ptr     ptr(ref);
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("flat_ptr(not_null_ref_ptr)")
+    {
+        phi::not_null_ref_ptr<int> ref1 = phi::make_not_null_ref<int>(3);
+        phi::flat_ptr              ptr1(ref1);
+        CHECK(ptr1);
+        CHECK(ptr1.get() == ref1.get());
+
+        phi::not_null_ref_ptr<int> ref2 = phi::make_not_null_ref<int>(3);
+        phi::flat_ptr              ptr2(ref2);
+        CHECK(ptr2);
+        CHECK(ptr2.get() == ref2.get());
+    }
+
+    SECTION("flat_ptr(scope_ptr)")
+    {
+        phi::scope_ptr<int> null_scope;
+        phi::flat_ptr       null_ptr(null_scope);
+        CHECK_FALSE(null_ptr);
+        CHECK(null_scope.get() == null_ptr.get());
+
+        phi::scope_ptr<int> scope = phi::make_scope<int>(3);
+        phi::flat_ptr       ptr(scope);
+        CHECK(ptr);
+        CHECK(scope.get() == ptr.get());
+    }
+
+    SECTION("flat_ptr(not_null_scope_ptr)")
+    {
+        phi::not_null_scope_ptr<int> ref1 = phi::make_not_null_scope<int>(3);
+        phi::flat_ptr                ptr1(ref1);
+        CHECK(ptr1);
+        CHECK(ptr1.get() == ref1.get());
+
+        phi::not_null_scope_ptr<int> ref2 = phi::make_not_null_scope<int>(3);
+        phi::flat_ptr                ptr2(ref2);
+        CHECK(ptr2);
+        CHECK(ptr2.get() == ref2.get());
+    }
+
     SECTION("flat_ptr(const flat_ptr&)")
     {
         phi::flat_ptr base(raw_ptr1);
@@ -112,9 +193,7 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
 
     SECTION("flat_ptr(nullptr_t)")
     {
-        phi::flat_ptr ptr;
-
-        ptr = nullptr;
+        phi::flat_ptr ptr(nullptr);
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
@@ -197,6 +276,66 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("operator=(observer_ptr)")
+    {
+        phi::flat_ptr          ptr;
+        phi::observer_ptr<int> obs(raw_ptr1);
+
+        ptr = obs;
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == obs.get());
+    }
+
+    SECTION("operator=(not_null_observer_ptr)")
+    {
+        phi::flat_ptr                   ptr;
+        phi::not_null_observer_ptr<int> obs(raw_ptr1);
+
+        ptr = obs;
+        CHECK(ptr);
+        CHECK(ptr.get() == obs.get());
+    }
+
+    SECTION("operator=(ref_ptr)")
+    {
+        phi::flat_ptr     ptr;
+        phi::ref_ptr<int> ref = phi::make_ref<int>(3);
+
+        ptr = ref;
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(not_null_ref_ptr)")
+    {
+        phi::flat_ptr              ptr;
+        phi::not_null_ref_ptr<int> ref = phi::make_not_null_ref<int>(3);
+
+        ptr = ref;
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(scope_ptr)")
+    {
+        phi::flat_ptr       ptr;
+        phi::scope_ptr<int> ref = phi::make_scope<int>(3);
+
+        ptr = ref;
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(not_null_scope_ptr)")
+    {
+        phi::flat_ptr                ptr;
+        phi::not_null_scope_ptr<int> ref = phi::make_not_null_scope<int>(3);
+
+        ptr = ref;
+        CHECK(ptr);
+        CHECK(ptr.get() == ref.get());
     }
 
     SECTION("clear")
@@ -384,13 +523,31 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
         CHECK(ptr.get() == raw_ptr1);
     }
 
-    SECTION("not_null_flat_ptr(TypeT*)")
+    SECTION("not_null_flat_ptr(not_null_observer_ptr)")
     {
-        phi::not_null_flat_ptr ptr(raw_ptr1);
+        phi::not_null_flat_ptr          ptr(raw_ptr1);
+        phi::not_null_observer_ptr<int> obs(raw_ptr2);
 
-        ptr = raw_ptr2;
+        ptr = obs;
+        CHECK(ptr.get() == obs.get());
+    }
 
-        CHECK(ptr.get() == raw_ptr2);
+    SECTION("not_null_flat_ptr(not_null_ref_ptr)")
+    {
+        phi::not_null_flat_ptr     ptr(raw_ptr1);
+        phi::not_null_ref_ptr<int> ref = phi::make_not_null_ref<int>(3);
+
+        ptr = ref;
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("not_null_flat_ptr(not_null_scope_ptr)")
+    {
+        phi::not_null_flat_ptr       ptr(raw_ptr1);
+        phi::not_null_scope_ptr<int> scope = phi::make_not_null_scope<int>(3);
+
+        ptr = scope;
+        CHECK(ptr.get() == scope.get());
     }
 
     SECTION("operator=(const not_null_flat_ptr&)")
@@ -411,6 +568,42 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
         ptr = phi::move(base);
 
         CHECK(ptr.get() == raw_ptr1);
+    }
+
+    SECTION("operator=(TypeT*)")
+    {
+        phi::not_null_flat_ptr ptr(raw_ptr1);
+
+        ptr = raw_ptr2;
+
+        CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("operator=(not_null_observer_ptr)")
+    {
+        phi::not_null_flat_ptr          ptr(raw_ptr1);
+        phi::not_null_observer_ptr<int> obs(raw_ptr2);
+
+        ptr = obs;
+        CHECK(ptr.get() == obs.get());
+    }
+
+    SECTION("operator=(not_null_ref_ptr)")
+    {
+        phi::not_null_flat_ptr     ptr(raw_ptr1);
+        phi::not_null_ref_ptr<int> ref = phi::make_not_null_ref<int>(3);
+
+        ptr = ref;
+        CHECK(ptr.get() == ref.get());
+    }
+
+    SECTION("operator=(not_null_scope_ptr)")
+    {
+        phi::not_null_flat_ptr       ptr(raw_ptr1);
+        phi::not_null_scope_ptr<int> scope = phi::make_not_null_scope<int>(3);
+
+        ptr = scope;
+        CHECK(ptr.get() == scope.get());
     }
 
     SECTION("swap")

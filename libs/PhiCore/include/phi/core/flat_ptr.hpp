@@ -24,6 +24,24 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 class not_null_flat_ptr;
 
+template <typename TypeT>
+class observer_ptr;
+
+template <typename TypeT>
+class not_null_observer_ptr;
+
+template <typename TypeT>
+class ref_ptr;
+
+template <typename TypeT>
+class not_null_ref_ptr;
+
+template <typename TypeT>
+class scope_ptr;
+
+template <typename TypeT>
+class not_null_scope_ptr;
+
 class PHI_ATTRIBUTE_POINTER flat_ptr
 {
 public:
@@ -32,16 +50,47 @@ public:
     using value_type    = void*;
 
     constexpr flat_ptr() noexcept
-        : m_Ptr(nullptr)
+        : m_Pointer(nullptr)
     {}
 
     constexpr flat_ptr(nullptr_t) noexcept
-        : m_Ptr(nullptr)
+        : m_Pointer(nullptr)
     {}
 
-    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
-    constexpr flat_ptr(PtrT ptr) noexcept
-        : m_Ptr(static_cast<void*>(ptr))
+    template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
+    constexpr flat_ptr(PointerT pointer) noexcept
+        : m_Pointer(static_cast<void*>(pointer))
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(observer_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(not_null_observer_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(ref_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(not_null_ref_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(scope_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr flat_ptr(not_null_scope_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+
     {}
 
     flat_ptr(const flat_ptr& other) = default;
@@ -54,17 +103,65 @@ public:
 
     PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(nullptr_t) noexcept
     {
-        m_Ptr = nullptr;
+        m_Pointer = nullptr;
 
         return *this;
     }
 
     ~flat_ptr() = default;
 
-    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
-    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(PtrT ptr) noexcept
+    template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(PointerT pointer) noexcept
     {
-        m_Ptr = static_cast<void*>(ptr);
+        m_Pointer = static_cast<void*>(pointer);
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(observer_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(not_null_observer_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(ref_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(not_null_ref_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(scope_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(not_null_scope_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
 
         return *this;
     }
@@ -79,13 +176,13 @@ public:
 
     PHI_NODISCARD constexpr void* get() noexcept
     {
-        return m_Ptr;
+        return m_Pointer;
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD constexpr const void* get() const noexcept
     {
-        return m_Ptr;
+        return m_Pointer;
     }
 #endif
 
@@ -93,7 +190,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void clear() noexcept
     {
-        m_Ptr = nullptr;
+        m_Pointer = nullptr;
     }
 
     constexpr explicit operator bool() const noexcept
@@ -118,7 +215,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void swap(flat_ptr& other) noexcept
     {
-        phi::swap(m_Ptr, other.m_Ptr);
+        phi::swap(m_Pointer, other.m_Pointer);
     }
 
     void* operator->() = delete;
@@ -130,7 +227,7 @@ public:
     void operator*() const = delete;
 
 private:
-    void* m_Ptr;
+    void* m_Pointer;
 };
 
 constexpr boolean operator==(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
@@ -183,12 +280,27 @@ public:
 
     not_null_flat_ptr(nullptr_t) = delete;
 
-    template <typename PtrT, enable_if_t<is_pointer<PtrT>::value, bool> = true>
-    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PtrT ptr) noexcept
-        : m_Ptr(static_cast<void*>(ptr))
+    template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PointerT pointer) noexcept
+        : m_Pointer(static_cast<void*>(pointer))
     {
-        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
+        PHI_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
     }
+
+    template <typename TypeT>
+    constexpr not_null_flat_ptr(not_null_observer_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr not_null_flat_ptr(not_null_ref_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
+
+    template <typename TypeT>
+    constexpr not_null_flat_ptr(not_null_scope_ptr<TypeT>& pointer) noexcept
+        : m_Pointer{static_cast<void*>(pointer.get())}
+    {}
 
     not_null_flat_ptr(const not_null_flat_ptr&) = default;
 
@@ -198,13 +310,38 @@ public:
 
     not_null_flat_ptr& operator=(nullptr_t) = delete;
 
-    template <typename PtrT>
+    template <typename PointerT>
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(
-            enable_if_t<is_pointer<PtrT>::value, PtrT> ptr) noexcept
+            enable_if_t<is_pointer<PointerT>::value, PointerT> pointer) noexcept
     {
-        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
+        PHI_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
 
-        m_Ptr = static_cast<void*>(ptr);
+        m_Pointer = static_cast<void*>(pointer);
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(
+            not_null_observer_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(not_null_ref_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
+
+        return *this;
+    }
+
+    template <typename TypeT>
+    PHI_EXTENDED_CONSTEXPR not_null_flat_ptr& operator=(not_null_scope_ptr<TypeT>& pointer) noexcept
+    {
+        m_Pointer = static_cast<void*>(pointer.get());
 
         return *this;
     }
@@ -215,17 +352,17 @@ public:
 
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr void* get() noexcept
     {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
+        PHI_ASSERT(m_Pointer != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
-        return m_Ptr;
+        return m_Pointer;
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const void* get() const noexcept
     {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
+        PHI_ASSERT(m_Pointer != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
-        return m_Ptr;
+        return m_Pointer;
     }
 #endif
 
@@ -241,7 +378,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void swap(not_null_flat_ptr& other) noexcept
     {
-        phi::swap(m_Ptr, other.m_Ptr);
+        phi::swap(m_Pointer, other.m_Pointer);
     }
 
     void* operator->() = delete;
@@ -253,31 +390,31 @@ public:
     void operator*() const = delete;
 
 private:
-    void* m_Ptr;
+    void* m_Pointer;
 };
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
-    : m_Ptr(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)
+    : m_Pointer(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)
 {}
 
 constexpr flat_ptr::flat_ptr(not_null_flat_ptr&& other) noexcept
-    : m_Ptr(other.get())
+    : m_Pointer(other.get())
 {}
 
 PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(
         const not_null_flat_ptr& other) noexcept
 {
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
-    m_Ptr = const_cast<void*>(other.get());
+    m_Pointer = const_cast<void*>(other.get());
 
     return *this;
 }
 
 PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(not_null_flat_ptr&& other) noexcept
 {
-    m_Ptr = other.get();
+    m_Pointer = other.get();
 
     return *this;
 }
@@ -287,9 +424,9 @@ PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 PHI_EXTENDED_CONSTEXPR not_null_flat_ptr flat_ptr::release_not_null() const noexcept
 {
-    PHI_ASSERT(m_Ptr != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
+    PHI_ASSERT(m_Pointer != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
 
-    return {m_Ptr};
+    return {m_Pointer};
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()
