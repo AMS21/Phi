@@ -76,7 +76,7 @@ public:
         return *this;
     }
 
-    PHI_ALWAYS_INLINE constexpr operator bool() const noexcept
+    PHI_ALWAYS_INLINE constexpr explicit operator bool() const noexcept
     {
         return m_Value;
     }
