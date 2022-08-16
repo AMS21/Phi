@@ -127,7 +127,7 @@ public:
     constexpr pair(OtherFirstT&& other_first, OtherSecondT&& other_second) noexcept(
             is_nothrow_constructible<FirstT, OtherFirstT>::value&&
                     is_nothrow_constructible<SecondT, OtherSecondT>::value)
-        : first{forward<other_first>(other_first)}
+        : first{forward<OtherFirstT>(other_first)}
         , second{forward<OtherSecondT>(other_second)}
     {}
 
