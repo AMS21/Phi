@@ -378,6 +378,9 @@ public:
 
     PHI_EXTENDED_CONSTEXPR void swap(not_null_flat_ptr& other) noexcept
     {
+        PHI_ASSERT(m_Pointer != nullptr);
+        PHI_ASSERT(other.m_Pointer != nullptr);
+
         phi::swap(m_Pointer, other.m_Pointer);
     }
 
