@@ -284,7 +284,7 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         phi::observer_ptr<int> obs(raw_ptr1);
 
         ptr = obs;
-        CHECK_FALSE(ptr);
+        CHECK(ptr);
         CHECK(ptr.get() == obs.get());
     }
 
