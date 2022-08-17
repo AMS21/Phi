@@ -4,13 +4,11 @@ include(CMakeParseArguments)
 
 set(phi_opt_compile_flags
     fallow-store-data-races
-    fdeclone-ctor-dtor
     fdevirtualize-speculatively
     ffinite-loops
     fforce-emit-vtables
     fgcse-las
     fgcse-sm
-    fimplicit-constexpr
     fira-hoist-pressure
     fira-loop-pressure
     fisolate-erroneous-paths-attribute
@@ -25,7 +23,6 @@ set(phi_opt_compile_flags
     fsched-pressure
     fsemantic-interposition
     fstrict-aliasing
-    fstrict-enums
     fstrict-return
     fstrict-vtable-pointers
     ftree-loop-im
@@ -34,6 +31,8 @@ set(phi_opt_compile_flags
     Oi
     Ot
     GT)
+
+set(phi_opt_compile_flags_cxx fdeclone-ctor-dtor fimplicit-constexpr fstrict-enums)
 
 # Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
 if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
@@ -60,6 +59,24 @@ foreach(_test ${phi_opt_compile_flags})
   if(PHI_HAS_FLAG_${_testName})
     set(_phi_opt_compile_flags_supported
         ${_phi_opt_compile_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
+  endif()
+endforeach(_test)
+
+# Check C++ optimize flags
+set(_phi_opt_compile_flags_cxx_supported CACHE INTERNAL "")
+foreach(_test ${phi_opt_compile_flags_cxx})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    set(_phi_opt_compile_flags_cxx_supported
+        ${_phi_opt_compile_flags_cxx_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
@@ -156,6 +173,12 @@ function(phi_target_enable_optimizations)
     set(visibility_scope PRIVATE)
   endif()
 
+  # Get linker language
+  get_property(
+    target_linker_language
+    TARGET ${opt_TARGET}
+    PROPERTY LINKER_LANGUAGE)
+
   # Enable options for each specified configuration
   foreach(config ${opt_CONFIGS})
     # Enable normal optimization flags
@@ -163,6 +186,14 @@ function(phi_target_enable_optimizations)
       target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
     endforeach()
+
+    # Enable C++ only optimizations flags
+    if("${target_linker_language}" STREQUAL "CXX")
+      foreach(flag ${_phi_warning_flags_cxx_supported})
+        target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+        target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+      endforeach(flag)
+    endif()
 
     if(opt_IPO)
       if(PHI_SUPPORTS_IPO_NATIVE)
