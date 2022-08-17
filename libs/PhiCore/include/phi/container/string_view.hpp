@@ -662,7 +662,7 @@ private:
             : view(other)
         {}
 
-        PHI_NODISCARD constexpr bool operator()(CharT character) const noexcept
+        PHI_NODISCARD constexpr boolean operator()(CharT character) const noexcept
         {
             return npos == view.find_first_of(character);
         }

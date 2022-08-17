@@ -521,7 +521,7 @@ private:
             : view(other)
         {}
 
-        constexpr bool operator()(CharT character) const noexcept
+        constexpr boolean operator()(CharT character) const noexcept
         {
             return npos == view.find_first_of(character);
         }

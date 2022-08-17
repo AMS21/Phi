@@ -11,6 +11,7 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/boolean.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/disable_if.hpp"
@@ -131,7 +132,7 @@ public:
         return m_Bits;
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR bool operator[](size_t pos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean operator[](size_t pos) const noexcept
     {
         PHI_ASSERT(pos < sizeof(TypeT), "Access out of bounds");
 

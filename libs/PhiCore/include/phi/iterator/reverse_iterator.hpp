@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
+#include "phi/core/boolean.hpp"
 #include "phi/iterator/iterator_tags.hpp"
 #include "phi/iterator/iterator_traits.hpp"
 #include "phi/type_traits/conditional.hpp"
@@ -143,43 +144,43 @@ constexpr reverse_iterator<IteratorT> make_reverse_iterator(IteratorT iterator)
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator==(const reverse_iterator<LhsIteratorT>& lhs,
-                          const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator==(const reverse_iterator<LhsIteratorT>& lhs,
+                             const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() == rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator!=(const reverse_iterator<LhsIteratorT>& lhs,
-                          const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator!=(const reverse_iterator<LhsIteratorT>& lhs,
+                             const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() != rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator<(const reverse_iterator<LhsIteratorT>& lhs,
-                         const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator<(const reverse_iterator<LhsIteratorT>& lhs,
+                            const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() > rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator<=(const reverse_iterator<LhsIteratorT>& lhs,
-                          const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator<=(const reverse_iterator<LhsIteratorT>& lhs,
+                             const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() >= rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator>(const reverse_iterator<LhsIteratorT>& lhs,
-                         const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator>(const reverse_iterator<LhsIteratorT>& lhs,
+                            const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() < rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr bool operator>=(const reverse_iterator<LhsIteratorT>& lhs,
-                          const reverse_iterator<RhsIteratorT>& rhs)
+constexpr boolean operator>=(const reverse_iterator<LhsIteratorT>& lhs,
+                             const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() <= rhs.base();
 }

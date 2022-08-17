@@ -19,6 +19,7 @@
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/address_of.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/boolean.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"
@@ -1193,187 +1194,189 @@ PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
 
 /// Compares two optional objects
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator==(const optional<TypeT>&  lhs,
-                                             const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator==(const optional<TypeT>&  lhs,
+                                                const optional<OtherT>& rhs)
 {
     return lhs.has_value() == rhs.has_value() && (!lhs.has_value() || *lhs == *rhs);
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator!=(const optional<TypeT>&  lhs,
-                                             const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator!=(const optional<TypeT>&  lhs,
+                                                const optional<OtherT>& rhs)
 {
     return lhs.has_value() != rhs.has_value() || (lhs.has_value() && *lhs != *rhs);
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<(const optional<TypeT>& lhs, const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<(const optional<TypeT>&  lhs,
+                                               const optional<OtherT>& rhs)
 {
     return rhs.has_value() && (!lhs.has_value() || *lhs < *rhs);
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>(const optional<TypeT>& lhs, const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>(const optional<TypeT>&  lhs,
+                                               const optional<OtherT>& rhs)
 {
     return lhs.has_value() && (!rhs.has_value() || *lhs > *rhs);
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<=(const optional<TypeT>&  lhs,
-                                             const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<=(const optional<TypeT>&  lhs,
+                                                const optional<OtherT>& rhs)
 {
     return !lhs.has_value() || (rhs.has_value() && *lhs <= *rhs);
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>=(const optional<TypeT>&  lhs,
-                                             const optional<OtherT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>=(const optional<TypeT>&  lhs,
+                                                const optional<OtherT>& rhs)
 {
     return !rhs.has_value() || (lhs.has_value() && *lhs >= *rhs);
 }
 
 /// Compares an optional to a `nullopt`
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator==(const optional<TypeT>& lhs, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator==(const optional<TypeT>& lhs, nullopt_t) noexcept
 {
     return !lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator==(nullopt_t, const optional<TypeT>& rhs) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator==(nullopt_t, const optional<TypeT>& rhs) noexcept
 {
     return !rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator!=(const optional<TypeT>& lhs, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator!=(const optional<TypeT>& lhs, nullopt_t) noexcept
 {
     return lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator!=(nullopt_t, const optional<TypeT>& rhs) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator!=(nullopt_t, const optional<TypeT>& rhs) noexcept
 {
     return rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<(const optional<TypeT>&, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator<(const optional<TypeT>&, nullopt_t) noexcept
 {
     return false;
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<(nullopt_t, const optional<TypeT>& rhs) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator<(nullopt_t, const optional<TypeT>& rhs) noexcept
 {
     return rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<=(const optional<TypeT>& lhs, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator<=(const optional<TypeT>& lhs, nullopt_t) noexcept
 {
     return !lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<=(nullopt_t, const optional<TypeT>&) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator<=(nullopt_t, const optional<TypeT>&) noexcept
 {
     return true;
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>(const optional<TypeT>& lhs, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator>(const optional<TypeT>& lhs, nullopt_t) noexcept
 {
     return lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>(nullopt_t, const optional<TypeT>&) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator>(nullopt_t, const optional<TypeT>&) noexcept
 {
     return false;
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>=(const optional<TypeT>&, nullopt_t) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator>=(const optional<TypeT>&, nullopt_t) noexcept
 {
     return true;
 }
 
 template <typename TypeT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>=(nullopt_t, const optional<TypeT>& rhs) noexcept
+PHI_ATTRIBUTE_PURE constexpr boolean operator>=(nullopt_t, const optional<TypeT>& rhs) noexcept
 {
     return !rhs.has_value();
 }
 
 /// Compares the optional with a value.
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator==(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator==(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs == rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator==(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator==(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs == *rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator!=(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator!=(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs != rhs : true;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator!=(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator!=(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs != *rhs : true;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs < rhs : true;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs < *rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<=(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<=(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs <= rhs : true;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator<=(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator<=(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs <= *rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs > rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs > *rhs : true;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>=(const optional<TypeT>& lhs, const OtherT& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>=(const optional<TypeT>& lhs, const OtherT& rhs)
 {
     return lhs.has_value() ? *lhs >= rhs : false;
 }
 
 template <typename TypeT, typename OtherT>
-PHI_ATTRIBUTE_PURE constexpr bool operator>=(const OtherT& lhs, const optional<TypeT>& rhs)
+PHI_ATTRIBUTE_PURE constexpr boolean operator>=(const OtherT& lhs, const optional<TypeT>& rhs)
 {
     return rhs.has_value() ? lhs >= *rhs : true;
 }

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/core/boolean.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/detail/nat.hpp"
@@ -237,37 +238,37 @@ public:
 // 22.3.3 Specialized algorithms, https://eel.is/c++draft/pairs#spec
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator==(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator==(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator!=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator!=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return !(lhs == rhs);
 }
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator<(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator<(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second);
 }
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator>(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator>(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return rhs < lhs;
 }
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator>=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator>=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return !(lhs < rhs);
 }
 
 template <typename FirstT, typename SecondT>
-constexpr bool operator<=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
+constexpr boolean operator<=(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs)
 {
     return !(rhs < lhs);
 }
