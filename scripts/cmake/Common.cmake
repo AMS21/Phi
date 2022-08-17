@@ -9,11 +9,10 @@ set(phi_common_flags
     fmacro-backtrace-limit=0
     fms-extensions
     fdeclspec
-    fborland-extensions
-    fchar8_t)
+    fborland-extensions)
 
 # common useful cxx flags
-set(phi_common_cxx_only_flags fcoroutines fconcepts)
+set(phi_common_cxx_only_flags fcoroutines fconcepts fchar8_t)
 
 # clang and emcc say they accept "-bigobj" but then give a warning
 if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
