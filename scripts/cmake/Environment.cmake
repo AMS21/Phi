@@ -76,19 +76,25 @@ if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Cl
   if(PHI_PLATFORM_EMSCRIPTEN)
     phi_set_cache_value(NAME PHI_COMPILER_EMCC VALUE 1)
 
-    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE EMCC_VERSION_OUTPUT)
-    string(REGEX REPLACE ".*emcc .* ([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1" PHI_EMCC_VERSION
-                         "${EMCC_VERSION_OUTPUT}")
-    string(REGEX REPLACE ".*-git \\(([A-Za-z0-9]+)\\).*" "\\1" PHI_EMCC_GIT_SHA
-                         "${EMCC_VERSION_OUTPUT}")
+    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion"
+                    OUTPUT_VARIABLE EMCC_VERSION_OUTPUT)
+    string(REGEX REPLACE "([.0-9]+).*" "\\1" PHI_EMCC_VERSION "${EMCC_VERSION_OUTPUT}")
 
-    phi_trace("Compiler: emcc-${PHI_EMCC_VERSION} (${PHI_EMCC_GIT_SHA})")
+    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_EMCC_MACHINE)
+    string(STRIP "${PHI_EMCC_MACHINE}" PHI_EMCC_MACHINE)
+
+    phi_trace("Compiler: emcc-${PHI_EMCC_VERSION}")
+    phi_trace("Machine: ${PHI_EMCC_MACHINE}")
   else()
     phi_set_cache_value(NAME PHI_COMPILER_CLANG VALUE 1)
     execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version"
                     OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
-    string(REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" PHI_CLANG_VERSION
+    string(REGEX REPLACE ".*clang version ([.0-9]+).*" "\\1" PHI_CLANG_VERSION
                          "${CLANG_VERSION_OUTPUT}")
+
+    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine"
+                    OUTPUT_VARIABLE PHI_CLANG_MACHINE)
+    string(STRIP "${PHI_CLANG_MACHINE}" PHI_CLANG_MACHINE)
 
     phi_trace("Compiler: Clang-${PHI_CLANG_VERSION}")
 
@@ -97,12 +103,14 @@ if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Cl
       phi_set_cache_value(NAME PHI_COMPILER_APPLECLANG VALUE 1)
       phi_trace("Compiler: AppleClang")
     endif()
+
+    phi_trace("Machine: ${PHI_CLANG_MACHINE}")
   endif()
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   phi_set_cache_value(NAME PHI_COMPILER_GCC VALUE 1)
 
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion" OUTPUT_VARIABLE GCC_VERSION_OUTPUT)
-  string(REGEX REPLACE "([0-9]+\\.[0-9]+).*" "\\1" PHI_GCC_VERSION "${GCC_VERSION_OUTPUT}")
+  string(REGEX REPLACE "([.0-9]+).*" "\\1" PHI_GCC_VERSION "${GCC_VERSION_OUTPUT}")
 
   execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE GCC_COMPILER_VERSION)
   string(REGEX MATCHALL ".*(tdm[64]*-[1-9]).*" PHI_COMPILER_GCC_TDM "${GCC_COMPILER_VERSION}")
@@ -255,6 +263,10 @@ elseif(MSVC)
   elseif(MSVC_VERSION EQUAL 1932)
     phi_set_cache_value(NAME PHI_MSVC_VERSION VALUE 14.32)
     phi_set_cache_value(NAME PHI_MSVC_NAME VALUE "Visual Studio 2022 Version 17.2")
+    phi_set_cache_value(NAME PHI_MSVC_YEAR VALUE "2022")
+  elseif(MSVC_VERSION EQUAL 1933)
+    phi_set_cache_value(NAME PHI_MSVC_VERSION VALUE 14.33)
+    phi_set_cache_value(NAME PHI_MSVC_NAME VALUE "Visual Studio 2022 Version 17.3")
     phi_set_cache_value(NAME PHI_MSVC_YEAR VALUE "2022")
   else()
     phi_warn("Unknown version of MSVC used. MSVC_VERSION=${MSVC_VERSION}")
