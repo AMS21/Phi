@@ -43,6 +43,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_enum_v = !PHI_IS_ENUM(TypeT);
 #    include "phi/type_traits/is_function.hpp"
 #    include "phi/type_traits/is_integral.hpp"
 #    include "phi/type_traits/is_member_pointer.hpp"
+#    include "phi/type_traits/is_null_pointer.hpp"
 #    include "phi/type_traits/is_pointer.hpp"
 #    include "phi/type_traits/is_reference.hpp"
 #    include "phi/type_traits/is_union.hpp"
@@ -57,11 +58,13 @@ PHI_INLINE_VARIABLE constexpr bool is_not_enum_v = !PHI_IS_ENUM(TypeT);
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_enum : public bool_constant<!is_void<TypeT>::value && !is_integral<TypeT>::value &&
-                                      !is_floating_point<TypeT>::value && !is_array<TypeT>::value &&
-                                      !is_pointer<TypeT>::value && !is_reference<TypeT>::value &&
-                                      !is_member_pointer<TypeT>::value && !is_union<TypeT>::value &&
-                                      !is_class<TypeT>::value && !is_function<TypeT>::value>
+struct is_enum
+    : public bool_constant<is_not_void<TypeT>::value && is_not_integral<TypeT>::value &&
+                           is_not_floating_point<TypeT>::value && is_not_array<TypeT>::value &&
+                           is_not_pointer<TypeT>::value && is_not_reference<TypeT>::value &&
+                           is_not_member_pointer<TypeT>::value && is_not_union<TypeT>::value &&
+                           is_not_class<TypeT>::value && is_not_function<TypeT>::value &&
+                           is_not_null_pointer<TypeT>::value>
 {};
 
 template <typename TypeT>
