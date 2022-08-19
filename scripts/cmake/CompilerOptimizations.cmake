@@ -82,7 +82,7 @@ foreach(_test ${phi_opt_compile_flags_cxx})
 endforeach(_test)
 
 # Check IPO support
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.9")
   # Use the version supplied by cmake
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result OUTPUT output)
