@@ -177,6 +177,7 @@ file(
   "src/type_traits/is_derived_from.test.cpp"
   "src/type_traits/is_destructible.test.cpp"
   "src/type_traits/is_empty.test.cpp"
+  "src/type_traits/is_enum.nointrinsic.test.cpp"
   "src/type_traits/is_enum.test.cpp"
   "src/type_traits/is_final.test.cpp"
   "src/type_traits/is_floating_point.test.cpp"
