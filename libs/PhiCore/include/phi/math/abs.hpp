@@ -18,7 +18,6 @@
 #include "phi/core/assert.hpp"
 #include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/integral_constant.hpp"
-#include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/is_floating_point.hpp"
 #include "phi/type_traits/is_integral.hpp"
 #include "phi/type_traits/is_signed.hpp"
