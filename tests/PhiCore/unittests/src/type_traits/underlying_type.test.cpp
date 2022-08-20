@@ -1,9 +1,9 @@
 #include <phi/test/test_macros.hpp>
 
-#include "phi/compiler_support/warning.hpp"
 #include "test_types.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -74,39 +74,235 @@ enum F
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
-enum G : char
+// unscoped enums
+enum EnumEmpty
 {
 };
 
-enum class H
-{
-    red,
-    green = 20,
-    blue
-};
-
-enum class I : long
+enum EnumWithMembers
 {
     red,
     green = 20,
     blue
 };
 
-enum struct J
+enum EnumBool : bool
+{
+};
+
+enum EnumChar : char
+{
+};
+
+enum EnumSignedChar : signed char
+{
+};
+
+enum EnumUnsignedChar : unsigned char
+{
+};
+
+enum EnumShort : short
+{
+};
+
+enum EnumUnsignedShort : unsigned short
+{
+};
+
+enum EnumInt : int
+{
+};
+
+enum EnumUnsignedInt : unsigned
+{
+};
+
+enum EnumLong : long
+{
+};
+
+enum EnumUnsignedLong : unsigned long
+{
+};
+
+enum EnumLongLong : long long
+{
+};
+
+enum EnumUnsignedLongLong : unsigned long long
+{
+};
+
+enum EnumChar8T : char8_t
+{
+};
+
+enum EnumChar16T : char16_t
+{
+};
+
+enum EnumChar32T : char32_t
+{
+};
+
+enum EnumWCharT : wchar_t
+{
+};
+
+// class enums
+enum class EnumClassEmpty
+{
+};
+
+enum class EnumClassWithMembers
 {
     red,
     green = 20,
     blue
 };
 
-enum struct K : short
+enum class EnumClassBool : bool
+{
+};
+
+enum class EnumClassChar : char
+{
+};
+
+enum class EnumClassSignedChar : signed char
+{
+};
+
+enum class EnumClassUnsignedChar : unsigned char
+{
+};
+
+enum class EnumClassShort : short
+{
+};
+
+enum class EnumClassUnsignedShort : unsigned short
+{
+};
+
+enum class EnumClassInt : int
+{
+};
+
+enum class EnumClassUnsignedInt : unsigned
+{
+};
+
+enum class EnumClassLong : long
+{
+};
+
+enum class EnumClassUnsignedLong : unsigned long
+{
+};
+
+enum class EnumClassLongLong : long long
+{
+};
+
+enum class EnumClassUnsignedLongLong : unsigned long long
+{
+};
+
+enum class EnumClassChar8T : char8_t
+{
+};
+
+enum class EnumClassChar16T : char16_t
+{
+};
+
+enum class EnumClassChar32T : char32_t
+{
+};
+
+enum class EnumClassWCharT : wchar_t
+{
+};
+
+// struct enums
+enum struct EnumStructEmpty
+{
+};
+
+enum struct EnumStructWithMembers
 {
     red,
     green = 20,
     blue
 };
 
-TEST_CASE("is_void")
+enum struct EnumStructBool : bool
+{
+};
+
+enum struct EnumStructChar : char
+{
+};
+
+enum struct EnumStructSignedChar : signed char
+{
+};
+
+enum struct EnumStructUnsignedChar : unsigned char
+{
+};
+
+enum struct EnumStructShort : short
+{
+};
+
+enum struct EnumStructUnsignedShort : unsigned short
+{
+};
+
+enum struct EnumStructInt : int
+{
+};
+
+enum struct EnumStructUnsignedInt : unsigned
+{
+};
+
+enum struct EnumStructLong : long
+{
+};
+
+enum struct EnumStructUnsignedLong : unsigned long
+{
+};
+
+enum struct EnumStructLongLong : long long
+{
+};
+
+enum struct EnumStructUnsignedLongLong : unsigned long long
+{
+};
+
+enum struct EnumStructChar8T : char8_t
+{
+};
+
+enum struct EnumStructChar16T : char16_t
+{
+};
+
+enum struct EnumStructChar32T : char32_t
+{
+};
+
+enum struct EnumStructWCharT : wchar_t
+{
+};
+
+TEST_CASE("underlying_type")
 {
     test_underlying_type<E, int>();
 #if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
@@ -114,11 +310,66 @@ TEST_CASE("is_void")
 #else
     test_underlying_type<F, unsigned>();
 #endif
-    test_underlying_type<G, char>();
-    test_underlying_type<H, int>();
-    test_underlying_type<I, long>();
-    test_underlying_type<J, int>();
-    test_underlying_type<K, short>();
+
+    // Unscoped enum
+    test_underlying_type<EnumEmpty, unsigned>();
+    test_underlying_type<EnumWithMembers, unsigned>();
+    test_underlying_type<EnumBool, bool>();
+    test_underlying_type<EnumChar, char>();
+    test_underlying_type<EnumSignedChar, signed char>();
+    test_underlying_type<EnumUnsignedChar, unsigned char>();
+    test_underlying_type<EnumShort, short>();
+    test_underlying_type<EnumUnsignedShort, unsigned short>();
+    test_underlying_type<EnumInt, int>();
+    test_underlying_type<EnumUnsignedInt, unsigned>();
+    test_underlying_type<EnumLong, long>();
+    test_underlying_type<EnumUnsignedLong, unsigned long>();
+    test_underlying_type<EnumLongLong, long long>();
+    test_underlying_type<EnumUnsignedLongLong, unsigned long long>();
+    test_underlying_type<EnumChar8T, char8_t>();
+    test_underlying_type<EnumChar16T, char16_t>();
+    test_underlying_type<EnumChar32T, char32_t>();
+    test_underlying_type<EnumWCharT, wchar_t>();
+
+    // Class enum
+    test_underlying_type<EnumClassEmpty, int>();
+    test_underlying_type<EnumClassWithMembers, int>();
+    test_underlying_type<EnumClassBool, bool>();
+    test_underlying_type<EnumClassChar, char>();
+    test_underlying_type<EnumClassSignedChar, signed char>();
+    test_underlying_type<EnumClassUnsignedChar, unsigned char>();
+    test_underlying_type<EnumClassShort, short>();
+    test_underlying_type<EnumClassUnsignedShort, unsigned short>();
+    test_underlying_type<EnumClassInt, int>();
+    test_underlying_type<EnumClassUnsignedInt, unsigned>();
+    test_underlying_type<EnumClassLong, long>();
+    test_underlying_type<EnumClassUnsignedLong, unsigned long>();
+    test_underlying_type<EnumClassLongLong, long long>();
+    test_underlying_type<EnumClassUnsignedLongLong, unsigned long long>();
+    test_underlying_type<EnumClassChar8T, char8_t>();
+    test_underlying_type<EnumClassChar16T, char16_t>();
+    test_underlying_type<EnumClassChar32T, char32_t>();
+    test_underlying_type<EnumClassWCharT, wchar_t>();
+
+    // Struct enum
+    test_underlying_type<EnumStructEmpty, int>();
+    test_underlying_type<EnumStructWithMembers, int>();
+    test_underlying_type<EnumStructBool, bool>();
+    test_underlying_type<EnumStructChar, char>();
+    test_underlying_type<EnumStructSignedChar, signed char>();
+    test_underlying_type<EnumStructUnsignedChar, unsigned char>();
+    test_underlying_type<EnumStructShort, short>();
+    test_underlying_type<EnumStructUnsignedShort, unsigned short>();
+    test_underlying_type<EnumStructInt, int>();
+    test_underlying_type<EnumStructUnsignedInt, unsigned>();
+    test_underlying_type<EnumStructLong, long>();
+    test_underlying_type<EnumStructUnsignedLong, unsigned long>();
+    test_underlying_type<EnumStructLongLong, long long>();
+    test_underlying_type<EnumStructUnsignedLongLong, unsigned long long>();
+    test_underlying_type<EnumStructChar8T, char8_t>();
+    test_underlying_type<EnumStructChar16T, char16_t>();
+    test_underlying_type<EnumStructChar32T, char32_t>();
+    test_underlying_type<EnumStructWCharT, wchar_t>();
 
     test_no_underlying_type<void>();
     test_no_underlying_type<phi::nullptr_t>();
@@ -227,14 +478,24 @@ TEST_CASE("is_void")
     test_no_underlying_type<protected_derived_from<base>>();
     test_no_underlying_type<protected_derived_from<derived>>();
     test_no_underlying_type<protected_derived_from<class_type>>();
+    test_no_underlying_type<virtual_derived_from<base>>();
+    test_no_underlying_type<virtual_derived_from<derived>>();
+    test_no_underlying_type<virtual_derived_from<class_type>>();
     test_no_underlying_type<union_type>();
     test_no_underlying_type<non_empty_union>();
+    test_no_underlying_type<non_trivial_union>();
     test_no_underlying_type<empty>();
     test_no_underlying_type<not_empty>();
+    test_no_underlying_type<non_trivial>();
     test_no_underlying_type<bit_zero>();
     test_no_underlying_type<bit_one>();
     test_no_underlying_type<base>();
     test_no_underlying_type<derived>();
+    test_no_underlying_type<non_empty_base>();
+    test_no_underlying_type<empty_base>();
+    test_no_underlying_type<virtual_base>();
+    test_no_underlying_type<polymorphic>();
+    test_no_underlying_type<derived_polymorphic>();
     test_no_underlying_type<abstract>();
     test_no_underlying_type<public_abstract>();
     test_no_underlying_type<private_abstract>();
@@ -243,7 +504,11 @@ TEST_CASE("is_void")
     test_no_underlying_type<abstract_template<double>>();
     test_no_underlying_type<abstract_template<class_type>>();
     test_no_underlying_type<abstract_template<incomplete_type>>();
+    test_no_underlying_type<public_abstract_deleted_destructor>();
+    test_no_underlying_type<protected_abstract_deleted_destructor>();
+    test_no_underlying_type<private_abstract_deleted_destructor>();
     test_no_underlying_type<final_type>();
+    test_no_underlying_type<final_derived>();
     test_no_underlying_type<public_destructor>();
     test_no_underlying_type<protected_destructor>();
     test_no_underlying_type<private_destructor>();
@@ -259,6 +524,76 @@ TEST_CASE("is_void")
     test_no_underlying_type<deleted_virtual_public_destructor>();
     test_no_underlying_type<deleted_virtual_protected_destructor>();
     test_no_underlying_type<deleted_virtual_private_destructor>();
+    test_no_underlying_type<explicit_class>();
+    test_no_underlying_type<nothrow_explicit_class>();
+    test_no_underlying_type<throw_explicit_class>();
+    test_no_underlying_type<throw_default_class>();
+    test_no_underlying_type<throw_copy_constructible_class>();
+    test_no_underlying_type<throw_move_constructible_class>();
+    test_no_underlying_type<throw_destructor>();
+    test_no_underlying_type<noexcept_explicit_class>();
+    test_no_underlying_type<except_explicit_class>();
+    test_no_underlying_type<noexcept_default_class>();
+    test_no_underlying_type<except_default_class>();
+    test_no_underlying_type<noexcept_copy_constructible_class>();
+    test_no_underlying_type<except_copy_constructible_class>();
+    test_no_underlying_type<noexcept_move_constructible_class>();
+    test_no_underlying_type<except_move_constructible_class>();
+    test_no_underlying_type<noexcept_copy_assign_class>();
+    test_no_underlying_type<except_copy_assign_class>();
+    test_no_underlying_type<noexcept_move_assign_class>();
+    test_no_underlying_type<except_move_assign_class>();
+    test_no_underlying_type<deleted_copy_assign_class>();
+    test_no_underlying_type<deleted_move_assign_class>();
+    test_no_underlying_type<noexcept_move_constructible_and_assignable_class>();
+    test_no_underlying_type<except_move_constructible_noexcept_move_assign_class>();
+    test_no_underlying_type<noexcept_move_constructible_except_move_assign_class>();
+    test_no_underlying_type<except_move_constructible_and_assign_class>();
+    test_no_underlying_type<implicit_to<int>>();
+    test_no_underlying_type<implicit_to<float>>();
+    test_no_underlying_type<implicit_to<class_type>>();
+    test_no_underlying_type<deleted_implicit_to<int>>();
+    test_no_underlying_type<deleted_implicit_to<float>>();
+    test_no_underlying_type<deleted_implicit_to<class_type>>();
+    test_no_underlying_type<explicit_to<int>>();
+    test_no_underlying_type<explicit_to<float>>();
+    test_no_underlying_type<explicit_to<class_type>>();
+    test_no_underlying_type<deleted_explicit_to<int>>();
+    test_no_underlying_type<deleted_explicit_to<float>>();
+    test_no_underlying_type<deleted_explicit_to<class_type>>();
+    test_no_underlying_type<ellipsis>();
+    test_no_underlying_type<deleted_ellipsis>();
+    test_no_underlying_type<copy_constructible_only_type>();
+    test_no_underlying_type<move_constructible_only_type>();
+    test_no_underlying_type<overloaded_operators>();
+    test_no_underlying_type<public_int_member>();
+    test_no_underlying_type<protected_int_member>();
+    test_no_underlying_type<private_int_member>();
+    test_no_underlying_type<public_static_int_member>();
+    test_no_underlying_type<protected_static_int_member>();
+    test_no_underlying_type<private_static_int_member>();
+    test_no_underlying_type<public_template_member<int>>();
+    test_no_underlying_type<public_template_member<float>>();
+    test_no_underlying_type<public_template_member<class_type>>();
+    test_no_underlying_type<protected_template_member<int>>();
+    test_no_underlying_type<protected_template_member<float>>();
+    test_no_underlying_type<protected_template_member<class_type>>();
+    test_no_underlying_type<private_template_member<int>>();
+    test_no_underlying_type<private_template_member<float>>();
+    test_no_underlying_type<private_template_member<class_type>>();
+    test_no_underlying_type<public_static_template_member<int>>();
+    test_no_underlying_type<public_static_template_member<float>>();
+    test_no_underlying_type<public_static_template_member<class_type>>();
+    test_no_underlying_type<protected_static_template_member<int>>();
+    test_no_underlying_type<protected_static_template_member<float>>();
+    test_no_underlying_type<protected_static_template_member<class_type>>();
+    test_no_underlying_type<private_static_template_member<int>>();
+    test_no_underlying_type<private_static_template_member<float>>();
+    test_no_underlying_type<private_static_template_member<class_type>>();
+    test_no_underlying_type<cannot_instantiate<int>>();
+    test_no_underlying_type<cannot_instantiate<float>>();
+    test_no_underlying_type<cannot_instantiate<class_type>>();
+    test_no_underlying_type<natural_alignment>();
 #if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
     test_underlying_type<Enum, int>();
 #else
@@ -272,6 +607,9 @@ TEST_CASE("is_void")
     test_no_underlying_type<function_ptr>();
     test_no_underlying_type<member_object_ptr>();
     test_no_underlying_type<member_function_ptr>();
+    test_no_underlying_type<lambda_type>();
+    test_no_underlying_type<lambda_noexcept_type>();
+    test_no_underlying_type<lambda_throws_type>();
     test_no_underlying_type<incomplete_type>();
     test_no_underlying_type<incomplete_template<void>>();
     test_no_underlying_type<incomplete_template<int>>();
@@ -283,48 +621,39 @@ TEST_CASE("is_void")
     test_no_underlying_type<incomplete_variadic_template<class_type>>();
     test_no_underlying_type<incomplete_variadic_template<incomplete_type>>();
     test_no_underlying_type<incomplete_variadic_template<int, void, class_type, volatile char[]>>();
+    test_no_underlying_type<incomplete_union>();
+    test_underlying_type<IncompleteEnumSigned, int>();
+    test_underlying_type<IncompleteEnumUnsigned, unsigned>();
+    test_underlying_type<IncompleteEnumClass, int>();
+    test_underlying_type<IncompleteEnumStruct, int>();
     test_no_underlying_type<int class_type::*>();
     test_no_underlying_type<float class_type::*>();
     test_no_underlying_type<void * class_type::*>();
     test_no_underlying_type<int * class_type::*>();
+    test_no_underlying_type<Enum class_type::*>();
+    test_no_underlying_type<not_empty class_type::*>();
     test_no_underlying_type<int class_type::*&>();
     test_no_underlying_type<float class_type::*&>();
     test_no_underlying_type<void * class_type::*&>();
     test_no_underlying_type<int * class_type::*&>();
+    test_no_underlying_type<Enum class_type::*&>();
+    test_no_underlying_type<not_empty class_type::*&>();
     test_no_underlying_type<int class_type::*&&>();
     test_no_underlying_type<float class_type::*&&>();
     test_no_underlying_type<void * class_type::*&&>();
     test_no_underlying_type<int * class_type::*&&>();
-    test_no_underlying_type<int class_type::*const>();
-    test_no_underlying_type<float class_type::*const>();
-    test_no_underlying_type<void * class_type::*const>();
-    test_no_underlying_type<int class_type::*const&>();
-    test_no_underlying_type<float class_type::*const&>();
-    test_no_underlying_type<void * class_type::*const&>();
-    test_no_underlying_type<int class_type::*const&&>();
-    test_no_underlying_type<float class_type::*const&&>();
-    test_no_underlying_type<void * class_type::*const&&>();
-    test_no_underlying_type<int class_type::*volatile>();
-    test_no_underlying_type<float class_type::*volatile>();
-    test_no_underlying_type<void * class_type::*volatile>();
-    test_no_underlying_type<int class_type::*volatile&>();
-    test_no_underlying_type<float class_type::*volatile&>();
-    test_no_underlying_type<void * class_type::*volatile&>();
-    test_no_underlying_type<int class_type::*volatile&&>();
-    test_no_underlying_type<float class_type::*volatile&&>();
-    test_no_underlying_type<void * class_type::*volatile&&>();
-    test_no_underlying_type<int class_type::*const volatile>();
-    test_no_underlying_type<float class_type::*const volatile>();
-    test_no_underlying_type<void * class_type::*const volatile>();
-    test_no_underlying_type<int class_type::*const volatile&>();
-    test_no_underlying_type<float class_type::*const volatile&>();
-    test_no_underlying_type<void * class_type::*const volatile&>();
-    test_no_underlying_type<int class_type::*const volatile&&>();
-    test_no_underlying_type<float class_type::*const volatile&&>();
-    test_no_underlying_type<void * class_type::*const volatile&&>();
+    test_no_underlying_type<Enum class_type::*&&>();
+    test_no_underlying_type<not_empty class_type::*&&>();
+    test_no_underlying_type<non_default_constructible>();
+    test_no_underlying_type<non_copy_constructible>();
+    test_no_underlying_type<non_move_constructible>();
+    test_no_underlying_type<non_copy_assignable>();
+    test_no_underlying_type<non_move_assignable>();
+    test_no_underlying_type<non_assignable>();
     test_no_underlying_type<non_copyable>();
     test_no_underlying_type<non_moveable>();
     test_no_underlying_type<non_constructible>();
+    test_no_underlying_type<non_destructible>();
     test_no_underlying_type<tracked>();
     test_no_underlying_type<trap_constructible>();
     test_no_underlying_type<trap_implicit_conversion>();
@@ -333,6 +662,16 @@ TEST_CASE("is_void")
     test_no_underlying_type<trap_self_assign>();
     test_no_underlying_type<trap_deref>();
     test_no_underlying_type<trap_array_subscript>();
+
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_SUPPORTS_IS_ENUM()
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
+
+    test_no_underlying_type<int[0]>();
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+    PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif
 
     test_no_underlying_type<void()>();
     test_no_underlying_type<void()&>();

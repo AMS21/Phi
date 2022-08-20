@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -114,8 +115,10 @@ void test_is_enum_impl()
 #    endif
 #endif
 
+#if PHI_HAS_WORKING_IS_ENUM()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_enum<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_enum<TypeT>);
+#endif
 
     // Standard compatibility
 #if PHI_HAS_WORKING_IS_ENUM()
@@ -276,14 +279,24 @@ TEST_CASE("is_enum")
     test_is_not_enum<protected_derived_from<base>>();
     test_is_not_enum<protected_derived_from<derived>>();
     test_is_not_enum<protected_derived_from<class_type>>();
+    test_is_not_enum<virtual_derived_from<base>>();
+    test_is_not_enum<virtual_derived_from<derived>>();
+    test_is_not_enum<virtual_derived_from<class_type>>();
     test_is_not_enum<union_type>();
     test_is_not_enum<non_empty_union>();
+    test_is_not_enum<non_trivial_union>();
     test_is_not_enum<empty>();
     test_is_not_enum<not_empty>();
+    test_is_not_enum<non_trivial>();
     test_is_not_enum<bit_zero>();
     test_is_not_enum<bit_one>();
     test_is_not_enum<base>();
     test_is_not_enum<derived>();
+    test_is_not_enum<non_empty_base>();
+    test_is_not_enum<empty_base>();
+    test_is_not_enum<virtual_base>();
+    test_is_not_enum<polymorphic>();
+    test_is_not_enum<derived_polymorphic>();
     test_is_not_enum<abstract>();
     test_is_not_enum<public_abstract>();
     test_is_not_enum<private_abstract>();
@@ -292,7 +305,11 @@ TEST_CASE("is_enum")
     test_is_not_enum<abstract_template<double>>();
     test_is_not_enum<abstract_template<class_type>>();
     test_is_not_enum<abstract_template<incomplete_type>>();
+    test_is_not_enum<public_abstract_deleted_destructor>();
+    test_is_not_enum<protected_abstract_deleted_destructor>();
+    test_is_not_enum<private_abstract_deleted_destructor>();
     test_is_not_enum<final_type>();
+    test_is_not_enum<final_derived>();
     test_is_not_enum<public_destructor>();
     test_is_not_enum<protected_destructor>();
     test_is_not_enum<private_destructor>();
@@ -308,7 +325,76 @@ TEST_CASE("is_enum")
     test_is_not_enum<deleted_virtual_public_destructor>();
     test_is_not_enum<deleted_virtual_protected_destructor>();
     test_is_not_enum<deleted_virtual_private_destructor>();
-    test_is_not_enum<final_type>();
+    test_is_not_enum<explicit_class>();
+    test_is_not_enum<nothrow_explicit_class>();
+    test_is_not_enum<throw_explicit_class>();
+    test_is_not_enum<throw_default_class>();
+    test_is_not_enum<throw_copy_constructible_class>();
+    test_is_not_enum<throw_move_constructible_class>();
+    test_is_not_enum<throw_destructor>();
+    test_is_not_enum<noexcept_explicit_class>();
+    test_is_not_enum<except_explicit_class>();
+    test_is_not_enum<noexcept_default_class>();
+    test_is_not_enum<except_default_class>();
+    test_is_not_enum<noexcept_copy_constructible_class>();
+    test_is_not_enum<except_copy_constructible_class>();
+    test_is_not_enum<noexcept_move_constructible_class>();
+    test_is_not_enum<except_move_constructible_class>();
+    test_is_not_enum<noexcept_copy_assign_class>();
+    test_is_not_enum<except_copy_assign_class>();
+    test_is_not_enum<noexcept_move_assign_class>();
+    test_is_not_enum<except_move_assign_class>();
+    test_is_not_enum<deleted_copy_assign_class>();
+    test_is_not_enum<deleted_move_assign_class>();
+    test_is_not_enum<noexcept_move_constructible_and_assignable_class>();
+    test_is_not_enum<except_move_constructible_noexcept_move_assign_class>();
+    test_is_not_enum<noexcept_move_constructible_except_move_assign_class>();
+    test_is_not_enum<except_move_constructible_and_assign_class>();
+    test_is_not_enum<implicit_to<int>>();
+    test_is_not_enum<implicit_to<float>>();
+    test_is_not_enum<implicit_to<class_type>>();
+    test_is_not_enum<deleted_implicit_to<int>>();
+    test_is_not_enum<deleted_implicit_to<float>>();
+    test_is_not_enum<deleted_implicit_to<class_type>>();
+    test_is_not_enum<explicit_to<int>>();
+    test_is_not_enum<explicit_to<float>>();
+    test_is_not_enum<explicit_to<class_type>>();
+    test_is_not_enum<deleted_explicit_to<int>>();
+    test_is_not_enum<deleted_explicit_to<float>>();
+    test_is_not_enum<deleted_explicit_to<class_type>>();
+    test_is_not_enum<ellipsis>();
+    test_is_not_enum<deleted_ellipsis>();
+    test_is_not_enum<copy_constructible_only_type>();
+    test_is_not_enum<move_constructible_only_type>();
+    test_is_not_enum<overloaded_operators>();
+    test_is_not_enum<public_int_member>();
+    test_is_not_enum<protected_int_member>();
+    test_is_not_enum<private_int_member>();
+    test_is_not_enum<public_static_int_member>();
+    test_is_not_enum<protected_static_int_member>();
+    test_is_not_enum<private_static_int_member>();
+    test_is_not_enum<public_template_member<int>>();
+    test_is_not_enum<public_template_member<float>>();
+    test_is_not_enum<public_template_member<class_type>>();
+    test_is_not_enum<protected_template_member<int>>();
+    test_is_not_enum<protected_template_member<float>>();
+    test_is_not_enum<protected_template_member<class_type>>();
+    test_is_not_enum<private_template_member<int>>();
+    test_is_not_enum<private_template_member<float>>();
+    test_is_not_enum<private_template_member<class_type>>();
+    test_is_not_enum<public_static_template_member<int>>();
+    test_is_not_enum<public_static_template_member<float>>();
+    test_is_not_enum<public_static_template_member<class_type>>();
+    test_is_not_enum<protected_static_template_member<int>>();
+    test_is_not_enum<protected_static_template_member<float>>();
+    test_is_not_enum<protected_static_template_member<class_type>>();
+    test_is_not_enum<private_static_template_member<int>>();
+    test_is_not_enum<private_static_template_member<float>>();
+    test_is_not_enum<private_static_template_member<class_type>>();
+    test_is_not_enum<cannot_instantiate<int>>();
+    test_is_not_enum<cannot_instantiate<float>>();
+    test_is_not_enum<cannot_instantiate<class_type>>();
+    test_is_not_enum<natural_alignment>();
     test_is_enum<Enum>();
     test_is_enum<EnumSigned>();
     test_is_enum<EnumUnsigned>();
@@ -318,6 +404,9 @@ TEST_CASE("is_enum")
     test_is_not_enum<function_ptr>();
     test_is_not_enum<member_object_ptr>();
     test_is_not_enum<member_function_ptr>();
+    test_is_not_enum<lambda_type>();
+    test_is_not_enum<lambda_noexcept_type>();
+    test_is_not_enum<lambda_throws_type>();
     test_is_not_enum<incomplete_type>();
     test_is_not_enum<incomplete_template<void>>();
     test_is_not_enum<incomplete_template<int>>();
@@ -329,48 +418,39 @@ TEST_CASE("is_enum")
     test_is_not_enum<incomplete_variadic_template<class_type>>();
     test_is_not_enum<incomplete_variadic_template<incomplete_type>>();
     test_is_not_enum<incomplete_variadic_template<int, void, class_type, volatile char[]>>();
+    test_is_not_enum<incomplete_union>();
+    test_is_enum<IncompleteEnumSigned>();
+    test_is_enum<IncompleteEnumUnsigned>();
+    test_is_enum<IncompleteEnumClass>();
+    test_is_enum<IncompleteEnumStruct>();
     test_is_not_enum<int class_type::*>();
     test_is_not_enum<float class_type::*>();
     test_is_not_enum<void * class_type::*>();
     test_is_not_enum<int * class_type::*>();
+    test_is_not_enum<Enum class_type::*>();
+    test_is_not_enum<not_empty class_type::*>();
     test_is_not_enum<int class_type::*&>();
     test_is_not_enum<float class_type::*&>();
     test_is_not_enum<void * class_type::*&>();
     test_is_not_enum<int * class_type::*&>();
+    test_is_not_enum<Enum class_type::*&>();
+    test_is_not_enum<not_empty class_type::*&>();
     test_is_not_enum<int class_type::*&&>();
     test_is_not_enum<float class_type::*&&>();
     test_is_not_enum<void * class_type::*&&>();
     test_is_not_enum<int * class_type::*&&>();
-    test_is_not_enum<int class_type::*const>();
-    test_is_not_enum<float class_type::*const>();
-    test_is_not_enum<void * class_type::*const>();
-    test_is_not_enum<int class_type::*const&>();
-    test_is_not_enum<float class_type::*const&>();
-    test_is_not_enum<void * class_type::*const&>();
-    test_is_not_enum<int class_type::*const&&>();
-    test_is_not_enum<float class_type::*const&&>();
-    test_is_not_enum<void * class_type::*const&&>();
-    test_is_not_enum<int class_type::*volatile>();
-    test_is_not_enum<float class_type::*volatile>();
-    test_is_not_enum<void * class_type::*volatile>();
-    test_is_not_enum<int class_type::*volatile&>();
-    test_is_not_enum<float class_type::*volatile&>();
-    test_is_not_enum<void * class_type::*volatile&>();
-    test_is_not_enum<int class_type::*volatile&&>();
-    test_is_not_enum<float class_type::*volatile&&>();
-    test_is_not_enum<void * class_type::*volatile&&>();
-    test_is_not_enum<int class_type::*const volatile>();
-    test_is_not_enum<float class_type::*const volatile>();
-    test_is_not_enum<void * class_type::*const volatile>();
-    test_is_not_enum<int class_type::*const volatile&>();
-    test_is_not_enum<float class_type::*const volatile&>();
-    test_is_not_enum<void * class_type::*const volatile&>();
-    test_is_not_enum<int class_type::*const volatile&&>();
-    test_is_not_enum<float class_type::*const volatile&&>();
-    test_is_not_enum<void * class_type::*const volatile&&>();
+    test_is_not_enum<Enum class_type::*&&>();
+    test_is_not_enum<not_empty class_type::*&&>();
+    test_is_not_enum<non_default_constructible>();
+    test_is_not_enum<non_copy_constructible>();
+    test_is_not_enum<non_move_constructible>();
+    test_is_not_enum<non_copy_assignable>();
+    test_is_not_enum<non_move_assignable>();
+    test_is_not_enum<non_assignable>();
     test_is_not_enum<non_copyable>();
     test_is_not_enum<non_moveable>();
     test_is_not_enum<non_constructible>();
+    test_is_not_enum<non_destructible>();
     test_is_not_enum<tracked>();
     test_is_not_enum<trap_constructible>();
     test_is_not_enum<trap_implicit_conversion>();
@@ -379,6 +459,16 @@ TEST_CASE("is_enum")
     test_is_not_enum<trap_self_assign>();
     test_is_not_enum<trap_deref>();
     test_is_not_enum<trap_array_subscript>();
+
+#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_SUPPORTS_IS_ENUM()
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
+
+    test_is_not_enum<int[0]>();
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
+    PHI_CLANG_SUPPRESS_WARNING_POP()
+#endif
 
     test_is_not_enum<void()>();
     test_is_not_enum<void()&>();
