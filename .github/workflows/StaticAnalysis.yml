@@ -466,7 +466,7 @@ jobs:
         run: cmake --build . --config ${{ matrix.build_type }}
 
       - name: Initialize MSVC Code Analysis
-        uses: microsoft/msvc-code-analysis-action@v0.1.0
+        uses: microsoft/msvc-code-analysis-action@v0.1.1
         # Provide a unique ID to access the sarif output path
         id: run-analysis
         with:
