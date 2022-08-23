@@ -101,3 +101,7 @@ if(PHI_HAS_INTRINSIC_BUILTIN_IS_CONSTANT_EVALUATED)
   compile_failure_test(NAME "type_traits_is_constant_evaluated_constexpr" SOURCE
                        "src/type_traits/is_constant_evaluated/static_assert.fail.cpp")
 endif()
+
+# static_clamp
+compile_failure_test(NAME "type_traits_static_clamp_min_less_than_max" SOURCE
+                     "src/type_traits/static_clamp/min_less_max.fail.cpp")

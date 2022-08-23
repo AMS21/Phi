@@ -304,6 +304,7 @@ file(
   "src/type_traits/remove_volatile.test.cpp"
   "src/type_traits/signed_int_of_size.test.cpp"
   "src/type_traits/size_constant.test.cpp"
+  "src/type_traits/static_clamp.test.cpp"
   "src/type_traits/static_max.test.cpp"
   "src/type_traits/static_min.test.cpp"
   "src/type_traits/to_safe.test.cpp"

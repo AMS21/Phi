@@ -412,6 +412,7 @@ file(
   "include/phi/type_traits/remove_volatile.hpp"
   "include/phi/type_traits/signed_int_of_size.hpp"
   "include/phi/type_traits/size_constant.hpp"
+  "include/phi/type_traits/static_clamp.hpp"
   "include/phi/type_traits/static_max.hpp"
   "include/phi/type_traits/static_min.hpp"
   "include/phi/type_traits/to_safe.hpp"
