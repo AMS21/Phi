@@ -1114,6 +1114,18 @@ TEST_CASE("type_traits")
     // size_constant
     CHECK_SAME_TYPE(phi::size_constant<0u>, phi::integral_constant<phi::size_t, 0u>);
 
+    // static_max
+    STATIC_REQUIRE(phi::static_max<0, 1, 2>::value == 2);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::static_max_v<0, 1, 2> == 2);
+#endif
+
+    // static_min
+    STATIC_REQUIRE(phi::static_min<0, 1, 2>::value == 0);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE(phi::static_min_v<0, 1, 2> == 0);
+#endif
+
     // to_safe
     CHECK_SAME_TYPE(decltype(phi::to_safe(3)), phi::integer<int>);
 
