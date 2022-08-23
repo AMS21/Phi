@@ -175,6 +175,7 @@ file(
   "src/type_traits/is_corresponding_member.test.cpp"
   "src/type_traits/is_default_constructible.test.cpp"
   "src/type_traits/is_derived_from.test.cpp"
+  "src/type_traits/is_destructible.nointrinsic.test.cpp"
   "src/type_traits/is_destructible.test.cpp"
   "src/type_traits/is_empty.test.cpp"
   "src/type_traits/is_enum.nointrinsic.test.cpp"
