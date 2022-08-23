@@ -220,6 +220,8 @@ file(
   "src/type_traits/is_nothrow_swappable.test.cpp"
   "src/type_traits/is_null_pointer_or_pointer.test.cpp"
   "src/type_traits/is_null_pointer.test.cpp"
+  "src/type_traits/is_object.nointrinsic.test.cpp"
+  "src/type_traits/is_object.nointrinsic2.test.cpp"
   "src/type_traits/is_object.test.cpp"
   "src/type_traits/is_pod.test.cpp"
   "src/type_traits/is_pointer_interconvertible_base_of.test.cpp"
