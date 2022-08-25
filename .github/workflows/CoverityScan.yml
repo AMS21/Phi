@@ -41,13 +41,13 @@ jobs:
           mkdir -p build
           cd build
 
-          cmake ..
+          cmake -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING="Debug" ..
 
       - name: Configure cov-build
         run: |
           export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
 
-          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }} -- -std=c++17
+          cov-configure --comptype gcc --compiler /usr/bin/g++-${{ env.GCC_VERSION }} -- -std=c++2a
 
       - name: Build with cov-build
         env:
