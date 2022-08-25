@@ -50,6 +50,7 @@ phi_check_cxx_source_compiles("[[nodiscard]] int f() { return 3; } int main() { 
                               PHI_HAS_FEATURE_NODISCARD)
 phi_check_cxx_source_compiles("void f([[maybe_unused]] int a) {} int main() { f(3); }"
                               PHI_HAS_FEATURE_MAYBE_UNUSED)
+phi_check_cxx_source_compiles("int main() { if constexpr (true) {} }" PHI_HAS_FEATURE_IF_CONSTEXPR)
 
 # C++-20 Features
 phi_check_cxx_source_compiles("int main() { char8_t c; }" PHI_HAS_FEATURE_CHAR8_T)
