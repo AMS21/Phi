@@ -47,11 +47,13 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF
 
       - name: Run cppcheck
+        env:
+          CPPCHECK_SUPPRESSIONS: "--suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression --suppress=syntaxError --suppress=cppcheckError --suppress=templateRecursion --suppress=noExplicitConstructor"
         run: |
-          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --inline-suppr --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" --suppress=missingInclude --suppress=unusedFunction --suppress=unmatchedSuppression 2> cppcheck.log
+          cppcheck --project=build/compile_commands.json --enable=all --inconclusive --inline-suppr --template='{file}:{line}:{column}: {severity}: {message} [{id}](CWE {cwe})' -DPHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline -DPHI_CONFIG_NEVER_INLINE_OVERWRITE="" ${{ env.CPPCHECK_SUPPRESSIONS }} --output-file=cppcheck.log
 
-          # Filter out external libraries and test code
-          cat cppcheck.log | grep -Ev "Phi/external|Phi/tests|tests/integration" > cppcheck_filtered.log || true
+          # Filter out test code
+          cat cppcheck.log | grep -Ev "Phi/tests|tests/integration" > cppcheck_filtered.log || true
 
       - name: Print results
         run: cat cppcheck_filtered.log
