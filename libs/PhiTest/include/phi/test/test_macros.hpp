@@ -96,14 +96,12 @@ extern int main();
     DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(static_cast<bool>(__VA_ARGS__), "PHI_STATIC_REQUIRE: " #__VA_ARGS__ " was "      \
                                                   "false");                                        \
-    REQUIRE(__VA_ARGS__);                                                                          \
     DETAIL_STATIC_REQUIRE_END()
 
 #define STATIC_REQUIRE_FALSE(...)                                                                  \
     DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
     static_assert(!static_cast<bool>(__VA_ARGS__),                                                 \
                   "PHI_STATIC_REQUIRE_FALSE: " #__VA_ARGS__ " was true");                          \
-    REQUIRE_FALSE(__VA_ARGS__);                                                                    \
     DETAIL_STATIC_REQUIRE_END()
 
 #define CHECK_NOEXCEPT(...)                                                                        \
