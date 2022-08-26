@@ -29,6 +29,7 @@ file(
   "include/phi/algorithm/is_sorted_until.hpp"
   "include/phi/algorithm/is_sorted.hpp"
   "include/phi/algorithm/iterator_swap.hpp"
+  "include/phi/algorithm/lexicographical_compare.hpp"
   "include/phi/algorithm/max.hpp"
   "include/phi/algorithm/min.hpp"
   "include/phi/algorithm/none_off.hpp"
