@@ -444,6 +444,7 @@ TEST_CASE("is_void")
     test_is_not_void<trap_self_assign>();
     test_is_not_void<trap_deref>();
     test_is_not_void<trap_array_subscript>();
+    test_is_not_void<operator_hijacker>();
 
 #if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY()
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")

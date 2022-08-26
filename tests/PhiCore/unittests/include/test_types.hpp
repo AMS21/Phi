@@ -6,6 +6,7 @@
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
+#include <phi/core/size_t.hpp>
 #include <phi/type_traits/false_t.hpp>
 #include <cassert>
 
@@ -1043,6 +1044,50 @@ struct trap_array_subscript
         return false;
     }
 };
+
+/// Helper struct to test ADL-hijacking in containers.
+///
+/// The class has some additional operations to be usable in all containers.
+struct operator_hijacker
+{
+    bool operator<(const operator_hijacker& /*other*/) const
+    {
+        return true;
+    }
+
+    bool operator==(const operator_hijacker& /*other*/) const
+    {
+        return true;
+    }
+
+    template <typename TypeT>
+    friend void operator&(TypeT&&) = delete;
+
+    template <typename TypeT, typename OtherT>
+    friend void operator,(TypeT&&, OtherT&&) = delete;
+
+    template <typename TypeT, typename OtherT>
+    friend void operator&&(TypeT&&, OtherT&&) = delete;
+
+    template <typename TypeT, typename OtherT>
+    friend void operator||(TypeT&&, OtherT&&) = delete;
+};
+
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
+template <typename KeyT>
+struct hash;
+
+template <>
+struct hash<operator_hijacker>
+{
+    phi::size_t operator()(const operator_hijacker& /*op_hijacker*/) const
+    {
+        return 0;
+    }
+};
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
