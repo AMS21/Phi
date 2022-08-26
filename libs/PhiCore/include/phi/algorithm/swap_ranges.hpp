@@ -14,9 +14,10 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-PHI_EXTENDED_CONSTEXPR RhsIteratorT swap_ranges(
-        LhsIteratorT lhs_first, LhsIteratorT lhs_last,
-        RhsIteratorT rhs_first) noexcept(swap(*declval<LhsIteratorT>(), *declval<RhsIteratorT>()))
+PHI_EXTENDED_CONSTEXPR RhsIteratorT
+swap_ranges(LhsIteratorT lhs_first, LhsIteratorT lhs_last,
+            RhsIteratorT rhs_first) noexcept(noexcept(swap(*declval<LhsIteratorT>(),
+                                                           *declval<RhsIteratorT>())))
 {
     for (; lhs_first != lhs_last; ++lhs_first, (void)++rhs_first)
     {
