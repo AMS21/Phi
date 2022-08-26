@@ -4,6 +4,9 @@ include(Functions)
 
 # Detect information about the build environment
 
+# CMake version
+phi_trace("CMake version ${CMAKE_VERSION}")
+
 # Detect Platform
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   phi_set_cache_value(NAME PHI_PLATFORM_WINDOWS VALUE 1)
