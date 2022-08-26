@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/core/ptrdiff_t.hpp"
+#include "phi/core/types.hpp"
 #include "phi/iterator/iterator_tags.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 #include "phi/type_traits/remove_cv.hpp"
@@ -117,7 +117,7 @@ struct iterator_traits
 template <typename TypeT>
 struct iterator_traits<TypeT*>
 {
-    using difference_type   = ptrdiff_t;
+    using difference_type   = ptrdiff;
     using value_type        = typename remove_cv<TypeT>::type;
     using pointer           = TypeT*;
     using reference         = TypeT&;
