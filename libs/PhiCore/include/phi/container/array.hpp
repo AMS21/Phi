@@ -182,7 +182,7 @@ public:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
     {
-        TypeT max_value = at(0);
+        TypeT max_value = at(0u);
         for (size_type index{1u}; index < Size; ++index)
         {
             max_value = (max_value > at(index)) ? max_value : at(index);
@@ -212,7 +212,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
     {
         iterator max_index = begin();
-        for (iterator index = ++begin(); index < Size; ++index)
+        for (iterator index = begin(); index != end(); ++index)
         {
             max_index = (*max_index > *index) ? max_index : index;
         }
@@ -223,7 +223,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator max_index() const noexcept
     {
         const_iterator max_index = begin();
-        for (const_iterator index = ++begin(); index < Size; ++index)
+        for (const_iterator index = begin(); index < end(); ++index)
         {
             max_index = (*max_index > *index) ? max_index : index;
         }
@@ -262,7 +262,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
     {
         iterator min_index = begin();
-        for (iterator index = ++begin(); index < Size; ++index)
+        for (iterator index = begin(); index < end(); ++index)
         {
             min_index = (*min_index < *index) ? min_index : index;
         }
@@ -273,7 +273,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator min_index() const noexcept
     {
         const_iterator min_index = begin();
-        for (const_iterator index = ++begin(); index < Size; ++index)
+        for (const_iterator index = begin(); index < end(); ++index)
         {
             min_index = (*min_index < *index) ? min_index : index;
         }
