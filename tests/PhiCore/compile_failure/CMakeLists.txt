@@ -12,6 +12,11 @@ compile_failure_test(NAME "algorithm_string_length_nullptr" SOURCE
                      "src/algorithm/string_length/nullptr.fail.cpp")
 
 # container
+
+# array
+compile_failure_test(NAME "array_no_deduction" SOURCE "src/container/array/no_deduction.fail.cpp")
+
+# string_view
 compile_failure_test(NAME "container_string_view_construct_with_nullptr" SOURCE
                      "src/container/string_view/construct_nullptr.fail.cpp")
 compile_failure_test(NAME "container_string_view_assign_nullptr" SOURCE

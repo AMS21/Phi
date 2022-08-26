@@ -17,7 +17,43 @@ runtime_failure_test(NAME "selftest_unhandled_exception" SOURCE
 runtime_failure_test(NAME "algorithm_string_length_nullptr" SOURCE
                      "src/algorithm/string_length/nullptr.fail.cpp")
 
-# container string_view
+# container array
+runtime_failure_test(NAME "container_array_AtOutOfBounds" SOURCE
+                     "src/container/array/at_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ConstAtOutOfBounds" SOURCE
+                     "src/container/array/const_at_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroAtOutOfBounds" SOURCE
+                     "src/container/array/zero_at_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroCountAtOutOfBounds" SOURCE
+                     "src/container/array/zero_const_at_oob.fail.cpp")
+
+runtime_failure_test(NAME "container_array_SubscriptOutOfBounds" SOURCE
+                     "src/container/array/subscript_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ConstSubscriptOutOfBounds" SOURCE
+                     "src/container/array/const_subscript_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroSubscriptOutOfBounds" SOURCE
+                     "src/container/array/zero_subscript_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroConstSubscriptOutOfBounds" SOURCE
+                     "src/container/array/zero_const_subscript_oob.fail.cpp")
+
+runtime_failure_test(NAME "container_array_FrontOutOfBounds" SOURCE
+                     "src/container/array/front_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ConstFrontOutOfBounds" SOURCE
+                     "src/container/array/const_front_oob.fail.cpp")
+
+runtime_failure_test(NAME "container_array_BackOutOfBounds" SOURCE
+                     "src/container/array/back_oob.fail.cpp")
+runtime_failure_test(NAME "container_array_ConstBackOutOfBounds" SOURCE
+                     "src/container/array/const_back_oob.fail.cpp")
+
+runtime_failure_test(NAME "container_array_ZeroMax" SOURCE "src/container/array/zero_max.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroMin" SOURCE "src/container/array/zero_min.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroMaxIndex" SOURCE
+                     "src/container/array/zero_max_index.fail.cpp")
+runtime_failure_test(NAME "container_array_ZeroMinIndex" SOURCE
+                     "src/container/array/zero_min_index.fail.cpp")
+
+# string_view
 runtime_failure_test(NAME "container_string_view_ConstructWithNullptr" SOURCE
                      "src/container/string_view/construct_nullptr.fail.cpp")
 runtime_failure_test(NAME "container_string_view_ConstructWithNullptrAndSize" SOURCE
