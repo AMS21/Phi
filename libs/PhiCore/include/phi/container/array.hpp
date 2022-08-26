@@ -313,36 +313,36 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference front() noexcept
+    PHI_NODISCARD constexpr reference front() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference front() const noexcept
+    PHI_NODISCARD constexpr const_reference front() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR reference back() noexcept
+    PHI_NODISCARD constexpr reference back() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference back() const noexcept
+    PHI_NODISCARD constexpr const_reference back() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR pointer data() noexcept
+    PHI_NODISCARD constexpr pointer data() noexcept
     {
         return nullptr;
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_pointer data() const noexcept
+    PHI_NODISCARD constexpr const_pointer data() const noexcept
     {
         return nullptr;
     }
@@ -357,7 +357,7 @@ public:
         return const_iterator(data());
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cbegin() const noexcept
+    PHI_NODISCARD constexpr const_iterator cbegin() const noexcept
     {
         return const_iterator(data());
     }
@@ -372,7 +372,7 @@ public:
         return const_iterator(data());
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator cend() const noexcept
+    PHI_NODISCARD constexpr const_iterator cend() const noexcept
     {
         return const_iterator(data());
     }
@@ -387,7 +387,7 @@ public:
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD constexpr const_reverse_iterator crbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
@@ -402,7 +402,7 @@ public:
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD constexpr const_reverse_iterator crend() const noexcept
     {
         return const_reverse_iterator(begin());
     }
@@ -422,29 +422,29 @@ public:
         return 0u;
     }
 
-    PHI_EXTENDED_CONSTEXPR void fill(const TypeT& /*value*/) noexcept
+    constexpr void fill(const TypeT& /*value*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot fill zero-sized array of type 'const T'");
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(array& /*other*/) noexcept
+    constexpr void swap(array& /*other*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max() const noexcept
+    PHI_NODISCARD constexpr TypeT max() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min() const noexcept
+    PHI_NODISCARD constexpr TypeT min() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::max_index() on zero sized array");
         PHI_UNREACHABLE();
@@ -456,7 +456,7 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator min_index() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();
@@ -468,10 +468,10 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_EXTENDED_CONSTEXPR void reverse() noexcept
+    constexpr void reverse() noexcept
     {}
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR array<TypeT, 0u> to_reversed() const noexcept
+    PHI_NODISCARD constexpr array<TypeT, 0u> to_reversed() const noexcept
     {
         return array<TypeT, 0u>{};
     }
