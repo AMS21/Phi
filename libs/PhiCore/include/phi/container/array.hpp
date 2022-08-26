@@ -7,6 +7,8 @@
 #    pragma once
 #endif
 
+#include "phi/algorithm/equal.hpp"
+#include "phi/algorithm/lexicographical_compare.hpp"
 #include "phi/algorithm/swap_ranges.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
@@ -477,38 +479,45 @@ public:
     }
 };
 
+// TODO: Noexcept
 template <typename TypeT, size_t Size>
-constexpr boolean operator==(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator==(const array<TypeT, Size>& lhs,
+                                          const array<TypeT, Size>& rhs)
 {
-    return equal(lhs.begin(), rhs.end(), lhs.begin());
+    return equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <typename TypeT, size_t Size>
-constexpr boolean operator!=(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator!=(const array<TypeT, Size>& lhs,
+                                          const array<TypeT, Size>& rhs)
 {
     return !(lhs == rhs);
 }
 
 template <typename TypeT, size_t Size>
-constexpr boolean operator<(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator<(const array<TypeT, Size>& lhs,
+                                         const array<TypeT, Size>& rhs)
 {
     return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template <typename TypeT, size_t Size>
-constexpr boolean operator<=(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator<=(const array<TypeT, Size>& lhs,
+                                          const array<TypeT, Size>& rhs)
 {
     return !(rhs < lhs);
 }
 
 template <typename TypeT, size_t Size>
-constexpr boolean operator>(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator>(const array<TypeT, Size>& lhs,
+                                         const array<TypeT, Size>& rhs)
 {
     return rhs < lhs;
 }
 
 template <typename TypeT, size_t Size>
-constexpr boolean operator>=(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean operator>=(const array<TypeT, Size>& lhs,
+                                          const array<TypeT, Size>& rhs)
 {
     return !(lhs < rhs);
 }
