@@ -191,24 +191,6 @@ public:
         return max_value;
     }
 
-    template <typename UnaryFunctionT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT max_if(UnaryFunctionT function,
-                                                      TypeT          default_value = {})
-    {
-        TypeT max_value = default_value;
-        for (size_type index{0u}; index < Size; ++index)
-        {
-            TypeT test_value = at(index);
-
-            if (function(test_value) && max_value < test_value)
-            {
-                max_value = test_value;
-            }
-        }
-
-        return max_value;
-    }
-
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator max_index() noexcept
     {
         iterator max_index = begin();
@@ -237,23 +219,6 @@ public:
         for (size_type index{1u}; index < Size; ++index)
         {
             min_value = (min_value < at(index)) ? min_value : at(index);
-        }
-
-        return min_value;
-    }
-
-    template <typename UnaryFunctionT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT min_if(UnaryFunctionT function,
-                                                      TypeT default_value = {}) const noexcept
-    {
-        TypeT min_value = default_value;
-        for (size_type index{0u}; index < Size; ++index)
-        {
-            TypeT test_value = at(index);
-            if (function(test_value) && min_value > test_value)
-            {
-                min_value = test_value;
-            }
         }
 
         return min_value;
