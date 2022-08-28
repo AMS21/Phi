@@ -321,6 +321,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK_FALSE(view.is_null());
     }
 
+    PHI_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_GCC_SUPPRESS_WARNING("-Wconversion")
+
     SECTION("implicit conversion to std::string_view")
     {
         phi::string_view view{"Hello World"};
@@ -333,6 +336,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK(view.data() == std_view.data());
         CHECK(view.length() == std_view.length());
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 #endif
 
     SECTION("begin")

@@ -22,6 +22,8 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-variable")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-result")
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
+PHI_GCC_SUPPRESS_WARNING("-Wstrict-overflow")
+
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(4189) // 'x': local variable is initialized but not referenced
 PHI_MSVC_SUPPRESS_WARNING(4834) // discarding return value of function with 'nodiscard' attribute
@@ -177,27 +179,27 @@ PHI_EXTENDED_CONSTEXPR bool test_initializer_list()
 {
     {
         const phi::array<double, 3> a3_0 = {};
-        PHI_RELEASE_ASSERT(a3_0[0u] == double());
-        PHI_RELEASE_ASSERT(a3_0[1u] == double());
-        PHI_RELEASE_ASSERT(a3_0[2u] == double());
+        PHI_RELEASE_ASSERT(a3_0[0u] == double(), "");
+        PHI_RELEASE_ASSERT(a3_0[1u] == double(), "");
+        PHI_RELEASE_ASSERT(a3_0[2u] == double(), "");
     }
     {
         const phi::array<double, 3> a3_1 = {1};
-        PHI_RELEASE_ASSERT(a3_1[0u] == double(1));
-        PHI_RELEASE_ASSERT(a3_1[1u] == double());
-        PHI_RELEASE_ASSERT(a3_1[2u] == double());
+        PHI_RELEASE_ASSERT(a3_1[0u] == double(1), "");
+        PHI_RELEASE_ASSERT(a3_1[1u] == double(), "");
+        PHI_RELEASE_ASSERT(a3_1[2u] == double(), "");
     }
     {
         const phi::array<double, 3> a3_2 = {1, 2.2};
-        PHI_RELEASE_ASSERT(a3_2[0u] == double(1));
-        PHI_RELEASE_ASSERT(a3_2[1u] == 2.2);
-        PHI_RELEASE_ASSERT(a3_2[2u] == double());
+        PHI_RELEASE_ASSERT(a3_2[0u] == double(1), "");
+        PHI_RELEASE_ASSERT(a3_2[1u] == 2.2, "");
+        PHI_RELEASE_ASSERT(a3_2[2u] == double(), "");
     }
     {
         const phi::array<double, 3> a3_3 = {1, 2, 3.5};
-        PHI_RELEASE_ASSERT(a3_3[0u] == double(1));
-        PHI_RELEASE_ASSERT(a3_3[1u] == double(2));
-        PHI_RELEASE_ASSERT(a3_3[2u] == 3.5);
+        PHI_RELEASE_ASSERT(a3_3[0u] == double(1), "");
+        PHI_RELEASE_ASSERT(a3_3[1u] == double(2), "");
+        PHI_RELEASE_ASSERT(a3_3[2u] == 3.5, "");
     }
 
     return true;
@@ -1279,27 +1281,27 @@ TEST_CASE("array swap")
         CHECK_NOEXCEPT(phi::swap(arr1, arr2));
 
         CHECK(arr1.size() == 3u);
-        CHECK(arr1.at(0u) == 4u);
-        CHECK(arr1.at(1u) == 5u);
-        CHECK(arr1.at(2u) == 6u);
+        CHECK(arr1.at(0u) == 4);
+        CHECK(arr1.at(1u) == 5);
+        CHECK(arr1.at(2u) == 6);
 
         CHECK(arr2.size() == 3u);
-        CHECK(arr2.at(0u) == 1u);
-        CHECK(arr2.at(1u) == 2u);
-        CHECK(arr2.at(2u) == 3u);
+        CHECK(arr2.at(0u) == 1);
+        CHECK(arr2.at(1u) == 2);
+        CHECK(arr2.at(2u) == 3);
 
         arr1.swap(arr2);
         CHECK_NOEXCEPT(arr1.swap(arr2));
 
         CHECK(arr1.size() == 3u);
-        CHECK(arr1.at(0u) == 1u);
-        CHECK(arr1.at(1u) == 2u);
-        CHECK(arr1.at(2u) == 3u);
+        CHECK(arr1.at(0u) == 1);
+        CHECK(arr1.at(1u) == 2);
+        CHECK(arr1.at(2u) == 3);
 
         CHECK(arr2.size() == 3u);
-        CHECK(arr2.at(0u) == 4u);
-        CHECK(arr2.at(1u) == 5u);
-        CHECK(arr2.at(2u) == 6u);
+        CHECK(arr2.at(0u) == 4);
+        CHECK(arr2.at(1u) == 5);
+        CHECK(arr2.at(2u) == 6);
     }
 
     {
@@ -1514,7 +1516,8 @@ PHI_EXTENDED_CONSTEXPR void test_contiguous(const ContainerT& container)
 {
     for (phi::size_t i = 0; i < container.size(); ++i)
     {
-        PHI_RELEASE_ASSERT(*(container.begin() + i) == *(phi::address_of(*container.begin()) + i));
+        PHI_RELEASE_ASSERT(*(container.begin() + i) == *(phi::address_of(*container.begin()) + i),
+                           "");
     }
 }
 
@@ -1537,12 +1540,14 @@ TEST_CASE("array contigious")
 {
     test_contigous();
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+    // TODO: Test don't compile with gcc-8
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() &&                                                        \
+        (PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0))
     STATIC_REQUIRE(test_contigous);
 #endif
 }
 
-TEST_CASE("PHI_RELEASE_ASSERT is_empty")
+TEST_CASE("array is_empty")
 {
     {
         using array = phi::array<int, 3u>;
@@ -1599,7 +1604,7 @@ TEST_CASE("array front")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1608,7 +1613,7 @@ TEST_CASE("array front")
         using array = phi::array<const int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1617,7 +1622,7 @@ TEST_CASE("array front")
         using array = phi::array<int, 3u>;
         const array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1626,7 +1631,7 @@ TEST_CASE("array front")
         using array = phi::array<const int, 3u>;
         const array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1635,7 +1640,7 @@ TEST_CASE("array front")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1704,7 +1709,7 @@ TEST_CASE("array back")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.back() == 3u);
+        CHECK(arr.back() == 3);
         CHECK_SAME_TYPE(decltype(arr.back()), array::reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1713,7 +1718,7 @@ TEST_CASE("array back")
         using array = phi::array<const int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1722,7 +1727,7 @@ TEST_CASE("array back")
         using array = phi::array<int, 3u>;
         const array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1731,7 +1736,7 @@ TEST_CASE("array back")
         using array = phi::array<const int, 3u>;
         const array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1740,7 +1745,7 @@ TEST_CASE("array back")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
-        CHECK(arr.front() == 1u);
+        CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
     }
@@ -1809,7 +1814,7 @@ TEST_CASE("array max")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.max() == 3u);
+        CHECK(arr.max() == 3);
         CHECK_NOEXCEPT(arr.max());
     }
 
@@ -1817,7 +1822,7 @@ TEST_CASE("array max")
         using array = phi::array<int, 1u>;
         array arr{1};
 
-        CHECK(arr.max() == 1u);
+        CHECK(arr.max() == 1);
         CHECK_NOEXCEPT(arr.max());
     }
 
@@ -1825,7 +1830,7 @@ TEST_CASE("array max")
         using array = phi::array<int, 3u>;
         const array arr{1, 1, 1};
 
-        CHECK(arr.max() == 1u);
+        CHECK(arr.max() == 1);
         CHECK_NOEXCEPT(arr.max());
     }
 
@@ -1919,7 +1924,7 @@ TEST_CASE("array min")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
-        CHECK(arr.min() == 1u);
+        CHECK(arr.min() == 1);
         CHECK_NOEXCEPT(arr.min());
     }
 
@@ -1927,7 +1932,7 @@ TEST_CASE("array min")
         using array = phi::array<int, 1u>;
         array arr{1};
 
-        CHECK(arr.min() == 1u);
+        CHECK(arr.min() == 1);
         CHECK_NOEXCEPT(arr.min());
     }
 
@@ -1935,7 +1940,7 @@ TEST_CASE("array min")
         using array = phi::array<int, 3u>;
         const array arr{1, 1, 1};
 
-        CHECK(arr.min() == 1u);
+        CHECK(arr.min() == 1);
         CHECK_NOEXCEPT(arr.min());
     }
 
@@ -2055,7 +2060,7 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         check_iterator_noexcept(array);
         typename C::iterator       i = array.begin();
         typename C::const_iterator j = array.cbegin();
-        PHI_RELEASE_ASSERT(i == j);
+        PHI_RELEASE_ASSERT(i == j, "");
     }
 
     {
@@ -2064,7 +2069,7 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         check_iterator_noexcept(array);
         typename C::iterator       i = array.begin();
         typename C::const_iterator j = array.cbegin();
-        PHI_RELEASE_ASSERT(i == j);
+        PHI_RELEASE_ASSERT(i == j, "");
     }
 
     {
@@ -2073,8 +2078,8 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         check_iterator_noexcept(array);
         typename C::iterator       i = array.begin();
         typename C::const_iterator j = array.cbegin();
-        PHI_RELEASE_ASSERT(i == array.end());
-        PHI_RELEASE_ASSERT(j == array.cend());
+        PHI_RELEASE_ASSERT(i == array.end(), "");
+        PHI_RELEASE_ASSERT(j == array.cend(), "");
     }
 
     {
@@ -2082,10 +2087,10 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         C array = {1};
         check_iterator_noexcept(array);
         typename C::iterator i = array.begin();
-        PHI_RELEASE_ASSERT(*i == 1);
-        PHI_RELEASE_ASSERT(&*i == array.data());
+        PHI_RELEASE_ASSERT(*i == 1, "");
+        PHI_RELEASE_ASSERT(&*i == array.data(), "");
         *i = 99;
-        PHI_RELEASE_ASSERT(array[0u] == 99);
+        PHI_RELEASE_ASSERT(array[0u] == 99, "");
     }
 
     {
@@ -2093,11 +2098,11 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         C array = {1, 2};
         check_iterator_noexcept(array);
         typename C::iterator i = array.begin();
-        PHI_RELEASE_ASSERT(*i == 1);
-        PHI_RELEASE_ASSERT(&*i == array.data());
+        PHI_RELEASE_ASSERT(*i == 1, "");
+        PHI_RELEASE_ASSERT(&*i == array.data(), "");
         *i = 99;
-        PHI_RELEASE_ASSERT(array[0u] == 99);
-        PHI_RELEASE_ASSERT(array[1u] == 2);
+        PHI_RELEASE_ASSERT(array[0u] == 99, "");
+        PHI_RELEASE_ASSERT(array[1u] == 2, "");
     }
 
     {
@@ -2105,11 +2110,11 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         C array = {1, 2, 3.5};
         check_iterator_noexcept(array);
         typename C::iterator i = array.begin();
-        PHI_RELEASE_ASSERT(*i == 1);
-        PHI_RELEASE_ASSERT(&*i == array.data());
+        PHI_RELEASE_ASSERT(*i == 1, "");
+        PHI_RELEASE_ASSERT(&*i == array.data(), "");
         *i = 5.5;
-        PHI_RELEASE_ASSERT(array[0u] == 5.5);
-        PHI_RELEASE_ASSERT(array[1u] == 2.0);
+        PHI_RELEASE_ASSERT(array[0u] == 5.5, "");
+        PHI_RELEASE_ASSERT(array[1u] == 2.0, "");
     }
 
     {
@@ -2117,7 +2122,7 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
         C                    array = {};
         typename C::iterator ib    = array.begin();
         typename C::iterator ie    = array.end();
-        PHI_RELEASE_ASSERT(ib == ie);
+        PHI_RELEASE_ASSERT(ib == ie, "");
     }
 
     { // N3644 testing
@@ -2127,77 +2132,78 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
             C::iterator       ii2{};
             C::iterator       ii4 = ii1;
             C::const_iterator cii{};
-            PHI_RELEASE_ASSERT(ii1 == ii2);
-            PHI_RELEASE_ASSERT(ii1 == ii4);
-            PHI_RELEASE_ASSERT(ii1 == cii);
+            PHI_RELEASE_ASSERT(ii1 == ii2, "");
+            PHI_RELEASE_ASSERT(ii1 == ii4, "");
+            PHI_RELEASE_ASSERT(ii1 == cii, "");
 
-            PHI_RELEASE_ASSERT(!(ii1 != ii2));
-            PHI_RELEASE_ASSERT(!(ii1 != cii));
+            PHI_RELEASE_ASSERT(!(ii1 != ii2), "");
+            PHI_RELEASE_ASSERT(!(ii1 != cii), "");
 
             C c = {};
             check_iterator_noexcept(c);
 
             // TODO: Implement phi::begin etc.
 #if 0
-            PHI_RELEASE_ASSERT(c.begin() == phi::begin(c));
-            PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c));
-            PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c));
-            PHI_RELEASE_ASSERT(c.crbegin() == phi::crbegin(c));
-            PHI_RELEASE_ASSERT(c.end() == phi::end(c));
-            PHI_RELEASE_ASSERT(c.cend() == phi::cend(c));
-            PHI_RELEASE_ASSERT(c.rend() == phi::rend(c));
-            PHI_RELEASE_ASSERT(c.crend() == phi::crend(c));
+            PHI_RELEASE_ASSERT(c.begin() == phi::begin(c), "");
+            PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c), "");
+            PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c), "");
+            PHI_RELEASE_ASSERT(c.crbegin() == phi::crbegin(c), "");
+            PHI_RELEASE_ASSERT(c.end() == phi::end(c), "");
+            PHI_RELEASE_ASSERT(c.cend() == phi::cend(c), "");
+            PHI_RELEASE_ASSERT(c.rend() == phi::rend(c), "");
+            PHI_RELEASE_ASSERT(c.crend() == phi::crend(c), "");
 
-            PHI_RELEASE_ASSERT(phi::begin(c) != phi::end(c));
-            PHI_RELEASE_ASSERT(phi::rbegin(c) != phi::rend(c));
-            PHI_RELEASE_ASSERT(phi::cbegin(c) != phi::cend(c));
-            PHI_RELEASE_ASSERT(phi::crbegin(c) != phi::crend(c));
+            PHI_RELEASE_ASSERT(phi::begin(c) != phi::end(c), "");
+            PHI_RELEASE_ASSERT(phi::rbegin(c) != phi::rend(c), "");
+            PHI_RELEASE_ASSERT(phi::cbegin(c) != phi::cend(c), "");
+            PHI_RELEASE_ASSERT(phi::crbegin(c) != phi::crend(c), "");
 #endif
         }
 
         {
-            typedef phi::array<int, 0> C;
-            C::iterator                ii1{}, ii2{};
-            C::iterator                ii4 = ii1;
-            C::const_iterator          cii{};
-            PHI_RELEASE_ASSERT(ii1 == ii2);
-            PHI_RELEASE_ASSERT(ii1 == ii4);
+            using C = phi::array<int, 0>;
+            C::iterator       ii1{};
+            C::iterator       ii2{};
+            C::iterator       ii4 = ii1;
+            C::const_iterator cii{};
+            PHI_RELEASE_ASSERT(ii1 == ii2, "");
+            PHI_RELEASE_ASSERT(ii1 == ii4, "");
 
-            PHI_RELEASE_ASSERT(!(ii1 != ii2));
+            PHI_RELEASE_ASSERT(!(ii1 != ii2), "");
 
-            PHI_RELEASE_ASSERT((ii1 == cii));
-            PHI_RELEASE_ASSERT((cii == ii1));
-            PHI_RELEASE_ASSERT(!(ii1 != cii));
-            PHI_RELEASE_ASSERT(!(cii != ii1));
-            PHI_RELEASE_ASSERT(!(ii1 < cii));
-            PHI_RELEASE_ASSERT(!(cii < ii1));
-            PHI_RELEASE_ASSERT((ii1 <= cii));
-            PHI_RELEASE_ASSERT((cii <= ii1));
-            PHI_RELEASE_ASSERT(!(ii1 > cii));
-            PHI_RELEASE_ASSERT(!(cii > ii1));
-            PHI_RELEASE_ASSERT((ii1 >= cii));
-            PHI_RELEASE_ASSERT((cii >= ii1));
-            PHI_RELEASE_ASSERT(cii - ii1 == 0);
-            PHI_RELEASE_ASSERT(ii1 - cii == 0);
+            PHI_RELEASE_ASSERT((ii1 == cii), "");
+            PHI_RELEASE_ASSERT((cii == ii1), "");
+            PHI_RELEASE_ASSERT(!(ii1 != cii), "");
+            PHI_RELEASE_ASSERT(!(cii != ii1), "");
+            PHI_RELEASE_ASSERT(!(ii1 < cii), "");
+            PHI_RELEASE_ASSERT(!(cii < ii1), "");
+            PHI_RELEASE_ASSERT((ii1 <= cii), "");
+            PHI_RELEASE_ASSERT((cii <= ii1), "");
+            PHI_RELEASE_ASSERT(!(ii1 > cii), "");
+            PHI_RELEASE_ASSERT(!(cii > ii1), "");
+            PHI_RELEASE_ASSERT((ii1 >= cii), "");
+            PHI_RELEASE_ASSERT((cii >= ii1), "");
+            PHI_RELEASE_ASSERT(cii - ii1 == 0, "");
+            PHI_RELEASE_ASSERT(ii1 - cii == 0, "");
 
             C c = {};
             check_iterator_noexcept(c);
 
             // TODO: Implement phi::begin etc.
 #if 0
-            PHI_RELEASE_ASSERT(c.begin() == phi::begin(c));
-            PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c));
-            PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c));
-            PHI_RELEASE_ASSERT(c.crbegin() == phi::crbegin(c));
-            PHI_RELEASE_ASSERT(c.end() == phi::end(c));
-            PHI_RELEASE_ASSERT(c.cend() == phi::cend(c));
-            PHI_RELEASE_ASSERT(c.rend() == phi::rend(c));
-            PHI_RELEASE_ASSERT(c.crend() == phi::crend(c));
+            PHI_RELEASE_ASSERT(c.begin() == phi::begin(c), "");
+            PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c), "");
+            PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c), "");
+            PHI_RELEASE_ASSERT(c.crbegin() == phi::crbegin(c), "");
+            PHI_RELEASE_ASSERT(c.end() == phi::end(c), "");
+            PHI_RELEASE_ASSERT(c.cend() == phi::cend(c), "");
+            PHI_RELEASE_ASSERT(c.rend() == phi::rend(c), "");
+            PHI_RELEASE_ASSERT(c.crend() == phi::crend(c), "");
 
-            PHI_RELEASE_ASSERT(phi::begin(c) == phi::end(c));
-            PHI_RELEASE_ASSERT(phi::rbegin(c) == phi::rend(c));
-            PHI_RELEASE_ASSERT(phi::cbegin(c) == phi::cend(c));
-            PHI_RELEASE_ASSERT(phi::crbegin(c) == phi::crend(c));
+            PHI_RELEASE_ASSERT(phi::begin(c) == phi::end(c), "");
+            PHI_RELEASE_ASSERT(phi::rbegin(c) == phi::rend(c), "");
+            PHI_RELEASE_ASSERT(phi::cbegin(c) == phi::cend(c), "");
+            PHI_RELEASE_ASSERT(phi::crbegin(c) == phi::crend(c), "");
 #endif
         }
     }
