@@ -266,8 +266,6 @@ install_pvs_studio() {
 }
 
 install_mull() {
-    install_clang "$1"
-
     echo "-- Setting up mull-$1..."
     # https://mull.readthedocs.io/en/latest/Installation.html#install-on-ubuntu
     curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
@@ -283,12 +281,11 @@ install_mull() {
 
     # Verify
     echo "-- Verifying mull-$1..."
-    "mull-cxx-$1" --version
+    "mull-runner-$1" --version
     echo "-- Verifying mull-$1 done"
 
     # Export values
-    echo "MULL_CXX=mull-cxx-$1" >>"$GITHUB_ENV"
-    echo "MULL_VERSION=mull-cxx-$1 --version" >>"$GITHUB_ENV"
+    echo "MULL_RUNNER=mull-runner-$1" >>"$GITHUB_ENV"
 }
 
 install_clang_format() {

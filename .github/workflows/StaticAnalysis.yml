@@ -363,7 +363,8 @@ jobs:
   mull:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 14
+      LLVM_VERSION: 12
+      MULL_VERSION: 12
 
     steps:
       - name: Checkout
@@ -380,15 +381,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Install compiler / mull
-        run: scripts/ci/InstallTools.sh mull-${{ env.LLVM_VERSION }} ninja
-
-      - name: Get clang include paths
-        run: |
-          clang++-${{ env.LLVM_VERSION }} -x c++ -c /dev/null --verbose &> clang_includes.txt
-          grep -ozP '(?s)#include <...> search starts here:\n\K.*?(?=\nEnd of search list.\Z)' clang_includes.txt | head -c -1 | sed -e "s/.*/-isystem&/" | tr '\n' ' ' > clang_includes_filtered.txt
-
-          cat clang_includes.txt
-          echo "CLANG_INCLUDES=$(cat clang_includes_filtered.txt)" >> $GITHUB_ENV
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} mull-${{ env.MULL_VERSION }} ninja
 
       - name: Configure
         run: |
@@ -397,7 +390,11 @@ jobs:
           cd build
 
           # Generate compile_commands.json
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-fembed-bitcode -g -O0" -DCMAKE_BUILD_TYPE:STRING=Debug
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_CXX_FLAGS:STRING="-O0 -fexperimental-new-pass-manager -fpass-plugin=/usr/lib/mull-ir-frontend-${{ env.MULL_VERSION }} -g -grecord-command-line -fprofile-instr-generate -fcoverage-mapping" -DCMAKE_BUILD_TYPE:STRING=Debug
+
+          # Create mull.yml
+          echo "mutators:"  >> mull.yml
+          echo " - cxx_all" >> mull.yml
 
       - name: Build
         working-directory: ./build
@@ -406,10 +403,16 @@ jobs:
       - name: Run mull
         working-directory: ./build
         run: |
-          find bin -type f -iname "Phi_Unittest_*" -exec bash -c 'mull-cxx-${{ env.LLVM_VERSION }} -linker=clang++-${{ env.LLVM_VERSION }} -compdb-path compile_commands.json -compilation-flags="$CLANG_INCLUDES" -exclude-path="../external/.*" ./$0' {} \; 2>&1 | tee --append mull_report.log
+          find bin -type f -iname "Phi*" -exec bash -c 'mull-runner-${{ env.MULL_VERSION }} $0' {} \; 2>&1 | tee --append mull_report.log
+
+          # Remove status lines
+          cat mull_report.log | grep "warning: Survived:" > mull_report_clean.log || true
+
+          # Remove cxx_remove_void_call
+          cat mull_report_clean.log | grep -Ev "\[cxx_remove_void_call\]" > mull_report_clean2.log || true
 
           # Remove duplicate entries
-          sort mull_report.log | uniq -d > mull_report_filtered.log
+          sort mull_report_clean2.log | uniq -d > mull_report_filtered.log || true
 
       - name: Print results
         run: cat build/mull_report_filtered.log
