@@ -189,8 +189,8 @@ if(PHI_COMPILER_GCC)
   endif()
 endif()
 
-# Emscriptens warning suppression for some reason doesn't work correctly so we disable all
-if(PHI_PLATFORM_EMSCRIPTEN)
+# Disable warnings for known problematic compilers
+if(PHI_IS_PROBLEMATIC_COMPILER)
   set(phi_warning_flags "Wundef")
   set(phi_disabled_warnings_flags "W")
 endif()

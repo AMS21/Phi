@@ -286,6 +286,20 @@ endif()
 
 phi_log("Compiler ID: \"${CMAKE_CXX_COMPILER_ID}\"")
 
+# Check if using a problematic compiler
+phi_set_cache_value(NAME PHI_IS_PROBLEMATIC_COMPILER VALUE FALSE)
+if(PHI_COMPILER_APPLECLANG
+   OR PHI_COMPILER_EMCC
+   OR (PHI_COMPILER_GCC AND PHI_PLATFORM_WINDOWS))
+  # TODO: Warning suppression for AppleClang, Emscripten and Mingw seems to not work correctly so we
+  # disable warnings as errors and warnings to be able to build at all
+  phi_set_cache_value(NAME PHI_IS_PROBLEMATIC_COMPILER VALUE TRUE)
+
+  phi_warn(
+    "Your using a known problematic compiler. Warnings and warnings as errors have been automatically disabled"
+  )
+endif()
+
 phi_log("Generator: \"${CMAKE_GENERATOR}\"")
 
 # Check if CI Build

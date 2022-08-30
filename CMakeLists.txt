@@ -181,25 +181,8 @@ if(${PHI_BUILD_DOCS})
   add_subdirectory(docs)
 endif()
 
-set(is_problematic_compiler FALSE)
-if(PHI_COMPILER_APPLECLANG
-   OR PHI_COMPILER_EMCC
-   OR (PHI_COMPILER_GCC AND PHI_PLATFORM_WINDOWS))
-  # TODO: Warning suppression for AppleClang, Emscripten and Mingw seems to not work correctly so we
-  # disable warnings as errors and warnings to be able to build at all
-  set(is_problematic_compiler TRUE)
-
-  phi_log(
-    "Your using a known problematic compiler. Warnings and warnings as errors has been automatically disabled"
-  )
-endif()
-
 # Set configure options
-set(configure_options DEBUG_FLAGS) # Default
-
-if(NOT is_problematic_compiler)
-  list(APPEND configure_options WARNINGS)
-endif()
+set(configure_options DEBUG_FLAGS WARNINGS) # Default
 
 if(PHI_USE_UNITY_BUILD)
   list(APPEND configure_options UNITY_BUILD)
@@ -213,11 +196,11 @@ if(PHI_ENABLE_OPTIMIZATION_FLAGS)
   list(APPEND configure_options OPTIMIZATION_FLAGS)
 endif()
 
-if(PHI_WARNINGS_AS_ERRORS AND NOT is_problematic_compiler)
+if(PHI_WARNINGS_AS_ERRORS AND NOT PHI_IS_PROBLEMATIC_COMPILER)
   list(APPEND configure_options WARNINGS_AS_ERRORS)
 endif()
 
-if(PHI_PEDANTIC_WARNINGS AND NOT is_problematic_compiler)
+if(PHI_PEDANTIC_WARNINGS AND NOT PHI_IS_PROBLEMATIC_COMPILER)
   list(APPEND configure_options PEDANTIC)
 endif()
 
