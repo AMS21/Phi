@@ -17,7 +17,7 @@ template <typename TypeT>
 struct remove_volatile
 {
     using type = PHI_REMOVE_VOLATILE(TypeT);
-}
+};
 
 template <typename TypeT>
 using remove_volatile_t = PHI_REMOVE_VOLATILE(TypeT);
