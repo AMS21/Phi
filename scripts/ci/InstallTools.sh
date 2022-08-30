@@ -199,7 +199,7 @@ install_llvm() {
     install_clang "$1"
 
     echo "-- Installing llvm-$1..."
-    sudo apt-get install "llvm-$1" "llvm-$1-dev" "libclang-$1" "libclang-$1-dev" -y
+    sudo apt-get install "llvm-$1" "llvm-$1-dev" -y
 
     # Export values
     echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
