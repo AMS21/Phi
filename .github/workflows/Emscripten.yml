@@ -28,9 +28,6 @@ jobs:
   Build:
     runs-on: ubuntu-20.04
 
-    env:
-      EM_CACHE_FOLDER: 'emsdk-cache'
-
     strategy:
       fail-fast: false
 
@@ -61,9 +58,10 @@ jobs:
 
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v11
+        # Continue on error to ignore problems with caching
+        continue-on-error: true
         with:
           version: ${{ matrix.em_version }}
-          actions-cache-folder: ${{ env.EM_CACHE_FOLDER }}
           no-cache: true
 
       - name: Verify version
