@@ -192,7 +192,7 @@ endif()
 # Disable warnings for known problematic compilers
 if(PHI_IS_PROBLEMATIC_COMPILER)
   set(phi_warning_flags "Wundef")
-  set(phi_disabled_warnings_flags "W")
+  set(phi_disabled_warnings_flags "w")
 endif()
 
 # Checks
