@@ -235,7 +235,7 @@ install_iwyu() {
     # Verify
     echo "-- Verifying iwyu..."
     include-what-you-use --version
-    iwyu_tool.py -help
+    iwyu_tool.py -h
     echo "-- Verifying iwyu done"
 
     # Export values
