@@ -1524,7 +1524,7 @@ PHI_EXTENDED_CONSTEXPR void test_contiguous(const ContainerT& container)
     }
 }
 
-PHI_EXTENDED_CONSTEXPR bool test_contigous()
+PHI_EXTENDED_CONSTEXPR bool test_contiguous()
 {
     test_contiguous(phi::array<double, 0>());
     test_contiguous(phi::array<double, 1>());
@@ -1539,14 +1539,14 @@ PHI_EXTENDED_CONSTEXPR bool test_contigous()
     return true;
 }
 
-TEST_CASE("array contigious")
+TEST_CASE("array contiguous")
 {
-    test_contigous();
+    test_contiguous();
 
     // TODO: Test don't compile with gcc-8
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() &&                                                        \
         (PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0))
-    STATIC_REQUIRE(test_contigous);
+    STATIC_REQUIRE(test_contiguous());
 #endif
 }
 
