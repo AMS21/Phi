@@ -293,7 +293,7 @@ jobs:
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
 
   code-ql:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"run-queries": ["--off-heap-ram=0"]}}'
@@ -310,7 +310,7 @@ jobs:
         language: [ 'cpp' ]
 
         compiler:
-          - 'gcc-11'
+          - 'gcc-12'
           - 'clang-14'
 
         build_type:

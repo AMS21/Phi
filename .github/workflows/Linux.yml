@@ -111,17 +111,19 @@ jobs:
           name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}
 
   gcc:
-    runs-on: 'ubuntu-20.04'
+    runs-on: ${{ matrix.cfg.os }}
 
     strategy:
       fail-fast: false
 
       matrix:
-        compiler_version:
-          - "8"
-          - "9"
-          - "10"
-          - "11"
+        # Pair of os version and gcc version
+        cfg:
+          - { os: ubuntu-20.04, compiler_version: "8" }
+          - { os: ubuntu-20.04, compiler_version: "9" }
+          - { os: ubuntu-20.04, compiler_version: "10" }
+          - { os: ubuntu-20.04, compiler_version: "11" }
+          - { os: ubuntu-22.04, compiler_version: "12" }
 
         build_type:
           - "Debug"
@@ -146,13 +148,13 @@ jobs:
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
-          key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}
+          key: ${{ matrix.os }}-gcc-${{ matrix.cfg.compiler_version }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh gcc-${{ matrix.compiler_version }} ninja
+        run: scripts/ci/InstallTools.sh gcc-${{ matrix.cfg.compiler_version }} ninja
 
       - name: Install gcovr
         if: ${{ matrix.dynamic_test == 'coverage' }}
@@ -190,5 +192,5 @@ jobs:
         uses: codecov/codecov-action@v3.1.0
         with:
           file: ./build/coverage.xml
-          flags: ${{ runner.os }},gcc-${{ matrix.compiler_version }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}
+          flags: ${{ runner.os }},gcc-${{ matrix.cfg.compiler_version }},${{ matrix.build_type }}
+          name: ${{ runner.os }}-gcc-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
