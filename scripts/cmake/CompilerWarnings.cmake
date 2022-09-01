@@ -11,54 +11,35 @@ include(internal/PhiCheckCXXCompilerFlag)
 # Flags
 set(phi_warning_flags
     Wall
-    Walloc-zero
     Walloca
-    Warith-conversion
     Warray-bounds
-    Wattribute-alias=2
     Wbidi-chars=any
     Wcast-align # warn for potential performance problem casts
     Wcast-qual
     Wconversion # warn on type conversions that may lose data
     Wdate-time
     Wdouble-promotion # warn if float is implicit promoted to double
-    Wduplicated-branches # warn if if / else branches have duplicated code
-    Wduplicated-cond # warn if if / else chain has duplicated conditions
     Wenum-conversion
     Weverything
     Wextra # reasonable and standard
     Wfloat-equal
-    Wformat-overflow=2
-    Wformat-signedness
-    Wformat-truncation=2
     Wformat=2 # warn on security issues around functions that format output (ie printf)
     Winvalid-pch
     Wlifetime
-    Wlogical-op # warn about logical operations being used where bitwise were probably wanted
     Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
     Wmissing-field-initializers
     Wmissing-format-attribute
     Wmissing-include-dirs
     Wmissing-noreturn
-    Wnormalized
     Wnull-dereference # warn if a null dereference is detected
     Wpedantic # warn if non-standard C++ is used
     Wpointer-arith
     Wredundant-decls
-    Wrestrict
     Wshadow # warn the user if a variable declaration shadows one from a parent context
-    Wshift-overflow=2
     Wsign-conversion # warn on sign conversions
     Wstack-protector
     Wstrict-aliasing=2
     Wstrict-overflow=5
-    Wsuggest-attribute=cold
-    Wsuggest-attribute=const
-    Wsuggest-attribute=format
-    Wsuggest-attribute=malloc
-    Wsuggest-attribute=noreturn
-    Wsuggest-attribute=pure
-    Wsuggest-final-methods
     Wsuggest-final-types
     Wsync-nand
     Wtrampolines
@@ -75,26 +56,41 @@ set(phi_warning_flags
 
 set(phi_warning_flags_cxx
     Waligned-new=all
+    Walloc-zero
+    Warith-conversion
+    Wattribute-alias=2
     Wcatch-value=3
     Wcomma-subscript
+    Wduplicated-branches # warn if if / else branches have duplicated code
+    Wduplicated-cond # warn if if / else chain has duplicated conditions
     Wextra-semi
+    Wformat-overflow=2
+    Wformat-signedness
+    Wformat-truncation=2
     Winterference-size
+    Wlogical-op # warn about logical operations being used where bitwise were probably wanted
     Wmismatched-tags
     Wnoexcept
-    # warn the user if a class with virtual functions has a non-virtual destructor. This helps catch
-    # hard to track down memory errors
-    Wnon-virtual-dtor
-    # warn for c-style casts
-    Wold-style-cast
-    # warn if you overload (not override) a virtual function
-    Woverloaded-virtual
+    Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
+                      # destructor. This helps catch hard to track down memory errors
+    Wnormalized
+    Wold-style-cast # warn for c-style casts
+    Woverloaded-virtual # warn if you overload (not override) a virtual function
     Wplacement-new=2
     Wredundant-tags
     Wregister
+    Wrestrict
+    Wshift-overflow=2
     Wstrict-null-sentinel
+    Wsuggest-attribute=cold
+    Wsuggest-attribute=const
+    Wsuggest-attribute=format
+    Wsuggest-attribute=malloc
+    Wsuggest-attribute=noreturn
+    Wsuggest-attribute=pure
+    Wsuggest-final-methods
     Wsuggest-override
-    # warn if you perform a cast to the same type
-    Wuseless-cast
+    Wuseless-cast # warn if you perform a cast to the same type
     Wvolatile
     Wzero-as-null-pointer-constant)
 
@@ -185,7 +181,7 @@ if(PHI_COMPILER_GCC)
   endif()
 
   if(PHI_GCC_VERSION VERSION_LESS "8.0.0")
-    list(REMOVE_ITEM phi_warning_flags "Wduplicated-branches")
+    list(REMOVE_ITEM phi_warning_flags_cxx "Wduplicated-branches")
   endif()
 endif()
 
