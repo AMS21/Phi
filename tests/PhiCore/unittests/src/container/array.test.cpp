@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include "test_types.hpp"
+#include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
