@@ -13,7 +13,6 @@ set(phi_warning_flags
     Wall
     Walloca
     Warray-bounds
-    Wbidi-chars=any
     Wcast-align # warn for potential performance problem casts
     Wcast-qual
     Wconversion # warn on type conversions that may lose data
@@ -40,18 +39,11 @@ set(phi_warning_flags
     Wstack-protector
     Wstrict-aliasing=2
     Wstrict-overflow=5
-    Wsuggest-final-types
-    Wsync-nand
-    Wtrampolines
     Wundef
     Wuninitialized
     Wunreachable-code
-    Wunsafe-loop-optimizations
     Wunused # warn on anything being unused
-    Wunused-const-variable=2
     Wunused-parameter
-    Wuse-after-free=3
-    Wvector-operation-performance
     Wvla)
 
 set(phi_warning_flags_cxx
@@ -59,6 +51,7 @@ set(phi_warning_flags_cxx
     Walloc-zero
     Warith-conversion
     Wattribute-alias=2
+    Wbidi-chars=any
     Wcatch-value=3
     Wcomma-subscript
     Wduplicated-branches # warn if if / else branches have duplicated code
@@ -89,8 +82,15 @@ set(phi_warning_flags_cxx
     Wsuggest-attribute=noreturn
     Wsuggest-attribute=pure
     Wsuggest-final-methods
+    Wsuggest-final-types
     Wsuggest-override
+    Wsync-nand
+    Wtrampolines
+    Wunsafe-loop-optimizations
+    Wunused-const-variable=2
+    Wuse-after-free=3
     Wuseless-cast # warn if you perform a cast to the same type
+    Wvector-operation-performance
     Wvolatile
     Wzero-as-null-pointer-constant)
 
