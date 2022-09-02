@@ -1351,11 +1351,11 @@ TEST_CASE("array swap")
         CHECK(arr2.size() == 0u);
     }
 
+    // TODO: These fail with gcc-8
+#if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
     {
         using array = phi::array<NonSwappable, 3u>;
 
-        // TODO: These fail with gcc-8
-#if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
         STATIC_REQUIRE(phi::is_not_swappable<NonSwappable>::value);
         STATIC_REQUIRE(phi::is_not_nothrow_swappable<NonSwappable>::value);
         // TODO: This fails
@@ -1367,8 +1367,8 @@ TEST_CASE("array swap")
 
         CHECK_NOT_NOEXCEPT(phi::swap(arr1, arr2));
         CHECK_NOT_NOEXCEPT(arr1.swap(arr2));
-#endif
     }
+#endif
 
     {
         using array = phi::array<ThrowSwappable, 0u>;
