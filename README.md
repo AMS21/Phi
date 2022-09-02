@@ -12,6 +12,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/39d38815e5db470b8577b02f58f35d3f)](https://www.codacy.com/gh/AMS21/Phi/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AMS21/Phi&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/ams21/phi/badge)](https://www.codefactor.io/repository/github/ams21/phi)
 ![Coverity Scan](https://img.shields.io/coverity/scan/ams21-phi)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/AMS21/Phi.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AMS21/Phi/context:cpp)
 [![codecov](https://codecov.io/gh/AMS21/Phi/branch/develop/graph/badge.svg)](https://codecov.io/gh/AMS21/Phi)
 [![BCH compliance](https://bettercodehub.com/edge/badge/AMS21/Phi?branch=develop)](https://bettercodehub.com/)
