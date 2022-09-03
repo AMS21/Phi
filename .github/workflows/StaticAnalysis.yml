@@ -319,15 +319,12 @@ jobs:
           - 'Release'
 
     steps:
+      # NOTE: We won't cache the compiliation since CodeQL requires a full rebuild for analysis to work
+
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           submodules: recursive
-
-      - name: Setup ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.os }}-${{ matrix.compiler }}
 
       - name: Setup Environment
         run: scripts/ci/SetupEnvironment.sh
