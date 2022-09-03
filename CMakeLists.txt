@@ -22,12 +22,12 @@ phi_log("Configuring Phi version ${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI
 
 # Project
 if(${CMAKE_VERSION} VERSION_LESS 3.0)
-  project(Phi CXX)
+  project(Phi CXX C)
 else()
   project(
     Phi
     VERSION "${PHI_VERSION_MAJOR}.${PHI_VERSION_MINOR}.${PHI_VERSION_PATCH}"
-    LANGUAGES CXX)
+    LANGUAGES CXX C)
 endif()
 
 # Check if Phi is being used directly or via add_subdirectory, but allow overriding

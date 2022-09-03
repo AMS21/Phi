@@ -121,4 +121,7 @@ function(phi_add_executable)
   if(DEFINED al_STATIC_ANALYZER)
     phi_target_use_static_analyzers(TARGET ${ae_NAME} ${al_STATIC_ANALYZER})
   endif()
+
+  # Set linker language
+  set_target_properties(${ae_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 endfunction()

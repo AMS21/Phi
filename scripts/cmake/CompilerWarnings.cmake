@@ -2,6 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(internal/PhiCheckCXXCompilerFlag)
+include(internal/PhiCheckCCompilerFlag)
 
 # References
 
@@ -10,71 +11,63 @@ include(internal/PhiCheckCXXCompilerFlag)
 
 # Flags
 set(phi_warning_flags
+    Waligned-new=all
     Wall
+    Walloc-zero
     Walloca
+    Warith-conversion
     Warray-bounds
+    Wattribute-alias=2
+    Wbidi-chars=any
     Wcast-align # warn for potential performance problem casts
     Wcast-qual
+    Wcatch-value=3
+    Wcomma-subscript
     Wconversion # warn on type conversions that may lose data
     Wdate-time
     Wdouble-promotion # warn if float is implicit promoted to double
+    Wduplicated-branches # warn if if / else branches have duplicated code
+    Wduplicated-cond # warn if if / else chain has duplicated conditions
     Wenum-conversion
     Weverything
     Wextra # reasonable and standard
+    Wextra-semi
     Wfloat-equal
+    Wformat-overflow=2
+    Wformat-signedness
+    Wformat-truncation=2
     Wformat=2 # warn on security issues around functions that format output (ie printf)
+    Winterference-size
     Winvalid-pch
     Wlifetime
+    Wlogical-op # warn about logical operations being used where bitwise were probably wanted
     Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+    Wmismatched-tags
     Wmissing-field-initializers
     Wmissing-format-attribute
     Wmissing-include-dirs
     Wmissing-noreturn
-    Wnull-dereference # warn if a null dereference is detected
-    Wpedantic # warn if non-standard C++ is used
-    Wpointer-arith
-    Wredundant-decls
-    Wshadow # warn the user if a variable declaration shadows one from a parent context
-    Wsign-conversion # warn on sign conversions
-    Wstack-protector
-    Wstrict-aliasing=2
-    Wstrict-overflow=5
-    Wundef
-    Wuninitialized
-    Wunreachable-code
-    Wunused # warn on anything being unused
-    Wunused-parameter
-    Wvla)
-
-set(phi_warning_flags_cxx
-    Waligned-new=all
-    Walloc-zero
-    Warith-conversion
-    Wattribute-alias=2
-    Wbidi-chars=any
-    Wcatch-value=3
-    Wcomma-subscript
-    Wduplicated-branches # warn if if / else branches have duplicated code
-    Wduplicated-cond # warn if if / else chain has duplicated conditions
-    Wextra-semi
-    Wformat-overflow=2
-    Wformat-signedness
-    Wformat-truncation=2
-    Winterference-size
-    Wlogical-op # warn about logical operations being used where bitwise were probably wanted
-    Wmismatched-tags
     Wnoexcept
     Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
                       # destructor. This helps catch hard to track down memory errors
     Wnormalized
+    Wnull-dereference # warn if a null dereference is detected
     Wold-style-cast # warn for c-style casts
     Woverloaded-virtual # warn if you overload (not override) a virtual function
+    Wpedantic # warn if non-standard C++ is used
     Wplacement-new=2
+    Wpointer-arith
+    Wredundant-decls
     Wredundant-tags
     Wregister
     Wrestrict
+    Wshadow # warn the user if a variable declaration shadows one from a parent context
     Wshift-overflow=2
+    Wsign-conversion # warn on sign conversions
+    Wstack-protector
+    Wstrict-aliasing=2
     Wstrict-null-sentinel
+    Wstrict-overflow=5
     Wsuggest-attribute=cold
     Wsuggest-attribute=const
     Wsuggest-attribute=format
@@ -86,11 +79,17 @@ set(phi_warning_flags_cxx
     Wsuggest-override
     Wsync-nand
     Wtrampolines
+    Wundef
+    Wuninitialized
+    Wunreachable-code
     Wunsafe-loop-optimizations
+    Wunused # warn on anything being unused
     Wunused-const-variable=2
+    Wunused-parameter
     Wuse-after-free=3
     Wuseless-cast # warn if you perform a cast to the same type
     Wvector-operation-performance
+    Wvla
     Wvolatile
     Wzero-as-null-pointer-constant)
 
@@ -177,11 +176,11 @@ if(PHI_COMPILER_GCC)
   set(phi_disabled_warnings_flags "Wno-unused-function")
 
   if(PHI_GCC_VERSION VERSION_LESS "9.0.0")
-    list(REMOVE_ITEM phi_warning_flags_cxx "Wuseless-cast")
+    list(REMOVE_ITEM phi_warning_flags "Wuseless-cast")
   endif()
 
   if(PHI_GCC_VERSION VERSION_LESS "8.0.0")
-    list(REMOVE_ITEM phi_warning_flags_cxx "Wduplicated-branches")
+    list(REMOVE_ITEM phi_warning_flags "Wduplicated-branches")
   endif()
 endif()
 
@@ -193,34 +192,34 @@ endif()
 
 # Checks
 
-# Check all normal warnings
-set(_phi_warning_flags_supported CACHE INTERNAL "")
+# Check all normal warnings for C++
+set(_phi_warning_flags_cxx_supported CACHE INTERNAL "")
 foreach(_test ${phi_warning_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_CXX_FLAG_${_testName}")
 
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_warning_flags_supported
-        ${_phi_warning_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+  if(PHI_HAS_CXX_FLAG_${_testName})
+    set(_phi_warning_flags_cxx_supported
+        ${_phi_warning_flags_cxx_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
 
-# Check all cxx normal warnings
-set(_phi_warning_flags_cxx_supported CACHE INTERNAL "")
-foreach(_test ${phi_warning_flags_cxx})
+# Check all C normal warnings
+set(_phi_warning_flags_c_supported CACHE INTERNAL "")
+foreach(_test ${phi_warning_flags})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+  phi_check_c_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_C_FLAG_${_testName}")
 
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_warning_flags_cxx_supported
-        ${_phi_warning_flags_cxx_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+  if(PHI_HAS_C_FLAG_${_testName})
+    set(_phi_warning_flags_c_supported
+        ${_phi_warning_flags_c_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
@@ -321,23 +320,30 @@ function(phi_target_set_warnings)
     set(visibility_scope PRIVATE)
   endif()
 
-  # Set warnings
-  target_compile_options(${warn_TARGET} ${visibility_scope} ${_phi_warning_flags_supported})
-  target_compile_options(${warn_TARGET} ${visibility_scope}
-                         ${_phi_disabled_warnings_flags_supported})
-
   # Get linker language
   get_property(
     target_linker_language
     TARGET ${warn_TARGET}
     PROPERTY LINKER_LANGUAGE)
 
-  # Set cxx warnings flags
+  # message(STATUS "Target: ${warn_TARGET}") message(STATUS "Linker language:
+  # ${target_linker_language}")
+
   if("${target_linker_language}" STREQUAL "CXX")
+    # Set C++ warning flags
     foreach(flag ${_phi_warning_flags_cxx_supported})
       target_compile_options(${warn_TARGET} ${visibility_scope} ${flag})
-    endforeach(flag)
+    endforeach()
+  elseif("${target_linker_language}" STREQUAL "C")
+    # Set C warning flags
+    foreach(flag ${_phi_warning_flags_c_supported})
+      target_compile_options(${warn_TARGET} ${visibility_scope} ${flag})
+    endforeach()
   endif()
+
+  # Set disabled warnings
+  target_compile_options(${warn_TARGET} ${visibility_scope}
+                         ${_phi_disabled_warnings_flags_supported})
 
   # Add optional warnings as errors
   if(warn_WARNINGS_AS_ERRORS)

@@ -128,4 +128,7 @@ function(phi_add_library)
   if(DEFINED al_STATIC_ANALYZER)
     phi_target_use_static_analyzers(TARGET ${al_NAME} ${al_STATIC_ANALYZER})
   endif()
+
+  # Set linker language
+  set_target_properties(${al_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 endfunction(phi_add_library)

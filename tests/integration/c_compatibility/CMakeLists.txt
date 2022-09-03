@@ -9,3 +9,6 @@ phi_add_executable(
   "Tests/Integration"
   PRIVATE_LINK_LIBRARIES
   Phi::Core)
+
+# Set linker language to C
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)

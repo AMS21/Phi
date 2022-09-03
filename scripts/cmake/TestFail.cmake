@@ -41,6 +41,9 @@ function(runtime_failure_test)
   else()
     set_tests_properties(${TEST_NAME} PROPERTIES WILL_FAIL TRUE)
   endif()
+
+  # Set linker language
+  set_target_properties(${TEST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 endfunction(runtime_failure_test)
 
 function(compile_failure_test)
@@ -86,4 +89,7 @@ function(compile_failure_test)
   endif()
 
   set_tests_properties(${TEST_NAME} PROPERTIES WILL_FAIL true)
+
+  # Set linker language
+  set_target_properties(${TEST_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 endfunction(compile_failure_test)
