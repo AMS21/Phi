@@ -140,7 +140,11 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -171,9 +175,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }}
 
@@ -221,7 +222,11 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -252,9 +257,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }}
 

@@ -84,7 +84,11 @@ jobs:
           key: ${{ matrix.os }}-xcode-${{ matrix.cfg.compiler_version }}
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Setup XCode
         uses: maxim-lobanov/setup-xcode@v1.4.1
@@ -108,9 +112,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 
@@ -186,7 +187,11 @@ jobs:
           key: ${{ matrix.os }}-gcc-${{ matrix.compiler_version }}
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Install gcc
         run: |
@@ -207,9 +212,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 

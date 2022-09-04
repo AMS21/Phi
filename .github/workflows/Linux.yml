@@ -66,7 +66,11 @@ jobs:
           key: ${{ matrix.os }}-clang-${{ matrix.compiler_version }}
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Install compiler
         run: scripts/ci/InstallTools.sh clang-${{ matrix.compiler_version }} ninja
@@ -83,9 +87,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 
@@ -151,7 +152,11 @@ jobs:
           key: ${{ matrix.os }}-gcc-${{ matrix.cfg.compiler_version }}
 
       - name: Setup Environment
-        run: scripts/ci/SetupEnvironment.sh
+        run: |
+          scripts/ci/SetupEnvironment.sh
+
+          # Export dynamic test mode
+          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Install compiler
         run: scripts/ci/InstallTools.sh gcc-${{ matrix.cfg.compiler_version }} ninja
@@ -168,9 +173,6 @@ jobs:
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
 
