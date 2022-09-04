@@ -67,7 +67,6 @@ set(phi_warning_flags
     Wstack-protector
     Wstrict-aliasing=2
     Wstrict-null-sentinel
-    Wstrict-overflow=5
     Wsuggest-attribute=cold
     Wsuggest-attribute=const
     Wsuggest-attribute=format
@@ -161,14 +160,6 @@ set(phi_check_required_flags
 # Clang only requires -Weverything
 if(PHI_COMPILER_CLANG)
   set(phi_warning_flags "Weverything")
-endif()
-
-# Disable -Wstrict-overflow on gcc with asan, ubsan or tsan
-if(PHI_COMPILER_GCC
-   AND (ENABLE_SANITIZER_ADDRESS
-        OR ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-        OR ENABLE_SANITIZER_THREAD))
-  list(REMOVE_ITEM phi_warning_flags "Wstrict-overflow=5")
 endif()
 
 # GCC does except all -Wno-xxxx flags even if it can't handle them

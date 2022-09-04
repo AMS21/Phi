@@ -18,7 +18,6 @@
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
-PHI_GCC_SUPPRESS_WARNING("-Wstrict-overflow")
 
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE("BasicStringView", "[Container][StringView]")
