@@ -127,7 +127,7 @@ jobs:
           name: ${{ runner.os }}-xcode-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
 
   gcc:
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     env:
       # Sanitizers
@@ -142,28 +142,23 @@ jobs:
       matrix:
         compiler_version:
           - "8"
-          #- "9"
-          #- "10"
-          #- "11"
+          - "9"
+          - "10"
+          - "11"
           - "12"
 
         build_type:
           - "Debug"
-          #- "RelWithDebInfo"
+          - "RelWithDebInfo"
           - "Release"
 
         dynamic_test:
           - "none"
           - "coverage"
-          #- "asan"
-          #- "lsan"
-          #- "ubsan"
-          #- "valgrind"
-
-        exclude:
-          # These version seem to not be able to build valgrind for some reason
-          - compiler_version: "13"
-            dynamic_test: "valgrind"
+          - "asan"
+          - "lsan"
+          - "ubsan"
+          - "valgrind"
 
     steps:
       - name: Checkout
