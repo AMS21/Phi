@@ -55,6 +55,28 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
   endforeach(_test)
 endif()
 
+# Extra ASAN sanitizer options
+set(phi_asan_extra_options pointer-compare pointer-subtract)
+
+# Check supported extra asan options
+set(_phi_asan_extra_options_supported CACHE INTERNAL "")
+
+if(PHI_SUPPORTS_SANITIZER_ADDRESS)
+  foreach(_test ${phi_asan_extra_options})
+    string(REPLACE "-" "_" _testName ${_test})
+    string(REPLACE "=" "_" _testName ${_testName})
+    string(TOUPPER ${_testName} _testName)
+
+    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+                      "PHI_SUPPORTS_SANITIZER_${_testName}")
+    if(PHI_SUPPORTS_SANITIZER_${_testName})
+      set(_phi_asan_extra_options_supported
+          ${_phi_asan_extra_options_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
+          CACHE INTERNAL "")
+    endif()
+  endforeach()
+endif()
+
 # Extra MSAN
 set(phi_msan_extra_flags track-origins=2 use-after-dtor)
 
@@ -101,8 +123,6 @@ set(phi_ubsan_extra_flags
     vptr
     # GCC only
     bounds-strict
-    pointer-compare
-    pointer-subtract
     # clang only
     array-bounds
     function
@@ -214,6 +234,7 @@ function(phi_target_enable_sanitizer)
 
     # Add extra ASAN options
     if(sanitizer STREQUAL "address")
+      # Extra flags
       foreach(asan_extra ${_phi_asan_extra_flags_supported})
         if(extra_compile_flags EQUAL "")
           set(extra_compile_flags ${asan_extra})
@@ -221,6 +242,9 @@ function(phi_target_enable_sanitizer)
           set(extra_compile_flags ${extra_compile_flags} ${asan_extra})
         endif()
       endforeach()
+      # Extra sanitizer options
+      list(JOIN _phi_asan_extra_options_supported "," asan_extra)
+      set(list_of_sanitizers "${list_of_sanitizers},${asan_extra}")
       # Add extra MSAN options
     elseif(santizier STREQUAL "memory")
       foreach(asan_extra ${_phi_msan_extra_flags_supported})
