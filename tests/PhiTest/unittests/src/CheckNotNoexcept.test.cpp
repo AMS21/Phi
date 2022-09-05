@@ -1,16 +1,11 @@
-#include <phi/compiler_support/warning.hpp>
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
-
 #include <phi/test/test_macros.hpp>
 
-void f() noexcept(false)
-{}
+void f() noexcept(false);
+
+void g();
 
 TEST_CASE("CHECK_NOT_NOEXCEPT")
 {
     CHECK_NOT_NOEXCEPT(f());
+    CHECK_NOT_NOEXCEPT(g());
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
