@@ -27,6 +27,7 @@ SOFTWARE.
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/algorithm/swap.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/move.hpp>
 #include <phi/type_traits/is_assignable.hpp>
@@ -178,17 +179,33 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
     SECTION("constructor")
     {
-        constexpr phi::boolean bool1(true);
-        STATIC_REQUIRE(bool1);
+        {
+            constexpr phi::boolean bool1(true);
+            STATIC_REQUIRE(bool1);
 
-        constexpr phi::boolean bool2(false);
-        STATIC_REQUIRE_FALSE(bool2);
+            constexpr phi::boolean bool2(false);
+            STATIC_REQUIRE_FALSE(bool2);
 
-        constexpr phi::boolean bool3(bool1);
-        STATIC_REQUIRE(bool3);
+            constexpr phi::boolean bool3(bool1);
+            STATIC_REQUIRE(bool3);
 
-        constexpr phi::boolean bool4(phi::move(bool2));
-        STATIC_REQUIRE_FALSE(bool4);
+            constexpr phi::boolean bool4(phi::move(bool2));
+            STATIC_REQUIRE_FALSE(bool4);
+        }
+
+        {
+            phi::boolean bool1(true);
+            CHECK(bool1);
+
+            phi::boolean bool2(false);
+            CHECK_FALSE(bool2);
+
+            phi::boolean bool3(bool1);
+            CHECK(bool3);
+
+            phi::boolean bool4(phi::move(bool2));
+            CHECK_FALSE(bool4);
+        }
     }
 
     SECTION("assignment")
@@ -198,74 +215,169 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         phi::boolean bool3(true);
 
         bool1 = false;
-        CHECK_FALSE(static_cast<bool>(bool1));
+        CHECK_FALSE(bool1);
         bool1 = true;
-        CHECK(static_cast<bool>(bool1));
+        CHECK(bool1);
 
         bool1 = bool2;
-        CHECK_FALSE(static_cast<bool>(bool1));
+        CHECK_FALSE(bool1);
         bool1 = bool3;
-        CHECK(static_cast<bool>(bool1));
+        CHECK(bool1);
 
         CHECK_NOEXCEPT(bool1 = false);
     }
 
     SECTION("negate")
     {
-        constexpr phi::boolean bool1(true);
-        STATIC_REQUIRE_FALSE(!bool1);
+        {
+            constexpr phi::boolean bool1(true);
+            STATIC_REQUIRE_FALSE(!bool1);
+            CHECK_NOEXCEPT(!bool1);
 
-        constexpr phi::boolean bool2(false);
-        STATIC_REQUIRE(!bool2);
+            constexpr phi::boolean bool2(false);
+            STATIC_REQUIRE(!bool2);
+            CHECK_NOEXCEPT(!bool2);
+        }
 
-        CHECK_NOEXCEPT(!bool2);
+        {
+            phi::boolean bool1(true);
+            CHECK_FALSE(!bool1);
+            CHECK_NOEXCEPT(!bool1);
+
+            phi::boolean bool2(false);
+            CHECK(!bool2);
+            CHECK_NOEXCEPT(!bool2);
+        }
+    }
+
+    SECTION("operator bool")
+    {
+        {
+            phi::boolean bool1{true};
+
+            bool unsafe_bool1 = static_cast<bool>(bool1);
+            CHECK_NOEXCEPT(static_cast<bool>(bool1));
+
+            CHECK(unsafe_bool1);
+
+            constexpr phi::boolean bool2{false};
+
+            bool unsafe_bool2 = static_cast<bool>(bool2);
+            CHECK_NOEXCEPT(static_cast<bool>(bool2));
+
+            CHECK_FALSE(unsafe_bool2);
+        }
+
+        {
+            constexpr phi::boolean bool1{true};
+
+            constexpr bool unsafe_bool1 = static_cast<bool>(bool1);
+            CHECK_NOEXCEPT(static_cast<bool>(bool1));
+
+            STATIC_REQUIRE(unsafe_bool1);
+
+            constexpr phi::boolean bool2{false};
+
+            constexpr bool unsafe_bool2 = static_cast<bool>(bool2);
+            CHECK_NOEXCEPT(static_cast<bool>(bool2));
+
+            STATIC_REQUIRE_FALSE(unsafe_bool2);
+        }
     }
 
     SECTION("comparison")
     {
-        constexpr phi::boolean bool1(true);
-        STATIC_REQUIRE(bool1 == true);
-        STATIC_REQUIRE(true == bool1);
-        STATIC_REQUIRE(bool1 != false);
-        STATIC_REQUIRE(false != bool1);
-        STATIC_REQUIRE(bool1 == phi::boolean(true));
-        STATIC_REQUIRE(bool1 != phi::boolean(false));
+        {
+            constexpr phi::boolean bool1(true);
+            STATIC_REQUIRE(bool1 == true);
+            STATIC_REQUIRE(true == bool1);
+            STATIC_REQUIRE(bool1 != false);
+            STATIC_REQUIRE(false != bool1);
+            STATIC_REQUIRE(bool1 == phi::boolean(true));
+            STATIC_REQUIRE(bool1 != phi::boolean(false));
 
-        constexpr phi::boolean bool2(false);
-        STATIC_REQUIRE(bool2 == false);
-        STATIC_REQUIRE(false == bool2);
-        STATIC_REQUIRE(bool2 != true);
-        STATIC_REQUIRE(true != bool2);
-        STATIC_REQUIRE(bool2 == phi::boolean(false));
-        STATIC_REQUIRE(bool2 != phi::boolean(true));
+            constexpr phi::boolean bool2(false);
+            STATIC_REQUIRE(bool2 == false);
+            STATIC_REQUIRE(false == bool2);
+            STATIC_REQUIRE(bool2 != true);
+            STATIC_REQUIRE(true != bool2);
+            STATIC_REQUIRE(bool2 == phi::boolean(false));
+            STATIC_REQUIRE(bool2 != phi::boolean(true));
 
-        CHECK_NOEXCEPT(bool2 == false);
-        CHECK_NOEXCEPT(false == bool2);
-        CHECK_NOEXCEPT(bool2 != true);
-        CHECK_NOEXCEPT(true != bool2);
-        CHECK_NOEXCEPT(bool2 == phi::boolean(false));
-        CHECK_NOEXCEPT(bool2 != phi::boolean(true));
+            CHECK_NOEXCEPT(bool2 == false);
+            CHECK_NOEXCEPT(false == bool2);
+            CHECK_NOEXCEPT(bool2 != true);
+            CHECK_NOEXCEPT(true != bool2);
+            CHECK_NOEXCEPT(bool2 == phi::boolean(false));
+            CHECK_NOEXCEPT(bool2 != phi::boolean(true));
+        }
+
+        {
+            phi::boolean bool1(true);
+            CHECK(bool1 == true);
+            CHECK(true == bool1);
+            CHECK(bool1 != false);
+            CHECK(false != bool1);
+            CHECK(bool1 == phi::boolean(true));
+            CHECK(bool1 != phi::boolean(false));
+
+            phi::boolean bool2(false);
+            CHECK(bool2 == false);
+            CHECK(false == bool2);
+            CHECK(bool2 != true);
+            CHECK(true != bool2);
+            CHECK(bool2 == phi::boolean(false));
+            CHECK(bool2 != phi::boolean(true));
+
+            CHECK_NOEXCEPT(bool2 == false);
+            CHECK_NOEXCEPT(false == bool2);
+            CHECK_NOEXCEPT(bool2 != true);
+            CHECK_NOEXCEPT(true != bool2);
+            CHECK_NOEXCEPT(bool2 == phi::boolean(false));
+            CHECK_NOEXCEPT(bool2 != phi::boolean(true));
+        }
     }
 
     SECTION("i/o")
     {
-        std::ostringstream out_stream;
-        std::istringstream in_stream("0");
+        {
+            std::ostringstream out_stream;
+            std::istringstream in_stream("0");
 
-        phi::boolean boolean(true);
-        out_stream << boolean;
-        CHECK(out_stream.str() == "1");
+            phi::boolean boolean(true);
+            out_stream << boolean;
+            CHECK(out_stream.str() == "1");
 
-        in_stream >> boolean;
-        CHECK_FALSE(boolean);
+            in_stream >> boolean;
+            CHECK_FALSE(boolean);
+        }
+
+        {
+            std::ostringstream out_stream;
+            std::istringstream in_stream("1");
+
+            phi::boolean boolean(false);
+            out_stream << boolean;
+            CHECK(out_stream.str() == "0");
+
+            in_stream >> boolean;
+            CHECK(boolean);
+        }
     }
 
     SECTION("unsafe")
     {
-        constexpr phi::boolean boolean(true);
-        STATIC_REQUIRE(boolean.unsafe());
+        {
+            constexpr phi::boolean boolean(true);
+            STATIC_REQUIRE(boolean.unsafe());
+            CHECK_NOEXCEPT(boolean.unsafe());
+        }
 
-        CHECK_NOEXCEPT(boolean.unsafe());
+        {
+            phi::boolean boolean{false};
+            CHECK_FALSE(boolean.unsafe());
+            CHECK_NOEXCEPT(boolean.unsafe());
+        }
     }
 
     SECTION("flip")
@@ -284,19 +396,71 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
     SECTION("as_flipped")
     {
-        constexpr phi::boolean boolean{true};
-        STATIC_REQUIRE(boolean);
+        {
+            constexpr phi::boolean boolean{true};
+            STATIC_REQUIRE(boolean);
 
-        constexpr phi::boolean flipped_bool = boolean.as_flipped();
-        STATIC_REQUIRE(boolean);
-        STATIC_REQUIRE_FALSE(flipped_bool);
+            constexpr phi::boolean flipped_bool = boolean.as_flipped();
+            STATIC_REQUIRE(boolean);
+            STATIC_REQUIRE_FALSE(flipped_bool);
 
-        constexpr phi::boolean double_flipped_bool = flipped_bool.as_flipped();
-        STATIC_REQUIRE(boolean);
-        STATIC_REQUIRE_FALSE(flipped_bool);
-        STATIC_REQUIRE(double_flipped_bool);
+            constexpr phi::boolean double_flipped_bool = flipped_bool.as_flipped();
+            STATIC_REQUIRE(boolean);
+            STATIC_REQUIRE_FALSE(flipped_bool);
+            STATIC_REQUIRE(double_flipped_bool);
 
-        CHECK_NOEXCEPT(boolean.as_flipped());
+            CHECK_NOEXCEPT(boolean.as_flipped());
+        }
+
+        {
+            phi::boolean boolean{true};
+            CHECK(boolean);
+
+            phi::boolean flipped_bool = boolean.as_flipped();
+            CHECK(boolean);
+            CHECK_FALSE(flipped_bool);
+
+            phi::boolean double_flipped_bool = flipped_bool.as_flipped();
+            CHECK(boolean);
+            CHECK_FALSE(flipped_bool);
+            CHECK(double_flipped_bool);
+
+            CHECK_NOEXCEPT(boolean.as_flipped());
+        }
+    }
+
+    SECTION("swap")
+    {
+        phi::boolean bool1{false};
+        phi::boolean bool2{true};
+
+        CHECK_FALSE(bool1);
+        CHECK(bool2);
+
+        bool1.swap(bool2);
+        CHECK_NOEXCEPT(bool1.swap(bool2));
+
+        CHECK(bool1);
+        CHECK_FALSE(bool2);
+
+        phi::swap(bool1, bool2);
+        CHECK_NOEXCEPT(phi::swap(bool1, bool2));
+
+        CHECK_FALSE(bool1);
+        CHECK(bool2);
+
+        // Swap b1 with itself
+        bool1.swap(bool1);
+        CHECK_NOEXCEPT(bool1.swap(bool2));
+
+        CHECK_FALSE(bool1);
+        CHECK(bool2);
+
+        phi::swap(bool1, bool1);
+        CHECK_NOEXCEPT(phi::swap(bool1, bool1));
+
+        CHECK_FALSE(bool1);
+        CHECK(bool2);
     }
 
     SECTION("usable in an if expression")
@@ -304,6 +468,13 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         const phi::boolean bool_true{true};
 
         if (bool_true)
+        {
+            CHECK(true);
+        }
+
+        const phi::boolean bool_false{false};
+
+        if (!bool_false)
         {
             CHECK(true);
         }
