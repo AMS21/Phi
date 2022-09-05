@@ -7,7 +7,5 @@ int main()
 {
     SetupRuntimeFailure();
 
-    phi::u8 value = phi::binary_digit_value('2');
-
-    return value.unsafe();
+    return phi::binary_digit_value('2').unsafe();
 }
