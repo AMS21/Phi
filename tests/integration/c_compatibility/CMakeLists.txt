@@ -12,3 +12,5 @@ phi_add_executable(
 
 # Set linker language to C
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
+
+phi_add_test(TARGET "${PROJECT_NAME}")
