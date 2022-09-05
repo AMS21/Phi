@@ -71,7 +71,7 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
                       "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
       set(_phi_asan_extra_options_supported
-          ${_phi_asan_extra_options_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
+          ${_phi_asan_extra_options_supported};${_test}
           CACHE INTERNAL "")
     endif()
   endforeach()
