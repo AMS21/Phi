@@ -29,8 +29,8 @@ struct is_not_trivially_assignable : public bool_constant<!PHI_IS_TRIVIALLY_ASSI
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v = PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT,
-                                                                                           ArgT);
+PHI_INLINE_VARIABLE constexpr bool is_trivially_assignable_v =
+        PHI_IS_TRIVIALLY_ASSIGNABLE(TypeT, ArgT);
 
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE constexpr bool is_not_trivially_assignable_v =

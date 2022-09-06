@@ -20,20 +20,18 @@ TEST_CASE("Likely", "[Likely]")
     {
         switch (index)
         {
-            PHI_UNLIKELY_CASE case 3:
-            {
-                CHECK(index == 3);
-                break;
-            }
-            PHI_LIKELY_CASE case 5:
-            {
-                CHECK(index == 5);
-                break;
-            }
-            default: {
-                CHECK(index < 10);
-                break;
-            }
+        PHI_UNLIKELY_CASE case 3 : {
+            CHECK(index == 3);
+            break;
+        }
+        PHI_LIKELY_CASE case 5 : {
+            CHECK(index == 5);
+            break;
+        }
+        default: {
+            CHECK(index < 10);
+            break;
+        }
         }
     }
 }

@@ -230,34 +230,34 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)(int, char, ...) const volatile&>();
 
     // Lvalue qualifiers with noexcept
-    test_is_member_function_pointer<void (class_type::*)()& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...)& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) & noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const & noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...) volatile& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) volatile & noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() const volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) const volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const volatile& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...)
-                                            const volatile& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) const volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const volatile & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const volatile &
+                                    noexcept>();
 
     // RValue qualifiers
     test_is_member_function_pointer<void (class_type::*)() &&>();
@@ -289,34 +289,34 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)(int, char, ...) const volatile&&>();
 
     // RValue qualifiers with noexcept
-    test_is_member_function_pointer<void (class_type::*)()&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int)&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char)&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...)&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...)&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...)&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) && noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() const&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) const&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) const && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const && noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...) volatile&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) volatile && noexcept>();
 
-    test_is_member_function_pointer<void (class_type::*)() const volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char) const volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const volatile&& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, char, ...)
-                                            const volatile&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char) const volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const volatile && noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, char, ...) const volatile &&
+                                    noexcept>();
 
     test_is_member_function_pointer<member_function_ptr>();
 
@@ -549,17 +549,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<void() const volatile&>();
     test_is_not_member_function_pointer<void() const volatile&&>();
     test_is_not_member_function_pointer<void() noexcept>();
-    test_is_not_member_function_pointer<void()& noexcept>();
-    test_is_not_member_function_pointer<void()&& noexcept>();
+    test_is_not_member_function_pointer<void() & noexcept>();
+    test_is_not_member_function_pointer<void() && noexcept>();
     test_is_not_member_function_pointer<void() const noexcept>();
-    test_is_not_member_function_pointer<void() const& noexcept>();
-    test_is_not_member_function_pointer<void() const&& noexcept>();
+    test_is_not_member_function_pointer<void() const & noexcept>();
+    test_is_not_member_function_pointer<void() const && noexcept>();
     test_is_not_member_function_pointer<void() volatile noexcept>();
-    test_is_not_member_function_pointer<void() volatile& noexcept>();
-    test_is_not_member_function_pointer<void() volatile&& noexcept>();
+    test_is_not_member_function_pointer<void() volatile & noexcept>();
+    test_is_not_member_function_pointer<void() volatile && noexcept>();
     test_is_not_member_function_pointer<void() const volatile noexcept>();
-    test_is_not_member_function_pointer<void() const volatile& noexcept>();
-    test_is_not_member_function_pointer<void() const volatile&& noexcept>();
+    test_is_not_member_function_pointer<void() const volatile & noexcept>();
+    test_is_not_member_function_pointer<void() const volatile && noexcept>();
 
     test_is_not_member_function_pointer<void(int)>();
     test_is_not_member_function_pointer<void(int)&>();
@@ -574,17 +574,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<void(int) const volatile&>();
     test_is_not_member_function_pointer<void(int) const volatile&&>();
     test_is_not_member_function_pointer<void(int) noexcept>();
-    test_is_not_member_function_pointer<void(int)& noexcept>();
-    test_is_not_member_function_pointer<void(int)&& noexcept>();
+    test_is_not_member_function_pointer<void(int) & noexcept>();
+    test_is_not_member_function_pointer<void(int) && noexcept>();
     test_is_not_member_function_pointer<void(int) const noexcept>();
-    test_is_not_member_function_pointer<void(int) const& noexcept>();
-    test_is_not_member_function_pointer<void(int) const&& noexcept>();
+    test_is_not_member_function_pointer<void(int) const & noexcept>();
+    test_is_not_member_function_pointer<void(int) const && noexcept>();
     test_is_not_member_function_pointer<void(int) volatile noexcept>();
-    test_is_not_member_function_pointer<void(int) volatile& noexcept>();
-    test_is_not_member_function_pointer<void(int) volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(int) volatile & noexcept>();
+    test_is_not_member_function_pointer<void(int) volatile && noexcept>();
     test_is_not_member_function_pointer<void(int) const volatile noexcept>();
-    test_is_not_member_function_pointer<void(int) const volatile& noexcept>();
-    test_is_not_member_function_pointer<void(int) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(int) const volatile & noexcept>();
+    test_is_not_member_function_pointer<void(int) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<void(...)>();
     test_is_not_member_function_pointer<void(...)&>();
@@ -599,17 +599,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<void(...) const volatile&>();
     test_is_not_member_function_pointer<void(...) const volatile&&>();
     test_is_not_member_function_pointer<void(...) noexcept>();
-    test_is_not_member_function_pointer<void(...)& noexcept>();
-    test_is_not_member_function_pointer<void(...)&& noexcept>();
+    test_is_not_member_function_pointer<void(...) & noexcept>();
+    test_is_not_member_function_pointer<void(...) && noexcept>();
     test_is_not_member_function_pointer<void(...) const noexcept>();
-    test_is_not_member_function_pointer<void(...) const& noexcept>();
-    test_is_not_member_function_pointer<void(...) const&& noexcept>();
+    test_is_not_member_function_pointer<void(...) const & noexcept>();
+    test_is_not_member_function_pointer<void(...) const && noexcept>();
     test_is_not_member_function_pointer<void(...) volatile noexcept>();
-    test_is_not_member_function_pointer<void(...) volatile& noexcept>();
-    test_is_not_member_function_pointer<void(...) volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(...) volatile & noexcept>();
+    test_is_not_member_function_pointer<void(...) volatile && noexcept>();
     test_is_not_member_function_pointer<void(...) const volatile noexcept>();
-    test_is_not_member_function_pointer<void(...) const volatile& noexcept>();
-    test_is_not_member_function_pointer<void(...) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(...) const volatile & noexcept>();
+    test_is_not_member_function_pointer<void(...) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<void(int, ...)>();
     test_is_not_member_function_pointer<void(int, ...)&>();
@@ -624,17 +624,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<void(int, ...) const volatile&>();
     test_is_not_member_function_pointer<void(int, ...) const volatile&&>();
     test_is_not_member_function_pointer<void(int, ...) noexcept>();
-    test_is_not_member_function_pointer<void(int, ...)& noexcept>();
-    test_is_not_member_function_pointer<void(int, ...)&& noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) & noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) && noexcept>();
     test_is_not_member_function_pointer<void(int, ...) const noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) const& noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) const&& noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) const & noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) const && noexcept>();
     test_is_not_member_function_pointer<void(int, ...) volatile noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) volatile& noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) volatile & noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) volatile && noexcept>();
     test_is_not_member_function_pointer<void(int, ...) const volatile noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) const volatile& noexcept>();
-    test_is_not_member_function_pointer<void(int, ...) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) const volatile & noexcept>();
+    test_is_not_member_function_pointer<void(int, ...) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<int()>();
     test_is_not_member_function_pointer<int()&>();
@@ -649,17 +649,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<int() const volatile&>();
     test_is_not_member_function_pointer<int() const volatile&&>();
     test_is_not_member_function_pointer<int() noexcept>();
-    test_is_not_member_function_pointer<int()& noexcept>();
-    test_is_not_member_function_pointer<int()&& noexcept>();
+    test_is_not_member_function_pointer<int() & noexcept>();
+    test_is_not_member_function_pointer<int() && noexcept>();
     test_is_not_member_function_pointer<int() const noexcept>();
-    test_is_not_member_function_pointer<int() const& noexcept>();
-    test_is_not_member_function_pointer<int() const&& noexcept>();
+    test_is_not_member_function_pointer<int() const & noexcept>();
+    test_is_not_member_function_pointer<int() const && noexcept>();
     test_is_not_member_function_pointer<int() volatile noexcept>();
-    test_is_not_member_function_pointer<int() volatile& noexcept>();
-    test_is_not_member_function_pointer<int() volatile&& noexcept>();
+    test_is_not_member_function_pointer<int() volatile & noexcept>();
+    test_is_not_member_function_pointer<int() volatile && noexcept>();
     test_is_not_member_function_pointer<int() const volatile noexcept>();
-    test_is_not_member_function_pointer<int() const volatile& noexcept>();
-    test_is_not_member_function_pointer<int() const volatile&& noexcept>();
+    test_is_not_member_function_pointer<int() const volatile & noexcept>();
+    test_is_not_member_function_pointer<int() const volatile && noexcept>();
 
     test_is_not_member_function_pointer<int(int)>();
     test_is_not_member_function_pointer<int(int)&>();
@@ -674,17 +674,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<int(int) const volatile&>();
     test_is_not_member_function_pointer<int(int) const volatile&&>();
     test_is_not_member_function_pointer<int(int) noexcept>();
-    test_is_not_member_function_pointer<int(int)& noexcept>();
-    test_is_not_member_function_pointer<int(int)&& noexcept>();
+    test_is_not_member_function_pointer<int(int) & noexcept>();
+    test_is_not_member_function_pointer<int(int) && noexcept>();
     test_is_not_member_function_pointer<int(int) const noexcept>();
-    test_is_not_member_function_pointer<int(int) const& noexcept>();
-    test_is_not_member_function_pointer<int(int) const&& noexcept>();
+    test_is_not_member_function_pointer<int(int) const & noexcept>();
+    test_is_not_member_function_pointer<int(int) const && noexcept>();
     test_is_not_member_function_pointer<int(int) volatile noexcept>();
-    test_is_not_member_function_pointer<int(int) volatile& noexcept>();
-    test_is_not_member_function_pointer<int(int) volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(int) volatile & noexcept>();
+    test_is_not_member_function_pointer<int(int) volatile && noexcept>();
     test_is_not_member_function_pointer<int(int) const volatile noexcept>();
-    test_is_not_member_function_pointer<int(int) const volatile& noexcept>();
-    test_is_not_member_function_pointer<int(int) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(int) const volatile & noexcept>();
+    test_is_not_member_function_pointer<int(int) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<int(...)>();
     test_is_not_member_function_pointer<int(...)&>();
@@ -699,17 +699,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<int(...) const volatile&>();
     test_is_not_member_function_pointer<int(...) const volatile&&>();
     test_is_not_member_function_pointer<int(...) noexcept>();
-    test_is_not_member_function_pointer<int(...)& noexcept>();
-    test_is_not_member_function_pointer<int(...)&& noexcept>();
+    test_is_not_member_function_pointer<int(...) & noexcept>();
+    test_is_not_member_function_pointer<int(...) && noexcept>();
     test_is_not_member_function_pointer<int(...) const noexcept>();
-    test_is_not_member_function_pointer<int(...) const& noexcept>();
-    test_is_not_member_function_pointer<int(...) const&& noexcept>();
+    test_is_not_member_function_pointer<int(...) const & noexcept>();
+    test_is_not_member_function_pointer<int(...) const && noexcept>();
     test_is_not_member_function_pointer<int(...) volatile noexcept>();
-    test_is_not_member_function_pointer<int(...) volatile& noexcept>();
-    test_is_not_member_function_pointer<int(...) volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(...) volatile & noexcept>();
+    test_is_not_member_function_pointer<int(...) volatile && noexcept>();
     test_is_not_member_function_pointer<int(...) const volatile noexcept>();
-    test_is_not_member_function_pointer<int(...) const volatile& noexcept>();
-    test_is_not_member_function_pointer<int(...) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(...) const volatile & noexcept>();
+    test_is_not_member_function_pointer<int(...) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<int(int, ...)>();
     test_is_not_member_function_pointer<int(int, ...)&>();
@@ -724,17 +724,17 @@ TEST_CASE("is_member_function_pointer")
     test_is_not_member_function_pointer<int(int, ...) const volatile&>();
     test_is_not_member_function_pointer<int(int, ...) const volatile&&>();
     test_is_not_member_function_pointer<int(int, ...) noexcept>();
-    test_is_not_member_function_pointer<int(int, ...)& noexcept>();
-    test_is_not_member_function_pointer<int(int, ...)&& noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) & noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) && noexcept>();
     test_is_not_member_function_pointer<int(int, ...) const noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) const& noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) const&& noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) const & noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) const && noexcept>();
     test_is_not_member_function_pointer<int(int, ...) volatile noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) volatile& noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) volatile & noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) volatile && noexcept>();
     test_is_not_member_function_pointer<int(int, ...) const volatile noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) const volatile& noexcept>();
-    test_is_not_member_function_pointer<int(int, ...) const volatile&& noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) const volatile & noexcept>();
+    test_is_not_member_function_pointer<int(int, ...) const volatile && noexcept>();
 
     test_is_not_member_function_pointer<void (*)()>();
     test_is_not_member_function_pointer<void (*)() noexcept>();
@@ -815,11 +815,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)() const&>();
     test_is_member_function_pointer<void (class_type::*)() const&&>();
     test_is_member_function_pointer<void (class_type::*)() noexcept>();
-    test_is_member_function_pointer<void (class_type::*)()& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)()&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() && noexcept>();
     test_is_member_function_pointer<void (class_type::*)() const noexcept>();
-    test_is_member_function_pointer<void (class_type::*)() const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)() const&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)() const && noexcept>();
 
     test_is_member_function_pointer<void (class_type::*)(int)>();
     test_is_member_function_pointer<void (class_type::*)(int)&>();
@@ -828,11 +828,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)(int) const&>();
     test_is_member_function_pointer<void (class_type::*)(int) const&&>();
     test_is_member_function_pointer<void (class_type::*)(int) noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int)&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) && noexcept>();
     test_is_member_function_pointer<void (class_type::*)(int) const noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int) const&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int) const && noexcept>();
 
     test_is_member_function_pointer<void (class_type::*)(...)>();
     test_is_member_function_pointer<void (class_type::*)(...)&>();
@@ -841,11 +841,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)(...) const&>();
     test_is_member_function_pointer<void (class_type::*)(...) const&&>();
     test_is_member_function_pointer<void (class_type::*)(...) noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...)&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) && noexcept>();
     test_is_member_function_pointer<void (class_type::*)(...) const noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(...) const&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(...) const && noexcept>();
 
     test_is_member_function_pointer<void (class_type::*)(int, ...)>();
     test_is_member_function_pointer<void (class_type::*)(int, ...)&>();
@@ -854,11 +854,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<void (class_type::*)(int, ...) const&>();
     test_is_member_function_pointer<void (class_type::*)(int, ...) const&&>();
     test_is_member_function_pointer<void (class_type::*)(int, ...) noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...)& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...)&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) && noexcept>();
     test_is_member_function_pointer<void (class_type::*)(int, ...) const noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const& noexcept>();
-    test_is_member_function_pointer<void (class_type::*)(int, ...) const&& noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const & noexcept>();
+    test_is_member_function_pointer<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_member_function_pointer<int (class_type::*)()>();
     test_is_member_function_pointer<int (class_type::*)()&>();
@@ -867,11 +867,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<int (class_type::*)() const&>();
     test_is_member_function_pointer<int (class_type::*)() const&&>();
     test_is_member_function_pointer<int (class_type::*)() noexcept>();
-    test_is_member_function_pointer<int (class_type::*)()& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)()&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)() & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)() && noexcept>();
     test_is_member_function_pointer<int (class_type::*)() const noexcept>();
-    test_is_member_function_pointer<int (class_type::*)() const& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)() const&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)() const & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)() const && noexcept>();
 
     test_is_member_function_pointer<int (class_type::*)(int)>();
     test_is_member_function_pointer<int (class_type::*)(int)&>();
@@ -880,11 +880,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<int (class_type::*)(int) const&>();
     test_is_member_function_pointer<int (class_type::*)(int) const&&>();
     test_is_member_function_pointer<int (class_type::*)(int) noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int)& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int)&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int) & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int) && noexcept>();
     test_is_member_function_pointer<int (class_type::*)(int) const noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int) const& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int) const&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int) const & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int) const && noexcept>();
 
     test_is_member_function_pointer<int (class_type::*)(...)>();
     test_is_member_function_pointer<int (class_type::*)(...)&>();
@@ -893,11 +893,11 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<int (class_type::*)(...) const&>();
     test_is_member_function_pointer<int (class_type::*)(...) const&&>();
     test_is_member_function_pointer<int (class_type::*)(...) noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(...)& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(...)&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(...) & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(...) && noexcept>();
     test_is_member_function_pointer<int (class_type::*)(...) const noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(...) const& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(...) const&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(...) const & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(...) const && noexcept>();
 
     test_is_member_function_pointer<int (class_type::*)(int, ...)>();
     test_is_member_function_pointer<int (class_type::*)(int, ...)&>();
@@ -906,9 +906,9 @@ TEST_CASE("is_member_function_pointer")
     test_is_member_function_pointer<int (class_type::*)(int, ...) const&>();
     test_is_member_function_pointer<int (class_type::*)(int, ...) const&&>();
     test_is_member_function_pointer<int (class_type::*)(int, ...) noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int, ...)& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int, ...)&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int, ...) & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int, ...) && noexcept>();
     test_is_member_function_pointer<int (class_type::*)(int, ...) const noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int, ...) const& noexcept>();
-    test_is_member_function_pointer<int (class_type::*)(int, ...) const&& noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int, ...) const & noexcept>();
+    test_is_member_function_pointer<int (class_type::*)(int, ...) const && noexcept>();
 }

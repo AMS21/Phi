@@ -58,8 +58,8 @@ struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(Typ
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivial_v = PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) &&
-                                                  PHI_IS_TRIVIALLY_COPYABLE(TypeT);
+PHI_INLINE_VARIABLE constexpr bool is_trivial_v =
+        PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) && PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v =

@@ -37,14 +37,14 @@ public:
 
     explicit dynamic_array(size_type size) noexcept
         : m_Size{size}
-        , m_Elements{new (std::nothrow) TypeT[size.unsafe()]}
+        , m_Elements{new(std::nothrow) TypeT[size.unsafe()]}
     {
         PHI_ASSERT(size > 0u, "Allocating zero elements");
         PHI_ASSERT(m_Elements != nullptr, "Failed to allocate");
     }
 
     PHI_EXTENDED_CONSTEXPR dynamic_array(const dynamic_array& other) noexcept
-        : m_Elements{new (std::nothrow) TypeT[other.m_Size]}
+        : m_Elements{new(std::nothrow) TypeT[other.m_Size]}
         , m_Size{other.m_Size}
     {
         // Copy elements

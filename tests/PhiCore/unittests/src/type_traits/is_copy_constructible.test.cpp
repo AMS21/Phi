@@ -329,17 +329,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<void() const volatile&>();
     test_is_not_copy_constructible<void() const volatile&&>();
     test_is_not_copy_constructible<void() noexcept>();
-    test_is_not_copy_constructible<void()& noexcept>();
-    test_is_not_copy_constructible<void()&& noexcept>();
+    test_is_not_copy_constructible<void() & noexcept>();
+    test_is_not_copy_constructible<void() && noexcept>();
     test_is_not_copy_constructible<void() const noexcept>();
-    test_is_not_copy_constructible<void() const& noexcept>();
-    test_is_not_copy_constructible<void() const&& noexcept>();
+    test_is_not_copy_constructible<void() const & noexcept>();
+    test_is_not_copy_constructible<void() const && noexcept>();
     test_is_not_copy_constructible<void() volatile noexcept>();
-    test_is_not_copy_constructible<void() volatile& noexcept>();
-    test_is_not_copy_constructible<void() volatile&& noexcept>();
+    test_is_not_copy_constructible<void() volatile & noexcept>();
+    test_is_not_copy_constructible<void() volatile && noexcept>();
     test_is_not_copy_constructible<void() const volatile noexcept>();
-    test_is_not_copy_constructible<void() const volatile& noexcept>();
-    test_is_not_copy_constructible<void() const volatile&& noexcept>();
+    test_is_not_copy_constructible<void() const volatile & noexcept>();
+    test_is_not_copy_constructible<void() const volatile && noexcept>();
 
     test_is_not_copy_constructible<void(int)>();
     test_is_not_copy_constructible<void(int)&>();
@@ -354,17 +354,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<void(int) const volatile&>();
     test_is_not_copy_constructible<void(int) const volatile&&>();
     test_is_not_copy_constructible<void(int) noexcept>();
-    test_is_not_copy_constructible<void(int)& noexcept>();
-    test_is_not_copy_constructible<void(int)&& noexcept>();
+    test_is_not_copy_constructible<void(int) & noexcept>();
+    test_is_not_copy_constructible<void(int) && noexcept>();
     test_is_not_copy_constructible<void(int) const noexcept>();
-    test_is_not_copy_constructible<void(int) const& noexcept>();
-    test_is_not_copy_constructible<void(int) const&& noexcept>();
+    test_is_not_copy_constructible<void(int) const & noexcept>();
+    test_is_not_copy_constructible<void(int) const && noexcept>();
     test_is_not_copy_constructible<void(int) volatile noexcept>();
-    test_is_not_copy_constructible<void(int) volatile& noexcept>();
-    test_is_not_copy_constructible<void(int) volatile&& noexcept>();
+    test_is_not_copy_constructible<void(int) volatile & noexcept>();
+    test_is_not_copy_constructible<void(int) volatile && noexcept>();
     test_is_not_copy_constructible<void(int) const volatile noexcept>();
-    test_is_not_copy_constructible<void(int) const volatile& noexcept>();
-    test_is_not_copy_constructible<void(int) const volatile&& noexcept>();
+    test_is_not_copy_constructible<void(int) const volatile & noexcept>();
+    test_is_not_copy_constructible<void(int) const volatile && noexcept>();
 
     test_is_not_copy_constructible<void(...)>();
     test_is_not_copy_constructible<void(...)&>();
@@ -379,17 +379,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<void(...) const volatile&>();
     test_is_not_copy_constructible<void(...) const volatile&&>();
     test_is_not_copy_constructible<void(...) noexcept>();
-    test_is_not_copy_constructible<void(...)& noexcept>();
-    test_is_not_copy_constructible<void(...)&& noexcept>();
+    test_is_not_copy_constructible<void(...) & noexcept>();
+    test_is_not_copy_constructible<void(...) && noexcept>();
     test_is_not_copy_constructible<void(...) const noexcept>();
-    test_is_not_copy_constructible<void(...) const& noexcept>();
-    test_is_not_copy_constructible<void(...) const&& noexcept>();
+    test_is_not_copy_constructible<void(...) const & noexcept>();
+    test_is_not_copy_constructible<void(...) const && noexcept>();
     test_is_not_copy_constructible<void(...) volatile noexcept>();
-    test_is_not_copy_constructible<void(...) volatile& noexcept>();
-    test_is_not_copy_constructible<void(...) volatile&& noexcept>();
+    test_is_not_copy_constructible<void(...) volatile & noexcept>();
+    test_is_not_copy_constructible<void(...) volatile && noexcept>();
     test_is_not_copy_constructible<void(...) const volatile noexcept>();
-    test_is_not_copy_constructible<void(...) const volatile& noexcept>();
-    test_is_not_copy_constructible<void(...) const volatile&& noexcept>();
+    test_is_not_copy_constructible<void(...) const volatile & noexcept>();
+    test_is_not_copy_constructible<void(...) const volatile && noexcept>();
 
     test_is_not_copy_constructible<void(int, ...)>();
     test_is_not_copy_constructible<void(int, ...)&>();
@@ -404,17 +404,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<void(int, ...) const volatile&>();
     test_is_not_copy_constructible<void(int, ...) const volatile&&>();
     test_is_not_copy_constructible<void(int, ...) noexcept>();
-    test_is_not_copy_constructible<void(int, ...)& noexcept>();
-    test_is_not_copy_constructible<void(int, ...)&& noexcept>();
+    test_is_not_copy_constructible<void(int, ...) & noexcept>();
+    test_is_not_copy_constructible<void(int, ...) && noexcept>();
     test_is_not_copy_constructible<void(int, ...) const noexcept>();
-    test_is_not_copy_constructible<void(int, ...) const& noexcept>();
-    test_is_not_copy_constructible<void(int, ...) const&& noexcept>();
+    test_is_not_copy_constructible<void(int, ...) const & noexcept>();
+    test_is_not_copy_constructible<void(int, ...) const && noexcept>();
     test_is_not_copy_constructible<void(int, ...) volatile noexcept>();
-    test_is_not_copy_constructible<void(int, ...) volatile& noexcept>();
-    test_is_not_copy_constructible<void(int, ...) volatile&& noexcept>();
+    test_is_not_copy_constructible<void(int, ...) volatile & noexcept>();
+    test_is_not_copy_constructible<void(int, ...) volatile && noexcept>();
     test_is_not_copy_constructible<void(int, ...) const volatile noexcept>();
-    test_is_not_copy_constructible<void(int, ...) const volatile& noexcept>();
-    test_is_not_copy_constructible<void(int, ...) const volatile&& noexcept>();
+    test_is_not_copy_constructible<void(int, ...) const volatile & noexcept>();
+    test_is_not_copy_constructible<void(int, ...) const volatile && noexcept>();
 
     test_is_not_copy_constructible<int()>();
     test_is_not_copy_constructible<int()&>();
@@ -429,17 +429,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<int() const volatile&>();
     test_is_not_copy_constructible<int() const volatile&&>();
     test_is_not_copy_constructible<int() noexcept>();
-    test_is_not_copy_constructible<int()& noexcept>();
-    test_is_not_copy_constructible<int()&& noexcept>();
+    test_is_not_copy_constructible<int() & noexcept>();
+    test_is_not_copy_constructible<int() && noexcept>();
     test_is_not_copy_constructible<int() const noexcept>();
-    test_is_not_copy_constructible<int() const& noexcept>();
-    test_is_not_copy_constructible<int() const&& noexcept>();
+    test_is_not_copy_constructible<int() const & noexcept>();
+    test_is_not_copy_constructible<int() const && noexcept>();
     test_is_not_copy_constructible<int() volatile noexcept>();
-    test_is_not_copy_constructible<int() volatile& noexcept>();
-    test_is_not_copy_constructible<int() volatile&& noexcept>();
+    test_is_not_copy_constructible<int() volatile & noexcept>();
+    test_is_not_copy_constructible<int() volatile && noexcept>();
     test_is_not_copy_constructible<int() const volatile noexcept>();
-    test_is_not_copy_constructible<int() const volatile& noexcept>();
-    test_is_not_copy_constructible<int() const volatile&& noexcept>();
+    test_is_not_copy_constructible<int() const volatile & noexcept>();
+    test_is_not_copy_constructible<int() const volatile && noexcept>();
 
     test_is_not_copy_constructible<int(int)>();
     test_is_not_copy_constructible<int(int)&>();
@@ -454,17 +454,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<int(int) const volatile&>();
     test_is_not_copy_constructible<int(int) const volatile&&>();
     test_is_not_copy_constructible<int(int) noexcept>();
-    test_is_not_copy_constructible<int(int)& noexcept>();
-    test_is_not_copy_constructible<int(int)&& noexcept>();
+    test_is_not_copy_constructible<int(int) & noexcept>();
+    test_is_not_copy_constructible<int(int) && noexcept>();
     test_is_not_copy_constructible<int(int) const noexcept>();
-    test_is_not_copy_constructible<int(int) const& noexcept>();
-    test_is_not_copy_constructible<int(int) const&& noexcept>();
+    test_is_not_copy_constructible<int(int) const & noexcept>();
+    test_is_not_copy_constructible<int(int) const && noexcept>();
     test_is_not_copy_constructible<int(int) volatile noexcept>();
-    test_is_not_copy_constructible<int(int) volatile& noexcept>();
-    test_is_not_copy_constructible<int(int) volatile&& noexcept>();
+    test_is_not_copy_constructible<int(int) volatile & noexcept>();
+    test_is_not_copy_constructible<int(int) volatile && noexcept>();
     test_is_not_copy_constructible<int(int) const volatile noexcept>();
-    test_is_not_copy_constructible<int(int) const volatile& noexcept>();
-    test_is_not_copy_constructible<int(int) const volatile&& noexcept>();
+    test_is_not_copy_constructible<int(int) const volatile & noexcept>();
+    test_is_not_copy_constructible<int(int) const volatile && noexcept>();
 
     test_is_not_copy_constructible<int(...)>();
     test_is_not_copy_constructible<int(...)&>();
@@ -479,17 +479,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<int(...) const volatile&>();
     test_is_not_copy_constructible<int(...) const volatile&&>();
     test_is_not_copy_constructible<int(...) noexcept>();
-    test_is_not_copy_constructible<int(...)& noexcept>();
-    test_is_not_copy_constructible<int(...)&& noexcept>();
+    test_is_not_copy_constructible<int(...) & noexcept>();
+    test_is_not_copy_constructible<int(...) && noexcept>();
     test_is_not_copy_constructible<int(...) const noexcept>();
-    test_is_not_copy_constructible<int(...) const& noexcept>();
-    test_is_not_copy_constructible<int(...) const&& noexcept>();
+    test_is_not_copy_constructible<int(...) const & noexcept>();
+    test_is_not_copy_constructible<int(...) const && noexcept>();
     test_is_not_copy_constructible<int(...) volatile noexcept>();
-    test_is_not_copy_constructible<int(...) volatile& noexcept>();
-    test_is_not_copy_constructible<int(...) volatile&& noexcept>();
+    test_is_not_copy_constructible<int(...) volatile & noexcept>();
+    test_is_not_copy_constructible<int(...) volatile && noexcept>();
     test_is_not_copy_constructible<int(...) const volatile noexcept>();
-    test_is_not_copy_constructible<int(...) const volatile& noexcept>();
-    test_is_not_copy_constructible<int(...) const volatile&& noexcept>();
+    test_is_not_copy_constructible<int(...) const volatile & noexcept>();
+    test_is_not_copy_constructible<int(...) const volatile && noexcept>();
 
     test_is_not_copy_constructible<int(int, ...)>();
     test_is_not_copy_constructible<int(int, ...)&>();
@@ -504,17 +504,17 @@ TEST_CASE("is_copy_constructible")
     test_is_not_copy_constructible<int(int, ...) const volatile&>();
     test_is_not_copy_constructible<int(int, ...) const volatile&&>();
     test_is_not_copy_constructible<int(int, ...) noexcept>();
-    test_is_not_copy_constructible<int(int, ...)& noexcept>();
-    test_is_not_copy_constructible<int(int, ...)&& noexcept>();
+    test_is_not_copy_constructible<int(int, ...) & noexcept>();
+    test_is_not_copy_constructible<int(int, ...) && noexcept>();
     test_is_not_copy_constructible<int(int, ...) const noexcept>();
-    test_is_not_copy_constructible<int(int, ...) const& noexcept>();
-    test_is_not_copy_constructible<int(int, ...) const&& noexcept>();
+    test_is_not_copy_constructible<int(int, ...) const & noexcept>();
+    test_is_not_copy_constructible<int(int, ...) const && noexcept>();
     test_is_not_copy_constructible<int(int, ...) volatile noexcept>();
-    test_is_not_copy_constructible<int(int, ...) volatile& noexcept>();
-    test_is_not_copy_constructible<int(int, ...) volatile&& noexcept>();
+    test_is_not_copy_constructible<int(int, ...) volatile & noexcept>();
+    test_is_not_copy_constructible<int(int, ...) volatile && noexcept>();
     test_is_not_copy_constructible<int(int, ...) const volatile noexcept>();
-    test_is_not_copy_constructible<int(int, ...) const volatile& noexcept>();
-    test_is_not_copy_constructible<int(int, ...) const volatile&& noexcept>();
+    test_is_not_copy_constructible<int(int, ...) const volatile & noexcept>();
+    test_is_not_copy_constructible<int(int, ...) const volatile && noexcept>();
 
 #if PHI_COMPILER_IS_NOT(MSVC) || PHI_SUPPORTS_IS_CONSTRUCTIBLE()
     test_is_copy_constructible<void (*)()>();
@@ -598,11 +598,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<void (class_type::*)() const&>();
     test_is_copy_constructible<void (class_type::*)() const&&>();
     test_is_copy_constructible<void (class_type::*)() noexcept>();
-    test_is_copy_constructible<void (class_type::*)()& noexcept>();
-    test_is_copy_constructible<void (class_type::*)()&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)() & noexcept>();
+    test_is_copy_constructible<void (class_type::*)() && noexcept>();
     test_is_copy_constructible<void (class_type::*)() const noexcept>();
-    test_is_copy_constructible<void (class_type::*)() const& noexcept>();
-    test_is_copy_constructible<void (class_type::*)() const&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)() const & noexcept>();
+    test_is_copy_constructible<void (class_type::*)() const && noexcept>();
 
     test_is_copy_constructible<void (class_type::*)(int)>();
     test_is_copy_constructible<void (class_type::*)(int)&>();
@@ -611,11 +611,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<void (class_type::*)(int) const&>();
     test_is_copy_constructible<void (class_type::*)(int) const&&>();
     test_is_copy_constructible<void (class_type::*)(int) noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int)& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int)&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int) & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int) && noexcept>();
     test_is_copy_constructible<void (class_type::*)(int) const noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int) const& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int) const&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int) const & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int) const && noexcept>();
 
     test_is_copy_constructible<void (class_type::*)(...)>();
     test_is_copy_constructible<void (class_type::*)(...)&>();
@@ -624,11 +624,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<void (class_type::*)(...) const&>();
     test_is_copy_constructible<void (class_type::*)(...) const&&>();
     test_is_copy_constructible<void (class_type::*)(...) noexcept>();
-    test_is_copy_constructible<void (class_type::*)(...)& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(...)&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(...) & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(...) && noexcept>();
     test_is_copy_constructible<void (class_type::*)(...) const noexcept>();
-    test_is_copy_constructible<void (class_type::*)(...) const& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(...) const&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(...) const & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(...) const && noexcept>();
 
     test_is_copy_constructible<void (class_type::*)(int, ...)>();
     test_is_copy_constructible<void (class_type::*)(int, ...)&>();
@@ -637,11 +637,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<void (class_type::*)(int, ...) const&>();
     test_is_copy_constructible<void (class_type::*)(int, ...) const&&>();
     test_is_copy_constructible<void (class_type::*)(int, ...) noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int, ...)& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int, ...)&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int, ...) & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int, ...) && noexcept>();
     test_is_copy_constructible<void (class_type::*)(int, ...) const noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int, ...) const& noexcept>();
-    test_is_copy_constructible<void (class_type::*)(int, ...) const&& noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int, ...) const & noexcept>();
+    test_is_copy_constructible<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_copy_constructible<int (class_type::*)()>();
     test_is_copy_constructible<int (class_type::*)()&>();
@@ -650,11 +650,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<int (class_type::*)() const&>();
     test_is_copy_constructible<int (class_type::*)() const&&>();
     test_is_copy_constructible<int (class_type::*)() noexcept>();
-    test_is_copy_constructible<int (class_type::*)()& noexcept>();
-    test_is_copy_constructible<int (class_type::*)()&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)() & noexcept>();
+    test_is_copy_constructible<int (class_type::*)() && noexcept>();
     test_is_copy_constructible<int (class_type::*)() const noexcept>();
-    test_is_copy_constructible<int (class_type::*)() const& noexcept>();
-    test_is_copy_constructible<int (class_type::*)() const&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)() const & noexcept>();
+    test_is_copy_constructible<int (class_type::*)() const && noexcept>();
 
     test_is_copy_constructible<int (class_type::*)(int)>();
     test_is_copy_constructible<int (class_type::*)(int)&>();
@@ -663,11 +663,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<int (class_type::*)(int) const&>();
     test_is_copy_constructible<int (class_type::*)(int) const&&>();
     test_is_copy_constructible<int (class_type::*)(int) noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int)& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int)&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int) & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int) && noexcept>();
     test_is_copy_constructible<int (class_type::*)(int) const noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int) const& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int) const&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int) const & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int) const && noexcept>();
 
     test_is_copy_constructible<int (class_type::*)(...)>();
     test_is_copy_constructible<int (class_type::*)(...)&>();
@@ -676,11 +676,11 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<int (class_type::*)(...) const&>();
     test_is_copy_constructible<int (class_type::*)(...) const&&>();
     test_is_copy_constructible<int (class_type::*)(...) noexcept>();
-    test_is_copy_constructible<int (class_type::*)(...)& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(...)&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(...) & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(...) && noexcept>();
     test_is_copy_constructible<int (class_type::*)(...) const noexcept>();
-    test_is_copy_constructible<int (class_type::*)(...) const& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(...) const&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(...) const & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(...) const && noexcept>();
 
     test_is_copy_constructible<int (class_type::*)(int, ...)>();
     test_is_copy_constructible<int (class_type::*)(int, ...)&>();
@@ -689,10 +689,10 @@ TEST_CASE("is_copy_constructible")
     test_is_copy_constructible<int (class_type::*)(int, ...) const&>();
     test_is_copy_constructible<int (class_type::*)(int, ...) const&&>();
     test_is_copy_constructible<int (class_type::*)(int, ...) noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int, ...)& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int, ...)&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int, ...) & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int, ...) && noexcept>();
     test_is_copy_constructible<int (class_type::*)(int, ...) const noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int, ...) const& noexcept>();
-    test_is_copy_constructible<int (class_type::*)(int, ...) const&& noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int, ...) const & noexcept>();
+    test_is_copy_constructible<int (class_type::*)(int, ...) const && noexcept>();
 #endif
 }

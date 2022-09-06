@@ -210,11 +210,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void() const&>();
     test_make_unsigned<void() const&&>();
     test_make_unsigned<void() noexcept>();
-    test_make_unsigned<void()& noexcept>();
-    test_make_unsigned<void()&& noexcept>();
+    test_make_unsigned<void() & noexcept>();
+    test_make_unsigned<void() && noexcept>();
     test_make_unsigned<void() const noexcept>();
-    test_make_unsigned<void() const& noexcept>();
-    test_make_unsigned<void() const&& noexcept>();
+    test_make_unsigned<void() const & noexcept>();
+    test_make_unsigned<void() const && noexcept>();
 
     test_make_unsigned<void(int)>();
     test_make_unsigned<void(int)&>();
@@ -223,11 +223,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void(int) const&>();
     test_make_unsigned<void(int) const&&>();
     test_make_unsigned<void(int) noexcept>();
-    test_make_unsigned<void(int)& noexcept>();
-    test_make_unsigned<void(int)&& noexcept>();
+    test_make_unsigned<void(int) & noexcept>();
+    test_make_unsigned<void(int) && noexcept>();
     test_make_unsigned<void(int) const noexcept>();
-    test_make_unsigned<void(int) const& noexcept>();
-    test_make_unsigned<void(int) const&& noexcept>();
+    test_make_unsigned<void(int) const & noexcept>();
+    test_make_unsigned<void(int) const && noexcept>();
 
     test_make_unsigned<void(...)>();
     test_make_unsigned<void(...)&>();
@@ -236,11 +236,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void(...) const&>();
     test_make_unsigned<void(...) const&&>();
     test_make_unsigned<void(...) noexcept>();
-    test_make_unsigned<void(...)& noexcept>();
-    test_make_unsigned<void(...)&& noexcept>();
+    test_make_unsigned<void(...) & noexcept>();
+    test_make_unsigned<void(...) && noexcept>();
     test_make_unsigned<void(...) const noexcept>();
-    test_make_unsigned<void(...) const& noexcept>();
-    test_make_unsigned<void(...) const&& noexcept>();
+    test_make_unsigned<void(...) const & noexcept>();
+    test_make_unsigned<void(...) const && noexcept>();
 
     test_make_unsigned<void(int, ...)>();
     test_make_unsigned<void(int, ...)&>();
@@ -249,11 +249,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void(int, ...) const&>();
     test_make_unsigned<void(int, ...) const&&>();
     test_make_unsigned<void(int, ...) noexcept>();
-    test_make_unsigned<void(int, ...)& noexcept>();
-    test_make_unsigned<void(int, ...)&& noexcept>();
+    test_make_unsigned<void(int, ...) & noexcept>();
+    test_make_unsigned<void(int, ...) && noexcept>();
     test_make_unsigned<void(int, ...) const noexcept>();
-    test_make_unsigned<void(int, ...) const& noexcept>();
-    test_make_unsigned<void(int, ...) const&& noexcept>();
+    test_make_unsigned<void(int, ...) const & noexcept>();
+    test_make_unsigned<void(int, ...) const && noexcept>();
 
     test_make_unsigned<int()>();
     test_make_unsigned<int()&>();
@@ -262,11 +262,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int() const&>();
     test_make_unsigned<int() const&&>();
     test_make_unsigned<int() noexcept>();
-    test_make_unsigned<int()& noexcept>();
-    test_make_unsigned<int()&& noexcept>();
+    test_make_unsigned<int() & noexcept>();
+    test_make_unsigned<int() && noexcept>();
     test_make_unsigned<int() const noexcept>();
-    test_make_unsigned<int() const& noexcept>();
-    test_make_unsigned<int() const&& noexcept>();
+    test_make_unsigned<int() const & noexcept>();
+    test_make_unsigned<int() const && noexcept>();
 
     test_make_unsigned<int(int)>();
     test_make_unsigned<int(int)&>();
@@ -275,11 +275,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int(int) const&>();
     test_make_unsigned<int(int) const&&>();
     test_make_unsigned<int(int) noexcept>();
-    test_make_unsigned<int(int)& noexcept>();
-    test_make_unsigned<int(int)&& noexcept>();
+    test_make_unsigned<int(int) & noexcept>();
+    test_make_unsigned<int(int) && noexcept>();
     test_make_unsigned<int(int) const noexcept>();
-    test_make_unsigned<int(int) const& noexcept>();
-    test_make_unsigned<int(int) const&& noexcept>();
+    test_make_unsigned<int(int) const & noexcept>();
+    test_make_unsigned<int(int) const && noexcept>();
 
     test_make_unsigned<int(...)>();
     test_make_unsigned<int(...)&>();
@@ -288,11 +288,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int(...) const&>();
     test_make_unsigned<int(...) const&&>();
     test_make_unsigned<int(...) noexcept>();
-    test_make_unsigned<int(...)& noexcept>();
-    test_make_unsigned<int(...)&& noexcept>();
+    test_make_unsigned<int(...) & noexcept>();
+    test_make_unsigned<int(...) && noexcept>();
     test_make_unsigned<int(...) const noexcept>();
-    test_make_unsigned<int(...) const& noexcept>();
-    test_make_unsigned<int(...) const&& noexcept>();
+    test_make_unsigned<int(...) const & noexcept>();
+    test_make_unsigned<int(...) const && noexcept>();
 
     test_make_unsigned<int(int, ...)>();
     test_make_unsigned<int(int, ...)&>();
@@ -301,11 +301,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int(int, ...) const&>();
     test_make_unsigned<int(int, ...) const&&>();
     test_make_unsigned<int(int, ...) noexcept>();
-    test_make_unsigned<int(int, ...)& noexcept>();
-    test_make_unsigned<int(int, ...)&& noexcept>();
+    test_make_unsigned<int(int, ...) & noexcept>();
+    test_make_unsigned<int(int, ...) && noexcept>();
     test_make_unsigned<int(int, ...) const noexcept>();
-    test_make_unsigned<int(int, ...) const& noexcept>();
-    test_make_unsigned<int(int, ...) const&& noexcept>();
+    test_make_unsigned<int(int, ...) const & noexcept>();
+    test_make_unsigned<int(int, ...) const && noexcept>();
 
     test_make_unsigned<void (*)()>();
     test_make_unsigned<void (*)() noexcept>();
@@ -386,11 +386,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void (class_type::*)() const&>();
     test_make_unsigned<void (class_type::*)() const&&>();
     test_make_unsigned<void (class_type::*)() noexcept>();
-    test_make_unsigned<void (class_type::*)()& noexcept>();
-    test_make_unsigned<void (class_type::*)()&& noexcept>();
+    test_make_unsigned<void (class_type::*)() & noexcept>();
+    test_make_unsigned<void (class_type::*)() && noexcept>();
     test_make_unsigned<void (class_type::*)() const noexcept>();
-    test_make_unsigned<void (class_type::*)() const& noexcept>();
-    test_make_unsigned<void (class_type::*)() const&& noexcept>();
+    test_make_unsigned<void (class_type::*)() const & noexcept>();
+    test_make_unsigned<void (class_type::*)() const && noexcept>();
 
     test_make_unsigned<void (class_type::*)(int)>();
     test_make_unsigned<void (class_type::*)(int)&>();
@@ -399,11 +399,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void (class_type::*)(int) const&>();
     test_make_unsigned<void (class_type::*)(int) const&&>();
     test_make_unsigned<void (class_type::*)(int) noexcept>();
-    test_make_unsigned<void (class_type::*)(int)& noexcept>();
-    test_make_unsigned<void (class_type::*)(int)&& noexcept>();
+    test_make_unsigned<void (class_type::*)(int) & noexcept>();
+    test_make_unsigned<void (class_type::*)(int) && noexcept>();
     test_make_unsigned<void (class_type::*)(int) const noexcept>();
-    test_make_unsigned<void (class_type::*)(int) const& noexcept>();
-    test_make_unsigned<void (class_type::*)(int) const&& noexcept>();
+    test_make_unsigned<void (class_type::*)(int) const & noexcept>();
+    test_make_unsigned<void (class_type::*)(int) const && noexcept>();
 
     test_make_unsigned<void (class_type::*)(...)>();
     test_make_unsigned<void (class_type::*)(...)&>();
@@ -412,11 +412,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void (class_type::*)(...) const&>();
     test_make_unsigned<void (class_type::*)(...) const&&>();
     test_make_unsigned<void (class_type::*)(...) noexcept>();
-    test_make_unsigned<void (class_type::*)(...)& noexcept>();
-    test_make_unsigned<void (class_type::*)(...)&& noexcept>();
+    test_make_unsigned<void (class_type::*)(...) & noexcept>();
+    test_make_unsigned<void (class_type::*)(...) && noexcept>();
     test_make_unsigned<void (class_type::*)(...) const noexcept>();
-    test_make_unsigned<void (class_type::*)(...) const& noexcept>();
-    test_make_unsigned<void (class_type::*)(...) const&& noexcept>();
+    test_make_unsigned<void (class_type::*)(...) const & noexcept>();
+    test_make_unsigned<void (class_type::*)(...) const && noexcept>();
 
     test_make_unsigned<void (class_type::*)(int, ...)>();
     test_make_unsigned<void (class_type::*)(int, ...)&>();
@@ -425,11 +425,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<void (class_type::*)(int, ...) const&>();
     test_make_unsigned<void (class_type::*)(int, ...) const&&>();
     test_make_unsigned<void (class_type::*)(int, ...) noexcept>();
-    test_make_unsigned<void (class_type::*)(int, ...)& noexcept>();
-    test_make_unsigned<void (class_type::*)(int, ...)&& noexcept>();
+    test_make_unsigned<void (class_type::*)(int, ...) & noexcept>();
+    test_make_unsigned<void (class_type::*)(int, ...) && noexcept>();
     test_make_unsigned<void (class_type::*)(int, ...) const noexcept>();
-    test_make_unsigned<void (class_type::*)(int, ...) const& noexcept>();
-    test_make_unsigned<void (class_type::*)(int, ...) const&& noexcept>();
+    test_make_unsigned<void (class_type::*)(int, ...) const & noexcept>();
+    test_make_unsigned<void (class_type::*)(int, ...) const && noexcept>();
 
     test_make_unsigned<int (class_type::*)()>();
     test_make_unsigned<int (class_type::*)()&>();
@@ -438,11 +438,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int (class_type::*)() const&>();
     test_make_unsigned<int (class_type::*)() const&&>();
     test_make_unsigned<int (class_type::*)() noexcept>();
-    test_make_unsigned<int (class_type::*)()& noexcept>();
-    test_make_unsigned<int (class_type::*)()&& noexcept>();
+    test_make_unsigned<int (class_type::*)() & noexcept>();
+    test_make_unsigned<int (class_type::*)() && noexcept>();
     test_make_unsigned<int (class_type::*)() const noexcept>();
-    test_make_unsigned<int (class_type::*)() const& noexcept>();
-    test_make_unsigned<int (class_type::*)() const&& noexcept>();
+    test_make_unsigned<int (class_type::*)() const & noexcept>();
+    test_make_unsigned<int (class_type::*)() const && noexcept>();
 
     test_make_unsigned<int (class_type::*)(int)>();
     test_make_unsigned<int (class_type::*)(int)&>();
@@ -451,11 +451,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int (class_type::*)(int) const&>();
     test_make_unsigned<int (class_type::*)(int) const&&>();
     test_make_unsigned<int (class_type::*)(int) noexcept>();
-    test_make_unsigned<int (class_type::*)(int)& noexcept>();
-    test_make_unsigned<int (class_type::*)(int)&& noexcept>();
+    test_make_unsigned<int (class_type::*)(int) & noexcept>();
+    test_make_unsigned<int (class_type::*)(int) && noexcept>();
     test_make_unsigned<int (class_type::*)(int) const noexcept>();
-    test_make_unsigned<int (class_type::*)(int) const& noexcept>();
-    test_make_unsigned<int (class_type::*)(int) const&& noexcept>();
+    test_make_unsigned<int (class_type::*)(int) const & noexcept>();
+    test_make_unsigned<int (class_type::*)(int) const && noexcept>();
 
     test_make_unsigned<int (class_type::*)(...)>();
     test_make_unsigned<int (class_type::*)(...)&>();
@@ -464,11 +464,11 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int (class_type::*)(...) const&>();
     test_make_unsigned<int (class_type::*)(...) const&&>();
     test_make_unsigned<int (class_type::*)(...) noexcept>();
-    test_make_unsigned<int (class_type::*)(...)& noexcept>();
-    test_make_unsigned<int (class_type::*)(...)&& noexcept>();
+    test_make_unsigned<int (class_type::*)(...) & noexcept>();
+    test_make_unsigned<int (class_type::*)(...) && noexcept>();
     test_make_unsigned<int (class_type::*)(...) const noexcept>();
-    test_make_unsigned<int (class_type::*)(...) const& noexcept>();
-    test_make_unsigned<int (class_type::*)(...) const&& noexcept>();
+    test_make_unsigned<int (class_type::*)(...) const & noexcept>();
+    test_make_unsigned<int (class_type::*)(...) const && noexcept>();
 
     test_make_unsigned<int (class_type::*)(int, ...)>();
     test_make_unsigned<int (class_type::*)(int, ...)&>();
@@ -477,9 +477,9 @@ TEST_CASE("make_unsigned")
     test_make_unsigned<int (class_type::*)(int, ...) const&>();
     test_make_unsigned<int (class_type::*)(int, ...) const&&>();
     test_make_unsigned<int (class_type::*)(int, ...) noexcept>();
-    test_make_unsigned<int (class_type::*)(int, ...)& noexcept>();
-    test_make_unsigned<int (class_type::*)(int, ...)&& noexcept>();
+    test_make_unsigned<int (class_type::*)(int, ...) & noexcept>();
+    test_make_unsigned<int (class_type::*)(int, ...) && noexcept>();
     test_make_unsigned<int (class_type::*)(int, ...) const noexcept>();
-    test_make_unsigned<int (class_type::*)(int, ...) const& noexcept>();
-    test_make_unsigned<int (class_type::*)(int, ...) const&& noexcept>();
+    test_make_unsigned<int (class_type::*)(int, ...) const & noexcept>();
+    test_make_unsigned<int (class_type::*)(int, ...) const && noexcept>();
 }

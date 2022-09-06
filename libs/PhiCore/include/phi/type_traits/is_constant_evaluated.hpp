@@ -22,11 +22,10 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool is_constant_evaluated() noexcept
 {
 #if PHI_HAS_FEATURE_IF_CONSTEVAL()
-    if
-        consteval
-        {
-            return true;
-        }
+    if consteval
+    {
+        return true;
+    }
     else
     {
         return false;

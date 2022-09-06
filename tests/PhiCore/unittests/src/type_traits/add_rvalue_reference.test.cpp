@@ -292,17 +292,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void() const volatile&>();
     test_function1<void() const volatile&&>();
     test_function0<void() noexcept>();
-    test_function1<void()& noexcept>();
-    test_function1<void()&& noexcept>();
+    test_function1<void() & noexcept>();
+    test_function1<void() && noexcept>();
     test_function1<void() const noexcept>();
-    test_function1<void() const& noexcept>();
-    test_function1<void() const&& noexcept>();
+    test_function1<void() const & noexcept>();
+    test_function1<void() const && noexcept>();
     test_function1<void() volatile noexcept>();
-    test_function1<void() volatile& noexcept>();
-    test_function1<void() volatile&& noexcept>();
+    test_function1<void() volatile & noexcept>();
+    test_function1<void() volatile && noexcept>();
     test_function1<void() const volatile noexcept>();
-    test_function1<void() const volatile& noexcept>();
-    test_function1<void() const volatile&& noexcept>();
+    test_function1<void() const volatile & noexcept>();
+    test_function1<void() const volatile && noexcept>();
 
     test_function0<void(int)>();
     test_function1<void(int)&>();
@@ -317,17 +317,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(int) const volatile&>();
     test_function1<void(int) const volatile&&>();
     test_function0<void(int) noexcept>();
-    test_function1<void(int)& noexcept>();
-    test_function1<void(int)&& noexcept>();
+    test_function1<void(int) & noexcept>();
+    test_function1<void(int) && noexcept>();
     test_function1<void(int) const noexcept>();
-    test_function1<void(int) const& noexcept>();
-    test_function1<void(int) const&& noexcept>();
+    test_function1<void(int) const & noexcept>();
+    test_function1<void(int) const && noexcept>();
     test_function1<void(int) volatile noexcept>();
-    test_function1<void(int) volatile& noexcept>();
-    test_function1<void(int) volatile&& noexcept>();
+    test_function1<void(int) volatile & noexcept>();
+    test_function1<void(int) volatile && noexcept>();
     test_function1<void(int) const volatile noexcept>();
-    test_function1<void(int) const volatile& noexcept>();
-    test_function1<void(int) const volatile&& noexcept>();
+    test_function1<void(int) const volatile & noexcept>();
+    test_function1<void(int) const volatile && noexcept>();
 
     test_function0<void(...)>();
     test_function1<void(...)&>();
@@ -342,17 +342,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(...) const volatile&>();
     test_function1<void(...) const volatile&&>();
     test_function0<void(...) noexcept>();
-    test_function1<void(...)& noexcept>();
-    test_function1<void(...)&& noexcept>();
+    test_function1<void(...) & noexcept>();
+    test_function1<void(...) && noexcept>();
     test_function1<void(...) const noexcept>();
-    test_function1<void(...) const& noexcept>();
-    test_function1<void(...) const&& noexcept>();
+    test_function1<void(...) const & noexcept>();
+    test_function1<void(...) const && noexcept>();
     test_function1<void(...) volatile noexcept>();
-    test_function1<void(...) volatile& noexcept>();
-    test_function1<void(...) volatile&& noexcept>();
+    test_function1<void(...) volatile & noexcept>();
+    test_function1<void(...) volatile && noexcept>();
     test_function1<void(...) const volatile noexcept>();
-    test_function1<void(...) const volatile& noexcept>();
-    test_function1<void(...) const volatile&& noexcept>();
+    test_function1<void(...) const volatile & noexcept>();
+    test_function1<void(...) const volatile && noexcept>();
 
     test_function0<void(int, ...)>();
     test_function1<void(int, ...)&>();
@@ -367,17 +367,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(int, ...) const volatile&>();
     test_function1<void(int, ...) const volatile&&>();
     test_function0<void(int, ...) noexcept>();
-    test_function1<void(int, ...)& noexcept>();
-    test_function1<void(int, ...)&& noexcept>();
+    test_function1<void(int, ...) & noexcept>();
+    test_function1<void(int, ...) && noexcept>();
     test_function1<void(int, ...) const noexcept>();
-    test_function1<void(int, ...) const& noexcept>();
-    test_function1<void(int, ...) const&& noexcept>();
+    test_function1<void(int, ...) const & noexcept>();
+    test_function1<void(int, ...) const && noexcept>();
     test_function1<void(int, ...) volatile noexcept>();
-    test_function1<void(int, ...) volatile& noexcept>();
-    test_function1<void(int, ...) volatile&& noexcept>();
+    test_function1<void(int, ...) volatile & noexcept>();
+    test_function1<void(int, ...) volatile && noexcept>();
     test_function1<void(int, ...) const volatile noexcept>();
-    test_function1<void(int, ...) const volatile& noexcept>();
-    test_function1<void(int, ...) const volatile&& noexcept>();
+    test_function1<void(int, ...) const volatile & noexcept>();
+    test_function1<void(int, ...) const volatile && noexcept>();
 
     test_function0<int()>();
     test_function1<int()&>();
@@ -392,17 +392,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int() const volatile&>();
     test_function1<int() const volatile&&>();
     test_function0<int() noexcept>();
-    test_function1<int()& noexcept>();
-    test_function1<int()&& noexcept>();
+    test_function1<int() & noexcept>();
+    test_function1<int() && noexcept>();
     test_function1<int() const noexcept>();
-    test_function1<int() const& noexcept>();
-    test_function1<int() const&& noexcept>();
+    test_function1<int() const & noexcept>();
+    test_function1<int() const && noexcept>();
     test_function1<int() volatile noexcept>();
-    test_function1<int() volatile& noexcept>();
-    test_function1<int() volatile&& noexcept>();
+    test_function1<int() volatile & noexcept>();
+    test_function1<int() volatile && noexcept>();
     test_function1<int() const volatile noexcept>();
-    test_function1<int() const volatile& noexcept>();
-    test_function1<int() const volatile&& noexcept>();
+    test_function1<int() const volatile & noexcept>();
+    test_function1<int() const volatile && noexcept>();
 
     test_function0<int(int)>();
     test_function1<int(int)&>();
@@ -417,17 +417,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int(int) const volatile&>();
     test_function1<int(int) const volatile&&>();
     test_function0<int(int) noexcept>();
-    test_function1<int(int)& noexcept>();
-    test_function1<int(int)&& noexcept>();
+    test_function1<int(int) & noexcept>();
+    test_function1<int(int) && noexcept>();
     test_function1<int(int) const noexcept>();
-    test_function1<int(int) const& noexcept>();
-    test_function1<int(int) const&& noexcept>();
+    test_function1<int(int) const & noexcept>();
+    test_function1<int(int) const && noexcept>();
     test_function1<int(int) volatile noexcept>();
-    test_function1<int(int) volatile& noexcept>();
-    test_function1<int(int) volatile&& noexcept>();
+    test_function1<int(int) volatile & noexcept>();
+    test_function1<int(int) volatile && noexcept>();
     test_function1<int(int) const volatile noexcept>();
-    test_function1<int(int) const volatile& noexcept>();
-    test_function1<int(int) const volatile&& noexcept>();
+    test_function1<int(int) const volatile & noexcept>();
+    test_function1<int(int) const volatile && noexcept>();
 
     test_function0<int(...)>();
     test_function1<int(...)&>();
@@ -442,17 +442,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int(...) const volatile&>();
     test_function1<int(...) const volatile&&>();
     test_function0<int(...) noexcept>();
-    test_function1<int(...)& noexcept>();
-    test_function1<int(...)&& noexcept>();
+    test_function1<int(...) & noexcept>();
+    test_function1<int(...) && noexcept>();
     test_function1<int(...) const noexcept>();
-    test_function1<int(...) const& noexcept>();
-    test_function1<int(...) const&& noexcept>();
+    test_function1<int(...) const & noexcept>();
+    test_function1<int(...) const && noexcept>();
     test_function1<int(...) volatile noexcept>();
-    test_function1<int(...) volatile& noexcept>();
-    test_function1<int(...) volatile&& noexcept>();
+    test_function1<int(...) volatile & noexcept>();
+    test_function1<int(...) volatile && noexcept>();
     test_function1<int(...) const volatile noexcept>();
-    test_function1<int(...) const volatile& noexcept>();
-    test_function1<int(...) const volatile&& noexcept>();
+    test_function1<int(...) const volatile & noexcept>();
+    test_function1<int(...) const volatile && noexcept>();
 
     test_function0<int(int, ...)>();
     test_function1<int(int, ...)&>();
@@ -467,17 +467,17 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int(int, ...) const volatile&>();
     test_function1<int(int, ...) const volatile&&>();
     test_function0<int(int, ...) noexcept>();
-    test_function1<int(int, ...)& noexcept>();
-    test_function1<int(int, ...)&& noexcept>();
+    test_function1<int(int, ...) & noexcept>();
+    test_function1<int(int, ...) && noexcept>();
     test_function1<int(int, ...) const noexcept>();
-    test_function1<int(int, ...) const& noexcept>();
-    test_function1<int(int, ...) const&& noexcept>();
+    test_function1<int(int, ...) const & noexcept>();
+    test_function1<int(int, ...) const && noexcept>();
     test_function1<int(int, ...) volatile noexcept>();
-    test_function1<int(int, ...) volatile& noexcept>();
-    test_function1<int(int, ...) volatile&& noexcept>();
+    test_function1<int(int, ...) volatile & noexcept>();
+    test_function1<int(int, ...) volatile && noexcept>();
     test_function1<int(int, ...) const volatile noexcept>();
-    test_function1<int(int, ...) const volatile& noexcept>();
-    test_function1<int(int, ...) const volatile&& noexcept>();
+    test_function1<int(int, ...) const volatile & noexcept>();
+    test_function1<int(int, ...) const volatile && noexcept>();
 
     test_add_rvalue_reference<void (*)()>();
     test_add_rvalue_reference<void (*)() noexcept>();
@@ -558,11 +558,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)() const&>();
     test_add_rvalue_reference<void (class_type::*)() const&&>();
     test_add_rvalue_reference<void (class_type::*)() noexcept>();
-    test_add_rvalue_reference<void (class_type::*)()& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)()&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)() & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)() && noexcept>();
     test_add_rvalue_reference<void (class_type::*)() const noexcept>();
-    test_add_rvalue_reference<void (class_type::*)() const& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)() const&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)() const & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)() const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(int)>();
     test_add_rvalue_reference<void (class_type::*)(int)&>();
@@ -571,11 +571,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(int) const&>();
     test_add_rvalue_reference<void (class_type::*)(int) const&&>();
     test_add_rvalue_reference<void (class_type::*)(int) noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int)& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int)&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int) & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int) && noexcept>();
     test_add_rvalue_reference<void (class_type::*)(int) const noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int) const& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int) const&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int) const & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int) const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(...)>();
     test_add_rvalue_reference<void (class_type::*)(...)&>();
@@ -584,11 +584,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(...) const&>();
     test_add_rvalue_reference<void (class_type::*)(...) const&&>();
     test_add_rvalue_reference<void (class_type::*)(...) noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(...)& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(...)&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(...) & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(...) && noexcept>();
     test_add_rvalue_reference<void (class_type::*)(...) const noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(...) const& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(...) const&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(...) const & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(...) const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(int, ...)>();
     test_add_rvalue_reference<void (class_type::*)(int, ...)&>();
@@ -597,11 +597,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(int, ...) const&>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) const&&>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int, ...)& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int, ...)&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int, ...) & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int, ...) && noexcept>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) const noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int, ...) const& noexcept>();
-    test_add_rvalue_reference<void (class_type::*)(int, ...) const&& noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int, ...) const & noexcept>();
+    test_add_rvalue_reference<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)()>();
     test_add_rvalue_reference<int (class_type::*)()&>();
@@ -610,11 +610,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)() const&>();
     test_add_rvalue_reference<int (class_type::*)() const&&>();
     test_add_rvalue_reference<int (class_type::*)() noexcept>();
-    test_add_rvalue_reference<int (class_type::*)()& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)()&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)() & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)() && noexcept>();
     test_add_rvalue_reference<int (class_type::*)() const noexcept>();
-    test_add_rvalue_reference<int (class_type::*)() const& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)() const&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)() const & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)() const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(int)>();
     test_add_rvalue_reference<int (class_type::*)(int)&>();
@@ -623,11 +623,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)(int) const&>();
     test_add_rvalue_reference<int (class_type::*)(int) const&&>();
     test_add_rvalue_reference<int (class_type::*)(int) noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int)& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int)&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int) & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int) && noexcept>();
     test_add_rvalue_reference<int (class_type::*)(int) const noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int) const& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int) const&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int) const & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(...)>();
     test_add_rvalue_reference<int (class_type::*)(...)&>();
@@ -636,11 +636,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)(...) const&>();
     test_add_rvalue_reference<int (class_type::*)(...) const&&>();
     test_add_rvalue_reference<int (class_type::*)(...) noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(...)& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(...)&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(...) & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(...) && noexcept>();
     test_add_rvalue_reference<int (class_type::*)(...) const noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(...) const& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(...) const&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(...) const & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(...) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(int, ...)>();
     test_add_rvalue_reference<int (class_type::*)(int, ...)&>();
@@ -649,11 +649,11 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)(int, ...) const&>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) const&&>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int, ...)& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int, ...)&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int, ...) & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int, ...) && noexcept>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) const noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int, ...) const& noexcept>();
-    test_add_rvalue_reference<int (class_type::*)(int, ...) const&& noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int, ...) const & noexcept>();
+    test_add_rvalue_reference<int (class_type::*)(int, ...) const && noexcept>();
 
     //  LWG 2101 specifically talks about add_rvalue_reference and functions.
     //  The term of art is "a referenceable type", which a cv- or ref-qualified function is not.
@@ -667,10 +667,10 @@ TEST_CASE("add_rvalue_reference")
 
     test_function0<void() noexcept>();
     test_function1<void() const noexcept>();
-    test_function1<void()& noexcept>();
-    test_function1<void()&& noexcept>();
-    test_function1<void() const& noexcept>();
-    test_function1<void() const&& noexcept>();
+    test_function1<void() & noexcept>();
+    test_function1<void() && noexcept>();
+    test_function1<void() const & noexcept>();
+    test_function1<void() const && noexcept>();
 
     //  But a cv- or ref-qualified member function *is* "a referenceable type"
     test_function0<member_function_ptr>();
@@ -683,8 +683,8 @@ TEST_CASE("add_rvalue_reference")
 
     test_function0<void (Foo::*)() noexcept>();
     test_function0<void (Foo::*)() const noexcept>();
-    test_function0<void (Foo::*)()& noexcept>();
-    test_function0<void (Foo::*)()&& noexcept>();
-    test_function0<void (Foo::*)() const& noexcept>();
-    test_function0<void (Foo::*)() const&& noexcept>();
+    test_function0<void (Foo::*)() & noexcept>();
+    test_function0<void (Foo::*)() && noexcept>();
+    test_function0<void (Foo::*)() const & noexcept>();
+    test_function0<void (Foo::*)() const && noexcept>();
 }

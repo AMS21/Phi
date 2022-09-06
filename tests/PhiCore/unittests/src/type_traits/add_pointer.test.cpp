@@ -285,17 +285,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<void() const volatile&, void() const volatile&>();
     test_add_pointer<void() const volatile&&, void() const volatile&&>();
     test_add_pointer<void() noexcept, void (*)() noexcept>();
-    test_add_pointer<void()& noexcept, void()& noexcept>();
-    test_add_pointer<void()&& noexcept, void()&& noexcept>();
+    test_add_pointer<void() & noexcept, void() & noexcept>();
+    test_add_pointer<void() && noexcept, void() && noexcept>();
     test_add_pointer<void() const noexcept, void() const noexcept>();
-    test_add_pointer<void() const& noexcept, void() const& noexcept>();
-    test_add_pointer<void() const&& noexcept, void() const&& noexcept>();
+    test_add_pointer<void() const & noexcept, void() const & noexcept>();
+    test_add_pointer<void() const && noexcept, void() const && noexcept>();
     test_add_pointer<void() volatile noexcept, void() volatile noexcept>();
-    test_add_pointer<void() volatile& noexcept, void() volatile& noexcept>();
-    test_add_pointer<void() volatile&& noexcept, void() volatile&& noexcept>();
+    test_add_pointer<void() volatile & noexcept, void() volatile & noexcept>();
+    test_add_pointer<void() volatile && noexcept, void() volatile && noexcept>();
     test_add_pointer<void() const volatile noexcept, void() const volatile noexcept>();
-    test_add_pointer<void() const volatile& noexcept, void() const volatile& noexcept>();
-    test_add_pointer<void() const volatile&& noexcept, void() const volatile&& noexcept>();
+    test_add_pointer<void() const volatile & noexcept, void() const volatile & noexcept>();
+    test_add_pointer<void() const volatile && noexcept, void() const volatile && noexcept>();
 
     test_add_pointer<void(int), void (*)(int)>();
     test_add_pointer<void(int)&, void(int)&>();
@@ -310,17 +310,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<void(int) const volatile&, void(int) const volatile&>();
     test_add_pointer<void(int) const volatile&&, void(int) const volatile&&>();
     test_add_pointer<void(int) noexcept, void (*)(int) noexcept>();
-    test_add_pointer<void(int)& noexcept, void(int)& noexcept>();
-    test_add_pointer<void(int)&& noexcept, void(int)&& noexcept>();
+    test_add_pointer<void(int) & noexcept, void(int) & noexcept>();
+    test_add_pointer<void(int) && noexcept, void(int) && noexcept>();
     test_add_pointer<void(int) const noexcept, void(int) const noexcept>();
-    test_add_pointer<void(int) const& noexcept, void(int) const& noexcept>();
-    test_add_pointer<void(int) const&& noexcept, void(int) const&& noexcept>();
+    test_add_pointer<void(int) const & noexcept, void(int) const & noexcept>();
+    test_add_pointer<void(int) const && noexcept, void(int) const && noexcept>();
     test_add_pointer<void(int) volatile noexcept, void(int) volatile noexcept>();
-    test_add_pointer<void(int) volatile& noexcept, void(int) volatile& noexcept>();
-    test_add_pointer<void(int) volatile&& noexcept, void(int) volatile&& noexcept>();
+    test_add_pointer<void(int) volatile & noexcept, void(int) volatile & noexcept>();
+    test_add_pointer<void(int) volatile && noexcept, void(int) volatile && noexcept>();
     test_add_pointer<void(int) const volatile noexcept, void(int) const volatile noexcept>();
-    test_add_pointer<void(int) const volatile& noexcept, void(int) const volatile& noexcept>();
-    test_add_pointer<void(int) const volatile&& noexcept, void(int) const volatile&& noexcept>();
+    test_add_pointer<void(int) const volatile & noexcept, void(int) const volatile & noexcept>();
+    test_add_pointer<void(int) const volatile && noexcept, void(int) const volatile && noexcept>();
 
     test_add_pointer<void(...), void (*)(...)>();
     test_add_pointer<void(...)&, void(...)&>();
@@ -335,17 +335,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<void(...) const volatile&, void(...) const volatile&>();
     test_add_pointer<void(...) const volatile&&, void(...) const volatile&&>();
     test_add_pointer<void(...) noexcept, void (*)(...) noexcept>();
-    test_add_pointer<void(...)& noexcept, void(...)& noexcept>();
-    test_add_pointer<void(...)&& noexcept, void(...)&& noexcept>();
+    test_add_pointer<void(...) & noexcept, void(...) & noexcept>();
+    test_add_pointer<void(...) && noexcept, void(...) && noexcept>();
     test_add_pointer<void(...) const noexcept, void(...) const noexcept>();
-    test_add_pointer<void(...) const& noexcept, void(...) const& noexcept>();
-    test_add_pointer<void(...) const&& noexcept, void(...) const&& noexcept>();
+    test_add_pointer<void(...) const & noexcept, void(...) const & noexcept>();
+    test_add_pointer<void(...) const && noexcept, void(...) const && noexcept>();
     test_add_pointer<void(...) volatile noexcept, void(...) volatile noexcept>();
-    test_add_pointer<void(...) volatile& noexcept, void(...) volatile& noexcept>();
-    test_add_pointer<void(...) volatile&& noexcept, void(...) volatile&& noexcept>();
+    test_add_pointer<void(...) volatile & noexcept, void(...) volatile & noexcept>();
+    test_add_pointer<void(...) volatile && noexcept, void(...) volatile && noexcept>();
     test_add_pointer<void(...) const volatile noexcept, void(...) const volatile noexcept>();
-    test_add_pointer<void(...) const volatile& noexcept, void(...) const volatile& noexcept>();
-    test_add_pointer<void(...) const volatile&& noexcept, void(...) const volatile&& noexcept>();
+    test_add_pointer<void(...) const volatile & noexcept, void(...) const volatile & noexcept>();
+    test_add_pointer<void(...) const volatile && noexcept, void(...) const volatile && noexcept>();
 
     test_add_pointer<void(int, ...), void (*)(int, ...)>();
     test_add_pointer<void(int, ...)&, void(int, ...)&>();
@@ -360,20 +360,20 @@ TEST_CASE("add_pointer")
     test_add_pointer<void(int, ...) const volatile&, void(int, ...) const volatile&>();
     test_add_pointer<void(int, ...) const volatile&&, void(int, ...) const volatile&&>();
     test_add_pointer<void(int, ...) noexcept, void (*)(int, ...) noexcept>();
-    test_add_pointer<void(int, ...)& noexcept, void(int, ...)& noexcept>();
-    test_add_pointer<void(int, ...)&& noexcept, void(int, ...)&& noexcept>();
+    test_add_pointer<void(int, ...) & noexcept, void(int, ...) & noexcept>();
+    test_add_pointer<void(int, ...) && noexcept, void(int, ...) && noexcept>();
     test_add_pointer<void(int, ...) const noexcept, void(int, ...) const noexcept>();
-    test_add_pointer<void(int, ...) const& noexcept, void(int, ...) const& noexcept>();
-    test_add_pointer<void(int, ...) const&& noexcept, void(int, ...) const&& noexcept>();
+    test_add_pointer<void(int, ...) const & noexcept, void(int, ...) const & noexcept>();
+    test_add_pointer<void(int, ...) const && noexcept, void(int, ...) const && noexcept>();
     test_add_pointer<void(int, ...) volatile noexcept, void(int, ...) volatile noexcept>();
-    test_add_pointer<void(int, ...) volatile& noexcept, void(int, ...) volatile& noexcept>();
-    test_add_pointer<void(int, ...) volatile&& noexcept, void(int, ...) volatile&& noexcept>();
+    test_add_pointer<void(int, ...) volatile & noexcept, void(int, ...) volatile & noexcept>();
+    test_add_pointer<void(int, ...) volatile && noexcept, void(int, ...) volatile && noexcept>();
     test_add_pointer<void(int, ...) const volatile noexcept,
                      void(int, ...) const volatile noexcept>();
-    test_add_pointer<void(int, ...) const volatile& noexcept,
-                     void(int, ...) const volatile& noexcept>();
-    test_add_pointer<void(int, ...) const volatile&& noexcept,
-                     void(int, ...) const volatile&& noexcept>();
+    test_add_pointer<void(int, ...) const volatile & noexcept,
+                     void(int, ...) const volatile & noexcept>();
+    test_add_pointer<void(int, ...) const volatile && noexcept,
+                     void(int, ...) const volatile && noexcept>();
 
     test_add_pointer<int(), int (*)()>();
     test_add_pointer<int()&, int()&>();
@@ -388,17 +388,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<int() const volatile&, int() const volatile&>();
     test_add_pointer<int() const volatile&&, int() const volatile&&>();
     test_add_pointer<int() noexcept, int (*)() noexcept>();
-    test_add_pointer<int()& noexcept, int()& noexcept>();
-    test_add_pointer<int()&& noexcept, int()&& noexcept>();
+    test_add_pointer<int() & noexcept, int() & noexcept>();
+    test_add_pointer<int() && noexcept, int() && noexcept>();
     test_add_pointer<int() const noexcept, int() const noexcept>();
-    test_add_pointer<int() const& noexcept, int() const& noexcept>();
-    test_add_pointer<int() const&& noexcept, int() const&& noexcept>();
+    test_add_pointer<int() const & noexcept, int() const & noexcept>();
+    test_add_pointer<int() const && noexcept, int() const && noexcept>();
     test_add_pointer<int() volatile noexcept, int() volatile noexcept>();
-    test_add_pointer<int() volatile& noexcept, int() volatile& noexcept>();
-    test_add_pointer<int() volatile&& noexcept, int() volatile&& noexcept>();
+    test_add_pointer<int() volatile & noexcept, int() volatile & noexcept>();
+    test_add_pointer<int() volatile && noexcept, int() volatile && noexcept>();
     test_add_pointer<int() const volatile noexcept, int() const volatile noexcept>();
-    test_add_pointer<int() const volatile& noexcept, int() const volatile& noexcept>();
-    test_add_pointer<int() const volatile&& noexcept, int() const volatile&& noexcept>();
+    test_add_pointer<int() const volatile & noexcept, int() const volatile & noexcept>();
+    test_add_pointer<int() const volatile && noexcept, int() const volatile && noexcept>();
 
     test_add_pointer<int(int), int (*)(int)>();
     test_add_pointer<int(int)&, int(int)&>();
@@ -413,17 +413,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<int(int) const volatile&, int(int) const volatile&>();
     test_add_pointer<int(int) const volatile&&, int(int) const volatile&&>();
     test_add_pointer<int(int) noexcept, int (*)(int) noexcept>();
-    test_add_pointer<int(int)& noexcept, int(int)& noexcept>();
-    test_add_pointer<int(int)&& noexcept, int(int)&& noexcept>();
+    test_add_pointer<int(int) & noexcept, int(int) & noexcept>();
+    test_add_pointer<int(int) && noexcept, int(int) && noexcept>();
     test_add_pointer<int(int) const noexcept, int(int) const noexcept>();
-    test_add_pointer<int(int) const& noexcept, int(int) const& noexcept>();
-    test_add_pointer<int(int) const&& noexcept, int(int) const&& noexcept>();
+    test_add_pointer<int(int) const & noexcept, int(int) const & noexcept>();
+    test_add_pointer<int(int) const && noexcept, int(int) const && noexcept>();
     test_add_pointer<int(int) volatile noexcept, int(int) volatile noexcept>();
-    test_add_pointer<int(int) volatile& noexcept, int(int) volatile& noexcept>();
-    test_add_pointer<int(int) volatile&& noexcept, int(int) volatile&& noexcept>();
+    test_add_pointer<int(int) volatile & noexcept, int(int) volatile & noexcept>();
+    test_add_pointer<int(int) volatile && noexcept, int(int) volatile && noexcept>();
     test_add_pointer<int(int) const volatile noexcept, int(int) const volatile noexcept>();
-    test_add_pointer<int(int) const volatile& noexcept, int(int) const volatile& noexcept>();
-    test_add_pointer<int(int) const volatile&& noexcept, int(int) const volatile&& noexcept>();
+    test_add_pointer<int(int) const volatile & noexcept, int(int) const volatile & noexcept>();
+    test_add_pointer<int(int) const volatile && noexcept, int(int) const volatile && noexcept>();
 
     test_add_pointer<int(...), int (*)(...)>();
     test_add_pointer<int(...)&, int(...)&>();
@@ -438,17 +438,17 @@ TEST_CASE("add_pointer")
     test_add_pointer<int(...) const volatile&, int(...) const volatile&>();
     test_add_pointer<int(...) const volatile&&, int(...) const volatile&&>();
     test_add_pointer<int(...) noexcept, int (*)(...) noexcept>();
-    test_add_pointer<int(...)& noexcept, int(...)& noexcept>();
-    test_add_pointer<int(...)&& noexcept, int(...)&& noexcept>();
+    test_add_pointer<int(...) & noexcept, int(...) & noexcept>();
+    test_add_pointer<int(...) && noexcept, int(...) && noexcept>();
     test_add_pointer<int(...) const noexcept, int(...) const noexcept>();
-    test_add_pointer<int(...) const& noexcept, int(...) const& noexcept>();
-    test_add_pointer<int(...) const&& noexcept, int(...) const&& noexcept>();
+    test_add_pointer<int(...) const & noexcept, int(...) const & noexcept>();
+    test_add_pointer<int(...) const && noexcept, int(...) const && noexcept>();
     test_add_pointer<int(...) volatile noexcept, int(...) volatile noexcept>();
-    test_add_pointer<int(...) volatile& noexcept, int(...) volatile& noexcept>();
-    test_add_pointer<int(...) volatile&& noexcept, int(...) volatile&& noexcept>();
+    test_add_pointer<int(...) volatile & noexcept, int(...) volatile & noexcept>();
+    test_add_pointer<int(...) volatile && noexcept, int(...) volatile && noexcept>();
     test_add_pointer<int(...) const volatile noexcept, int(...) const volatile noexcept>();
-    test_add_pointer<int(...) const volatile& noexcept, int(...) const volatile& noexcept>();
-    test_add_pointer<int(...) const volatile&& noexcept, int(...) const volatile&& noexcept>();
+    test_add_pointer<int(...) const volatile & noexcept, int(...) const volatile & noexcept>();
+    test_add_pointer<int(...) const volatile && noexcept, int(...) const volatile && noexcept>();
 
     test_add_pointer<int(int, ...), int (*)(int, ...)>();
     test_add_pointer<int(int, ...)&, int(int, ...)&>();
@@ -463,20 +463,20 @@ TEST_CASE("add_pointer")
     test_add_pointer<int(int, ...) const volatile&, int(int, ...) const volatile&>();
     test_add_pointer<int(int, ...) const volatile&&, int(int, ...) const volatile&&>();
     test_add_pointer<int(int, ...) noexcept, int (*)(int, ...) noexcept>();
-    test_add_pointer<int(int, ...)& noexcept, int(int, ...)& noexcept>();
-    test_add_pointer<int(int, ...)&& noexcept, int(int, ...)&& noexcept>();
+    test_add_pointer<int(int, ...) & noexcept, int(int, ...) & noexcept>();
+    test_add_pointer<int(int, ...) && noexcept, int(int, ...) && noexcept>();
     test_add_pointer<int(int, ...) const noexcept, int(int, ...) const noexcept>();
-    test_add_pointer<int(int, ...) const& noexcept, int(int, ...) const& noexcept>();
-    test_add_pointer<int(int, ...) const&& noexcept, int(int, ...) const&& noexcept>();
+    test_add_pointer<int(int, ...) const & noexcept, int(int, ...) const & noexcept>();
+    test_add_pointer<int(int, ...) const && noexcept, int(int, ...) const && noexcept>();
     test_add_pointer<int(int, ...) volatile noexcept, int(int, ...) volatile noexcept>();
-    test_add_pointer<int(int, ...) volatile& noexcept, int(int, ...) volatile& noexcept>();
-    test_add_pointer<int(int, ...) volatile&& noexcept, int(int, ...) volatile&& noexcept>();
+    test_add_pointer<int(int, ...) volatile & noexcept, int(int, ...) volatile & noexcept>();
+    test_add_pointer<int(int, ...) volatile && noexcept, int(int, ...) volatile && noexcept>();
     test_add_pointer<int(int, ...) const volatile noexcept,
                      int(int, ...) const volatile noexcept>();
-    test_add_pointer<int(int, ...) const volatile& noexcept,
-                     int(int, ...) const volatile& noexcept>();
-    test_add_pointer<int(int, ...) const volatile&& noexcept,
-                     int(int, ...) const volatile&& noexcept>();
+    test_add_pointer<int(int, ...) const volatile & noexcept,
+                     int(int, ...) const volatile & noexcept>();
+    test_add_pointer<int(int, ...) const volatile && noexcept,
+                     int(int, ...) const volatile && noexcept>();
 
     test_add_pointer<void (*)()>();
     test_add_pointer<void (*)() noexcept>();
@@ -557,11 +557,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)() const&>();
     test_add_pointer<void (class_type::*)() const&&>();
     test_add_pointer<void (class_type::*)() noexcept>();
-    test_add_pointer<void (class_type::*)()& noexcept>();
-    test_add_pointer<void (class_type::*)()&& noexcept>();
+    test_add_pointer<void (class_type::*)() & noexcept>();
+    test_add_pointer<void (class_type::*)() && noexcept>();
     test_add_pointer<void (class_type::*)() const noexcept>();
-    test_add_pointer<void (class_type::*)() const& noexcept>();
-    test_add_pointer<void (class_type::*)() const&& noexcept>();
+    test_add_pointer<void (class_type::*)() const & noexcept>();
+    test_add_pointer<void (class_type::*)() const && noexcept>();
 
     test_add_pointer<void (class_type::*)(int)>();
     test_add_pointer<void (class_type::*)(int)&>();
@@ -570,11 +570,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(int) const&>();
     test_add_pointer<void (class_type::*)(int) const&&>();
     test_add_pointer<void (class_type::*)(int) noexcept>();
-    test_add_pointer<void (class_type::*)(int)& noexcept>();
-    test_add_pointer<void (class_type::*)(int)&& noexcept>();
+    test_add_pointer<void (class_type::*)(int) & noexcept>();
+    test_add_pointer<void (class_type::*)(int) && noexcept>();
     test_add_pointer<void (class_type::*)(int) const noexcept>();
-    test_add_pointer<void (class_type::*)(int) const& noexcept>();
-    test_add_pointer<void (class_type::*)(int) const&& noexcept>();
+    test_add_pointer<void (class_type::*)(int) const & noexcept>();
+    test_add_pointer<void (class_type::*)(int) const && noexcept>();
 
     test_add_pointer<void (class_type::*)(...)>();
     test_add_pointer<void (class_type::*)(...)&>();
@@ -583,11 +583,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(...) const&>();
     test_add_pointer<void (class_type::*)(...) const&&>();
     test_add_pointer<void (class_type::*)(...) noexcept>();
-    test_add_pointer<void (class_type::*)(...)& noexcept>();
-    test_add_pointer<void (class_type::*)(...)&& noexcept>();
+    test_add_pointer<void (class_type::*)(...) & noexcept>();
+    test_add_pointer<void (class_type::*)(...) && noexcept>();
     test_add_pointer<void (class_type::*)(...) const noexcept>();
-    test_add_pointer<void (class_type::*)(...) const& noexcept>();
-    test_add_pointer<void (class_type::*)(...) const&& noexcept>();
+    test_add_pointer<void (class_type::*)(...) const & noexcept>();
+    test_add_pointer<void (class_type::*)(...) const && noexcept>();
 
     test_add_pointer<void (class_type::*)(int, ...)>();
     test_add_pointer<void (class_type::*)(int, ...)&>();
@@ -596,11 +596,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(int, ...) const&>();
     test_add_pointer<void (class_type::*)(int, ...) const&&>();
     test_add_pointer<void (class_type::*)(int, ...) noexcept>();
-    test_add_pointer<void (class_type::*)(int, ...)& noexcept>();
-    test_add_pointer<void (class_type::*)(int, ...)&& noexcept>();
+    test_add_pointer<void (class_type::*)(int, ...) & noexcept>();
+    test_add_pointer<void (class_type::*)(int, ...) && noexcept>();
     test_add_pointer<void (class_type::*)(int, ...) const noexcept>();
-    test_add_pointer<void (class_type::*)(int, ...) const& noexcept>();
-    test_add_pointer<void (class_type::*)(int, ...) const&& noexcept>();
+    test_add_pointer<void (class_type::*)(int, ...) const & noexcept>();
+    test_add_pointer<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_pointer<int (class_type::*)()>();
     test_add_pointer<int (class_type::*)()&>();
@@ -609,11 +609,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)() const&>();
     test_add_pointer<int (class_type::*)() const&&>();
     test_add_pointer<int (class_type::*)() noexcept>();
-    test_add_pointer<int (class_type::*)()& noexcept>();
-    test_add_pointer<int (class_type::*)()&& noexcept>();
+    test_add_pointer<int (class_type::*)() & noexcept>();
+    test_add_pointer<int (class_type::*)() && noexcept>();
     test_add_pointer<int (class_type::*)() const noexcept>();
-    test_add_pointer<int (class_type::*)() const& noexcept>();
-    test_add_pointer<int (class_type::*)() const&& noexcept>();
+    test_add_pointer<int (class_type::*)() const & noexcept>();
+    test_add_pointer<int (class_type::*)() const && noexcept>();
 
     test_add_pointer<int (class_type::*)(int)>();
     test_add_pointer<int (class_type::*)(int)&>();
@@ -622,11 +622,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)(int) const&>();
     test_add_pointer<int (class_type::*)(int) const&&>();
     test_add_pointer<int (class_type::*)(int) noexcept>();
-    test_add_pointer<int (class_type::*)(int)& noexcept>();
-    test_add_pointer<int (class_type::*)(int)&& noexcept>();
+    test_add_pointer<int (class_type::*)(int) & noexcept>();
+    test_add_pointer<int (class_type::*)(int) && noexcept>();
     test_add_pointer<int (class_type::*)(int) const noexcept>();
-    test_add_pointer<int (class_type::*)(int) const& noexcept>();
-    test_add_pointer<int (class_type::*)(int) const&& noexcept>();
+    test_add_pointer<int (class_type::*)(int) const & noexcept>();
+    test_add_pointer<int (class_type::*)(int) const && noexcept>();
 
     test_add_pointer<int (class_type::*)(...)>();
     test_add_pointer<int (class_type::*)(...)&>();
@@ -635,11 +635,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)(...) const&>();
     test_add_pointer<int (class_type::*)(...) const&&>();
     test_add_pointer<int (class_type::*)(...) noexcept>();
-    test_add_pointer<int (class_type::*)(...)& noexcept>();
-    test_add_pointer<int (class_type::*)(...)&& noexcept>();
+    test_add_pointer<int (class_type::*)(...) & noexcept>();
+    test_add_pointer<int (class_type::*)(...) && noexcept>();
     test_add_pointer<int (class_type::*)(...) const noexcept>();
-    test_add_pointer<int (class_type::*)(...) const& noexcept>();
-    test_add_pointer<int (class_type::*)(...) const&& noexcept>();
+    test_add_pointer<int (class_type::*)(...) const & noexcept>();
+    test_add_pointer<int (class_type::*)(...) const && noexcept>();
 
     test_add_pointer<int (class_type::*)(int, ...)>();
     test_add_pointer<int (class_type::*)(int, ...)&>();
@@ -648,11 +648,11 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)(int, ...) const&>();
     test_add_pointer<int (class_type::*)(int, ...) const&&>();
     test_add_pointer<int (class_type::*)(int, ...) noexcept>();
-    test_add_pointer<int (class_type::*)(int, ...)& noexcept>();
-    test_add_pointer<int (class_type::*)(int, ...)&& noexcept>();
+    test_add_pointer<int (class_type::*)(int, ...) & noexcept>();
+    test_add_pointer<int (class_type::*)(int, ...) && noexcept>();
     test_add_pointer<int (class_type::*)(int, ...) const noexcept>();
-    test_add_pointer<int (class_type::*)(int, ...) const& noexcept>();
-    test_add_pointer<int (class_type::*)(int, ...) const&& noexcept>();
+    test_add_pointer<int (class_type::*)(int, ...) const & noexcept>();
+    test_add_pointer<int (class_type::*)(int, ...) const && noexcept>();
 
     //  LWG 2101 specifically talks about add_pointer and functions.
     //  The term of art is "a referenceable type", which a cv- or ref-qualified function is not.
@@ -666,10 +666,10 @@ TEST_CASE("add_pointer")
 
     test_function0<void() noexcept>();
     test_function1<void() const noexcept>();
-    test_function1<void()& noexcept>();
-    test_function1<void()&& noexcept>();
-    test_function1<void() const& noexcept>();
-    test_function1<void() const&& noexcept>();
+    test_function1<void() & noexcept>();
+    test_function1<void() && noexcept>();
+    test_function1<void() const & noexcept>();
+    test_function1<void() const && noexcept>();
 
     //  But a cv- or ref-qualified member function *is* "a referenceable type"
     test_function0<member_function_ptr>();
@@ -682,8 +682,8 @@ TEST_CASE("add_pointer")
 
     test_function0<void (Foo::*)() noexcept>();
     test_function0<void (Foo::*)() const noexcept>();
-    test_function0<void (Foo::*)()& noexcept>();
-    test_function0<void (Foo::*)()&& noexcept>();
-    test_function0<void (Foo::*)() const& noexcept>();
-    test_function0<void (Foo::*)() const&& noexcept>();
+    test_function0<void (Foo::*)() & noexcept>();
+    test_function0<void (Foo::*)() && noexcept>();
+    test_function0<void (Foo::*)() const & noexcept>();
+    test_function0<void (Foo::*)() const && noexcept>();
 }

@@ -49,17 +49,18 @@ class pair
             is_nothrow_copy_constructible<SecondT>::value;
 
     template <typename OtherFirstT, typename OtherSecondT>
-    static constexpr const bool                            enable_explicit_constructor =
-            is_constructible<FirstT, OtherFirstT>::value&& is_constructible<SecondT,
-                                                                            OtherSecondT>::value &&
+    static constexpr const bool enable_explicit_constructor =
+            is_constructible<FirstT, OtherFirstT>::value &&
+            is_constructible<SecondT, OtherSecondT>::value &&
             (is_not_convertible<OtherFirstT, FirstT>::value ||
              is_not_convertible<OtherSecondT, SecondT>::value);
 
     template <typename OtherFirstT, typename OtherSecondT>
-    static constexpr const bool                            enable_implicit_constructor =
-            is_constructible<FirstT, OtherFirstT>::value&& is_constructible<
-                    SecondT, OtherSecondT>::value&& is_convertible<OtherFirstT, FirstT>::value&&
-                                                    is_convertible<OtherSecondT, SecondT>::value;
+    static constexpr const bool enable_implicit_constructor =
+            is_constructible<FirstT, OtherFirstT>::value &&
+            is_constructible<SecondT, OtherSecondT>::value &&
+            is_convertible<OtherFirstT, FirstT>::value &&
+            is_convertible<OtherSecondT, SecondT>::value;
 
 public:
     using this_type   = pair<FirstT, SecondT>;
