@@ -112,7 +112,7 @@ PHI_GCC_SUPPRESS_WARNING_POP()
  *
 **/
 template <typename NumericT>
-PHI_NODISCARD constexpr make_unsigned_t<NumericT> abs(NumericT numeric) noexcept
+PHI_NODISCARD PHI_ALWAYS_INLINE constexpr make_unsigned_t<NumericT> abs(NumericT numeric) noexcept
 {
     return detail::abs_impl(to_unsafe(numeric), is_floating_point<NumericT>(),
                             is_signed<NumericT>());

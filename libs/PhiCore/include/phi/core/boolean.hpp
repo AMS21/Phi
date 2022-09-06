@@ -162,7 +162,7 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
     return stream << static_cast<bool>(value);
 }
 
-PHI_EXTENDED_CONSTEXPR_OR_INLINE void swap(boolean& lhs, boolean& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(boolean& lhs, boolean& rhs) noexcept
 {
     lhs.swap(rhs);
 }

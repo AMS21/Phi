@@ -255,7 +255,8 @@ public:
     }
 
     // Binary operators
-    friend constexpr ascii_char operator+(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr ascii_char operator+(const ascii_char& lhs,
+                                                            const ascii_char& rhs) noexcept
     {
         PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) + rhs.m_Char < 127,
                    "Addition would result in unrepresentable ascii character");
@@ -272,7 +273,8 @@ public:
         return lhs;
     }
 
-    friend constexpr ascii_char operator-(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr ascii_char operator-(const ascii_char& lhs,
+                                                            const ascii_char& rhs) noexcept
     {
         PHI_ASSERT(static_cast<uint32_t>(lhs.m_Char) - rhs.m_Char < 127,
                    "Addition would result in unrepresentable ascii character");
@@ -290,32 +292,38 @@ public:
     }
 
     // Comparison operator
-    friend constexpr boolean operator==(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator==(const ascii_char& lhs,
+                                                          const ascii_char& rhs) noexcept
     {
         return lhs.m_Char == rhs.m_Char;
     }
 
-    friend constexpr boolean operator!=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator!=(const ascii_char& lhs,
+                                                          const ascii_char& rhs) noexcept
     {
         return lhs.m_Char != rhs.m_Char;
     }
 
-    friend constexpr boolean operator<(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator<(const ascii_char& lhs,
+                                                         const ascii_char& rhs) noexcept
     {
         return lhs.m_Char < rhs.m_Char;
     }
 
-    friend constexpr boolean operator<=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator<=(const ascii_char& lhs,
+                                                          const ascii_char& rhs) noexcept
     {
         return lhs.m_Char <= rhs.m_Char;
     }
 
-    friend constexpr boolean operator>(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator>(const ascii_char& lhs,
+                                                         const ascii_char& rhs) noexcept
     {
         return lhs.m_Char > rhs.m_Char;
     }
 
-    friend constexpr boolean operator>=(const ascii_char& lhs, const ascii_char& rhs) noexcept
+    friend PHI_ALWAYS_INLINE constexpr boolean operator>=(const ascii_char& lhs,
+                                                          const ascii_char& rhs) noexcept
     {
         return lhs.m_Char >= rhs.m_Char;
     }

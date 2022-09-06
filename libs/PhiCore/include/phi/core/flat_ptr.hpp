@@ -230,37 +230,37 @@ private:
     void* m_Pointer;
 };
 
-constexpr boolean operator==(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator==(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
 
-constexpr boolean operator==(const flat_ptr& lhs, nullptr_t) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator==(const flat_ptr& lhs, nullptr_t) noexcept
 {
     return lhs.get() == nullptr;
 }
 
-constexpr boolean operator==(nullptr_t, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator==(nullptr_t, const flat_ptr& rhs) noexcept
 {
     return rhs.get() == nullptr;
 }
 
-constexpr boolean operator!=(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator!=(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
-constexpr boolean operator!=(const flat_ptr& lhs, nullptr_t) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator!=(const flat_ptr& lhs, nullptr_t) noexcept
 {
     return lhs.get() != nullptr;
 }
 
-constexpr boolean operator!=(nullptr_t, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator!=(nullptr_t, const flat_ptr& rhs) noexcept
 {
     return rhs.get() != nullptr;
 }
 
-PHI_EXTENDED_CONSTEXPR inline void swap(flat_ptr& lhs, flat_ptr& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(flat_ptr& lhs, flat_ptr& rhs) noexcept
 {
     lhs.swap(rhs);
 }
@@ -444,7 +444,8 @@ boolean operator==(const not_null_flat_ptr&, nullptr_t) = delete;
 
 boolean operator==(nullptr_t, const not_null_flat_ptr&) = delete;
 
-constexpr boolean operator!=(const not_null_flat_ptr& lhs, const not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE constexpr boolean operator!=(const not_null_flat_ptr& lhs,
+                                               const not_null_flat_ptr& rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
@@ -453,7 +454,7 @@ boolean operator!=(const not_null_flat_ptr&, nullptr_t) = delete;
 
 boolean operator!=(nullptr_t, const not_null_flat_ptr&) = delete;
 
-inline void swap(not_null_flat_ptr& lhs, not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE void swap(not_null_flat_ptr& lhs, not_null_flat_ptr& rhs) noexcept
 {
     lhs.swap(rhs);
 }
