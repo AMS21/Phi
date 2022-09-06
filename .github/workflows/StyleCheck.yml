@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 14
+      LLVM_VERSION: 15
 
     steps:
       - name: Checkout

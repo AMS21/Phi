@@ -34,5 +34,5 @@ echo "TSAN_OPTIONS=halt_on_error=1:history_size=3:force_seq_cst_atomics=1" >>"$G
 echo "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1:halt_on_error=1" >>"$GITHUB_ENV"
 
 # Latest versions
-echo "LATEST_LLVM_VERSION=14" >>"$GITHUB_ENV"
+echo "LATEST_LLVM_VERSION=15" >>"$GITHUB_ENV"
 echo "LATEST_GCC_VERSION=12" >>"$GITHUB_ENV"

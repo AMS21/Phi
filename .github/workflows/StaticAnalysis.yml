@@ -19,7 +19,7 @@ jobs:
   cppcheck:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 14
+      LLVM_VERSION: 15
 
     steps:
       - name: Checkout
@@ -75,7 +75,7 @@ jobs:
   clang-tidy:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 14
+      LLVM_VERSION: 15
 
     steps:
       - name: Checkout
@@ -233,7 +233,7 @@ jobs:
   pvs-studio:
     runs-on: ubuntu-20.04
     env:
-      LLVM_VERSION: 14
+      LLVM_VERSION: 15
 
     steps:
       - name: Checkout
