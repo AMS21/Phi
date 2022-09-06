@@ -58,9 +58,6 @@ TEST_CASE("is_nan")
     test_is_nan(std::nanf("0"));
     test_is_nan(std::nanf("1"));
     test_is_nan(std::nanf("21"));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(0.0f / 0.0f);
-#endif
     test_is_nan(INFINITY - INFINITY);
     test_is_nan(INFINITY * 0.0f);
     test_is_nan(std::numeric_limits<float>::infinity() * 0.0f);
@@ -94,9 +91,6 @@ TEST_CASE("is_nan")
     test_is_nan(std::nan("0"));
     test_is_nan(std::nan("1"));
     test_is_nan(std::nan("21"));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(0.0 / 0.0);
-#endif
     test_is_nan(std::numeric_limits<double>::infinity() * 0.0);
     STATIC_TEST_IS_NAN(std::numeric_limits<double>::quiet_NaN());
     STATIC_TEST_IS_NAN(std::numeric_limits<double>::signaling_NaN());
@@ -121,9 +115,6 @@ TEST_CASE("is_nan")
     test_is_nan(std::nanl("0"));
     test_is_nan(std::nanl("1"));
     test_is_nan(std::nanl("21"));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(0.0L / 0.0L);
-#endif
     test_is_nan(std::numeric_limits<long double>::infinity() * 0.0L);
     STATIC_TEST_IS_NAN(std::numeric_limits<long double>::quiet_NaN());
     STATIC_TEST_IS_NAN(std::numeric_limits<long double>::signaling_NaN());
@@ -148,9 +139,6 @@ TEST_CASE("is_nan")
     test_is_nan(sf(std::nanf("0")));
     test_is_nan(sf(std::nanf("1")));
     test_is_nan(sf(std::nanf("21")));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(sf(0.0f / 0.0f));
-#endif
     test_is_nan(sf(INFINITY - INFINITY));
     test_is_nan(sf(NAN));
     test_is_nan(sf(INFINITY) * sf(0.0f));
@@ -180,9 +168,6 @@ TEST_CASE("is_nan")
     test_is_nan(sd(std::nan("0")));
     test_is_nan(sd(std::nan("1")));
     test_is_nan(sd(std::nan("21")));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(sd(0.0 / 0.0));
-#endif
     test_is_nan(std::numeric_limits<sd>::infinity() * sd(0.0));
     STATIC_TEST_IS_NAN(sd(std::numeric_limits<double>::quiet_NaN()));
     STATIC_TEST_IS_NAN(sd(std::numeric_limits<double>::signaling_NaN()));
@@ -207,9 +192,6 @@ TEST_CASE("is_nan")
     test_is_nan(sl(std::nanl("0")));
     test_is_nan(sl(std::nanl("1")));
     test_is_nan(sl(std::nanl("21")));
-#if PHI_HAS_EXTENSION_ALLOW_DIVIDE_BY_ZERO_CONSTANT()
-    test_is_nan(sl(0.0L / 0.0L));
-#endif
     test_is_nan(std::numeric_limits<sl>::infinity() * sl(0.0L));
     STATIC_TEST_IS_NAN(sl(std::numeric_limits<long double>::quiet_NaN()));
     STATIC_TEST_IS_NAN(sl(std::numeric_limits<long double>::signaling_NaN()));
