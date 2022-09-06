@@ -181,6 +181,7 @@ jobs:
       - name: Install gcc
         run: |
           brew install gcc@${{ matrix.compiler_version }} ninja
+          echo "CC=gcc-${{ matrix.compiler_version }}" >> $GITHUB_ENV
           echo "CXX=g++-${{ matrix.compiler_version }}" >> $GITHUB_ENV
 
       - name: Install gcovr
