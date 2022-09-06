@@ -553,9 +553,11 @@ using u8zstring  = basic_zstring<char8_t>;
 using u16zstring = basic_zstring<char16_t>;
 using u32zstring = basic_zstring<char32_t>;
 
+#if PHI_CPP_STANDARD_IS_BELOW(17)
 template <typename CharT, typename TraitsT>
 // NOLINTNEXTLINE(readability-redundant-declaration)
 constexpr size_t basic_zstring<CharT, TraitsT>::npos;
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

@@ -911,9 +911,11 @@ using u8string_view  = basic_string_view<char8_t>;
 using u16string_view = basic_string_view<char16_t>;
 using u32string_view = basic_string_view<char32_t>;
 
+#if PHI_CPP_STANDARD_IS_BELOW(17)
 template <typename CharT, typename TraitsT>
 // NOLINTNEXTLINE(readability-redundant-declaration)
 constexpr size_t basic_string_view<CharT, TraitsT>::npos;
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 
