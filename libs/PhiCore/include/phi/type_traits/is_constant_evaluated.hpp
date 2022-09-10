@@ -21,7 +21,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool is_constant_evaluated() noexcept
 {
-#if PHI_HAS_FEATURE_IF_CONSTEVAL()
+#if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
+    return PHI_IS_CONSTANT_EVALUATED();
+#elif PHI_HAS_FEATURE_IF_CONSTEVAL()
     if consteval
     {
         return true;
@@ -30,8 +32,6 @@ PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool is_constant_evaluated() noexcept
     {
         return false;
     }
-#elif PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
-    return PHI_IS_CONSTANT_EVALUATED();
 #else
     return false;
 #endif
