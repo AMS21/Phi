@@ -24,4 +24,13 @@
 #    define EXT_STATIC_REQUIRE_FALSE(...) REQUIRE_FALSE(__VA_ARGS__)
 #endif
 
+// sanitizer functions in gcc before 10.0.0 are not constexpr
+#if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
+#    define CONSTEXPR_SAN           constexpr
+#    define STATIC_REQUIRE_SAN(...) EXT_STATIC_REQUIRE(__VA_ARGS__)
+#else
+#    define CONSTEXPR_SAN           /* Nothing */
+#    define STATIC_REQUIRE_SAN(...) REQUIRE(__VA_ARGS__)
+#endif
+
 #endif // INCG_PHI_UNITTEST_CONSTEXPRHELPER_HPP

@@ -697,25 +697,25 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
         SECTION("with 2 iterators")
         {
-            EXT_CONSTEXPR_RUNTIME phi::string_view base_view{"Hello World"};
-            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view =
+            CONSTEXPR_SAN phi::string_view base_view{"Hello World"};
+            CONSTEXPR_SAN phi::string_view sub_view =
                     base_view.substring_view(base_view.begin(), base_view.begin() + 5u);
 
-            EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "Hello", 5u));
-            EXT_STATIC_REQUIRE(sub_view.length() == 5u);
-            EXT_STATIC_REQUIRE(sub_view.data() == base_view.data());
-            EXT_STATIC_REQUIRE(sub_view.begin() == base_view.begin());
-            EXT_STATIC_REQUIRE(sub_view.front() == 'H');
-            EXT_STATIC_REQUIRE(sub_view.back() == 'o');
+            STATIC_REQUIRE_SAN(phi::string_equals(sub_view.data(), "Hello", 5u));
+            STATIC_REQUIRE_SAN(sub_view.length() == 5u);
+            STATIC_REQUIRE_SAN(sub_view.data() == base_view.data());
+            STATIC_REQUIRE_SAN(sub_view.begin() == base_view.begin());
+            STATIC_REQUIRE_SAN(sub_view.front() == 'H');
+            STATIC_REQUIRE_SAN(sub_view.back() == 'o');
 
-            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 =
+            CONSTEXPR_SAN phi::string_view sub_view2 =
                     base_view.substring_view(base_view.begin() + 6u, base_view.end());
 
-            EXT_STATIC_REQUIRE(phi::string_equals(sub_view2.data(), "World"));
-            EXT_STATIC_REQUIRE(sub_view2.length() == 5u);
-            EXT_STATIC_REQUIRE(sub_view2.end() == base_view.end());
-            EXT_STATIC_REQUIRE(sub_view2.front() == 'W');
-            EXT_STATIC_REQUIRE(sub_view2.back() == 'd');
+            STATIC_REQUIRE_SAN(phi::string_equals(sub_view2.data(), "World"));
+            STATIC_REQUIRE_SAN(sub_view2.length() == 5u);
+            STATIC_REQUIRE_SAN(sub_view2.end() == base_view.end());
+            STATIC_REQUIRE_SAN(sub_view2.front() == 'W');
+            STATIC_REQUIRE_SAN(sub_view2.back() == 'd');
         }
     }
 

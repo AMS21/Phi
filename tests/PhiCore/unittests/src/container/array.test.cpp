@@ -1926,7 +1926,7 @@ TEST_CASE("max_index")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
-        EXT_STATIC_REQUIRE(arr.max_index() == &arr[2u]);
+        STATIC_REQUIRE_SAN(arr.max_index() == &arr[2u]);
         CHECK_SAME_TYPE(decltype(arr.max_index()), array::const_iterator);
         CHECK_NOEXCEPT(arr.max_index());
     }
@@ -2036,7 +2036,7 @@ TEST_CASE("min_index")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
-        EXT_STATIC_REQUIRE(arr.min_index() == &arr.front());
+        STATIC_REQUIRE_SAN(arr.min_index() == &arr.front());
         CHECK_SAME_TYPE(decltype(arr.min_index()), array::const_iterator);
         CHECK_NOEXCEPT(arr.min_index());
     }
@@ -2230,7 +2230,7 @@ TEST_CASE("array iterators")
 {
     test_iterators();
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    STATIC_REQUIRE(test_iterators());
+    STATIC_REQUIRE_SAN(test_iterators());
 #endif
 }
 
