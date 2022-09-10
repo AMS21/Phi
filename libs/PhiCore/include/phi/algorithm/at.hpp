@@ -9,11 +9,15 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/size_t.hpp"
 #include <initializer_list>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename TypeT, size_t Size>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index) noexcept
@@ -49,6 +53,8 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT at(std::initializer_list<TypeT> list,
 
     return *(list.begin() + index);
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

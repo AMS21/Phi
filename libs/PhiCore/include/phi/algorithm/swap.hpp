@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/enable_if.hpp"
@@ -24,6 +25,9 @@ namespace detail
     using swap_result_t = typename enable_if<is_move_constructible<TypeT>::value &&
                                              is_move_assignable<TypeT>::value>::type;
 }
+
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 template <typename TypeT>
 inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT& lhs, TypeT& rhs) noexcept(
@@ -43,6 +47,8 @@ inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(
         swap(lhs[i], rhs[i]);
     }
 }
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

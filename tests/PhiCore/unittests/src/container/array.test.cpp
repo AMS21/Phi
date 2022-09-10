@@ -178,7 +178,7 @@ struct test_nondefault_initialization
 };
 
 // Test construction from an initializer-list
-PHI_EXTENDED_CONSTEXPR bool test_initializer_list()
+PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_PURE bool test_initializer_list()
 {
     {
         const phi::array<double, 3> a3_0 = {};
@@ -257,7 +257,7 @@ TEST_CASE("Initialization")
 {
     with_all_types<test_nondefault_initialization>();
     with_all_types<test_default_initialization>(); // not constexpr
-    test_initializer_list();
+    CHECK(test_initializer_list());
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     STATIC_REQUIRE(with_all_types<test_nondefault_initialization>());
@@ -1535,7 +1535,7 @@ PHI_EXTENDED_CONSTEXPR void test_contiguous(const ContainerT& container)
     }
 }
 
-PHI_EXTENDED_CONSTEXPR bool test_contiguous()
+PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_PURE bool test_contiguous()
 {
     test_contiguous(phi::array<bool, 0>());
     test_contiguous(phi::array<bool, 1>());
@@ -1552,7 +1552,7 @@ PHI_EXTENDED_CONSTEXPR bool test_contiguous()
 
 TEST_CASE("array contiguous")
 {
-    test_contiguous();
+    CHECK(test_contiguous());
 
     // TODO: Test don't compile with gcc-8
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() &&                                                        \
