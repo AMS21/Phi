@@ -4,7 +4,14 @@ include(CMakeParseArguments)
 include(CheckLinkerFlag)
 include(internal/PhiCheckCXXCompilerFlag)
 
-set(phi_coverage_compile_flags O0 g3 fno-inline fno-inline-functions fprofile-abs-path)
+set(phi_coverage_compile_flags
+    O0
+    g3
+    fno-common
+    fno-inline
+    fno-inline-functions
+    fno-omit-frame-pointer
+    fprofile-abs-path)
 
 set(phi_coverage_link_flags -fprofile-instr-generate -fcoverage-mapping --coverage)
 
@@ -89,7 +96,7 @@ function(phi_target_enable_coverage)
     target_link_options(${cov_TARGET} ${visibility_scope} ${flag})
   endforeach()
 
-  # Replace always inline with never inline
+  # Replace always inline with just inline
   target_compile_definitions(${cov_TARGET} ${visibility_scope}
-                                           PHI_CONFIG_ALWAYS_INLINE_OVERWRITE=PHI_NEVER_INLINE)
+                                           PHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline)
 endfunction()
