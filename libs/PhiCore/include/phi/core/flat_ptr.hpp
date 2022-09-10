@@ -454,7 +454,8 @@ boolean operator!=(const not_null_flat_ptr&, nullptr_t) = delete;
 
 boolean operator!=(nullptr_t, const not_null_flat_ptr&) = delete;
 
-PHI_ALWAYS_INLINE void swap(not_null_flat_ptr& lhs, not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR void swap(not_null_flat_ptr& lhs,
+                                                   not_null_flat_ptr& rhs) noexcept
 {
     lhs.swap(rhs);
 }
