@@ -4,13 +4,24 @@ include(CMakeParseArguments)
 include(internal/PhiCheckCXXCompilerFlag)
 
 set(phi_extra_debug_flags
-    g3
-    ftrapv
-    ftrivial-auto-var-init=pattern
+    fasynchronous-unwind-tables
+    fcf-protection=full
     fcheck-new
     fdebug-macro
+    fharden-compares
+    fharden-conditional-branches
+    fstack-clash-protection
+    fstack-protector-all
+    ftrapv
+    ftrivial-auto-var-init=pattern
+    fvar-tracking
+    fvar-tracking-assignments
+    g3
+    ginline-points
+    grecord-command-line
     grecord-gcc-switches
-    grecord-command-line)
+    gstatement-frontiers
+    mcet)
 
 # Check extra debug flags
 set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
@@ -28,6 +39,9 @@ foreach(_test ${phi_extra_debug_flags})
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
+
+set(phi_extra_debug_defines _GLIBCXX_ASSERTIONS _GLIBCXX_SANITIZE_VECTOR
+                            _LIBCPP_ENABLE_ASSERTIONS=1 _LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS)
 
 function(phi_target_enable_extra_debug_flags)
   # Command line arguments
@@ -69,6 +83,10 @@ function(phi_target_enable_extra_debug_flags)
     foreach(flag ${_phi_extra_debug_flags_supported})
       target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       target_link_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+
     endforeach()
+
+    target_compile_definitions(${dbg_TARGET} ${visibility_scope}
+                                             $<$<CONFIG:${config}>:${phi_extra_debug_defines}>)
   endforeach()
 endfunction()
