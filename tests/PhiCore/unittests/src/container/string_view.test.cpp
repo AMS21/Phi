@@ -52,13 +52,13 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         static constexpr phi::array<char, 2> array{'H', 'i'};
         constexpr phi::string_view           view{array};
 
-        EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hi", 2u));
+        STATIC_REQUIRE_SAN(phi::string_equals(view.data(), "Hi", 2u));
         STATIC_REQUIRE(view.length() == 2u);
-        STATIC_REQUIRE_FALSE(view.is_null());
-        STATIC_REQUIRE_FALSE(view.is_empty());
+        STATIC_REQUIRE_SAN(!view.is_null());
+        STATIC_REQUIRE_SAN(!view.is_empty());
 
-        EXT_STATIC_REQUIRE(view.front() == 'H');
-        EXT_STATIC_REQUIRE(view.back() == 'i');
+        STATIC_REQUIRE_SAN(view.front() == 'H');
+        STATIC_REQUIRE_SAN(view.back() == 'i');
     }
 
     SECTION("BasicStringView(CharT*)")
