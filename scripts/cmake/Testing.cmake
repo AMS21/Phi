@@ -7,7 +7,7 @@ include(Functions)
 # Add a test
 function(phi_add_test)
   # Commandline
-  cmake_parse_arguments(ts "" "TARGET;" "CONFIGURATIONS" ${ARGN})
+  cmake_parse_arguments(ts "" "TARGET" "CONFIGURATIONS" ${ARGN})
 
   # Check required arguments
   if(NOT DEFINED ts_TARGET)
