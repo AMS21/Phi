@@ -23,6 +23,11 @@ set(phi_extra_debug_flags
     gstatement-frontiers
     mcet)
 
+# Clang on windows seems to give errors when compiling with `fstack-clash-protection`
+if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS) OR PHI_COMPILER_EMCC)
+  list(REMOVE_ITEM phi_extra_debug_flags "fstack-clash-protection")
+endif()
+
 # Check extra debug flags
 set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_extra_debug_flags})
