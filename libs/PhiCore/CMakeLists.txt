@@ -441,11 +441,13 @@ phi_add_library(
   ${PHI_CORE_HEADERS}
   ALIAS_TARGET
   Phi::Core
-  PUBLIC_LINK_LIBRARIES
-  Threads::Threads
-  PRIVATE_LINK_LIBRARIES
   PUBLIC_INCLUDE_DIRS
   "include"
   "${PHI_GENERATED_FILES_DIR}"
   PRIVATE_INCLUDE_DIRS
   "src")
+
+# Link with threads if we have it
+if(Threads_FOUND)
+  target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
+endif()

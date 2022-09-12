@@ -132,8 +132,8 @@ set(PHI_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 include(PhiConfiguration)
 include(ProjectOptions)
 
-# Find required system libs
-find_package(Threads REQUIRED)
+# Find optional system libs (https://cmake.org/cmake/help/latest/module/FindThreads.html)
+find_package(Threads)
 
 # Check for settings passed through the environment
 if(DEFINED ENV{PHI_DYNAMIC_TEST})
