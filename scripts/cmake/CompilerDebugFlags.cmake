@@ -45,8 +45,10 @@ foreach(_test ${phi_extra_debug_flags})
   endif()
 endforeach(_test)
 
-set(phi_extra_debug_defines _GLIBCXX_ASSERTIONS _GLIBCXX_SANITIZE_VECTOR
-                            _LIBCPP_ENABLE_ASSERTIONS=1 _LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS)
+set(phi_extra_debug_defines
+    _GLIBCXX_ASSERTIONS _GLIBCXX_SANITIZE_VECTOR _LIBCPP_ENABLE_ASSERTIONS=1
+    _LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS
+    CACHE INTERNAL "")
 
 function(phi_target_enable_extra_debug_flags)
   # Command line arguments
