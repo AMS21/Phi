@@ -7,7 +7,8 @@ include(internal/PhiCheckCXXCompilerFlag)
 set(phi_coverage_compile_flags g3 fno-common fno-inline fno-inline-functions fno-omit-frame-pointer
                                fprofile-abs-path)
 
-set(phi_coverage_link_flags -fprofile-instr-generate -fcoverage-mapping --coverage)
+set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage -fprofile-instr-generate
+                            -fcoverage-mapping --coverage)
 
 # Remove '--coverage' for clang since it produces a 'Wunused-command-line-argument' warning
 if(PHI_COMPILER_CLANG)
