@@ -108,7 +108,7 @@ jobs:
       - name: Test with coverage
         if: ${{ matrix.dynamic_test == 'coverage' }}
         working-directory: ./build
-        run: OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest . -C ${{ matrix.build_type }} --timeout 18000
+        run: OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest . -C ${{ matrix.build_type }} --timeout 18000 --verbose
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
@@ -192,7 +192,7 @@ jobs:
       - name: Process coverage data
         working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'llvm-cov gcov'
+        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'llvm-cov gcov' --verbose
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
@@ -275,7 +275,7 @@ jobs:
       - name: Process coverage data
         working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'gcov'
+        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'gcov' --verbose
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}

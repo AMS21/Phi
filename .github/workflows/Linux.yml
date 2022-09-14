@@ -106,7 +106,7 @@ jobs:
       - name: Process coverage data
         working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE'
+        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE' --verbose
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
@@ -193,7 +193,7 @@ jobs:
       - name: Process coverage data
         working-directory: ./build
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE'
+        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '$GCOV_EXECUTABLE' --verbose
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
