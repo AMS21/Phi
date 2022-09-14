@@ -140,7 +140,7 @@ function(phi_target_set_common_flags)
     PROPERTY LINKER_LANGUAGE)
 
   # Set cxx flags
-  if("${target_linker_language}" STREQUAL "CXX")
+  if("${target_linker_language}" STREQUAL "CXX" OR "${target_linker_language}" STREQUAL "")
     foreach(flag ${_phi_common_cxx_flags_supported})
       target_compile_options(${cf_TARGET} ${visibility_scope} ${flag})
     endforeach(flag)

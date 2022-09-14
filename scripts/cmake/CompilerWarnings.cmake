@@ -320,7 +320,8 @@ function(phi_target_set_warnings)
   # message(STATUS "Target: ${warn_TARGET}") message(STATUS "Linker language:
   # ${target_linker_language}")
 
-  if("${target_linker_language}" STREQUAL "CXX")
+  # We're assuming CXX by default
+  if("${target_linker_language}" STREQUAL "CXX" OR "${target_linker_language}" STREQUAL "")
     # Set C++ warning flags
     foreach(flag ${_phi_warning_flags_cxx_supported})
       target_compile_options(${warn_TARGET} ${visibility_scope} ${flag})

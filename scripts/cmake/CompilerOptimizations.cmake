@@ -183,7 +183,7 @@ function(phi_target_enable_optimizations)
 
   # Enable options for each specified configuration
   foreach(config ${opt_CONFIGS})
-    if("${target_linker_language}" STREQUAL "CXX")
+    if("${target_linker_language}" STREQUAL "CXX" OR "${target_linker_language}" STREQUAL "")
       # Enable C++ optimizations flags
       foreach(flag ${_phi_opt_compile_flags_cxx_supported})
         target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
