@@ -129,6 +129,7 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},xcode-${{ matrix.cfg.compiler_version }},${{ matrix.build_type }}
           name: ${{ runner.os }}-xcode-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
 
   gcc:
     runs-on: macos-11
@@ -223,3 +224,4 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},gcc-${{ matrix.compiler_version }},${{ matrix.build_type }}
           name: ${{ runner.os }}-gcc-${{ matrix.compiler_version }}-${{ matrix.build_type }}
+          fail_ci_if_error: true

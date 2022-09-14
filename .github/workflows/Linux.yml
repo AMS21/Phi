@@ -115,6 +115,7 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},clang-${{ matrix.compiler_version }},${{ matrix.build_type }}
           name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
 
   gcc:
     runs-on: ${{ matrix.cfg.os }}
@@ -201,3 +202,4 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},gcc-${{ matrix.cfg.compiler_version }},${{ matrix.build_type }}
           name: ${{ runner.os }}-gcc-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
+          fail_ci_if_error: true

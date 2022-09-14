@@ -117,6 +117,7 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},msvc-${{ matrix.os }},${{ matrix.build_type }},${{ matrix.arch }}
           name: ${{ runner.os }}-msvc-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.standard }}-${{ matrix.arch }}
+          fail_ci_if_error: true
 
   clang:
     runs-on: windows-2022
@@ -200,6 +201,7 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},clang,${{ matrix.build_type }}
           name: ${{ runner.os }}-clang-${{ matrix.build_type }}
+          fail_ci_if_error: true
 
   gcc:
     runs-on: windows-2022
@@ -282,3 +284,4 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},gcc,${{ matrix.build_type }}
           name: ${{ runner.os }}-gcc-${{ matrix.build_type }}
+          fail_ci_if_error: true
