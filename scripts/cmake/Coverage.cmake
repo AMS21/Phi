@@ -4,14 +4,8 @@ include(CMakeParseArguments)
 include(CheckLinkerFlag)
 include(internal/PhiCheckCXXCompilerFlag)
 
-set(phi_coverage_compile_flags
-    O0
-    g3
-    fno-common
-    fno-inline
-    fno-inline-functions
-    fno-omit-frame-pointer
-    fprofile-abs-path)
+set(phi_coverage_compile_flags g3 fno-common fno-inline fno-inline-functions fno-omit-frame-pointer
+                               fprofile-abs-path)
 
 set(phi_coverage_link_flags -fprofile-instr-generate -fcoverage-mapping --coverage)
 
