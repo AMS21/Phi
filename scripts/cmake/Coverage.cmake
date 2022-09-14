@@ -93,4 +93,6 @@ function(phi_target_enable_coverage)
   # Replace always inline with just inline
   target_compile_definitions(${cov_TARGET} ${visibility_scope}
                                            PHI_CONFIG_ALWAYS_INLINE_OVERWRITE=inline)
+  # Add define to inform user that it's a coverage build
+  target_compile_definitions(${cov_TARGET} ${visibility_scope} PHI_CONFIG_COVERAGE_BUILD)
 endfunction()
