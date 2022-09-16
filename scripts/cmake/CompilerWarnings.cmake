@@ -133,6 +133,9 @@ set(phi_disabled_warnings_flags
     wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a
            # case label -
            # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
+    wd4868 # 'file(line_number)' compiler may not enforce left-to-right evaluation order in braced
+           # initializer list -
+           # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-c4868
     Wno-constexpr-not-const
     Wno-c++1y-extensions
     Wno-c++1z-extensions
