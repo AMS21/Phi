@@ -130,6 +130,9 @@ set(phi_disabled_warnings_flags
     wd4324 # 'struct_name' : structure was padded due to __declspec(align())
     wd5220 # 'name': a non-static data member with a volatile qualified type no longer implies that
     # compiler generated copy/move constructors and copy/move assignment operators are not trivial
+    wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a
+           # case label -
+           # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
     Wno-constexpr-not-const
     Wno-c++1y-extensions
     Wno-c++1z-extensions
