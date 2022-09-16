@@ -834,6 +834,8 @@ public:
 
     PHI_GCC_SUPPRESS_WARNING_PUSH()
     PHI_GCC_SUPPRESS_WARNING("-Wreturn-type")
+    PHI_MSVC_SUPPRESS_WARNING_PUSH()
+    PHI_MSVC_SUPPRESS_WARNING(4702) // unreachable code
 
     /// Returns the contained value if there is one
     PHI_EXTENDED_CONSTEXPR TypeT& value() &
@@ -876,6 +878,7 @@ public:
         PHI_ASSERT_NOT_REACHED();
     }
 
+    PHI_MSVC_SUPPRESS_WARNING_POP()
     PHI_GCC_SUPPRESS_WARNING_POP()
 
     /// Returns the stored value if there is one, otherwise returns `u`
