@@ -312,8 +312,13 @@ TEST_CASE("underlying_type")
 #endif
 
     // Unscoped enum
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
+    test_underlying_type<EnumEmpty, int>();
+    test_underlying_type<EnumWithMembers, int>();
+#else
     test_underlying_type<EnumEmpty, unsigned>();
     test_underlying_type<EnumWithMembers, unsigned>();
+#endif
     test_underlying_type<EnumBool, bool>();
     test_underlying_type<EnumChar, char>();
     test_underlying_type<EnumSignedChar, signed char>();

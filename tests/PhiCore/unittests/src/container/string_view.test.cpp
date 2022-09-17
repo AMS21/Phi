@@ -49,7 +49,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("basic_string_view(phi::array)")
     {
-        static constexpr phi::array<char, 2> array{'H', 'i'};
+        static constexpr phi::array<char, 2> array{{'H', 'i'}};
         constexpr phi::string_view           view{array};
 
         STATIC_REQUIRE_SAN(phi::string_equals(view.data(), "Hi", 2u));
@@ -275,7 +275,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("operator=(phi::array)")
     {
-        static constexpr phi::array<char, 2> array{'H', 'i'};
+        static constexpr phi::array<char, 2> array{{'H', 'i'}};
         phi::string_view                     view;
 
         view = array;

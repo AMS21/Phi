@@ -24,6 +24,9 @@ static int func()
     return 21;
 }
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4702) // unreachable code
+
 TEST_CASE("PHI_ASSERT_NOT_REACHED", "[Core][Assert]")
 {
     if (func() == 21)
@@ -35,6 +38,8 @@ TEST_CASE("PHI_ASSERT_NOT_REACHED", "[Core][Assert]")
         PHI_ASSERT_NOT_REACHED();
     }
 }
+
+PHI_MSVC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("PHI_RELEASE_ASSERT_NOT_REACHED", "[Core][Assert]")
 {

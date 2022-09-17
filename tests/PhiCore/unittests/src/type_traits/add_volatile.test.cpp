@@ -14,6 +14,10 @@
 template <typename TypeT>
 void test_add_volatile()
 {
+    // TODO: Well for some reason this test crashes the MSVC compiler...
+#if PHI_COMPILER_IS(MSVC)
+    SKIP_CHECK();
+#else
     CHECK_SAME_TYPE(typename phi::add_volatile<TypeT>::type, volatile TypeT);
     CHECK_SAME_TYPE(typename phi::add_volatile<const TypeT>::type, const volatile TypeT);
     CHECK_SAME_TYPE(typename phi::add_volatile<volatile TypeT>::type, volatile TypeT);
@@ -33,6 +37,7 @@ void test_add_volatile()
                     typename std::add_volatile<volatile TypeT>::type);
     CHECK_SAME_TYPE(typename phi::add_volatile<const volatile TypeT>::type,
                     typename std::add_volatile<const volatile TypeT>::type);
+#endif
 }
 
 TEST_CASE("add_volatile")
