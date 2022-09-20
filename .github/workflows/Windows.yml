@@ -112,7 +112,7 @@ jobs:
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},msvc-${{ matrix.os }},${{ matrix.build_type }},${{ matrix.arch }}
@@ -196,7 +196,7 @@ jobs:
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},clang,${{ matrix.build_type }}
@@ -279,7 +279,7 @@ jobs:
 
       - name: Upload coverage data
         if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},gcc,${{ matrix.build_type }}
