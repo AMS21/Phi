@@ -47,13 +47,19 @@ DETAIL_PHI_END_NAMESPACE()
 #else
 
 #    include "phi/core/declval.hpp"
-#    include "phi/type_traits/detail/yes_no_type.hpp"
-#    include "phi/type_traits/is_complete.hpp"
+#    include "phi/type_traits/conditional.hpp"
+#    include "phi/type_traits/is_base_of.hpp"
 #    include "phi/type_traits/is_default_constructible.hpp"
 #    include "phi/type_traits/is_destructible.hpp"
+#    include "phi/type_traits/is_lvalue_reference.hpp"
+#    include "phi/type_traits/is_reference.hpp"
+#    include "phi/type_traits/is_rvalue_reference.hpp"
+#    include "phi/type_traits/is_static_castable_to.hpp"
 #    include "phi/type_traits/is_void.hpp"
+#    include "phi/type_traits/remove_cv.hpp"
+#    include "phi/type_traits/remove_reference.hpp"
 
-#    if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
+#    if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE() && PHI_HAS_WORKING_IS_BASE_OF()
 #        define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 1
 #    else
 #        define PHI_HAS_WORKING_IS_CONSTRUCTIBLE() 0
@@ -61,80 +67,165 @@ DETAIL_PHI_END_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+template <typename TypeT, typename... ArgsT>
+struct is_constructible;
+
 namespace detail
 {
-    struct is_constructible_imp
+    // Implementation for non-reference types. To meet the proper
+    // variable definition semantics, we also need to test for
+    // is_destructible in this case.
+    struct do_is_direct_constructible_impl
     {
-        template <typename TypeT, typename... ArgsT, typename = decltype(T(declval<ArgsT>()...))>
-
-        static yes_type test(int);
-        template <typename, typename...>
-
-        static no_type test(...);
-
-        template <typename TypeT, typename ArgT, typename = decltype(::new TypeT(declval<ArgT>()))>
-        static yes_type test1(int);
+        template <typename ToT, typename ArgT, typename = decltype(::new ToT(declval<ArgT>()))>
+        static true_type test(int);
 
         template <typename, typename>
-        static no_type test1(...);
-
-        template <typename TypeT>
-        static yes_type ref_test(TypeT);
-
-        template <typename TypeT>
-        static no_type ref_test(...);
+        static false_type test(...);
     };
+
+    template <typename ToT, typename ArgT>
+    struct is_direct_constructible_impl : public do_is_direct_constructible_impl
+    {
+        using type = decltype(test<ToT, ArgT>(0));
+
+        static const constexpr bool value = type::value;
+    };
+
+    template <typename ToT, typename ArgT>
+    struct is_direct_constructible_new_safe
+        : public bool_constant<is_destructible<ToT>::value &&
+                               is_direct_constructible_impl<ToT, ArgT>::value>
+    {};
+
+    template <typename FromT, typename ToT,
+              bool = !(is_void<FromT>::value || is_function<FromT>::value)>
+    struct is_base_to_derived_ref;
+
+    // Detect whether we have a downcast situation during
+    // reference binding.
+    template <typename FromT, typename ToT>
+    struct is_base_to_derived_ref<FromT, ToT, true>
+    {
+        using source_t      = typename remove_cv<typename remove_reference<FromT>::type>::type;
+        using destination_t = typename remove_cv<typename remove_reference<ToT>::type>::type;
+
+        using type = bool_constant<is_not_same<source_t, destination_t>::value &&
+                                   is_base_of<source_t, destination_t>::value &&
+                                   !is_constructible<destination_t, FromT>::value>;
+
+        static constexpr bool value = type::value;
+    };
+
+    template <typename FromT, typename ToT>
+    struct is_base_to_derived_ref<FromT, ToT, false> : public false_type
+    {};
+
+    template <typename FromT, typename ToT,
+              bool = is_lvalue_reference<FromT>::value&& is_rvalue_reference<ToT>::value>
+    struct is_lvalue_to_rvalue_ref;
+
+    // Detect whether we have an lvalue of non-function type
+    // bound to a reference-compatible rvalue-reference.
+    template <typename FromT, typename ToT>
+    struct is_lvalue_to_rvalue_ref<FromT, ToT, true>
+    {
+        using source_t      = typename remove_cv<typename remove_reference<FromT>::type>::type;
+        using destination_t = typename remove_cv<typename remove_reference<ToT>::type>::type;
+
+        using type = bool_constant<is_not_function<source_t>::value &&
+                                   (is_same<source_t, destination_t>::value ||
+                                    is_base_of<destination_t, source_t>::value)>;
+
+        static constexpr bool value = type::value;
+    };
+
+    template <typename FromT, typename ToT>
+    struct is_lvalue_to_rvalue_ref<FromT, ToT, false> : public false_type
+    {};
+
+    // Here we handle direct-initialization to a reference type as
+    // equivalent to a static_cast modulo overshooting conversions.
+    // These are restricted to the following conversions:
+    //    a) A base class value to a derived class reference
+    //    b) An lvalue to an rvalue-reference of reference-compatible
+    //       types that are not functions
+    template <typename TypeT, typename ArgT>
+    struct is_direct_constructible_ref_cast
+        : public bool_constant<is_static_castable_to<ArgT, TypeT>::value &&
+                               !(is_base_to_derived_ref<ArgT, TypeT>::value ||
+                                 is_lvalue_to_rvalue_ref<ArgT, TypeT>::value)>
+    {};
+
+    template <typename TypeT, typename ArgT>
+    struct is_direct_constructible_new
+        : public conditional<is_reference<TypeT>::value,
+                             is_direct_constructible_ref_cast<TypeT, ArgT>,
+                             is_direct_constructible_new_safe<TypeT, ArgT>>::type
+    {};
+
+    template <typename TypeT, typename ArgT>
+    struct is_direct_constructible : public is_direct_constructible_new<TypeT, ArgT>::type
+    {};
+
+    // Since default-construction and binary direct-initialization have
+    // been handled separately, the implementation of the remaining
+    // n-ary construction cases is rather straightforward. We can use
+    // here a functional cast, because array types are excluded anyway
+    // and this form is never interpreted as a C cast.
+    struct do_is_nary_constructible_impl
+    {
+        template <typename TypeT, typename... ArgsT,
+                  typename = decltype(TypeT(declval<ArgsT>()...))>
+        static true_type test(int);
+
+        template <typename, typename...>
+        static false_type test(...);
+    };
+
+    template <typename TypeT, typename... ArgsT>
+    struct is_nary_constructible_impl : public do_is_nary_constructible_impl
+    {
+        using type = decltype(test<TypeT, ArgsT...>(0));
+    };
+
+    template <typename TypeT, typename... ArgsT>
+    struct is_nary_constructible : public is_nary_constructible_impl<TypeT, ArgsT...>::type
+    {
+        static_assert(sizeof...(ArgsT) > 1, "Only useful for > 1 arguments");
+    };
+
+    template <typename TypeT, typename... ArgsT>
+    struct is_constructible_impl : public is_nary_constructible<TypeT, ArgsT...>
+    {};
+
+    template <typename TypeT, typename ArgT>
+    struct is_constructible_impl<TypeT, ArgT> : public is_direct_constructible<TypeT, ArgT>
+    {};
+
+    template <>
+    struct is_constructible_impl<void> : public false_type
+    {};
+
+    template <>
+    struct is_constructible_impl<void const> : public false_type
+    {};
+
+    template <>
+    struct is_constructible_impl<void volatile> : public false_type
+    {};
+
+    template <>
+    struct is_constructible_impl<void const volatile> : public false_type
+    {};
+
+    template <typename TypeT>
+    struct is_constructible_impl<TypeT> : public is_default_constructible<TypeT>
+    {};
 } // namespace detail
 
 template <typename TypeT, typename... ArgsT>
-struct is_constructible
-    : public bool_constant<sizeof(detail::is_constructible_imp::test<TypeT, ArgsT...>(0)) ==
-                           detail::sizeof_yes_type>
-{
-    static_assert(is_complete<TypeT>::value || is_void<TypeT>::value,
-                  "The target type must be complete in order to test for constructibility");
-};
-
-template <typename TypeT, typename ArgT>
-struct is_constructible<TypeT, ArgT>
-    : public bool_constant<is_destructible<TypeT>::value &&
-                           sizeof(detail::is_constructible_imp::test1<TypeT, ArgT>(0)) ==
-                                   detail::sizeof_yes_type>
-{
-    static_assert(is_complete<TypeT>::value || is_void<TypeT>::value,
-                  "The target type must be complete in order to test for constructibility");
-};
-
-template <typename RefT, typename ArgT>
-struct is_constructible<RefT&, ArgT>
-    : public bool_constant<sizeof(detail::is_constructible_imp::ref_test<RefT&>(declval<ArgT>())) ==
-                           detail::sizeof_yes_type>
-{};
-
-template <typename RefT, typename ArgT>
-struct is_constructible<RefT&&, ArgT>
-    : public bool_constant<sizeof(detail::is_constructible_imp::ref_test<RefT&&>(
-                                   declval<ArgT>())) == detail::sizeof_yes_type>
-{};
-
-template <>
-struct is_constructible<void> : public false_type
-{};
-
-template <>
-struct is_constructible<void const> : public false_type
-{};
-
-template <>
-struct is_constructible<void const volatile> : public false_type
-{};
-
-template <>
-struct is_constructible<void volatile> : public false_type
-{};
-
-template <typename TypeT>
-struct is_constructible<TypeT> : public is_default_constructible<TypeT>
+struct is_constructible : public detail::is_constructible_impl<TypeT, ArgsT...>::type
 {};
 
 template <typename TypeT, typename... ArgsT>
