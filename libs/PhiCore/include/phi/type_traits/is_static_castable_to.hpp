@@ -15,19 +15,25 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
-    template <typename FromT, typename ToT, typename EnabledT>
-    struct is_static_castable_to_impl : public false_type
-    {};
+    struct do_is_static_castable_impl
+    {
+        template <typename FromT, typename ToT,
+                  typename = decltype(static_cast<ToT>(declval<FromT>()))>
+        static true_type test(int);
+
+        template <typename, typename>
+        static false_type test(...);
+    };
 
     template <typename FromT, typename ToT>
-    struct is_static_castable_to_impl<FromT, ToT,
-                                      decltype(void(static_cast<ToT>(declval<FromT>())))>
-        : public true_type
-    {};
+    struct is_static_castable_to_impl : public do_is_static_castable_impl
+    {
+        using type = decltype(test<FromT, ToT>(0));
+    };
 } // namespace detail
 
 template <typename FromT, typename ToT>
-struct is_static_castable_to : public detail::is_static_castable_to_impl<FromT, ToT, void>
+struct is_static_castable_to : public detail::is_static_castable_to_impl<FromT, ToT>::type
 {};
 
 template <typename FromT, typename ToT>
