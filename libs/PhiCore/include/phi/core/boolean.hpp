@@ -70,7 +70,7 @@ public:
     {}
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    PHI_ALWAYS_INLINE boolean& operator=(TypeT value) noexcept
+    PHI_ALWAYS_INLINE constexpr boolean& operator=(TypeT value) noexcept
     {
         m_Value = value;
         return *this;
