@@ -1,6 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
+#include <phi/core/observer_ptr.hpp>
 #include <phi/core/ref_ptr.hpp>
 #include <phi/math/vector2.hpp>
 #include <phi/type_traits/is_copy_assignable.hpp>
@@ -721,4 +723,70 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         CHECK((vec2_ptr->x == 3));
         CHECK((vec2_ptr->y == 12));
     }
+}
+
+TEST_CASE("ref_ptr - flat")
+{
+    int*              raw_ptr = new int(21);
+    phi::ref_ptr<int> ptr{raw_ptr};
+
+    phi::flat_ptr flat = ptr.flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("ref_ptr - not_null_flat")
+{
+    int*              raw_ptr = new int(21);
+    phi::ref_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_ref_ptr - flat")
+{
+    int*                       raw_ptr = new int(21);
+    phi::not_null_ref_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("ref_ptr - observer")
+{
+    int*              raw_ptr = new int(21);
+    phi::ref_ptr<int> ptr{raw_ptr};
+
+    phi::observer_ptr<int> observer = ptr.observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("ref_ptr - not_null_observer")
+{
+    int*              raw_ptr = new int(21);
+    phi::ref_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_observer_ptr<int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_ref_ptr - observer")
+{
+    int*                       raw_ptr = new int(21);
+    phi::not_null_ref_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_observer_ptr<int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
 }

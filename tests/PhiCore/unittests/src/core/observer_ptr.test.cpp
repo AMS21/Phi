@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/core/flat_ptr.hpp>
 #include <phi/core/observer_ptr.hpp>
 #include <phi/core/ref_ptr.hpp>
 #include <phi/core/scope_ptr.hpp>
@@ -788,4 +789,37 @@ TEST_CASE("make_not_null_observer")
     auto ptr = phi::make_not_null_observer(&integer);
 
     CHECK(ptr.get() == &integer);
+}
+
+TEST_CASE("observer_ptr - flat")
+{
+    int                    i = 21;
+    phi::observer_ptr<int> ptr{&i};
+
+    phi::flat_ptr flat = ptr.flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == &i);
+}
+
+TEST_CASE("observer_ptr - not_null_flat")
+{
+    int                    i = 21;
+    phi::observer_ptr<int> ptr{&i};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == &i);
+}
+
+TEST_CASE("not_null_observer_ptr - flat")
+{
+    int                             i = 21;
+    phi::not_null_observer_ptr<int> ptr{&i};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == &i);
 }

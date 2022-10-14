@@ -14,6 +14,7 @@
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/flat_ptr.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
@@ -276,6 +277,17 @@ public:
         {
             m_ControlBlock = nullptr;
         }
+    }
+
+    PHI_NODISCARD constexpr flat_ptr flat() noexcept
+    {
+        return flat_ptr{get()};
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+        return not_null_flat_ptr{get()};
     }
 
     PHI_NODISCARD constexpr observer_ptr<TypeT> observer() noexcept
@@ -579,6 +591,13 @@ public:
 
         m_Ptr = ptr;
         allocate_control_block();
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+
+        return not_null_flat_ptr{get()};
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept

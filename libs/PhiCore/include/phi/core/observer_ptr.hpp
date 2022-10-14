@@ -14,6 +14,7 @@
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
+#include "phi/core/flat_ptr.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -302,6 +303,17 @@ public:
         return ptr;
     }
 
+    PHI_NODISCARD constexpr flat_ptr flat() noexcept
+    {
+        return flat_ptr{get()};
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+        return not_null_flat_ptr{get()};
+    }
+
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> release_not_null() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
@@ -562,6 +574,12 @@ public:
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+        return not_null_flat_ptr{get()};
     }
 
     PHI_EXTENDED_CONSTEXPR void reset(TypeT* ptr) noexcept PHI_ATTRIBUTE_NONNULL

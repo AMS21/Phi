@@ -2,7 +2,9 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
+#include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
+#include <phi/core/observer_ptr.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/math/vector2.hpp>
 #include <phi/type_traits/is_copy_assignable.hpp>
@@ -631,6 +633,72 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK((vec2_ptr->x == 3));
         CHECK((vec2_ptr->y == 12));
     }
+}
+
+TEST_CASE("scope_ptr - flat")
+{
+    int*                raw_ptr = new int(21);
+    phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::flat_ptr flat = ptr.flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("scope_ptr - not_null_flat")
+{
+    int*                raw_ptr = new int(21);
+    phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - flat")
+{
+    int*                         raw_ptr = new int(21);
+    phi::not_null_scope_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("scope_ptr - observer")
+{
+    int*                raw_ptr = new int(21);
+    phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::observer_ptr<int> observer = ptr.observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("scope_ptr - not_null_observer")
+{
+    int*                raw_ptr = new int(21);
+    phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_observer_ptr<int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - observer")
+{
+    int*                         raw_ptr = new int(21);
+    phi::not_null_scope_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_observer_ptr<int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()
