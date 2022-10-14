@@ -85,7 +85,7 @@ jobs:
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
       - name: Setup XCode
-        uses: maxim-lobanov/setup-xcode@v1.4.1
+        uses: maxim-lobanov/setup-xcode@v1.5.0
         with:
           xcode-version: ${{ matrix.cfg.compiler_version }}
 
