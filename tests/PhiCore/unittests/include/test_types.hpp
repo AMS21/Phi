@@ -5,10 +5,10 @@
 #include <phi/compiler_support/nodiscard.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/core/assert.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/size_t.hpp>
 #include <phi/type_traits/false_t.hpp>
-#include <cassert>
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wused-but-marked-unused")
@@ -860,16 +860,16 @@ public:
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
-        assert(other.m_State != State::MovedFrom);
-        assert(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
     }
 
     PHI_EXTENDED_CONSTEXPR tracked(tracked&& other) noexcept
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
-        assert(other.m_State != State::MovedFrom);
-        assert(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
 
         other.m_State = State::MovedFrom;
     }
@@ -877,9 +877,9 @@ public:
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
     {
-        assert(m_State != State::Destroyed);
-        assert(other.m_State != State::MovedFrom);
-        assert(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
 
         m_Value = other.m_Value;
         return *this;
@@ -887,9 +887,9 @@ public:
 
     PHI_EXTENDED_CONSTEXPR tracked& operator=(tracked&& other) noexcept
     {
-        assert(m_State != State::Destroyed);
-        assert(other.m_State != State::MovedFrom);
-        assert(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
 
         m_Value       = other.m_Value;
         other.m_State = State::MovedFrom;
@@ -899,26 +899,30 @@ public:
 
     PHI_CONSTEXPR_DESTRUCTOR ~tracked() noexcept
     {
-        assert(m_State != State::Destroyed); // Double destroy
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed); // Double destroy
 
         m_State = State::Destroyed;
     }
 
     PHI_EXTENDED_CONSTEXPR void set_value(int new_val) noexcept
     {
-        assert(m_State != State::Destroyed);
-        assert(m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::MovedFrom);
 
         m_Value = new_val;
     }
 
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wsuggest-attribute=pure")
+
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const noexcept
     {
-        assert(m_State != State::Destroyed);
-        assert(m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::MovedFrom);
 
         return m_Value;
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
 private:
     int   m_Value;
@@ -997,11 +1001,13 @@ struct trap_self_assign
     trap_self_assign(const trap_self_assign&) = default;
     trap_self_assign(trap_self_assign&&)      = default;
 
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wsuggest-attribute=pure")
+
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
-        assert(&other != this);
+        PHI_RELEASE_ASSERT(&other != this);
 
         return *this;
     }
@@ -1009,10 +1015,12 @@ struct trap_self_assign
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(trap_self_assign&& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
-        assert(&other != this);
+        PHI_RELEASE_ASSERT(&other != this);
 
         return *this;
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 };
 
 struct trap_deref
