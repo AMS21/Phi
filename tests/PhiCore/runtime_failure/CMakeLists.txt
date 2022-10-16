@@ -54,14 +54,6 @@ runtime_failure_test(NAME "container_array_ZeroMinIndex" SOURCE
                      "src/container/array/zero_min_index.fail.cpp")
 
 # string_view
-runtime_failure_test(NAME "container_string_view_ConstructWithNullptr" SOURCE
-                     "src/container/string_view/construct_nullptr.fail.cpp")
-runtime_failure_test(NAME "container_string_view_ConstructWithNullptrAndSize" SOURCE
-                     "src/container/string_view/construct_nullptr2.fail.cpp")
-runtime_failure_test(NAME "container_string_view_ConstructWithZeroSize" SOURCE
-                     "src/container/string_view/construct_zero_size.fail.cpp")
-runtime_failure_test(NAME "container_string_view_TooShortString" SOURCE
-                     "src/container/string_view/short_string.fail.cpp")
 runtime_failure_test(NAME "container_string_view_AtOnEmpty" SOURCE
                      "src/container/string_view/empty_at.fail.cpp")
 runtime_failure_test(NAME "container_string_view_BackOnEmpty" SOURCE

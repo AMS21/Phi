@@ -100,37 +100,40 @@ public:
     constexpr basic_string_view(const array<CharT, Size>& array) noexcept
         : m_Data{array.data()}
         , m_Length{array.size()}
-    {
-        PHI_ASSERT(array.size() > 0u, "Do not construct a basic_string_view from empty array");
-    }
+    {}
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
-        , m_Length(string_length(string))
-    {
-        PHI_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
-    }
+        , m_Length(safe_string_length(string))
+    {}
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string, size_type count) noexcept
         : m_Data(string)
         , m_Length(count)
-    {
-        PHI_ASSERT(string != nullptr, "Do not construct a basic_string_view with nullptr");
-#if defined(PHI_CONFIG_EXTENSIVE_STRING_VIEW_ASSERTS)
-        PHI_ASSERT(count > 0u, "Cannot construct with 0 size");
-        PHI_ASSERT(string_length(string, count) == count,
-                   "The supplied string is shorter than the given count");
-#endif
-    }
+    {}
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(
-            const std::basic_string_view<CharT, std::char_traits<CharT>>& other) noexcept
+            const std::basic_string_view<CharT, TraitsT>& other) noexcept
         : m_Data{other.data()}
         , m_Length{other.length()}
     {}
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(
-            std::basic_string_view<CharT, std::char_traits<CharT>>&& other) noexcept
+            std::basic_string_view<CharT, TraitsT>&& other) noexcept
+        : m_Data{other.data()}
+        , m_Length{other.length()}
+    {}
+
+    template <typename AllocatorT>
+    PHI_EXTENDED_CONSTEXPR basic_string_view(
+            const std::basic_string<CharT, TraitsT, AllocatorT>& other) noexcept
+        : m_Data{other.data()}
+        , m_Length{other.length()}
+    {}
+
+    template <typename AllocatorT>
+    PHI_EXTENDED_CONSTEXPR basic_string_view(
+            std::basic_string<CharT, TraitsT, AllocatorT>&& other) noexcept
         : m_Data{other.data()}
         , m_Length{other.length()}
     {}
@@ -163,10 +166,9 @@ public:
 
     basic_string_view& operator=(nullptr_t) = delete;
 
-    PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, std::char_traits<CharT>>()
-            const noexcept
+    PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, TraitsT>() const noexcept
     {
-        return std::basic_string_view<CharT, std::char_traits<CharT>>(data(), length().unsafe());
+        return std::basic_string_view<CharT, TraitsT>(data(), length().unsafe());
     }
 
     // Iterators
@@ -697,7 +699,7 @@ template <typename CharT, typename TraitsT>
 constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs,
                              basic_string_view<CharT, TraitsT> rhs) noexcept
 {
-    return lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
+    return lhs.is_null() == rhs.is_null() && lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
@@ -738,43 +740,71 @@ constexpr boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
 // ==
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
-    return lhs.length() == string_length(rhs) && lhs.compare(rhs) == 0;
+    return lhs.is_null() == (rhs == nullptr) && lhs.length() == safe_string_length(rhs) &&
+           lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator==(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator==(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
-    return string_length(lhs) == rhs.length() && rhs.compare(lhs) == 0;
+    return (lhs == nullptr) == rhs.is_null() && safe_string_length(lhs) == rhs.length() &&
+           rhs.compare(lhs) == 0;
+}
+
+template <typename CharT, typename TraitsT>
+constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
+{
+    return lhs.is_null();
+}
+
+template <typename CharT, typename TraitsT>
+constexpr boolean operator==(nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
+{
+    return rhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
 constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs,
                              std::basic_string<CharT, TraitsT> rhs) noexcept
 {
-    return lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
+    return lhs.is_null() == (rhs.data() == nullptr) && lhs.length() == rhs.length() &&
+           lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator==(std::basic_string<CharT, TraitsT> rhs,
-                             basic_string_view<CharT, TraitsT> lhs) noexcept
+constexpr boolean operator==(std::basic_string<CharT, TraitsT> lhs,
+                             basic_string_view<CharT, TraitsT> rhs) noexcept
 {
-    return lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
+    return (lhs.data() == nullptr) == rhs.is_null() && lhs.length() == rhs.length() &&
+           rhs.compare(lhs) == 0;
 }
 
 // !=
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator!=(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator!=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator!=(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator!=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return !(lhs == rhs);
+}
+
+template <typename CharT, typename TraitsT>
+constexpr boolean operator!=(basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
+{
+    return !lhs.is_null();
+}
+
+template <typename CharT, typename TraitsT>
+constexpr boolean operator!=(nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
+{
+    return !rhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
@@ -794,13 +824,13 @@ constexpr boolean operator!=(std::basic_string<CharT, TraitsT> rhs,
 // <
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator<(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator<(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
     return lhs.compare(rhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator<(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator<(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.compare(lhs) > 0;
 }
@@ -822,13 +852,13 @@ constexpr boolean operator<(std::basic_string<CharT, TraitsT> rhs,
 // <=
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator<=(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator<=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
     return lhs.compare(rhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator<=(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator<=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.compare(lhs) >= 0;
 }
@@ -850,13 +880,13 @@ constexpr boolean operator<=(std::basic_string<CharT, TraitsT> rhs,
 // >
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator>(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator>(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
     return lhs.compare(rhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator>(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator>(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.compare(lhs) < 0;
 }
@@ -878,13 +908,13 @@ constexpr boolean operator>(std::basic_string<CharT, TraitsT> rhs,
 // >=
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator>=(basic_string_view<CharT, TraitsT> lhs, CharT const* rhs) noexcept
+constexpr boolean operator>=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
     return lhs.compare(rhs) >= 0;
 }
 
 template <typename CharT, typename TraitsT>
-constexpr boolean operator>=(CharT const* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+constexpr boolean operator>=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.compare(lhs) <= 0;
 }

@@ -14,6 +14,7 @@ file(
   "src/algorithm/max.test.cpp"
   "src/algorithm/min.test.cpp"
   "src/algorithm/string_length.test.cpp"
+  "src/algorithm/string_equals.test.cpp"
   "src/algorithm/swap.test.cpp"
   # compiler_support
   "src/compiler_support/assume.test.cpp"
