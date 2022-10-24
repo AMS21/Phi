@@ -2,7 +2,7 @@
 
 int main()
 {
-    phi::string_view view;
+    const phi::not_null_string_view view = "string";
 
     view = nullptr;
 }

@@ -2,5 +2,5 @@
 
 int main()
 {
-    phi::string_view view(nullptr);
+    phi::not_null_string_view view(nullptr);
 }
