@@ -6,7 +6,11 @@ include(CMakeParseArguments)
 set(phi_common_flags
     bigobj
     Wa,-mbig-obj # https://digitalkarabela.com/mingw-w64-how-to-fix-file-too-big-too-many-sections/
-    fmacro-backtrace-limit=0 fms-extensions fdeclspec fborland-extensions)
+    fmacro-backtrace-limit=0
+    fms-extensions
+    fdeclspec
+    fborland-extensions
+    flarge-source-files)
 
 # common useful cxx flags
 set(phi_common_cxx_only_flags fcoroutines fconcepts fchar8_t)
