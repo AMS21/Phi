@@ -210,8 +210,8 @@ TEST_CASE("is_empty")
     test_is_not_empty<not_empty>();
     test_is_empty<bit_zero>();
     // TODO: Why on earth do emcc and AppleClang think bit_one is empty?
-#if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) || PHI_COMPILER_IS(APPLECLANG)
-    test_is_empty<bit_one>();
+#if PHI_COMPILER_IS(EMCC) || PHI_COMPILER_IS(APPLECLANG)
+    SKIP_CHECK();
 #else
     test_is_not_empty<bit_one>();
 #endif
