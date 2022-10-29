@@ -30,6 +30,7 @@ concurrency:
 
 jobs:
   clang:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: 'ubuntu-20.04'
 
     strategy:
@@ -118,6 +119,8 @@ jobs:
           fail_ci_if_error: true
 
   gcc:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ${{ matrix.cfg.os }}
 
     strategy:

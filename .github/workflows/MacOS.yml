@@ -30,6 +30,8 @@ concurrency:
 
 jobs:
   xcode:
+    # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md
+    # https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md
     runs-on: ${{ matrix.cfg.os }}
 
     env:

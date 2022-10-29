@@ -21,6 +21,7 @@ concurrency:
 
 jobs:
   cppcheck:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 15
@@ -77,6 +78,7 @@ jobs:
           cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
 
   clang-tidy:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 15
@@ -136,6 +138,7 @@ jobs:
           cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
 
   include-what-you-use:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 14
@@ -193,6 +196,7 @@ jobs:
           cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
 
   cmake-lint:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     steps:
@@ -235,6 +239,7 @@ jobs:
           cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
 
   pvs-studio:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 15
@@ -297,6 +302,7 @@ jobs:
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -diff="git diff HEAD~1" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
 
   code-ql:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-22.04
 
     env:
@@ -362,6 +368,7 @@ jobs:
         uses: github/codeql-action/analyze@v2
 
   mull:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     env:
       LLVM_VERSION: 12
@@ -440,7 +447,8 @@ jobs:
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-    runs-on: windows-latest
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
+    runs-on: windows-2022
 
     # Default windows to use bash
     defaults:
@@ -500,6 +508,7 @@ jobs:
 
   dev-skim:
     name: DevSkim
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     permissions:
@@ -527,7 +536,8 @@ jobs:
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
 
     name: Codacy Security Scan
-    runs-on: ubuntu-latest
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+    runs-on: ubuntu-22.04
 
     steps:
       # Checkout the repository to the GitHub Actions runner
@@ -559,7 +569,8 @@ jobs:
 
   shellcheck:
     name: ShellCheck
-    runs-on: ubuntu-latest
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout

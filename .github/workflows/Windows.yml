@@ -35,6 +35,8 @@ concurrency:
 
 jobs:
   msvc:
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2019-Readme.md
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -42,9 +44,7 @@ jobs:
 
       matrix:
         os:
-          # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
           - "windows-2019"
-          # https://github.com/actions/virtual-environments/blob/main/images/win/Windows2022-Readme.md
           - "windows-2022"
 
         arch: [x64, x86]
@@ -120,6 +120,7 @@ jobs:
           fail_ci_if_error: true
 
   clang:
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
 
     strategy:
@@ -204,6 +205,7 @@ jobs:
           fail_ci_if_error: true
 
   gcc:
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
 
     strategy:
