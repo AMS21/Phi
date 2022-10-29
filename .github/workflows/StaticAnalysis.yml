@@ -23,6 +23,7 @@ jobs:
   cppcheck:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 15
 
@@ -80,6 +81,7 @@ jobs:
   clang-tidy:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 15
 
@@ -140,6 +142,7 @@ jobs:
   include-what-you-use:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 14
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
@@ -241,6 +244,7 @@ jobs:
   pvs-studio:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 15
 
@@ -370,6 +374,7 @@ jobs:
   mull:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
     env:
       LLVM_VERSION: 12
       MULL_VERSION: 12
@@ -444,11 +449,12 @@ jobs:
           cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -diff="git diff" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
 
   msvc-code-analysis:
+    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
+    runs-on: windows-2022
+
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
-    runs-on: windows-2022
 
     # Default windows to use bash
     defaults:
@@ -531,13 +537,13 @@ jobs:
           sarif_file: devskim-results.sarif
 
   codacy-security-scan:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-
     name: Codacy Security Scan
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
 
     steps:
       # Checkout the repository to the GitHub Actions runner
