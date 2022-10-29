@@ -38,8 +38,8 @@ TEST_CASE("string_equals - nullptr_t, phi::string_view")
 TEST_CASE("string_equals - nullptr_t, std::string_view")
 {
     STATIC_REQUIRE(phi::string_equals(nullptr, std_null_view));
-    STATIC_REQUIRE_FALSE(phi::string_equals(nullptr, std::basic_string_view("Hello")));
-    STATIC_REQUIRE_FALSE(phi::string_equals(nullptr, std::basic_string_view("")));
+    STATIC_REQUIRE_FALSE(phi::string_equals(nullptr, std::string_view("Hello")));
+    STATIC_REQUIRE_FALSE(phi::string_equals(nullptr, std::string_view("")));
 }
 #endif
 
