@@ -25,6 +25,15 @@
 #endif
 
 #if defined(__EMSCRIPTEN__)
+// NOTE: Since emscripten 3.1.23 the '__EMSCRIPTEN_major/minor/tiny__' macros are only available from the <emscripten/version.h> header file
+// https://github.com/emscripten-core/emscripten/commit/f99af02045357d3d8b12e63793cef36dfde4530a
+// https://github.com/emscripten-core/emscripten/commit/f76ddc702e4956aeedb658c49790cc352f892e4c
+
+// Only include the header if it's actually needed
+#    if !defined(__EMSCRIPTEN_major__)
+#        include <emscripten/version.h>
+#    endif
+
 #    define PHI_COMPILER_EMCC()      1
 #    define PHI_EMCC_VERSION_MAJOR() __EMSCRIPTEN_major__
 #    define PHI_EMCC_VERSION_MINOR() __EMSCRIPTEN_minor__
