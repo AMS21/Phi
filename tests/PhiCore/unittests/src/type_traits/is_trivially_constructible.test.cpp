@@ -61,11 +61,45 @@ struct B
     {}
 };
 
+template <typename TypeT>
+struct wrap
+{
+    TypeT t;
+    wrap(const wrap& other)
+        : t(other.t)
+    {}
+};
+
+struct nocopy
+{
+    nocopy(const nocopy&) = delete;
+};
+
+struct HasTemplateCCtor
+{
+    HasTemplateCCtor(const HasTemplateCCtor&) = default;
+
+    template <typename TypeT>
+    // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
+    HasTemplateCCtor(TypeT&&);
+};
+
+struct MoveOnly
+{
+    MoveOnly(MoveOnly&&) = default;
+};
+
+struct MoveOnly2
+{
+    MoveOnly2(MoveOnly2&&) = delete;
+};
+
 TEST_CASE("is_trivially_constructible")
 {
     test_is_trivially_constructible<int>();
     test_is_trivially_constructible<int, int>();
     test_is_trivially_constructible<int, int&>();
+    test_is_trivially_constructible<int, int&&>();
     test_is_trivially_constructible<int, const int&>();
 
     test_is_not_trivially_constructible<A>();
@@ -74,4 +108,18 @@ TEST_CASE("is_trivially_constructible")
 
     test_is_trivially_constructible<B>();
     test_is_not_trivially_constructible<B, int>();
+
+    test_is_not_trivially_constructible<wrap<nocopy>, const wrap<nocopy>&>();
+
+    test_is_not_trivially_constructible<HasTemplateCCtor>();
+    test_is_not_trivially_constructible<HasTemplateCCtor, HasTemplateCCtor>();
+    test_is_trivially_constructible<HasTemplateCCtor, const HasTemplateCCtor&>();
+
+    test_is_not_trivially_constructible<MoveOnly>();
+    test_is_trivially_constructible<MoveOnly, MoveOnly>();
+    test_is_not_trivially_constructible<MoveOnly, MoveOnly&>();
+    test_is_trivially_constructible<MoveOnly, MoveOnly&&>();
+    test_is_not_trivially_constructible<MoveOnly, const MoveOnly&>();
+
+    test_is_not_trivially_constructible<MoveOnly2>();
 }
