@@ -192,15 +192,7 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(signed_integer_tag /*tag*/, TypeT /*lhs*/,
-                                                       TypeT rhs) noexcept
-    {
-        return rhs == TypeT(0);
-    }
-
-    template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(unsigned_integer_tag /*tag*/, TypeT /*lhs*/,
-                                                       TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
@@ -451,8 +443,7 @@ public:
     PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR integer& operator%=(
             const integer<TypeT>& other) noexcept
     {
-        PHI_ASSERT(!detail::will_modulo_error<IntegerT>(detail::arithmetic_tag_for<IntegerT>{},
-                                                        m_Value, other.unsafe()),
+        PHI_ASSERT(!detail::will_modulo_error<IntegerT>(m_Value, other.unsafe()),
                    "Modulo error. Args {} % {}", m_Value, other.unsafe());
 
         m_Value %= other.unsafe();
@@ -839,8 +830,7 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator%(const integer<LhsT>& lhs
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;
-    PHI_ASSERT(!detail::will_modulo_error(detail::arithmetic_tag_for<type>{},
-                                          static_cast<type>(lhs.unsafe()),
+    PHI_ASSERT(!detail::will_modulo_error(static_cast<type>(lhs.unsafe()),
                                           static_cast<type>(rhs.unsafe())),
                "Modulo by zero. Args {} % {}", lhs.unsafe(), rhs.unsafe());
 
