@@ -809,8 +809,8 @@ TEST_CASE("integer")
 
         SECTION("std::hash")
         {
-            phi::size_t zero_hash = std::hash<phi::integer<int>>{}(0);
-            phi::size_t one_hash  = std::hash<phi::integer<int>>{}(1);
+            const phi::size_t zero_hash = std::hash<phi::integer<int>>{}(0);
+            const phi::size_t one_hash  = std::hash<phi::integer<int>>{}(1);
 
             CHECK(zero_hash != one_hash);
             CHECK(zero_hash == std::hash<int>{}(0));
@@ -821,3 +821,203 @@ TEST_CASE("integer")
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
+
+constexpr static phi::detail::signed_integer_tag   stag;
+constexpr static phi::detail::unsigned_integer_tag utag;
+
+constexpr static int imax = std::numeric_limits<int>::max();
+constexpr static int imin = std::numeric_limits<int>::min();
+
+constexpr static unsigned umax = std::numeric_limits<unsigned>::max();
+
+TEST_CASE("detail::will_addition_error")
+{
+    // Signed
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 0, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 1, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 0, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, imin, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, imin, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, imax, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, imax, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 0, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 1, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, 0, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(stag, -1, imax));
+
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, imin, -1));
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, imax, 1));
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, -1, imin));
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, 1, imax));
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, imax, imax));
+    STATIC_REQUIRE(phi::detail::will_addition_error(stag, imin, imin));
+
+    // Unsigned
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, 0u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, 1u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, 0u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, 1u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, umax, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_addition_error(utag, 0u, umax));
+
+    STATIC_REQUIRE(phi::detail::will_addition_error(utag, umax, 1u));
+    STATIC_REQUIRE(phi::detail::will_addition_error(utag, 1u, umax));
+    STATIC_REQUIRE(phi::detail::will_addition_error(utag, umax, umax));
+}
+
+TEST_CASE("detail::will_subtraction_error")
+{
+    // Signed
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, 0, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, 1, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, 0, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, 1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, imin, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, imin, -11));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, imax, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, imax, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, -1, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, 0, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(stag, -1, imax));
+
+    STATIC_REQUIRE(will_subtraction_error(stag, imin, 1));
+    STATIC_REQUIRE(will_subtraction_error(stag, imin, imax));
+    STATIC_REQUIRE(will_subtraction_error(stag, imax, -1));
+    STATIC_REQUIRE(will_subtraction_error(stag, imax, imin));
+    STATIC_REQUIRE(will_subtraction_error(stag, 0, imin));
+    STATIC_REQUIRE(will_subtraction_error(stag, 1, imin));
+    STATIC_REQUIRE(will_subtraction_error(stag, -2, imax));
+
+    // Unsigned
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, 0u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, 1u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, 1u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, umax, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, umax, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_subtraction_error(utag, umax, umax));
+
+    STATIC_REQUIRE(phi::detail::will_subtraction_error(utag, 0u, 1u));
+    STATIC_REQUIRE(phi::detail::will_subtraction_error(utag, 1u, 2u));
+    STATIC_REQUIRE(phi::detail::will_subtraction_error(utag, 0u, umax));
+    STATIC_REQUIRE(phi::detail::will_subtraction_error(utag, 1u, umax));
+}
+
+TEST_CASE("detail::will_multiplication_error")
+{
+    // Signed
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 0, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 1, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, -1, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, imin, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, imax, 0));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 0, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, -1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, imin, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, imax, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 0, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 1, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, -1, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, imax, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 0, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 1, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 1, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, -1, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(stag, 0, imax));
+
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imin, -1));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, -1, imin));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imin, imin));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, imin));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imin, imax));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, imax));
+
+    // Unsigned
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 0u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 1u, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, umax, 0u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 0u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 1u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, umax, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 0u, umax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 1u, umax));
+
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, umax, umax));
+}
+
+TEST_CASE("detail::will_division_error")
+{
+    // Signed
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 0, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, -1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imin, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imax, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 0, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 1, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, -1, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imax, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 0, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 1, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, -1, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imin, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imax, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 0, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, 1, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, -1, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imin, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(stag, imax, imax));
+
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, 0, 0));
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, 1, 0));
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, -1, 0));
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, imin, 0));
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, imax, 0));
+    STATIC_REQUIRE(phi::detail::will_division_error(stag, imin, -1));
+
+    // Unsigned
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, 0u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, 1u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, umax, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, 0u, umax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, 1u, umax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_division_error(utag, umax, umax));
+
+    STATIC_REQUIRE(phi::detail::will_division_error(utag, 0u, 0u));
+    STATIC_REQUIRE(phi::detail::will_division_error(utag, 1u, 0u));
+    STATIC_REQUIRE(phi::detail::will_division_error(utag, umax, 0u));
+}
+
+TEST_CASE("detail::will_modulo_error")
+{
+    // Signed
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(0, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(1, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(0, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(0, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imin, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imin, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imin, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imin, imin));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imax, 1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imax, -1));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imax, imax));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(imax, imin));
+
+    STATIC_REQUIRE(phi::detail::will_modulo_error(0, 0));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(1, 0));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(-1, 0));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(imin, 0));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(imax, 0));
+
+    // Unsigned
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(0u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(1u, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(umax, 1u));
+    STATIC_REQUIRE_FALSE(phi::detail::will_modulo_error(umax, umax));
+
+    STATIC_REQUIRE(phi::detail::will_modulo_error(0u, 0u));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(1u, 0u));
+    STATIC_REQUIRE(phi::detail::will_modulo_error(umax, 0u));
+}
