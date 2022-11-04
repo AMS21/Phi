@@ -22,7 +22,6 @@ set(phi_opt_compile_flags
     fmerge-functions
     fmodulo-sched
     fmodulo-sched-allow-regmoves
-    fomit-frame-pointer
     fsched-pressure
     fsemantic-interposition
     fstrict-aliasing
