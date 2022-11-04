@@ -55,11 +55,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: emscripten-${{ matrix.em_version }}
-
       - name: Setup Emscripten
         uses: mymindstorm/setup-emsdk@v11
         # Continue on error to ignore problems with caching

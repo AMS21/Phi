@@ -150,12 +150,6 @@ jobs:
           # Export dynamic test mode
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
-      - name: Setup ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.os }}-clang
-          variant: sccache
-
       - name: Install compiler
         shell: powershell
         run: |
@@ -233,12 +227,6 @@ jobs:
 
           # Export dynamic test mode
           echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
-
-      - name: Setup ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.os }}-gcc
-          variant: sccache
 
       - name: Install compiler
         shell: powershell
