@@ -16,7 +16,6 @@ set(phi_extra_debug_flags
     ftrivial-auto-var-init=pattern
     fvar-tracking
     fvar-tracking-assignments
-    g3
     ginline-points
     grecord-command-line
     grecord-gcc-switches

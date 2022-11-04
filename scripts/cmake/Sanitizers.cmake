@@ -160,14 +160,8 @@ if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
 endif()
 
 # Extra sanitizer flags
-set(phi_sanitizer_support_flags
-    fno-common
-    fno-inline
-    fno-inline-functions
-    fno-omit-frame-pointer
-    fno-optimize-sibling-calls
-    fno-sanitize-recover=all
-    g3)
+set(phi_sanitizer_support_flags fno-common fno-inline fno-inline-functions fno-omit-frame-pointer
+                                fno-optimize-sibling-calls fno-sanitize-recover=all)
 
 # Check sanitizer support flags
 set(_phi_extra_santizer_support_flags CACHE INTERNAL "")
