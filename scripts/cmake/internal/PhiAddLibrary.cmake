@@ -18,17 +18,17 @@ function(phi_add_library)
   endif()
 
   # Ensure you specify one of these types
-  if(NOT DEFINED al_STATIC
-     AND NOT DEFINED al_SHARED
-     AND NOT DEFINED al_MODULE
-     AND NOT DEFINED al_INTERFACE)
+  if(NOT al_STATIC
+     AND NOT al_SHARED
+     AND NOT al_MODULE
+     AND NOT al_INTERFACE)
     phi_error("phi_add_library: You must specify either STATIC, SHARED, MODULE or INTERFACE")
   endif()
 
   # TODO: Ensure that STATIC, SHARED, MODULE and INTERFACE are mutually exclusive
 
   # Only allow no sources when creating an interface library
-  if(NOT DEFINED al_SOURCES AND NOT DEFINED al_INTERFACE)
+  if(NOT DEFINED al_SOURCES AND NOT al_INTERFACE)
     phi_error("phi_add_library: No sources specified using SOURCES")
   endif()
 
@@ -36,18 +36,18 @@ function(phi_add_library)
   set(command ${al_NAME})
 
   # Add type
-  if(DEFINED al_STATIC)
+  if(al_STATIC)
     set(command ${command} STATIC)
-  elseif(DEFINED al_SHARED)
+  elseif(al_SHARED)
     set(command ${command} SHARED)
-  elseif(DEFINED al_MODULE)
+  elseif(al_MODULE)
     set(command ${command} MODULE)
-  elseif(DEFINED al_INTERFACE)
+  elseif(al_INTERFACE)
     set(command ${command} INTERFACE)
   endif()
 
   # Add optional EXCLUDE_FROM_ALL
-  if(DEFINED al_EXCLUDE_FROM_ALL)
+  if(al_EXCLUDE_FROM_ALL)
     set(command ${command} EXCLUDE_FROM_ALL)
   endif()
 
