@@ -25,6 +25,8 @@ function(phi_add_library)
     phi_error("phi_add_library: You must specify either STATIC, SHARED, MODULE or INTERFACE")
   endif()
 
+  # TODO: Ensure that STATIC, SHARED, MODULE and INTERFACE are mutually exclusive
+
   # Only allow no sources when creating an interface library
   if(NOT DEFINED al_SOURCES AND NOT DEFINED al_INTERFACE)
     phi_error("phi_add_library: No sources specified using SOURCES")
