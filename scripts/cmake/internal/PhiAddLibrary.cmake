@@ -7,7 +7,7 @@ function(phi_add_library)
   # Command line arguments
   cmake_parse_arguments(
     al
-    "STATIC;SHARED;MODULE;EXCLUDE_FROM_ALL"
+    "STATIC;SHARED;MODULE;INTERFACE;EXCLUDE_FROM_ALL"
     "NAME;FOLDER;ALIAS_TARGET;STANDARD"
     "SOURCES;HEADERS;PUBLIC_LINK_LIBRARIES;PRIVATE_LINK_LIBRARIES;INTERFACE_LINK_LIBRARIES;PUBLIC_INCLUDE_DIRS;PRIVATE_INCLUDE_DIRS;INTERFACE_INCLUDE_DIRS;PUBLIC_DEFINITIONS;PRIVATE_DEFINITIONS;INTERFACE_DEFINITIONS;STATIC_ANALYZER"
     ${ARGN})
@@ -17,13 +17,16 @@ function(phi_add_library)
     phi_error("phi_add_library: You must specify a name using NAME")
   endif()
 
+  # Ensure you specify one of these types
   if(NOT DEFINED al_STATIC
      AND NOT DEFINED al_SHARED
-     AND NOT DEFINED al_MODULE)
-    phi_error("phi_add_library: You must specify either STATIC, SHARED or MODULE")
+     AND NOT DEFINED al_MODULE
+     AND NOT DEFINED al_INTERFACE)
+    phi_error("phi_add_library: You must specify either STATIC, SHARED, MODULE or INTERFACE")
   endif()
 
-  if(NOT DEFINED al_SOURCES)
+  # Only allow no sources when creating an interface library
+  if(NOT DEFINED al_SOURCES AND NOT DEFINED al_INTERFACE)
     phi_error("phi_add_library: No sources specified using SOURCES")
   endif()
 
@@ -37,6 +40,8 @@ function(phi_add_library)
     set(command ${command} SHARED)
   elseif(DEFINED al_MODULE)
     set(command ${command} MODULE)
+  elseif(DEFINED al_INTERFACE)
+    set(command ${command} INTERFACE)
   endif()
 
   # Add optional EXCLUDE_FROM_ALL
