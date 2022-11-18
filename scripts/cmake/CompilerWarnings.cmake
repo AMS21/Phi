@@ -139,6 +139,7 @@ set(phi_disabled_warnings_flags
     Wno-constexpr-not-const
     Wno-c++1y-extensions
     Wno-c++1z-extensions
+    Wno-c++20-compat
     Wno-c++98-compat
     Wno-c++98-compat-pedantic
     Wno-c++98-c++11-compat-pedantic
