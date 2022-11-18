@@ -9,18 +9,19 @@ include(Coverage)
 include(Exceptions)
 include(FloatingPointModel)
 include(Formatting)
+include(Functions)
 include(Linker)
+include(RuntimeTypeInformation)
 include(Sanitizers)
 include(Standard)
 include(StaticAnalyzers)
-include(Functions)
 
 #
 function(phi_configure_project)
   # Command line arguments
   cmake_parse_arguments(
     conf
-    "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;IPO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS"
+    "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;IPO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI"
     "PSO;STANDARD;EXTERNAL"
     "SANITIZER;STATIC_ANALYZERS"
     ${ARGN})
@@ -193,9 +194,15 @@ function(phi_configure_project)
       phi_target_set_warnings(TARGET ${target} ${warn_cmd})
     endif()
 
+    # RTTI
+    if(conf_NO_RTTI)
+      phi_target_set_rtti(TARGET ${target} DISABLE)
+    else()
+      phi_target_set_rtti(TARGET ${target} ENABLE)
+    endif()
+
     # Handle external target
     if(is_external)
-
       # Mark include directory as system include
       get_target_property(include_dir ${target} INTERFACE_INCLUDE_DIRECTORIES)
       set_target_properties(${target} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
