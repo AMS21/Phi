@@ -10,7 +10,8 @@ set(phi_common_flags
     fms-extensions
     fdeclspec
     fborland-extensions
-    flarge-source-files)
+    flarge-source-files
+    pipe)
 
 # common useful cxx flags
 set(phi_common_cxx_only_flags fcoroutines fconcepts fchar8_t)
