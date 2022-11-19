@@ -21,6 +21,12 @@ upgrade_pip() {
     fi
 }
 
+install_python_wheel() {
+    echo "--- Installing wheel on pip..."
+    sudo -H pip3 install wheel
+    echo "--- Installing wheel on pip done"
+}
+
 add_llvm_apt() {
     if [[ "$added_llvm_apt" == 0 ]]; then
         echo "-- Adding LLVM-$1 apt..."
@@ -45,6 +51,7 @@ add_llvm_apt() {
 
 install_gcovr() {
     upgrade_pip
+    install_python_wheel
 
     echo "-- Installing gcovr..."
     sudo -H pip3 install gcovr
@@ -58,6 +65,7 @@ install_gcovr() {
 
 install_cmake_format() {
     upgrade_pip
+    install_python_wheel
 
     echo "-- Installing cmake-format..."
     # See https://cmake-format.readthedocs.io/en/latest/installation.html#installation
