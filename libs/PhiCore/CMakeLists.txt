@@ -159,6 +159,7 @@ file(
   "include/phi/core/floating_point.hpp"
   "include/phi/core/forward.hpp"
   "include/phi/core/integer.hpp"
+  "include/phi/core/intptr_t.hpp"
   "include/phi/core/invoke.hpp"
   "include/phi/core/max_align_t.hpp"
   "include/phi/core/monitor.hpp"

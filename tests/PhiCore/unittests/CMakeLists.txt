@@ -43,6 +43,7 @@ file(
   "src/core/floating_point.test.cpp"
   "src/core/forward.test.cpp"
   "src/core/integer.test.cpp"
+  "src/core/intptr_t.test.cpp"
   "src/core/invoke.test.cpp"
   "src/core/max_align_t.test.cpp"
   "src/core/monitor.test.cpp"
