@@ -38,6 +38,7 @@ SOFTWARE.
 #include "phi/core/boolean.hpp"
 #include "phi/core/floating_point.hpp"
 #include "phi/core/integer.hpp"
+#include "phi/core/intptr_t.hpp"
 #include "phi/core/ptrdiff_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/sized_types.hpp"
@@ -79,6 +80,9 @@ using u64_least = integer<uint_least64_t>;
 
 using isize = integer<make_signed<size_t>::type>;
 using usize = integer<size_t>;
+
+using intptr  = integer<intptr_t>;
+using uintptr = integer<uintptr_t>;
 
 using ptrdiff = integer<ptrdiff_t>;
 

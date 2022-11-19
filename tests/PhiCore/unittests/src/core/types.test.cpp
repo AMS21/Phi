@@ -2,6 +2,8 @@
 
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/types.hpp>
+#include <phi/type_traits/is_safe_integer.hpp>
+#include <phi/type_traits/is_signed.hpp>
 #include <climits>
 #include <type_traits>
 
@@ -64,4 +66,30 @@ TEST_CASE("Types", "[Utility][Types]")
         STATIC_REQUIRE(SIZE_IN_BITS(phi::f64) == 64);
         STATIC_REQUIRE(std::is_floating_point<phi::f64::value_type>::value);
     }
+}
+
+TEST_CASE("intptr")
+{
+    STATIC_REQUIRE(sizeof(phi::intptr) == sizeof(phi::intptr_t));
+    STATIC_REQUIRE(sizeof(phi::intptr) == sizeof(phi::uintptr_t));
+    STATIC_REQUIRE(sizeof(phi::intptr) == sizeof(void*));
+    STATIC_REQUIRE(phi::is_safe_integer<phi::intptr>::value);
+
+    STATIC_REQUIRE(std::is_signed<phi::intptr::value_type>::value);
+    STATIC_REQUIRE_FALSE(std::is_unsigned<phi::intptr::value_type>::value);
+    STATIC_REQUIRE(phi::is_signed<phi::intptr>::value);
+    STATIC_REQUIRE_FALSE(phi::is_unsigned<phi::intptr>::value);
+}
+
+TEST_CASE("uintptr")
+{
+    STATIC_REQUIRE(sizeof(phi::uintptr) == sizeof(phi::uintptr_t));
+    STATIC_REQUIRE(sizeof(phi::uintptr) == sizeof(phi::intptr_t));
+    STATIC_REQUIRE(sizeof(phi::uintptr) == sizeof(void*));
+    STATIC_REQUIRE(phi::is_safe_integer<phi::uintptr>::value);
+
+    STATIC_REQUIRE_FALSE(std::is_signed<phi::uintptr::value_type>::value);
+    STATIC_REQUIRE(std::is_unsigned<phi::uintptr::value_type>::value);
+    STATIC_REQUIRE_FALSE(phi::is_signed<phi::uintptr>::value);
+    STATIC_REQUIRE(phi::is_unsigned<phi::uintptr>::value);
 }
