@@ -67,7 +67,7 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
     string(REPLACE "=" "_" _testName ${_testName})
     string(TOUPPER ${_testName} _testName)
 
-    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=address,${_test}
                       "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
       set(_phi_asan_extra_options_supported
