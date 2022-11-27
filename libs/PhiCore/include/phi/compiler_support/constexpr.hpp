@@ -18,14 +18,14 @@
 #    define PHI_CONSTEXPR_OR_INLINE       constexpr
 #    define PHI_CONSTEXPR_OR_STATIC       constexpr
 #    define PHI_CONSTEXPR_OR(alternative) constexpr
-#    define PHI_CONSTEXPR_IF(cond)        PHI_IF(cond, constexpr)
+#    define PHI_CONSTEXPR_IF(condition)   PHI_IF(condition, constexpr)
 #else
 #    define PHI_CONSTEXPR                 /* Nothing */
 #    define PHI_CONSTEXPR_OR_CONST        const
 #    define PHI_CONSTEXPR_OR_INLINE       inline
 #    define PHI_CONSTEXPR_OR_STATIC       static
 #    define PHI_CONSTEXPR_OR(alternative) alternative
-#    define PHI_CONSTEXPR_IF(cond)        /* Nothing */
+#    define PHI_CONSTEXPR_IF(condition)   /* Nothing */
 #endif
 
 // Support for C++-14 extended constexpr
@@ -36,7 +36,7 @@
 #    define PHI_EXTENDED_CONSTEXPR_OR_INLINE       constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR_STATIC       constexpr
 #    define PHI_EXTENDED_CONSTEXPR_OR(alternative) constexpr
-#    define PHI_EXTENDED_CONSTEXPR_IF(condition)   PHI_IF(cond, constexpr)
+#    define PHI_EXTENDED_CONSTEXPR_IF(condition)   PHI_IF(condition, constexpr)
 #else
 #    define PHI_EXTENDED_CONSTEXPR                 /* Nothing */
 #    define PHI_EXTENDED_CONSTEXPR_OR_CONST        const
@@ -47,21 +47,21 @@
 #endif
 
 // constexpr and const
-#if PHI_HAS_FEATURE_CONSTEXPR()
-#    if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-#        define PHI_CONSTEXPR_AND_CONST                          constexpr const
-#        define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr const
-#        define PHI_EXTENDED_CONSTEXPR_AND_CONST                 constexpr const
-#        define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) constexpr const
-#    else
-#        define PHI_CONSTEXPR_AND_CONST                          constexpr
-#        define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr
-#        define PHI_EXTENDED_CONSTEXPR_AND_CONST                 /* Nothing */
-#        define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) alternative
-#    endif
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#    define PHI_CONSTEXPR_AND_CONST                          constexpr const
+#    define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr const
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST                 constexpr const
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) constexpr const
+#elif PHI_HAS_FEATURE_CONSTEXPR()
+#    define PHI_CONSTEXPR_AND_CONST                          constexpr
+#    define PHI_CONSTEXPR_AND_CONST_OR(alternative)          constexpr
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST                 /* Nothing */
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) alternative
 #else
-#    define PHI_CONSTEXPR_AND_CONST                 const
-#    define PHI_CONSTEXPR_AND_CONST_OR(alternative) alternative
+#    define PHI_CONSTEXPR_AND_CONST                          const
+#    define PHI_CONSTEXPR_AND_CONST_OR(alternative)          alternative
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST                 /* Nothing */
+#    define PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(alternative) alternative
 #endif
 
 // Constexpr lambda expression
