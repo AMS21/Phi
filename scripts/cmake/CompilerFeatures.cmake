@@ -7,9 +7,9 @@ include(internal/PhiCheckCXXSourceCompiles)
 include(Common)
 
 # Set compile flags
-list(JOIN _common_flags " " common_flags_joined)
-set(CMAKE_REQUIRED_FLAGS
-    "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_phi_check_required_flags}")
+string(JOIN " " _glued_flags ${_phi_check_required_flags} ${_phi_common_flags_supported}
+       ${_phi_common_cxx_flags_supported})
+set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_glued_flags}")
 
 # Features
 
