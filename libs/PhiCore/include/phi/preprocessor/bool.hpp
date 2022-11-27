@@ -10,6 +10,8 @@
 #define DETAIL_PHI_BOOL_IMPL(x) DETAIL_PHI_BOOL_##x
 #define PHI_BOOL(x)             DETAIL_PHI_BOOL_IMPL(x)
 
+// NOLINTBEGIN(modernize-macro-to-enum)
+
 // hardcoded values
 #define DETAIL_PHI_BOOL_0    0
 #define DETAIL_PHI_BOOL_1    1
@@ -1036,5 +1038,7 @@
 #define DETAIL_PHI_BOOL_1022 1
 #define DETAIL_PHI_BOOL_1023 1
 #define DETAIL_PHI_BOOL_1024 1
+
+// NOLINTEND(modernize-macro-to-enum)
 
 #endif // INCG_PHI_CORE_PREPROCESSOR_BOOL_HPP
