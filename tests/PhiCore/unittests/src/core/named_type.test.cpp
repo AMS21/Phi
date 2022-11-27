@@ -914,12 +914,12 @@ struct throw_on_construction
 {
     [[noreturn]] throw_on_construction()
     {
-        throw 42; // NOLINT(hicpp-exception-baseclass)
+        throw 42;
     }
 
     [[noreturn]] throw_on_construction(int /*unused*/)
     {
-        throw "exception"; // NOLINT(hicpp-exception-baseclass)
+        throw "exception";
     }
 };
 

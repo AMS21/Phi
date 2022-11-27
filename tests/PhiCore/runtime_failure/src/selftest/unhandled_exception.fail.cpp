@@ -5,6 +5,5 @@ int main()
 {
     SetupRuntimeFailure();
 
-    // NOLINTNEXTLINE(hicpp-exception-baseclass)
     throw "Exception which will not be caught";
 }
