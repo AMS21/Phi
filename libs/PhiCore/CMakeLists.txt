@@ -120,6 +120,7 @@ file(
   "include/phi/compiler_support/assume.hpp"
   "include/phi/compiler_support/char8_t.hpp"
   "include/phi/compiler_support/compiler.hpp"
+  "include/phi/compiler_support/consteval.hpp"
   "include/phi/compiler_support/constexpr.hpp"
   "include/phi/compiler_support/counter.hpp"
   "include/phi/compiler_support/cpp_standard.hpp"
