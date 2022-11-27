@@ -183,6 +183,12 @@ if(PHI_COMPILER_GCC)
   endif()
 endif()
 
+# AppleClang seems to cause warnings for missing includirs which come from XCode itself so disable
+# the warning here
+if(PHI_COMPILER_APPLECLANG)
+  list(REMOVE_ITEM phi_warning_flags "Wmissing-include-dirs")
+endif()
+
 # Disable warnings for known problematic compilers
 if(PHI_IS_PROBLEMATIC_COMPILER)
   set(phi_warning_flags "Wundef")
