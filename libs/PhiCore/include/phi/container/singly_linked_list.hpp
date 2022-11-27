@@ -18,8 +18,11 @@
 #include "phi/type_traits/is_nothrow_destructible.hpp"
 #include "phi/type_traits/is_nothrow_move_assignable.hpp"
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <initializer_list>
 #include <new>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

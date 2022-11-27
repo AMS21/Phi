@@ -10,7 +10,10 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/forward.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

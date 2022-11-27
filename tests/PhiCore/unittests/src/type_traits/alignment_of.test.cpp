@@ -5,8 +5,11 @@
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/type_traits/alignment_of.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstdint>
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, unsigned A>
 void test_alignment_of()

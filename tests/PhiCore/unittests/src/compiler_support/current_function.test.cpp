@@ -3,7 +3,10 @@
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/current_function.hpp>
 #include <phi/compiler_support/extended_attributes.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
+PHI_EXTERNAL_HEADERS_END()
 
 PHI_ATTRIBUTE_CONST const char* function_with_an_interesting_name()
 {

@@ -3,7 +3,10 @@
 #include <phi/core/ptrdiff_t.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsafe_integral.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstddef>
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("ptrdiff_t")
 {

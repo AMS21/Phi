@@ -3,7 +3,10 @@
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/type_traits/is_pointer_interconvertible_with_class.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, typename MemberT>
 PHI_EXTENDED_CONSTEXPR void test_is_pointer_interconvertible_with_class(

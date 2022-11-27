@@ -1,7 +1,6 @@
 #ifndef INCG_PHI_CORE_ALGORITHM_STRING_EQUALS_HPP
 #define INCG_PHI_CORE_ALGORITHM_STRING_EQUALS_HPP
 
-#include "phi/container/string_view.hpp"
 #include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()

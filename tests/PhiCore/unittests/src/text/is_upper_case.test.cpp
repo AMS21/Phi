@@ -1,7 +1,10 @@
 #include "phi/test/test_macros.hpp"
 
-#include "phi/text/is_upper_case.hpp"
+#include <phi/text/is_upper_case.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
+PHI_EXTERNAL_HEADERS_END()
 
 void test_is_upper_case(const char character) noexcept
 {

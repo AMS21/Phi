@@ -8,7 +8,10 @@
 #endif
 
 #include "phi/compiler_support/inline.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <limits>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

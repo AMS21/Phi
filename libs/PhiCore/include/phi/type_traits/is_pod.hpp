@@ -2,7 +2,6 @@
 #define INCG_PHI_CORE_TYPE_TRAITS_IS_POD_HPP
 
 #include "phi/phi_config.hpp"
-#include <utility>
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once

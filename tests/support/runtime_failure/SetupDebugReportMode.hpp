@@ -1,8 +1,12 @@
 #ifndef INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_DEBUG_REPORT_MODE_HPP
 #define INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_DEBUG_REPORT_MODE_HPP
 
+#include <phi/compiler_support/warning.hpp>
+
 #if defined(_WIN32)
+PHI_EXTERNAL_HEADERS_BEGIN()
 #    include <crtdbg.h>
+PHI_EXTERNAL_HEADERS_END()
 #endif
 
 // This function setups the windows crt debug mode to not open any message boxes

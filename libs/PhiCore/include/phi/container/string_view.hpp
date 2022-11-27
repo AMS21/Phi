@@ -25,9 +25,12 @@
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_standard_layout.hpp"
 #include "phi/type_traits/is_trivial.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <algorithm>
 #include <limits>
 #include <string>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_STD_NAMESPACE()
 

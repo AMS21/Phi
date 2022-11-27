@@ -12,9 +12,12 @@
 #include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/underlying_type.hpp>
 #include <phi/type_traits/void_t.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
 #include <type_traits>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename, typename = phi::void_t<>>
 struct has_type_member : public phi::false_type

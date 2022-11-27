@@ -1,10 +1,13 @@
-#include "phi/type_traits/conditional.hpp"
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/cpp_standard.hpp>
+#include <phi/type_traits/conditional.hpp>
 #include <phi/type_traits/conjunction.hpp>
 #include <phi/type_traits/integral_constant.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename... ArgsT>
 void test_conjunction_true()

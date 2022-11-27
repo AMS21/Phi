@@ -9,8 +9,11 @@
 
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/types.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <chrono>
 #include <ratio>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

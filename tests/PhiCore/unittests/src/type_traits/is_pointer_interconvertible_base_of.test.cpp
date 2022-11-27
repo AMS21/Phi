@@ -3,7 +3,10 @@
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits/is_pointer_interconvertible_base_of.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename BaseT, typename DerivedT>
 void test_is_pointer_interconvertible_base_of()

@@ -51,8 +51,11 @@
 #include "phi/type_traits/is_void.hpp"
 #include "phi/type_traits/remove_const.hpp"
 #include "phi/type_traits/void_t.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
 #include <utility>
+PHI_EXTERNAL_HEADERS_END()
 
 #if PHI_HAS_WORKING_IS_CONSTRUCTIBLE() && PHI_HAS_WORKING_IS_TRIVIALLY_ASSIGNABLE() &&             \
         PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() &&                                             \

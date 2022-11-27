@@ -1,7 +1,10 @@
 #include "phi/test/test_macros.hpp"
 
-#include "phi/text/is_graphical_character.hpp"
+#include <phi/text/is_graphical_character.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
+PHI_EXTERNAL_HEADERS_END()
 
 void test_is_graphical_character(const char character) noexcept
 {

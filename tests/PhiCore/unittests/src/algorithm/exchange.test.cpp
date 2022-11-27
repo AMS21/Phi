@@ -3,7 +3,10 @@
 #include "test_types.hpp"
 #include <phi/algorithm/exchange.hpp>
 #include <phi/compiler_support/constexpr.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
+PHI_EXTERNAL_HEADERS_END()
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
 PHI_EXTENDED_CONSTEXPR bool test_constexpr()

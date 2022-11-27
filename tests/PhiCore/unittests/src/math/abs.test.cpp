@@ -27,7 +27,9 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-id-macro")
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <limits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename SourceT, typename ResultT>
 void test_abs_signed()

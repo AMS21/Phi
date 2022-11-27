@@ -12,7 +12,10 @@
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/size_t.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <initializer_list>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

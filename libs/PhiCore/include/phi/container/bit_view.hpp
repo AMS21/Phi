@@ -26,7 +26,10 @@
 #include "phi/type_traits/is_nothrow_default_constructible.hpp"
 #include "phi/type_traits/is_nothrow_move_assignable.hpp"
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <bitset>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

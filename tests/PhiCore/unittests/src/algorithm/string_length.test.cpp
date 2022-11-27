@@ -3,6 +3,8 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17) && PHI_HAS_LIB_STRING_VIEW()
@@ -11,6 +13,8 @@
 #else
 #    define HAS_LIB_STRING_VIEW() 0
 #endif
+
+PHI_EXTERNAL_HEADERS_END()
 
 // TODO: Some tests don't work with MSVC
 

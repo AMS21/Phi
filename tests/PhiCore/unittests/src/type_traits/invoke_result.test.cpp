@@ -9,9 +9,12 @@
 #include <phi/type_traits/is_invocable.hpp>
 #include <phi/type_traits/is_invocable_r.hpp>
 #include <phi/type_traits/is_same.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
 #include <memory>
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)

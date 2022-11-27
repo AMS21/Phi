@@ -1,4 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
+
 #include <phi/core/assert.hpp>
 
 int main()

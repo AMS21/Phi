@@ -3,7 +3,10 @@
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/type_traits/disjunction.hpp>
 #include <phi/type_traits/integral_constant.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename... ArgsT>
 void test_disjunction_true()

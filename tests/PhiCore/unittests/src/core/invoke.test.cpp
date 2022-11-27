@@ -6,8 +6,11 @@
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/move.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wsign-conversion")

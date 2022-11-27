@@ -4,7 +4,10 @@
 #include <phi/type_traits/is_integer.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstdint>
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("intptr_t")
 {

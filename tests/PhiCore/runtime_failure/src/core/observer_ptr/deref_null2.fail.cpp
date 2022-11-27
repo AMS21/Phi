@@ -1,4 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
+
 #include <phi/core/observer_ptr.hpp>
 
 struct A

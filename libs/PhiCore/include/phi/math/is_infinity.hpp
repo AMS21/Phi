@@ -16,7 +16,9 @@
 
 // TODO: Don't require standard limits
 #if !PHI_SUPPORTS_IS_INFINITY()
+PHI_EXTERNAL_HEADERS_BEGIN()
 #    include <limits>
+PHI_EXTERNAL_HEADERS_END()
 #endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()

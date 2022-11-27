@@ -1,6 +1,6 @@
 #include "phi/test/test_macros.hpp"
 
-#include "phi/text/is_ascii.hpp"
+#include <phi/text/is_ascii.hpp>
 
 void test_is_ascii(const char character) noexcept
 {

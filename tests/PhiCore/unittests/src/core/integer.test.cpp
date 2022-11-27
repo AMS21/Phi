@@ -52,9 +52,12 @@ SOFTWARE.
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
 #include <phi/type_traits/is_trivially_destructible.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <limits>
 #include <sstream>
 #include <string>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_integer_layout()

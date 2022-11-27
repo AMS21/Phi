@@ -5,8 +5,11 @@
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")

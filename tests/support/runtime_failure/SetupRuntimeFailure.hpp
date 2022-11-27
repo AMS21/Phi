@@ -2,8 +2,12 @@
 #define INCG_PHI_TESTS_RUNTIME_FAILURE_SETUP_RUNTIME_FAILURE_HPP
 
 #include "SetupDebugReportMode.hpp"
+#include <phi/compiler_support/warning.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <csignal>
 #include <cstdlib>
+PHI_EXTERNAL_HEADERS_END()
 
 extern "C" [[noreturn]] inline void RuntimeFailureSignalHandler(int /*signal*/)
 {

@@ -11,7 +11,10 @@
 #include <phi/type_traits/is_unsafe_integer.hpp>
 #include <phi/type_traits/is_unsafe_unsigned.hpp>
 #include <phi/type_traits/is_unsafe_unsigned_integer.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_unsafe_unsigned_integer_impl()

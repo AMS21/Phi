@@ -2,7 +2,10 @@
 
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/core/scope_guard.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
+PHI_EXTERNAL_HEADERS_END()
 
 void increment(int& val)
 {

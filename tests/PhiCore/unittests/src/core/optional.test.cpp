@@ -68,9 +68,12 @@ PHI_MSVC_SUPPRESS_WARNING(
 #include <phi/type_traits/is_trivially_destructible.hpp>
 #include <phi/type_traits/is_trivially_move_assignable.hpp>
 #include <phi/type_traits/is_trivially_move_constructible.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
 #include <tuple>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 #if PHI_HAS_WORKING_OPTIONAL()
 

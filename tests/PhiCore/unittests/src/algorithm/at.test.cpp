@@ -2,10 +2,13 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <array>
 #include <deque>
 #include <initializer_list>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("At c-array", "[Utility][At]")
 {

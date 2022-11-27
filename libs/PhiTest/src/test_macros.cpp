@@ -3,9 +3,12 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/types.hpp>
 #include <phi/phi_config.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstdlib>
 #include <forward_list>
 #include <iostream>
+PHI_EXTERNAL_HEADERS_END()
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")

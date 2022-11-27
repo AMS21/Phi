@@ -3,7 +3,10 @@
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/type_traits/is_corresponding_member.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
 PHI_EXTENDED_CONSTEXPR void test_is_corresponding_member(LhsMemberT LhsT::*lhs,

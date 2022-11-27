@@ -26,8 +26,11 @@
 #include <phi/type_traits/is_rvalue_reference.hpp>
 #include <phi/type_traits/is_scalar.hpp>
 #include <phi/type_traits/is_union.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_member_function_pointer_imp()

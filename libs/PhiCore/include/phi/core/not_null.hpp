@@ -25,8 +25,11 @@
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 #include "phi/type_traits/remove_reference.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstddef>
 #include <utility>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

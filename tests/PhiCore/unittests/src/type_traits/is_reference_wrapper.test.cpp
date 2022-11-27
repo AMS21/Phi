@@ -13,8 +13,11 @@
 #include <phi/type_traits/is_reference.hpp>
 #include <phi/type_traits/is_reference_wrapper.hpp>
 #include <phi/type_traits/is_rvalue_reference.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
 #include <vector>
+PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_reference_wrapper_impl()

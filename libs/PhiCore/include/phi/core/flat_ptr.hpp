@@ -18,7 +18,10 @@
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_pointer.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <utility>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

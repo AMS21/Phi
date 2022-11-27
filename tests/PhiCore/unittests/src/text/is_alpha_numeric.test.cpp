@@ -1,7 +1,10 @@
 #include "phi/test/test_macros.hpp"
 
-#include "phi/text/is_alpha_numeric.hpp"
+#include <phi/text/is_alpha_numeric.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
+PHI_EXTERNAL_HEADERS_END()
 
 // TODO: Test with constexpr
 

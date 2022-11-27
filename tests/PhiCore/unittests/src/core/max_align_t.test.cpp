@@ -4,7 +4,10 @@
 #include <phi/type_traits/is_pod.hpp>
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivial.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstddef> // std::max_align_t
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("max_align_t")
 {

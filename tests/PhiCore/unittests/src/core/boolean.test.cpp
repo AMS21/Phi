@@ -55,8 +55,11 @@ SOFTWARE.
 #include <phi/type_traits/is_trivially_destructible.hpp>
 #include <phi/type_traits/is_trivially_move_assignable.hpp>
 #include <phi/type_traits/is_trivially_move_constructible.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <sstream>
 #include <string>
+PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("boolean layout", "[Utility][Types][boolean]")
 {

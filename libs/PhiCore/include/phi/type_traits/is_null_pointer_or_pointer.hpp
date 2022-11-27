@@ -1,13 +1,13 @@
 #ifndef INCG_PHI_CORE_TYPE_TRAITS_IS_NULL_POINTER_OR_POINTER_HPP
 #define INCG_PHI_CORE_TYPE_TRAITS_IS_NULL_POINTER_OR_POINTER_HPP
 
-#include "phi/compiler_support/inline_variables.hpp"
 #include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
 #endif
 
+#include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_null_pointer.hpp"
 #include "phi/type_traits/is_pointer.hpp"

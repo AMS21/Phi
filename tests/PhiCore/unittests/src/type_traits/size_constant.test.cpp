@@ -1,7 +1,7 @@
-#include "phi/core/size_t.hpp"
-#include "phi/type_traits/integral_constant.hpp"
 #include <phi/test/test_macros.hpp>
 
+#include <phi/core/size_t.hpp>
+#include <phi/type_traits/integral_constant.hpp>
 #include <phi/type_traits/size_constant.hpp>
 
 TEST_CASE("type_traits.size_constant")

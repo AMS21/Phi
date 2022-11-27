@@ -3,11 +3,14 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/container/string_view.hpp>
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
 
 #if PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
 #endif
+PHI_EXTERNAL_HEADERS_END()
 
 static constexpr const char*            null = nullptr;
 static constexpr const phi::string_view null_view;

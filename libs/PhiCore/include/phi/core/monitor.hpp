@@ -14,7 +14,10 @@
 #include "phi/core/invoke.hpp"
 #include "phi/core/move.hpp"
 #include "phi/type_traits/is_nothrow_invocable.hpp"
+
+PHI_EXTERNAL_HEADERS_BEGIN()
 #include <mutex>
+PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
