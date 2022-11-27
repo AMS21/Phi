@@ -20,6 +20,7 @@ file(
   "src/compiler_support/assume.test.cpp"
   "src/compiler_support/char8_t.test.cpp"
   "src/compiler_support/compiler.test.cpp"
+  "src/compiler_support/constexpr.test.cpp"
   "src/compiler_support/counter.test.cpp"
   "src/compiler_support/cpp_standard.test.cpp"
   "src/compiler_support/current_function.test.cpp"
