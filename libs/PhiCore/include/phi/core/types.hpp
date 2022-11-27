@@ -34,6 +34,7 @@ SOFTWARE.
 #    pragma once
 #endif
 
+#include "phi/compiler_support/consteval.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/floating_point.hpp"
@@ -160,7 +161,7 @@ namespace detail
     };
 
     template <typename TypeT, TypeT Base, char CharT>
-    constexpr TypeT to_digit()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT to_digit()
     {
         using impl = to_digit_impl<CharT, digit_category<CharT>>;
         static_assert(impl::value < Base, "invalid digit for base");
@@ -174,7 +175,7 @@ namespace detail
     struct parse_loop<>
     {
         template <typename TypeT, TypeT>
-        static constexpr TypeT parse(TypeT value)
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse(TypeT value)
         {
             return value;
         }
@@ -184,7 +185,7 @@ namespace detail
     struct parse_loop<'\'', TailT...>
     {
         template <typename TypeT, TypeT Base>
-        static constexpr TypeT parse(TypeT value)
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse(TypeT value)
         {
             return parse_loop<TailT...>::template parse<TypeT, Base>(value);
         }
@@ -194,7 +195,7 @@ namespace detail
     struct parse_loop<HeadT, TailT...>
     {
         template <typename TypeT, TypeT Base>
-        static constexpr TypeT parse(TypeT value)
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse(TypeT value)
         {
             return parse_loop<TailT...>::template parse<TypeT, Base>(
                     value * Base + to_digit<TypeT, Base, HeadT>());
@@ -202,7 +203,7 @@ namespace detail
     };
 
     template <typename TypeT, TypeT Base, char HeadT, char... TailT>
-    constexpr TypeT do_parse_loop()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT do_parse_loop()
     {
         return parse_loop<TailT...>::template parse<TypeT, Base>(to_digit<TypeT, Base, HeadT>());
     }
@@ -210,7 +211,7 @@ namespace detail
     template <typename TypeT, char... DigitsT>
     struct parse_base
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 10, DigitsT...>();
         }
@@ -219,7 +220,7 @@ namespace detail
     template <typename TypeT, char HeadT, char... TailT>
     struct parse_base<TypeT, '0', HeadT, TailT...>
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 8, HeadT, TailT...>();
         }
@@ -228,7 +229,7 @@ namespace detail
     template <typename TypeT, char... TailT>
     struct parse_base<TypeT, '0', 'x', TailT...>
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 16, TailT...>();
         }
@@ -237,7 +238,7 @@ namespace detail
     template <typename TypeT, char... TailT>
     struct parse_base<TypeT, '0', 'X', TailT...>
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 16, TailT...>();
         }
@@ -246,7 +247,7 @@ namespace detail
     template <typename TypeT, char... TailT>
     struct parse_base<TypeT, '0', 'b', TailT...>
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 2, TailT...>();
         }
@@ -255,20 +256,20 @@ namespace detail
     template <typename TypeT, char... TailT>
     struct parse_base<TypeT, '0', 'B', TailT...>
     {
-        static constexpr TypeT parse()
+        static PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
         {
             return do_parse_loop<TypeT, 2, TailT...>();
         }
     };
 
     template <typename TypeT, char... DigitsT>
-    constexpr TypeT parse()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse()
     {
         return parse_base<TypeT, DigitsT...>::parse();
     }
 
     template <typename TypeT, typename OtherT, OtherT Value>
-    constexpr TypeT validate_value()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT validate_value()
     {
         static_assert(sizeof(TypeT) <= sizeof(OtherT) &&
                               is_signed<OtherT>::value == is_signed<TypeT>::value,
@@ -280,13 +281,13 @@ namespace detail
     }
 
     template <typename TypeT, char... DigitsT>
-    constexpr TypeT parse_signed()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse_signed()
     {
         return validate_value<TypeT, long long, parse<long long, DigitsT...>()>();
     }
 
     template <typename TypeT, char... DigitsT>
-    constexpr TypeT parse_unsigned()
+    PHI_CONSTEVAL_OR_CONSTEXPR TypeT parse_unsigned()
     {
         return validate_value<TypeT, unsigned long long, parse<unsigned long long, DigitsT...>()>();
     }
@@ -300,71 +301,71 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
 inline namespace literals
 {
     template <char... DigitsT>
-    constexpr i8 operator"" _i8()
+    PHI_CONSTEVAL_OR_CONSTEXPR i8 operator"" _i8()
     {
         return {detail::parse_signed<int8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr u8 operator"" _u8()
+    PHI_CONSTEVAL_OR_CONSTEXPR u8 operator"" _u8()
     {
         return {detail::parse_unsigned<uint8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr i16 operator"" _i16()
+    PHI_CONSTEVAL_OR_CONSTEXPR i16 operator"" _i16()
     {
         return {detail::parse_signed<int16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr u16 operator"" _u16()
+    PHI_CONSTEVAL_OR_CONSTEXPR u16 operator"" _u16()
     {
         return {detail::parse_unsigned<uint16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr i32 operator"" _i32()
+    PHI_CONSTEVAL_OR_CONSTEXPR i32 operator"" _i32()
     {
         return {detail::parse_signed<int32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr u32 operator"" _u32()
+    PHI_CONSTEVAL_OR_CONSTEXPR u32 operator"" _u32()
     {
         return {detail::parse_unsigned<uint32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr i64 operator"" _i64()
+    PHI_CONSTEVAL_OR_CONSTEXPR i64 operator"" _i64()
     {
         return {detail::parse_signed<int64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr u64 operator"" _u64()
+    PHI_CONSTEVAL_OR_CONSTEXPR u64 operator"" _u64()
     {
         return {detail::parse_unsigned<uint64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr isize operator"" _isize()
+    PHI_CONSTEVAL_OR_CONSTEXPR isize operator"" _isize()
     {
         return {detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    constexpr usize operator"" _usize()
+    PHI_CONSTEVAL_OR_CONSTEXPR usize operator"" _usize()
     {
         return {detail::parse_unsigned<size_t, DigitsT...>()};
     }
 
-    constexpr f32 operator"" _f32(long double val)
+    PHI_CONSTEVAL_OR_CONSTEXPR f32 operator"" _f32(long double val)
     {
         return {static_cast<float32>(val)};
     }
 
-    constexpr f64 operator"" _f64(long double val)
+    PHI_CONSTEVAL_OR_CONSTEXPR f64 operator"" _f64(long double val)
     {
         return {static_cast<float64>(val)};
     }
