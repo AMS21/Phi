@@ -43,7 +43,11 @@ foreach(_test ${phi_fast_math_flags})
 endforeach(_test)
 
 set(phi_precise_math_flags
-    fexcess-precision=standard ffp-contract=off ffp-exception-behavior=precise ffp-model=precise
+    fexcess-precision=standard
+    ffp-contract=off
+    ffp-exception-behavior=precise
+    ffp-exception-behavior=strict
+    ffp-model=precise
     # MSVC
     fp:precise)
 
