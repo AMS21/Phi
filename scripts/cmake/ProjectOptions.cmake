@@ -21,7 +21,7 @@ function(phi_configure_project)
   # Command line arguments
   cmake_parse_arguments(
     conf
-    "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;IPO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI"
+    "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;LTO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI"
     "PSO;STANDARD;EXTERNAL"
     "SANITIZER;STATIC_ANALYZERS"
     ${ARGN})
@@ -91,12 +91,12 @@ function(phi_configure_project)
 
     # Compiler Optimizations
     if(conf_OPTIMIZATION_FLAGS
-       OR conf_IPO
+       OR conf_LTO
        OR DEFINED conf_PSO)
       # Build command
       set(opt_cmd)
-      if(conf_IPO)
-        set(opt_cmd IPO)
+      if(conf_LTO)
+        set(opt_cmd LTO)
       endif()
       if(DEFINED conf_PSO)
         set(opt_cmd ${opt_cmd} PSO ${conf_PSO})

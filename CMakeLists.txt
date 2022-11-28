@@ -62,7 +62,7 @@ option(PHI_PEDANTIC_WARNINGS "Enable pedantic mode" ON)
 option(PHI_ENABLE_USER_LINKER "Enable a specific linker if available" OFF)
 option(PHI_BUILD_WITH_TIME_TRACE
        "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
-option(PHI_ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
+option(PHI_ENABLE_LTO "Enable Link Time Optimization" OFF)
 option(PHI_COLOR_DIAGNOSTICS "Enable colored diagnostics" ON)
 option(PHI_ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
@@ -208,8 +208,8 @@ if(PHI_BUILD_WITH_TIME_TRACE)
   list(APPEND configure_options TIME_TRACE)
 endif()
 
-if(PHI_ENABLE_IPO)
-  list(APPEND configure_options IPO)
+if(PHI_ENABLE_LTO)
+  list(APPEND configure_options LTO)
 endif()
 
 # Configure static analyzers

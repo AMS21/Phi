@@ -2,6 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(internal/PhiCheckCCompilerFlag)
+include(CheckLinkerFlag)
 
 set(phi_opt_compile_flags
     fallow-store-data-races
@@ -82,47 +83,55 @@ foreach(_test ${phi_opt_compile_flags})
   endif()
 endforeach(_test)
 
-# Check IPO support
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.9")
-  # Use the version supplied by cmake
-  include(CheckIPOSupported)
-  check_ipo_supported(RESULT result OUTPUT output)
+# https://clang.llvm.org/docs/ThinLTO.html https://llvm.org/docs/LinkTimeOptimization.html
+# https://llvm.org/docs/LinkTimeOptimization.html
+# https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+# https://gcc.gnu.org/wiki/LinkTimeOptimization
+# https://learn.microsoft.com/en-us/cpp/build/reference/ltcg-link-time-code-generation
+set(phi_lto_flags flto=full flto=thin flto=${PHI_PROCESSOR_COUNT} flto LTCG)
 
-  if(result)
-    phi_log("Interprocedural optimization is supported")
-    phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 1)
-    phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 1)
-  else()
-    phi_log("Interprocedural optimization is NOT supported")
-    phi_trace("Output: ${output}")
+# Check LTO support
+set(old_flags ${CMAKE_REQUIRED_FLAGS})
 
-    phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 0)
-    phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 0)
+set(_phi_opt_lto_flag CACHE INTERNAL "")
+foreach(_test ${phi_lto_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}${_test}")
+
+  check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  set(CMAKE_REQUIRED_FLAGS ${old_flags})
+
+  if(PHI_HAS_FLAG_${_testName})
+    set(_phi_opt_lto_flag
+        ${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
+
+    # Don't continue since theres ever only one valid LTO flag
+    break()
   endif()
-else()
-  # TODO: Implement
-  phi_warn("Coudn't not determin support for IPO")
-  phi_set_cache_value(NAME PHI_SUPPORTS_IPO_NATIVE VALUE 0)
-  phi_set_cache_value(NAME PHI_SUPPORTS_IPO VALUE 0)
-endif()
+endforeach(_test)
 
-# Extra IPO flags
-set(phi_extra_ipo_flags
+# Extra LTO flags
+set(phi_extra_lto_flags
     fsplit-lto-unit Wl,--no-as-needed
     CACHE INTERNAL "")
 
-# TODO: Disabled fvirtual-function-elimination since it requires -flto=full which we don't support
-# atm
+# LTO specific optimizations
+set(phi_lto_opt fipa-pta fwhole-program fwhole-program-vtables fdevirtualize-at-ltrans
+                fvirtual-function-elimination)
 
-# IPO specific optimizations
-set(phi_ipo_opt fipa-pta fwhole-program fwhole-program-vtables fdevirtualize-at-ltrans)
-
-# Check ipo specific optimizations
+# Check LTO specific optimizations
 set(old_flags ${CMAKE_REQUIRED_FLAGS})
-set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}flto")
+set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${_phi_opt_lto_flag}")
 
-set(_phi_opt_ipo_extra_supported CACHE INTERNAL "")
-foreach(_test ${phi_ipo_opt})
+set(_phi_opt_lto_extra_supported CACHE INTERNAL "")
+foreach(_test ${phi_lto_opt})
   string(REPLACE "-" "_" _testName ${_test})
   string(REPLACE "=" "_" _testName ${_testName})
   string(REPLACE ":" "_" _testName ${_testName})
@@ -132,8 +141,8 @@ foreach(_test ${phi_ipo_opt})
   phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   if(PHI_HAS_FLAG_${_testName})
-    set(_phi_opt_ipo_extra_supported
-        ${_phi_opt_ipo_extra_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+    set(_phi_opt_lto_extra_supported
+        ${_phi_opt_lto_extra_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
@@ -142,7 +151,7 @@ set(CMAKE_REQUIRED_FLAGS ${old_flags})
 
 function(phi_target_enable_optimizations)
   # Command line arguments
-  cmake_parse_arguments(opt "IPO" "TARGET;PSO" "CONFIGS" ${ARGN})
+  cmake_parse_arguments(opt "LTO" "TARGET;PSO" "CONFIGS" ${ARGN})
 
   # Check required arguments
   if(NOT opt_TARGET)
@@ -196,17 +205,21 @@ function(phi_target_enable_optimizations)
       endforeach(flag)
     endif()
 
-    if(opt_IPO)
-      if(PHI_SUPPORTS_IPO_NATIVE)
-        set_target_properties(${opt_TARGET} PROPERTIES INTERPROCEDURAL_OPTIMIZATION ON)
-
-      else()
-        # TODO: Fix
-        phi_warn("Can't enable IPO")
+    if(opt_LTO)
+      if(${_phi_opt_lto_flag} STREQUAL "")
+        phi_warn("Requested LTO but no supported flags where found")
       endif()
+      # Disable LTO from CMake
+      set_target_properties(${opt_TARGET} PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
 
-      # Enable IPO specifc optimizations
-      foreach(flag ${_phi_opt_ipo_extra_supported})
+      # Set LTO flag
+      target_compile_options(${opt_TARGET} ${visibility_scope}
+                             $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
+      target_link_options(${opt_TARGET} ${visibility_scope}
+                          $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
+
+      # Enable LTO specifc optimizations
+      foreach(flag ${_phi_opt_lto_extra_supported})
         target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       endforeach()
