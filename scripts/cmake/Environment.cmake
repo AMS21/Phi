@@ -306,6 +306,11 @@ endif()
 
 phi_log("Generator: \"${CMAKE_GENERATOR}\"")
 
+# Crosscompiling emulator
+if(CMAKE_CROSSCOMPILING_EMULATOR)
+  phi_log("Crosscompiling emulator: \"${CMAKE_CROSSCOMPILING_EMULATOR}\"")
+endif()
+
 # Check if CI Build
 if(DEFINED ENV{CI})
   phi_set_cache_value(NAME PHI_CI_BUILD VALUE TRUE)
