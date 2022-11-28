@@ -322,7 +322,6 @@ else()
 
   # We always assume to have atleast one processor
   phi_set_cache_value(NAME PHI_PROCESSOR_COUNT VALUE 1)
-  set(PHI_PROCESSOR_COUNT 1)
 endif()
 
 phi_trace("Processor Count: ${PHI_PROCESSOR_COUNT}")
