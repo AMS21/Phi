@@ -235,9 +235,11 @@ TEST_CASE("is_nothrow_constructible")
     test_is_nothrow_constructible<M, M>();
     test_is_nothrow_constructible<N<int>>();
 
+#if PHI_HAS_WORKING_IS_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_constructible<Tuple&, empty>::value);
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_constructible_v<Tuple&, empty>);
+#    endif
 #endif
     test_is_not_nothrow_constructible<Tuple&, empty>();
 

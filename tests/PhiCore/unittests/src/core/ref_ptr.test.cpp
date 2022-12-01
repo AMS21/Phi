@@ -32,7 +32,9 @@ TEST_CASE("ref_ptr")
     {
         STATIC_REQUIRE(sizeof(phi::ref_ptr<int>) == sizeof(int*) * 2);
 
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
         STATIC_REQUIRE(phi::is_default_constructible<phi::ref_ptr<int>>::value);
+#endif
         STATIC_REQUIRE(phi::is_copy_constructible<phi::ref_ptr<int>>::value);
         STATIC_REQUIRE(phi::is_move_constructible<phi::ref_ptr<int>>::value);
         STATIC_REQUIRE(phi::is_copy_assignable<phi::ref_ptr<int>>::value);
@@ -471,7 +473,9 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
     {
         STATIC_REQUIRE(sizeof(phi::not_null_ref_ptr<int>) == sizeof(int*) * 2);
 
+#if PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE()
         STATIC_REQUIRE_FALSE(phi::is_default_constructible<phi::not_null_ref_ptr<int>>::value);
+#endif
         STATIC_REQUIRE(phi::is_copy_constructible<phi::not_null_ref_ptr<int>>::value);
         STATIC_REQUIRE(phi::is_move_constructible<phi::not_null_ref_ptr<int>>::value);
         STATIC_REQUIRE(phi::is_copy_assignable<phi::not_null_ref_ptr<int>>::value);

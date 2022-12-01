@@ -83,14 +83,18 @@ public:
 
     named_type() = default;
 
-    explicit constexpr named_type(const TypeT& value) noexcept(
-            is_nothrow_copy_constructible<TypeT>::value)
+    explicit constexpr named_type(const TypeT& value)
+#if PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE()
+            noexcept(is_nothrow_copy_constructible<TypeT>::value)
+#endif
         : m_Value(value)
     {}
 
     template <typename OtherT = TypeT, typename = enable_if_t<!is_reference<OtherT>::value, void>>
-    explicit constexpr named_type(TypeT&& value) noexcept(
-            is_nothrow_move_constructible<TypeT>::value)
+    explicit constexpr named_type(TypeT&& value)
+#if PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE()
+            noexcept(is_nothrow_move_constructible<TypeT>::value)
+#endif
         : m_Value(phi::move(value))
     {}
 

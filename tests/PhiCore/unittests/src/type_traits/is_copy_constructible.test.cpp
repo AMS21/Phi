@@ -21,19 +21,21 @@ PHI_EXTERNAL_HEADERS_END()
 template <typename TypeT>
 void test_is_copy_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_COPY_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_copy_constructible<TypeT>::value);
     STATIC_REQUIRE_FALSE(phi::is_not_copy_constructible<TypeT>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE(phi::is_copy_constructible_v<TypeT>);
     STATIC_REQUIRE_FALSE(phi::is_not_copy_constructible_v<TypeT>);
-#endif
+#    endif
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_constructible<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_constructible<TypeT>);
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_copy_constructible<TypeT>::value);
+#endif
 }
 
 template <typename TypeT>
@@ -46,19 +48,21 @@ void test_is_copy_constructible()
 template <typename TypeT>
 void test_is_not_copy_constructible_impl()
 {
+#if PHI_HAS_WORKING_IS_COPY_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_copy_constructible<TypeT>::value);
     STATIC_REQUIRE(phi::is_not_copy_constructible<TypeT>::value);
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
     STATIC_REQUIRE_FALSE(phi::is_copy_constructible_v<TypeT>);
     STATIC_REQUIRE(phi::is_not_copy_constructible_v<TypeT>);
-#endif
+#    endif
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_copy_constructible<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_copy_constructible<TypeT>);
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_copy_constructible<TypeT>::value);
+#endif
 }
 
 template <typename TypeT>

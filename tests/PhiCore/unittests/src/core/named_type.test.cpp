@@ -930,10 +930,14 @@ using C = phi::named_type<throw_on_construction, struct throwTag>;
 
 TEST_CASE("noexcept")
 {
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
     CHECK(noexcept(StrongIntT{}));
+#endif
     CHECK(!noexcept(C{}));
 
+#if PHI_HAS_WORKING_IS_NOTHROW_CONSTRUCTIBLE()
     CHECK(noexcept(StrongIntT(3)));
+#endif
     CHECK(!noexcept(C{5}));
 }
 

@@ -1559,7 +1559,8 @@ TEST_CASE("array contiguous")
 
     // TODO: Test don't compile with gcc-8
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() &&                                                        \
-        (PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0))
+        (PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)) &&                     \
+        PHI_SUPPORTS_ADDRESS_OF()
     STATIC_REQUIRE(test_contiguous());
 #endif
 }

@@ -117,11 +117,11 @@ void test_is_class_impl()
 #    endif
 #endif
 
+#if PHI_HAS_WORKING_IS_CLASS()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_class<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_class<TypeT>);
 
     // Standard compatibility
-#if PHI_HAS_WORKING_IS_CLASS()
     STATIC_REQUIRE(std::is_class<TypeT>::value);
 #    if PHI_CPP_STANDARD_IS_ATLEAST(17)
     STATIC_REQUIRE(std::is_class_v<TypeT>);
