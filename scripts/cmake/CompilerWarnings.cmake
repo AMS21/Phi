@@ -11,6 +11,7 @@ include(internal/PhiCheckCCompilerFlag)
 
 # Flags
 set(phi_warning_flags
+    Wabi-tag
     Waligned-new=all
     Wall
     Walloc-zero
@@ -22,9 +23,15 @@ set(phi_warning_flags
     Wcast-align # warn for potential performance problem casts
     Wcast-qual
     Wcatch-value=3
+    Wclass-conversion
     Wcomma-subscript
     Wconversion # warn on type conversions that may lose data
+    Wdangling-reference
     Wdate-time
+    Wdelete-non-virtual-dtor
+    Wdeprecated-copy
+    Wdeprecated-enum-enum-conversion
+    Wdeprecated-enum-float-conversion
     Wdouble-promotion # warn if float is implicit promoted to double
     Wduplicated-branches # warn if if / else branches have duplicated code
     Wduplicated-cond # warn if if / else chain has duplicated conditions
@@ -38,6 +45,7 @@ set(phi_warning_flags
     Wformat-truncation=2
     Wformat=2 # warn on security issues around functions that format output (ie printf)
     Winterference-size
+    Winvalid-imported-macros
     Winvalid-pch
     Wlifetime
     Wlogical-op # warn about logical operations being used where bitwise were probably wanted
@@ -60,10 +68,13 @@ set(phi_warning_flags
     Wredundant-decls
     Wredundant-tags
     Wregister
+    Wreorder
     Wrestrict
     Wshadow # warn the user if a variable declaration shadows one from a parent context
     Wshift-overflow=2
+    Wshorten-64-to-32
     Wsign-conversion # warn on sign conversions
+    Wsign-promo
     Wstack-protector
     Wstrict-aliasing=2
     Wstrict-null-sentinel
