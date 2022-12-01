@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/core/types.hpp"
 #include "phi/iterator/iterator_tags.hpp"
 #include "phi/type_traits/is_convertible.hpp"
@@ -28,9 +29,9 @@ namespace detail
         struct two { char lx; char lxx; };
         template <typename UpT> static two test(...);
         template <typename UpT> static char test(typename UpT::iterator_category* = 0);
-    public:
-        static const bool value = sizeof(test<TypeT>(nullptr)) == 1;
         // clang-format on
+    public:
+        static PHI_CONSTEXPR_AND_CONST bool value = sizeof(test<TypeT>(nullptr)) == 1;
     };
 
     template <typename IteratorT, bool>
