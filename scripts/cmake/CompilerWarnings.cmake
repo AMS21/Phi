@@ -176,11 +176,6 @@ set(phi_check_required_flags
     # "attribute 'attribute-name' is not recognized"
     we5030)
 
-# Clang only requires -Weverything
-if(PHI_COMPILER_CLANG)
-  set(phi_warning_flags "Weverything")
-endif()
-
 # GCC does except all -Wno-xxxx flags even if it can't handle them
 if(PHI_COMPILER_GCC)
   set(phi_disabled_warnings_flags "Wno-unused-function")
