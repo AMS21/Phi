@@ -4,10 +4,13 @@ include(CMakeParseArguments)
 include(internal/PhiCheckCCompilerFlag)
 include(CheckLinkerFlag)
 
+# https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
+
 set(phi_opt_compile_flags
     fallow-store-data-races
     fdeclone-ctor-dtor
     fdevirtualize-speculatively
+    felide-constructors
     ffinite-loops
     fforce-emit-vtables
     fgcse-las
@@ -23,8 +26,10 @@ set(phi_opt_compile_flags
     fmerge-functions
     fmodulo-sched
     fmodulo-sched-allow-regmoves
+    fno-enforce-eh-specs
     fsched-pressure
     fsemantic-interposition
+    fnothrow-opt
     fstrict-aliasing
     fstrict-enums
     fstrict-return
