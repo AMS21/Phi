@@ -25,7 +25,7 @@ echo "VERBOSE=ON" >>"$GITHUB_ENV"
 # Set sanitizer runtime flags
 # https://github.com/google/sanitizers/wiki/SanitizerCommonFlags
 # https://github.com/google/sanitizers/wiki/AddressSanitizerFlags#run-time-flags
-echo "ASAN_OPTIONS=quarantine_size_mb=1024:redzone=256:strict_string_checks=1:detect_odr_violation=2:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1:print_stats=1:use_odr_indicator=1:strict_memcmp=1:print_scariness=1:handle_abort=1:symbolize=1:handle_segv=1:handle_sigill=1:allocator_release_to_os_interval_ms=500:handle_sigfpe=1:handle_sigbus=1:alloc_dealloc_mismatch=1:check_malloc_usable_size=1:abort_on_error=1" >>"$GITHUB_ENV"
+echo "ASAN_OPTIONS=quarantine_size_mb=1024:redzone=256:strict_string_checks=1:detect_odr_violation=2:detect_stack_use_after_return=1:check_initialization_order=1:detect_leaks=1:print_stats=1:use_odr_indicator=1:strict_memcmp=1:print_scariness=1:handle_abort=1:symbolize=1:handle_segv=1:handle_sigill=1:allocator_release_to_os_interval_ms=500:handle_sigfpe=1:handle_sigbus=1:alloc_dealloc_mismatch=1:check_malloc_usable_size=1:abort_on_error=1" >>"$GITHUB_ENV"
 # https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer#flags
 echo "LSAN_OPTIONS=report_objects=1:use_unaligned=1:max_leaks=0" >>"$GITHUB_ENV"
 echo "MSAN_OPTIONS=poison_in_dtor=1" >>"$GITHUB_ENV"
