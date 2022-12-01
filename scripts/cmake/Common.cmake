@@ -2,19 +2,23 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 
+# https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
+# https://digitalkarabela.com/mingw-w64-how-to-fix-file-too-big-too-many-sections/
+
 # common useful flags
 set(phi_common_flags
     bigobj
-    Wa,-mbig-obj # https://digitalkarabela.com/mingw-w64-how-to-fix-file-too-big-too-many-sections/
+    Wa,-mbig-obj
+    fborland-extensions
+    fdeclspec
+    flarge-source-files
     fmacro-backtrace-limit=0
     fms-extensions
-    fdeclspec
-    fborland-extensions
-    flarge-source-files
+    fstrong-eval-order
     pipe)
 
 # common useful cxx flags
-set(phi_common_cxx_only_flags fcoroutines fconcepts fchar8_t)
+set(phi_common_cxx_only_flags faligned-new fsized-deallocation fchar8_t fconcepts fcoroutines)
 
 # clang and emcc say they accept "-bigobj" but then give a warning
 if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
