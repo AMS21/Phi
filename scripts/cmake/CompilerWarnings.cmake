@@ -8,6 +8,7 @@ include(internal/PhiCheckCCompilerFlag)
 
 # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
 # https://clang.llvm.org/docs/DiagnosticsReference.html
+# https://clang.llvm.org/docs/ThreadSafetyAnalysis.html
 
 # Flags
 set(phi_warning_flags
@@ -49,6 +50,7 @@ set(phi_warning_flags
     Winvalid-pch
     Wlifetime
     Wlogical-op # warn about logical operations being used where bitwise were probably wanted
+    Wmisexpect
     Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
     Wmismatched-tags
     Wmissing-field-initializers
@@ -88,6 +90,7 @@ set(phi_warning_flags
     Wsuggest-final-types
     Wsuggest-override
     Wsync-nand
+    Wthread-safety
     Wtrampolines
     Wundef
     Wuninitialized
