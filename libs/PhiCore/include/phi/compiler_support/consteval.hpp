@@ -30,8 +30,8 @@
 #    else
 #        define PHI_CONSTEVAL_OR_EXTENDED_CONSTEXPR /* Nothing */
 #    endif
-#    defione PHI_CONSTEVAL_OR(alternative) alternative
-#    define PHI_CONSTEVAL_IF(condition) /* Nothing */
+#    define PHI_CONSTEVAL_OR(alternative) alternative
+#    define PHI_CONSTEVAL_IF(condition)   /* Nothing */
 #endif
 
 #endif // INCG_PHI_COMPILER_SUPPORT_CONSTEVAL_HPP
