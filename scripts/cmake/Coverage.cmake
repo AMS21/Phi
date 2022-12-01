@@ -4,6 +4,9 @@ include(CMakeParseArguments)
 include(CheckLinkerFlag)
 include(internal/PhiCheckCXXCompilerFlag)
 
+# https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
+# https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
+
 set(phi_coverage_compile_flags fno-common fno-inline fno-inline-functions fno-omit-frame-pointer
                                fprofile-abs-path)
 
