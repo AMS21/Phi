@@ -103,18 +103,18 @@ function(phi_add_executable)
   endif()
 
   # Add optional public compile definition
-  if(DEFINED ae_PUBLIC_COMPILE_DEFINITIONS)
-    target_compile_definitions(${ae_NAME} PUBLIC "${ae_PUBLIC_COMPILE_DEFINITIONS}")
+  if(DEFINED ae_PUBLIC_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} PUBLIC "${ae_PUBLIC_DEFINITIONS}")
   endif()
 
   # Add optional private compile definition
-  if(DEFINED ae_PRIVATE_COMPILE_DEFINITIONS)
-    target_compile_definitions(${ae_NAME} PRIVATE "${ae_PRIVATE_COMPILE_DEFINITIONS}")
+  if(DEFINED ae_PRIVATE_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} PRIVATE "${ae_PRIVATE_DEFINITIONS}")
   endif()
 
   # Add optional interface compile definition
-  if(DEFINED ae_INTERFACE_COMPILE_DEFINITIONS)
-    target_compile_definitions(${ae_NAME} INTERFACE "${ae_INTERFACE_COMPILE_DEFINITIONS}")
+  if(DEFINED ae_INTERFACE_DEFINITIONS)
+    target_compile_definitions(${ae_NAME} INTERFACE "${ae_INTERFACE_DEFINITIONS}")
   endif()
 
   # Enable optional static analyzers
