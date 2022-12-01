@@ -6,6 +6,7 @@ include(internal/PhiCheckCXXCompilerFlag)
 
 set(PHI_SANITIZER_OPTIONS
     address
+    dataflow
     hwaddress
     leak
     memory
