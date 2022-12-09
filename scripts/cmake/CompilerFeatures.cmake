@@ -426,21 +426,21 @@ phi_check_cxx_source_compiles(
 #error
 #endif
 int main() {}"
-  PHI_STDLIB_GLIBCXX)
+  PHI_DEFAULT_STDLIB_GLIBCXX)
 phi_check_cxx_source_compiles(
   "#include <cstddef>
 #if !defined(_LIBCPP_VERSION)
 #error
 #endif
 int main() {}"
-  PHI_STDLIB_LLVM_LIBCXX)
+  PHI_DEFAULT_STDLIB_LLVM_LIBCXX)
 phi_check_cxx_source_compiles(
   "#include <cstddef>
 #if !defined(_MSVC_STL_VERSION)
 #error
 #endif
 int main() {}"
-  PHI_STDLIB_MSVC_STL)
+  PHI_DEFAULT_STDLIB_MSVC_STL)
 
 # Only require the latest standard flag
 set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")

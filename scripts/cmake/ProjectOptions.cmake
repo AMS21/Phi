@@ -14,6 +14,7 @@ include(Linker)
 include(RuntimeTypeInformation)
 include(Sanitizers)
 include(Standard)
+include(StandardLibrary)
 include(StaticAnalyzers)
 
 #
@@ -22,7 +23,7 @@ function(phi_configure_project)
   set(CMD_OPTIONS
       "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;LTO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI"
   )
-  set(CMD_ONE_VALUE "PSO;STANDARD;EXTERNAL")
+  set(CMD_ONE_VALUE "PSO;STANDARD;EXTERNAL;STANDARD_LIBRARY")
   set(CMD_MULTI_VALUE "SANITIZER;STATIC_ANALYZERS")
 
   cmake_parse_arguments(conf "${CMD_OPTIONS}" "${CMD_ONE_VALUE}" "${CMD_MULTI_VALUE}" ${ARGN})
@@ -200,6 +201,13 @@ function(phi_configure_project)
       phi_target_set_rtti(TARGET ${target} DISABLE)
     else()
       phi_target_set_rtti(TARGET ${target} ENABLE)
+    endif()
+
+    # STANDARD_LIBRARY
+    if(conf_STANDARD_LIBRARY)
+      phi_target_set_stdlib(TARGET ${target} LIBRARY ${conf_STANDARD_LIBRARY})
+    else()
+      phi_target_set_stdlib(TARGET ${target} LIBRARY DEFAULT)
     endif()
 
     # Handle external target

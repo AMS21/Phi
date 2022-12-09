@@ -1,6 +1,7 @@
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/platform.hpp>
+#include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
@@ -92,9 +93,10 @@ int main()
     // Standard library
     std::cout << "Standard library info\n";
 
-    PRINT_COND("Standard library glibcxx ", PHI_STDLIB_GLIBCXX());
-    PRINT_COND("Standard library llvm libcxx", PHI_STDLIB_LLVM_LIBCXX());
-    PRINT_COND("Standard library MSVC stl", PHI_STDLIB_MSVC_STL());
+    PRINT_COND("Standard library libc++ ", PHI_STANDARD_LIBRARY_LIBCXX());
+    PRINT_COND("Standard library libstdc++", PHI_STANDARD_LIBRARY_LIBSTDCXX());
+    PRINT_COND("Standard library msvc-stl", PHI_STANDARD_LIBRARY_MSVC());
+    PRINT_VAL("PHI_STANDARD_LIBRARY_NAME", PHI_STANDARD_LIBRARY_NAME());
 
     return 0;
 }

@@ -13,6 +13,7 @@
 #include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -26,7 +27,7 @@ DETAIL_PHI_BEGIN_STD_NAMESPACE()
 template <typename CharT, typename TraitsT>
 class basic_string_view;
 
-#if PHI_STDLIB_GLIBCXX()
+#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
 inline namespace __cxx11
 {
 #endif
@@ -34,7 +35,7 @@ inline namespace __cxx11
     template <typename CharT, typename TraitsT, typename AllocatorT>
     class basic_string;
 
-#if PHI_STDLIB_GLIBCXX()
+#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
 }
 #endif
 

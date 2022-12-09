@@ -75,9 +75,8 @@ phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects win
            STRING "Dynamic")
 set_property(CACHE PHI_STANDARD_RUNTIME PROPERTY STRINGS "Dynamic" "Static")
 
-phi_option(PHI_STANDARD_LIBRARY "Which standard library to use. Only affects clang builds" STRING
-           "Default")
-set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++")
+phi_option(PHI_STANDARD_LIBRARY "Which standard library to use" STRING "Default")
+set_property(CACHE PHI_STANDARD_LIBRARY PROPERTY STRINGS "Default" "libstdc++" "libc++" "platform")
 
 phi_option(PHI_STANDARD "Which C++ Standard to use" STRING "latest")
 set_property(
@@ -182,7 +181,7 @@ if(${PHI_BUILD_DOCS})
 endif()
 
 # Set configure options
-set(configure_options DEBUG_FLAGS WARNINGS) # Default
+set(configure_options DEBUG_FLAGS WARNINGS STANDARD_LIBRARY "${PHI_STANDARD_LIBRARY}") # Default
 
 if(PHI_USE_UNITY_BUILD)
   list(APPEND configure_options UNITY_BUILD)
