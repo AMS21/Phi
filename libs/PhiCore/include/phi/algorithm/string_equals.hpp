@@ -13,35 +13,11 @@
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
-
-// Forward declarations
-DETAIL_PHI_BEGIN_STD_NAMESPACE()
-
-template <typename CharT, typename TraitsT>
-class basic_string_view;
-
-#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
-inline namespace __cxx11
-{
-#endif
-
-    template <typename CharT, typename TraitsT, typename AllocatorT>
-    class basic_string;
-
-#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
-}
-#endif
-
-template <typename CharT, typename TraitsT>
-class basic_string_view;
-
-DETAIL_PHI_END_STD_NAMESPACE()
+#include "phi/forward/std/string.hpp"
+#include "phi/forward/std/string_view.hpp"
+#include "phi/forward/string_view.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-// Forward declaration
-template <typename CharT, typename TraitsT>
-class basic_string_view;
 
 // nullptr_t - x
 

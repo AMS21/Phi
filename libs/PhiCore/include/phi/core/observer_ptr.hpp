@@ -11,6 +11,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
@@ -19,6 +20,7 @@
 #include "phi/core/move.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/size_t.hpp"
+#include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 

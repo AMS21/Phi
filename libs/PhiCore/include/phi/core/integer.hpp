@@ -39,9 +39,11 @@ SOFTWARE.
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
+#include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
@@ -50,7 +52,6 @@ SOFTWARE.
 #include "phi/type_traits/is_unsigned.hpp"
 
 PHI_EXTERNAL_HEADERS_BEGIN()
-#include <functional>
 #include <iosfwd>
 #include <limits>
 PHI_EXTERNAL_HEADERS_END()

@@ -67,6 +67,15 @@ file(
   "src/core/stop_watch.test.cpp"
   "src/core/types.test.cpp"
   "src/core/voidify.test.cpp"
+  # forward
+  "src/forward/string_view.test.cpp"
+  # forward/std
+  "src/forward/std/allocator.test.cpp"
+  "src/forward/std/char_traits.test.cpp"
+  "src/forward/std/hash.test.cpp"
+  "src/forward/std/reference_wrapper.test.cpp"
+  "src/forward/std/string_view.test.cpp"
+  "src/forward/std/string.test.cpp"
   # math
   "src/math/abs.test.cpp"
   "src/math/ceil.test.cpp"

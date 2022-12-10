@@ -20,6 +20,8 @@
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/forward/std/string_view.hpp"
+#include "phi/forward/string_view.hpp"
 #include "phi/iterator/reverse_iterator.hpp"
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_same.hpp"
@@ -32,13 +34,6 @@ PHI_EXTERNAL_HEADERS_BEGIN()
 #include <string>
 PHI_EXTERNAL_HEADERS_END()
 
-DETAIL_PHI_BEGIN_STD_NAMESPACE()
-
-template <typename CharT, typename TraitsT>
-class basic_string_view;
-
-DETAIL_PHI_END_STD_NAMESPACE()
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, size_t Size>
@@ -50,7 +45,7 @@ class not_null_basic_string_view;
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
-template <typename CharT, typename TraitsT = std::char_traits<CharT>>
+template <typename CharT, typename TraitsT /*= std::char_traits<CharT>*/>
 class PHI_ATTRIBUTE_POINTER basic_string_view
 {
 public:
@@ -962,7 +957,7 @@ template <typename CharT, typename TraitsT>
 constexpr size_t basic_string_view<CharT, TraitsT>::npos;
 #endif
 
-template <typename CharT, typename TraitsT = std::char_traits<CharT>>
+template <typename CharT, typename TraitsT /*= std::char_traits<CharT>*/>
 class PHI_ATTRIBUTE_POINTER not_null_basic_string_view
 {
 public:

@@ -2,6 +2,7 @@
 
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/extended_attributes.hpp>
+#include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
@@ -106,7 +107,7 @@ void test_b12(FunctorT&& function)
             decltype(phi::invoke(func_ptr, phi::forward<FunctorT>(function), phi::move(arg)));
     CHECK_SAME_TYPE(DeducedReturnType, ExpectT);
 
-#    if PHI_COMPILER_IS(EMCC) || PHI_COMPILER_IS(WINCLANG)
+#    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
     // Check that result_of_t matches Expect.
@@ -132,7 +133,7 @@ void test_b34(FunctorT&& function)
     CHECK_SAME_TYPE(DeducedReturnType, ExpectT);
 
     // Check that result_of_t matches Expect.
-#    if PHI_COMPILER_IS(EMCC) || PHI_COMPILER_IS(WINCLANG)
+#    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
     using ResultOfReturnType = typename std::result_of<ClassFunc && (FunctorT &&)>::type;
@@ -155,7 +156,7 @@ void test_b5(FunctorT&& function)
     STATIC_REQUIRE((phi::is_same<DeducedReturnType, ExpectT>::value));
 
     // Check that result_of_t matches Expect.
-#    if PHI_COMPILER_IS(EMCC) || PHI_COMPILER_IS(WINCLANG)
+#    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
     using ResultOfReturnType = typename std::result_of<FunctorT && (NonCopyable &&)>::type;

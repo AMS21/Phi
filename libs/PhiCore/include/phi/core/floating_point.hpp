@@ -37,6 +37,7 @@ SOFTWARE.
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -46,7 +47,6 @@ SOFTWARE.
 
 PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cmath>
-#include <functional>
 #include <iosfwd>
 #include <limits>
 PHI_EXTERNAL_HEADERS_END()

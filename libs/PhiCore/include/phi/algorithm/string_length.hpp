@@ -19,27 +19,9 @@
 #include "phi/core/assert.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/forward/std/string.hpp"
+#include "phi/forward/std/string_view.hpp"
 #include "phi/math/common.hpp"
-
-// Forward declarations
-DETAIL_PHI_BEGIN_STD_NAMESPACE()
-
-template <typename CharT, typename TraitsT>
-class basic_string_view;
-
-#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
-inline namespace __cxx11
-{
-#endif
-
-    template <typename CharT, typename TraitsT, typename AllocatorT>
-    class basic_string;
-
-#if PHI_STANDARD_LIBRARY_LIBSTDCXX()
-}
-#endif
-
-DETAIL_PHI_END_STD_NAMESPACE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

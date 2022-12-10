@@ -38,34 +38,6 @@
 // clang-format on
 /// \endcond
 
-#if PHI_COMPILER_IS(EMCC)
-#    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
-        namespace std                                                                              \
-        {                                                                                          \
-            inline namespace __2                                                                   \
-            {
-
-// clang-format off
-#    define DETAIL_PHI_END_STD_NAMESPACE() } }
-// clang-format on
-#elif PHI_COMPILER_IS(APPLECLANG)
-#    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
-        namespace std                                                                              \
-        {                                                                                          \
-            inline namespace __1                                                                   \
-            {
-
-// clang-format off
-#    define DETAIL_PHI_END_STD_NAMESPACE() } }
-// clang-format on
-#else
-#    define DETAIL_PHI_BEGIN_STD_NAMESPACE()                                                       \
-        namespace std                                                                              \
-        {
-
-#    define DETAIL_PHI_END_STD_NAMESPACE() }
-#endif
-
 #if !defined(PHI_DEBUG) && (!defined(NDEBUG) || defined(_DEBUG))
 #    define PHI_DEBUG
 #endif

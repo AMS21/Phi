@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/declval.hpp"
@@ -25,11 +26,6 @@
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 #include "phi/type_traits/remove_reference.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
-#include <cstddef>
-#include <utility>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

@@ -64,6 +64,17 @@ function(phi_target_set_stdlib)
     set(visibility_scope PRIVATE)
   endif()
 
+  # Get linker language
+  get_property(
+    target_linker_language
+    TARGET ${stdlib_TARGET}
+    PROPERTY LINKER_LANGUAGE)
+
+  # We only set the C++ standard library so ignore for C targets
+  if("${target_linker_language}" STREQUAL "C")
+    return()
+  endif()
+
   # Transform library name to lower case
   string(TOLOWER ${stdlib_LIBRARY} lib)
 

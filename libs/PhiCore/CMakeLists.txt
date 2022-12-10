@@ -185,6 +185,15 @@ file(
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/types.hpp"
   "include/phi/core/voidify.hpp"
+  # forward
+  "include/phi/forward/string_view.hpp"
+  # forward/std
+  "include/phi/forward/std/allocator.hpp"
+  "include/phi/forward/std/char_traits.hpp"
+  "include/phi/forward/std/hash.hpp"
+  "include/phi/forward/std/reference_wrapper.hpp"
+  "include/phi/forward/std/string_view.hpp"
+  "include/phi/forward/std/string.hpp"
   # iterator
   "include/phi/iterator/advance.hpp"
   "include/phi/iterator/back_insert_iterator.hpp"

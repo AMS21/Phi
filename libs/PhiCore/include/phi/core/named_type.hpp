@@ -43,6 +43,7 @@ SOFTWARE.
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/address_of.hpp"
 #include "phi/core/crtp.hpp"
