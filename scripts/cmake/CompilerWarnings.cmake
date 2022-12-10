@@ -80,6 +80,8 @@ set(phi_warning_flags
     Wstack-protector
     Wstrict-aliasing=2
     Wstrict-null-sentinel
+    Wstringop-overflow=2
+    Wstringop-overread
     Wsuggest-attribute=cold
     Wsuggest-attribute=const
     Wsuggest-attribute=format
