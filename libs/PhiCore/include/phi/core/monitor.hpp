@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"
 #include "phi/core/move.hpp"
@@ -18,6 +19,10 @@
 PHI_EXTERNAL_HEADERS_BEGIN()
 #include <mutex>
 PHI_EXTERNAL_HEADERS_END()
+
+// TODO: Add annotations instead of suppressing the warnings
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wthread-safety-negative")
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -116,6 +121,8 @@ private:
     mutable element_type m_SharedData; /// the shared data
     mutable std::mutex   m_Mutex;      /// the mutex to guard access to the shared data
 };
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 
