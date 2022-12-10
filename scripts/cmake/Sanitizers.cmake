@@ -6,12 +6,9 @@ include(internal/PhiCheckCXXCompilerFlag)
 
 # https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
 # https://clang.llvm.org/docs/AddressSanitizer.html
-# https://clang.llvm.org/docs/DataFlowSanitizer.html
-# https://clang.llvm.org/docs/LeakSanitizer.html
-# https://clang.llvm.org/docs/MemorySanitizer.html
-# https://clang.llvm.org/docs/SafeStack.html
-# https://clang.llvm.org/docs/ShadowCallStack.html
-# https://clang.llvm.org/docs/ThreadSanitizer.html
+# https://clang.llvm.org/docs/DataFlowSanitizer.html https://clang.llvm.org/docs/LeakSanitizer.html
+# https://clang.llvm.org/docs/MemorySanitizer.html https://clang.llvm.org/docs/SafeStack.html
+# https://clang.llvm.org/docs/ShadowCallStack.html https://clang.llvm.org/docs/ThreadSanitizer.html
 # https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
 
 set(PHI_SANITIZER_OPTIONS
