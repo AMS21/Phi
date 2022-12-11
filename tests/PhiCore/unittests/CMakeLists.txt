@@ -28,6 +28,7 @@ file(
   "src/compiler_support/inline.test.cpp"
   "src/compiler_support/likely.test.cpp"
   "src/compiler_support/platform.test.cpp"
+  "src/compiler_support/standard_library.test.cpp"
   "src/compiler_support/unreachable.test.cpp"
   "src/compiler_support/warning.test.cpp"
   # container
