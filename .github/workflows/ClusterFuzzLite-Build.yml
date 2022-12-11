@@ -23,10 +23,10 @@ jobs:
     fail-fast: false
     matrix:
       sanitizer:
-        - address
-        - memory
-        - thread
-        - undefined
+      - address
+      - memory
+      - thread
+      - undefined
 
   steps:
   - name: Build Fuzzers (${{ matrix.sanitizer }})
