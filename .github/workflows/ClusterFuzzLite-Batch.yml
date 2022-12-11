@@ -9,6 +9,9 @@ on:
     branches:
       - main
       - develop
+  release:
+    types: [published]
+  workflow_dispatch:
 
 permissions: read-all
 
@@ -19,12 +22,13 @@ jobs:
 
     strategy:
       fail-fast: false
+
       matrix:
         sanitizer:
-        - address
-        - memory
-        - thread
-        - undefined
+          - address
+          - memory
+          - thread
+          - undefined
 
     steps:
     - name: Build Fuzzers (${{ matrix.sanitizer }})
