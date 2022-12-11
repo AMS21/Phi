@@ -1,0 +1,19 @@
+#!/bin/bash -eu
+
+# Create build directory
+mkdir -p build
+cd build || exit 1
+
+# Configure cmake
+cmake .. -G Ninja \
+    -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" \
+    -DCMAKE_C_FLAGS="${CFLAGS} -DPHI_CONFIG_ENABLE_ASSERTIONS" -DCMAKE_CXX_FLAGS="${CXXFLAGS} -DPHI_CONFIG_ENABLE_ASSERTIONS" \
+    -DPHI_FUZZING_LIBRARY:STRING="${LIB_FUZZING_ENGINE}" \
+    -DPHI_AUTO_FORMATTING:BOOL=OFF -DPHI_BUILD_TESTS:BOOL=ON -DPHI_BUILD_EXAMPLES:BOOL=OFF -DPHI_BUILD_DOCS:BOOL=OFF -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DPHI_TEST_RUNTIME_FAILURES:BOOL=OFF \
+    -DPHI_ENABLE_LTO:BOOL=ON
+
+# Build fuzzers
+ninja tests/fuzzing/all
+
+# Copy fuzzers to out
+cp bin/* "${OUT}/"
