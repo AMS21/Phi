@@ -27,7 +27,6 @@ jobs:
         sanitizer:
           - address
           - memory
-          - thread
           - undefined
 
     steps:
