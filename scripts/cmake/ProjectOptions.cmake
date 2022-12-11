@@ -16,12 +16,13 @@ include(Sanitizers)
 include(Standard)
 include(StandardLibrary)
 include(StaticAnalyzers)
+include(Fuzzing)
 
 #
 function(phi_configure_project)
   # Command line arguments
   set(CMD_OPTIONS
-      "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;LTO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI"
+      "NO_COMMON;TIME_TRACE;DEBUG_FLAGS;LTO;OPTIMIZATION_FLAGS;WARNINGS;WARNINGS_AS_ERRORS;PEDANTIC;COVERAGE;FPM_FAST;FPM_PRECISE;NO_EXCEPTIONS;UNITY_BUILD;CXX_EXTENSIONS;NO_RTTI;FUZZING_BUILD"
   )
   set(CMD_ONE_VALUE "PSO;STANDARD;EXTERNAL;STANDARD_LIBRARY")
   set(CMD_MULTI_VALUE "SANITIZER;STATIC_ANALYZERS")
@@ -146,6 +147,11 @@ function(phi_configure_project)
     # No exceptions
     if(conf_NO_EXCEPTIONS)
       phi_target_disable_exceptions(TARGET ${target})
+    endif()
+
+    # Fuzzing build
+    if(conf_FUZZING_BUILD)
+      phi_target_enable_fuzzing_flags(TARGET ${target})
     endif()
 
     # Unity build

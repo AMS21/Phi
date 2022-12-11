@@ -70,6 +70,7 @@ option(PHI_ENABLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 option(PHI_TEST_SPLIT_FILES "Split unittest files into multiple executables" ${PHI_COMPILER_EMCC})
 option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
+option(PHI_FUZZING_BUILD "Enable specific flags usefull for fuzzing" OFF)
 
 phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
            STRING "Dynamic")
@@ -91,6 +92,9 @@ set_property(
 
 option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
 phi_option(PHI_ARCH "Optimization target for platform specific optimization" STRING "native")
+
+phi_option(PHI_FUZZING_LIBRARY "The fuzzing library to use (use default to let phi figure it out)"
+           STRING "default")
 
 # CI Builds Settings
 if(${PHI_CI_BUILD} AND ${PHI_MAIN_PROJECT})
@@ -209,6 +213,10 @@ endif()
 
 if(PHI_ENABLE_LTO)
   list(APPEND configure_options LTO)
+endif()
+
+if(PHI_FUZZING_BUILD)
+  list(APPEND configure_options FUZZING_BUILD)
 endif()
 
 # Configure static analyzers
