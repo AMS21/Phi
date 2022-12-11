@@ -11,14 +11,14 @@ on:
 
 permissions: read-all
 
-concurrency:
-  group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   Build:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
+      cancel-in-progress: true
 
     strategy:
       fail-fast: false
