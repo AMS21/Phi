@@ -15,24 +15,24 @@ jobs:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
-   concurrency:
-     group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
-     cancel-in-progress: true
+  concurrency:
+    group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
+    cancel-in-progress: true
 
-   strategy:
-     fail-fast: false
-     matrix:
-        sanitizer:
+  strategy:
+    fail-fast: false
+    matrix:
+      sanitizer:
         - address
         - memory
         - thread
         - undefined
 
-   steps:
-   - name: Build Fuzzers (${{ matrix.sanitizer }})
-     id: build
-     uses: google/clusterfuzzlite/actions/build_fuzzers@v1
-     with:
-        language: c++ # Change this to the language you are fuzzing.
-        sanitizer: ${{ matrix.sanitizer }}
-        upload-build: true
+  steps:
+  - name: Build Fuzzers (${{ matrix.sanitizer }})
+    id: build
+    uses: google/clusterfuzzlite/actions/build_fuzzers@v1
+    with:
+      language: c++ # Change this to the language you are fuzzing.
+      sanitizer: ${{ matrix.sanitizer }}
+      upload-build: true

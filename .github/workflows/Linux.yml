@@ -113,7 +113,7 @@ jobs:
           name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}
           fail_ci_if_error: true
 
-clang-libcxx:
+  clang-libcxx:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: 'ubuntu-20.04'
 

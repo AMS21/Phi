@@ -29,7 +29,7 @@ jobs:
         mode: 'prune'
         # Optional but recommended.
         # See later section on "Git repo for storage".
-        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/AMS21/phi-corpus.git
+        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/phi-corpus.git
         storage-repo-branch: main   # Optional. Defaults to "main"
         storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
 
@@ -55,6 +55,6 @@ jobs:
         sanitizer: 'coverage'
         # Optional but recommended.
         # See later section on "Git repo for storage".
-        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/AMS21/phi-corpus.git
+        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/phi-corpus.git
         storage-repo-branch: main   # Optional. Defaults to "main"
         storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
