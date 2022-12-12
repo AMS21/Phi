@@ -211,23 +211,24 @@ function(phi_target_enable_optimizations)
     endif()
 
     if(opt_LTO)
-      if(${_phi_opt_lto_flag} STREQUAL "")
+      if("${_phi_opt_lto_flag}" STREQUAL "")
         phi_warn("Requested LTO but no supported flags where found")
+      else()
+        # Disable LTO from CMake
+        set_target_properties(${opt_TARGET} PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
+
+        # Set LTO flag
+        target_compile_options(${opt_TARGET} ${visibility_scope}
+                               $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
+        target_link_options(${opt_TARGET} ${visibility_scope}
+                            $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
+
+        # Enable LTO specifc optimizations
+        foreach(flag ${_phi_opt_lto_extra_supported})
+          target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$  {flag}>)
+          target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$  {flag}>)
+        endforeach()
       endif()
-      # Disable LTO from CMake
-      set_target_properties(${opt_TARGET} PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
-
-      # Set LTO flag
-      target_compile_options(${opt_TARGET} ${visibility_scope}
-                             $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
-      target_link_options(${opt_TARGET} ${visibility_scope}
-                          $<$<CONFIG:${config}>:${_phi_opt_lto_flag}>)
-
-      # Enable LTO specifc optimizations
-      foreach(flag ${_phi_opt_lto_extra_supported})
-        target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-        target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-      endforeach()
     endif()
 
     # Optionally enable Platform specifc optimizations
