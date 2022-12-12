@@ -14,10 +14,7 @@
 #include <phi/type_traits/is_copy_constructible.hpp>
 #include <phi/type_traits/is_nothrow_swappable.hpp>
 #include <phi/type_traits/is_swappable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstdint>
-PHI_EXTERNAL_HEADERS_END()
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunreachable-code")

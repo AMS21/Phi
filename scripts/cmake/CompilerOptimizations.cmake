@@ -225,8 +225,8 @@ function(phi_target_enable_optimizations)
 
         # Enable LTO specifc optimizations
         foreach(flag ${_phi_opt_lto_extra_supported})
-          target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$  {flag}>)
-          target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$  {flag}>)
+          target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$ {flag}>)
+          target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$ {flag}>)
         endforeach()
       endif()
     endif()

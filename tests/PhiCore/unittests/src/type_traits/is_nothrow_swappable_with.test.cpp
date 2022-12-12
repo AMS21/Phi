@@ -2,10 +2,7 @@
 
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")

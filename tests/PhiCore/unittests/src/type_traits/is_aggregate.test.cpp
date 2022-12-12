@@ -10,11 +10,8 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_aggregate.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 // TODO: No idea why gcc thinks some types here are aggregate although they aren't
 

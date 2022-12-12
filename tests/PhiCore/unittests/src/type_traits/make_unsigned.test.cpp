@@ -9,11 +9,8 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/conditional.hpp>
 #include <phi/type_traits/make_unsigned.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstdint>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, typename ExpectedT = TypeT>
 void test_make_unsigned_impl()

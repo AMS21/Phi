@@ -10,11 +10,8 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_copy_constructible.hpp>
 #include <phi/type_traits/is_nothrow_copy_constructible.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_nothrow_copy_constructible_impl()

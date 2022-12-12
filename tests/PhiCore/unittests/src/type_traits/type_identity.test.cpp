@@ -8,10 +8,7 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/type_identity.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_type_identity()

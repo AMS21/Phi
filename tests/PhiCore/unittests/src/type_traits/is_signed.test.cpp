@@ -11,11 +11,8 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 struct A; // incomplete
 

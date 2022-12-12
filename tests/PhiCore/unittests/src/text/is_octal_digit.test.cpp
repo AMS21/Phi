@@ -1,10 +1,7 @@
 #include "phi/test/test_macros.hpp"
 
 #include <phi/text/is_octal_digit.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
-PHI_EXTERNAL_HEADERS_END()
 
 void test_is_octal_digit(const char character) noexcept
 {

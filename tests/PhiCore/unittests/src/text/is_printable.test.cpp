@@ -1,10 +1,7 @@
 #include "phi/test/test_macros.hpp"
 
 #include <phi/text/is_printable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
-PHI_EXTERNAL_HEADERS_END()
 
 void test_is_printable(const char character) noexcept
 {

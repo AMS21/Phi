@@ -4,11 +4,8 @@
 #include <phi/type_traits/is_integral.hpp>
 #include <phi/type_traits/is_signed.hpp>
 #include <phi/type_traits/is_unsigned.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstddef> // std::size_t
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("size_t")
 {

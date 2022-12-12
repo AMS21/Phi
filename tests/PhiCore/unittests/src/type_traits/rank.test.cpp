@@ -9,11 +9,8 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/rank.hpp>
 #include <phi/type_traits/remove_all_extents.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, unsigned Expected>
 void test_rank_impl()

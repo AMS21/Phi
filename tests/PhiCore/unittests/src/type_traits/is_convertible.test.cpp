@@ -3,10 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/type_traits/is_convertible.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 // TODO: A bunch of tests here don't work correctly with MSVC
 

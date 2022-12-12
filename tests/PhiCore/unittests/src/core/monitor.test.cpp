@@ -6,12 +6,9 @@
 #include <phi/core/forward.hpp>
 #include <phi/core/monitor.hpp>
 #include <phi/core/size_t.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <thread>
 #include <utility>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")

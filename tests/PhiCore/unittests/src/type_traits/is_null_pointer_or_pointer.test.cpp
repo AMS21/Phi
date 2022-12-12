@@ -8,12 +8,9 @@
 #include <phi/type_traits/is_null_pointer.hpp>
 #include <phi/type_traits/is_null_pointer_or_pointer.hpp>
 #include <phi/type_traits/is_pointer.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cstddef> // std::nullptr_t
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_null_pointer_or_pointer_impl()

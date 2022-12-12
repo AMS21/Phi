@@ -2,10 +2,7 @@
 
 #include "type_traits_helper.hpp"
 #include <phi/type_traits/is_base_of.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 // NOTE: emscripten before 1.39.0 have problems with incomplete unions
 

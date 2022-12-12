@@ -46,13 +46,18 @@ TEST_CASE("PHI_CONSTEVAL_OR")
 #endif
 }
 
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4003) // not enough actual parameters for macro 'identifier' - https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4003
+
 TEST_CASE("PHI_CONSTEVAL_IF")
 {
 #if PHI_HAS_FEATURE_CONSTEVAL()
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEVAL_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEVAL_IF(0)), ""));
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEVAL_IF(1)), "consteval"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEVAL_IF(0)), ""));
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEVAL_IF(1)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEVAL_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEVAL_IF(1)), ""));
 #endif
 }
+
+PHI_MSVC_SUPPRESS_WARNING_POP()

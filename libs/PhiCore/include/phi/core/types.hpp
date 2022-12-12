@@ -47,10 +47,7 @@ SOFTWARE.
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/is_unsigned.hpp"
 #include "phi/type_traits/make_signed.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <limits>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

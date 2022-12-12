@@ -44,12 +44,9 @@ SOFTWARE.
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_unsafe_floating_point.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cmath>
 #include <iosfwd>
 #include <limits>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

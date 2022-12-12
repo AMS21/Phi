@@ -9,16 +9,12 @@
 #include <phi/core/move.hpp>
 #include <phi/core/types.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <limits>
 #include <utility>
 
 #if PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
 #endif
-
-PHI_EXTERNAL_HEADERS_END()
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")

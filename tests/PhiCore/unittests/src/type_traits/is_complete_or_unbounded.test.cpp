@@ -9,10 +9,7 @@
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_complete_or_unbounded.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_complete_or_unbounded_impl()

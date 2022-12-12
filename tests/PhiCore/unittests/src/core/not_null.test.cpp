@@ -1,10 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/core/not_null.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <memory>
-PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("NotNull", "[Core][NotNull]")
 {

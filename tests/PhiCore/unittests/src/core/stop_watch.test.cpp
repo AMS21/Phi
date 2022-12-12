@@ -1,12 +1,9 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/core/stop_watch.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <chrono>
 #include <ratio>
 #include <thread>
-PHI_EXTERNAL_HEADERS_END()
 
 TEST_CASE("stop_watch", "[Core][stop_watch]")
 {

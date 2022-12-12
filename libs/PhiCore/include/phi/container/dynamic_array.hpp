@@ -14,10 +14,7 @@
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
 #include "phi/iterator/reverse_iterator.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <new>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

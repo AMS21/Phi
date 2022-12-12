@@ -37,8 +37,6 @@ SOFTWARE.
 #include <phi/type_traits/is_default_constructible.hpp>
 #include <phi/type_traits/is_nothrow_constructible.hpp>
 #include <phi/type_traits/is_trivially_constructible.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cmath>
 #include <iomanip>
 #include <iostream>
@@ -47,7 +45,6 @@ PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 #if PHI_SUPPORTS_ADDRESS_OF() || PHI_SUPPORTS_IS_UNION()
 #    define STATIC_REQUIRE_ADR(...) EXT_STATIC_REQUIRE(__VA_ARGS__)

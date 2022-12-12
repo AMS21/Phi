@@ -3,10 +3,7 @@
 #include "test_types.hpp"
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/type_traits/has_unique_object_representations.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_has_unique_object_representations_impl()

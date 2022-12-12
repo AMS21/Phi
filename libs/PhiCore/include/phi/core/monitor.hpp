@@ -15,10 +15,7 @@
 #include "phi/core/invoke.hpp"
 #include "phi/core/move.hpp"
 #include "phi/type_traits/is_nothrow_invocable.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <mutex>
-PHI_EXTERNAL_HEADERS_END()
 
 // TODO: Add annotations instead of suppressing the warnings
 PHI_CLANG_SUPPRESS_WARNING_PUSH()

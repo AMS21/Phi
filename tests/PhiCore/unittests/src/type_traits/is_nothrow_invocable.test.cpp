@@ -9,11 +9,8 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 #include <phi/type_traits/is_invocable.hpp>
 #include <phi/type_traits/is_nothrow_invocable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 struct Tag
 {};

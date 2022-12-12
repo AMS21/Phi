@@ -1,10 +1,7 @@
 #include "phi/test/test_macros.hpp"
 
 #include <phi/text/to_upper_case.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cctype>
-PHI_EXTERNAL_HEADERS_END()
 
 void test_to_upper_case(char original, char expected)
 {

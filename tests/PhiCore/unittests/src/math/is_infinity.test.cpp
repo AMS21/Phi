@@ -6,12 +6,9 @@
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/math/is_infinity.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cfloat>
 #include <cmath>
 #include <limits>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_infinity(TypeT val)

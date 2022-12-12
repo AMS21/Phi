@@ -50,11 +50,8 @@ SOFTWARE.
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/is_unsafe_integer.hpp"
 #include "phi/type_traits/is_unsigned.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <iosfwd>
 #include <limits>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

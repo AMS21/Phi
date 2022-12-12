@@ -7,9 +7,7 @@
 #    pragma once
 #endif
 
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <iosfwd>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

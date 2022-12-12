@@ -4,11 +4,8 @@
 #include <phi/core/types.hpp>
 #include <phi/type_traits/is_safe_integer.hpp>
 #include <phi/type_traits/is_signed.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <climits>
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 #define SIZE_IN_BITS(type) (sizeof(type) * CHAR_BIT)
 

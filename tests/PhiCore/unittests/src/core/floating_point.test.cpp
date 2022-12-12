@@ -34,14 +34,11 @@ SOFTWARE.
 #include <phi/type_traits/is_nothrow_constructible.hpp>
 #include <phi/type_traits/is_standard_layout.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <cfloat>
 #include <cmath>
 #include <functional>
 #include <sstream>
 #include <string>
-PHI_EXTERNAL_HEADERS_END()
 
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
     (phi::is_nothrow_constructible<lhs, rhs>::value && phi::is_nothrow_assignable<lhs, rhs>::value)

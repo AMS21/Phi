@@ -9,10 +9,7 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/type_traits/is_safe_bool.hpp>
 #include <phi/type_traits/make_safe.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 struct A; // incomplete
 

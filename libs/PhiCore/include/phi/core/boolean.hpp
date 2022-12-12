@@ -40,13 +40,10 @@ SOFTWARE.
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_bool.hpp"
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <functional>
 #include <iosfwd>
 #include <limits>
 #include <utility>
-PHI_EXTERNAL_HEADERS_END()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

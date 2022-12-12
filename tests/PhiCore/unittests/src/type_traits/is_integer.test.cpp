@@ -9,10 +9,7 @@
 #include <phi/core/scope_ptr.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_integer.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 struct A; // incomplete
 

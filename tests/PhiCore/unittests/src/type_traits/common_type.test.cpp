@@ -5,10 +5,7 @@
 #include <phi/type_traits/decay.hpp>
 #include <phi/type_traits/is_same.hpp>
 #include <phi/type_traits/void_t.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, typename ExpectedT>
 void test_common_type()

@@ -33,11 +33,8 @@
 #include <phi/type_traits/is_union.hpp>
 #include <phi/type_traits/is_void.hpp>
 #include <phi/type_traits/remove_reference.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
 #include <vector>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT>
 void test_is_rvalue_reference_impl()

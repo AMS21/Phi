@@ -3,13 +3,17 @@
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/preprocessor/stringify.hpp>
+#include <phi/compiler_support/warning.hpp>
+
+PHI_MSVC_SUPPRESS_WARNING_PUSH()
+PHI_MSVC_SUPPRESS_WARNING(4003) // not enough actual parameters for macro 'identifier' - https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4003
 
 TEST_CASE("PHI_CONSTEXPR")
 {
 #if PHI_HAS_FEATURE_CONSTEXPR()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR), ""));
 #endif
 }
 
@@ -52,11 +56,11 @@ TEST_CASE("PHI_CONSTEXPR_OR")
 TEST_CASE("PHI_CONSTEXPR_IF")
 {
 #if PHI_HAS_FEATURE_CONSTEXPR()
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_IF(0)), ""));
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_IF(1)), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_IF(0)), ""));
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_IF(1)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_IF(1)), ""));
 #endif
 }
 
@@ -110,11 +114,11 @@ TEST_CASE("PHI_EXTENDED_CONSTEXPR_OR")
 TEST_CASE("PHI_EXTENDED_CONSTEXPR_IF")
 {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(0)), ""));
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(1)), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(0)), ""));
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(1)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(0)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_IF(1)), ""));
 #endif
 }
 
@@ -125,7 +129,7 @@ TEST_CASE("PHI_CONSTEXPR_AND_CONST")
 #elif PHI_HAS_FEATUREE_CONSTEXPR()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_AND_CONST), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_AND_CONST), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_AND_CONST), ""));
 #endif
 }
 
@@ -147,10 +151,10 @@ TEST_CASE("PHI_EXTENDED_CONSTEXPR_AND_CONST")
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     STATIC_REQUIRE(
             phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_AND_CONST), "constexpr const"));
-#elif PHI_HAS_FEATUREE_CONSTEXPR()
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_AND_CONST), ""));
+#elif PHI_HAS_FEATURE_CONSTEXPR()
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_AND_CONST), ""));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_AND_CONST), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_EXTENDED_CONSTEXPR_AND_CONST), ""));
 #endif
 }
 
@@ -173,7 +177,7 @@ TEST_CASE("PHI_CONSTEXPR_LAMBDA")
 #if PHI_HAS_FEATURE_CONSTEXPR_LAMBDA()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_LAMBDA), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_LAMBDA), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_LAMBDA), ""));
 #endif
 }
 
@@ -182,7 +186,7 @@ TEST_CASE("PHI_CONSTEXPR_VIRTUAL")
 #if PHI_HAS_FEATURE_CONSTEXPR_VIRTUAL()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_VIRTUAL), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_VIRTUAL), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_VIRTUAL), ""));
 #endif
 }
 
@@ -191,6 +195,8 @@ TEST_CASE("PHI_CONSTEXPR_DESTRUCTOR")
 #if PHI_HAS_FEATURE_CONSTEXPR_DESTRUCTOR()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_DESTRUCTOR), "constexpr"));
 #else
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_CONSTEXPR_DESTRUCTOR), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_CONSTEXPR_DESTRUCTOR), ""));
 #endif
 }
+
+PHI_MSVC_SUPPRESS_WARNING_POP()

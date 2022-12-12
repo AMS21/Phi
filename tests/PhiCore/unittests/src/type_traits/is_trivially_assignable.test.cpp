@@ -3,10 +3,7 @@
 #include "type_traits_helper.hpp"
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_trivially_assignable.hpp>
-
-PHI_EXTERNAL_HEADERS_BEGIN()
 #include <type_traits>
-PHI_EXTERNAL_HEADERS_END()
 
 template <typename TypeT, typename OtherT>
 void test_is_trivially_assignable()
