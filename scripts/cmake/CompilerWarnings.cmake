@@ -108,7 +108,7 @@ set(phi_warning_flags
     Wvolatile
     Wzero-as-null-pointer-constant)
 
-set(phi_pedantic_flags "pedantic" "pedantic-errors" "permissive-")
+set(phi_pedantic_flags pedantic pedantic-errors permissive-)
 
 set(phi_warnings_as_errors_flags "Werror" "WX")
 
@@ -401,7 +401,7 @@ function(phi_target_set_warnings)
 
   # Add optional pedantic
   if(warn_PEDANTIC)
-    target_compile_options(${warn_TARGET} ${visibility_scope} ${_PedanticAvailible})
+    target_compile_options(${warn_TARGET} ${visibility_scope} ${_phi_pedantic_flags_supported})
     target_compile_definitions(${warn_TARGET} ${visibility_scope} "PHI_CONFIG_PEDANTIC_WARNINGS")
   endif()
 
