@@ -177,16 +177,6 @@ set(phi_disabled_warnings_flags
     # GCC
     Wno-unused-function)
 
-set(phi_msvc_stl_extra_disable
-    4365 # 'action' : conversion from 'type_1' to 'type_2', signed/unsigned mismatch -
-         # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4365
-    4668 # 'symbol' is not defined as a preprocessor macro, replacing with '0' for 'directives' -
-         # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4668
-    5262 # implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]]
-         # when a break statement is intentionally omitted between cases -
-         # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
-)
-
 set(phi_check_required_flags
     Werror=unknown-attributes
     Werror=attributes
@@ -301,22 +291,6 @@ foreach(_test ${phi_disabled_warnings_flags})
   endif()
 endforeach(_test)
 
-# Extra disabled warnings for MSVC stl
-set(_phi_msvc_stl_extra_disable_supported CACHE INTERNAL "")
-if(PHI_COMPILER_MSVC)
-  foreach(_test ${phi_msvc_stl_extra_disable})
-    phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}wd${_test} "PHI_HAS_FLAG_WD${_test}")
-
-    if(PHI_HAS_FLAG_WD${_test})
-      set(_phi_msvc_stl_extra_disable_supported
-          "${_phi_msvc_stl_extra_disable_supported} ${_test}"
-          CACHE INTERNAL "")
-    endif()
-  endforeach(_test)
-endif()
-
-string(STRIP "${_phi_msvc_stl_extra_disable_supported}" _phi_msvc_stl_extra_disable_supported)
-
 # Check required flags
 set(_phi_check_required_flags CACHE INTERNAL "")
 foreach(_test ${phi_check_required_flags})
@@ -408,13 +382,5 @@ function(phi_target_set_warnings)
   if(warn_PEDANTIC)
     target_compile_options(${warn_TARGET} ${visibility_scope} ${_phi_pedantic_flags_supported})
     target_compile_definitions(${warn_TARGET} ${visibility_scope} "PHI_CONFIG_PEDANTIC_WARNINGS")
-  endif()
-
-  # Disable warnings in the msvc stl
-  if(PHI_COMPILER_MSVC)
-    target_compile_definitions(
-      ${warn_TARGET}
-      ${visibility_scope} "_STL_EXTRA_DISABLED_WARNINGS=${_phi_msvc_stl_extra_disable_supported}"
-      "_ALLOW_RTCc_IN_STL")
   endif()
 endfunction()
