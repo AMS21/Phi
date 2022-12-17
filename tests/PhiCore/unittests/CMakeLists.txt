@@ -40,7 +40,6 @@ file(
   "src/core/as_const.test.cpp"
   "src/core/assert.test.cpp"
   "src/core/boolean.test.cpp"
-  "src/core/conversion.test.cpp"
   "src/core/declval.test.cpp"
   "src/core/flat_ptr.test.cpp"
   "src/core/floating_point.test.cpp"
@@ -53,6 +52,7 @@ file(
   "src/core/move_if_noexcept.test.cpp"
   "src/core/move.test.cpp"
   "src/core/named_type.test.cpp"
+  "src/core/narrow_cast.test.cpp"
   "src/core/non_copyable.test.cpp"
   "src/core/not_null.test.cpp"
   "src/core/observer_ptr.test.cpp"
@@ -67,6 +67,7 @@ file(
   "src/core/source_location.test.cpp"
   "src/core/stop_watch.test.cpp"
   "src/core/types.test.cpp"
+  "src/core/unsafe_cast.test.cpp"
   "src/core/voidify.test.cpp"
   # forward
   "src/forward/string_view.test.cpp"

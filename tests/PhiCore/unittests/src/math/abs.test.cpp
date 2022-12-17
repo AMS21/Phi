@@ -3,9 +3,9 @@
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/warning.hpp>
-#include <phi/core/conversion.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
+#include <phi/core/unsafe_cast.hpp>
 #include <phi/math/abs.hpp>
 #include <phi/math/is_nan.hpp>
 #include <phi/type_traits/is_floating_point.hpp>

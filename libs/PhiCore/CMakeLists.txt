@@ -153,7 +153,6 @@ file(
   "include/phi/core/assert.hpp"
   "include/phi/core/boolean.hpp"
   "include/phi/core/byte.hpp"
-  "include/phi/core/conversion.hpp"
   "include/phi/core/crtp.hpp"
   "include/phi/core/declval.hpp"
   "include/phi/core/error_or.hpp"
@@ -168,6 +167,7 @@ file(
   "include/phi/core/move_if_noexcept.hpp"
   "include/phi/core/move.hpp"
   "include/phi/core/named_type.hpp"
+  "include/phi/core/narrow_cast.hpp"
   "include/phi/core/non_copyable.hpp"
   "include/phi/core/not_null.hpp"
   "include/phi/core/nullptr_t.hpp"
@@ -184,6 +184,7 @@ file(
   "include/phi/core/source_location.hpp"
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/types.hpp"
+  "include/phi/core/unsafe_cast.hpp"
   "include/phi/core/voidify.hpp"
   # forward
   "include/phi/forward/string_view.hpp"

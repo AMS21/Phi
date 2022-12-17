@@ -1,9 +1,9 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/char8_t.hpp>
-#include <phi/core/conversion.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
+#include <phi/core/unsafe_cast.hpp>
 #include <phi/math/signum.hpp>
 #include <cstdint>
 #include <limits>

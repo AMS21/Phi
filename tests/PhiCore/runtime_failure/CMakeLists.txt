@@ -93,6 +93,11 @@ runtime_failure_test(NAME "core_flat_ptr_release_from_nullptr" SOURCE
 runtime_failure_test(NAME "core_flat_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/flat_ptr/not_null_assign_nullptr.fail.cpp")
 
+# narrow_cast
+runtime_failure_test(NAME "core_narrow_cast_invalid" SOURCE "src/core/narrow_cast/invalid.fail.cpp")
+runtime_failure_test(NAME "core_narrow_cast_invalid2" SOURCE
+                     "src/core/narrow_cast/invalid2.fail.cpp")
+
 # observer_ptr
 runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
