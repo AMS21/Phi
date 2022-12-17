@@ -178,6 +178,7 @@ set(phi_disabled_warnings_flags
     Wno-unused-function)
 
 set(phi_msvc_stl_extra_disable
+    4365 # 'action' : conversion from 'type_1' to 'type_2', signed/unsigned mismatch - https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4365
     4668 # 'symbol' is not defined as a preprocessor macro, replacing with '0' for 'directives' -
          # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4668
     5262 # implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]]
