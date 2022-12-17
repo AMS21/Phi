@@ -127,38 +127,38 @@ namespace detail
             conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_addition_error(
+            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs > std::numeric_limits<TypeT>::max() - rhs :
                                 lhs < std::numeric_limits<TypeT>::min() - rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_addition_error(
+            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return std::numeric_limits<TypeT>::max() - rhs < lhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_subtraction_error(
+            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs < std::numeric_limits<TypeT>::min() + rhs :
                                 lhs > std::numeric_limits<TypeT>::max() + rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag /*tag*/, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_subtraction_error(
+            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return lhs < rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag /*tag*/,
-                                                               TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_multiplication_error(
+            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return lhs > TypeT(0) ?
                        (rhs > TypeT(0) ?
@@ -172,28 +172,29 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag /*tag*/,
-                                                               TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_multiplication_error(
+            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return rhs != TypeT(0) && lhs > std::numeric_limits<TypeT>::max() / rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_division_error(
+            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
     {
         return rhs == TypeT(0) || (rhs == TypeT(-1) && lhs == std::numeric_limits<TypeT>::min());
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag /*tag*/,
-                                                         TypeT /*lhs*/, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_division_error(
+            unsigned_integer_tag /*tag*/, TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(TypeT /*lhs*/, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_modulo_error(TypeT /*lhs*/,
+                                                                          TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
