@@ -62,9 +62,7 @@ endforeach(_test)
 # Extra debug flags which can ONLY be enabled with debug builds
 set(phi_extra_debug_only_flags
     # https://learn.microsoft.com/cpp/build/reference/rtc-run-time-error-checks
-    RTCc
-    RTCsu
-    )
+    RTCc RTCsu)
 
 # Check extra debug flags
 set(_phi_extra_debug_only_flags_supported CACHE INTERNAL "")
@@ -125,7 +123,7 @@ function(phi_target_enable_extra_debug_flags)
 
   # Enable extra debug flags for each configuration
   foreach(config ${dbg_CONFIGS})
-    if (${config} STREQUAL "Debug")
+    if("${config}" STREQUAL "Debug")
       foreach(flag ${_phi_extra_debug_only_flags_supported})
         target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         target_link_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)

@@ -2,11 +2,12 @@
 
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/compiler_support/constexpr.hpp>
-#include <phi/preprocessor/stringify.hpp>
 #include <phi/compiler_support/warning.hpp>
+#include <phi/preprocessor/stringify.hpp>
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
-PHI_MSVC_SUPPRESS_WARNING(4003) // not enough actual parameters for macro 'identifier' - https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4003
+PHI_MSVC_SUPPRESS_WARNING(
+        4003) // not enough actual parameters for macro 'identifier' - https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4003
 
 TEST_CASE("PHI_CONSTEXPR")
 {

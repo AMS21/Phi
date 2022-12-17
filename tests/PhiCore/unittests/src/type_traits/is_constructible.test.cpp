@@ -270,7 +270,7 @@ TEST_CASE("is_constructible")
 #if PHI_COMPILER_IS(CLANG_COMPAT)
     test_is_not_constructible<derived const&, base const&>();
     test_is_not_constructible<derived const&, base>();
-    #else
+#else
     SKIP_CHECK();
 #endif
 
