@@ -242,9 +242,14 @@ TEST_CASE("is_default_constructible")
 #endif
     test_is_default_constructible<final_type>();
     test_is_default_constructible<public_destructor>();
+#if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_default_constructible<protected_destructor>();
     test_is_not_default_constructible<private_destructor>();
+#else
+    SKIP_CHECK();
+#endif
     test_is_default_constructible<virtual_public_destructor>();
+#if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_default_constructible<virtual_protected_destructor>();
     test_is_not_default_constructible<virtual_private_destructor>();
     test_is_not_default_constructible<pure_public_destructor>();
@@ -256,6 +261,9 @@ TEST_CASE("is_default_constructible")
     test_is_not_default_constructible<deleted_virtual_public_destructor>();
     test_is_not_default_constructible<deleted_virtual_protected_destructor>();
     test_is_not_default_constructible<deleted_virtual_private_destructor>();
+#else
+    SKIP_CHECK();
+#endif
     test_is_default_constructible<Enum>();
     test_is_default_constructible<EnumSigned>();
     test_is_default_constructible<EnumUnsigned>();

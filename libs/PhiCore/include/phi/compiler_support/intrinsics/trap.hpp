@@ -14,7 +14,7 @@
 #        define PHI_TRAP()          __builtin_trap()
 #        define PHI_SUPPORTS_TRAP() 1
 #    elif PHI_HAS_EXTENSION_FASTFAIL()
-// https://docs.microsoft.com/en-us/cpp/intrinsics/fastfail
+// https://learn.microsoft.com/cpp/intrinsics/fastfail
 extern "C" void __fastfail(unsigned int);
 #        define PHI_TRAP()          __fastfail(0);
 #        define PHI_SUPPORTS_TRAP() 1

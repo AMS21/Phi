@@ -37,9 +37,30 @@ set(phi_opt_compile_flags
     ftree-loop-im
     ftree-loop-ivcanon
     # MSVC
-    Oi
-    Ot
-    GT)
+    Og # Deprecated Global Optimizations -
+       # https://learn.microsoft.com/cpp/build/reference/og-global-optimizations
+    Ob3 # Inline Function Expansion -
+        # https://learn.microsoft.com/cpp/build/reference/ob-inline-function-expansion
+    Oi # Generate Intrinsic Functions -
+       # https://learn.microsoft.com/cpp/build/reference/oi-generate-intrinsic-functions
+    Ot # Favor Fast Code -
+       # https://learn.microsoft.com/cpp/build/reference/os-ot-favor-small-code-favor-fast-code
+    Oy # Frame-Pointer Omission -
+       # https://learn.microsoft.com/cpp/build/reference/oy-frame-pointer-omission
+    GT # Fiber-Safe Optimizations -
+       # https://learn.microsoft.com/cpp/build/reference/gt-support-fiber-safe-thread-local-storage
+    GF # Eliminate Duplicate Strings / String pooling -
+       # https://learn.microsoft.com/cpp/build/reference/gf-eliminate-duplicate-strings
+    Gw # Optimize Global Data -
+       # https://learn.microsoft.com/cpp/build/reference/gw-optimize-global-data
+    Gy # Function-Level Linking -
+       # https://learn.microsoft.com/cpp/build/reference/gy-enable-function-level-linking
+    Qpar # Auto-parallelizer -
+         # https://learn.microsoft.com/cpp/build/reference/qpar-auto-parallelizer
+    Qimprecise_fwaits # Remove fwaits Inside Try Blocks -
+                      # https://learn.microsoft.com/cpp/build/reference/qimprecise-fwaits-remove-fwaits-inside-try-blocks
+    QIntel-jcc-erratum # https://learn.microsoft.com/cpp/build/reference/qintel-jcc-erratum
+)
 
 # Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
 if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
@@ -92,7 +113,7 @@ endforeach(_test)
 # https://llvm.org/docs/LinkTimeOptimization.html
 # https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 # https://gcc.gnu.org/wiki/LinkTimeOptimization
-# https://learn.microsoft.com/en-us/cpp/build/reference/ltcg-link-time-code-generation
+# https://learn.microsoft.com/cpp/build/reference/ltcg-link-time-code-generation
 set(phi_lto_flags flto=full flto=thin flto=${PHI_PROCESSOR_COUNT} flto LTCG)
 
 # Check LTO support
@@ -128,8 +149,15 @@ set(phi_extra_lto_flags
     CACHE INTERNAL "")
 
 # LTO specific optimizations
-set(phi_lto_opt fipa-pta fwhole-program fwhole-program-vtables fdevirtualize-at-ltrans
-                fvirtual-function-elimination)
+set(phi_lto_opt
+    fipa-pta
+    fwhole-program
+    fwhole-program-vtables
+    fdevirtualize-at-ltrans
+    fvirtual-function-elimination
+    GL # Whole Program Optimizations -
+       # https://learn.microsoft.com/cpp/build/reference/gl-whole-program-optimization
+)
 
 # Check LTO specific optimizations
 set(old_flags ${CMAKE_REQUIRED_FLAGS})

@@ -4,7 +4,7 @@ include(CMakeParseArguments)
 
 # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
 # https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-frtti
-# https://learn.microsoft.com/en-us/cpp/build/reference/gr-enable-run-time-type-information
+# https://learn.microsoft.com/cpp/build/reference/gr-enable-run-time-type-information
 set(phi_no_rtti_flags
     fno-rtti
     # MSVC

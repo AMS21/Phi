@@ -15,7 +15,18 @@ set(phi_common_flags
     fmacro-backtrace-limit=0
     fms-extensions
     fstrong-eval-order
-    pipe)
+    pipe
+    MP # https://learn.microsoft.com/cpp/build/reference/mp-build-with-multiple-processes
+    Zc:preprocessor # https://learn.microsoft.com/cpp/build/reference/zc-preprocessor
+    Zc:__cplusplus # https://learn.microsoft.com/cpp/build/reference/zc-cplusplus
+    Zc:char8_t # https://learn.microsoft.com/cpp/build/reference/zc-char8-t
+    Zc:rvalueCast # https://learn.microsoft.com/cpp/build/reference/zc-rvaluecast-enforce-type-conversion-rules
+    # https://learn.microsoft.com/cpp/build/reference/external-external-headers-diagnostics
+    experimental:external
+    external:W0
+    external:anglebrackets
+    analyze:external- # https://learn.microsoft.com/cpp/build/reference/analyze-code-analysis
+)
 
 # common useful cxx flags
 set(phi_common_cxx_only_flags faligned-new fsized-deallocation fchar8_t fconcepts fcoroutines)

@@ -64,6 +64,7 @@ set(phi_warning_flags
     Wnull-dereference # warn if a null dereference is detected
     Wold-style-cast # warn for c-style casts
     Woverloaded-virtual # warn if you overload (not override) a virtual function
+    Wp64 # https://learn.microsoft.com/cpp/build/reference/wp64-detect-64-bit-portability-issues
     Wpedantic # warn if non-standard C++ is used
     Wplacement-new=2
     Wpointer-arith
@@ -148,12 +149,12 @@ set(phi_disabled_warnings_flags
     # compiler generated copy/move constructors and copy/move assignment operators are not trivial
     wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a
            # case label -
-           # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
+           # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
     wd4868 # 'file(line_number)' compiler may not enforce left-to-right evaluation order in braced
            # initializer list -
-           # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-c4868
+           # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-c4868
     wd5264 # 'variable-name': 'const' variable is not used -
-           # https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
+           # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
     Wno-constexpr-not-const
     Wno-c++1y-extensions
     Wno-c++1z-extensions
@@ -187,7 +188,7 @@ set(phi_msvc_stl_extra_disable
 set(phi_check_required_flags
     Werror=unknown-attributes
     Werror=attributes
-    # https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c4800-through-c4999
+    # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-c4800-through-c4999
     # "attribute 'attribute-name' is not recognized"
     we5030)
 
@@ -312,6 +313,8 @@ if(PHI_COMPILER_MSVC)
   endforeach(_test)
 endif()
 
+string(STRIP "${_phi_msvc_stl_extra_disable_supported}" _phi_msvc_stl_extra_disable_supported)
+
 # Check required flags
 set(_phi_check_required_flags CACHE INTERNAL "")
 foreach(_test ${phi_check_required_flags})
@@ -408,7 +411,8 @@ function(phi_target_set_warnings)
   # Disable warnings in the msvc stl
   if(PHI_COMPILER_MSVC)
     target_compile_definitions(
-      ${warn_TARGET} ${visibility_scope}
-                     "_STL_EXTRA_DISABLED_WARNINGS=${_phi_msvc_stl_extra_disable_supported}")
+      ${warn_TARGET}
+      ${visibility_scope} "_STL_EXTRA_DISABLED_WARNINGS=${_phi_msvc_stl_extra_disable_supported}"
+      "_ALLOW_RTCc_IN_STL")
   endif()
 endfunction()

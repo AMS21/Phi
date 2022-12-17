@@ -279,7 +279,7 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
-        4702) // C4702: unreachable code (https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4702)
+        4702) // C4702: unreachable code (https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4702)
 
 template <typename TypeT>
 class array<TypeT, 0>

@@ -267,16 +267,20 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<derived&, base&>();
 #endif
     test_is_constructible<base const&, derived const&>();
-#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW)
+#if PHI_COMPILER_IS(CLANG_COMPAT)
     test_is_not_constructible<derived const&, base const&>();
     test_is_not_constructible<derived const&, base>();
+    #else
+    SKIP_CHECK();
 #endif
 
     test_is_constructible<base&&, derived>();
     test_is_constructible<base&&, derived&&>();
-#if PHI_COMPILER_IS_NOT(GCC) && PHI_COMPILER_IS_NOT(MINGW)
+#if PHI_COMPILER_IS(CLANG_COMPAT)
     test_is_not_constructible<derived&&, base&&>();
     test_is_not_constructible<derived&&, base>();
+#else
+    SKIP_CHECK();
 #endif
 
     // test that T must also be destructible
@@ -302,16 +306,14 @@ TEST_CASE("is_constructible")
     test_is_constructible<const int&, explicit_to<int&>&>();
     test_is_constructible<const int&, explicit_to<int&>>();
 #else
-    test_is_not_constructible<const int&, explicit_to<int&>&>();
-    test_is_not_constructible<const int&, explicit_to<int&>>();
+    SKIP_CHECK();
 #endif
 
 #if PHI_COMPILER_IS_NOT(MSVC)
     test_is_constructible<const int&, explicit_to<int&>>();
     test_is_constructible<const int&, explicit_to<int&>&>();
 #else
-    test_is_not_constructible<const int&, explicit_to<int&>>();
-    test_is_not_constructible<const int&, explicit_to<int&>&>();
+    SKIP_CHECK();
 #endif
 
     // Binding through reference-compatible type is required to perform
@@ -332,7 +334,7 @@ TEST_CASE("is_constructible")
 #if PHI_COMPILER_IS_NOT(MSVC)
     test_is_constructible<int&&, explicit_to<int&&>>();
 #else
-    test_is_not_constructible<int&&, explicit_to<int&&>>();
+    SKIP_CHECK();
 #endif
 
 #if PHI_COMPILER_IS(CLANG_COMPAT)
@@ -510,20 +512,32 @@ TEST_CASE("is_constructible")
 #endif
     test_is_constructible<final_type>();
     test_is_constructible<public_destructor>();
+#if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_constructible<protected_destructor>();
     test_is_not_constructible<private_destructor>();
+#else
+    SKIP_CHECK();
+#endif
     test_is_constructible<virtual_public_destructor>();
+#if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_constructible<virtual_protected_destructor>();
     test_is_not_constructible<virtual_private_destructor>();
+#else
+    SKIP_CHECK();
+#endif
     test_is_not_constructible<pure_public_destructor>();
     test_is_not_constructible<pure_protected_destructor>();
     test_is_not_constructible<pure_private_destructor>();
+#if PHI_COMPILER_IS_NOT(MSVC)
     test_is_not_constructible<deleted_public_destructor>();
     test_is_not_constructible<deleted_protected_destructor>();
     test_is_not_constructible<deleted_private_destructor>();
     test_is_not_constructible<deleted_virtual_public_destructor>();
     test_is_not_constructible<deleted_virtual_protected_destructor>();
     test_is_not_constructible<deleted_virtual_private_destructor>();
+#else
+    SKIP_CHECK();
+#endif
     test_is_constructible<Enum>();
     test_is_constructible<EnumSigned>();
     test_is_constructible<EnumUnsigned>();
