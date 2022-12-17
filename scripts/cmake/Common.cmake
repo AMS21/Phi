@@ -41,6 +41,18 @@ if(PHI_COMPILER_EMCC AND "${PHI_EMCC_VERSION}" VERSION_LESS "1.39")
   list(REMOVE_ITEM phi_common_flags Wa,-mbig-obj)
 endif()
 
+# MSVC only options which cause problems for other compilers
+if(NOT PHI_COMPILER_MSVC)
+  list(
+    REMOVE_ITEM
+    phi_common_flags
+    MP
+    experimental:external
+    external:W0
+    external:anglebrackets
+    analyze:external-)
+endif()
+
 set(_phi_common_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_common_flags})
   string(REPLACE "-" "_" _testName ${_test})

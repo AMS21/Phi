@@ -41,6 +41,11 @@ if("${PHI_MSVC_YEAR}" GREATER_EQUAL 2005)
   list(REMOVE_ITEM phi_extra_debug_flags "Ge" "GZ")
 endif()
 
+# MSVC only options which cause problems with other compilers
+if(NOT PHI_COMPILER_MSVC)
+  list(REMOVE_ITEM phi_extra_debug_flags GZ GS Ge)
+endif()
+
 # Check extra debug flags
 set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_extra_debug_flags})

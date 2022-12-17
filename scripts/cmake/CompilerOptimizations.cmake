@@ -62,9 +62,16 @@ set(phi_opt_compile_flags
     QIntel-jcc-erratum # https://learn.microsoft.com/cpp/build/reference/qintel-jcc-erratum
 )
 
-# Clang and emcc claims to support 'GT' but then gives a warning (https://godbolt.org/z/P9r4czqxY)
-if(PHI_COMPILER_CLANG OR PHI_PLATFORM_EMSCRIPTEN)
-  list(REMOVE_ITEM phi_opt_compile_flags "GT")
+# MSVC only options which cause problems with other compilers
+if(NOT PHI_COMPILER_MSVC)
+  list(
+    REMOVE_ITEM
+    phi_opt_compile_flags
+    Og
+    GT
+    GF
+    Gw
+    Gy)
 endif()
 
 # Clang on windows and emscripten seems to give errors when compiling with `fsemantic-interposition`
@@ -158,6 +165,11 @@ set(phi_lto_opt
     GL # Whole Program Optimizations -
        # https://learn.microsoft.com/cpp/build/reference/gl-whole-program-optimization
 )
+
+# MSVC only options which cause problems with other compilers
+if(NOT PHI_COMPILER_MSVC)
+  list(REMOVE_ITEM phi_lto_opt GL)
+endif()
 
 # Check LTO specific optimizations
 set(old_flags ${CMAKE_REQUIRED_FLAGS})
@@ -253,8 +265,8 @@ function(phi_target_enable_optimizations)
 
         # Enable LTO specifc optimizations
         foreach(flag ${_phi_opt_lto_extra_supported})
-          target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$ {flag}>)
-          target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:$ {flag}>)
+          target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
+          target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         endforeach()
       endif()
     endif()
