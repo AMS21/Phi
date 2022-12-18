@@ -102,7 +102,7 @@ public:
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
         : m_Data(string)
-        , m_Length(safe_string_length(string))
+        , m_Length(string_length(string))
     {}
 
     PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string, size_type count) noexcept
@@ -749,14 +749,14 @@ constexpr boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
 template <typename CharT, typename TraitsT>
 constexpr boolean operator==(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
 {
-    return lhs.is_null() == (rhs == nullptr) && lhs.length() == safe_string_length(rhs) &&
+    return lhs.is_null() == (rhs == nullptr) && lhs.length() == string_length(rhs) &&
            lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
 constexpr boolean operator==(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
-    return (lhs == nullptr) == rhs.is_null() && safe_string_length(lhs) == rhs.length() &&
+    return (lhs == nullptr) == rhs.is_null() && string_length(lhs) == rhs.length() &&
            rhs.compare(lhs) == 0;
 }
 
@@ -1018,7 +1018,7 @@ public:
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL
     not_null_basic_string_view(const CharT* string) noexcept
         : m_Data{string}
-        , m_Length{safe_string_length(string)}
+        , m_Length{string_length(string)}
     {
         PHI_ASSERT(m_Data != nullptr);
         PHI_ASSERT(m_Length > 0u);

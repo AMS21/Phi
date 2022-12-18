@@ -13,9 +13,11 @@ runtime_failure_test(NAME "selftest_terminate" SOURCE "src/selftest/terminate.fa
 runtime_failure_test(NAME "selftest_unhandled_exception" SOURCE
                      "src/selftest/unhandled_exception.fail.cpp")
 
-# algorithm string_length
-runtime_failure_test(NAME "algorithm_string_length_nullptr" SOURCE
-                     "src/algorithm/string_length/nullptr.fail.cpp")
+# algorithm string_length_unsafe
+runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr" SOURCE
+                     "src/algorithm/string_length_unsafe/nullptr.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr_with_size" SOURCE
+                     "src/algorithm/string_length_unsafe/nullptr_with_size.fail.cpp")
 
 # container array
 runtime_failure_test(NAME "container_array_AtOutOfBounds" SOURCE

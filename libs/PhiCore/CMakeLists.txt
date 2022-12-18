@@ -36,6 +36,7 @@ file(
   "include/phi/algorithm/string_compare.hpp"
   "include/phi/algorithm/string_equals.hpp"
   "include/phi/algorithm/string_length.hpp"
+  "include/phi/algorithm/string_length_unsafe.hpp"
   "include/phi/algorithm/swap_ranges.hpp"
   "include/phi/algorithm/swap.hpp"
   # compiler_support/intrinsics
