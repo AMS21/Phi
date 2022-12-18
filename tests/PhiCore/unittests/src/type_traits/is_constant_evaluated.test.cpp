@@ -20,14 +20,14 @@ static consteval bool consteval_function() noexcept
 }
 #endif
 
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wunused-const-variable")
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wunused-const-variable")
 
 #if PHI_HAS_FEATURE_CONSTINIT()
 constinit const static bool constinit_value = phi::is_constant_evaluated();
 #endif
 
-PHI_CLANG_SUPPRESS_WARNING_POP()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_constant_evaluated")
 {
