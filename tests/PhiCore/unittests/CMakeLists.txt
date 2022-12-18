@@ -73,6 +73,7 @@ file(
   "src/core/unsafe_cast.test.cpp"
   "src/core/voidify.test.cpp"
   # forward
+  "src/forward/array.test.cpp"
   "src/forward/string_view.test.cpp"
   # forward/std
   "src/forward/std/allocator.test.cpp"
