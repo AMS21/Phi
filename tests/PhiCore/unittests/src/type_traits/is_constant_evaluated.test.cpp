@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/warning.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_constant_evaluated.hpp>
 
@@ -19,9 +20,14 @@ static consteval bool consteval_function() noexcept
 }
 #endif
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_SUPPRESS_WARNING("-Wunused-const-variable")
+
 #if PHI_HAS_FEATURE_CONSTINIT()
 constinit const static bool constinit_value = phi::is_constant_evaluated();
 #endif
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_constant_evaluated")
 {
