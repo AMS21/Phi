@@ -283,7 +283,7 @@ public:
         return get() != nullptr;
     }
 
-    constexpr operator boolean() const noexcept
+    constexpr explicit operator boolean() const noexcept
     {
         return get() != nullptr;
     }
