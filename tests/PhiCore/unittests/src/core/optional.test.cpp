@@ -279,15 +279,15 @@ TEST_CASE("optional constexpr")
 
     SECTION("value construct")
     {
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o1 = 42;
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o2{42};
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o3(42);
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o4 = {42};
-        EXT_CONSTEXPR_RUNTIME int                i  = 42;
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o5 = phi::move(i);
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o6{phi::move(i)};
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o7(phi::move(i));
-        EXT_CONSTEXPR_RUNTIME phi::optional<int> o8 = {phi::move(i)};
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o1 = 42;
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o2{42};
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o3(42);
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o4 = {42};
+        PHI_EXTENDED_CONSTEXPR int                i  = 42;
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o5 = phi::move(i);
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o6{phi::move(i)};
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o7(phi::move(i));
+        PHI_EXTENDED_CONSTEXPR phi::optional<int> o8 = {phi::move(i)};
 
         EXT_STATIC_REQUIRE(*o1 == 42);
         EXT_STATIC_REQUIRE(*o2 == 42);

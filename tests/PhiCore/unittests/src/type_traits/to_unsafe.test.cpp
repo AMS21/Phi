@@ -17,21 +17,21 @@ TEST_CASE("to_unsafe")
     // boolean
     STATIC_REQUIRE(phi::to_unsafe(phi::boolean(true)) == true);
 
-    CONSTEXPR_RUNTIME phi::boolean boolean = true;
+    constexpr phi::boolean boolean = true;
     STATIC_REQUIRE(phi::to_unsafe(boolean) == true);
     STATIC_REQUIRE(phi::to_unsafe(phi::move(boolean)) == true);
 
     // integer
     STATIC_REQUIRE(phi::to_unsafe(phi::integer<int>(3)) == 3);
 
-    CONSTEXPR_RUNTIME phi::integer<int> integer = 21;
+    constexpr phi::integer<int> integer = 21;
     STATIC_REQUIRE(phi::to_unsafe(integer) == 21);
     STATIC_REQUIRE(phi::to_unsafe(phi::move(integer)) == 21);
 
     // Floating Point
     STATIC_REQUIRE(phi::to_unsafe(phi::floating_point<double>(3.0)) == 3.0);
 
-    CONSTEXPR_RUNTIME phi::floating_point<double> floating_point = 3.0;
+    constexpr phi::floating_point<double> floating_point = 3.0;
     STATIC_REQUIRE(phi::to_unsafe(floating_point) == 3.0);
     STATIC_REQUIRE(phi::to_unsafe(phi::move(floating_point)) == 3.0);
 }

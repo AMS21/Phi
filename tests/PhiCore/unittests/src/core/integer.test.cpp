@@ -375,11 +375,11 @@ TEST_CASE("integer")
 
         SECTION("constructor")
         {
-            CONSTEXPR_RUNTIME int_t val_a(0);
+            constexpr int_t val_a(0);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_a) == 0);
-            CONSTEXPR_RUNTIME int_t val_b(32);
+            constexpr int_t val_b(32);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_b) == 32);
-            CONSTEXPR_RUNTIME int_t val_c(-25);
+            constexpr int_t val_c(-25);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_c) == -25);
         }
 
@@ -394,7 +394,7 @@ TEST_CASE("integer")
 
         SECTION("unary")
         {
-            CONSTEXPR_RUNTIME int_t val_a(13);
+            constexpr int_t val_a(13);
             STATIC_REQUIRE(static_cast<phi::int32_t>(+val_a) == static_cast<phi::int32_t>(val_a));
             EXT_STATIC_REQUIRE(static_cast<phi::int32_t>(-val_a) ==
                                -static_cast<phi::int32_t>(val_a));

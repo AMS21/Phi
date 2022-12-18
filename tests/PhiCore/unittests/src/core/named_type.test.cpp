@@ -605,8 +605,8 @@ TEST_CASE("ConvertibleWithOperator constexpr")
     };
 
     using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
-    EXT_CONSTEXPR_RUNTIME StrongA strong_a(A(42));
-    EXT_CONSTEXPR_RUNTIME B       just_b = strong_a;
+    PHI_EXTENDED_CONSTEXPR StrongA strong_a(A(42));
+    PHI_EXTENDED_CONSTEXPR B       just_b = strong_a;
     EXT_STATIC_REQUIRE(just_b.x == 42);
 }
 
@@ -653,8 +653,8 @@ TEST_CASE("ConvertibleWithConstructor constexpr")
     };
 
     using StrongA = phi::named_type<A, struct StrongATag, phi::implicitly_convertible_to<B>::templ>;
-    EXT_CONSTEXPR_RUNTIME StrongA strong_a(A(42));
-    EXT_CONSTEXPR_RUNTIME B       just_b = strong_a;
+    PHI_EXTENDED_CONSTEXPR StrongA strong_a(A(42));
+    PHI_EXTENDED_CONSTEXPR B       just_b = strong_a;
     EXT_STATIC_REQUIRE(just_b.x == 42);
 }
 
@@ -669,8 +669,8 @@ TEST_CASE("ConvertibleToItself")
 TEST_CASE("ConvertibleToItself constexpr")
 {
     using MyInt = phi::named_type<int, struct MyIntTag, phi::implicitly_convertible_to<int>::templ>;
-    EXT_CONSTEXPR_RUNTIME MyInt my_int(42);
-    EXT_CONSTEXPR_RUNTIME int   integer = my_int;
+    PHI_EXTENDED_CONSTEXPR MyInt my_int(42);
+    PHI_EXTENDED_CONSTEXPR int   integer = my_int;
     EXT_STATIC_REQUIRE(integer == 42);
 }
 
@@ -831,7 +831,7 @@ TEST_CASE("Method callable constexpr")
     };
 
     using StrongA = phi::named_type<A, struct StrongATag, phi::method_callable>;
-    EXT_CONSTEXPR_RUNTIME const StrongA const_strong_a(A((42)));
+    PHI_EXTENDED_CONSTEXPR const StrongA const_strong_a(A((42)));
     STATIC_REQUIRE_ADR(StrongA(A(42))->method() == 42);
     STATIC_REQUIRE_ADR(const_strong_a->constMethod() == 42);
 }
@@ -1011,7 +1011,7 @@ TEST_CASE("Dereferencable constexpr")
 {
     using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferencable>;
 
-    EXT_CONSTEXPR_RUNTIME StrongInt strong_int{28};
+    PHI_EXTENDED_CONSTEXPR StrongInt strong_int{28};
     EXT_STATIC_REQUIRE(*strong_int == 28);
     EXT_STATIC_REQUIRE(*StrongInt{28} == 28);
 }

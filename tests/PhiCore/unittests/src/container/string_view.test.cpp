@@ -24,7 +24,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 {
     SECTION("default constructor")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view view;
 
         EXT_STATIC_REQUIRE(view.data() == nullptr);
         EXT_STATIC_REQUIRE(view.length() == 0u);
@@ -64,7 +64,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     SECTION("BasicStringView(CharT*)")
     {
         constexpr static const char* data{"Hello World"};
-        EXT_CONSTEXPR_RUNTIME phi::string_view view(data);
+        PHI_EXTENDED_CONSTEXPR phi::string_view view(data);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
         EXT_STATIC_REQUIRE(view.length() == 11u);
@@ -84,7 +84,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     SECTION("BasicStringView(CharT*, length_type)")
     {
         constexpr static const char* data{"Hello World"};
-        EXT_CONSTEXPR_RUNTIME phi::string_view view(data, 11u);
+        PHI_EXTENDED_CONSTEXPR phi::string_view view(data, 11u);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
         EXT_STATIC_REQUIRE(view.length() == 11u);
@@ -95,7 +95,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(view.front() == 'H');
         EXT_STATIC_REQUIRE(view.back() == 'd');
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view view2(data, 5u);
+        PHI_EXTENDED_CONSTEXPR phi::string_view view2(data, 5u);
         EXT_STATIC_REQUIRE(view2.length() == 5u);
         EXT_STATIC_REQUIRE_FALSE(view2.is_empty());
         EXT_STATIC_REQUIRE_FALSE(view2.is_null());
@@ -107,8 +107,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("copy constructor")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view base_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view copy_view(base_view);
+        PHI_EXTENDED_CONSTEXPR phi::string_view base_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view copy_view(base_view);
 
         EXT_STATIC_REQUIRE(copy_view.data() == nullptr);
         EXT_STATIC_REQUIRE(copy_view.data() == base_view.data());
@@ -121,8 +121,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(copy_view.end() == nullptr);
         EXT_STATIC_REQUIRE(copy_view.end() == base_view.end());
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
-        EXT_CONSTEXPR_RUNTIME phi::string_view copy_view2(base_view2);
+        PHI_EXTENDED_CONSTEXPR phi::string_view base_view2("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view copy_view2(base_view2);
 
         EXT_STATIC_REQUIRE(phi::string_equals(copy_view2.data(), "Hello World"));
         // TODO: For some reason MSVC fails this tests at runtime
@@ -141,8 +141,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("move constructor")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view base_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view move_view(phi::move(base_view));
+        PHI_EXTENDED_CONSTEXPR phi::string_view base_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view move_view(phi::move(base_view));
 
         EXT_STATIC_REQUIRE(move_view.data() == nullptr);
         EXT_STATIC_REQUIRE(move_view.length() == 0u);
@@ -151,8 +151,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(move_view.begin() == nullptr);
         EXT_STATIC_REQUIRE(move_view.end() == nullptr);
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view base_view2("Hello World");
-        EXT_CONSTEXPR_RUNTIME phi::string_view move_view2(phi::move(base_view2));
+        PHI_EXTENDED_CONSTEXPR phi::string_view base_view2("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view move_view2(phi::move(base_view2));
 
         EXT_STATIC_REQUIRE(phi::string_equals(move_view2.data(), "Hello World"));
         EXT_STATIC_REQUIRE(move_view2.length() == 11u);
@@ -341,9 +341,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("begin")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.begin() == nullptr);
 #if PHI_COMPILER_IS(MSVC)
@@ -356,9 +356,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("end")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.end() == nullptr);
 #if PHI_COMPILER_IS(MSVC)
@@ -371,9 +371,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("cbegin")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.cbegin() == nullptr);
 #if PHI_COMPILER_IS(MSVC)
@@ -386,9 +386,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("cend")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.cend() == nullptr);
 #if PHI_COMPILER_IS(MSVC)
@@ -401,9 +401,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("rbegin")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.rbegin() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS(MSVC)
@@ -415,9 +415,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("rend")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.rend() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS(MSVC)
@@ -429,9 +429,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("crbegin")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.crbegin() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS(MSVC)
@@ -443,9 +443,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("crend")
     {
-        EXT_CONSTEXPR_RUNTIME static const char* str = "Test";
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR static const char* str = "Test";
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.crend() == phi::reverse_iterator<const char*>(nullptr));
 #if PHI_COMPILER_IS(MSVC)
@@ -457,9 +457,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("length")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Test");
-        EXT_CONSTEXPR_RUNTIME phi::string_view short_view("Hello World", 5u);
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Test");
+        PHI_EXTENDED_CONSTEXPR phi::string_view short_view("Hello World", 5u);
 
         EXT_STATIC_REQUIRE(null_view.length() == 0u);
         EXT_STATIC_REQUIRE(test_view.length() == 4u);
@@ -468,14 +468,14 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("max_length")
     {
-        CONSTEXPR_RUNTIME phi::string_view view;
+        constexpr phi::string_view view;
         STATIC_REQUIRE(std::numeric_limits<phi::usize>::max() == view.max_length());
     }
 
     SECTION("is_empty")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Hello World");
 
         EXT_STATIC_REQUIRE(null_view.is_empty());
         EXT_STATIC_REQUIRE_FALSE(test_view.is_empty());
@@ -483,8 +483,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("is_null")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Hello World");
 
         EXT_STATIC_REQUIRE(null_view.is_null());
         EXT_STATIC_REQUIRE_FALSE(test_view.is_null());
@@ -492,7 +492,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("operator[]/at()")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Test");
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Test");
 
         EXT_STATIC_REQUIRE(test_view[0u] == 'T');
         EXT_STATIC_REQUIRE(test_view[1u] == 'e');
@@ -507,8 +507,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("front")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Test");
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view2("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Test");
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view2("Hello World");
 
         EXT_STATIC_REQUIRE(test_view.front() == 'T');
         EXT_STATIC_REQUIRE(test_view2.front() == 'H');
@@ -516,8 +516,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("back")
     {
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view("Test");
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view2("Hello World");
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Test");
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view2("Hello World");
 
         EXT_STATIC_REQUIRE(test_view.back() == 't');
         EXT_STATIC_REQUIRE(test_view2.back() == 'd');
@@ -527,8 +527,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     {
         constexpr static const char* str = "Hello World";
 
-        EXT_CONSTEXPR_RUNTIME phi::string_view null_view;
-        EXT_CONSTEXPR_RUNTIME phi::string_view test_view(str);
+        PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
+        PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
 
         EXT_STATIC_REQUIRE(null_view.data() == nullptr);
         EXT_STATIC_REQUIRE(test_view.data() == str);
@@ -682,14 +682,14 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     {
         SECTION("with pos and size")
         {
-            EXT_CONSTEXPR_RUNTIME phi::string_view base_view("Hello World");
-            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view = base_view.substring_view(
+            PHI_EXTENDED_CONSTEXPR phi::string_view base_view("Hello World");
+            PHI_EXTENDED_CONSTEXPR phi::string_view sub_view = base_view.substring_view(
                     6u); // TODO: This line generates a linker error with GCC when npos is defined to be size_type instead of size_t
 
             EXT_STATIC_REQUIRE(phi::string_equals(sub_view.data(), "World"));
             EXT_STATIC_REQUIRE(sub_view.length() == 5u);
 
-            EXT_CONSTEXPR_RUNTIME phi::string_view sub_view2 = base_view.substring_view(0u, 5u);
+            PHI_EXTENDED_CONSTEXPR phi::string_view sub_view2 = base_view.substring_view(0u, 5u);
 
             EXT_STATIC_REQUIRE(sub_view2.back() == 'o');
             EXT_STATIC_REQUIRE(sub_view2.length() == 5u);

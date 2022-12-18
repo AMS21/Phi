@@ -16,7 +16,7 @@
 // TODO: Some tests don't work with MSVC
 TEST_CASE("string_length char")
 {
-    CONSTEXPR_RUNTIME const char* nullp = nullptr;
+    constexpr const char* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length("") == 0u);
@@ -44,7 +44,7 @@ TEST_CASE("string_length char")
 TEST_CASE("string_length wchar_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    CONSTEXPR_RUNTIME const wchar_t* nullp = nullptr;
+    constexpr const wchar_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const wchar_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(L"") == 0u);
@@ -77,7 +77,7 @@ TEST_CASE("string_length wchar_t")
 TEST_CASE("string_length char16_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    CONSTEXPR_RUNTIME const char16_t* nullp = nullptr;
+    constexpr const char16_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char16_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(u"") == 0u);
@@ -106,7 +106,7 @@ TEST_CASE("string_length char16_t")
 TEST_CASE("string_length char32_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    CONSTEXPR_RUNTIME const char32_t* nullp = nullptr;
+    constexpr const char32_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char32_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(U"") == 0u);

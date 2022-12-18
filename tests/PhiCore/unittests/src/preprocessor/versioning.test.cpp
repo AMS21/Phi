@@ -7,7 +7,7 @@ TEST_CASE("Versioning", "[Config][Versioning]")
 {
     SECTION("Random values")
     {
-        CONSTEXPR_RUNTIME int val = PHI_VERSION_CREATE(3, 1, 4);
+        constexpr int val = PHI_VERSION_CREATE(3, 1, 4);
 
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MAJOR(val) == 3);
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MINOR(val) == 1);
@@ -16,7 +16,7 @@ TEST_CASE("Versioning", "[Config][Versioning]")
 
     SECTION("Zero")
     {
-        CONSTEXPR_RUNTIME int val = PHI_VERSION_CREATE(0, 0, 0);
+        constexpr int val = PHI_VERSION_CREATE(0, 0, 0);
 
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MAJOR(val) == 0);
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MINOR(val) == 0);
@@ -25,7 +25,7 @@ TEST_CASE("Versioning", "[Config][Versioning]")
 
     SECTION("More random values")
     {
-        CONSTEXPR_RUNTIME int val = PHI_VERSION_CREATE(2, 55, 13);
+        constexpr int val = PHI_VERSION_CREATE(2, 55, 13);
 
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MAJOR(val) == 2);
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MINOR(val) == 55);
@@ -34,7 +34,7 @@ TEST_CASE("Versioning", "[Config][Versioning]")
 
     SECTION("Max values")
     {
-        CONSTEXPR_RUNTIME int val = PHI_VERSION_CREATE(126, 126, 126);
+        constexpr int val = PHI_VERSION_CREATE(126, 126, 126);
 
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MAJOR(val) == 126);
         STATIC_REQUIRE(PHI_VERSION_EXTRACT_MINOR(val) == 126);

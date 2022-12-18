@@ -138,13 +138,13 @@ TEST_CASE("floating_point")
 
         SECTION("constructor")
         {
-            CONSTEXPR_RUNTIME FloatT test1(0.0);
+            constexpr FloatT test1(0.0);
             STATIC_REQUIRE(static_cast<double>(test1) == 0.0);
 
-            CONSTEXPR_RUNTIME FloatT test2(3.14);
+            constexpr FloatT test2(3.14);
             STATIC_REQUIRE(static_cast<double>(test2) == 3.14);
 
-            CONSTEXPR_RUNTIME FloatT test3(-42.5);
+            constexpr FloatT test3(-42.5);
             STATIC_REQUIRE(static_cast<double>(test3) == -42.5);
         }
 
@@ -159,7 +159,7 @@ TEST_CASE("floating_point")
 
         SECTION("unary")
         {
-            CONSTEXPR_RUNTIME FloatT test(13.255);
+            constexpr FloatT test(13.255);
             STATIC_REQUIRE(static_cast<double>(+test) == static_cast<double>(test));
             STATIC_REQUIRE(static_cast<double>(-test) == -static_cast<double>(test));
         }
@@ -353,7 +353,7 @@ TEST_CASE("floating_point")
 
         SECTION("unsafe")
         {
-            CONSTEXPR_RUNTIME FloatT test(0.0);
+            constexpr FloatT test(0.0);
             STATIC_REQUIRE(test.unsafe() == 0.0);
         }
 

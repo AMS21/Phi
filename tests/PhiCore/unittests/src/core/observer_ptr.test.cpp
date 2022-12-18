@@ -27,7 +27,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
     SECTION("observer_ptr()")
     {
-        CONSTEXPR_RUNTIME phi::observer_ptr<int> ptr;
+        constexpr phi::observer_ptr<int> ptr;
 
         STATIC_REQUIRE_FALSE(ptr);
         STATIC_REQUIRE(ptr.get() == nullptr);
@@ -35,7 +35,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
     SECTION("observer_ptr(nullptr_t)")
     {
-        CONSTEXPR_RUNTIME phi::observer_ptr<int> ptr(nullptr);
+        constexpr phi::observer_ptr<int> ptr(nullptr);
 
         STATIC_REQUIRE_FALSE(ptr);
         STATIC_REQUIRE(ptr.get() == nullptr);

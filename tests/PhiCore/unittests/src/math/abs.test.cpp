@@ -22,10 +22,10 @@ void test_abs_signed()
     STATIC_REQUIRE(phi::is_signed<SourceT>::value);
     STATIC_REQUIRE(phi::is_unsigned<ResultT>::value);
 
-    EXT_CONSTEXPR_RUNTIME SourceT min_v = std::numeric_limits<SourceT>::min();
-    EXT_CONSTEXPR_RUNTIME SourceT min_p1_v =
+    PHI_EXTENDED_CONSTEXPR SourceT min_v = std::numeric_limits<SourceT>::min();
+    PHI_EXTENDED_CONSTEXPR SourceT min_p1_v =
             std::numeric_limits<SourceT>::min() + phi::unsafe_cast<SourceT>(1);
-    EXT_CONSTEXPR_RUNTIME SourceT max_v = std::numeric_limits<SourceT>::max();
+    PHI_EXTENDED_CONSTEXPR SourceT max_v = std::numeric_limits<SourceT>::max();
 
     CHECK_SAME_TYPE(decltype(phi::abs(phi::unsafe_cast<SourceT>(0))), ResultT);
 
@@ -50,8 +50,8 @@ void test_abs_unsigned()
     // Sanity checks
     STATIC_REQUIRE(phi::is_unsigned<TypeT>::value);
 
-    EXT_CONSTEXPR_RUNTIME TypeT min_v = std::numeric_limits<TypeT>::min();
-    EXT_CONSTEXPR_RUNTIME TypeT max_v = std::numeric_limits<TypeT>::max();
+    PHI_EXTENDED_CONSTEXPR TypeT min_v = std::numeric_limits<TypeT>::min();
+    PHI_EXTENDED_CONSTEXPR TypeT max_v = std::numeric_limits<TypeT>::max();
 
     CHECK_SAME_TYPE(decltype(phi::abs(phi::unsafe_cast<TypeT>(0))), TypeT);
 
@@ -79,9 +79,9 @@ void test_abs_float()
 
     using f = phi::make_unsafe_t<TypeT>;
 
-    EXT_CONSTEXPR_RUNTIME TypeT inf  = std::numeric_limits<TypeT>::infinity();
-    EXT_CONSTEXPR_RUNTIME TypeT qnan = std::numeric_limits<TypeT>::quiet_NaN();
-    EXT_CONSTEXPR_RUNTIME TypeT snan = std::numeric_limits<TypeT>::signaling_NaN();
+    PHI_EXTENDED_CONSTEXPR TypeT inf  = std::numeric_limits<TypeT>::infinity();
+    PHI_EXTENDED_CONSTEXPR TypeT qnan = std::numeric_limits<TypeT>::quiet_NaN();
+    PHI_EXTENDED_CONSTEXPR TypeT snan = std::numeric_limits<TypeT>::signaling_NaN();
 
     CHECK_SAME_TYPE(decltype(phi::abs(phi::unsafe_cast<TypeT>(0.0L))), TypeT);
 
