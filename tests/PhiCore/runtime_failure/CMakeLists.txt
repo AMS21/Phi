@@ -13,7 +13,23 @@ runtime_failure_test(NAME "selftest_terminate" SOURCE "src/selftest/terminate.fa
 runtime_failure_test(NAME "selftest_unhandled_exception" SOURCE
                      "src/selftest/unhandled_exception.fail.cpp")
 
-# algorithm string_length_unsafe
+# algorithm
+
+# string_compare_unsafe
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_lhs" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_lhs.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_rhs" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_rhs.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_both" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_both.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_lhs_with_size" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_lhs_with_size.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_rhs_with_size" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_rhs_with_size.fail.cpp")
+runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_both_with_size" SOURCE
+                     "src/algorithm/string_compare_unsafe/nullptr_both_with_size.fail.cpp")
+
+# string_length_unsafe
 runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr" SOURCE
                      "src/algorithm/string_length_unsafe/nullptr.fail.cpp")
 runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr_with_size" SOURCE

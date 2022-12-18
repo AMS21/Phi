@@ -13,6 +13,8 @@ file(
   "src/algorithm/exchange.test.cpp"
   "src/algorithm/max.test.cpp"
   "src/algorithm/min.test.cpp"
+  "src/algorithm/string_compare_unsafe.test.cpp"
+  "src/algorithm/string_compare.test.cpp"
   "src/algorithm/string_length.test.cpp"
   "src/algorithm/string_length_unsafe.test.cpp"
   "src/algorithm/string_equals.test.cpp"

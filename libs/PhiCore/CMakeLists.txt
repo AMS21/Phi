@@ -33,6 +33,7 @@ file(
   "include/phi/algorithm/max.hpp"
   "include/phi/algorithm/min.hpp"
   "include/phi/algorithm/none_off.hpp"
+  "include/phi/algorithm/string_compare_unsafe.hpp"
   "include/phi/algorithm/string_compare.hpp"
   "include/phi/algorithm/string_equals.hpp"
   "include/phi/algorithm/string_length.hpp"
