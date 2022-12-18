@@ -3,9 +3,13 @@ name: ClusterFuzzLite PR fuzzing
 # https://google.github.io/clusterfuzzlite/running-clusterfuzzlite/github-actions/
 
 on:
-  pull_request:
+  push:
     paths:
-      - '**'
+      # Workflow file itself
+      - '.github/workflows/ClusterFuzzLite-PR.yml'
+      # .clusterfuzzlite
+      - '.clusterfuzzlite/**'
+  pull_request:
   workflow_dispatch:
 
 permissions: read-all
@@ -39,7 +43,7 @@ jobs:
           # Optional but recommended: used to only run fuzzers that are affected
           # by the PR.
           # See later section on "Git repo for storage".
-          storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/phi-corpus.git
+          storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/Phi-Corpus.git
           storage-repo-branch: main   # Optional. Defaults to "main"
           storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
 
@@ -54,6 +58,7 @@ jobs:
           # Optional but recommended: used to download the corpus produced by
           # batch fuzzing.
           # See later section on "Git repo for storage".
-          storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/phi-corpus.git
+          storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/Phi-Corpus.git
           storage-repo-branch: main   # Optional. Defaults to "main"
           storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
+          minimize-crashes: true

@@ -6,9 +6,11 @@ on:
   schedule:
     - cron: '0 0/6 * * *'  # Every 6th hour. Change this to whatever is suitable.
   push:
-    branches:
-      - main
-      - develop
+    paths:
+      # Workflow file itself
+      - '.github/workflows/ClusterFuzzLite-Batch.yml'
+      # .clusterfuzzlite
+      - '.clusterfuzzlite/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -47,6 +49,7 @@ jobs:
         sanitizer: ${{ matrix.sanitizer }}
         # Optional but recommended: For storing certain artifacts from fuzzing.
         # See later section on "Git repo for storage".
-        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/phi-corpus.git
+        storage-repo: https://${{ secrets.CORPUS_PAT }}@github.com/AMS21/Phi-Corpus.git
         storage-repo-branch: main   # Optional. Defaults to "main"
         storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
+        minimize-crashes: true
