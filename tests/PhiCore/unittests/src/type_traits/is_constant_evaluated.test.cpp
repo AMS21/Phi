@@ -31,6 +31,14 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 
 TEST_CASE("is_constant_evaluated")
 {
+    // Clang-14 seems to crashes when compiling this test case with coverage enabled
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 14, 0, 0) && (PHI_COMPILER_IS_BELOW(CLANG, 15, 0, 0)) &&        \
+        defined(PHI_CONFIG_COVERAGE_BUILD)
+
+    SKIP_CHECK();
+
+#else
+
     CHECK_SAME_TYPE(decltype(phi::is_constant_evaluated()), bool);
     CHECK_NOEXCEPT(phi::is_constant_evaluated());
 
@@ -38,7 +46,7 @@ TEST_CASE("is_constant_evaluated")
     CHECK_FALSE(boolean);
 
     // Actual tests
-#if PHI_HAS_WORKING_IS_CONSTANT_EVALUATED()
+#    if PHI_HAS_WORKING_IS_CONSTANT_EVALUATED()
     static_assert(phi::is_constant_evaluated(), "is_constant_evulated");
     CHECK_SAME_TYPE(InTemplate<phi::is_constant_evaluated()>, InTemplate<true>);
 
@@ -61,16 +69,18 @@ TEST_CASE("is_constant_evaluated")
     STATIC_REQUIRE(constexpr_function());
 
     // Consteval function
-#    if PHI_HAS_FEATURE_CONSTEVAL()
+#        if PHI_HAS_FEATURE_CONSTEVAL()
     bool consteval_function_result = consteval_function();
     CHECK(consteval_function_result);
 
     STATIC_REQUIRE(consteval_function());
-#    endif
+#        endif
 
     // Constinit
-#    if PHI_HAS_FEATURE_CONSTINIT()
+#        if PHI_HAS_FEATURE_CONSTINIT()
     STATIC_REQUIRE(constinit_value);
+#        endif
 #    endif
+
 #endif
 }
