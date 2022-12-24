@@ -221,7 +221,7 @@ function(phi_target_set_common_flags)
   # Disable warnings in the msvc stl
   if(PHI_COMPILER_MSVC)
     target_compile_definitions(
-      ${warn_TARGET}
+      "${cf_TARGET}"
       ${visibility_scope} "_STL_EXTRA_DISABLED_WARNINGS=${_phi_msvc_stl_extra_disable_supported}"
       "_ALLOW_RTCc_IN_STL")
   endif()
