@@ -2,6 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(internal/PhiError)
+include(internal/VerifyValidTargets)
 
 function(phi_add_library)
   # Command line arguments
@@ -88,16 +89,19 @@ function(phi_add_library)
 
   # Add optional private link libraries
   if(DEFINED al_PUBLIC_LINK_LIBRARIES)
+    phi_verify_valid_targets("${al_PUBLIC_LINK_LIBRARIES}")
     target_link_libraries(${al_NAME} PUBLIC "${al_PUBLIC_LINK_LIBRARIES}")
   endif()
 
   # Add optional private link libraries
   if(DEFINED al_PRIVATE_LINK_LIBRARIES)
+    phi_verify_valid_targets("${al_PRIVATE_LINK_LIBRARIES}")
     target_link_libraries(${al_NAME} PRIVATE "${al_PRIVATE_LINK_LIBRARIES}")
   endif()
 
   # Add optional interface link libraries
   if(DEFINED al_INTERFACE_LINK_LIBRARIES)
+    phi_verify_valid_targets("${al_INTERFACE_LINK_LIBRARIES}")
     target_link_libraries(${al_NAME} INTERFACE "${al_INTERFACE_LINK_LIBRARIES}")
   endif()
 

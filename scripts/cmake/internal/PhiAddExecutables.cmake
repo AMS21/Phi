@@ -2,6 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(internal/PhiError)
+include(internal/VerifyValidTargets)
 
 # TODO: This and phi_add_library share a lot of code. which could be extracted into a sup function
 # like phi_configure_target in its own file
@@ -74,16 +75,19 @@ function(phi_add_executable)
 
   # Add optional private link libraries
   if(ae_PUBLIC_LINK_LIBRARIES)
+    phi_verify_valid_targets("${ae_PUBLIC_LINK_LIBRARIES}")
     target_link_libraries(${ae_NAME} PUBLIC "${ae_PUBLIC_LINK_LIBRARIES}")
   endif()
 
   # Add optional private link libraries
   if(ae_PRIVATE_LINK_LIBRARIES)
+    phi_verify_valid_targets("${ae_PRIVATE_LINK_LIBRARIES}")
     target_link_libraries(${ae_NAME} PRIVATE "${ae_PRIVATE_LINK_LIBRARIES}")
   endif()
 
   # Add optional interface link libraries
   if(ae_INTERFACE_LINK_LIBRARIES)
+    phi_verify_valid_targets("${ae_INTERFACE_LINK_LIBRARIES}")
     target_link_libraries(${ae_NAME} INTERFACE "${ae_INTERFACE_LINK_LIBRARIES}")
   endif()
 
