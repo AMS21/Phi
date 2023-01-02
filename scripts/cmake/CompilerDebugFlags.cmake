@@ -69,6 +69,11 @@ set(phi_extra_debug_only_flags
     # https://learn.microsoft.com/cpp/build/reference/rtc-run-time-error-checks
     RTCc RTCsu)
 
+# These flags only work with MSVC
+if(NOT PHI_COMPILER_MSVC)
+  set(phi_extra_debug_only_flags "")
+endif()
+
 # Check extra debug flags
 set(_phi_extra_debug_only_flags_supported CACHE INTERNAL "")
 foreach(_test ${phi_extra_debug_only_flags})
