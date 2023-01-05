@@ -48,25 +48,22 @@
 #    define PHI_STANDARD_LIBRARY_NAME() "msvc-stl"
 #endif
 
+// Include ciso646 as it usually includes the standard library specific headers
+#include <ciso646>
+
 // Define macros for opening and closing the std namespace
 #if PHI_STANDARD_LIBRARY_LIBCXX()
 
-// Include <__config> for libc++
-// See https://github.com/llvm/llvm-project/blob/main/libcxx/include/__config
-#    ifndef _LIBCPP___CONFIG
-#        include <__config>
-#    endif
+// See https://github.com/llvm/llvm-project/blob/main/libcxx/include/ciso646
+// https://github.com/llvm/llvm-project/blob/main/libcxx/include/__config
 
 #    define DETAIL_PHI_BEGIN_STD_NAMESPACE() _LIBCPP_BEGIN_NAMESPACE_STD
 #    define DETAIL_PHI_END_STD_NAMESPACE()   _LIBCPP_END_NAMESPACE_STD
 
 #elif PHI_STANDARD_LIBRARY_LIBSTDCXX()
 
-// Include <bits/c++-config.h> for libstdc++
-// See https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/c%2B%2Bconfig
-#    ifndef _GLIBCXX_CXX_CONFIG_H
-#        include <bits/c++config.h>
-#    endif
+// See https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/c/ciso646
+// https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/c%2B%2Bconfig
 
 // clang-format off
 #    define DETAIL_PHI_BEGIN_STD_NAMESPACE() namespace std { _GLIBCXX_BEGIN_NAMESPACE_VERSION
@@ -75,11 +72,8 @@
 
 #elif PHI_STANDARD_LIBRARY_MSVC()
 
-// Include <yvals_core.h> for MSVC-STL
-// See https://github.com/microsoft/STL/blob/main/stl/inc/yvals_core.h
-#    ifndef _YVALS_CORE_H_
-#        include <yvals_core.h>
-#    endif
+// See https://github.com/microsoft/STL/blob/main/stl/inc/ciso646
+// https://github.com/microsoft/STL/blob/main/stl/inc/yvals_core.h
 
 #    define DETAIL_PHI_BEGIN_STD_NAMESPACE() _STD_BEGIN
 #    define DETAIL_PHI_END_STD_NAMESPACE()   _STD_END
