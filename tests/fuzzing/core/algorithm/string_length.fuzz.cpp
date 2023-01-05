@@ -3,7 +3,11 @@
 
 extern "C" int LLVMFuzzerTestOneInput(const phi::uint8_t* data, phi::size_t size)
 {
-    if (size > 0 && data[size - 1] != '\0')
+    if (size == 0u)
+    {
+        return 0;
+    }
+    if (data[size - 1] != '\0')
     {
         return 0;
     }
