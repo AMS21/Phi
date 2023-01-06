@@ -84,7 +84,7 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    sudo apt-get install "clang-$1" "clang++-$1" g++-multilib -y
+    sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib -y
     echo "-- Installing clang-$1 done"
 
     # Verify versions
