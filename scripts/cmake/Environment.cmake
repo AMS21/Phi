@@ -29,6 +29,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "^OpenBSD$")
   phi_set_cache_value(NAME PHI_PLATFORM_OPENBSD VALUE 1)
   phi_trace("Platform: OpenBSD")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  phi_set_cache_value(NAME PHI_PLATFORM_APPLE VALUE 1)
+
   if(IOS)
     phi_set_cache_value(NAME PHI_PLATFORM_IOS VALUE 1)
     phi_trace("Platform: IOS")
