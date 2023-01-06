@@ -23,6 +23,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 // Don't warn about float equal comparisions here since its a cast to ensure that your mixed float and int conversions are actually safe
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename TargetT, typename SourceT>
 PHI_NODISCARD
@@ -53,17 +54,6 @@ PHI_NODISCARD
 }
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
-
-// template <typename TargetT, typename SourceT>
-// PHI_NODISCARD
-// #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() || !defined(PHI_DEBUG)
-//         constexpr
-// #endif
-//         TargetT
-//         narrow_cast(const SourceT& source) noexcept
-// {
-//     return narrow_cast<TargetT, SourceT>(forward(source));
-// }
 
 DETAIL_PHI_END_NAMESPACE()
 
