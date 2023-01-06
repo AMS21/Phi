@@ -1,5 +1,7 @@
 phi_include_guard()
 
+include(internal/PhiSetCacheValue)
+
 # reference https://cmake.org/cmake/help/latest/command/message.html
 function(phi_message _opt_mode)
   set(_msg_mode)
@@ -30,15 +32,35 @@ function(phi_message _opt_mode)
 
     # Reporting checks (CMake >= 3.17)
   elseif(${_opt_mode} STREQUAL "CHECK_START")
-    set(_msg_mode "CHECK_START")
+    if(${CMAKE_VERSION} VERSION_LESS 3.17)
+      set(_msg_mode "STATUS")
+
+      phi_set_cache_value(NAME PHI_INTERNAL_PHI_MESSAGE_CHECK VALUE ${ARGN})
+    else()
+      set(_msg_mode "CHECK_START")
+    endif()
   elseif(${_opt_mode} STREQUAL "CHECK_PASS")
-    set(_msg_mode "CHECK_PASS")
+    if(${CMAKE_VERSION} VERSION_LESS 3.17)
+      set(_msg_mode "STATUS")
+      set(_msg_text "${PHI_INTERNAL_PHI_MESSAGE_CHECK} - ")
+
+      phi_set_cache_value(NAME PHI_INTERNAL_PHI_MESSAGE_CHECK VALUE "")
+    else()
+      set(_msg_mode "CHECK_PASS")
+    endif()
   elseif(${_opt_mode} STREQUAL "CHECK_FAIL")
-    set(_msg_mode "CHECK_FAIL")
+    if(${CMAKE_VERSION} VERSION_LESS 3.17)
+      set(_msg_mode "STATUS")
+      set(_msg_text "${PHI_INTERNAL_PHI_MESSAGE_CHECK} - ")
+
+      phi_set_cache_value(NAME PHI_INTERNAL_PHI_MESSAGE_CHECK VALUE "")
+    else()
+      set(_msg_mode "CHECK_FAIL")
+    endif()
 
   else()
     set(_msg_text ${_opt_mode})
   endif()
 
-  message(${_opt_mode} ${_msg_text} ${ARGN})
+  message(${_msg_mode} ${_msg_text} ${ARGN})
 endfunction()
