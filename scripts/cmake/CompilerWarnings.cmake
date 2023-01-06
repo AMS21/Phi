@@ -197,9 +197,9 @@ if(PHI_COMPILER_GCC)
   endif()
 endif()
 
-# AppleClang seems to cause warnings for missing includirs which come from XCode itself so disable
-# the warning here
-if(PHI_COMPILER_APPLECLANG)
+# MacOS seems to have problems for missing include directories which come from MacOS SDK itself so
+# disable the warning here
+if(PHI_PLATFORM_APPLE)
   list(REMOVE_ITEM phi_warning_flags "Wmissing-include-dirs")
 endif()
 
