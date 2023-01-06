@@ -5,11 +5,11 @@ include(TestFail)
 # selftest
 compile_failure_test(NAME "selftest_static_assert" SOURCE "src/selftest/static_assert.fail.cpp")
 
-# algorithm string_length
-compile_failure_test(NAME "algorithm_string_length_count_nullptr" SOURCE
-                     "src/algorithm/string_length/count_nullptr.fail.cpp")
-compile_failure_test(NAME "algorithm_string_length_nullptr" SOURCE
-                     "src/algorithm/string_length/nullptr.fail.cpp")
+# algorithm string_length_unsafe
+compile_failure_test(NAME "algorithm_string_length_unsafe_count_nullptr" SOURCE
+                     "src/algorithm/string_length_unsafe/count_nullptr.fail.cpp")
+compile_failure_test(NAME "algorithm_string_length_unsafe_nullptr" SOURCE
+                     "src/algorithm/string_length_unsafe/nullptr.fail.cpp")
 
 # container
 
