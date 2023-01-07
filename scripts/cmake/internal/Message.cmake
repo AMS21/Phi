@@ -53,7 +53,7 @@ function(phi_message _opt_mode)
       set(_msg_mode "STATUS")
       set(_msg_text "${PHI_INTERNAL_PHI_MESSAGE_CHECK} - ")
 
-      phi_set_cache_value(NAMPHI_INTERNAL_PHI_MESSAGE_CHECK "")
+      phi_set_cache_value(PHI_INTERNAL_PHI_MESSAGE_CHECK "")
     else()
       set(_msg_mode "CHECK_FAIL")
     endif()
