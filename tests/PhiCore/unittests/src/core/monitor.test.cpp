@@ -10,6 +10,8 @@
 #include <utility>
 #include <vector>
 
+#if defined(PHI_CONFIG_THREADS)
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
@@ -54,7 +56,7 @@ TEST_CASE("core.monitor.operators")
         CHECK(mon->val == 2u);
     }
 
-#if PHI_HAS_FEATURE_DECLTYPE_AUTO()
+#    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
     SECTION("operator()")
     {
         phi::monitor<MonitorTestData> mon(3, 3.14);
@@ -63,7 +65,7 @@ TEST_CASE("core.monitor.operators")
 
         CHECK(mon->val == 3u);
     }
-#endif
+#    endif
 }
 
 TEST_CASE("core.monitor.functions")
@@ -108,11 +110,11 @@ PHI_MSVC_SUPPRESS_WARNING(
 
 TEST_CASE("core.monitor.thread_safety")
 {
-#if PHI_COMPILER_IS(EMCC)
+#    if PHI_COMPILER_IS(EMCC)
     // Skip thread safety test in emscripten since the support for multiple threads is not very great,
     // See: https://emscripten.org/docs/porting/pthreads.html
     return;
-#else
+#    else
     phi::monitor<MonitorTestData> mon;
 
     std::vector<std::thread> threads;
@@ -132,8 +134,17 @@ TEST_CASE("core.monitor.thread_safety")
             1u + (test_thread_count * test_write_count);
 
     CHECK(mon->val == expected_value);
-#endif
+#    endif
 }
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
+
+#else
+
+TEST_CASE("core.monitor")
+{
+    SKIP_CHECK();
+}
+
+#endif
