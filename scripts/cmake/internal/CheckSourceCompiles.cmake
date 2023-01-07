@@ -1,5 +1,7 @@
 phi_include_guard()
 
+include(internal/Message)
+
 # https://github.com/Kitware/CMake/blob/master/Modules/Internal/CheckSourceCompiles.cmake
 function(phi_check_source_compiles _lang _source _var)
   if(NOT DEFINED "${_var}")
@@ -80,7 +82,7 @@ function(phi_check_source_compiles _lang _source _var)
          "${_source}\n")
 
     if(NOT CMAKE_REQUIRED_QUIET)
-      message(CHECK_START "Performing Test ${_var}")
+      phi_message(CHECK_START "Performing Test ${_var}")
     endif()
     try_compile(
       ${_var} ${CMAKE_BINARY_DIR}
@@ -103,7 +105,7 @@ function(phi_check_source_compiles _lang _source _var)
           1
           CACHE INTERNAL "Test ${_var}")
       if(NOT CMAKE_REQUIRED_QUIET)
-        message(CHECK_PASS "Success")
+        phi_message(CHECK_PASS "Success")
       endif()
       file(
         APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
@@ -113,7 +115,7 @@ function(phi_check_source_compiles _lang _source _var)
         "Required flags was: ${CMAKE_REQUIRED_FLAGS}\n")
     else()
       if(NOT CMAKE_REQUIRED_QUIET)
-        message(CHECK_FAIL "Failed")
+        phi_message(CHECK_FAIL "Failed")
       endif()
       set(${_var}
           "0"
