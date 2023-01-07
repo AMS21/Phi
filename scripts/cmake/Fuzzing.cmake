@@ -9,6 +9,7 @@ include(Functions)
 include(Sanitizers)
 include(Testing)
 include(CompilerOptimizations)
+include(internal/CheckLinkerFlag)
 
 set(PHI_TEST_FUZZING_RUNTIME
     30
@@ -26,8 +27,8 @@ extern \"C\" int LLVMFuzzerTestOneInput(const std::uint8_t*, std::size_t) { retu
 
 set(CMAKE_REQUIRED_FLAGS ${old_flags})
 
-check_linker_flag(CXX "${PHI_FLAG_PREFIX_CHAR}fsanitize=fuzzer-no-link"
-                  PHI_SUPPORTS_SANITIZER_FUZZER_NO_LINK)
+phi_check_linker_flag(CXX "${PHI_FLAG_PREFIX_CHAR}fsanitize=fuzzer-no-link"
+                      PHI_SUPPORTS_SANITIZER_FUZZER_NO_LINK)
 
 set(phi_fuzzing_target_default_flags fno-omit-frame-pointer fno-optimize-sibling-calls)
 

@@ -1,7 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(CheckLinkerFlag)
+include(internal/CheckLinkerFlag)
 include(internal/CheckCXXCompilerFlag)
 
 # https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
@@ -40,7 +40,7 @@ foreach(_test ${phi_coverage_link_flags})
   string(REPLACE "-" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
-  check_linker_flag(CXX ${_test} "PHI_HAS_FLAG${_testName}")
+  phi_check_linker_flag(CXX ${_test} "PHI_HAS_FLAG${_testName}")
 
   if(PHI_HAS_FLAG${_testName})
     set(_phi_coverage_linker_flags_supported

@@ -2,7 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(internal/CheckCCompilerFlag)
-include(CheckLinkerFlag)
+include(internal/CheckLinkerFlag)
 
 # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
 
@@ -136,7 +136,7 @@ foreach(_test ${phi_lto_flags})
 
   set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}${_test}")
 
-  check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+  phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
   set(CMAKE_REQUIRED_FLAGS ${old_flags})
 

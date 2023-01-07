@@ -29,8 +29,8 @@ foreach(_test ${PHI_SANITIZER_OPTIONS})
   string(REPLACE "-" "_" _testName ${_test})
   string(TOUPPER ${_testName} _testName)
 
-  check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
-                    "PHI_SUPPORTS_SANITIZER_${_testName}")
+  phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+                        "PHI_SUPPORTS_SANITIZER_${_testName}")
   if(PHI_SUPPORTS_SANITIZER_${_testName})
     set(_phi_sanitizer_support_flags
         ${_phi_sanitizer_support_flags};${_test}
@@ -53,8 +53,8 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
     string(REPLACE "=" "_" _testName ${_testName})
     string(TOUPPER ${_testName} _testName)
 
-    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
-                      "PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName}")
+    phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
+                          "PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_ADDRESS_${_testName})
       set(_phi_asan_extra_flags_supported
           ${_phi_asan_extra_flags_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-address-${_test}
@@ -75,8 +75,8 @@ if(PHI_SUPPORTS_SANITIZER_ADDRESS)
     string(REPLACE "=" "_" _testName ${_testName})
     string(TOUPPER ${_testName} _testName)
 
-    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=address,${_test}
-                      "PHI_SUPPORTS_SANITIZER_${_testName}")
+    phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=address,${_test}
+                          "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
       set(_phi_asan_extra_options_supported
           ${_phi_asan_extra_options_supported};${_test}
@@ -96,8 +96,8 @@ if(PHI_SUPPORTS_SANITIZER_MEMORY)
     string(REPLACE "=" "_" _testName ${_testName})
     string(TOUPPER ${_testName} _testName)
 
-    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
-                      "PHI_SUPPORTS_SANITIZER_MEMORY_${_testName}")
+    phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
+                          "PHI_SUPPORTS_SANITIZER_MEMORY_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_MEMORY_${_testName})
       set(_phi_msan_extra_flags_supported
           ${_phi_msan_extra_flags_supported};${PHI_FLAG_PREFIX_CHAR}fsanitize-memory-${_test}
@@ -157,8 +157,8 @@ if(PHI_SUPPORTS_SANITIZER_UNDEFINED)
     string(REPLACE "-" "_" _testName ${_test})
     string(TOUPPER ${_testName} _testName)
 
-    check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
-                      "PHI_SUPPORTS_SANITIZER_${_testName}")
+    phi_check_linker_flag(CXX ${PHI_FLAG_PREFIX_CHAR}fsanitize=${_test}
+                          "PHI_SUPPORTS_SANITIZER_${_testName}")
     if(PHI_SUPPORTS_SANITIZER_${_testName})
       set(_phi_ubsan_extra_flags_supported
           ${_phi_ubsan_extra_flags_supported};${_test}
