@@ -33,12 +33,12 @@ function(phi_cxx_check_type_size TYPE VARIABLE)
     # Check if compile worked
     if(HAVE_${var}_${size})
       phi_log("Checking size of ${TYPE} - ${size}")
-      phi_set_cache_value(NAME ${VARIABLE} VALUE "${size}")
+      phi_set_cache_value(${VARIABLE} "${size}")
       return()
     endif()
   endforeach()
 
   # No suitable size found
   phi_log("Checking size of ${TYPE} - Failed")
-  phi_set_cache_value(NAME ${VARIABLE} VALUE "0")
+  phi_set_cache_value(${VARIABLE} "0")
 endfunction()
