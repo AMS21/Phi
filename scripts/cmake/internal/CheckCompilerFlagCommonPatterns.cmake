@@ -1,5 +1,7 @@
 phi_include_guard()
 
+# Reference:
+# https://github.com/Kitware/CMake/blob/master/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
 macro(phi_check_compiler_flag_common_patterns _VAR)
   set(${_VAR}
       FAIL_REGEX

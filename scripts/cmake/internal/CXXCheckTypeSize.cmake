@@ -1,6 +1,6 @@
 phi_include_guard()
 
-include(internal/PhiLog)
+include(internal/Log)
 
 # Function to check the size of a cxx type which works when cross compiling
 function(phi_cxx_check_type_size TYPE VARIABLE)

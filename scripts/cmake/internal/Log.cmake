@@ -1,6 +1,6 @@
 phi_include_guard()
 
-include(internal/PhiMessage)
+include(internal/Message)
 
 # Log a specifc information
 function(phi_log text)

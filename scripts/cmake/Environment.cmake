@@ -50,9 +50,9 @@ endif()
 
 phi_log("System name: ${CMAKE_SYSTEM_NAME}")
 
-# Detect the architecture (note: this test won't work for cross-compilation)
-include(internal/PhiCXXCheckTypeSize)
+# Detect the architecture
 phi_cxx_check_type_size(void* PHI_SIZEOF_VOID_PTR)
+
 if(${PHI_SIZEOF_VOID_PTR})
   if(${PHI_SIZEOF_VOID_PTR} STREQUAL "4")
     phi_set_cache_value(NAME PHI_ARCH_32BITS VALUE 1)

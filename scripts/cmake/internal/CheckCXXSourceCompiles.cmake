@@ -1,6 +1,6 @@
 phi_include_guard()
 
-include(internal/PhiCheckSourceCompiles)
+include(internal/CheckSourceCompiles)
 
 # https://github.com/Kitware/CMake/blob/master/Modules/CheckCXXSourceCompiles.cmake
 macro(phi_check_cxx_source_compiles SOURCE VAR)

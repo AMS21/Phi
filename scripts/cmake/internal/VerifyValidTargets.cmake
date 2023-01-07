@@ -1,6 +1,6 @@
 phi_include_guard()
 
-include(internal/PhiError)
+include(internal/Error)
 
 function(phi_verify_valid_targets list_of_targets)
   foreach(target ${list_of_targets})

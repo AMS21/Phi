@@ -1,8 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiError)
-include(internal/VerifyValidTargets)
+include(internal/Error)
 
 # TODO: This and phi_add_library share a lot of code. which could be extracted into a sup function
 # like phi_configure_target in its own file

@@ -1,8 +1,8 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiCheckCXXCompilerFlag)
-include(internal/PhiCheckCCompilerFlag)
+include(internal/CheckCXXCompilerFlag)
+include(internal/CheckCCompilerFlag)
 
 # References
 

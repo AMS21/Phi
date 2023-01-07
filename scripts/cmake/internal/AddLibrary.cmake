@@ -1,8 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiError)
-include(internal/VerifyValidTargets)
+include(internal/Error)
 
 function(phi_add_library)
   # Command line arguments

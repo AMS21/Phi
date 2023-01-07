@@ -1,8 +1,8 @@
 phi_include_guard()
 
-include(internal/PhiCheckCompilerFlagCommonPatterns)
-include(internal/PhiCheckSourceCompiles)
-include(internal/PhiSetCacheValue)
+include(internal/CheckCompilerFlagCommonPatterns)
+include(internal/CheckSourceCompiles)
+include(internal/SetCacheValue)
 
 # https://github.com/Kitware/CMake/blob/master/Modules/Internal/CheckCompilerFlag.cmake
 function(phi_check_compiler_flag _lang _flag _var)

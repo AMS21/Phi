@@ -1,6 +1,6 @@
 phi_include_guard()
 
-include(internal/PhiSetCacheValue)
+include(internal/SetCacheValue)
 
 # reference https://cmake.org/cmake/help/latest/command/message.html
 function(phi_message _opt_mode)

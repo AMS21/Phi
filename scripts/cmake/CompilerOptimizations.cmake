@@ -1,7 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiCheckCCompilerFlag)
+include(internal/CheckCCompilerFlag)
 include(CheckLinkerFlag)
 
 # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html

@@ -1,10 +1,11 @@
 phi_include_guard()
 
 include(CheckTypeSize)
-include(CompilerWarnings)
-include(Standard)
-include(internal/PhiCheckCXXSourceCompiles)
 include(Common)
+include(CompilerWarnings)
+include(internal/CheckCXXSourceCompiles)
+include(internal/CXXCheckTypeSize)
+include(Standard)
 
 # Set compile flags
 string(JOIN " " _glued_flags ${_phi_check_required_flags} ${_phi_common_flags_supported}
@@ -446,8 +447,6 @@ int main() {}"
 set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")
 
 # Type system
-include(internal/PhiCXXCheckTypeSize)
-
 phi_cxx_check_type_size("void*" PHI_TYPE_SYSTEM_SIZEOF_VOIDPTR)
 
 phi_cxx_check_type_size("bool" PHI_TYPE_SYSTEM_SIZEOF_BOOL)

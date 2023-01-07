@@ -1,7 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiError)
+include(internal/Error)
 
 function(phi_set_cache_value)
   # Commandline

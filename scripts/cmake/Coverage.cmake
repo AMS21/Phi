@@ -2,7 +2,7 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 include(CheckLinkerFlag)
-include(internal/PhiCheckCXXCompilerFlag)
+include(internal/CheckCXXCompilerFlag)
 
 # https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
 # https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html

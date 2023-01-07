@@ -11,7 +11,7 @@ endif()
 # CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
-include(internal/PhiIncludeGuard)
+include(internal/IncludeGuard)
 include(Functions)
 
 set(PHI_VERSION_MAJOR 0)

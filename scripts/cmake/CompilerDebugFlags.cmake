@@ -1,7 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/PhiCheckCXXCompilerFlag)
+include(internal/CheckCXXCompilerFlag)
 
 set(phi_extra_debug_flags
     fasynchronous-unwind-tables
