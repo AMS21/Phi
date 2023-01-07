@@ -360,7 +360,7 @@ TEST_CASE("string_equals_ignore_case - std::string, std::string_view")
 {
     const std::string null_string;
 
-    CHECK(phi::string_equals_ignore_case(null_string, std_null_view));
+    CHECK_FALSE(phi::string_equals_ignore_case(null_string, std_null_view));
     CHECK_FALSE(phi::string_equals_ignore_case(null_string, std::string_view("Hello")));
     CHECK(phi::string_equals_ignore_case(null_string, std::string_view("")));
 
@@ -371,7 +371,7 @@ TEST_CASE("string_equals_ignore_case - std::string, std::string_view")
     CHECK(phi::string_equals_ignore_case(std::string("HELLO"), std::string_view("Hello")));
     CHECK_FALSE(phi::string_equals_ignore_case(std::string("Hello"), std::string_view("")));
 
-    CHECK(phi::string_equals_ignore_case(std::string(""), std_null_view));
+    CHECK_FALSE(phi::string_equals_ignore_case(std::string(""), std_null_view));
     CHECK_FALSE(phi::string_equals_ignore_case(std::string(""), std::string_view("Hello")));
     CHECK(phi::string_equals_ignore_case(std::string(""), std::string_view("")));
 }
