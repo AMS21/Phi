@@ -78,6 +78,12 @@ function(phi_configure_project)
       continue()
     endif()
 
+    if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
+      set(visibility_scope INTERFACE)
+    else()
+      set(visibility_scope PRIVATE)
+    endif()
+
     # Link common unless disabled
     if(NOT conf_NO_COMMON)
       if(conf_TIME_TRACE)
@@ -216,6 +222,13 @@ function(phi_configure_project)
       phi_target_set_stdlib(TARGET ${target} LIBRARY DEFAULT)
     endif()
 
+    # Thread support
+    if(PHI_CONFIG_THREADS)
+      target_compile_definitions(${target} ${visibility_scope} "PHI_CONFIG_THREADS")
+    else()
+      target_compile_definitions(${target} ${visibility_scope} "PHI_CONFIG_NO_THREADS")
+    endif()
+
     # Handle external target
     if(is_external)
       # Mark include directory as system include
@@ -226,7 +239,7 @@ function(phi_configure_project)
       # For MSVC we need to set the warnings flag to W0 to silence warnings since MSVC has no
       # concept of system includes
       if(MSVC AND NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
-        target_compile_options(${target} PRIVATE "/W0")
+        target_compile_options(${target} ${visibility_scope} "/W0")
       endif()
 
       # Set folder to external

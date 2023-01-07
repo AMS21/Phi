@@ -138,6 +138,12 @@ include(ProjectOptions)
 # Find optional system libs (https://cmake.org/cmake/help/latest/module/FindThreads.html)
 find_package(Threads)
 
+if(Threads_FOUND)
+  phi_set_cache_value(PHI_CONFIG_THREADS 1)
+else()
+  phi_set_cache_value(PHI_CONFIG_THREADS 0)
+endif()
+
 # Check for settings passed through the environment
 if(DEFINED ENV{PHI_DYNAMIC_TEST})
   set(dyn_test $ENV{PHI_DYNAMIC_TEST})
