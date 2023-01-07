@@ -1,8 +1,8 @@
 phi_include_guard()
 
-include(CheckLinkerFlag)
 include(CMakeParseArguments)
 include(internal/CheckCXXCompilerFlag)
+include(internal/CheckLinkerFlag)
 
 # https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
 # https://clang.llvm.org/docs/AddressSanitizer.html
