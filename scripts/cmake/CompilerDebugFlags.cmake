@@ -5,6 +5,7 @@ include(internal/CheckCXXCompilerFlag)
 
 set(phi_extra_debug_flags
     fasynchronous-unwind-tables
+    fbounds-check
     fcf-protection=full
     fcheck-new
     fdebug-macro
@@ -44,6 +45,11 @@ endif()
 # MSVC only options which cause problems with other compilers
 if(NOT PHI_COMPILER_MSVC)
   list(REMOVE_ITEM phi_extra_debug_flags GZ GS Ge)
+endif()
+
+# Clang claims to accept 'fbounds-check' but then gives a warning
+if(PHI_COMPILER_CLANG OR PHI_COMPILER_EMCC)
+  list(REMOVE_ITEM phi_extra_debug_flags "fbounds-check")
 endif()
 
 # Check extra debug flags
