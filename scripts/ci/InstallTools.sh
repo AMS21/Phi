@@ -102,7 +102,7 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib -y
+    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib --no-install-recommends -y
     echo "-- Installing clang-$1 done"
 
     # Verify versions
@@ -128,7 +128,7 @@ install_clang() {
 # Expects first parameter to the the requested version
 install_gcc() {
     echo "-- Installing gcc-$1..."
-    retry sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" -y
+    retry sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" --no-install-recommends -y
     echo "-- Installing gcc-$1 done"
 
     # Verify versions
@@ -153,7 +153,7 @@ install_gcc() {
 
 install_valgrind() {
     echo "-- Installing valgrind..."
-    retry sudo apt-get install valgrind -y
+    retry sudo apt-get install valgrind --no-install-recommends -y
     echo "-- Installing valgring done"
 
     # Verify
@@ -204,7 +204,7 @@ install_clang_tidy() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-tidy-$1..."
-    retry sudo apt-get install "clang-tidy-$1" -y
+    retry sudo apt-get install "clang-tidy-$1" --no-install-recommends -y
 
     # Verify
     echo "-- Verifying clang-tidy-$1..."
@@ -225,7 +225,7 @@ install_llvm() {
     install_clang "$1"
 
     echo "-- Installing llvm-$1..."
-    retry sudo apt-get install "llvm-$1" "llvm-$1-dev" -y
+    retry sudo apt-get install "llvm-$1" "llvm-$1-dev" --no-install-recommends -y
 
     # Export values
     echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
@@ -281,7 +281,7 @@ install_pvs_studio() {
     retry sudo apt-get update
 
     echo "-- Installing pvs-studio..."
-    retry sudo apt-get install pvs-studio -y
+    retry sudo apt-get install pvs-studio --no-install-recommends -y
     echo "-- Installing pvs-studio done"
 
     # Verify
@@ -302,7 +302,7 @@ install_mull() {
     echo "-- Setting up mull-$1 done"
 
     echo "-- Installing mull-$1..."
-    retry sudo apt-get install "mull-$1" -y
+    retry sudo apt-get install "mull-$1" --no-install-recommends -y
     echo "-- Installing mull-$1 done"
 
     # Verify
@@ -318,7 +318,7 @@ install_clang_format() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-format..."
-    retry sudo apt-get install "clang-format-$1" -y
+    retry sudo apt-get install "clang-format-$1" --no-install-recommends -y
     echo "-- Installing clang-format done"
 
     # Verify
@@ -333,7 +333,7 @@ install_clang_format() {
 
 install_ninja() {
     echo "-- Installing ninja..."
-    retry sudo apt-get install ninja-build -y
+    retry sudo apt-get install ninja-build --no-install-recommends -y
     echo "-- Installing ninja done"
 
     # Verify
