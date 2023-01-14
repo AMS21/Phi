@@ -2121,6 +2121,189 @@ TEST_CASE("array find")
     }
 }
 
+TEST_CASE("array find_if")
+{
+    {
+        using array = phi::array<int, 3u>;
+        array arr{1, 2, 3};
+
+        CHECK(arr.find_if([](const int& value) { return value == 1; }) == &arr.at(0u));
+        CHECK(arr.find_if([](const int& value) { return value == 2; }) == &arr.at(1u));
+        CHECK(arr.find_if([](const int& value) { return value % 2 == 0; }) == &arr.at(1u));
+        CHECK(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })), array::iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        array arr;
+
+        CHECK(arr.find_if([](const int& value) { return value == 1; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value == 2; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value % 2 == 0; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })), array::iterator);
+        CHECK_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        const array arr{1, 2, 3};
+
+        CHECK(arr.find_if([](const int& value) { return value == 1; }) == &arr.at(0u));
+        CHECK(arr.find_if([](const int& value) { return value == 2; }) == &arr.at(1u));
+        CHECK(arr.find_if([](const int& value) { return value % 2 == 0; }) == &arr.at(1u));
+        CHECK(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        const array arr;
+
+        CHECK(arr.find_if([](const int& value) { return value == 1; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value == 2; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value % 2 == 0; }) == arr.end());
+        CHECK(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        constexpr array arr{1, 2, 3};
+
+        EXT_STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 1; }) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 2; }) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if([](const int& value) { return value % 2 == 0; }) ==
+                           &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        constexpr array arr;
+
+        STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 1; }) == arr.end());
+        STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 2; }) == arr.end());
+        STATIC_REQUIRE(arr.find_if([](const int& value) { return value % 2 == 0; }) == arr.end());
+        STATIC_REQUIRE(arr.find_if([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOEXCEPT(arr.find_if([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if([](const int&) noexcept { return false; }));
+    }
+}
+
+TEST_CASE("array find_if_not")
+{
+    {
+        using array = phi::array<int, 3u>;
+        array arr{1, 2, 3};
+
+        CHECK(arr.find_if_not([](const int& value) { return value == 0; }) == &arr.at(0u));
+        CHECK(arr.find_if_not([](const int& value) { return value == 1; }) == &arr.at(1u));
+        CHECK(arr.find_if_not([](const int& value) { return value % 2 == 1; }) == &arr.at(1u));
+        CHECK(arr.find_if_not([](const int& value) {
+            return value == 1 || value == 2 || value == 3;
+        }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        array arr;
+
+        CHECK(arr.find_if_not([](const int& value) { return value == 1; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value == 2; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value % 2 == 0; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::iterator);
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        const array arr{1, 2, 3};
+
+        CHECK(arr.find_if_not([](const int& value) { return value == 0; }) == &arr.at(0u));
+        CHECK(arr.find_if_not([](const int& value) { return value == 1; }) == &arr.at(1u));
+        CHECK(arr.find_if_not([](const int& value) { return value % 2 == 1; }) == &arr.at(1u));
+        CHECK(arr.find_if_not([](const int& value) {
+            return value == 1 || value == 2 || value == 3;
+        }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        const array arr;
+
+        CHECK(arr.find_if_not([](const int& value) { return value == 1; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value == 2; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value % 2 == 0; }) == arr.end());
+        CHECK(arr.find_if_not([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        constexpr array arr{1, 2, 3};
+
+        EXT_STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value == 0; }) ==
+                           &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value == 1; }) ==
+                           &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value % 2 == 1; }) ==
+                           &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if_not([](const int& value) {
+            return value == 1 || value == 2 || value == 3;
+        }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOT_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        constexpr array arr;
+
+        STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value == 1; }) == arr.end());
+        STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value == 2; }) == arr.end());
+        STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value % 2 == 0; }) ==
+                       arr.end());
+        STATIC_REQUIRE(arr.find_if_not([](const int& value) { return value == 4; }) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find_if_not([](const int&) { return false; })),
+                        array::const_iterator);
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) { return false; }));
+        CHECK_NOEXCEPT(arr.find_if_not([](const int&) noexcept { return false; }));
+    }
+}
+
 template <typename TypeT>
 PHI_EXTENDED_CONSTEXPR void check_iterator_noexcept(TypeT& container)
 {
