@@ -58,6 +58,36 @@ if(${PHI_TEST_WITH_ALL_STANDARDS})
         Phi::Core
         Phi::Test
         NO_GROUP)
+
+      # No rtti
+      phi_add_executable(
+        NAME
+        "Phi_AllIncludes${std}_no_rtti"
+        SOURCES
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+        FOLDER
+        "Tests/Integration"
+        PRIVATE_LINK_LIBRARIES
+        Phi::Core
+        Phi::Test
+        NO_GROUP)
+      phi_target_set_rtti(TARGET "Phi_AllIncludes${std}_no_rtti" DISABLE)
+
+      # No exceptions
+      phi_add_executable(
+        NAME
+        "Phi_AllIncludes${std}_no_exception"
+        SOURCES
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+        "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+        FOLDER
+        "Tests/Integration"
+        PRIVATE_LINK_LIBRARIES
+        Phi::Core
+        Phi::Test
+        NO_GROUP)
+      phi_target_disable_exceptions(TARGET "Phi_AllIncludes${std}_no_exception")
     endif()
   endforeach()
 else()
@@ -73,4 +103,34 @@ else()
     Phi::Core
     Phi::Test
     NO_GROUP)
+
+  # No rtti
+  phi_add_executable(
+    NAME
+    "Phi_AllIncludes_no_rtti"
+    SOURCES
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+    FOLDER
+    "Tests/Integration"
+    PRIVATE_LINK_LIBRARIES
+    Phi::Core
+    Phi::Test
+    NO_GROUP)
+  phi_target_set_rtti(TARGET "Phi_AllIncludes_no_rtti" DISABLE)
+
+  # No exceptions
+  phi_add_executable(
+    NAME
+    "Phi_AllIncludes_no_exception"
+    SOURCES
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_MAIN}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${ALL_INCLUDE_SECOND}"
+    FOLDER
+    "Tests/Integration"
+    PRIVATE_LINK_LIBRARIES
+    Phi::Core
+    Phi::Test
+    NO_GROUP)
+  phi_target_disable_exceptions(TARGET "Phi_AllIncludes_no_exception")
 endif()
