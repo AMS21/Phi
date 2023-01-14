@@ -156,13 +156,37 @@ set(phi_disabled_warnings_flags
     wd5264 # 'variable-name': 'const' variable is not used -
            # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
     Wno-constexpr-not-const
+    Wno-c++-compat
+    Wno-c++0x-compat
+    Wno-c++0x-extensions
+    Wno-c++0x-narrowing
+    Wno-c++1y-compat
     Wno-c++1y-extensions
+    Wno-c++1z-compat
     Wno-c++1z-extensions
     Wno-c++2a-compat
+    Wno-c++2a-extensions
+    Wno-c++2b-compat
+    Wno-c++2b-extensions
+    Wno-c++11-compat
+    Wno-c++11-extensions
+    Wno-c++11-narrowing
+    Wno-c++14-compat
+    Wno-c++14-extensions
+    Wno-c++17-compat
+    Wno-c++17-extensions
     Wno-c++20-compat
+    Wno-c++20-extensions
+    Wno-c++23-compat
+    Wno-c++23-extensions
     Wno-c++98-compat
     Wno-c++98-compat-pedantic
+    Wno-c++98-c++11-compat
     Wno-c++98-c++11-compat-pedantic
+    Wno-c++98-c++11-c++14-compat
+    Wno-c++98-c++11-c++14-compat-pedantic
+    Wno-c++98-c++11-c++14-c++17-compat
+    Wno-c++98-c++11-c++14-c++17-compat-pedantic
     Wno-documentation-unknown-command
     Wno-gnu-zero-variadic-macro-arguments
     Wno-language-extension-token
