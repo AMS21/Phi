@@ -390,7 +390,7 @@ private:
         if (m_ControlBlock == nullptr)
         {
             delete m_Ptr;
-            throw std::bad_alloc();
+            return nullptr;
         }
 
         return m_ControlBlock;
