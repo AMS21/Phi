@@ -338,6 +338,94 @@ public:
         return end();
     }
 
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
+    find_last(const TypeT& value) noexcept(noexcept(value == value))
+    {
+        for (iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (*itr == value)
+            {
+                return itr;
+            }
+        }
+
+        return front() == value ? &front() : end();
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator find_last(const TypeT& value) const
+            noexcept(noexcept(value == value))
+    {
+        for (const_iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (*itr == value)
+            {
+                return itr;
+            }
+        }
+
+        return front() == value ? &front() : end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
+    find_last_if(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    {
+        for (iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (predicate(*itr))
+            {
+                return itr;
+            }
+        }
+
+        return predicate(front()) ? &front() : end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator
+    find_last_if(UnaryPredicateT predicate) const noexcept(noexcept(predicate(front())))
+    {
+        for (const_iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (predicate(*itr))
+            {
+                return itr;
+            }
+        }
+
+        return predicate(front()) ? &front() : end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
+    find_last_if_not(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    {
+        for (iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (!predicate(*itr))
+            {
+                return itr;
+            }
+        }
+
+        return predicate(front()) ? end() : &front();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator
+    find_last_if_not(UnaryPredicateT predicate) const noexcept(noexcept(predicate(front())))
+    {
+        for (const_iterator itr = &back(); itr > begin(); --itr)
+        {
+            if (!predicate(*itr))
+            {
+                return itr;
+            }
+        }
+
+        return predicate(front()) ? end() : &front();
+    }
+
     PHI_EXTENDED_CONSTEXPR void reverse() noexcept
     {
         for (size_t index = 0u; index != Size / 2u; ++index)
@@ -596,6 +684,42 @@ public:
 
     template <typename UnaryPredicateT>
     PHI_NODISCARD constexpr const_iterator find_if_not(UnaryPredicateT /*predicate*/) const noexcept
+    {
+        return end();
+    }
+
+    PHI_NODISCARD constexpr iterator find_last(const TypeT& /*value*/) noexcept
+    {
+        return end();
+    }
+
+    PHI_NODISCARD constexpr const_iterator find_last(const TypeT& /*value*/) const noexcept
+    {
+        return end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD constexpr iterator find_last_if(UnaryPredicateT /*predicate*/) noexcept
+    {
+        return end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD constexpr const_iterator find_last_if(
+            UnaryPredicateT /*predicate*/) const noexcept
+    {
+        return end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD constexpr iterator find_last_if_not(UnaryPredicateT /*predicate*/) noexcept
+    {
+        return end();
+    }
+
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD constexpr const_iterator find_last_if_not(
+            UnaryPredicateT /*predicate*/) const noexcept
     {
         return end();
     }
