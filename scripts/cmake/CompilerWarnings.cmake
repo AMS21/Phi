@@ -184,7 +184,7 @@ set(phi_check_required_flags
     # "attribute 'attribute-name' is not recognized"
     we5030)
 
-# GCC does except all -Wno-xxxx flags even if it can't handle them
+# GCC does accept all -Wno-xxxx flags even if it can't handle them
 if(PHI_COMPILER_GCC)
   set(phi_disabled_warnings_flags "Wno-unused-function")
 
