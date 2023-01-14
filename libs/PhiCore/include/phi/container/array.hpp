@@ -250,6 +250,34 @@ public:
         return min_index;
     }
 
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
+    find(const TypeT& value) noexcept(noexcept(value == value))
+    {
+        for (iterator itr = begin(); itr != end(); ++itr)
+        {
+            if (*itr == value)
+            {
+                return itr;
+            }
+        }
+
+        return end();
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator find(const TypeT& value) const
+            noexcept(noexcept(value == value))
+    {
+        for (const_iterator itr = begin(); itr != end(); ++itr)
+        {
+            if (*itr == value)
+            {
+                return itr;
+            }
+        }
+
+        return end();
+    }
+
     PHI_EXTENDED_CONSTEXPR void reverse() noexcept
     {
         for (size_t index = 0u; index != Size / 2u; ++index)
@@ -476,6 +504,16 @@ public:
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::min_index() on zero sized array");
         PHI_UNREACHABLE();
+    }
+
+    PHI_NODISCARD constexpr iterator find(const TypeT& /*value*/) noexcept
+    {
+        return end();
+    }
+
+    PHI_NODISCARD constexpr const_iterator find(const TypeT& /*value*/) const noexcept
+    {
+        return end();
     }
 
     constexpr void reverse() noexcept

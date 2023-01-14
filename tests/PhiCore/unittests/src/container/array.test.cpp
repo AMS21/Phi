@@ -2043,6 +2043,84 @@ TEST_CASE("min_index")
     }
 }
 
+TEST_CASE("array find")
+{
+    {
+        using array = phi::array<int, 3u>;
+        array arr{1, 2, 3};
+
+        CHECK(arr.find(1) == &arr.front());
+        CHECK(arr.find(2) == &arr.at(1u));
+        CHECK(arr.find(3) == &arr.back());
+        CHECK(arr.find(0) == arr.end());
+        CHECK(arr.find(4) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        array arr;
+
+        CHECK(arr.find(0) == arr.end());
+        CHECK(arr.find(1) == arr.end());
+        CHECK(arr.find(2) == arr.end());
+        CHECK(arr.find(3) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        const array arr{1, 2, 3};
+
+        CHECK(arr.find(1) == &arr.front());
+        CHECK(arr.find(2) == &arr.at(1u));
+        CHECK(arr.find(3) == &arr.back());
+        CHECK(arr.find(0) == arr.end());
+        CHECK(arr.find(4) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::const_iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        const array arr;
+
+        CHECK(arr.find(0) == arr.end());
+        CHECK(arr.find(1) == arr.end());
+        CHECK(arr.find(2) == arr.end());
+        CHECK(arr.find(3) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::const_iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+
+    {
+        using array = phi::array<int, 3u>;
+        constexpr array arr{1, 2, 3};
+
+        EXT_STATIC_REQUIRE(arr.find(1) == &arr.front());
+        EXT_STATIC_REQUIRE(arr.find(2) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find(3) == &arr.back());
+        EXT_STATIC_REQUIRE(arr.find(0) == arr.end());
+        EXT_STATIC_REQUIRE(arr.find(4) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::const_iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+
+    {
+        using array = phi::array<int, 0u>;
+        constexpr array arr;
+
+        STATIC_REQUIRE(arr.find(0) == arr.end());
+        STATIC_REQUIRE(arr.find(1) == arr.end());
+        STATIC_REQUIRE(arr.find(2) == arr.end());
+        STATIC_REQUIRE(arr.find(3) == arr.end());
+        CHECK_SAME_TYPE(decltype(arr.find(1)), array::const_iterator);
+        CHECK_NOEXCEPT(arr.find(1));
+    }
+}
+
 template <typename TypeT>
 PHI_EXTENDED_CONSTEXPR void check_iterator_noexcept(TypeT& container)
 {
