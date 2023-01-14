@@ -2,6 +2,7 @@
 
 # Stop on first error
 set -e
+set -u
 
 upgraded_pip=0
 added_llvm_apt=0

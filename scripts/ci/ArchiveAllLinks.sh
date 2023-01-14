@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -u
+
 # Regex for html
 # Copied from here https://stackoverflow.com/a/3184819/10114628
 regex='(https?|ftp)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
