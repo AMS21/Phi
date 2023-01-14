@@ -9,12 +9,29 @@ root_dir=$(pwd)
 
 cmake_build_flags="-O3 -DNDEBUG -w -march=native -mtune=native"
 
+function retry {
+    local try=1
+
+    while true; do
+        "$@" && break || {
+            if [[ $try -lt 10 ]]; then
+                ((try++))
+                echo "Try failed. Attempt $try/10:"
+                sleep 30
+            else
+                echo "The command has failed after $try attempts."
+                exit 1
+            fi
+        }
+    done
+}
+
 # Make sure pip is using the latest version
 upgrade_pip() {
     if [[ "$upgraded_pip" == 0 ]]; then
         echo "-- Upgrading pip..."
 
-        sudo -H pip3 install --upgrade pip
+        retry sudo -H pip3 install --upgrade pip
         upgraded_pip=1
 
         echo "-- Upgrading pip done"
@@ -23,7 +40,7 @@ upgrade_pip() {
 
 install_python_wheel() {
     echo "--- Installing wheel on pip..."
-    sudo -H pip3 install wheel
+    retry sudo -H pip3 install wheel
     echo "--- Installing wheel on pip done"
 }
 
@@ -31,18 +48,18 @@ add_llvm_apt() {
     if [[ "$added_llvm_apt" == 0 ]]; then
         echo "-- Adding LLVM-$1 apt..."
         # Get gpg key
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        retry wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 
         os_release=$(lsb_release -c -s)
         apt_repo="https://apt.llvm.org/$os_release/ llvm-toolchain-$os_release-$1 main"
         echo "Adding the apt repo: $apt_repo"
 
         # Add the required repo
-        sudo add-apt-repository "deb $apt_repo"
+        retry sudo add-apt-repository "deb $apt_repo"
 
         # Update repo list
         echo "-- Updating apt..."
-        sudo apt-get update -m
+        retry sudo apt-get update -m
         echo "-- Updating apt done"
 
         echo "-- Adding LLVM-$1 apt done"
@@ -54,7 +71,7 @@ install_gcovr() {
     install_python_wheel
 
     echo "-- Installing gcovr..."
-    sudo -H pip3 install gcovr
+    retry sudo -H pip3 install gcovr
     echo "-- Installing gcovr done"
 
     # Verify
@@ -69,7 +86,7 @@ install_cmake_format() {
 
     echo "-- Installing cmake-format..."
     # See https://cmake-format.readthedocs.io/en/latest/installation.html#installation
-    sudo -H pip3 install cmakelang pyyaml
+    retry sudo -H pip3 install cmakelang pyyaml
     echo "-- Installing cmake-format done"
 
     # Verify
@@ -84,7 +101,7 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib -y
+    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib -y
     echo "-- Installing clang-$1 done"
 
     # Verify versions
@@ -110,7 +127,7 @@ install_clang() {
 # Expects first parameter to the the requested version
 install_gcc() {
     echo "-- Installing gcc-$1..."
-    sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" -y
+    retry sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" -y
     echo "-- Installing gcc-$1 done"
 
     # Verify versions
@@ -135,7 +152,7 @@ install_gcc() {
 
 install_valgrind() {
     echo "-- Installing valgrind..."
-    sudo apt-get install valgrind -y
+    retry sudo apt-get install valgrind -y
     echo "-- Installing valgring done"
 
     # Verify
@@ -150,7 +167,7 @@ install_cppcheck() {
 
     # Download archive
     echo "-- Downloading cppcheck..."
-    wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/$1.tar.gz" | tar --strip-components=1 -xz -C cppcheck
+    retry wget --no-check-certificate -O - "https://github.com/danmar/cppcheck/archive/$1.tar.gz" | tar --strip-components=1 -xz -C cppcheck
     echo "-- Downloading cppcheck done"
 
     # Build CppCheck
@@ -186,7 +203,7 @@ install_clang_tidy() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-tidy-$1..."
-    sudo apt-get install "clang-tidy-$1" -y
+    retry sudo apt-get install "clang-tidy-$1" -y
 
     # Verify
     echo "-- Verifying clang-tidy-$1..."
@@ -207,7 +224,7 @@ install_llvm() {
     install_clang "$1"
 
     echo "-- Installing llvm-$1..."
-    sudo apt-get install "llvm-$1" "llvm-$1-dev" -y
+    retry sudo apt-get install "llvm-$1" "llvm-$1-dev" -y
 
     # Export values
     echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
@@ -220,7 +237,7 @@ install_iwyu() {
     install_llvm "$1"
 
     echo "-- Cloning iwyu..."
-    git clone https://github.com/include-what-you-use/include-what-you-use.git
+    retry git clone https://github.com/include-what-you-use/include-what-you-use.git
     echo "-- Cloning iwyu done"
 
     # Checkut branch
@@ -255,15 +272,15 @@ install_iwyu() {
 install_pvs_studio() {
     # Get gpg key
     echo "-- Adding viva64 repo..."
-    wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
-    sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
+    retry wget -q -O - https://files.viva64.com/etc/pubkey.txt | sudo apt-key add
+    retry sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.viva64.com/etc/viva64.list
     echo "-- Adding viva64 repo done"
 
     # Udpate repo list
-    sudo apt-get update
+    retry sudo apt-get update
 
     echo "-- Installing pvs-studio..."
-    sudo apt-get install pvs-studio -y
+    retry sudo apt-get install pvs-studio -y
     echo "-- Installing pvs-studio done"
 
     # Verify
@@ -276,15 +293,15 @@ install_pvs_studio() {
 install_mull() {
     echo "-- Setting up mull-$1..."
     # https://mull.readthedocs.io/en/latest/Installation.html#install-on-ubuntu
-    curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
+    retry curl -1sLf 'https://dl.cloudsmith.io/public/mull-project/mull-stable/setup.deb.sh' | sudo -E bash
 
     # Update repo list
-    sudo apt-get update
+    retry sudo apt-get update
 
     echo "-- Setting up mull-$1 done"
 
     echo "-- Installing mull-$1..."
-    sudo apt-get install "mull-$1" -y
+    retry sudo apt-get install "mull-$1" -y
     echo "-- Installing mull-$1 done"
 
     # Verify
@@ -300,7 +317,7 @@ install_clang_format() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-format..."
-    sudo apt-get install "clang-format-$1" -y
+    retry sudo apt-get install "clang-format-$1" -y
     echo "-- Installing clang-format done"
 
     # Verify
@@ -315,7 +332,7 @@ install_clang_format() {
 
 install_ninja() {
     echo "-- Installing ninja..."
-    sudo apt-get install ninja-build -y
+    retry sudo apt-get install ninja-build -y
     echo "-- Installing ninja done"
 
     # Verify
