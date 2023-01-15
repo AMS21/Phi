@@ -142,14 +142,12 @@ function(phi_target_enable_extra_debug_flags)
     if("${config}" STREQUAL "Debug")
       foreach(flag ${_phi_extra_debug_only_flags_supported})
         target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-        target_link_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       endforeach()
     endif()
 
     # Set each flag
     foreach(flag ${_phi_extra_debug_flags_supported})
       target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-      target_link_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
     endforeach()
 
     target_compile_definitions(${dbg_TARGET} ${visibility_scope}
