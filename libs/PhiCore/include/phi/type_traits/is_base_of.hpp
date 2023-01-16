@@ -37,6 +37,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_base_of_v = !PHI_IS_BASE_OF(BaseT, Der
 
 #else
 
+#    include "phi/compiler_support/warning.hpp"
 #    include "phi/type_traits/is_class.hpp"
 
 #    if PHI_HAS_WORKING_IS_CLASS()
@@ -58,9 +59,14 @@ namespace detail
     template <typename, typename>
     auto test_pre_is_base_of(...) -> true_type;
 
+    PHI_CLANG_SUPPRESS_WARNING_PUSH()
+    PHI_CLANG_SUPPRESS_WARNING("-Wmicrosoft-cast")
+
     template <typename BaseT, typename DerivedT>
     auto test_pre_is_base_of(int)
             -> decltype(test_pre_ptr_convertible<BaseT>(static_cast<DerivedT*>(nullptr)));
+
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 } // namespace detail
 
 template <typename BaseT, typename DerivedT>

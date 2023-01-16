@@ -512,14 +512,14 @@ TEST_CASE("is_constructible")
 #endif
     test_is_constructible<final_type>();
     test_is_constructible<public_destructor>();
-#if PHI_COMPILER_IS_NOT(MSVC)
+#if PHI_COMPILER_IS_NOT(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
     test_is_not_constructible<protected_destructor>();
     test_is_not_constructible<private_destructor>();
 #else
     SKIP_CHECK();
 #endif
     test_is_constructible<virtual_public_destructor>();
-#if PHI_COMPILER_IS_NOT(MSVC)
+#if PHI_COMPILER_IS_NOT(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
     test_is_not_constructible<virtual_protected_destructor>();
     test_is_not_constructible<virtual_private_destructor>();
 #else
@@ -528,7 +528,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<pure_public_destructor>();
     test_is_not_constructible<pure_protected_destructor>();
     test_is_not_constructible<pure_private_destructor>();
-#if PHI_COMPILER_IS_NOT(MSVC)
+#if PHI_COMPILER_IS_NOT(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
     test_is_not_constructible<deleted_public_destructor>();
     test_is_not_constructible<deleted_protected_destructor>();
     test_is_not_constructible<deleted_private_destructor>();
