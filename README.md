@@ -14,4 +14,3 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/ams21/phi/badge)](https://www.codefactor.io/repository/github/ams21/phi)
 ![Coverity Scan](https://img.shields.io/coverity/scan/ams21-phi)
 [![codecov](https://codecov.io/gh/AMS21/Phi/branch/develop/graph/badge.svg)](https://codecov.io/gh/AMS21/Phi)
-[![BCH compliance](https://bettercodehub.com/edge/badge/AMS21/Phi?branch=develop)](https://bettercodehub.com/)
