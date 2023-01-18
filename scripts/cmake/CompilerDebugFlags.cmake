@@ -13,7 +13,6 @@ set(phi_extra_debug_flags
     fharden-conditional-branches
     fstack-clash-protection
     fstack-protector-all
-    ftrapv
     ftrivial-auto-var-init=pattern
     fvar-tracking
     fvar-tracking-assignments
