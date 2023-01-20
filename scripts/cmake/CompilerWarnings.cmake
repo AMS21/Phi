@@ -369,9 +369,6 @@ function(phi_target_set_warnings)
     TARGET ${warn_TARGET}
     PROPERTY LINKER_LANGUAGE)
 
-  # message(STATUS "Target: ${warn_TARGET}") message(STATUS "Linker language:
-  # ${target_linker_language}")
-
   # We're assuming CXX by default
   if("${target_linker_language}" STREQUAL "CXX" OR "${target_linker_language}" STREQUAL "")
     # Set C++ warning flags
