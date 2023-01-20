@@ -8,14 +8,11 @@ include(internal/CheckLinkerFlag)
 
 set(phi_opt_compile_flags
     fallow-store-data-races
-    fdeclone-ctor-dtor
     fdevirtualize-speculatively
-    felide-constructors
     ffinite-loops
     fforce-emit-vtables
     fgcse-las
     fgcse-sm
-    fimplicit-constexpr
     fira-hoist-pressure
     fira-loop-pressure
     fisolate-erroneous-paths-attribute
@@ -26,12 +23,9 @@ set(phi_opt_compile_flags
     fmerge-functions
     fmodulo-sched
     fmodulo-sched-allow-regmoves
-    fno-enforce-eh-specs
     fsched-pressure
     fsemantic-interposition
-    fnothrow-opt
     fstrict-aliasing
-    fstrict-enums
     fstrict-return
     fstrict-vtable-pointers
     ftree-loop-im
@@ -62,6 +56,9 @@ set(phi_opt_compile_flags
     QIntel-jcc-erratum # https://learn.microsoft.com/cpp/build/reference/qintel-jcc-erratum
 )
 
+set(phi_opt_cxx_compile_flags fdeclone-ctor-dtor felide-constructors fimplicit-constexpr
+                              fno-enforce-eh-specs fnothrow-opt fstrict-enums)
+
 # MSVC only options which cause problems with other compilers
 if(NOT PHI_COMPILER_MSVC)
   list(
@@ -80,24 +77,6 @@ if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS) OR PHI_COMPILER_EMCC)
   list(REMOVE_ITEM phi_opt_compile_flags "fsemantic-interposition")
 endif()
 
-# Check optimize flags for C++
-set(_phi_opt_compile_flags_cxx_supported CACHE INTERNAL "")
-foreach(_test ${phi_opt_compile_flags})
-  string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_CXX_FLAG_${_testName}")
-
-  if(PHI_HAS_CXX_FLAG_${_testName})
-    set(_phi_opt_compile_flags_cxx_supported
-        ${_phi_opt_compile_flags_cxx_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
-
 # Check C optimize flags
 set(_phi_opt_compile_flags_c_supported CACHE INTERNAL "")
 foreach(_test ${phi_opt_compile_flags})
@@ -107,11 +86,29 @@ foreach(_test ${phi_opt_compile_flags})
   string(REPLACE "_" "_" _testName ${_testName})
   string(TOUPPER ${_testName} _testName)
 
-  phi_check_c_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_C_FLAG_${_testName}")
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
 
-  if(PHI_HAS_C_FLAG_${_testName})
+  if(PHI_HAS_FLAG_${_testName})
     set(_phi_opt_compile_flags_c_supported
         ${_phi_opt_compile_flags_c_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
+        CACHE INTERNAL "")
+  endif()
+endforeach(_test)
+
+# Check optimize flags for C++
+set(_phi_opt_compile_flags_cxx_supported CACHE INTERNAL "")
+foreach(_test ${phi_opt_cxx_compile_flags})
+  string(REPLACE "-" "_" _testName ${_test})
+  string(REPLACE "=" "_" _testName ${_testName})
+  string(REPLACE ":" "_" _testName ${_testName})
+  string(REPLACE "_" "_" _testName ${_testName})
+  string(TOUPPER ${_testName} _testName)
+
+  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
+
+  if(PHI_HAS_FLAG_${_testName})
+    set(_phi_opt_compile_flags_cxx_supported
+        ${_phi_opt_compile_flags_cxx_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
   endif()
 endforeach(_test)
@@ -238,7 +235,7 @@ function(phi_target_enable_optimizations)
   foreach(config ${opt_CONFIGS})
     if("${target_linker_language}" STREQUAL "CXX" OR "${target_linker_language}" STREQUAL "")
       # Enable C++ optimizations flags
-      foreach(flag ${_phi_opt_compile_flags_cxx_supported})
+      foreach(flag ${_phi_opt_compile_flags_c_supported} ${_phi_opt_compile_flags_cxx_supported})
         target_compile_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
         target_link_options(${opt_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
       endforeach(flag)
