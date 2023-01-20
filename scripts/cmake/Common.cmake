@@ -88,7 +88,7 @@ foreach(_test ${phi_common_cxx_only_flags})
 endforeach(_test)
 
 # Color diagnostics
-set(phi_color_diagnostics fcolor-diagnostics fdiagnostics-color=always)
+set(phi_color_diagnostics fdiagnostics-color=always fcolor-diagnostics)
 
 set(_phi_color_diagnostics_supported CACHE INTERNAL "")
 foreach(_test ${phi_color_diagnostics})
@@ -104,6 +104,9 @@ foreach(_test ${phi_color_diagnostics})
     set(_phi_color_diagnostics_supported
         ${_phi_color_diagnostics_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
         CACHE INTERNAL "")
+
+    # Don't continue
+    break()
   endif()
 endforeach(_test)
 
