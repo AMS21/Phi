@@ -3,6 +3,10 @@
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/warning.hpp>
 
+// https://learn.microsoft.com/cpp/code-quality/c6285
+PHI_MSVC_SUPPRESS_WARNING(
+        6285) // ('non-zero constant' || 'non-zero constant') is always a non-zero constant. Did you intend to use the bitwise-and operator?
+
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
 
