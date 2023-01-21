@@ -311,6 +311,7 @@ jobs:
 
     env:
       CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"run-queries": ["--off-heap-ram=0"]}}'
+      LLVM_VERSION: 15
 
     permissions:
       actions: read
@@ -322,15 +323,6 @@ jobs:
 
       matrix:
         language: [ 'cpp' ]
-
-        compiler:
-          - 'gcc-12'
-          - 'clang-15'
-
-        build_type:
-          - 'Debug'
-          - 'RelWithDebInfo'
-          - 'Release'
 
     steps:
       # NOTE: We won't cache the compiliation since CodeQL requires a full rebuild for analysis to work
@@ -344,14 +336,14 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }} ninja
+        run: scripts/ci/InstallTools.sh clang-${{ env.LLVM_VERSION }} ninja
 
       - name: Configure build directory
         run: |
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_COVERAGE_BUILD:BOOL=${{ matrix.build_type == 'Debug' }} -DPHI_BUILD_TESTS:BOOL=OFF ..
+          cmake -DCMAKE_BUILD_TYPE:STRING="Debug" -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_BUILD_TESTS:BOOL=OFF ..
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -366,7 +358,7 @@ jobs:
 
       - name: Build
         working-directory: ./build
-        run: cmake --build . --config ${{ matrix.build_type }}
+        run: cmake --build . --config "Debug"
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
@@ -461,15 +453,6 @@ jobs:
       run:
         shell: bash
 
-    strategy:
-      fail-fast: false
-
-      matrix:
-        build_type:
-          - 'Debug'
-          - 'RelWithDebInfo'
-          - 'Release'
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -483,11 +466,11 @@ jobs:
           cd build
 
           # Configure
-          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING="Debug"
 
       - name: Build
         working-directory: ./build
-        run: cmake --build . --config ${{ matrix.build_type }}
+        run: cmake --build . --config "Debug"
 
       - name: Initialize MSVC Code Analysis
         uses: microsoft/msvc-code-analysis-action@v0.1.1
@@ -495,7 +478,7 @@ jobs:
         id: run-analysis
         with:
           cmakeBuildDirectory: '${{ github.workspace }}/build'
-          buildConfiguration: ${{ matrix.build_type }}
+          buildConfiguration: "Debug"
           # Ruleset file that will determine what checks will be run
           ruleset: NativeRecommendedRules.ruleset
 

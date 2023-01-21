@@ -46,7 +46,6 @@ jobs:
 
         build_type:
           - "Debug"
-          - "RelWithDebInfo"
           - "Release"
 
     steps:
