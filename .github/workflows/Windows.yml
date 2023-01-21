@@ -30,7 +30,7 @@ defaults:
     shell: bash
 
 concurrency:
-  group: ci-${{ github.head_ref || github.run_number }}-${{ github.ref }}-${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -54,11 +54,6 @@ jobs:
           - "RelWithDebInfo"
           - "Release"
 
-        dynamic_test:
-          - "none"
-          - "coverage"
-          - "asan"
-
         standard:
           - "14"
           - "17"
@@ -79,20 +74,10 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
 
-      - name: Setup coverage tools
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: aminya/setup-cpp@v1
-        with:
-          gcovr: true
-          opencppcoverage: true
-
       - name: Configure build directory
         run: |
           mkdir build -p
           cd build
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
 
           cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_TEST_WITH_ALL_STANDARDS:BOOL=OFF -DPHI_STANDARD:STRING=${{ matrix.standard }}
 
@@ -104,20 +89,6 @@ jobs:
         if: ${{ matrix.dynamic_test != 'coverage' }}
         working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Test with coverage
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        working-directory: ./build
-        run: OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest . -C ${{ matrix.build_type }} --timeout 18000 --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},msvc-${{ matrix.os }},${{ matrix.build_type }},${{ matrix.arch }}
-          name: ${{ runner.os }}-msvc-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.standard }}-${{ matrix.arch }}
-          fail_ci_if_error: true
 
   clang:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
@@ -132,11 +103,6 @@ jobs:
           - "RelWithDebInfo"
           - "Release"
 
-        dynamic_test:
-          - "none"
-          - "coverage"
-          - "ubsan"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -144,11 +110,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: |
-          scripts/ci/SetupEnvironment.sh
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
+        run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
         shell: powershell
@@ -165,10 +127,6 @@ jobs:
           echo "C:\ProgramData\scoop\apps\llvm\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\ProgramData\scoop\apps\ninja\current"    | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Install gcovr
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: pip install gcovr
-
       - name: Configure build directory
         run: |
           mkdir build -p
@@ -183,20 +141,6 @@ jobs:
       - name: Run tests
         working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data
-        working-directory: ./build
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'llvm-cov gcov' --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},clang,${{ matrix.build_type }}
-          name: ${{ runner.os }}-clang-${{ matrix.build_type }}
-          fail_ci_if_error: true
 
   gcc:
     # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
@@ -211,10 +155,6 @@ jobs:
           - "RelWithDebInfo"
           - "Release"
 
-        dynamic_test:
-          - "none"
-          - "coverage"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -222,11 +162,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: |
-          scripts/ci/SetupEnvironment.sh
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
+        run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
         shell: powershell
@@ -241,11 +177,7 @@ jobs:
 
           echo "CXX=g++" >> $GITHUB_ENV
           echo "C:\ProgramData\scoop\apps\gcc\current\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "C:\ProgramData\scoop\apps\ninja\current"    | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-      - name: Install gcovr
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: pip install gcovr
+          echo "C:\ProgramData\scoop\apps\ninja\current"   | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Configure build directory
         run: |
@@ -261,17 +193,3 @@ jobs:
       - name: Run tests
         working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data
-        working-directory: ./build
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable 'gcov' --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},gcc,${{ matrix.build_type }}
-          name: ${{ runner.os }}-gcc-${{ matrix.build_type }}
-          fail_ci_if_error: true

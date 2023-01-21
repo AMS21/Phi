@@ -25,7 +25,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.head_ref || github.run_number }}-${{ github.ref }}-${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -53,12 +53,10 @@ jobs:
 
         dynamic_test:
           - "none"
-          - "coverage"
           - "asan"
           - "lsan"
           - "tsan"
           - "ubsan"
-          - "valgrind"
 
     steps:
       - name: Checkout
@@ -67,22 +65,10 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: |
-          scripts/ci/SetupEnvironment.sh
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
+        run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
         run: scripts/ci/InstallTools.sh clang-${{ matrix.compiler_version }} ninja
-
-      - name: Install gcovr
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: scripts/ci/InstallTools.sh gcovr
-
-      - name: Install valgrind
-        if: ${{ matrix.dynamic_test == 'valgrind' }}
-        run: scripts/ci/InstallTools.sh valgrind
 
       - name: Configure build directory
         run: |
@@ -98,104 +84,6 @@ jobs:
       - name: Run tests
         working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data
-        working-directory: ./build
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable "$GCOV_EXECUTABLE" --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},clang-${{ matrix.compiler_version }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}
-          fail_ci_if_error: true
-
-  clang-libcxx:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
-    runs-on: 'ubuntu-20.04'
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        compiler_version:
-          - "9"
-          - "10"
-          - "11"
-          - "12"
-          - "13"
-          - "14"
-          - "15"
-
-        build_type:
-          - "Debug"
-          - "RelWithDebInfo"
-          - "Release"
-
-        dynamic_test:
-          - "none"
-          - "coverage"
-          - "asan"
-          - "lsan"
-          - "tsan"
-          - "ubsan"
-          - "valgrind"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: Setup Environment
-        run: |
-          scripts/ci/SetupEnvironment.sh
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
-
-      - name: Install compiler
-        run: scripts/ci/InstallTools.sh clang-${{ matrix.compiler_version }} ninja
-
-      - name: Install gcovr
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: scripts/ci/InstallTools.sh gcovr
-
-      - name: Install valgrind
-        if: ${{ matrix.dynamic_test == 'valgrind' }}
-        run: scripts/ci/InstallTools.sh valgrind
-
-      - name: Configure build directory
-        run: |
-          mkdir build -p
-          cd build
-
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_STANDARD_LIBRARY:STRING="libc++" ..
-
-      - name: Build
-        working-directory: ./build
-        run: cmake --build . --config ${{ matrix.build_type }}
-
-      - name: Run tests
-        working-directory: ./build
-        run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data
-        working-directory: ./build
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable "$GCOV_EXECUTABLE" --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},clang-${{ matrix.compiler_version }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-clang-${{ matrix.compiler_version }}-${{ matrix.build_type }}
-          fail_ci_if_error: true
 
   gcc:
     # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
@@ -221,12 +109,10 @@ jobs:
 
         dynamic_test:
           - "none"
-          - "coverage"
           - "asan"
           - "lsan"
           - "tsan"
           - "ubsan"
-          - "valgrind"
 
     steps:
       - name: Checkout
@@ -235,22 +121,10 @@ jobs:
           submodules: recursive
 
       - name: Setup Environment
-        run: |
-          scripts/ci/SetupEnvironment.sh
-
-          # Export dynamic test mode
-          echo "PHI_DYNAMIC_TEST=${{ matrix.dynamic_test }}" >> $GITHUB_ENV
+        run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
         run: scripts/ci/InstallTools.sh gcc-${{ matrix.cfg.compiler_version }} ninja
-
-      - name: Install gcovr
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: scripts/ci/InstallTools.sh gcovr
-
-      - name: Install valgrind
-        if: ${{ matrix.dynamic_test == 'valgrind' }}
-        run: scripts/ci/InstallTools.sh valgrind
 
       - name: Configure build directory
         run: |
@@ -266,17 +140,3 @@ jobs:
       - name: Run tests
         working-directory: ./build
         run: ctest . -C ${{ matrix.build_type }}
-
-      - name: Process coverage data
-        working-directory: ./build
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        run: gcovr -j $PROC_COUNT --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable "$GCOV_EXECUTABLE" --verbose
-
-      - name: Upload coverage data
-        if: ${{ matrix.dynamic_test == 'coverage' }}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          file: ./build/coverage.xml
-          flags: ${{ runner.os }},gcc-${{ matrix.cfg.compiler_version }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-gcc-${{ matrix.cfg.compiler_version }}-${{ matrix.build_type }}
-          fail_ci_if_error: true

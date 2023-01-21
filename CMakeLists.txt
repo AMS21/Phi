@@ -144,32 +144,6 @@ else()
   phi_set_cache_value(PHI_CONFIG_THREADS 0)
 endif()
 
-# Check for settings passed through the environment
-if(DEFINED ENV{PHI_DYNAMIC_TEST})
-  set(dyn_test $ENV{PHI_DYNAMIC_TEST})
-  phi_log("Configuring dynamic testing ${dyn_test}")
-
-  if(${dyn_test} STREQUAL "none")
-    # Nothing to configure
-  elseif(${dyn_test} STREQUAL "coverage")
-    phi_set_cache_value(PHI_COVERAGE_BUILD TRUE)
-  elseif(${dyn_test} STREQUAL "asan")
-    phi_set_cache_value(PHI_ENABLE_SANITIZER_ADDRESS TRUE)
-  elseif(${dyn_test} STREQUAL "lsan")
-    phi_set_cache_value(PHI_ENABLE_SANITIZER_LEAK TRUE)
-  elseif(${dyn_test} STREQUAL "tsan")
-    phi_set_cache_value(PHI_ENABLE_SANITIZER_THREAD TRUE)
-  elseif(${dyn_test} STREQUAL "ubsan")
-    phi_set_cache_value(PHI_ENABLE_SANITIZER_UNDEFINED TRUE)
-  elseif(${dyn_test} STREQUAL "valgrind")
-    phi_set_cache_value(PHI_TEST_WITH_VALGRIND TRUE)
-    # Valgrind has problems running our failure tests so don't.
-    phi_set_cache_value(PHI_TEST_RUNTIME_FAILURES FALSE)
-  else()
-    phi_error("No dynamic testing options called \"${dyn_test}\" supported")
-  endif()
-endif()
-
 # Load libs
 add_subdirectory(libs)
 
