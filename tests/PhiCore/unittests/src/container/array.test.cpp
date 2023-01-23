@@ -8,7 +8,11 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/address_of.hpp>
 #include <phi/core/max_align_t.hpp>
+#include <phi/iterator/begin.hpp>
+#include <phi/iterator/end.hpp>
 #include <phi/iterator/iterator_traits.hpp>
+#include <phi/iterator/rbegin.hpp>
+#include <phi/iterator/rend.hpp>
 #include <phi/type_traits/is_aggregate.hpp>
 #include <phi/type_traits/is_copy_assignable.hpp>
 #include <phi/type_traits/is_copy_constructible.hpp>
@@ -2652,8 +2656,6 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
             C c = {};
             check_iterator_noexcept(c);
 
-            // TODO: Implement phi::begin etc.
-#if 0
             PHI_RELEASE_ASSERT(c.begin() == phi::begin(c), "");
             PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c), "");
             PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c), "");
@@ -2667,7 +2669,6 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
             PHI_RELEASE_ASSERT(phi::rbegin(c) != phi::rend(c), "");
             PHI_RELEASE_ASSERT(phi::cbegin(c) != phi::cend(c), "");
             PHI_RELEASE_ASSERT(phi::crbegin(c) != phi::crend(c), "");
-#endif
         }
 
         {
@@ -2699,8 +2700,6 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
             C c = {};
             check_iterator_noexcept(c);
 
-            // TODO: Implement phi::begin etc.
-#if 0
             PHI_RELEASE_ASSERT(c.begin() == phi::begin(c), "");
             PHI_RELEASE_ASSERT(c.cbegin() == phi::cbegin(c), "");
             PHI_RELEASE_ASSERT(c.rbegin() == phi::rbegin(c), "");
@@ -2714,7 +2713,6 @@ PHI_EXTENDED_CONSTEXPR bool test_iterators()
             PHI_RELEASE_ASSERT(phi::rbegin(c) == phi::rend(c), "");
             PHI_RELEASE_ASSERT(phi::cbegin(c) == phi::cend(c), "");
             PHI_RELEASE_ASSERT(phi::crbegin(c) == phi::crend(c), "");
-#endif
         }
     }
 
