@@ -21,6 +21,7 @@ file(
   "include/phi/algorithm/equal.hpp"
   "include/phi/algorithm/exchange.hpp"
   "include/phi/algorithm/fill_n.hpp"
+  "include/phi/algorithm/fill.hpp"
   "include/phi/algorithm/find_if_not.hpp"
   "include/phi/algorithm/find_if.hpp"
   "include/phi/algorithm/find.hpp"
