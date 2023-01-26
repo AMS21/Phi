@@ -60,8 +60,8 @@ template <typename CharT>
 CompareResult string_compare_unsafe(nullptr_t, const CharT*) = delete;
 
 template <typename CharT>
-PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR CompareResult
-string_compare_unsafe(const CharT* lhs, const CharT* rhs, usize count) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL_PARAMETERS(1, 2) PHI_EXTENDED_CONSTEXPR CompareResult
+        string_compare_unsafe(const CharT* lhs, const CharT* rhs, usize count) noexcept
 {
     PHI_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare_unsafe");
     PHI_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare_unsafe");
