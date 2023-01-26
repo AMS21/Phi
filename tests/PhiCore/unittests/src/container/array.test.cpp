@@ -2047,14 +2047,14 @@ TEST_CASE("min_index")
     }
 }
 
-const static auto lambda_eq0   = [](const int& value /*help*/) noexcept { return value == 0; };
-const static auto lambda_eq1   = [](const int& value /*help*/) noexcept { return value == 1; };
-const static auto lambda_eq2   = [](const int& value /*help*/) noexcept { return value == 2; };
-const static auto lambda_eq3   = [](const int& value /*help*/) noexcept { return value == 3; };
-const static auto lambda_even  = [](const int& value /*help*/) noexcept { return value % 2 == 0; };
-const static auto lambda_odd   = [](const int& value /*help*/) noexcept { return value % 2 == 1; };
-const static auto lambda_true  = [](const int& /*value*/) noexcept { return true; };
-const static auto lambda_false = [](const int& /*value*/) noexcept { return false; };
+const static auto lambda_eq0         = [](const int& value) noexcept { return value == 0; };
+const static auto lambda_eq1         = [](const int& value) noexcept { return value == 1; };
+const static auto lambda_eq2         = [](const int& value) noexcept { return value == 2; };
+const static auto lambda_eq3         = [](const int& value) noexcept { return value == 3; };
+const static auto lambda_even        = [](const int& value) noexcept { return value % 2 == 0; };
+const static auto lambda_odd         = [](const int& value) noexcept { return value % 2 == 1; };
+const static auto lambda_true        = [](const int& /*value*/) noexcept { return true; };
+const static auto lambda_false       = [](const int& /*value*/) noexcept { return false; };
 const static auto lambda_false_throw = [](const int& /*value*/) -> bool { throw ""; };
 
 TEST_CASE("array find")
