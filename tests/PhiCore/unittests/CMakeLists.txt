@@ -11,6 +11,7 @@ file(
   "src/algorithm/clamp.test.cpp"
   "src/algorithm/compare.test.cpp"
   "src/algorithm/exchange.test.cpp"
+  "src/algorithm/find.test.cpp"
   "src/algorithm/max.test.cpp"
   "src/algorithm/min.test.cpp"
   "src/algorithm/string_compare_unsafe.test.cpp"

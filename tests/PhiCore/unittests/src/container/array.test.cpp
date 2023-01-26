@@ -2055,7 +2055,7 @@ const static auto lambda_even  = [](const int& value /*help*/) noexcept { return
 const static auto lambda_odd   = [](const int& value /*help*/) noexcept { return value % 2 == 1; };
 const static auto lambda_true  = [](const int& /*value*/) noexcept { return true; };
 const static auto lambda_false = [](const int& /*value*/) noexcept { return false; };
-const static auto lambda_false_throw = [](const int& /*value*/) { throw ""; };
+const static auto lambda_false_throw = [](const int& /*value*/) -> bool { throw ""; };
 
 TEST_CASE("array find")
 {
