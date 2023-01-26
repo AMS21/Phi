@@ -12,10 +12,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// TODO: noexcept
 template <typename InputIteratorT, typename TypeT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR InputIteratorT find(InputIteratorT first, InputIteratorT last,
-                                                         const TypeT& value)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR InputIteratorT
+find(InputIteratorT first, InputIteratorT last,
+     const TypeT& value) noexcept(noexcept(first != last) && noexcept(++first) && noexcept(*first ==
+                                                                                           value))
 {
     for (; first != last; ++first)
     {
