@@ -74,7 +74,7 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_ENABLE_SANITIZER_ADDRESS:BOOL=${{ matrix.dynamic_test == 'asan' }} -DPHI_ENABLE_SANITIZER_LEAK:BOOL=${{ matrix.dynamic_test == 'lsan' }} -DPHI_ENABLE_SANITIZER_MEMORY:BOOL=${{ matrix.dynamic_test == 'msan' }} -DPHI_ENABLE_SANITIZER_THREAD:BOOL=${{ matrix.dynamic_test == 'tsan' }} -DPHI_ENABLE_SANITIZER_UNDEFINED:BOOL=${{ matrix.dynamic_test == 'ubsan' }} ..
 
       - name: Build
         working-directory: ./build
@@ -129,7 +129,7 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_ENABLE_SANITIZER_ADDRESS:BOOL=${{ matrix.dynamic_test == 'asan' }} -DPHI_ENABLE_SANITIZER_LEAK:BOOL=${{ matrix.dynamic_test == 'lsan' }} -DPHI_ENABLE_SANITIZER_MEMORY:BOOL=${{ matrix.dynamic_test == 'msan' }} -DPHI_ENABLE_SANITIZER_THREAD:BOOL=${{ matrix.dynamic_test == 'tsan' }} -DPHI_ENABLE_SANITIZER_UNDEFINED:BOOL=${{ matrix.dynamic_test == 'ubsan' }} ..
 
       - name: Build
         working-directory: ./build
