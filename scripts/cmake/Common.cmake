@@ -26,6 +26,7 @@ set(phi_common_flags
     external:W0
     external:anglebrackets
     analyze:external- # https://learn.microsoft.com/cpp/build/reference/analyze-code-analysis
+    FC # https://learn.microsoft.com/cpp/build/reference/fc-full-path-of-source-code-file-in-diagnostics
 )
 
 # common useful cxx flags
@@ -50,7 +51,8 @@ if(NOT PHI_COMPILER_MSVC)
     experimental:external
     external:W0
     external:anglebrackets
-    analyze:external-)
+    analyze:external-
+    FC)
 endif()
 
 set(_phi_common_flags_supported CACHE INTERNAL "")
