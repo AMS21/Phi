@@ -2251,9 +2251,7 @@ TEST_CASE("array find_if_not")
         CHECK(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_eq1) == &arr.at(1u));
         CHECK(arr.find_if_not(lambda_odd) == &arr.at(1u));
-        CHECK(arr.find_if_not([](const int& value) {
-            return value == 1 || value == 2 || value == 3;
-        }) == arr.end());
+        CHECK(arr.find_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
         CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_false_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
@@ -2279,9 +2277,7 @@ TEST_CASE("array find_if_not")
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq1) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_odd) == &arr.at(1u));
-        EXT_STATIC_REQUIRE(arr.find_if_not([](const int& value) {
-            return value == 1 || value == 2 || value == 3;
-        }) == arr.end());
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
         CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_false_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
