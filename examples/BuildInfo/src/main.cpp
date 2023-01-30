@@ -5,7 +5,7 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/generated/compiler_support/features.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
-#include <iostream>
+#include <cstdio>
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
@@ -14,23 +14,23 @@ PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
     PHI_BEGIN_MACRO()                                                                              \
     if (cond)                                                                                      \
     {                                                                                              \
-        std::cout << (text) << ": true\n";                                                         \
+        std::printf(text ": true\n");                                                              \
     }                                                                                              \
     else                                                                                           \
     {                                                                                              \
-        std::cout << (text) << ": false\n";                                                        \
+        std::printf(text ": false\n");                                                             \
     }                                                                                              \
     PHI_END_MACRO()
 
 #define PRINT_VAL(text, val)                                                                       \
     PHI_BEGIN_MACRO()                                                                              \
-    std::cout << (text) << ": " << (val) << '\n';                                                  \
+    std::printf(text ": " #val "\n");                                                              \
     PHI_END_MACRO()
 
 int main()
 {
     // Compiler
-    std::cout << "Compiler info\n";
+    std::printf("Compiler info\n");
 
     PRINT_VAL("Compiler name", PHI_COMPILER_NAME());
     PRINT_VAL("Compiler version", PHI_CURRENT_COMPILER_VERSION_STR());
@@ -48,7 +48,7 @@ int main()
     PRINT_COND("Compiler is clang compat", PHI_COMPILER_IS(CLANG_COMPAT));
 
     // CPlusPlus
-    std::cout << "Enabled C++ standards\n";
+    std::printf("Enabled C++ standards\n");
     PRINT_VAL("PHI_CPP_STANDARD", PHI_CPP_STANDARD());
     PRINT_VAL("PHI_CPLUSPLUS_LATEST", PHI_CPLUSPLUS_LATEST());
 
@@ -60,7 +60,7 @@ int main()
     PRINT_COND("C++-23 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(23));
 
     // Platform
-    std::cout << "Platform info\n";
+    std::printf("Platform info\n");
 
     PRINT_COND("Platform is Windows", PHI_PLATFORM_IS(WINDOWS));
     PRINT_COND("Platform is Apple", PHI_PLATFORM_IS(APPLE));
@@ -78,7 +78,7 @@ int main()
     PRINT_COND("Platform is Web", PHI_PLATFORM_IS(WEB));
 
     // Standard library
-    std::cout << "Standard library info\n";
+    std::printf("Standard library info\n");
 
     PRINT_COND("Standard library libc++ ", PHI_STANDARD_LIBRARY_LIBCXX());
     PRINT_COND("Standard library libstdc++", PHI_STANDARD_LIBRARY_LIBSTDCXX());
