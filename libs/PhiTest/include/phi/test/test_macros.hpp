@@ -38,8 +38,6 @@ namespace test
             explicit register_test_case(TestSignature func) noexcept;
         };
 
-        void IncreaseAssertCount() noexcept;
-
         void IncreaseSkipCount() noexcept;
     } // namespace detail
 } // namespace test
@@ -67,8 +65,8 @@ extern int main();
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     ::phi::test::detail::PHI_GLUE(, impl_name)(static_cast<bool>(__VA_ARGS__), #__VA_ARGS__,       \
                                                __FILE__, __LINE__);                                \
-    ::phi::test::detail::IncreaseAssertCount();                                                    \
-    PHI_GCC_SUPPRESS_WARNING_POP() PHI_END_MACRO()
+    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    PHI_END_MACRO()
 
 #define CHECK(...) DETAIL_CALL_IMPL(CheckImpl, __VA_ARGS__)
 

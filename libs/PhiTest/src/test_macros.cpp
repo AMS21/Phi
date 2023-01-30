@@ -44,6 +44,8 @@ namespace test
         void CheckImpl(bool value, const char* expression, const char* file,
                        unsigned long long line_number)
         {
+            AssertCount += 1u;
+
             if (!value)
             {
                 PrintFailure(expression, file, line_number);
@@ -55,6 +57,8 @@ namespace test
         void CheckFalseImpl(bool value, const char* expression, const char* file,
                             unsigned long long line_number)
         {
+            AssertCount += 1u;
+
             if (value)
             {
                 PrintFailure(expression, file, line_number);
@@ -66,6 +70,8 @@ namespace test
         void RequireImpl(bool value, const char* expression, const char* file,
                          unsigned long long line_number)
         {
+            AssertCount += 1u;
+
             if (!value)
             {
                 PrintFailure(expression, file, line_number);
@@ -77,6 +83,8 @@ namespace test
         void RequireFalseImpl(bool value, const char* expression, const char* file,
                               unsigned long long line_number)
         {
+            AssertCount += 1u;
+
             if (value)
             {
                 PrintFailure(expression, file, line_number);
@@ -88,11 +96,6 @@ namespace test
         register_test_case::register_test_case(TestSignature func) noexcept
         {
             GetFunctionRegister().emplace_front(func);
-        }
-
-        void IncreaseAssertCount() noexcept
-        {
-            AssertCount += 1u;
         }
 
         void IncreaseSkipCount() noexcept
