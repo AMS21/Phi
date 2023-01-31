@@ -31,8 +31,10 @@ set(phi_extra_debug_flags
     # https://learn.microsoft.com/cpp/build/reference/sdl-enable-additional-security-checks
 )
 
-# Clang on windows seems to give errors when compiling with `fstack-clash-protection`
-if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS) OR PHI_COMPILER_EMCC)
+# Lots of compilers give errors when compiling with `fstack-clash-protection`
+if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
+   OR PHI_COMPILER_EMCC
+   OR PHI_COMPILER_APPLECLANG)
   list(REMOVE_ITEM phi_extra_debug_flags "fstack-clash-protection")
 endif()
 
