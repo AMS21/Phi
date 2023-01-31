@@ -7,7 +7,6 @@
 #    pragma once
 #endif
 
-#include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/generated/compiler_support/features.hpp"
 
 #if PHI_HAS_FEATURE_INLINE_VARIABLES()
