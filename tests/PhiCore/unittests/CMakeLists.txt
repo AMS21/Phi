@@ -25,6 +25,7 @@ file(
   "src/algorithm/string_length.test.cpp"
   "src/algorithm/swap.test.cpp"
   # compiler_support
+  "src/compiler_support/architecture.test.cpp"
   "src/compiler_support/assume.test.cpp"
   "src/compiler_support/char8_t.test.cpp"
   "src/compiler_support/compiler.test.cpp"

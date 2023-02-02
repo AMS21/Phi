@@ -121,6 +121,7 @@ file(
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"
   "include/phi/compiler_support/intrinsics/underlying_type.hpp"
   # compiler_support
+  "include/phi/compiler_support/architecture.hpp"
   "include/phi/compiler_support/assume.hpp"
   "include/phi/compiler_support/char8_t.hpp"
   "include/phi/compiler_support/compiler.hpp"

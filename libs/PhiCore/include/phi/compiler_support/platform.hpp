@@ -53,7 +53,7 @@
 #        warning "Unknown Apple based operating system"
 #        define PHI_PLATFORM_NAME() "Unknown"
 #    endif
-#elif defined(__unix__) || defined(__unix) // Unix based OS
+#elif defined(unix) || defined(__unix__) || defined(__unix) // Unix based OS
 #    undef PHI_PLATFORM_UNIX
 #    define PHI_PLATFORM_UNIX() 1
 
