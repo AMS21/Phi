@@ -30,7 +30,7 @@ TEST_CASE("algorithm.find - c-array")
 
 TEST_CASE("algorithm.find - phi::array")
 {
-    static constexpr const phi::array<int, 10u> array{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    static constexpr const phi::array<int, 10u> array{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
 
     CHECK(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));
     EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));

@@ -61,9 +61,9 @@ TEST_CASE("algorithm.find_if_not - c-array")
     CHECK_NOT_NOEXCEPT(phi::find_if_not(phi::begin(array), phi::end(array), lambda_false_throw));
 }
 
-TEST_CASE("algorithm.find_if_not - c-array")
+TEST_CASE("algorithm.find_if_not - phi::array")
 {
-    static constexpr const phi::array<int, 10u> array{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    static constexpr const phi::array<int, 10u> array{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
 
     // Runtime
     CHECK(phi::find_if_not(phi::begin(array), phi::end(array), lambda_eq0) == &phi::at(array, 1u));
