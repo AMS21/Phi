@@ -267,7 +267,7 @@ TEST_CASE("is_constructible")
     test_is_not_constructible<derived&, base&>();
 #endif
     test_is_constructible<base const&, derived const&>();
-#if PHI_COMPILER_IS(CLANG_COMPAT)
+#if PHI_COMPILER_IS(CLANG)
     test_is_not_constructible<derived const&, base const&>();
     test_is_not_constructible<derived const&, base>();
 #else
@@ -276,7 +276,7 @@ TEST_CASE("is_constructible")
 
     test_is_constructible<base&&, derived>();
     test_is_constructible<base&&, derived&&>();
-#if PHI_COMPILER_IS(CLANG_COMPAT)
+#if PHI_COMPILER_IS(CLANG)
     test_is_not_constructible<derived&&, base&&>();
     test_is_not_constructible<derived&&, base>();
 #else
