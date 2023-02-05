@@ -383,7 +383,6 @@ if(${PHI_TEST_SPLIT_FILES})
     foreach(std IN ITEMS ${used_standards})
       # Set tests names
       set(test_name "Phi_${test_file_name}-${std}")
-      set(no_intrinsic_test_name "Phi_${test_file_name}-${std}-ni")
 
       if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
         phi_add_executable(
@@ -401,25 +400,6 @@ if(${PHI_TEST_SPLIT_FILES})
           STANDARD
           ${std})
         phi_add_test(TARGET "${test_name}")
-
-        # No Intrinsic
-        phi_add_executable(
-          NAME
-          "${no_intrinsic_test_name}"
-          SOURCES
-          ${file}
-          FOLDER
-          "Tests/PhiCore"
-          PRIVATE_LINK_LIBRARIES
-          Phi::Core
-          Phi::Test
-          PRIVATE_INCLUDE_DIRS
-          "include"
-          STANDARD
-          ${std}
-          PRIVATE_DEFINITIONS
-          "PHI_CONFIG_NO_INTRINSICS")
-        phi_add_test(TARGET "${no_intrinsic_test_name}")
       endif()
     endforeach()
   endforeach()
@@ -427,7 +407,6 @@ else()
   foreach(std IN ITEMS ${used_standards})
     # Set tests names
     set(test_name "Phi_CoreUnittest-${std}")
-    set(no_intrinsic_test_name "Phi_CoreUnittest-${std}-ni")
 
     if(DEFINED CMAKE_CXX${std}_STANDARD_COMPILE_OPTION)
       phi_add_executable(
@@ -445,25 +424,6 @@ else()
         STANDARD
         ${std})
       phi_add_test(TARGET "${test_name}")
-
-      # No Intrinsic
-      phi_add_executable(
-        NAME
-        "${no_intrinsic_test_name}"
-        SOURCES
-        ${TEST_SOURCES}
-        FOLDER
-        "Tests/PhiCore"
-        PRIVATE_LINK_LIBRARIES
-        Phi::Core
-        Phi::Test
-        PRIVATE_INCLUDE_DIRS
-        "include"
-        STANDARD
-        ${std}
-        PRIVATE_DEFINITIONS
-        "PHI_CONFIG_NO_INTRINSICS")
-      phi_add_test(TARGET "${no_intrinsic_test_name}")
     endif()
   endforeach()
 endif()

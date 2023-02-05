@@ -16,11 +16,6 @@
 #    else
 #        define PHI_SUPPORTS_FABSF() 0
 #    endif
-
-#    if defined(PHI_CONFIG_NO_INTRINSICS)
-#        undef PHI_SUPPORTS_FABSF
-#        define PHI_SUPPORTS_FABSF() 0
-#    endif
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_FABSF_HPP

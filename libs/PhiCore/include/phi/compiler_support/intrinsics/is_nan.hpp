@@ -14,11 +14,6 @@
 #    else
 #        define PHI_SUPPORTS_IS_NAN() 0
 #    endif
-
-#    if defined(PHI_CONFIG_NO_INTRINSICS)
-#        undef PHI_SUPPORTS_IS_NAN
-#        define PHI_SUPPORTS_IS_NAN() 0
-#    endif
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_IS_NAN_HPP

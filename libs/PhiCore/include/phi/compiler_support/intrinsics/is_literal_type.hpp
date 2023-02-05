@@ -19,11 +19,6 @@
 #    else
 #        define PHI_SUPPORTS_IS_LITERAL_TYPE() 0
 #    endif
-
-#    if defined(PHI_CONFIG_NO_INTRINSICS)
-#        undef PHI_SUPPORTS_IS_LITERAL_TYPE
-#        define PHI_SUPPORTS_IS_LITERAL_TYPE() 0
-#    endif
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_LITERAL_TYPE_HPP

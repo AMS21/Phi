@@ -16,11 +16,6 @@
 #    else
 #        define PHI_SUPPORTS_IS_BASE_OF() 0
 #    endif
-
-#    if defined(PHI_CONFIG_NO_INTRINSICS)
-#        undef PHI_SUPPORTS_IS_BASE_OF
-#        define PHI_SUPPORTS_IS_BASE_OF() 0
-#    endif
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_BASE_OF_HPP
