@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -80,6 +81,13 @@ struct A
 
 TEST_CASE("is_destructible")
 {
+#if PHI_COMPILER_IS_BELOW(MSVC, 19, 20, 0) && !PHI_SUPPORTS_IS_DESTRUCTIBLE()
+
+    // NOTE: Before MSVC-19 it crashes the compiler when compiling the no intrinsic version
+    SKIP_CHECK();
+
+#else
+
     test_is_destructible<A>();
     test_is_not_destructible<not_empty2>();
 
@@ -731,4 +739,5 @@ TEST_CASE("is_destructible")
     test_is_destructible<int (class_type::*)(int, ...) const noexcept>();
     test_is_destructible<int (class_type::*)(int, ...) const & noexcept>();
     test_is_destructible<int (class_type::*)(int, ...) const && noexcept>();
+#endif
 }
