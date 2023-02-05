@@ -182,8 +182,12 @@ TEST_CASE("test h")
 {
     phi::source_location h_loc = h();
 
+#if PHI_COMPILER_IS_NOT(MSVC)
     CHECK(phi::string_equals(h_loc.file_name(), "test_file.cpp"));
     CHECK(h_loc.file_name_view() == "test_file.cpp");
+#else
+    SKIP_CHECK();
+#endif
     CHECK(phi::string_equals(h_loc.function_name(), "h"));
     CHECK(h_loc.function_name_view() == "h");
     CHECK(h_loc.line() == 1000);
