@@ -128,7 +128,6 @@ set(phi_ubsan_extra_flags
     signed-integer-overflow
     unreachable
     vla-bound
-    vptr
     # GCC only
     bounds-strict
     # clang only
