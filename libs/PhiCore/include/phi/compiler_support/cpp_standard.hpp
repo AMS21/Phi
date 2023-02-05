@@ -12,8 +12,14 @@
 // C++-14 standard from february 2014
 #define PHI_CPLUSPLUS_14() (201402L)
 
+// C++-17
+#if PHI_COMPILER_IS_BELOW(MSVC, 19, 20, 0)
+// MSVC before 2019 uses 201704 for C++-17
+#    define PHI_CPLUSPLUS_17() (201704L)
+#else
 // C++-17 standard from march 2017
-#define PHI_CPLUSPLUS_17() (201703L)
+#    define PHI_CPLUSPLUS_17() (201703L)
+#endif
 
 // C++-20
 #if PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0)
