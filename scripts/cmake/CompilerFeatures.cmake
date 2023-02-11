@@ -469,6 +469,11 @@ phi_cxx_check_type_size("float" PHI_TYPE_SYSTEM_SIZEOF_FLOAT)
 phi_cxx_check_type_size("double" PHI_TYPE_SYSTEM_SIZEOF_DOUBLE)
 phi_cxx_check_type_size("long double" PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE)
 
+phi_check_cxx_source_compiles("int main() { static_assert(char(-1) < char(0), \"\"); }"
+                              PHI_TYPE_SYSTEM_CHAR_SIGNED)
+phi_check_cxx_source_compiles("int main() { static_assert(wchar_t(-1) < wchar_t(0), \"\"); }"
+                              PHI_TYPE_SYSTEM_WCHAR_T_SIGNED)
+
 # configure files
 configure_file("scripts/cmake/features.hpp.in"
                "${PHI_GENERATED_FILES_DIR}/phi/generated/compiler_support/features.hpp")

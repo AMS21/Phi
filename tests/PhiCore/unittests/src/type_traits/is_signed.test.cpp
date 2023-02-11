@@ -75,7 +75,11 @@ TEST_CASE("is_signed")
     test_is_not_signed<void>();
     test_is_not_signed<phi::nullptr_t>();
     test_is_not_signed<bool>();
-    //test_is_signed<char>();
+#if PHI_TYPE_SYSTEM_CHAR_SIGNED()
+    test_is_signed<char>();
+#else
+    test_is_not_signed<char>();
+#endif
     test_is_signed<signed char>();
     test_is_not_signed<unsigned char>();
     test_is_signed<short>();
@@ -92,10 +96,10 @@ TEST_CASE("is_signed")
     test_is_not_signed<char8_t>();
     test_is_not_signed<char16_t>();
     test_is_not_signed<char32_t>();
-#if PHI_PLATFORM_IS(WINDOWS)
-    test_is_not_signed<wchar_t>();
-#else
+#if PHI_TYPE_SYSTEM_WCHAR_T_SIGNED()
     test_is_signed<wchar_t>();
+#else
+    test_is_not_signed<wchar_t>();
 #endif
 
     test_is_not_signed<phi::boolean>();

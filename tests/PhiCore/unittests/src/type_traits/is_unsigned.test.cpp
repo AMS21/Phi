@@ -73,7 +73,11 @@ TEST_CASE("is_unsigned")
     test_is_not_unsigned<void>();
     test_is_not_unsigned<phi::nullptr_t>();
     test_is_unsigned<bool>();
-    //test_is_unsigned<char>();
+#if PHI_TYPE_SYSTEM_CHAR_SIGNED()
+    test_is_not_unsigned<char>();
+#else
+    test_is_unsigned<char>();
+#endif
     test_is_not_unsigned<signed char>();
     test_is_unsigned<unsigned char>();
     test_is_not_unsigned<short>();
@@ -90,10 +94,10 @@ TEST_CASE("is_unsigned")
     test_is_unsigned<char8_t>();
     test_is_unsigned<char16_t>();
     test_is_unsigned<char32_t>();
-#if PHI_PLATFORM_IS(WINDOWS)
-    test_is_unsigned<wchar_t>();
-#else
+#if PHI_TYPE_SYSTEM_WCHAR_T_SIGNED()
     test_is_not_unsigned<wchar_t>();
+#else
+    test_is_unsigned<wchar_t>();
 #endif
 
     test_is_unsigned<phi::boolean>();
