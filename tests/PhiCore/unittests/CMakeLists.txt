@@ -138,6 +138,7 @@ file(
   "src/text/to_lower_case.test.cpp"
   "src/text/to_upper_case.test.cpp"
   # type_system
+  "src/type_system/max.test.cpp"
   "src/type_system/min.test.cpp"
   # type_traits
   "src/type_traits/detail/nat.test.cpp"
