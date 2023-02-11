@@ -218,6 +218,9 @@ file(
   "include/phi/iterator/rbegin.hpp"
   "include/phi/iterator/rend.hpp"
   "include/phi/iterator/reverse_iterator.hpp"
+  # limits
+  "include/phi/limits/float_denorm_style.hpp"
+  "include/phi/limits/float_round_style.hpp"
   # math
   "include/phi/math/abs.hpp"
   "include/phi/math/ceil.hpp"

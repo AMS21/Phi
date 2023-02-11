@@ -92,6 +92,9 @@ file(
   "src/forward/std/reference_wrapper.test.cpp"
   "src/forward/std/string_view.test.cpp"
   "src/forward/std/string.test.cpp"
+  # limits
+  "src/limits/float_denorm_style.test.cpp"
+  "src/limits/float_round_style.test.cpp"
   # math
   "src/math/abs.test.cpp"
   "src/math/ceil.test.cpp"
