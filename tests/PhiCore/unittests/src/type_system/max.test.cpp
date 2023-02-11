@@ -14,7 +14,11 @@ void type_system_max_std_impl()
     PHI_CLANG_AND_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wfloat-equal")
 
     STATIC_REQUIRE(phi::type_system::max<TypeT>() == std::numeric_limits<TypeT>::max());
-    CHECK(phi::type_system::max<TypeT>() == std::numeric_limits<TypeT>::max());
+
+    // NOTE: Needed as a workaround for glibcxx's max causing the `implicit-signed-integer-truncation` to fire
+    // see: https://godbolt.org/z/8Yqff34P4
+    static constexpr TypeT max_value = std::numeric_limits<TypeT>::max();
+    CHECK(phi::type_system::max<TypeT>() == max_value);
 
     CHECK_NOEXCEPT(phi::type_system::max<TypeT>());
 
