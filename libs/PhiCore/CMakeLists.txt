@@ -265,6 +265,8 @@ file(
   "include/phi/text/octal_digit_value.hpp"
   "include/phi/text/to_lower_case.hpp"
   "include/phi/text/to_upper_case.hpp"
+  # type_system
+  "include/phi/type_system/min.hpp"
   # type_traits/detail
   "include/phi/type_traits/detail/invoke_impl.hpp"
   "include/phi/type_traits/detail/nat.hpp"
