@@ -6,23 +6,25 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_PLATFORM_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_PLATFORM_HPP
 
-#define PHI_PLATFORM_WINDOWS()       0
-#define PHI_PLATFORM_APPLE()         0
-#define PHI_PLATFORM_MACOS()         0
-#define PHI_PLATFORM_LINUX()         0
 #define PHI_PLATFORM_ANDROID()       0
+#define PHI_PLATFORM_APPLE()         0
+#define PHI_PLATFORM_BSD()           0
+#define PHI_PLATFORM_DOS()           0
 #define PHI_PLATFORM_FREEBSD()       0
-#define PHI_PLATFORM_SOLARIS()       0
 #define PHI_PLATFORM_IOS()           0
 #define PHI_PLATFORM_IOS_SIMULATOR() 0
+#define PHI_PLATFORM_LINUX()         0
+#define PHI_PLATFORM_MACOS()         0
 #define PHI_PLATFORM_OPENBSD()       0
-#define PHI_PLATFORM_BSD()           0
+#define PHI_PLATFORM_SOLARIS()       0
 #define PHI_PLATFORM_UNIX()          0
-#define PHI_PLATFORM_DOS()           0
 #define PHI_PLATFORM_WEB()           0
+#define PHI_PLATFORM_WINDOWS()       0
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #    undef PHI_PLATFORM_WINDOWS
+#    undef PHI_PLATFORM_DOS
+#    define PHI_PLATFORM_DOS()     1
 #    define PHI_PLATFORM_WINDOWS() 1
 #    define PHI_PLATFORM_NAME()    "Windows"
 #elif defined(__APPLE__) && defined(__MACH__)
