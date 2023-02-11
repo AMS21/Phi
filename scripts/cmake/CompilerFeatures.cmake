@@ -340,6 +340,10 @@ int main() { return __builtin_offsetof(A, a); }" PHI_HAS_INTRINSIC_BUILTIN_OFFSE
 phi_check_cxx_source_compiles("int main() { return __builtin_isinf(0.0); }"
                               PHI_HAS_INTRINSIC_BUILTIN_ISINF)
 phi_check_cxx_source_compiles("int main() { __builtin_abort(); }" PHI_HAS_INTRINSIC_BUILTIN_ABORT)
+phi_check_cxx_source_compiles("int main() { int a; return __builtin_object_size(&a, 0); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_OBJECT_SIZE)
+phi_check_cxx_source_compiles("int main() { int a; return __builtin_dynamic_object_size(&a, 0); }"
+                              PHI_HAS_INTRINSIC_BUILTIN_DYNAMIC_OBJECT_SIZE)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

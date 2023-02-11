@@ -45,6 +45,7 @@ file(
   # compiler_support/intrinsics
   "include/phi/compiler_support/intrinsics/address_of.hpp"
   "include/phi/compiler_support/intrinsics/array_extent.hpp"
+  "include/phi/compiler_support/intrinsics/dynamic_object_size.hpp"
   "include/phi/compiler_support/intrinsics/fabs.hpp"
   "include/phi/compiler_support/intrinsics/fabsf.hpp"
   "include/phi/compiler_support/intrinsics/fabsl.hpp"
@@ -116,6 +117,7 @@ file(
   "include/phi/compiler_support/intrinsics/is_unsigned.hpp"
   "include/phi/compiler_support/intrinsics/is_void.hpp"
   "include/phi/compiler_support/intrinsics/is_volatile.hpp"
+  "include/phi/compiler_support/intrinsics/object_size.hpp"
   "include/phi/compiler_support/intrinsics/remove_const.hpp"
   "include/phi/compiler_support/intrinsics/remove_cv.hpp"
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"
