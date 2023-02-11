@@ -422,6 +422,8 @@ phi_check_cxx_source_compiles("void f(int* __restrict a) {} int main() {}"
                               PHI_HAS_EXTENSION_RESTRICT)
 phi_check_cxx_source_compiles("void f(int* __restrict__ a) {} int main() {}"
                               PHI_HAS_EXTENSION_RESTRICT_UNDERSCORE)
+phi_check_cxx_source_compiles("int main(){ long double a = 1e+4932L; }"
+                              PHI_HAS_EXTENSION_FLOAT128_LITERALS)
 
 # Bugs
 phi_check_cxx_source_compiles(
