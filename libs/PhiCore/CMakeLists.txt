@@ -143,6 +143,7 @@ file(
   "include/phi/compiler_support/nodiscard.hpp"
   "include/phi/compiler_support/noreturn.hpp"
   "include/phi/compiler_support/platform.hpp"
+  "include/phi/compiler_support/restrict.hpp"
   "include/phi/compiler_support/standard_library.hpp"
   "include/phi/compiler_support/unreachable.hpp"
   "include/phi/compiler_support/unused.hpp"

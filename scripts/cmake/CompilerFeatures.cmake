@@ -418,6 +418,10 @@ phi_check_cxx_source_compiles(
   PHI_HAS_EXTENSION_FASTFAIL)
 phi_check_cxx_source_compiles("__attribute__ ((cold)) void f(); int main() { return 0; }"
                               PHI_HAS_EXTENSION_ATTRIBUTE_COLD)
+phi_check_cxx_source_compiles("void f(int* __restrict a) {} int main() {}"
+                              PHI_HAS_EXTENSION_RESTRICT)
+phi_check_cxx_source_compiles("void f(int* __restrict__ a) {} int main() {}"
+                              PHI_HAS_EXTENSION_RESTRICT_UNDERSCORE)
 
 # Bugs
 phi_check_cxx_source_compiles(
