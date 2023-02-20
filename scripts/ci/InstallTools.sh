@@ -102,7 +102,13 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" g++-multilib --no-install-recommends -y
+    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "g++-multilib" --no-install-recommends -y
+
+    # Starting with llvm-14 there is a seperate package for the compiler runtime (rt) which is needed for things like sanitizers and fuzzers
+    if [[ $1 -ge 14 ]]; then
+        retry sudo apt-get install "libclang-rt-$1-dev"
+    fi
+
     echo "-- Installing clang-$1 done"
 
     # Verify versions
