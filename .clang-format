@@ -31,7 +31,6 @@ AlignConsecutiveMacros: true
 SpaceAfterControlStatementKeyword: false
 SpaceAfterCStyleCast: false
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeParens: Never
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: false
