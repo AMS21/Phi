@@ -109,6 +109,11 @@ install_clang() {
         retry sudo apt-get install "libclang-rt-$1-dev"
     fi
 
+    # Starting with llvm-15 we need to install 'llvm-runtime' aswell for lto support to work
+    if [[ $1 -ge 15 ]]; then
+        retry sudo apt-get install "llvm-$1-runtime"
+    fi
+
     echo "-- Installing clang-$1 done"
 
     # Verify versions
