@@ -27,12 +27,24 @@ function retry {
     done
 }
 
+function apt_install() {
+    echo "- Running apt-get install [$*]..."
+    retry sudo apt-get install "$@" --no-install-recommends -y
+    echo "- Running apt-get install [$*] done"
+}
+
+function pip_install() {
+    echo "- Running pip install [$*]..."
+    retry sudo -H pip3 --no-cache-dir install "$@"
+    echo "- Running pip install [$*] done"
+}
+
 # Make sure pip is using the latest version
 upgrade_pip() {
     if [[ "$upgraded_pip" == 0 ]]; then
         echo "-- Upgrading pip..."
 
-        retry sudo -H pip3 install --upgrade pip
+        pip_install --upgrade pip
         upgraded_pip=1
 
         echo "-- Upgrading pip done"
@@ -41,7 +53,7 @@ upgrade_pip() {
 
 install_python_wheel() {
     echo "--- Installing wheel on pip..."
-    retry sudo -H pip3 install wheel
+    pip_install wheel
     echo "--- Installing wheel on pip done"
 }
 
@@ -72,11 +84,12 @@ install_gcovr() {
     install_python_wheel
 
     echo "-- Installing gcovr..."
-    retry sudo -H pip3 install gcovr
+    pip_install gcovr
     echo "-- Installing gcovr done"
 
     # Verify
     echo "-- Verifying gcovr..."
+    which gcovr
     gcovr --version
     echo "-- Verifying gcovr done"
 }
@@ -87,11 +100,12 @@ install_cmake_format() {
 
     echo "-- Installing cmake-format..."
     # See https://cmake-format.readthedocs.io/en/latest/installation.html#installation
-    retry sudo -H pip3 install cmakelang pyyaml
+    pip_install cmakelang pyyaml
     echo "-- Installing cmake-format done"
 
     # Verify
     echo "-- Verifying cmake-format..."
+    which cmake-format
     cmake-format --version
     echo "-- Verifying cmake-format done"
 }
@@ -102,26 +116,28 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    retry sudo apt-get install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "g++-multilib" --no-install-recommends -y
+    apt_install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "g++-multilib"
 
     # Starting with llvm-14 there is a seperate package for the compiler runtime (rt) which is needed for things like sanitizers and fuzzers
     if [[ $1 -ge 14 ]]; then
-        retry sudo apt-get install "libclang-rt-$1-dev"
+        apt_install "libclang-rt-$1-dev"
     fi
 
     # Starting with llvm-15 we need to install 'llvm-runtime' aswell for lto support to work
     if [[ $1 -ge 15 ]]; then
-        retry sudo apt-get install "llvm-$1-runtime"
+        apt_install "llvm-$1-runtime"
     fi
 
     echo "-- Installing clang-$1 done"
 
     # Verify versions
     echo "-- Verify clang-$1..."
+    which "clang-$1"
     "clang-$1" --version
     echo "-- Verify clang-$1 done"
 
     echo "-- Verify clang++-$1..."
+    which "clang++-$1"
     "clang++-$1" --version
     echo "-- Verify clang++-$1 done"
 
@@ -139,15 +155,17 @@ install_clang() {
 # Expects first parameter to the the requested version
 install_gcc() {
     echo "-- Installing gcc-$1..."
-    retry sudo apt-get install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib" --no-install-recommends -y
+    apt_install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib"
     echo "-- Installing gcc-$1 done"
 
     # Verify versions
     echo "-- Verify gcc-$1..."
+    which "gcc-$1"
     "gcc-$1" --version
     echo "-- Verify gcc-$1 done"
 
     echo "-- Verify g++-$1..."
+    which "g++-$1"
     "g++-$1" --version
     echo "-- Verify g++-$1 done"
 
@@ -164,11 +182,12 @@ install_gcc() {
 
 install_valgrind() {
     echo "-- Installing valgrind..."
-    retry sudo apt-get install valgrind --no-install-recommends -y
+    apt_install valgrind
     echo "-- Installing valgring done"
 
     # Verify
     echo "-- Verifying valgrind..."
+    which valgrind
     valgrind --version
     echo "-- Verifying valgrind done"
 }
@@ -200,6 +219,7 @@ install_cppcheck() {
 
     # Verify
     echo "-- Verifying cppcheck..."
+    which cppcheck
     cppcheck --version
     echo "-- Verifiying cppcheck done"
 
@@ -215,10 +235,11 @@ install_clang_tidy() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-tidy-$1..."
-    retry sudo apt-get install "clang-tidy-$1" --no-install-recommends -y
+    apt_install "clang-tidy-$1"
 
     # Verify
     echo "-- Verifying clang-tidy-$1..."
+    which "clang-tidy-$1"
     "clang-tidy-$1" --version
     echo "-- Verifiying clang-tidy-$1 done"
 
@@ -236,7 +257,7 @@ install_llvm() {
     install_clang "$1"
 
     echo "-- Installing llvm-$1..."
-    retry sudo apt-get install "llvm-$1" "llvm-$1-dev" --no-install-recommends -y
+    apt_install "llvm-$1" "llvm-$1-dev"
 
     # Export values
     echo "LLVM_VERSION=$1" >>"$GITHUB_ENV"
@@ -252,7 +273,7 @@ install_iwyu() {
     retry git clone https://github.com/include-what-you-use/include-what-you-use.git
     echo "-- Cloning iwyu done"
 
-    # Checkut branch
+    # Checkout branch
     cd "include-what-you-use" || exit
     git checkout "clang_$1"
 
@@ -271,7 +292,10 @@ install_iwyu() {
 
     # Verify
     echo "-- Verifying iwyu..."
+    which include-what-you-use
     include-what-you-use --version
+
+    which iwyu_tool.py
     iwyu_tool.py -h
     echo "-- Verifying iwyu done"
 
@@ -292,7 +316,7 @@ install_pvs_studio() {
     retry sudo apt-get update
 
     echo "-- Installing pvs-studio..."
-    retry sudo apt-get install pvs-studio --no-install-recommends -y
+    apt_install pvs-studio
     echo "-- Installing pvs-studio done"
 
     # Verify
@@ -313,11 +337,12 @@ install_mull() {
     echo "-- Setting up mull-$1 done"
 
     echo "-- Installing mull-$1..."
-    retry sudo apt-get install "mull-$1" --no-install-recommends -y
+    apt_install "mull-$1"
     echo "-- Installing mull-$1 done"
 
     # Verify
     echo "-- Verifying mull-$1..."
+    which "mull-runner-$1"
     "mull-runner-$1" --version
     echo "-- Verifying mull-$1 done"
 
@@ -329,11 +354,12 @@ install_clang_format() {
     add_llvm_apt "$1"
 
     echo "-- Installing clang-format..."
-    retry sudo apt-get install "clang-format-$1" --no-install-recommends -y
+    apt_install "clang-format-$1"
     echo "-- Installing clang-format done"
 
     # Verify
     echo "-- Verifying clang-format-$1..."
+    which "clang-format-$1"
     "clang-format-$1" --version
     echo "-- Verifying clang-format-$1 done"
 
@@ -344,11 +370,12 @@ install_clang_format() {
 
 install_ninja() {
     echo "-- Installing ninja..."
-    retry sudo apt-get install ninja-build --no-install-recommends -y
+    apt_install ninja-build
     echo "-- Installing ninja done"
 
     # Verify
     echo "-- Verifying ninja..."
+    which ninja
     ninja --version
     echo "-- Verifying ninja done"
 }
