@@ -352,6 +352,8 @@ phi_check_cxx_source_compiles("int main() { return __is_referenceable(void); }"
                               PHI_HAS_INTRINSIC_IS_REFERENCEABLE)
 phi_check_cxx_source_compiles("int main() { return __is_scoped_enum(void); }"
                               PHI_HAS_INTRINSIC_IS_SCOPED_ENUM)
+phi_check_cxx_source_compiles("int main() { return __is_unbounded_array(void); }"
+                              PHI_HAS_INTRINSIC_IS_UNBOUNDED_ARRAY)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

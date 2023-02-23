@@ -314,6 +314,7 @@ file(
   "src/type_traits/is_trivially_destructible.test.cpp"
   "src/type_traits/is_trivially_move_assignable.test.cpp"
   "src/type_traits/is_trivially_move_constructible.test.cpp"
+  "src/type_traits/is_unbounded_array.no_is_unbounded_array.test.cpp"
   "src/type_traits/is_unbounded_array.test.cpp"
   "src/type_traits/is_union.test.cpp"
   "src/type_traits/is_unsafe_arithmetic.test.cpp"

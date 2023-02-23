@@ -85,6 +85,7 @@
 #include "intrinsics/is_trivially_destructible.hpp"
 #include "intrinsics/is_trivially_move_assignable.hpp"
 #include "intrinsics/is_trivially_move_constructible.hpp"
+#include "intrinsics/is_unbounded_array.hpp"
 #include "intrinsics/is_union.hpp"
 #include "intrinsics/is_unsigned.hpp"
 #include "intrinsics/is_void.hpp"
