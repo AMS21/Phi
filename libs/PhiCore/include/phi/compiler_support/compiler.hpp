@@ -12,7 +12,9 @@
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp" // PHI_VERSION_CREATE
 
-#if defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC)
+#if defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC) ||                               \
+        defined(__INTEL_COMPILER_UPDATE) || defined(__INTEL_CLANG_COMPILER) ||                     \
+        defined(__INTEL_LLVM_COMPILER)
 #    define PHI_COMPILER_ICC()      1
 #    define PHI_ICC_VERSION_MAJOR() (__INTEL_COMPILER / 100)
 #    define PHI_ICC_VERSION_MINOR() (__INTEL_COMPILER % 100 / 10)
