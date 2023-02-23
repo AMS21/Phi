@@ -346,6 +346,8 @@ phi_check_cxx_source_compiles("int main() { int a; return __builtin_dynamic_obje
                               PHI_HAS_INTRINSIC_BUILTIN_DYNAMIC_OBJECT_SIZE)
 phi_check_cxx_source_compiles("int main() { return __is_bounded_array(void); }"
                               PHI_HAS_INTRINSIC_IS_BOUNDED_ARRAY)
+phi_check_cxx_source_compiles("int main() { return __is_nullptr(void); }"
+                              PHI_HAS_INTRINSIC_IS_NULLPTR)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

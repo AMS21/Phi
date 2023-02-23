@@ -59,6 +59,7 @@
 #include "intrinsics/is_nothrow_default_constructible.hpp"
 #include "intrinsics/is_nothrow_move_assignable.hpp"
 #include "intrinsics/is_nothrow_move_constructible.hpp"
+#include "intrinsics/is_null_pointer.hpp"
 #include "intrinsics/is_object.hpp"
 #include "intrinsics/is_pod.hpp"
 #include "intrinsics/is_pointer.hpp"

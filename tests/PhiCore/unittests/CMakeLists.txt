@@ -262,6 +262,7 @@ file(
   "src/type_traits/is_nothrow_swappable_with.test.cpp"
   "src/type_traits/is_nothrow_swappable.test.cpp"
   "src/type_traits/is_null_pointer_or_pointer.test.cpp"
+  "src/type_traits/is_null_pointer.no_is_null_pointer.test.cpp"
   "src/type_traits/is_null_pointer.test.cpp"
   "src/type_traits/is_object.nointrinsic.test.cpp"
   "src/type_traits/is_object.nointrinsic2.test.cpp"
