@@ -18,6 +18,10 @@ set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${
 phi_check_cxx_source_compiles("int main() { constexpr int i = 3; return i; }"
                               PHI_HAS_FEATURE_CONSTEXPR)
 phi_check_cxx_source_compiles("[[noreturn]] void f(); int main() { }" PHI_HAS_FEATURE_NORETURN)
+phi_check_cxx_source_compiles(
+  "template<typename T> class A {};
+extern template class A<int>;
+int main() {}" PHI_HAS_FEATURE_EXTERN_TEMPLATE)
 
 # C++-14 Features
 phi_check_cxx_source_compiles("int main() { int i = 0b1; }" PHI_HAS_FEATURE_BINARY_LITERALS)
