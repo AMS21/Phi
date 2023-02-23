@@ -72,6 +72,7 @@
 #include "intrinsics/is_rvalue_reference.hpp"
 #include "intrinsics/is_same.hpp"
 #include "intrinsics/is_scalar.hpp"
+#include "intrinsics/is_scoped_enum.hpp"
 #include "intrinsics/is_signed.hpp"
 #include "intrinsics/is_standard_layout.hpp"
 #include "intrinsics/is_trivial.hpp"

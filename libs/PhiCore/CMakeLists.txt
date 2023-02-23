@@ -104,6 +104,7 @@ file(
   "include/phi/compiler_support/intrinsics/is_rvalue_reference.hpp"
   "include/phi/compiler_support/intrinsics/is_same.hpp"
   "include/phi/compiler_support/intrinsics/is_scalar.hpp"
+  "include/phi/compiler_support/intrinsics/is_scoped_enum.hpp"
   "include/phi/compiler_support/intrinsics/is_signed.hpp"
   "include/phi/compiler_support/intrinsics/is_standard_layout.hpp"
   "include/phi/compiler_support/intrinsics/is_trivial.hpp"

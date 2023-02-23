@@ -296,6 +296,7 @@ file(
   "src/type_traits/is_same_rv.test.cpp"
   "src/type_traits/is_same.test.cpp"
   "src/type_traits/is_scalar.test.cpp"
+  "src/type_traits/is_scoped_enum.no_is_scoped_enum.test.cpp"
   "src/type_traits/is_scoped_enum.test.cpp"
   "src/type_traits/is_signed_integer.test.cpp"
   "src/type_traits/is_signed.test.cpp"

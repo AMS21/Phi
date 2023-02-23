@@ -350,6 +350,8 @@ phi_check_cxx_source_compiles("int main() { return __is_nullptr(void); }"
                               PHI_HAS_INTRINSIC_IS_NULLPTR)
 phi_check_cxx_source_compiles("int main() { return __is_referenceable(void); }"
                               PHI_HAS_INTRINSIC_IS_REFERENCEABLE)
+phi_check_cxx_source_compiles("int main() { return __is_scoped_enum(void); }"
+                              PHI_HAS_INTRINSIC_IS_SCOPED_ENUM)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1
