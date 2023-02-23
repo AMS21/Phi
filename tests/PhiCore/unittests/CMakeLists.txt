@@ -274,6 +274,7 @@ file(
   "src/type_traits/is_polymorphic.test.cpp"
   "src/type_traits/is_reference_wrapper.test.cpp"
   "src/type_traits/is_reference.test.cpp"
+  "src/type_traits/is_referenceable.no_is_referenceable.test.cpp"
   "src/type_traits/is_referenceable.test.cpp"
   "src/type_traits/is_rvalue_reference.test.cpp"
   "src/type_traits/is_safe_arithmetic.test.cpp"

@@ -67,6 +67,7 @@
 #include "intrinsics/is_pointer_interconvertible_with_class.hpp"
 #include "intrinsics/is_polymorphic.hpp"
 #include "intrinsics/is_reference.hpp"
+#include "intrinsics/is_referenceable.hpp"
 #include "intrinsics/is_rvalue_expr.hpp"
 #include "intrinsics/is_rvalue_reference.hpp"
 #include "intrinsics/is_same.hpp"

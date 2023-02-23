@@ -348,6 +348,8 @@ phi_check_cxx_source_compiles("int main() { return __is_bounded_array(void); }"
                               PHI_HAS_INTRINSIC_IS_BOUNDED_ARRAY)
 phi_check_cxx_source_compiles("int main() { return __is_nullptr(void); }"
                               PHI_HAS_INTRINSIC_IS_NULLPTR)
+phi_check_cxx_source_compiles("int main() { return __is_referenceable(void); }"
+                              PHI_HAS_INTRINSIC_IS_REFERENCEABLE)
 
 # Extensions
 phi_check_cxx_source_compiles("#define M(...) 1

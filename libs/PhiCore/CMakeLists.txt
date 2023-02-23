@@ -99,6 +99,7 @@ file(
   "include/phi/compiler_support/intrinsics/is_pointer.hpp"
   "include/phi/compiler_support/intrinsics/is_polymorphic.hpp"
   "include/phi/compiler_support/intrinsics/is_reference.hpp"
+  "include/phi/compiler_support/intrinsics/is_referenceable.hpp"
   "include/phi/compiler_support/intrinsics/is_rvalue_expr.hpp"
   "include/phi/compiler_support/intrinsics/is_rvalue_reference.hpp"
   "include/phi/compiler_support/intrinsics/is_same.hpp"
