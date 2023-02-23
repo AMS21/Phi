@@ -26,6 +26,7 @@
 #include "intrinsics/is_array.hpp"
 #include "intrinsics/is_assignable.hpp"
 #include "intrinsics/is_base_of.hpp"
+#include "intrinsics/is_bounded_array.hpp"
 #include "intrinsics/is_class.hpp"
 #include "intrinsics/is_compound.hpp"
 #include "intrinsics/is_const.hpp"

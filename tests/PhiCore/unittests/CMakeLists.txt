@@ -194,6 +194,7 @@ file(
   "src/type_traits/is_base_of.nointrinsic3.test.cpp"
   "src/type_traits/is_base_of.test.cpp"
   "src/type_traits/is_bool.test.cpp"
+  "src/type_traits/is_bounded_array.no_is_bounded_array.test.cpp"
   "src/type_traits/is_bounded_array.test.cpp"
   "src/type_traits/is_class.test.cpp"
   "src/type_traits/is_complete_or_unbounded_void.test.cpp"

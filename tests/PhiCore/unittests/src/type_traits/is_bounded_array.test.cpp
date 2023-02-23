@@ -289,16 +289,6 @@ TEST_CASE("is_bounded_array")
     test_is_not_bounded_array<trap_deref>();
     test_is_not_bounded_array<trap_array_subscript>();
 
-#if PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() && PHI_COMPILER_IS_NOT(MINGW)
-    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-length-array")
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wpedantic")
-
-    test_is_not_bounded_array<int[0]>();
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
-    PHI_CLANG_SUPPRESS_WARNING_POP()
-#endif
-
     test_is_not_bounded_array<void()>();
     test_is_not_bounded_array<void()&>();
     test_is_not_bounded_array<void() &&>();

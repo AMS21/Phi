@@ -61,6 +61,7 @@ file(
   "include/phi/compiler_support/intrinsics/is_array.hpp"
   "include/phi/compiler_support/intrinsics/is_assignable.hpp"
   "include/phi/compiler_support/intrinsics/is_base_of.hpp"
+  "include/phi/compiler_support/intrinsics/is_bounded_array.hpp"
   "include/phi/compiler_support/intrinsics/is_class.hpp"
   "include/phi/compiler_support/intrinsics/is_complete.hpp"
   "include/phi/compiler_support/intrinsics/is_compound.hpp"
