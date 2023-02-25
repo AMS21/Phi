@@ -16,7 +16,7 @@ DETAIL_PHI_BEGIN_STD_NAMESPACE()
 
 #if PHI_STANDARD_LIBRARY_LIBSTDCXX()
 
-// For some reason the '_GLIBCXX_BEGIN_NAMESPACE_CXX11' macro doesn't reopen the namespace as inline altough it actually is
+// For some reason the '_GLIBCXX_BEGIN_NAMESPACE_CXX11' macro doesn't reopen the namespace as inline although it actually is
 // We fix that manully here to avoid the gcc warning
 // "inline namespace reopened as a non-inline namespace [-Winline-namespace-reopened-noninline]"
 // See https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/c%2B%2Bconfig#L328

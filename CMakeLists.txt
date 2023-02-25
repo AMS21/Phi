@@ -70,7 +70,7 @@ option(PHI_ENABLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 option(PHI_TEST_SPLIT_FILES "Split unittest files into multiple executables" ${PHI_COMPILER_EMCC})
 option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
-option(PHI_FUZZING_BUILD "Enable specific flags usefull for fuzzing" OFF)
+option(PHI_FUZZING_BUILD "Enable specific flags useful for fuzzing" OFF)
 
 phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
            STRING "Dynamic")
