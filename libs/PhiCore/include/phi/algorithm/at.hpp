@@ -29,10 +29,12 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index)
 
 template <typename ContainerT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index)
-#if !defined(PHI_DEBUG)
-        noexcept
+#if defined(PHI_DEBUG)
+        noexcept(noexcept(container.at(index)))
+#else
+        noexcept(noexcept(container[index]))
 #endif
-        -> decltype(container[container.size()])
+                -> decltype(container[container.size()])
 {
     PHI_ASSERT(index < container.size(), "Index {} is out of bounds! Max value: {}", index,
                container.size() - 1);
