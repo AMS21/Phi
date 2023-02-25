@@ -34,7 +34,6 @@ jobs:
 
       matrix:
         compiler:
-          - "clang-15"
           - "gcc-12"
 
         build_type:
