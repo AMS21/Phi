@@ -77,5 +77,5 @@ jobs:
         with:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},${{ matrix.compiler }},${{ matrix.build_type }}
-          name: ${{ runner.os }}-${{ matric.compiler }}-${{ matrix.build_type }}
+          name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
           fail_ci_if_error: true
