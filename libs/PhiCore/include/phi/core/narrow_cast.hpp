@@ -1,9 +1,7 @@
 #ifndef INCG_PHI_CORE_NARROW_CAST_HPP
 #define INCG_PHI_CORE_NARROW_CAST_HPP
 
-#include "phi/compiler_support/warning.hpp"
 #include "phi/phi_config.hpp"
-#include "phi/type_traits/remove_reference.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
@@ -11,11 +9,13 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/unsafe_cast.hpp"
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
+#include "phi/type_traits/remove_reference.hpp"
 #include "phi/type_traits/to_unsafe.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
