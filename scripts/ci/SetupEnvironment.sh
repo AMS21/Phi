@@ -1,6 +1,37 @@
 #!/bin/bash
 
-PROC_COUNT=$(nproc)
+# Determine OS
+case "$(uname -sr)" in
+
+Darwin*)
+    echo "Environment: Mac OS X"
+    machine=mac
+    ;;
+
+Linux*)
+    echo "Environment: Linux"
+    machine=linux
+    ;;
+
+CYGWIN* | MINGW* | MINGW32* | MSYS*)
+    echo "Environment: Windows"
+    machine=windows
+    ;;
+
+*)
+    echo "Error: Unknown OS"
+    exit
+    ;;
+esac
+
+# Determine number of processors
+if [[ $machine == "mac" ]]; then
+    PROC_COUNT=$(sysctl -n hw.logicalcpu)
+elif [[ $machine == "linux" ]]; then
+    PROC_COUNT=$(nproc)
+elif [[ $machine == "windows" ]]; then
+    PROC_COUNT=$NUMBER_OF_PROCESSORS
+fi
 
 # Get number of processors available
 # shellcheck disable=SC2129
@@ -37,10 +68,12 @@ echo "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1:halt_on_error=1" >>"$
 echo "LATEST_LLVM_VERSION=15" >>"$GITHUB_ENV"
 echo "LATEST_GCC_VERSION=12" >>"$GITHUB_ENV"
 
-# Workaround for the unreliable Github Actions caching proxy
-printf 'http://azure.archive.ubuntu.com/ubuntu\tpriority:1\n' | sudo tee /etc/apt/mirrors.txt
-curl http://mirrors.ubuntu.com/mirrors.txt | sudo tee --append /etc/apt/mirrors.txt
-sudo sed -i 's~http://azure.archive.ubuntu.com/ubuntu/~mirror+file:/etc/apt/mirrors.txt~' /etc/apt/sources.list
+if [[ $machine == "linux" ]]; then
+    # Workaround for the unreliable Github Actions caching proxy
+    printf 'http://azure.archive.ubuntu.com/ubuntu\tpriority:1\n' | sudo tee /etc/apt/mirrors.txt
+    curl http://mirrors.ubuntu.com/mirrors.txt | sudo tee --append /etc/apt/mirrors.txt
+    sudo sed -i 's~http://azure.archive.ubuntu.com/ubuntu/~mirror+file:/etc/apt/mirrors.txt~' /etc/apt/sources.list
 
-# Update sources
-sudo apt-get update
+    # Update sources
+    sudo apt-get update
+fi
