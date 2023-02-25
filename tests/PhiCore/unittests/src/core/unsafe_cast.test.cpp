@@ -239,3 +239,59 @@ TEST_CASE("unsafe_cast const usage")
         CHECK(small.unsafe() == 21);
     }
 }
+
+enum E1
+{
+    A = 0,
+    B = 1,
+};
+
+enum E2 : unsigned
+{
+    C = 1u,
+    D = 2u,
+};
+
+TEST_CASE("unsafe_cast enum -> int")
+{
+    STATIC_REQUIRE(phi::unsafe_cast<int>(E1::A) == 0);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(E1::B) == 1);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(E2::C) == 1);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(E2::D) == 2);
+}
+
+TEST_CASE("unsafe_cast int -> enum")
+{
+    STATIC_REQUIRE(phi::unsafe_cast<E1>(0) == E1::A);
+    STATIC_REQUIRE(phi::unsafe_cast<E1>(1) == E1::B);
+    STATIC_REQUIRE(phi::unsafe_cast<E2>(1) == E2::C);
+    STATIC_REQUIRE(phi::unsafe_cast<E2>(2) == E2::D);
+}
+
+enum class SE1
+{
+    A = 0,
+    B = 1,
+};
+
+enum class SE2 : unsigned
+{
+    A = 0u,
+    B = 2u,
+};
+
+TEST_CASE("unsafe_cast strong enum -> int")
+{
+    STATIC_REQUIRE(phi::unsafe_cast<int>(SE1::A) == 0);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(SE1::B) == 1);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(SE2::A) == 0);
+    STATIC_REQUIRE(phi::unsafe_cast<int>(SE2::B) == 2);
+}
+
+TEST_CASE("unsafe_cast int -> strong enum")
+{
+    STATIC_REQUIRE(phi::unsafe_cast<SE1>(0) == SE1::A);
+    STATIC_REQUIRE(phi::unsafe_cast<SE1>(1) == SE1::B);
+    STATIC_REQUIRE(phi::unsafe_cast<SE2>(0) == SE2::A);
+    STATIC_REQUIRE(phi::unsafe_cast<SE2>(2) == SE2::B);
+}
