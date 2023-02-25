@@ -51,7 +51,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Install compiler
-        run: scripts/ci/InstallTools.sh ${{ matrix.compiler_version }} ninja gcovr
+        run: scripts/ci/InstallTools.sh ${{ matrix.compiler }} ninja gcovr
 
       - name: Configure build directory
         run: |
