@@ -1,0 +1,81 @@
+name: CodeCoverage
+
+on:
+  push:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/CodeCoverage.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
+    tags:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  linux:
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+    runs-on: 'ubuntu-22.04'
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        compiler:
+          - "clang-15"
+          - "gcc-12"
+
+        build_type:
+          - "Debug"
+          - "Release"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
+      - name: Install compiler
+        run: scripts/ci/InstallTools.sh ${{ matrix.compiler_version }} ninja gcovr
+
+      - name: Configure build directory
+        run: |
+          mkdir build -p
+          cd build
+
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD:BOOL=ON ..
+
+      - name: Build
+        working-directory: ./build
+        run: cmake --build . --config ${{ matrix.build_type }}
+
+      - name: Run tests
+        working-directory: ./build
+        run: ctest . -C ${{ matrix.build_type }}
+
+      - name: Process coverage data
+        working-directory: ./build
+        run: gcovr -j ${PROC_COUNT} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${GCOV_EXECUTABLE}' --verbose
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v3.1.1
+        with:
+          file: ./build/coverage.xml
+          flags: ${{ runner.os }},${{ matrix.compiler }},${{ matrix.build_type }}
+          name: ${{ runner.os }}-${{ matric.compiler }}-${{ matrix.build_type }}
+          fail_ci_if_error: true
