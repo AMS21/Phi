@@ -13,7 +13,7 @@ Linux*)
     machine=linux
     ;;
 
-CYGWIN* | MINGW* | MINGW32* | MSYS*)
+CYGWIN* | MINGW* | MSYS*)
     echo "Environment: Windows"
     machine=windows
     ;;
