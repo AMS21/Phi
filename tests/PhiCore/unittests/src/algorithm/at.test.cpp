@@ -23,6 +23,19 @@ TEST_CASE("At c-array", "[Utility][At]")
     EXT_STATIC_REQUIRE(phi::at(arr, 9) == 'n');
     EXT_STATIC_REQUIRE(phi::at(arr, 10) == 'g');
     EXT_STATIC_REQUIRE(phi::at(arr, 11) == '\0');
+
+    CHECK(phi::at(arr, 0) == 'T');
+    CHECK(phi::at(arr, 1) == 'e');
+    CHECK(phi::at(arr, 2) == 's');
+    CHECK(phi::at(arr, 3) == 't');
+    CHECK(phi::at(arr, 4) == ' ');
+    CHECK(phi::at(arr, 5) == 'S');
+    CHECK(phi::at(arr, 6) == 't');
+    CHECK(phi::at(arr, 7) == 'r');
+    CHECK(phi::at(arr, 8) == 'i');
+    CHECK(phi::at(arr, 9) == 'n');
+    CHECK(phi::at(arr, 10) == 'g');
+    CHECK(phi::at(arr, 11) == '\0');
 }
 
 TEST_CASE("At container", "[Utility][At]")

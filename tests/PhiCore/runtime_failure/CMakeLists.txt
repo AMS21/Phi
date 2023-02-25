@@ -15,6 +15,14 @@ runtime_failure_test(NAME "selftest_unhandled_exception" SOURCE
 
 # algorithm
 
+# at
+runtime_failure_test(NAME "algorithm_at_array_out_of_bounds" SOURCE
+                     "src/algorithm/at/array_out_of_bounds.fail.cpp")
+runtime_failure_test(NAME "algorithm_at_carray_out_of_bounds" SOURCE
+                     "src/algorithm/at/carray_out_of_bounds.fail.cpp")
+runtime_failure_test(NAME "algorithm_at_initializer_list_out_of_bounds" SOURCE
+                     "src/algorithm/at/initializer_list_out_of_bounds.fail.cpp")
+
 # string_compare_unsafe
 runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_lhs" SOURCE
                      "src/algorithm/string_compare_unsafe/nullptr_lhs.fail.cpp")
