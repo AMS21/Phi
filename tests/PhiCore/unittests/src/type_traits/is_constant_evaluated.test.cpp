@@ -72,12 +72,13 @@ TEST_CASE("is_constant_evaluated")
 #        if PHI_HAS_FEATURE_CONSTEVAL()
     bool consteval_function_result = consteval_function();
 
-    // Test is broken in clang before 11
-#            if PHI_COMPILER_IS_ATLEAST(CLANG, 11, 0, 0) || PHI_COMPILER_IS_NOT(CLANG)
-    CHECK(consteval_function_result);
-#            else
+    // Test is broken in clang before 11, AppleClang before 12.5
+#            if PHI_COMPILER_IS_BELOW(CLANG, 11, 0, 0) ||                                          \
+                    PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 5, 0)
     SKIP_CHECK();
     (void)consteval_function_result;
+#            else
+    CHECK(consteval_function_result);
 #            endif
 
     STATIC_REQUIRE(consteval_function());
