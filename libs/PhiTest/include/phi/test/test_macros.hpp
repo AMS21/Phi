@@ -78,26 +78,26 @@ extern int main();
 
 #define SKIP_CHECK() ::phi::test::detail::IncreaseSkipCount()
 
+#define DETAIL_STATIC_REQUIRE_BEGIN()                                                              \
+    PHI_BEGIN_MACRO()                                                                              \
+    PHI_GCC_SUPPRESS_WARNING_PUSH()                                                                \
+    PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")                                                     \
+    PHI_CLANG_SUPPRESS_WARNING_PUSH()                                                              \
+    PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
+
+#define DETAIL_STATIC_REQUIRE_END()                                                                \
+    PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
+    PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
+    PHI_END_MACRO()
+
 // Run all tests at runtime when gathering coverage data
-#if defined(PHI_CONFIG_COVERAGE_BUILD)
+#if defined(PHI_CONFIG_COVERAGE_BUILD) && 0
 
 #    define STATIC_REQUIRE(...) REQUIRE(__VA_ARGS__)
 
 #    define STATIC_REQUIRE_FALSE(...) REQUIRE_FALSE(__VA_ARGS__)
 
 #else
-
-#    define DETAIL_STATIC_REQUIRE_BEGIN()                                                          \
-        PHI_BEGIN_MACRO()                                                                          \
-        PHI_GCC_SUPPRESS_WARNING_PUSH()                                                            \
-        PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")                                                 \
-        PHI_CLANG_SUPPRESS_WARNING_PUSH()                                                          \
-        PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
-
-#    define DETAIL_STATIC_REQUIRE_END()                                                            \
-        PHI_CLANG_SUPPRESS_WARNING_POP()                                                           \
-        PHI_GCC_SUPPRESS_WARNING_POP()                                                             \
-        PHI_END_MACRO()
 
 #    define STATIC_REQUIRE(...)                                                                    \
         DETAIL_STATIC_REQUIRE_BEGIN()                                                              \
