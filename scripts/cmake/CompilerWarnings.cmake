@@ -82,7 +82,6 @@ set(phi_warning_flags
     Wvla)
 
 set(phi_cxx_warning_flags
-    Wabi-tag
     Waligned-new=all
     Wcatch-value=3
     Wclass-conversion
