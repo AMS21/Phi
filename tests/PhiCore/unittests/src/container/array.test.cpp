@@ -2353,11 +2353,21 @@ TEST_CASE("array find_last")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
+        // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
+#if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
+        CHECK(arr.find_last(1) == &arr.front());
+        CHECK(arr.find_last(2) == &arr.at(1u));
+        CHECK(arr.find_last(3) == &arr.back());
+        CHECK(arr.find_last(0) == arr.end());
+        CHECK(arr.find_last(4) == arr.end());
+#else
         EXT_STATIC_REQUIRE(arr.find_last(1) == &arr.front());
         EXT_STATIC_REQUIRE(arr.find_last(2) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_last(3) == &arr.back());
         EXT_STATIC_REQUIRE(arr.find_last(0) == arr.end());
         EXT_STATIC_REQUIRE(arr.find_last(4) == arr.end());
+#endif
+
         CHECK_SAME_TYPE(decltype(arr.find_last(1)), array::const_iterator);
         CHECK_NOEXCEPT(arr.find_last(1));
     }
@@ -2433,10 +2443,19 @@ TEST_CASE("array find_last_if")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
+        // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
+#if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
+        CHECK(arr.find_last_if(lambda_eq1) == &arr.at(0u));
+        CHECK(arr.find_last_if(lambda_eq2) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_even) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_false) == arr.end());
+#else
         EXT_STATIC_REQUIRE(arr.find_last_if(lambda_eq1) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_last_if(lambda_eq2) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_last_if(lambda_even) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_last_if(lambda_false) == arr.end());
+#endif
+
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::const_iterator);
         CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_false_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
@@ -2514,10 +2533,19 @@ TEST_CASE("array find_last_if_not")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
+        // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
+#if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
+        CHECK(arr.find_last_if_not(lambda_eq3) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_eq1) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_odd) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_true) == arr.end());
+#else
         EXT_STATIC_REQUIRE(arr.find_last_if_not(lambda_eq3) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_last_if_not(lambda_eq1) == &arr.at(2u));
         EXT_STATIC_REQUIRE(arr.find_last_if_not(lambda_odd) == &arr.at(1u));
         EXT_STATIC_REQUIRE(arr.find_last_if_not(lambda_true) == arr.end());
+#endif
+
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::const_iterator);
         CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
