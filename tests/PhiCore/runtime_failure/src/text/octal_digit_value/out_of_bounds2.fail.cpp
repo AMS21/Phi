@@ -1,11 +1,10 @@
 #include "SetupRuntimeFailure.hpp"
 
-#include <phi/core/types.hpp>
 #include <phi/text/octal_digit_value.hpp>
 
 int main()
 {
     SetupRuntimeFailure();
 
-    return phi::octal_digit_value('9').unsafe();
+    (void)phi::octal_digit_value('9');
 }

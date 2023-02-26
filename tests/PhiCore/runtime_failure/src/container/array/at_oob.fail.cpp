@@ -1,4 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
+
 #include <phi/container/array.hpp>
 
 int main()

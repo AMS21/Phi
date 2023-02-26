@@ -1,6 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
 
-#include <phi/compiler_support/unused.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/scope_ptr.hpp>
 
@@ -12,7 +11,5 @@ int main()
     phi::not_null_scope_ptr<int> ptr2(phi::move(ptr1));
 
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.Move)
-    int* err_ptr = ptr1.get();
-
-    PHI_UNUSED_VARIABLE(err_ptr);
+    (void)ptr1.get();
 }

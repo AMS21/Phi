@@ -1,7 +1,6 @@
 #include "SetupRuntimeFailure.hpp"
 
 #include <phi/algorithm/at.hpp>
-#include <phi/container/array.hpp>
 
 int main()
 {

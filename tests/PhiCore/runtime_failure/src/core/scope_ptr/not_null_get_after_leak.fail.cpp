@@ -1,6 +1,5 @@
 #include "SetupRuntimeFailure.hpp"
 
-#include <phi/compiler_support/unused.hpp>
 #include <phi/core/scope_ptr.hpp>
 
 int main()
@@ -13,7 +12,5 @@ int main()
 
     delete leak_ptr;
 
-    int* err_ptr = ptr.get();
-
-    PHI_UNUSED_PARAMETER(err_ptr);
+    (void)ptr.get();
 }

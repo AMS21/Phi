@@ -13,5 +13,5 @@ int main()
 
     phi::observer_ptr<A> ptr;
 
-    return ptr->val;
+    (void)ptr->val;
 }
