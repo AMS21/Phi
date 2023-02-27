@@ -258,7 +258,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.2
+        uses: reviewdog/action-setup@v1.0.3
         with:
           reviewdog_version: latest
 
