@@ -8,7 +8,7 @@ include(internal/CXXCheckTypeSize)
 include(Standard)
 
 # Set compile flags
-string(JOIN " " _glued_flags ${_phi_check_required_flags} ${_phi_common_flags_supported}
+string(JOIN " " _glued_flags ${phi_check_required_flags} ${_phi_common_flags_supported}
        ${_phi_common_cxx_flags_supported})
 set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${phi_latest_standard_flag} ${_glued_flags}")
 
