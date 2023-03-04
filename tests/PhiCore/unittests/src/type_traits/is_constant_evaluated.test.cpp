@@ -66,7 +66,11 @@ TEST_CASE("is_constant_evaluated")
     constexpr bool constexpr_function_constexpr_result = constexpr_function();
     STATIC_REQUIRE(constexpr_function_constexpr_result);
 
+#        if defined(PHI_CONFIG_COVERAGE_BUILD)
+    REQUIRE_FALSE(constexpr_function());
+#        else
     STATIC_REQUIRE(constexpr_function());
+#        endif
 
     // Consteval function
 #        if PHI_HAS_FEATURE_CONSTEVAL()

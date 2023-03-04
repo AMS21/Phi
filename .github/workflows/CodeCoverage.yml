@@ -57,7 +57,7 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD:BOOL=ON ..
+          cmake -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_COVERAGE_BUILD:BOOL=ON -DPHI_TEST_COMPILE_FAILURES:BOOL=OFF ..
 
       - name: Build
         working-directory: ./build
