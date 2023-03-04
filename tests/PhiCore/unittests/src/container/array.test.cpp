@@ -283,7 +283,77 @@ struct NonTrivialCopy
     }
 };
 
-PHI_EXTENDED_CONSTEXPR bool test_implicit_copy()
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+constexpr bool test_implicit_copy_constexpr()
+{
+    {
+        using Array = phi::array<double, 3>;
+        Array array = {1.1, 2.2, 3.3};
+        Array copy  = array;
+        copy        = array;
+    }
+    {
+        using Array = phi::array<const double, 3>;
+        Array array = {1.1, 2.2, 3.3};
+        Array copy  = array;
+        (void)copy;
+    }
+    {
+        using Array = phi::array<double, 0>;
+        Array array = {};
+        Array copy  = array;
+        copy        = array;
+    }
+    {
+        // const arrays of size 0 should disable the implicit copy assignment operator.
+        using Array = phi::array<const double, 0>;
+        Array array = {};
+        Array copy  = array;
+        (void)copy;
+    }
+    {
+        using Array = phi::array<NoDefault, 0>;
+        Array array = {};
+        Array copy  = array;
+        copy        = array;
+    }
+    {
+        using Array = phi::array<const NoDefault, 0>;
+        Array array = {};
+        Array copy  = array;
+        (void)copy;
+    }
+
+    // Make sure we can implicitly copy a phi::array of a non-trivially copyable type
+    {
+        using Array = phi::array<NonTrivialCopy, 0>;
+        Array array = {};
+        Array copy  = array;
+        copy        = array;
+    }
+    {
+        using Array = phi::array<NonTrivialCopy, 1>;
+        Array array = {};
+        Array copy  = array;
+        copy        = array;
+    }
+    {
+        using Array = phi::array<NonTrivialCopy, 2>;
+        Array array = {};
+        Array copy  = array;
+        copy        = array;
+    }
+
+    return true;
+}
+
+TEST_CASE("array implicit copy constexpr")
+{
+    STATIC_REQUIRE(test_implicit_copy_constexpr());
+}
+#endif
+
+TEST_CASE("array implicit copy runtime")
 {
     {
         using Array = phi::array<double, 3>;
@@ -359,17 +429,10 @@ PHI_EXTENDED_CONSTEXPR bool test_implicit_copy()
         copy        = array;
         STATIC_REQUIRE(phi::is_copy_constructible<Array>::value);
     }
-
-    return true;
 }
 
 TEST_CASE("implicit copy")
 {
-    test_implicit_copy();
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    STATIC_REQUIRE(test_implicit_copy());
-#endif
-
     // Validate whether the container can be copy-assigned with an ADL-hijacking operator&
     phi::array<operator_hijacker, 1> arr_o;
     phi::array<operator_hijacker, 1> arr;

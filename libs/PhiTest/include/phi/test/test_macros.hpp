@@ -91,7 +91,7 @@ extern int main();
     PHI_END_MACRO()
 
 // Run all tests at runtime when gathering coverage data
-#if defined(PHI_CONFIG_COVERAGE_BUILD) && 0
+#if defined(PHI_CONFIG_COVERAGE_BUILD)
 
 #    define STATIC_REQUIRE(...) REQUIRE(__VA_ARGS__)
 
