@@ -17,14 +17,11 @@ if(PHI_COMPILER_CLANG)
       -Wno-c++0x-compat
       -Wno-c++0x-extensions
       -Wno-c++0x-narrowing
-      # -Wno-c++1y-compat
       -Wno-c++1y-extensions
       -Wno-c++1z-compat
       -Wno-c++1z-extensions
       -Wno-c++2a-compat
       -Wno-c++2a-extensions
-      # -Wno-c++2b-compat
-      -Wno-c++2b-extensions
       -Wno-c++11-compat
       -Wno-c++11-extensions
       -Wno-c++11-narrowing
@@ -32,9 +29,6 @@ if(PHI_COMPILER_CLANG)
       -Wno-c++14-extensions
       -Wno-c++17-compat
       -Wno-c++17-extensions
-      -Wno-c++20-compat
-      -Wno-c++20-extensions
-      # -Wno-c++23-compat -Wno-c++23-extensions
       -Wno-c++98-compat
       -Wno-c++98-compat-pedantic
       -Wno-c++98-c++11-compat
@@ -54,6 +48,18 @@ if(PHI_COMPILER_CLANG)
       -Wno-unused-template
       -Wno-variadic-macros
       -Wno-weak-vtables)
+
+  # Clang-10 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++20-compat
+                                    -Wno-c++20-extensions)
+  endif()
+
+  # Clang-13 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++2b-extensions)
+  endif()
+
   set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
 elseif(PHI_COMPILER_EMCC)
   set(phi_warning_flags -Wundef)
@@ -68,10 +74,7 @@ elseif(PHI_COMPILER_GCC)
       -Wall
       -Walloc-zero
       -Walloca
-      -Warith-conversion
       -Warray-bounds
-      -Wattribute-alias=2
-      -Wbidi-chars=any
       -Wcast-align # warn for potential performance problem casts
       -Wcast-qual
       -Wconversion # warn on type conversions that may lose data
@@ -79,7 +82,6 @@ elseif(PHI_COMPILER_GCC)
       -Wdouble-promotion # warn if float is implicit promoted to double
       -Wduplicated-branches # warn if if / else branches have duplicated code
       -Wduplicated-cond # warn if if / else chain has duplicated conditions
-      -Wenum-conversion
       -Wextra # reasonable and standard
       -Wfloat-equal
       -Wformat-overflow=2
@@ -105,7 +107,6 @@ elseif(PHI_COMPILER_GCC)
       -Wstack-protector
       -Wstrict-aliasing=2
       -Wstringop-overflow=2
-      -Wstringop-overread
       -Wsuggest-attribute=cold
       -Wsuggest-attribute=const
       -Wsuggest-attribute=format
@@ -123,37 +124,55 @@ elseif(PHI_COMPILER_GCC)
       -Wunused # warn on anything being unused
       -Wunused-const-variable=2
       -Wunused-parameter
-      -Wuse-after-free=3
       -Wvector-operation-performance
       -Wvla)
   set(phi_cxx_warning_flags
       -Waligned-new=all
       -Wcatch-value=3
-      -Wclass-conversion
-      -Wcomma-subscript
       -Wdelete-non-virtual-dtor
-      -Wdeprecated-copy
-      -Wdeprecated-enum-enum-conversion
-      -Wdeprecated-enum-float-conversion
       -Wextra-semi
-      -Winterference-size
-      -Winvalid-imported-macros
-      -Wmismatched-tags
       -Wnoexcept
       -Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
       # destructor. This helps catch hard to track down memory errors
       -Wold-style-cast # warn for c-style casts
       -Woverloaded-virtual # warn if you overload (not override) a virtual function
       -Wplacement-new=2
-      -Wredundant-tags
       -Wregister
       -Wreorder
       -Wsign-promo
       -Wstrict-null-sentinel
       -Wsuggest-override
       -Wuseless-cast # warn if you perform a cast to the same type
-      -Wvolatile
       -Wzero-as-null-pointer-constant)
+
+  # GCC-9 flags
+  if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 9)
+    set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2)
+    set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wclass-conversion -Wdeprecated-copy)
+  else()
+    set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias)
+  endif()
+
+  # GCC-10 flags
+  if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 10)
+    set(phi_warning_flags ${phi_warning_flags} -Warith-conversion)
+    set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wcomma-subscript -Wmismatched-tags
+                              -Wredundant-tags -Wvolatile)
+  endif()
+
+  # GCC-11 flags
+  if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 11)
+    set(phi_warning_flags ${phi_warnings_flags} -Wenum-conversion -Wstringop-overread)
+    set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wdeprecated-enum-enum-conversion
+                              -Wdeprecated-enum-float-conversion -Winvalid-imported-macros)
+  endif()
+
+  # GCC-12 flags
+  if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 12)
+    set(phi_warning_flags ${phi_warning_flags} -Wbidi-chars=any -Wuse-after-free=3)
+    set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Winterference-size)
+  endif()
+
   set(phi_warnings_as_errors_flag -Werror)
   set(phi_pedantic_flags -pedantic -pedantic-errors)
   set(phi_disabled_warnings_flags -Wno-padded -Wno-switch-enum -Wno-unused-macros
