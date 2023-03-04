@@ -158,7 +158,7 @@ elseif(PHI_COMPILER_GCC)
   set(phi_pedantic_flags -pedantic -pedantic-errors)
   set(phi_disabled_warnings_flags -Wno-padded -Wno-switch-enum -Wno-unused-macros
                                   -Wno-variadic-macros -Wno-unused-function)
-  set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
+  set(phi_check_required_flags -Werror=attributes)
 elseif(PHI_COMPILER_MSVC)
   set(phi_warning_flags /Wall)
   set(phi_cxx_warning_flags)
