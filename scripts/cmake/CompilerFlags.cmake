@@ -201,7 +201,6 @@ elseif(PHI_COMPILER_GCC)
       -Wsign-promo
       -Wstrict-null-sentinel
       -Wsuggest-override
-      -Wuseless-cast # warn if you perform a cast to the same type
       -Wzero-as-null-pointer-constant)
   set(phi_warnings_as_errors_flag -Werror)
   set(phi_pedantic_flags -pedantic -pedantic-errors)
@@ -245,7 +244,7 @@ elseif(PHI_COMPILER_GCC)
 
   # GCC-9 flags
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 9)
-    set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2)
+    set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2 -Wuseless-cast)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wclass-conversion -Wdeprecated-copy)
   else()
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias)
