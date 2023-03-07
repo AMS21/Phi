@@ -52,7 +52,6 @@ if(PHI_COMPILER_CLANG)
   set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
   set(phi_optimize_flags
       -felide-constructors
-      -ffinite-loops
       -fforce-emit-vtables
       -fmerge-all-constants
       -fstrict-aliasing
@@ -74,15 +73,24 @@ if(PHI_COMPILER_CLANG)
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag -fdiagnostics-color=always)
 
-  # Clang on windows seems to give errors when compiling with `fsemantic-interposition`
-  if(NOT PHI_PLATFORM_WINDOWS)
-    set(phi_optimize_flags ${phi_optimize_flags} -fsemantic-interposition)
-  endif()
-
   # Clang-10 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++20-compat
                                     -Wno-c++20-extensions)
+  endif()
+
+  # Clang-11 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 11)
+
+    # Clang on windows seems to give errors when compiling with `fsemantic-interposition`
+    if(NOT PHI_PLATFORM_WINDOWS)
+      set(phi_optimize_flags ${phi_optimize_flags} -fsemantic-interposition)
+    endif()
+  endif()
+
+  # Clang-12 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 12)
+    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
   endif()
 
   # Clang-13 flags
@@ -208,9 +216,7 @@ elseif(PHI_COMPILER_GCC)
                                   -Wno-variadic-macros -Wno-unused-function)
   set(phi_check_required_flags -Werror=attributes)
   set(phi_optimize_flags
-      -fallow-store-data-races
       -fdevirtualize-speculatively
-      -ffinite-loops
       -fgcse-las
       -fgcse-sm
       -fira-hoist-pressure
@@ -227,13 +233,13 @@ elseif(PHI_COMPILER_GCC)
       -fstrict-aliasing
       -ftree-loop-im
       -ftree-loop-ivcanon)
-  set(phi_cxx_optimize_flags -fdeclone-ctor-dtor -felide-constructors -fimplicit-constexpr
-                             -fno-enforce-eh-specs -fnothrow-opt -fstrict-enums)
+  set(phi_cxx_optimize_flags -fdeclone-ctor-dtor -felide-constructors -fno-enforce-eh-specs
+                             -fnothrow-opt -fstrict-enums)
   set(phi_lto_flags -flto=${PHI_PROCESSOR_COUNT} -fsplit-lto-unit -Wl,--no-as-needed)
   set(phi_lto_optimization_flags -fipa-pta -fwhole-program -fwhole-program-vtables
                                  -fdevirtualize-at-ltrans -fvirtual-function-elimination)
-  set(phi_common_flags -flarge-source-files -fms-extensions -fstrong-eval-order -pipe)
-  set(phi_cxx_common_flags -faligned-new -fsized-deallocation -fchar8_t -fconcepts -fcoroutines)
+  set(phi_common_flags -fms-extensions -fstrong-eval-order -pipe)
+  set(phi_cxx_common_flags -faligned-new -fsized-deallocation -fconcepts)
   set(phi_color_diagnostics_flag -fdiagnostics-color)
 
   # MacOS seems to have problems for missing include directories which come from MacOS SDK itself so
@@ -246,6 +252,7 @@ elseif(PHI_COMPILER_GCC)
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 9)
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2 -Wuseless-cast)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wclass-conversion -Wdeprecated-copy)
+    set(phi_cxx_common_flags ${phi_cxx_common_flags} -fchar8_t)
   else()
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias)
   endif()
@@ -255,6 +262,9 @@ elseif(PHI_COMPILER_GCC)
     set(phi_warning_flags ${phi_warning_flags} -Warith-conversion)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wcomma-subscript -Wmismatched-tags
                               -Wredundant-tags -Wvolatile)
+    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
+    set(phi_cxx_optimize_flags ${phi_cxx_optimize_flags} -fallow-store-data-races)
+    set(phi_cxx_common_flags ${phi_cxx_common_flags} -fcoroutines)
   endif()
 
   # GCC-11 flags
@@ -262,12 +272,14 @@ elseif(PHI_COMPILER_GCC)
     set(phi_warning_flags ${phi_warnings_flags} -Wenum-conversion -Wstringop-overread)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wdeprecated-enum-enum-conversion
                               -Wdeprecated-enum-float-conversion -Winvalid-imported-macros)
+    set(phi_common_flags ${phi_common_flags} -flarge-source-files)
   endif()
 
   # GCC-12 flags
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 12)
     set(phi_warning_flags ${phi_warning_flags} -Wbidi-chars=any -Wuse-after-free=3)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Winterference-size)
+    set(phi_cxx_optimize_flags ${phi_cxx_optimize_flags} -fimplicit-constexpr)
   endif()
 
 elseif(PHI_COMPILER_MSVC)
