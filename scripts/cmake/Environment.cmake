@@ -7,6 +7,13 @@ include(Functions)
 # CMake version
 phi_trace("CMake version ${CMAKE_VERSION}")
 
+if(CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  phi_trace("CMake Build type: ${CMAKE_BUILD_TYPE}")
+elseif(CMAKE_CONFIGURATION_TYPES)
+  list(JOIN CMAKE_CONFIGURATION_TYPES "," phi_cmake_configuration_types_list)
+  phi_trace("CMake Configuration types: \"${phi_cmake_configuration_types_list}\"")
+endif()
+
 # Detect Platform
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   phi_set_cache_value(PHI_PLATFORM_WINDOWS 1)
