@@ -107,15 +107,18 @@ if(PHI_COMPILER_CLANG)
   set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
   set(phi_no_rtti_flags -fno-rtti)
 
-  # stack-clash-protection basically only works with linux
-  if(PHI_PLATFORM_LINUX)
-    set(phi_debug_flags ${phi_debug_flags} -fstack-clash-protection)
-  endif()
-
   # Clang-10 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++20-compat
                                     -Wno-c++20-extensions)
+  endif()
+
+  # Clang-11 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 11)
+    # stack-clash-protection basically only works with linux
+    if(PHI_PLATFORM_LINUX)
+      set(phi_debug_flags ${phi_debug_flags} -fstack-clash-protection)
+    endif()
   endif()
 
   # Clang-12 flags
@@ -302,11 +305,8 @@ elseif(PHI_COMPILER_GCC)
       -fbounds-check
       -fcf-protection=full
       -fcheck-new
-      -fharden-compares
-      -fharden-conditional-branches
       -fstack-clash-protection
       -fstack-protector-all
-      -ftrivial-auto-var-init=pattern
       -fvar-tracking
       -fvar-tracking-assignments
       -ginline-points
@@ -372,6 +372,8 @@ elseif(PHI_COMPILER_GCC)
     set(phi_warning_flags ${phi_warning_flags} -Wbidi-chars=any -Wuse-after-free=3)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Winterference-size)
     set(phi_cxx_optimize_flags ${phi_cxx_optimize_flags} -fimplicit-constexpr)
+    set(phi_debug_flags ${phi_debug_flags} -fharden-compares -fharden-conditional-branches
+                        -ftrivial-auto-var-init=pattern)
   endif()
 
 elseif(PHI_COMPILER_MSVC)
@@ -507,7 +509,7 @@ elseif(PHI_COMPILER_MSVC)
       /GR-)
 
   # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
-  if("${PHI_MSVC_YEAR}" GREATER_LESS 2005)
+  if("${PHI_MSVC_YEAR}" VERSION_LESS 2005)
     set(phi_debug_flags
         ${phi_debug_flags}
         /Ge # https://learn.microsoft.com/cpp/build/reference/ge-enable-stack-probes
