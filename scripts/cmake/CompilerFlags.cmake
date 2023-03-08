@@ -463,6 +463,7 @@ elseif(PHI_COMPILER_MSVC)
       # https://learn.microsoft.com/cpp/build/reference/gl-whole-program-optimization
   )
   set(phi_common_flags
+      /bigobj
       /MP # https://learn.microsoft.com/cpp/build/reference/mp-build-with-multiple-processes
       /Zc:preprocessor # https://learn.microsoft.com/cpp/build/reference/zc-preprocessor
       /Zc:__cplusplus # https://learn.microsoft.com/cpp/build/reference/zc-cplusplus
