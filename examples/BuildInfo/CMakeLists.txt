@@ -17,4 +17,4 @@ phi_add_executable(
   Phi::Core
   FOLDER
   "Examples")
-phi_add_test(TARGET ${PROJECT_NAME})
+phi_add_test(TARGET "${PROJECT_NAME}")
