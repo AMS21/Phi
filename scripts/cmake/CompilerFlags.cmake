@@ -368,21 +368,25 @@ elseif(PHI_COMPILER_GCC)
 
 elseif(PHI_COMPILER_MSVC)
 
-  # https://learn.microsoft.com/cpp/build/reference/ltcg-link-time-code-generation
-
   set(phi_warning_flags /Wall)
   set(phi_cxx_warning_flags)
   set(phi_warnings_as_errors_flag /WX)
-  set(phi_pedantic_flags /permissive-)
+  set(phi_pedantic_flags)
   set(phi_disabled_warnings_flags
+      /wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by
+              # a case label -
+              # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
       /wd4101 # 'x': unreferenced local variable
+      /wd4180 # qualifier applied to function type has no meaning; ignored
+      /wd4324 # 'struct_name' : structure was padded due to __declspec(align())
       /wd4464 # relative include path contains '..'
       /wd4481 # nonstandard extension used: override specifier 'override'
+      /wd4505 # 'x': unreferenced function with internal linkage has been removed
       /wd4514 # 'x': unreferenced inline function has been removed
       /wd4548 # expression before comma has no effect; expected expression with side-effect
       /wd4571 # SEH related
       /wd4577 # 'noexcept' used with no exception handling mode specified; termination on exception
-      # is not guaranteed. Specify /EHsc
+              # is not guaranteed. Specify /EHsc
       /wd4616 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/t7ab6xtd.aspx
       /wd4619 # invalid compiler warnings - https://msdn.microsoft.com/en-us/library/tacee08d.aspx
       /wd4623 # 'x': default constructor was implicitly defined as deleted
@@ -392,31 +396,13 @@ elseif(PHI_COMPILER_MSVC)
       /wd4710 # 'x': function not inlined
       /wd4711 # function 'x' selected for automatic inline expansion
       /wd4814 # 'x in C++14 'constexpr' will not imply 'const'; consider explicitly specifying
-      # 'const'
+              # 'const'
       /wd4820 # 'bytes' bytes padding added after construct 'member_name' -
-      # https://msdn.microsoft.com/en-us/library/t7khkyth.aspx
-      /wd5026 # 'x': move constructor was implicitly defined as deleted
-      /wd5027 # 'x': move assignment operator was implicitly defined as deleted
-      /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch
-      # specified
-      /wd4505 # 'x': unreferenced function with internal linkage has been removed
-      /wd4180 # qualifier applied to function type has no meaning; ignored
-      /wd5052 # Keyword 'char8_t' was introduced in C++20 and requires use of the '/std:c++latest'
-      # command-line option
+              # https://msdn.microsoft.com/en-us/library/t7khkyth.aspx
       /wd4866 # compilerr may not enforce left-to-right evaluation order for call to 'x'
-      /wd4324 # 'struct_name' : structure was padded due to __declspec(align())
-      /wd5220 # 'name': a non-static data member with a volatile qualified type no longer implies
-      # that compiler generated copy/move constructors and copy/move assignment operators are not
-      # trivial
-      /wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by
-      # a case label -
-      # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4061
       /wd4868 # 'file(line_number)' compiler may not enforce left-to-right evaluation order in
-              # braced
-      # initializer list -
-      # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-c4868
-      /wd5264 # 'variable-name': 'const' variable is not used -
-      # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
+              # braced initializer list -
+              # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warning-c4868
   )
   set(phi_check_required_flags
       # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-c4800-through-c4999
@@ -426,9 +412,6 @@ elseif(PHI_COMPILER_MSVC)
       # Deprecated Global Optimizations -
       # https://learn.microsoft.com/cpp/build/reference/og-global-optimizations
       /Og
-      # Inline Function Expansion -
-      # https://learn.microsoft.com/cpp/build/reference/ob-inline-function-expansion
-      /Ob3
       # Generate Intrinsic Functions -
       # https://learn.microsoft.com/cpp/build/reference/oi-generate-intrinsic-functions
       /Oi
@@ -451,30 +434,19 @@ elseif(PHI_COMPILER_MSVC)
       # https://learn.microsoft.com/cpp/build/reference/gy-enable-function-level-linking
       /Gy
       # Auto-parallelizer - https://learn.microsoft.com/cpp/build/reference/qpar-auto-parallelizer
-      /Qpar
-      # Remove fwaits Inside Try Blocks -
-      # https://learn.microsoft.com/cpp/build/reference/qimprecise-fwaits-remove-fwaits-inside-try-blocks
-      /Qimprecise_fwaits
-      # https://learn.microsoft.com/cpp/build/reference/qintel-jcc-erratum
-      /QIntel-jcc-erratum)
+      /Qpar)
   set(phi_cxx_optimize_flags)
-  set(phi_lto_flags /LTCG)
+  set(phi_lto_flags
+      /LTCG # https://learn.microsoft.com/cpp/build/reference/ltcg-link-time-code-generation
+  )
   set(phi_lto_optimization_flags /GL # Whole Program Optimizations -
       # https://learn.microsoft.com/cpp/build/reference/gl-whole-program-optimization
   )
   set(phi_common_flags
       /bigobj
-      /MP # https://learn.microsoft.com/cpp/build/reference/mp-build-with-multiple-processes
-      /Zc:preprocessor # https://learn.microsoft.com/cpp/build/reference/zc-preprocessor
-      /Zc:__cplusplus # https://learn.microsoft.com/cpp/build/reference/zc-cplusplus
-      /Zc:char8_t # https://learn.microsoft.com/cpp/build/reference/zc-char8-t
-      /Zc:rvalueCast # https://learn.microsoft.com/cpp/build/reference/zc-rvaluecast-enforce-type-conversion-rules
-      # https://learn.microsoft.com/cpp/build/reference/external-external-headers-diagnostics
-      /experimental:external
-      /external:W0
-      /external:anglebrackets
-      /analyze:external- # https://learn.microsoft.com/cpp/build/reference/analyze-code-analysis
       /FC # https://learn.microsoft.com/cpp/build/reference/fc-full-path-of-source-code-file-in-diagnostics
+      /MP # https://learn.microsoft.com/cpp/build/reference/mp-build-with-multiple-processes
+      /Zc:rvalueCast # https://learn.microsoft.com/cpp/build/reference/zc-rvaluecast-enforce-type-conversion-rules
   )
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag)
@@ -495,11 +467,55 @@ elseif(PHI_COMPILER_MSVC)
       /GR-)
 
   # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
-  if("${PHI_MSVC_YEAR}" VERSION_LESS 2005)
+  if(${PHI_MSVC_YEAR} VERSION_LESS 2005)
     set(phi_debug_flags
         ${phi_debug_flags}
         /Ge # https://learn.microsoft.com/cpp/build/reference/ge-enable-stack-probes
         /GZ # https://learn.microsoft.com/cpp/build/reference/gz-enable-stack-frame-run-time-error-checking
+    )
+  endif()
+
+  # MSVC-2017 flags
+  if(${PHI_MSVC_YEAR} VERSION_GREATER_EQUAL 2017)
+    set(phi_pedantic_flags ${phi_pedantic_flags} /permissive-)
+    set(phi_disabled_warnings_flags
+        ${phi_disabled_warnings_flags}
+        /wd5264 # 'variable-name': 'const' variable is not used -
+        # https://learn.microsoft.com/cpp/error-messages/compiler-warnings/compiler-warnings-by-compiler-version
+        /wd5220 # 'name': a non-static data member with a volatile qualified type no longer implies
+        # that compiler generated copy/move constructors and copy/move assignment operators are not
+        # trivial
+        /wd5052 # Keyword 'char8_t' was introduced in C++20 and requires use of the '/std:c++latest'
+        # command-line option
+        /wd5026 # 'x': move constructor was implicitly defined as deleted
+        /wd5027 # 'x': move assignment operator was implicitly defined as deleted
+        /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch
+        # specified
+    )
+    set(phi_common_flags
+        ${phi_common_flags}
+        # https://learn.microsoft.com/cpp/build/reference/external-external-headers-diagnostics
+        /experimental:external
+        /external:anglebrackets
+        /external:W0
+        # https://learn.microsoft.com/cpp/build/reference/zc-cplusplus
+        /Zc:__cplusplus)
+  endif()
+
+  # MSVC-2019 flags
+  if(${PHI_MSVC_YEAR} VERSION_GREATER_EQUAL 2019)
+    set(phi_optimize_flags
+        ${phi_optimize_flags}
+        # Inline Function Expansion -
+        # https://learn.microsoft.com/cpp/build/reference/ob-inline-function-expansion
+        /Ob3
+        # https://learn.microsoft.com/cpp/build/reference/qintel-jcc-erratum
+        /QIntel-jcc-erratum)
+    set(phi_common_flags
+        ${phi_common_flags}
+        /analyze:external- # https://learn.microsoft.com/cpp/build/reference/analyze-code-analysis
+        /Zc:char8_t # https://learn.microsoft.com/cpp/build/reference/zc-char8-t
+        /Zc:preprocessor # https://learn.microsoft.com/cpp/build/reference/zc-preprocessor
     )
   endif()
 endif()
