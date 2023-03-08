@@ -77,10 +77,8 @@ if(PHI_COMPILER_CLANG)
   set(phi_disable_all_warnings_flag -w)
   set(phi_debug_flags
       -fasynchronous-unwind-tables
-      -fcf-protection=full
       -fcheck-new
       -fdebug-macro
-      -fstack-protector-all
       -ftrivial-auto-var-init=pattern
       -grecord-command-line)
   set(phi_debug_only_flags)
@@ -164,9 +162,8 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag -fdiagnostics-color=always)
   set(phi_disable_all_warnings_flag -w)
-  set(phi_debug_flags
-      -fasynchronous-unwind-tables -fcheck-new -fdebug-macro -fstack-clash-protection
-      -ftrivial-auto-var-init=pattern -grecord-command-line)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
+                      -ftrivial-auto-var-init=pattern -grecord-command-line)
   set(phi_debug_only_flags)
   set(phi_coverage_compile_flags)
   set(phi_coverage_link_flags)
@@ -191,11 +188,12 @@ elseif(PHI_COMPILER_EMCC)
 
 elseif(PHI_COMPILER_GCC)
 
-  # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
-  # https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
-  # https://gcc.gnu.org/wiki/LinkTimeOptimization
+  # https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
+  # https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+  # https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+  # https://gcc.gnu.org/wiki/LinkTimeOptimization
 
   set(phi_warning_flags
       -Wall
@@ -302,11 +300,7 @@ elseif(PHI_COMPILER_GCC)
   set(phi_disable_all_warnings_flag -w)
   set(phi_debug_flags
       -fasynchronous-unwind-tables
-      -fbounds-check
-      -fcf-protection=full
       -fcheck-new
-      -fstack-clash-protection
-      -fstack-protector-all
       -fvar-tracking
       -fvar-tracking-assignments
       -ginline-points
@@ -489,11 +483,6 @@ elseif(PHI_COMPILER_MSVC)
   set(phi_color_diagnostics_flag)
   set(phi_disable_all_warnings_flag /W0)
   set(phi_debug_flags
-      /mcet
-      /guard:cf # https://learn.microsoft.com/cpp/build/reference/guard-enable-control-flow-guard
-      /guard:signret
-      /guard:ehcont
-      /GS # https://learn.microsoft.com/cpp/build/reference/gs-buffer-security-check
       /sdl # Security Development Lifecycle -
       # https://learn.microsoft.com/cpp/build/reference/sdl-enable-additional-security-checks
   )
