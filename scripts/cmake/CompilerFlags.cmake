@@ -7,6 +7,8 @@ if(PHI_COMPILER_CLANG)
   # https://clang.llvm.org/docs/DiagnosticsReference.html
   # https://clang.llvm.org/docs/ThreadSafetyAnalysis.html https://clang.llvm.org/docs/ThinLTO.html
   # https://llvm.org/docs/LinkTimeOptimization.html https://llvm.org/docs/LinkTimeOptimization.html
+  # https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
+  # https://clang.llvm.org/docs/ClangCommandLineReference.html
 
   set(phi_warning_flags -Weverything -Wformat=2 -Wstrict-aliasing=2)
   set(phi_cxx_warning_flags)
@@ -72,20 +74,48 @@ if(PHI_COMPILER_CLANG)
       -fchar8_t)
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag -fdiagnostics-color=always)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags
+      -fasynchronous-unwind-tables
+      -fcf-protection=full
+      -fcheck-new
+      -fdebug-macro
+      -fstack-protector-all
+      -ftrivial-auto-var-init=pattern
+      -grecord-command-line)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags -fno-common -fno-inline -fno-inline-functions
+                                 -fno-omit-frame-pointer)
+  set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage -fprofile-instr-generate
+                              -fcoverage-mapping)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -ffinite-math-only
+      -ffp-contract=fast
+      -ffp-exception-behavior=ignore
+      -ffp-model=fast
+      -fno-honor-infinities
+      -fno-honor-nans
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
+  set(phi_no_rtti_flags -fno-rtti)
+
+  # stack-clash-protection basically only works with linux
+  if(PHI_PLATFORM_LINUX)
+    set(phi_debug_flags ${phi_debug_flags} -fstack-clash-protection)
+  endif()
 
   # Clang-10 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++20-compat
                                     -Wno-c++20-extensions)
-  endif()
-
-  # Clang-11 flags
-  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 11)
-
-    # Clang on windows seems to give errors when compiling with `fsemantic-interposition`
-    if(NOT PHI_PLATFORM_WINDOWS)
-      set(phi_optimize_flags ${phi_optimize_flags} -fsemantic-interposition)
-    endif()
   endif()
 
   # Clang-12 flags
@@ -130,6 +160,31 @@ elseif(PHI_COMPILER_EMCC)
       -fchar8_t)
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag -fdiagnostics-color=always)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags
+      -fasynchronous-unwind-tables -fcheck-new -fdebug-macro -fstack-clash-protection
+      -ftrivial-auto-var-init=pattern -grecord-command-line)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags)
+  set(phi_coverage_link_flags)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -ffinite-math-only
+      -ffp-contract=fast
+      -ffp-exception-behavior=ignore
+      -ffp-model=fast
+      -fno-honor-infinities
+      -fno-honor-nans
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
+  set(phi_no_rtti_flags -fno-rtti)
 
 elseif(PHI_COMPILER_GCC)
 
@@ -137,6 +192,7 @@ elseif(PHI_COMPILER_GCC)
   # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
   # https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
   # https://gcc.gnu.org/wiki/LinkTimeOptimization
+  # https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
 
   set(phi_warning_flags
       -Wall
@@ -229,7 +285,6 @@ elseif(PHI_COMPILER_GCC)
       -fmodulo-sched
       -fmodulo-sched-allow-regmoves
       -fsched-pressure
-      -fsemantic-interposition
       -fstrict-aliasing
       -ftree-loop-im
       -ftree-loop-ivcanon)
@@ -241,6 +296,43 @@ elseif(PHI_COMPILER_GCC)
   set(phi_common_flags -fms-extensions -fstrong-eval-order -pipe)
   set(phi_cxx_common_flags -faligned-new -fsized-deallocation -fconcepts)
   set(phi_color_diagnostics_flag -fdiagnostics-color)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags
+      -fasynchronous-unwind-tables
+      -fbounds-check
+      -fcf-protection=full
+      -fcheck-new
+      -fharden-compares
+      -fharden-conditional-branches
+      -fstack-clash-protection
+      -fstack-protector-all
+      -ftrivial-auto-var-init=pattern
+      -fvar-tracking
+      -fvar-tracking-assignments
+      -ginline-points
+      -grecord-gcc-switches
+      -gstatement-frontiers)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags -fno-common -fno-inline -fno-inline-functions
+                                 -fno-omit-frame-pointer -fprofile-abs-path)
+  set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage --coverage)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -fcx-limited-range
+      -fexcess-precision=fast
+      -ffinite-math-only
+      -ffp-contract=fast
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signaling-nans
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off)
+  set(phi_no_rtti_flags -fno-rtti)
 
   # MacOS seems to have problems for missing include directories which come from MacOS SDK itself so
   # we only enable it on non MacOS platforms
@@ -393,6 +485,35 @@ elseif(PHI_COMPILER_MSVC)
   )
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag)
+  set(phi_disable_all_warnings_flag /W0)
+  set(phi_debug_flags
+      /mcet
+      /guard:cf # https://learn.microsoft.com/cpp/build/reference/guard-enable-control-flow-guard
+      /guard:signret
+      /guard:ehcont
+      /GS # https://learn.microsoft.com/cpp/build/reference/gs-buffer-security-check
+      /sdl # Security Development Lifecycle -
+      # https://learn.microsoft.com/cpp/build/reference/sdl-enable-additional-security-checks
+  )
+  set(phi_debug_only_flags
+      # https://learn.microsoft.com/cpp/build/reference/rtc-run-time-error-checks
+      /RTCc /RTCsu)
+  set(phi_coverage_compile_flags)
+  set(phi_coverage_link_flags)
+  set(phi_noexcept_flag) # TODO: Add support for MSVC
+  set(phi_fast_math_flags /fp:fast /fp:except-)
+  set(phi_precise_math_flags /fp:precise)
+  set(phi_no_rtti_flags # https://learn.microsoft.com/cpp/build/reference/gr-enable-run-time-type-information
+      /GR-)
+
+  # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
+  if("${PHI_MSVC_YEAR}" GREATER_LESS 2005)
+    set(phi_debug_flags
+        ${phi_debug_flags}
+        /Ge # https://learn.microsoft.com/cpp/build/reference/ge-enable-stack-probes
+        /GZ # https://learn.microsoft.com/cpp/build/reference/gz-enable-stack-frame-run-time-error-checking
+    )
+  endif()
 endif()
 
 # Move all flags to the cache
@@ -408,3 +529,11 @@ phi_set_cache_value(phi_lto_flags "${phi_lto_flags}")
 phi_set_cache_value(phi_lto_optimization_flags "${phi_lto_optimization_flags}")
 phi_set_cache_value(phi_common_flags "${phi_common_flags}")
 phi_set_cache_value(phi_cxx_common_flags "${phi_cxx_common_flags}")
+phi_set_cache_value(phi_disable_all_warnings_flag "${phi_disable_all_warnings_flag}")
+phi_set_cache_value(phi_debug_flags "${phi_debug_flags}")
+phi_set_cache_value(phi_debug_only_flags "${phi_debug_only_flags}")
+phi_set_cache_value(phi_coverage_compile_flags "${phi_coverage_compile_flags}")
+phi_set_cache_value(phi_coverage_link_flags "${phi_coverage_link_flags}")
+phi_set_cache_value(phi_noexcept_flag "${phi_noexcept_flag}")
+phi_set_cache_value(phi_fast_math_flags "${phi_fast_math_flags}")
+phi_set_cache_value(phi_precise_math_flags "${phi_precise_math_flags}")
