@@ -75,12 +75,8 @@ if(PHI_COMPILER_CLANG)
   set(phi_cxx_common_flags)
   set(phi_color_diagnostics_flag -fdiagnostics-color=always)
   set(phi_disable_all_warnings_flag -w)
-  set(phi_debug_flags
-      -fasynchronous-unwind-tables
-      -fcheck-new
-      -fdebug-macro
-      -ftrivial-auto-var-init=pattern
-      -grecord-command-line)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
+                      -ftrivial-auto-var-init=pattern -grecord-command-line)
   set(phi_debug_only_flags)
   set(phi_coverage_compile_flags -fno-common -fno-inline -fno-inline-functions
                                  -fno-omit-frame-pointer)
