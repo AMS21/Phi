@@ -330,6 +330,12 @@ elseif(PHI_COMPILER_GCC)
     set(phi_warning_flags ${phi_warning_flags} -Wmissing-include-dirs)
   endif()
 
+  # Fix "File too big/too many sections” error on mingw
+  # https://digitalkarabela.com/mingw-w64-how-to-fix-file-too-big-too-many-sections/
+  if(PHI_PLATFORM_WINDOWS)
+    set(phi_common_flags ${phi_common_flags} -Wa,-mbig-obj)
+  endif()
+
   # GCC-9 flags
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 9)
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2 -Wuseless-cast)
