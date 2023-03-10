@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# shellcheck disable=SC2015
+
 # Stop on first error
 set -e
 set -u

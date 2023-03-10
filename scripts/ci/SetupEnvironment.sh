@@ -1,5 +1,27 @@
 #!/bin/bash
 
+# shellcheck disable=SC2015
+
+set -e
+set -u
+
+function retry {
+    local try=1
+
+    while true; do
+        "$@" && break || {
+            if [[ $try -lt 10 ]]; then
+                ((try++))
+                echo "Try failed. Attempt $try/10:"
+                sleep 30
+            else
+                echo "The command has failed after $try attempts."
+                exit 1
+            fi
+        }
+    done
+}
+
 # Determine OS
 case "$(uname -sr)" in
 
@@ -75,5 +97,5 @@ if [[ $machine == "linux" ]]; then
     sudo sed -i 's~http://azure.archive.ubuntu.com/ubuntu/~mirror+file:/etc/apt/mirrors.txt~' /etc/apt/sources.list
 
     # Update sources
-    sudo apt-get update
+    retry sudo apt-get update && apt-get clean
 fi
