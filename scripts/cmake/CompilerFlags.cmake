@@ -146,7 +146,6 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_lto_flags -flto=full -fsplit-lto-unit -Wl,--no-as-needed)
   set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
   set(phi_common_flags
-      -bigobj
       -fborland-extensions
       -fdeclspec
       -fmacro-backtrace-limit=0
@@ -181,6 +180,11 @@ elseif(PHI_COMPILER_EMCC)
       -funsafe-math-optimizations)
   set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
   set(phi_no_rtti_flags -fno-rtti)
+
+  # emcc-2.0 flags
+  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
+    set(phi_common_flags ${phi_common_flags} -bigobj)
+  endif()
 
 elseif(PHI_COMPILER_GCC)
 
