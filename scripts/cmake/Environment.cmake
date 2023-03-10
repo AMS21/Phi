@@ -97,6 +97,28 @@ if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Cl
 
     phi_trace("Compiler: emcc-${PHI_EMCC_VERSION}")
     phi_trace("Machine: ${PHI_EMCC_MACHINE}")
+
+    # Add detect cross compiling emulator if non was set
+    if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
+      find_program(
+        CMAKE_CROSSCOMPILING_EMULATOR
+        NAMES node
+        DOC "cmake crosscompiling emulator")
+    endif()
+
+    # Detect node version
+    if(CMAKE_CROSSCOMPILING_EMULATOR)
+      execute_process(
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} --version
+        OUTPUT_VARIABLE NODE_VERSION_RAW
+        ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+      string(REGEX REPLACE "v([.0-9]+).*" "\\1" NODE_VERSION "${NODE_VERSION_RAW}")
+
+      phi_trace("Found node version ${NODE_VERSION} at \"${CMAKE_CROSSCOMPILING_EMULATOR}\"")
+    else()
+      phi_warn("Compiling with emscripten but no node cross-compiling emulator found!")
+    endif()
   else()
     phi_set_cache_value(PHI_COMPILER_CLANG 1)
     execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version"
