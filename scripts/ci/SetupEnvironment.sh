@@ -97,5 +97,5 @@ if [[ $machine == "linux" ]]; then
     sudo sed -i 's~http://azure.archive.ubuntu.com/ubuntu/~mirror+file:/etc/apt/mirrors.txt~' /etc/apt/sources.list
 
     # Update sources
-    retry sudo apt-get update && apt-get clean
+    retry sudo apt-get update && sudo apt-get clean
 fi
