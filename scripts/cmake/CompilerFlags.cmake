@@ -231,10 +231,8 @@ elseif(PHI_COMPILER_GCC)
       -Wstack-protector
       -Wstrict-aliasing=2
       -Wstringop-overflow=2
-      -Wsuggest-attribute=cold
       -Wsuggest-attribute=const
       -Wsuggest-attribute=format
-      -Wsuggest-attribute=malloc
       -Wsuggest-attribute=noreturn
       -Wsuggest-attribute=pure
       -Wsuggest-final-methods
@@ -252,9 +250,7 @@ elseif(PHI_COMPILER_GCC)
       -Wvla)
   set(phi_cxx_warning_flags
       -Waligned-new=all
-      -Wcatch-value=3
       -Wdelete-non-virtual-dtor
-      -Wextra-semi
       -Wnoexcept
       -Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
       # destructor. This helps catch hard to track down memory errors
@@ -298,17 +294,11 @@ elseif(PHI_COMPILER_GCC)
   set(phi_cxx_common_flags -faligned-new -fsized-deallocation -fconcepts)
   set(phi_color_diagnostics_flag -fdiagnostics-color)
   set(phi_disable_all_warnings_flag -w)
-  set(phi_debug_flags
-      -fasynchronous-unwind-tables
-      -fcheck-new
-      -fvar-tracking
-      -fvar-tracking-assignments
-      -ginline-points
-      -grecord-gcc-switches
-      -gstatement-frontiers)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fvar-tracking
+                      -fvar-tracking-assignments -grecord-gcc-switches)
   set(phi_debug_only_flags)
   set(phi_coverage_compile_flags -fno-common -fno-inline -fno-inline-functions
-                                 -fno-omit-frame-pointer -fprofile-abs-path)
+                                 -fno-omit-frame-pointer)
   set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage --coverage)
   set(phi_noexcept_flag -fno-exceptions)
   set(phi_fast_math_flags
@@ -340,12 +330,20 @@ elseif(PHI_COMPILER_GCC)
     set(phi_common_flags ${phi_common_flags} -Wa,-mbig-obj)
   endif()
 
+  # GCC-8 flags
+  if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 8)
+    set(phi_warning_flags ${phi_warning_flags} -Wsuggest-attribute=cold -Wsuggest-attribute=malloc)
+    set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wcatch-value=3 -Wextra-semi)
+    set(phi_debug_flags ${phi_debug_flags} -ginline-points -gstatement-frontiers)
+    set(phi_coverage_compile_flags ${phi_coverage_compile_flags} -fprofile-abs-path)
+  endif()
+
   # GCC-9 flags
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 9)
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias=2 -Wuseless-cast)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wclass-conversion -Wdeprecated-copy)
     set(phi_cxx_common_flags ${phi_cxx_common_flags} -fchar8_t)
-  else()
+  elseif(PHI_GCC_VERSION VERSION_GREATER_EQUAL 8)
     set(phi_warning_flags ${phi_warning_flags} -Wattribute-alias)
   endif()
 
