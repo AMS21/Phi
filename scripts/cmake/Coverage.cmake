@@ -1,17 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/CheckLinkerFlag)
-include(internal/CheckCXXCompilerFlag)
-
-# https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
-# https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html
-
-set(phi_coverage_compile_flags_old fno-common fno-inline fno-inline-functions
-                                   fno-omit-frame-pointer fprofile-abs-path)
-
-set(phi_coverage_link_flags_old -fprofile-arcs -ftest-coverage -fprofile-instr-generate
-                                -fcoverage-mapping --coverage)
+include(CompilerFlags)
 
 function(phi_target_enable_coverage)
   # Command line arguments

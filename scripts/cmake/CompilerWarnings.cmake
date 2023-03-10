@@ -3,11 +3,7 @@ phi_include_guard()
 include(CMakeParseArguments)
 include(CompilerFlags)
 
-# from here:
-#
-# https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
-
-# Enable warnings for project
+# Enable warnings for target
 function(phi_target_set_warnings)
   # Command line arguments
   cmake_parse_arguments(warn "WARNINGS_AS_ERRORS;PEDANTIC" "TARGET" "" ${ARGN})
