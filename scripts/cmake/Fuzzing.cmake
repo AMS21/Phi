@@ -5,61 +5,17 @@ phi_include_guard()
 # https://llvm.org/docs/LibFuzzer.html
 
 include(CMakeParseArguments)
+include(CompilerFlags)
 include(Functions)
-include(Sanitizers)
 include(Testing)
-include(CompilerOptimizations)
-include(internal/CheckLinkerFlag)
 
 set(PHI_TEST_FUZZING_RUNTIME
     30
     CACHE STRING "Number of seconds to run fuzz tests during ctest run")
 
-# Check if fuzzing is supported
-set(old_flags ${CMAKE_REQUIRED_FLAGS})
-set(CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} ${PHI_FLAG_PREFIX_CHAR}fsanitize=fuzzer")
-
-phi_check_cxx_source_compiles(
-  "#include <cstddef>
-#include <cstdint>
-extern \"C\" int LLVMFuzzerTestOneInput(const std::uint8_t*, std::size_t) { return 0; }"
-  PHI_SUPPORTS_SANITIZER_FUZZER)
-
-set(CMAKE_REQUIRED_FLAGS ${old_flags})
-
-phi_check_linker_flag(CXX "${PHI_FLAG_PREFIX_CHAR}fsanitize=fuzzer-no-link"
-                      PHI_SUPPORTS_SANITIZER_FUZZER_NO_LINK)
-
-set(phi_fuzzing_target_default_flags fno-omit-frame-pointer fno-optimize-sibling-calls)
-
-# Check optimize flags for C++
-set(_phi_fuzzing_target_default_flags_suppported CACHE INTERNAL "")
-foreach(_test ${phi_fuzzing_target_default_flags})
-  string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_fuzzing_target_default_flags_suppported
-        ${_phi_fuzzing_target_default_flags_suppported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
-
-# Add fuzzer-no-link to default flags if supported and using default library
-if(PHI_SUPPORTS_SANITIZER_FUZZER_NO_LINK AND ${PHI_FUZZING_LIBRARY} STREQUAL "default")
-  set(_phi_fuzzing_target_default_flags_suppported
-      ${_phi_fuzzing_target_default_flags_suppported};${PHI_FLAG_PREFIX_CHAR}fsanitize=fuzzer-no-link
-      CACHE INTERNAL "")
-endif()
-
 function(phi_add_fuzzer)
   # Simply do nothing for a compiler which doesn't support fuzzing
-  if(NOT ${PHI_SUPPORTS_SANITIZER_FUZZER} AND ${PHI_FUZZING_LIBRARY} STREQUAL "default")
+  if(NOT phi_fuzzing_support_flags AND ${PHI_FUZZING_LIBRARY} STREQUAL "default")
     return()
   endif()
 
@@ -112,7 +68,7 @@ endfunction()
 # Set fuzzing flags on target
 function(phi_target_enable_fuzzing_flags)
   # Simply do nothing for a compiler which doesn't support fuzzing
-  if(NOT ${PHI_SUPPORTS_SANITIZER_FUZZER})
+  if(NOT phi_sanitizer_support_flags)
     return()
   endif()
 
@@ -144,10 +100,8 @@ function(phi_target_enable_fuzzing_flags)
   endif()
 
   # Set compile and link flags
-  foreach(flag ${_phi_fuzzing_target_default_flags_suppported})
-    target_compile_options(${fuzz_TARGET} ${visibility_scope} ${flag})
-    target_link_options(${fuzz_TARGET} ${visibility_scope} ${flag})
-  endforeach()
+  target_compile_options(${fuzz_TARGET} ${visibility_scope} ${phi_fuzzing_support_flags})
+  target_link_options(${fuzz_TARGET} ${visibility_scope} ${phi_fuzzing_support_flags})
 
   target_compile_definitions(
     ${fuzz_TARGET} ${visibility_scope} "FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION"

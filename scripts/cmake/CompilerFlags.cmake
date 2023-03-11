@@ -110,6 +110,8 @@ if(PHI_COMPILER_APPLECLANG)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags -fsanitize=fuzzer-no-link -fno-omit-frame-pointer
+                                -fno-optimize-sibling-calls)
 
   # AppleClang-12.5 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 12.5)
@@ -233,6 +235,8 @@ elseif(PHI_COMPILER_CLANG)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags -fsanitize=fuzzer-no-link -fno-omit-frame-pointer
+                                -fno-optimize-sibling-calls)
 
   # Clang-10 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
@@ -326,6 +330,8 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags -fsanitize=fuzzer-no-link -fno-omit-frame-pointer
+                                -fno-optimize-sibling-calls)
 
   # emcc-2.0 flags
   if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
@@ -476,6 +482,7 @@ elseif(PHI_COMPILER_GCC)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags)
 
   # MacOS seems to have problems for missing include directories which come from MacOS SDK itself so
   # we only enable it on non MacOS platforms
@@ -639,6 +646,7 @@ elseif(PHI_COMPILER_MSVC)
   set(phi_sanitizer_thread_flags)
   set(phi_sanitizer_undefined_flags)
   set(phi_sanitizer_support_flags)
+  set(phi_fuzzing_support_flags)
 
   # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
   if(${PHI_MSVC_YEAR} VERSION_LESS 2005)
@@ -722,3 +730,4 @@ phi_set_cache_value(phi_sanitizer_memory_flags "${phi_sanitizer_memory_flags}")
 phi_set_cache_value(phi_sanitizer_thread_flags "${phi_sanitizer_thread_flags}")
 phi_set_cache_value(phi_sanitizer_undefined_flags "${phi_sanitizer_undefined_flags}")
 phi_set_cache_value(phi_sanitizer_support_flags "${phi_sanitizer_support_flags}")
+phi_set_cache_value(phi_fuzzing_support_flags "${phi_fuzzing_support_flags}")

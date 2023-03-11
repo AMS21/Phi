@@ -2,10 +2,10 @@
 cmake_minimum_required(VERSION 2.8.12)
 
 # Policy
-if(${CMAKE_VERSION} VERSION_LESS 3.25)
+if(${CMAKE_VERSION} VERSION_LESS 3.26)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 else()
-  cmake_policy(VERSION 3.25)
+  cmake_policy(VERSION 3.26)
 endif()
 
 # CMake modules

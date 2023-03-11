@@ -31,18 +31,6 @@ function(phi_add_executable)
     set(command ${command} EXCLUDE_FROM_ALL)
   endif()
 
-  # Ensure all files actually exist on disk
-  foreach(file IN LISTS ae_SOURCES ae_HEADERS)
-    # Convert relative path to absolute
-    if(NOT IS_ABSOLUTE "${file}")
-      get_filename_component(file "${file}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-    endif()
-
-    if(NOT EXISTS "${file}")
-      phi_warn("File \"${file}\" doesn't seem to exist while configuring executable \"${ae_NAME}\"")
-    endif()
-  endforeach()
-
   # Add sources and headers
   set(command ${command} ${ae_SOURCES} ${ae_HEADERS})
 
