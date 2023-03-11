@@ -20,7 +20,6 @@ if(PHI_COMPILER_APPLECLANG)
       -Wno-c++1z-extensions
       -Wno-c++2a-compat
       -Wno-c++2a-extensions
-      -Wno-c++2b-extensions
       -Wno-c++11-compat
       -Wno-c++11-extensions
       -Wno-c++11-narrowing
@@ -121,6 +120,11 @@ if(PHI_COMPILER_APPLECLANG)
   # AppleClang-13 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13)
     set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
+  endif()
+
+  # AppleClang-13.3 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13.3)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++2b-extensions)
   endif()
 
 elseif(PHI_COMPILER_CLANG)
