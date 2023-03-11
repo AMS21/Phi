@@ -96,6 +96,20 @@ if(PHI_COMPILER_APPLECLANG)
       -funsafe-math-optimizations)
   set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
   set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags
+      -fsanitize=address,pointer-compare,pointer-subtract
+      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
+      -fsanitize-address-use-odr-indicator)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags
+      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
+  )
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
 
   # AppleClang-12.5 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 12.5)
@@ -205,6 +219,20 @@ elseif(PHI_COMPILER_CLANG)
       -funsafe-math-optimizations)
   set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
   set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags
+      -fsanitize=address,pointer-compare,pointer-subtract
+      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
+      -fsanitize-address-use-odr-indicator)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags
+      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
+  )
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
 
   # Clang-10 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 10)
@@ -284,6 +312,20 @@ elseif(PHI_COMPILER_EMCC)
       -funsafe-math-optimizations)
   set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
   set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags
+      -fsanitize=address,pointer-compare,pointer-subtract
+      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
+      -fsanitize-address-use-odr-indicator)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags
+      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
+  )
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
 
   # emcc-2.0 flags
   if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
@@ -422,6 +464,18 @@ elseif(PHI_COMPILER_GCC)
       -funsafe-math-optimizations)
   set(phi_precise_math_flags -ffp-contract=off)
   set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags -fsanitize=address -fsanitize-address-use-after-scope)
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags -fsanitize=undefined,float-divide-by-zero,bounds-strict)
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
 
   # MacOS seems to have problems for missing include directories which come from MacOS SDK itself so
   # we only enable it on non MacOS platforms
@@ -578,6 +632,13 @@ elseif(PHI_COMPILER_MSVC)
   set(phi_precise_math_flags /fp:precise)
   set(phi_no_rtti_flags # https://learn.microsoft.com/cpp/build/reference/gr-enable-run-time-type-information
       /GR-)
+  # TODO: Latest version of MSVC supports some sanitizers
+  set(phi_sanitizer_address_flags)
+  set(phi_sanitizer_leak_flags)
+  set(phi_sanitizer_memory_flags)
+  set(phi_sanitizer_thread_flags)
+  set(phi_sanitizer_undefined_flags)
+  set(phi_sanitizer_support_flags)
 
   # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
   if(${PHI_MSVC_YEAR} VERSION_LESS 2005)
@@ -654,3 +715,10 @@ phi_set_cache_value(phi_coverage_link_flags "${phi_coverage_link_flags}")
 phi_set_cache_value(phi_noexcept_flag "${phi_noexcept_flag}")
 phi_set_cache_value(phi_fast_math_flags "${phi_fast_math_flags}")
 phi_set_cache_value(phi_precise_math_flags "${phi_precise_math_flags}")
+phi_set_cache_value(phi_no_rtti_flags "${phi_no_rtti_flags}")
+phi_set_cache_value(phi_sanitizer_address_flags "${phi_sanitizer_address_flags}")
+phi_set_cache_value(phi_sanitizer_leak_flags "${phi_sanitizer_leak_flags}")
+phi_set_cache_value(phi_sanitizer_memory_flags "${phi_sanitizer_memory_flags}")
+phi_set_cache_value(phi_sanitizer_thread_flags "${phi_sanitizer_thread_flags}")
+phi_set_cache_value(phi_sanitizer_undefined_flags "${phi_sanitizer_undefined_flags}")
+phi_set_cache_value(phi_sanitizer_support_flags "${phi_sanitizer_support_flags}")
