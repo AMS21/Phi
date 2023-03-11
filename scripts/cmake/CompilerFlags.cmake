@@ -110,8 +110,7 @@ if(PHI_COMPILER_APPLECLANG)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
-  set(phi_fuzzing_support_flags -fsanitize=fuzzer-no-link -fno-omit-frame-pointer
-                                -fno-optimize-sibling-calls)
+  set(phi_fuzzing_support_flags)
 
   # AppleClang-12.5 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 12.5)
