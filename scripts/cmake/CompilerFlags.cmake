@@ -240,7 +240,6 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
   set(phi_optimize_flags
       -felide-constructors
-      -ffinite-loops
       -fforce-emit-vtables
       -fmerge-all-constants
       -fstrict-aliasing
@@ -289,6 +288,7 @@ elseif(PHI_COMPILER_EMCC)
   # emcc-2.0 flags
   if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
     set(phi_common_flags ${phi_common_flags} -bigobj)
+    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
   endif()
 
 elseif(PHI_COMPILER_GCC)
