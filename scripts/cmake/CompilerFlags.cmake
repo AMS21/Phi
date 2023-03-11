@@ -330,8 +330,7 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_sanitizer_support_flags
       -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
-  set(phi_fuzzing_support_flags -fsanitize=fuzzer-no-link -fno-omit-frame-pointer
-                                -fno-optimize-sibling-calls)
+  set(phi_fuzzing_support_flags)
 
   # emcc-2.0 flags
   if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
