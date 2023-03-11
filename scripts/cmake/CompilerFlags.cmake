@@ -3,7 +3,112 @@ phi_include_guard()
 include(Environment)
 include(internal/SetCacheValue)
 
-if(PHI_COMPILER_CLANG)
+if(PHI_COMPILER_APPLECLANG)
+
+  set(phi_warning_flags -Weverything -Wformat=2 -Wstrict-aliasing=2)
+  set(phi_cxx_warning_flags)
+  set(phi_warnings_as_errors_flag -Werror)
+  set(phi_pedantic_flags -pedantic -pedantic-errors)
+  set(phi_disabled_warnings_flags
+      -Wno-constexpr-not-const
+      -Wno-c++-compat
+      -Wno-c++0x-compat
+      -Wno-c++0x-extensions
+      -Wno-c++0x-narrowing
+      -Wno-c++1y-extensions
+      -Wno-c++1z-compat
+      -Wno-c++1z-extensions
+      -Wno-c++2a-compat
+      -Wno-c++2a-extensions
+      -Wno-c++2b-extensions
+      -Wno-c++11-compat
+      -Wno-c++11-extensions
+      -Wno-c++11-narrowing
+      -Wno-c++14-compat
+      -Wno-c++14-extensions
+      -Wno-c++17-compat
+      -Wno-c++17-extensions
+      -Wno-c++98-compat
+      -Wno-c++98-compat-pedantic
+      -Wno-c++98-c++11-compat
+      -Wno-c++98-c++11-compat-pedantic
+      -Wno-c++98-c++11-c++14-compat
+      -Wno-c++98-c++11-c++14-compat-pedantic
+      -Wno-c++98-c++11-c++14-c++17-compat
+      -Wno-c++98-c++11-c++14-c++17-compat-pedantic
+      -Wno-documentation-unknown-command
+      -Wno-gnu-zero-variadic-macro-arguments
+      -Wno-language-extension-token
+      -Wno-missing-prototypes
+      -Wno-missing-variable-declarations
+      -Wno-padded
+      -Wno-switch-enum
+      -Wno-unused-macros
+      -Wno-unused-template
+      -Wno-variadic-macros
+      -Wno-weak-vtables)
+  set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
+  set(phi_optimize_flags
+      -felide-constructors
+      -fforce-emit-vtables
+      -fmerge-all-constants
+      -fstrict-aliasing
+      -fstrict-enums
+      -fstrict-return
+      -fstrict-vtable-pointers)
+  set(phi_cxx_optimize_flags)
+  set(phi_lto_flags -flto=full -fsplit-lto-unit)
+  set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
+  set(phi_common_flags
+      -fborland-extensions
+      -fdeclspec
+      -fmacro-backtrace-limit=0
+      -fms-extensions
+      -pipe
+      -faligned-new
+      -fsized-deallocation
+      -fchar8_t)
+  set(phi_cxx_common_flags)
+  set(phi_color_diagnostics_flag -fdiagnostics-color=always)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
+                      -ftrivial-auto-var-init=pattern -grecord-command-line)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags -fno-common -fno-inline -fno-inline-functions
+                                 -fno-omit-frame-pointer)
+  set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage -fprofile-instr-generate
+                              -fcoverage-mapping)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -ffinite-math-only
+      -ffp-contract=fast
+      -ffp-exception-behavior=ignore
+      -ffp-model=fast
+      -fno-honor-infinities
+      -fno-honor-nans
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
+  set(phi_no_rtti_flags -fno-rtti)
+
+  # AppleClang-12.5 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 12.5)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++20-compat
+                                    -Wno-c++20-extensions)
+  endif()
+
+  # AppleClang-13 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13)
+    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
+  endif()
+
+elseif(PHI_COMPILER_CLANG)
   # https://clang.llvm.org/docs/DiagnosticsReference.html
   # https://clang.llvm.org/docs/ThreadSafetyAnalysis.html https://clang.llvm.org/docs/ThinLTO.html
   # https://llvm.org/docs/LinkTimeOptimization.html https://llvm.org/docs/LinkTimeOptimization.html
