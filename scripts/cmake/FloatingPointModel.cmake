@@ -1,73 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-
-set(phi_fast_math_flags
-    ffast-math
-    fassociative-math
-    fcx-limited-range
-    fexcess-precision=fast
-    ffinite-math-only
-    ffp-contract=fast
-    ffp-exception-behavior=ignore
-    ffp-model=fast
-    fno-honor-infinities
-    fno-honor-nans
-    fno-math-errno
-    fno-rounding-math
-    fno-signaling-nans
-    fno-signed-zeros
-    fno-trapping-math
-    freciprocal-math
-    funsafe-math-optimizations
-    # MSVC
-    fp:fast
-    fp:except-)
-
-# Check fast math flags
-set(_phi_fpm_fast_math_flags_supported CACHE INTERNAL "")
-foreach(_test ${phi_fast_math_flags})
-  string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_fpm_fast_math_flags_supported
-        ${_phi_fpm_fast_math_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
-
-set(phi_precise_math_flags
-    fexcess-precision=standard
-    ffp-contract=off
-    ffp-exception-behavior=precise
-    ffp-exception-behavior=strict
-    ffp-model=precise
-    # MSVC
-    fp:precise)
-
-# Check precise math flags
-set(_phi_fpm_precise_math_flags_supported CACHE INTERNAL "")
-foreach(_test ${phi_precise_math_flags})
-  string(REPLACE "-" "_" _testName ${_test})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(REPLACE "_" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_fpm_precise_math_flags_supported
-        ${_phi_fpm_precise_math_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
+include(CompilerFlags)
 
 function(phi_target_set_floating_point_model)
   # Command line arguments
@@ -117,17 +51,10 @@ function(phi_target_set_floating_point_model)
     # No special flags to enable just add a define
     target_compile_definitions(${fpm_TARGET} ${visibility_scope} "PHI_CONFIG_FPM_DEFAULT")
   elseif(fpm_FAST)
-    foreach(flag ${_phi_fpm_fast_math_flags_supported})
-      target_compile_options(${fpm_TARGET} ${visibility_scope} ${flag})
-    endforeach()
-
+    target_compile_options(${fpm_TARGET} ${visibility_scope} "${phi_fast_math_flags}")
     target_compile_definitions(${fpm_TARGET} ${visibility_scope} "PHI_CONFIG_FPM_FAST")
-
   elseif(fpm_PRECISE)
-    foreach(flag ${_phi_fpm_precise_math_flags_supported})
-      target_compile_options(${fpm_TARGET} ${visibility_scope} ${flag})
-    endforeach()
-
+    target_compile_options(${fpm_TARGET} ${visibility_scope} ${phi_precise_math_flags})
     target_compile_definitions(${fpm_TARGET} ${visibility_scope} "PHI_CONFIG_FPM_PRECISE")
   endif()
 endfunction()

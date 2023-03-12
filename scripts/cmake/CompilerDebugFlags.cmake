@@ -1,103 +1,7 @@
 phi_include_guard()
 
 include(CMakeParseArguments)
-include(internal/CheckCXXCompilerFlag)
-
-set(phi_extra_debug_flags
-    fasynchronous-unwind-tables
-    fbounds-check
-    fcf-protection=full
-    fcheck-new
-    fdebug-macro
-    fharden-compares
-    fharden-conditional-branches
-    fstack-clash-protection
-    fstack-protector-all
-    ftrivial-auto-var-init=pattern
-    fvar-tracking
-    fvar-tracking-assignments
-    ginline-points
-    grecord-command-line
-    grecord-gcc-switches
-    gstatement-frontiers
-    mcet
-    GZ # https://learn.microsoft.com/cpp/build/reference/gz-enable-stack-frame-run-time-error-checking
-    guard:cf # https://learn.microsoft.com/cpp/build/reference/guard-enable-control-flow-guard
-    guard:signret
-    guard:ehcont
-    GS # https://learn.microsoft.com/cpp/build/reference/gs-buffer-security-check
-    Ge # https://learn.microsoft.com/cpp/build/reference/ge-enable-stack-probes
-    sdl # Security Development Lifecycle -
-    # https://learn.microsoft.com/cpp/build/reference/sdl-enable-additional-security-checks
-)
-
-# Lots of compilers give errors when compiling with `fstack-clash-protection`
-if((PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
-   OR PHI_COMPILER_EMCC
-   OR PHI_COMPILER_APPLECLANG)
-  list(REMOVE_ITEM phi_extra_debug_flags "fstack-clash-protection")
-endif()
-
-# Remove "/Ge" and "/GZ" since they are deprecated since VS2005 and cause noisy compiler warnings
-if("${PHI_MSVC_YEAR}" GREATER_EQUAL 2005)
-  list(REMOVE_ITEM phi_extra_debug_flags "Ge" "GZ")
-endif()
-
-# MSVC only options which cause problems with other compilers
-if(NOT PHI_COMPILER_MSVC)
-  list(REMOVE_ITEM phi_extra_debug_flags GZ GS Ge)
-endif()
-
-# Clang claims to accept 'fbounds-check' but then gives a warning
-if(PHI_COMPILER_CLANG OR PHI_COMPILER_EMCC)
-  list(REMOVE_ITEM phi_extra_debug_flags "fbounds-check")
-endif()
-
-# Check extra debug flags
-set(_phi_extra_debug_flags_supported CACHE INTERNAL "")
-foreach(_test ${phi_extra_debug_flags})
-  string(REPLACE "/" "" _testName ${_test})
-  string(REPLACE "-" "_" _testName ${_testName})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_extra_debug_flags_supported
-        ${_phi_extra_debug_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
-
-# Extra debug flags which can ONLY be enabled with debug builds
-set(phi_extra_debug_only_flags
-    # https://learn.microsoft.com/cpp/build/reference/rtc-run-time-error-checks
-    RTCc RTCsu)
-
-# These flags only work with MSVC
-if(NOT PHI_COMPILER_MSVC)
-  set(phi_extra_debug_only_flags "")
-endif()
-
-# Check extra debug flags
-set(_phi_extra_debug_only_flags_supported CACHE INTERNAL "")
-foreach(_test ${phi_extra_debug_only_flags})
-  string(REPLACE "/" "" _testName ${_test})
-  string(REPLACE "-" "_" _testName ${_testName})
-  string(REPLACE "=" "_" _testName ${_testName})
-  string(REPLACE ":" "_" _testName ${_testName})
-  string(TOUPPER ${_testName} _testName)
-
-  phi_check_cxx_compiler_flag(${PHI_FLAG_PREFIX_CHAR}${_test} "PHI_HAS_FLAG_${_testName}")
-
-  if(PHI_HAS_FLAG_${_testName})
-    set(_phi_extra_debug_only_flags_supported
-        ${_phi_extra_debug_only_flags_supported};${PHI_FLAG_PREFIX_CHAR}${_test}
-        CACHE INTERNAL "")
-  endif()
-endforeach(_test)
+include(CompilerFlags)
 
 set(phi_extra_debug_defines
     _GLIBCXX_ASSERTIONS _GLIBCXX_DEBUG _GLIBCXX_SANITIZE_VECTOR _LIBCPP_ENABLE_ASSERTIONS=1
@@ -141,16 +45,15 @@ function(phi_target_enable_extra_debug_flags)
   # Enable extra debug flags for each configuration
   foreach(config ${dbg_CONFIGS})
     if("${config}" STREQUAL "Debug")
-      foreach(flag ${_phi_extra_debug_only_flags_supported})
-        target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-      endforeach()
+      target_compile_options(${dbg_TARGET} ${visibility_scope}
+                             $<$<CONFIG:${config}>:${phi_debug_only_flags}>)
     endif()
 
     # Set each flag
-    foreach(flag ${_phi_extra_debug_flags_supported})
-      target_compile_options(${dbg_TARGET} ${visibility_scope} $<$<CONFIG:${config}>:${flag}>)
-    endforeach()
+    target_compile_options(${dbg_TARGET} ${visibility_scope}
+                           $<$<CONFIG:${config}>:${phi_debug_flags}>)
 
+    # Set extra debug defines
     target_compile_definitions(${dbg_TARGET} ${visibility_scope}
                                              $<$<CONFIG:${config}>:${phi_extra_debug_defines}>)
   endforeach()

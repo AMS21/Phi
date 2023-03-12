@@ -1,12 +1,6 @@
 # Phi_BuildInfo
 
-if(${CMAKE_VERSION} VERSION_LESS 3.0)
-  project(Phi_BuildInfo CXX)
-else()
-  project(Phi_BuildInfo LANGUAGES CXX)
-endif()
-
-include(CompilerOptimizations)
+project(Phi_BuildInfo CXX)
 
 phi_add_executable(
   NAME
@@ -17,4 +11,4 @@ phi_add_executable(
   Phi::Core
   FOLDER
   "Examples")
-phi_add_test(TARGET ${PROJECT_NAME})
+phi_add_test(TARGET "${PROJECT_NAME}")

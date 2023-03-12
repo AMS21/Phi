@@ -236,10 +236,9 @@ function(phi_configure_project)
       set_target_properties(${target} PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES
                                                  "${include_dir}")
 
-      # For MSVC we need to set the warnings flag to W0 to silence warnings since MSVC has no
-      # concept of system includes
-      if(MSVC AND NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
-        target_compile_options(${target} ${visibility_scope} "/W0")
+      # Disable all warnings for external targets
+      if(NOT ${target_type} STREQUAL "INTERFACE_LIBRARY")
+        target_compile_options(${target} ${visibility_scope} ${phi_disable_all_warnings_flag})
       endif()
 
       # Set folder to external

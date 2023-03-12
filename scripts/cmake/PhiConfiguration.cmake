@@ -14,12 +14,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
                                                "RelWithDebInfo")
 endif()
 
-if(CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  phi_trace("Build type: ${CMAKE_BUILD_TYPE}")
-elseif(CMAKE_CONFIGURATION_TYPES)
-  phi_trace("Configuration types: \"${CMAKE_CONFIGURATION_TYPES}\"")
-endif()
-
 # Generate compile_commands.json to make it easier to work with clang based tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS
     ON
