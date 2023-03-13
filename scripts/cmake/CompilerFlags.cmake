@@ -282,7 +282,7 @@ elseif(PHI_COMPILER_EMCC)
       -fstrict-return
       -fstrict-vtable-pointers)
   set(phi_cxx_optimize_flags)
-  set(phi_lto_flags -flto=full -fsplit-lto-unit -Wl,--no-as-needed)
+  set(phi_lto_flags -flto=full -fsplit-lto-unit)
   set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
   set(phi_common_flags
       -fborland-extensions
