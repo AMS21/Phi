@@ -55,22 +55,27 @@ QualIntT get() noexcept
 static int copy_ctor = 0; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 static int move_ctor = 0; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-struct A
+namespace move_test
 {
-    A()  = default;
-    ~A() = default;
-    A(const A& /*other*/)
+    struct A
     {
-        ++copy_ctor;
-    }
+        A()  = default;
+        ~A() = default;
+        A(const A& /*other*/)
+        {
+            ++copy_ctor;
+        }
 
-    A(A&& /*other*/) noexcept
-    {
-        ++move_ctor;
-    }
-    A& operator=(const A&) = delete;
-    A& operator=(A&&)      = delete;
-};
+        A(A&& /*other*/) noexcept
+        {
+            ++move_ctor;
+        }
+        A& operator=(const A&) = delete;
+        A& operator=(A&&)      = delete;
+    };
+} // namespace move_test
+
+using namespace move_test;
 
 PHI_ATTRIBUTE_CONST PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
 {

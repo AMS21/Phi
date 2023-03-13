@@ -28,11 +28,16 @@ void test_make_unsigned()
     test_make_unsigned_impl<const volatile TypeT, const volatile ExpectedT>();
 }
 
-enum BigEnum : unsigned long long
+namespace make_unsigned_test
 {
-    bigzero,
-    big = 0xFFFFFFFFFFFFFFFFULL
-};
+    enum BigEnum : unsigned long long
+    {
+        bigzero,
+        big = 0xFFFFFFFFFFFFFFFFULL
+    };
+}
+
+using namespace make_unsigned_test;
 
 TEST_CASE("make_unsigned")
 {
