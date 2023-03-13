@@ -442,9 +442,8 @@ elseif(PHI_COMPILER_GCC)
       -ftree-loop-ivcanon)
   set(phi_cxx_optimize_flags -fdeclone-ctor-dtor -felide-constructors -fno-enforce-eh-specs
                              -fnothrow-opt -fstrict-enums)
-  set(phi_lto_flags -flto=${PHI_PROCESSOR_COUNT} -fsplit-lto-unit -Wl,--no-as-needed)
-  set(phi_lto_optimization_flags -fipa-pta -fwhole-program -fwhole-program-vtables
-                                 -fdevirtualize-at-ltrans -fvirtual-function-elimination)
+  set(phi_lto_flags -flto=${PHI_PROCESSOR_COUNT} -Wl,--no-as-needed)
+  set(phi_lto_optimization_flags -fipa-pta -fwhole-program -fdevirtualize-at-ltrans)
   set(phi_common_flags -fms-extensions -fstrong-eval-order -pipe)
   set(phi_cxx_common_flags -faligned-new -fsized-deallocation -fconcepts)
   set(phi_color_diagnostics_flag -fdiagnostics-color)
@@ -473,9 +472,6 @@ elseif(PHI_COMPILER_GCC)
   set(phi_precise_math_flags -ffp-contract=off)
   set(phi_no_rtti_flags -fno-rtti)
   set(phi_sanitizer_address_flags -fsanitize=address -fsanitize-address-use-after-scope)
-  set(phi_sanitizer_support_flags
-      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
-      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
   set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
