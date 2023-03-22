@@ -7,15 +7,17 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_DESTRUCTIBLE) && !defined(PHI_SUPPORTS_IS_DESTRUCTIBLE)
-#    if PHI_HAS_INTRINSIC_IS_DESTRUCTIBLE()
+
+#    if PHI_COMPILER_IS(MSVC)
 #        define PHI_IS_DESTRUCTIBLE(type)      __is_destructible(type)
 #        define PHI_SUPPORTS_IS_DESTRUCTIBLE() 1
 #    else
 #        define PHI_SUPPORTS_IS_DESTRUCTIBLE() 0
 #    endif
+
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_DESTRUCTIBLE_HPP

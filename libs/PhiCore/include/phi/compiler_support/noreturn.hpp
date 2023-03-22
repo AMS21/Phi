@@ -9,7 +9,7 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if PHI_HAS_FEATURE_NORETURN()
+#if PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()
 #    define PHI_NORETURN [[noreturn]]
 #elif PHI_HAS_EXTENSION_NORETURN()
 #    define PHI_NORETURN _Noreturn

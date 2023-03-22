@@ -9,9 +9,14 @@
 
 #include "phi/generated/compiler_support/features.hpp"
 
-#if !defined(PHI_FLOOR) && !defined(PHI_SUPPORTS_FLOOR)
-#    if PHI_HAS_INTRINSIC_BUILTIN_FLOOR()
-#        define PHI_FLOOR(value)     __builtin_floor(value)
+#if !defined(PHI_FLOOR) && !defined(PHI_FLOORF) && !defined(PHI_FLOORL) &&                         \
+        !defined(PHI_SUPPORTS_FLOOR)
+
+#    if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+#        define PHI_FLOOR(value)  __builtin_floor(value)
+#        define PHI_FLOORF(value) __builtin_floorf(value)
+#        define PHI_FLOORL(value) __builtin_floorl(value)
+
 #        define PHI_SUPPORTS_FLOOR() 1
 #    else
 #        define PHI_SUPPORTS_FLOOR() 0

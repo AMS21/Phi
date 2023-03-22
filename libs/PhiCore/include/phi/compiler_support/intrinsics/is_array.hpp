@@ -7,10 +7,11 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_ARRAY) && !defined(PHI_SUPPORTS_IS_ARRAY)
-#    if PHI_HAS_INTRINSIC_IS_ARRAY()
+
+#    if PHI_COMPILER_IS(CLANG_COMPAT)
 #        define PHI_IS_ARRAY(type)      __is_array(type)
 #        define PHI_SUPPORTS_IS_ARRAY() 1
 #    else

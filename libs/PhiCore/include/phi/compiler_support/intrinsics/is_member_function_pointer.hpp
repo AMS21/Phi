@@ -7,15 +7,17 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_MEMBER_FUNCTION_POINTER) && !defined(PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER)
-#    if PHI_HAS_INTRINSIC_IS_MEMBER_FUNCTION_POINTER()
+
+#    if PHI_COMPILER_IS(CLANG_COMPAT)
 #        define PHI_IS_MEMBER_FUNCTION_POINTER(type)      __is_member_function_pointer(type)
 #        define PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER() 1
 #    else
 #        define PHI_SUPPORTS_IS_MEMBER_FUNCTION_POINTER() 0
 #    endif
+
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_MEMBER_FUNCTION_POINTER_HPP

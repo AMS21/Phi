@@ -8,12 +8,36 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/intrinsics/is_nothrow_destructible.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_destructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+#if PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE()
+
+template <typename TypeT>
+struct is_nothrow_destructible : public bool_constant<PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT)>
+{};
+
+template <typename TypeT>
+struct is_not_nothrow_destructible : public bool_constant<!PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT)>
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v = PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT);
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
+        !PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT);
+
+#    endif
+
+#else
 
 namespace detail
 {
@@ -51,7 +75,7 @@ template <typename TypeT>
 struct is_not_nothrow_destructible : public bool_constant<!is_nothrow_destructible<TypeT>::value>
 {};
 
-#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v =
@@ -60,6 +84,8 @@ PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v =
 template <typename TypeT>
 PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
         is_not_nothrow_destructible<TypeT>::value;
+
+#    endif
 
 #endif
 

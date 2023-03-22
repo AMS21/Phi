@@ -9,12 +9,11 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_bounded_array.hpp"
-#include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-DETAIL_PHI_BEGIN_NAMESPACE()
-
 #if PHI_SUPPORTS_IS_BOUNDED_ARRAY()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_bounded_array : public bool_constant<PHI_IS_BOUNDED_ARRAY(TypeT)>
@@ -35,6 +34,10 @@ PHI_INLINE_VARIABLE constexpr bool is_not_bounded_array_v = !PHI_IS_BOUNDED_ARRA
 #    endif
 
 #else
+
+#    include "phi/core/size_t.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_bounded_array : public false_type

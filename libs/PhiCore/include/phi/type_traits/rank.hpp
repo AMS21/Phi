@@ -14,7 +14,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_SUPPORTS_ARRAY_RANK()
+#if PHI_SUPPORTS_ARRAY_RANK() && 0
 
 template <typename TypeT>
 struct rank : public integral_constant<size_t, PHI_ARRAY_RANK(TypeT)>
