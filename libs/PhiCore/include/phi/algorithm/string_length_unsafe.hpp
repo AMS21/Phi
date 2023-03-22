@@ -11,6 +11,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
@@ -22,6 +23,10 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
 PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")

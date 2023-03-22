@@ -21,6 +21,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
+
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_PURE PHI_EXTENDED_CONSTEXPR usize string_length(CharT* string) noexcept
 {
@@ -110,6 +115,8 @@ PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length(nullptr_t,
 {
     return 0u;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

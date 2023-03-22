@@ -1,5 +1,10 @@
 #include <phi/algorithm/string_length_unsafe.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/types.hpp>
+
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
 
 extern "C" int LLVMFuzzerTestOneInput(const phi::uint8_t* data, phi::size_t size)
 {

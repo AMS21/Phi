@@ -9,9 +9,15 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
 
 // TODO: noexcept
 template <typename InputIterator1T, typename InputIterator2T>
@@ -45,6 +51,8 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean equal(InputIterator1T first1, Input
 
     return true;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 
