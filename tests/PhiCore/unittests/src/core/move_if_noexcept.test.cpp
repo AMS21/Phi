@@ -120,7 +120,7 @@ TEST_CASE("move_if_noexcept")
     CHECK_NOEXCEPT(phi::move_if_noexcept(integer));
     CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(const_integer)), const int&&);
     CHECK_NOEXCEPT(phi::move_if_noexcept(const_integer));
-    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(a_class)), A &&);
+    CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(a_class)), A&&);
     CHECK_NOEXCEPT(phi::move_if_noexcept(a_class));
     CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(const_a)), const A&&);
     CHECK_NOEXCEPT(phi::move_if_noexcept(const_a));

@@ -141,8 +141,7 @@ struct K
     // TODO: Weird clang formatting here
 
     template <typename... OtherT>
-    K(OtherT...)
-    noexcept;
+    K(OtherT...) noexcept;
 };
 
 struct L

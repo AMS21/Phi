@@ -93,8 +93,8 @@ template <typename SignatureT, typename ExpectT, typename FunctorT>
 void test_b12(FunctorT&& function)
 {
     // Create the callable object.
-    using ClassFunc    = SignatureT TestClass::*;
-    ClassFunc func_ptr = &TestClass::operator();
+    using ClassFunc                       = SignatureT TestClass::*;
+    ClassFunc                    func_ptr = &TestClass::operator();
 
     // Create the dummy arg.
     NonCopyable arg;
@@ -109,7 +109,7 @@ void test_b12(FunctorT&& function)
 #    else
     // Check that result_of_t matches Expect.
     using ResultOfReturnType =
-            typename std::result_of<ClassFunc && (FunctorT&&, NonCopyable &&)>::type;
+            typename std::result_of<ClassFunc && (FunctorT&&, NonCopyable&&)>::type;
     CHECK_SAME_TYPE(ResultOfReturnType, ExpectT);
 #    endif
 
@@ -133,7 +133,7 @@ void test_b34(FunctorT&& function)
 #    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
-    using ResultOfReturnType = typename std::result_of<ClassFunc && (FunctorT &&)>::type;
+    using ResultOfReturnType = typename std::result_of<ClassFunc && (FunctorT&&)>::type;
     CHECK_SAME_TYPE(ResultOfReturnType, ExpectT);
 #    endif
 
@@ -156,7 +156,7 @@ void test_b5(FunctorT&& function)
 #    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
-    using ResultOfReturnType = typename std::result_of<FunctorT && (NonCopyable &&)>::type;
+    using ResultOfReturnType = typename std::result_of<FunctorT && (NonCopyable&&)>::type;
     STATIC_REQUIRE((phi::is_same<ResultOfReturnType, ExpectT>::value));
 #    endif
 
@@ -169,78 +169,76 @@ TEST_CASE("invoke bullet one and two")
 {
     {
         TestClass test_class(42);
-        test_b12<int&(NonCopyable &&)&, int&>(test_class);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(test_class);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(test_class);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(
+        test_b12<int&(NonCopyable&&)&, int&>(test_class);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(test_class);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(test_class);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable &&)&&, int&&>(phi::move(test_class));
-        test_b12<int const && (NonCopyable &&) const&&, int const&&>(phi::move(test_class));
-        test_b12<int volatile && (NonCopyable &&) volatile&&, int volatile&&>(
-                phi::move(test_class));
-        test_b12<int const volatile && (NonCopyable &&) const volatile&&, int const volatile&&>(
+        test_b12<int && (NonCopyable&&)&&, int&&>(phi::move(test_class));
+        test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
+        test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
+        test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(
                 phi::move(test_class));
     }
     {
         DerivedFromTestClass test_class(42);
-        test_b12<int&(NonCopyable &&)&, int&>(test_class);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(test_class);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(test_class);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(
+        test_b12<int&(NonCopyable&&)&, int&>(test_class);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(test_class);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(test_class);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable &&)&&, int&&>(phi::move(test_class));
-        test_b12<int const && (NonCopyable &&) const&&, int const&&>(phi::move(test_class));
-        test_b12<int volatile && (NonCopyable &&) volatile&&, int volatile&&>(
-                phi::move(test_class));
-        test_b12<int const volatile && (NonCopyable &&) const volatile&&, int const volatile&&>(
+        test_b12<int && (NonCopyable&&)&&, int&&>(phi::move(test_class));
+        test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
+        test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
+        test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(
                 phi::move(test_class));
     }
     {
         TestClass                         cl_obj(42);
         std::reference_wrapper<TestClass> test_class_ref(cl_obj);
-        test_b12<int&(NonCopyable &&)&, int&>(test_class_ref);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(test_class_ref);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(test_class_ref);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(
+        test_b12<int&(NonCopyable&&)&, int&>(test_class_ref);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(test_class_ref);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(test_class_ref);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class_ref);
 
-        test_b12<int&(NonCopyable &&)&, int&>(phi::move(test_class_ref));
-        test_b12<int const&(NonCopyable &&) const&, int const&>(phi::move(test_class_ref));
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(phi::move(test_class_ref));
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(
+        test_b12<int&(NonCopyable&&)&, int&>(phi::move(test_class_ref));
+        test_b12<int const&(NonCopyable&&) const&, int const&>(phi::move(test_class_ref));
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(phi::move(test_class_ref));
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 phi::move(test_class_ref));
     }
     {
         DerivedFromTestClass                         cl_obj(42);
         std::reference_wrapper<DerivedFromTestClass> ref(cl_obj);
-        test_b12<int&(NonCopyable &&)&, int&>(ref);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(ref);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(ref);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(ref);
+        test_b12<int&(NonCopyable&&)&, int&>(ref);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(ref);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(ref);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(ref);
 
-        test_b12<int&(NonCopyable &&)&, int&>(phi::move(ref));
-        test_b12<int const&(NonCopyable &&) const&, int const&>(phi::move(ref));
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(phi::move(ref));
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(
+        test_b12<int&(NonCopyable&&)&, int&>(phi::move(ref));
+        test_b12<int const&(NonCopyable&&) const&, int const&>(phi::move(ref));
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(phi::move(ref));
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 phi::move(ref));
     }
     {
         TestClass  cl_obj(42);
         TestClass* pointer = &cl_obj;
-        test_b12<int&(NonCopyable &&)&, int&>(pointer);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(pointer);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(pointer);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(pointer);
+        test_b12<int&(NonCopyable&&)&, int&>(pointer);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(pointer);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(pointer);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(pointer);
     }
     {
         DerivedFromTestClass  cl_obj(42);
         DerivedFromTestClass* pointer = &cl_obj;
-        test_b12<int&(NonCopyable &&)&, int&>(pointer);
-        test_b12<int const&(NonCopyable &&) const&, int const&>(pointer);
-        test_b12<int volatile&(NonCopyable &&) volatile&, int volatile&>(pointer);
-        test_b12<int const volatile&(NonCopyable &&) const volatile&, int const volatile&>(pointer);
+        test_b12<int&(NonCopyable&&)&, int&>(pointer);
+        test_b12<int const&(NonCopyable&&) const&, int const&>(pointer);
+        test_b12<int volatile&(NonCopyable&&) volatile&, int volatile&>(pointer);
+        test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(pointer);
     }
 }
 
@@ -310,7 +308,7 @@ TEST_CASE("invoke bullet tree and four")
 
 TEST_CASE("invoke bullet five")
 {
-    using FooType = int&(NonCopyable &&);
+    using FooType = int&(NonCopyable&&);
     {
         FooType& function = foo;
         test_b5<int&>(function);
