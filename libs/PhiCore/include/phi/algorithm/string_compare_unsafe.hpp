@@ -18,6 +18,10 @@
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 

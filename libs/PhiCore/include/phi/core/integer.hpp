@@ -164,11 +164,11 @@ namespace detail
                        (rhs > TypeT(0) ?
                                 lhs > std::numeric_limits<TypeT>::max() / rhs : // lhs, rhs > 0
                                 rhs < std::numeric_limits<TypeT>::min() /
-                                                lhs) : // lhs > 0, rhs <= 0
+                                                lhs) :                          // lhs > 0, rhs <= 0
                        (rhs > TypeT(0) ?
                                 lhs < std::numeric_limits<TypeT>::min() / rhs : // lhs <= 0, rhs > 0
                                 lhs != TypeT(0) && rhs < std::numeric_limits<TypeT>::max() /
-                                                                   lhs); // lhs, rhs <= 0
+                                                                   lhs);        // lhs, rhs <= 0
     }
 
     template <typename TypeT>

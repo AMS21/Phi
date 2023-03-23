@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
@@ -18,6 +19,11 @@
 #include "phi/forward/string_view.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
 
 // nullptr_t - x
 
@@ -274,6 +280,8 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean string_equals(const CharT* lhs, con
 
     return *lhs == *rhs;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

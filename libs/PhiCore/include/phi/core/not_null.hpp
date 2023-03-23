@@ -124,13 +124,13 @@ public:
     not_null& operator=(nullptr_t) = delete;
 
     // Explicitly remove pointer operations
-    not_null& operator++()                = delete;
-    not_null& operator--()                = delete;
-    not_null  operator++(int)             = delete; // NOLINT(cert-dcl21-cpp)
-    not_null  operator--(int)             = delete; // NOLINT(cert-dcl21-cpp)
-    not_null& operator+=(ptrdiff_t)       = delete;
-    not_null& operator-=(ptrdiff_t)       = delete;
-    void      operator[](ptrdiff_t) const = delete;
+    not_null& operator++()           = delete;
+    not_null& operator--()           = delete;
+    not_null  operator++(int)        = delete; // NOLINT(cert-dcl21-cpp)
+    not_null  operator--(int)        = delete; // NOLINT(cert-dcl21-cpp)
+    not_null& operator+=(ptrdiff_t)  = delete;
+    not_null& operator-=(ptrdiff_t)  = delete;
+    void operator[](ptrdiff_t) const = delete;
 
 private:
     TypeT m_Pointer;

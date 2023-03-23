@@ -26,7 +26,7 @@ struct S
 {
     using FreeFunc = short (*)(long);
 
-                           operator FreeFunc() const;
+    operator FreeFunc() const;
     double                 operator()(char, int&);
     double const&          operator()(char, int&) const;
     double volatile&       operator()(char, int&) volatile;
@@ -430,9 +430,9 @@ TEST_CASE("invoke_result")
         test_invoke_result<PMD(F volatile&), char volatile&>();
         test_invoke_result<PMD(F const volatile&), char const volatile&>();
 
-        test_invoke_result<PMD(F &&), char&&>();
+        test_invoke_result<PMD(F&&), char&&>();
         test_invoke_result<PMD(F const&&), char const&&>();
-        test_invoke_result<PMD(F volatile &&), char volatile&&>();
+        test_invoke_result<PMD(F volatile&&), char volatile&&>();
         test_invoke_result<PMD(F const volatile&&), char const volatile&&>();
 
         test_invoke_result<PMD(F), char&&>();
@@ -445,9 +445,9 @@ TEST_CASE("invoke_result")
         test_invoke_result<PMD(FD volatile&), char volatile&>();
         test_invoke_result<PMD(FD const volatile&), char const volatile&>();
 
-        test_invoke_result<PMD(FD &&), char&&>();
+        test_invoke_result<PMD(FD&&), char&&>();
         test_invoke_result<PMD(FD const&&), char const&&>();
-        test_invoke_result<PMD(FD volatile &&), char volatile&&>();
+        test_invoke_result<PMD(FD volatile&&), char volatile&&>();
         test_invoke_result<PMD(FD const volatile&&), char const volatile&&>();
 
         test_invoke_result<PMD(FD), char&&>();
@@ -476,14 +476,14 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(F volatile&))() const volatile&, int>();
         test_invoke_result<int (F::*(F const volatile&))() const volatile&, int>();
 
-        test_invoke_result<int (F::*(F &&))()&&, int>();
-        test_invoke_result<int (F::*(F &&))() const&&, int>();
-        test_invoke_result<int (F::*(F &&))() volatile&&, int>();
-        test_invoke_result<int (F::*(F &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F&&))()&&, int>();
+        test_invoke_result<int (F::*(F&&))() const&&, int>();
+        test_invoke_result<int (F::*(F&&))() volatile&&, int>();
+        test_invoke_result<int (F::*(F&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(F const&&))() const&&, int>();
         test_invoke_result<int (F::*(F const&&))() const volatile&&, int>();
-        test_invoke_result<int (F::*(F volatile &&))() volatile&&, int>();
-        test_invoke_result<int (F::*(F volatile &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile&&))() volatile&&, int>();
+        test_invoke_result<int (F::*(F volatile&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(F const volatile&&))() const volatile&&, int>();
 
         test_invoke_result<int (F::*(F))()&&, int>();
@@ -507,14 +507,14 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(FD volatile&))() const volatile&, int>();
         test_invoke_result<int (F::*(FD const volatile&))() const volatile&, int>();
 
-        test_invoke_result<int (F::*(FD &&))()&&, int>();
-        test_invoke_result<int (F::*(FD &&))() const&&, int>();
-        test_invoke_result<int (F::*(FD &&))() volatile&&, int>();
-        test_invoke_result<int (F::*(FD &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD&&))()&&, int>();
+        test_invoke_result<int (F::*(FD&&))() const&&, int>();
+        test_invoke_result<int (F::*(FD&&))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(FD const&&))() const&&, int>();
         test_invoke_result<int (F::*(FD const&&))() const volatile&&, int>();
-        test_invoke_result<int (F::*(FD volatile &&))() volatile&&, int>();
-        test_invoke_result<int (F::*(FD volatile &&))() const volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile&&))() volatile&&, int>();
+        test_invoke_result<int (F::*(FD volatile&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(FD const volatile&&))() const volatile&&, int>();
 
         test_invoke_result<int (F::*(FD))()&&, int>();

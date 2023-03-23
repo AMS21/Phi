@@ -221,7 +221,7 @@ template <typename TypeT>
 struct PHI_EBCO addable : public binary_addable<TypeT>, unary_addable<TypeT>
 {
     using binary_addable<TypeT>::operator+;
-    using unary_addable<TypeT>:: operator+;
+    using unary_addable<TypeT>::operator+;
 };
 
 template <typename TypeT>
@@ -251,7 +251,7 @@ struct PHI_EBCO unary_subtractable : public crtp<TypeT, unary_subtractable>
 template <typename TypeT>
 struct PHI_EBCO subtractable : public binary_subtractable<TypeT>, unary_subtractable<TypeT>
 {
-    using unary_subtractable<TypeT>:: operator-;
+    using unary_subtractable<TypeT>::operator-;
     using binary_subtractable<TypeT>::operator-;
 };
 
@@ -544,9 +544,9 @@ struct PHI_EBCO arithmetic : public pre_incrementable<TypeT>,
                              hashable<TypeT>
 {
     using post_incrementable<TypeT>::operator++;
-    using pre_incrementable<TypeT>:: operator++;
+    using pre_incrementable<TypeT>::operator++;
     using post_decrementable<TypeT>::operator--;
-    using pre_decrementable<TypeT>:: operator--;
+    using pre_decrementable<TypeT>::operator--;
 };
 
 DETAIL_PHI_END_NAMESPACE()

@@ -21,6 +21,9 @@ namespace detail
 {
     PHI_CLANG_SUPPRESS_WARNING_PUSH()
     PHI_CLANG_SUPPRESS_WARNING("-Wchar-subscripts")
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+    PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
 
     struct hex_digit_value_lookup_table
     {
@@ -51,8 +54,6 @@ namespace detail
             m_Table['F'] = 15;
         }
 
-        PHI_CLANG_SUPPRESS_WARNING_POP()
-
         constexpr unsigned char operator[](char const index) const noexcept
         {
             // NOLINTNEXTLINE(bugprone-signed-char-misuse)
@@ -62,6 +63,8 @@ namespace detail
     private:
         unsigned long long m_Table[103];
     };
+
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 
     static constexpr hex_digit_value_lookup_table lookup_table;
 } // namespace detail

@@ -18,11 +18,11 @@ static std::forward_list<phi::test::detail::TestSignature>& GetFunctionRegister(
     return function_register;
 }
 
-static int ReturnValue{0}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+static int ReturnValue{0};       // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 static phi::u64 AssertCount{0u}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-static phi::u64 SkipCount{0u}; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+static phi::u64 SkipCount{0u};   // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 

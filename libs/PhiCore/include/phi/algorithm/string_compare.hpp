@@ -20,6 +20,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_CLANG_SUPPRESS_WARNING_POP()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
+#endif
+
 template <typename CharT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR CompareResult string_compare(const CharT* lhs,
                                                                   const CharT* rhs) noexcept
@@ -139,6 +144,8 @@ PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, const CharT* rhs
 {
     return rhs == nullptr ? CompareResult::Equal : CompareResult::LessThan;
 }
+
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

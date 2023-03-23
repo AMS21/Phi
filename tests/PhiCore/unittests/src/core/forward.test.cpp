@@ -50,8 +50,8 @@ TEST_CASE("forward")
     PHI_UNUSED_VARIABLE(const_a);
 
     CHECK_SAME_TYPE(decltype(phi::forward<A&>(class_a)), A&);
-    CHECK_SAME_TYPE(decltype(phi::forward<A>(class_a)), A &&);
-    CHECK_SAME_TYPE(decltype(phi::forward<A>(source())), A &&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(class_a)), A&&);
+    CHECK_SAME_TYPE(decltype(phi::forward<A>(source())), A&&);
     CHECK_NOEXCEPT(phi::forward<A&>(class_a));
     CHECK_NOEXCEPT(phi::forward<A>(class_a));
     CHECK_NOEXCEPT(phi::forward<A>(source()));
