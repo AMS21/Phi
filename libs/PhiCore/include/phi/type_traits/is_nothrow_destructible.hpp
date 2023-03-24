@@ -9,14 +9,11 @@
 
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_destructible.hpp"
-#include "phi/core/declval.hpp"
-#include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
-#include "phi/type_traits/is_destructible.hpp"
-
-DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_nothrow_destructible : public bool_constant<PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT)>
@@ -38,6 +35,12 @@ PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
 #    endif
 
 #else
+
+#    include "phi/core/declval.hpp"
+#    include "phi/core/size_t.hpp"
+#    include "phi/type_traits/is_destructible.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
