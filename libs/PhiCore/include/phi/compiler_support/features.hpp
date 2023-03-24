@@ -287,7 +287,7 @@
 #        define PHI_HAS_FEATURE_ATTRIBUTE_LIKELY() 0
 #    endif
 
-// Three-way comparision
+// Three-way comparison
 // https://en.cppreference.com/w/cpp/language/operator_comparison#Three-way_comparison
 // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0515r3.pdf
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) ||      \
