@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/features.hpp"
 
 // clang-format off
