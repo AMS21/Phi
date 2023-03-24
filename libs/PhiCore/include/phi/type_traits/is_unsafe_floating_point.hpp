@@ -32,7 +32,7 @@ namespace detail
     struct is_unsafe_floating_point_impl<long double> : public true_type
     {};
 
-#if 0
+#if 0 // TODO:
     // Extended floating point types
 #    if PHI_HAS_EXTENSION_FLOAT16()
     template <>
