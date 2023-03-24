@@ -296,7 +296,7 @@
 #endif
 
 // pragma
-#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                             \
+#if PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                      \
         PHI_COMPILER_IS_ATLEAST(ICC, 13, 0, 0)
 // clang-format off
 #    define PHI_PRAGMA(value) _Pragma(#value)
