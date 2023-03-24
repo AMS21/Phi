@@ -1,14 +1,19 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-#include "test_types.hpp"
 #include <phi/algorithm/string_equals.hpp>
+#include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/intrinsics/source_location.hpp>
+#include <phi/container/string_view.hpp>
+#include <phi/core/boolean.hpp>
 #include <phi/core/source_location.hpp>
 #include <phi/type_traits/is_nothrow_default_constructible.hpp>
 #include <phi/type_traits/is_nothrow_destructible.hpp>
 #include <phi/type_traits/is_nothrow_move_assignable.hpp>
 #include <phi/type_traits/is_nothrow_move_constructible.hpp>
 #include <phi/type_traits/is_nothrow_swappable.hpp>
+#include <phi/type_traits/is_trivially_assignable.hpp>
+#include <phi/type_traits/is_trivially_constructible.hpp>
 #include <phi/type_traits/is_trivially_copy_assignable.hpp>
 #include <phi/type_traits/is_trivially_copy_constructible.hpp>
 #include <phi/type_traits/is_trivially_destructible.hpp>

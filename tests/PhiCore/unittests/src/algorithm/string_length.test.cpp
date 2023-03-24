@@ -4,6 +4,10 @@
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/container/string_view.hpp>
+#include <phi/core/boolean.hpp>
+#include <phi/core/integer.hpp>
+#include <phi/core/size_t.hpp>
+#include <phi/core/types.hpp>
 #include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
