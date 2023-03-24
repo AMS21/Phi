@@ -78,6 +78,7 @@
 #include "intrinsics/remove_const.hpp"
 #include "intrinsics/remove_cv.hpp"
 #include "intrinsics/remove_volatile.hpp"
+#include "intrinsics/source_location.hpp"
 #include "intrinsics/trap.hpp"
 #include "intrinsics/underlying_type.hpp"
 
