@@ -7,16 +7,16 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/features.hpp"
 
 // clang-format off
 #if PHI_HAS_FEATURE_ATTRIBUTE_DEPRECATED()
 #    define PHI_DEPRECATED          [[deprecated]]
 #    define PHI_DEPRECATED_MSG(msg) [[deprecated(#msg)]]
-#elif PHI_HAS_EXTENSION_ATTRIBUTE_DEPRECATED()
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_DEPRECATED          __attribute__((deprecated))
 #    define PHI_DEPRECATED_MSG(msg) __attribute__((deprecated(#msg)))
-#elif PHI_HAS_EXTENSION_DECLSPEC_DEPRECATED()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_DEPRECATED          __declspec(deprecated)
 #    define PHI_DEPRECATED_MSG(msg) __declspec(deprecated(#msg))
 #else

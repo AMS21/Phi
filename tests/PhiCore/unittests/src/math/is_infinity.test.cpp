@@ -3,7 +3,6 @@
 #include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
-#include <phi/generated/compiler_support/features.hpp>
 #include <phi/math/is_infinity.hpp>
 #include <phi/type_traits/to_unsafe.hpp>
 #include <cfloat>

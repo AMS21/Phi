@@ -8,6 +8,7 @@
 #include <phi/container/string_view.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/types.hpp>
+#include <phi/generated/compiler_support/libraries.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
 #include <limits>
 #include <utility>

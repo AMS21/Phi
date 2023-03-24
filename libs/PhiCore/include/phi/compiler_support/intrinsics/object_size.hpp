@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_OBJECT_SIZE) && !defined(PHI_SUPPORTS_OBJECT_SIZE)
 

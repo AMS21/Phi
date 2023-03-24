@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_FLOOR) && !defined(PHI_FLOORF) && !defined(PHI_FLOORL) &&                         \
         !defined(PHI_SUPPORTS_FLOOR)
@@ -21,6 +21,7 @@
 #    else
 #        define PHI_SUPPORTS_FLOOR() 0
 #    endif
+
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_FLOOR_HPP

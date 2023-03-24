@@ -7,10 +7,10 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/intrinsics/source_location.hpp"
 #include "phi/container/string_view.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/sized_types.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/false_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -40,12 +40,11 @@ struct source_location
 #endif
     }
 
-#if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \
-        PHI_HAS_INTRINSIC_BUILTIN_LINE()
+#if PHI_SUPPORTS_BUILTIN_LINE()
     static constexpr source_location current(const char*    file     = __builtin_FILE(),
                                              const char*    function = __builtin_FUNCTION(),
                                              uint_least32_t line     = __builtin_LINE()
-#    if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_SUPPORTS_BUILTIN_COLUMN()
                                                      ,
                                              uint_least32_t column = __builtin_COLUMN()
 #    endif
@@ -54,7 +53,7 @@ struct source_location
         return source_location
         {
             file, function, line,
-#    if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_SUPPORTS_BUILTIN_COLUMN()
                     column
 #    else
                     0
@@ -109,8 +108,7 @@ private:
     uint_least32_t m_Column;
 };
 
-#if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \
-        PHI_HAS_INTRINSIC_BUILTIN_LINE()
+#if PHI_SUPPORTS_BUILTIN_LINE()
 #    define PHI_SOURCE_LOCATION_CURRENT() ::phi::source_location::current()
 #else
 #    define PHI_SOURCE_LOCATION_CURRENT()                                                          \

@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/bugs/gcc_102305.hpp>
 #include <phi/compiler_support/char8_t.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/boolean.hpp>

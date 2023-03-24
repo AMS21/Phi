@@ -1,0 +1,17 @@
+#ifndef INCG_PHI_CORE_GENERATED_COMPILER_SUPPORT_LIBRARIES_HPP
+#define INCG_PHI_CORE_GENERATED_COMPILER_SUPPORT_LIBRARIES_HPP
+
+#include "phi/compiler_support/cpp_standard.hpp"
+
+// clang-format off
+
+// C++-14
+#if PHI_CPP_STANDARD_IS_ATLEAST(17)
+#    define PHI_HAS_LIB_STRING_VIEW() @PHI_HAS_LIB_STRING_VIEW@
+#else
+#    define PHI_HAS_LIB_STRING_VIEW() 0
+#endif
+
+// clang-format on
+
+#endif // INCG_PHI_CORE_GENERATED_COMPILER_SUPPORT_LIBRARIES_HPP

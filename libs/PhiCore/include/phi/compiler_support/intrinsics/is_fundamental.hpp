@@ -8,7 +8,6 @@
 #endif
 
 #include "phi/compiler_support/compiler.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 
 #if !defined(PHI_IS_FUNDAMENTAL) && !defined(PHI_SUPPORTS_IS_FUNDAMENTAL)
 

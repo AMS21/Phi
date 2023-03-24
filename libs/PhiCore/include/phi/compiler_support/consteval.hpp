@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/features.hpp"
 #include "phi/preprocessor/if.hpp"
 
 #if PHI_HAS_FEATURE_CONSTEVAL()

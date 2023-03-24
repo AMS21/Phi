@@ -7,7 +7,7 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_AGGREGATE) && !defined(PHI_SUPPORTS_IS_AGGREGATE)
 

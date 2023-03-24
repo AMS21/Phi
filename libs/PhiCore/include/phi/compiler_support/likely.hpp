@@ -7,9 +7,10 @@
 #    pragma once
 #endif
 
-#include "features.hpp"
+#include "phi/compiler_support/compiler.hpp"
+#include "phi/compiler_support/features.hpp"
 
-#if PHI_HAS_EXTENSION_BUILTIN_EXPECT()
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_LIKELY(condition)   __builtin_expect(!!(condition), 1)
 #    define PHI_UNLIKELY(condition) __builtin_expect(!!(condition), 0)
 #else

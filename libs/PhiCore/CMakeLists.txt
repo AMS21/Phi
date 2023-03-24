@@ -42,6 +42,11 @@ file(
   "include/phi/algorithm/string_length_unsafe.hpp"
   "include/phi/algorithm/swap_ranges.hpp"
   "include/phi/algorithm/swap.hpp"
+  # compiler_support/bugs
+  "include/phi/compiler_support/bugs/gcc_102305.hpp"
+  # compiler_support/extensions
+  "include/phi/compiler_support/extensions/pragma_once.hpp"
+  "include/phi/compiler_support/extensions/zero_size_array.hpp"
   # compiler_support/intrinsics
   "include/phi/compiler_support/intrinsics/address_of.hpp"
   "include/phi/compiler_support/intrinsics/array_extent.hpp"
@@ -108,6 +113,8 @@ file(
   "include/phi/compiler_support/intrinsics/remove_const.hpp"
   "include/phi/compiler_support/intrinsics/remove_cv.hpp"
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"
+  "include/phi/compiler_support/intrinsics/source_location.hpp"
+  "include/phi/compiler_support/intrinsics/traph.hpp"
   "include/phi/compiler_support/intrinsics/underlying_type.hpp"
   # compiler_support
   "include/phi/compiler_support/architecture.hpp"

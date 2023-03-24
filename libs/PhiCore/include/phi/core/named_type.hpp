@@ -60,7 +60,7 @@ SOFTWARE.
 #include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio.
-#if PHI_HAS_EXTENSION_DECLSPEC_EMPTY_BASES()
+#if PHI_COMPILER_IS_ATLEAST(MSVC, 19, 14, 0)
 #    define PHI_EBCO __declspec(empty_bases)
 #else
 #    define PHI_EBCO /* Nothing */

@@ -3,7 +3,6 @@
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
-#include <phi/generated/compiler_support/features.hpp>
 #include <type_traits>
 #include <vector>
 

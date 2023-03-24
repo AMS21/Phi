@@ -10,7 +10,6 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/array_extent.hpp"
 #include "phi/core/size_t.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()

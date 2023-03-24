@@ -7,23 +7,14 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
-#if PHI_HAS_EXTENSION_RESTRICT()
-
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS(MSVC)
 #    define PHI_SUPPORTS_RESTRICT() 1
 #    define PHI_RESTRICT            __restrict
-
-#elif PHI_HAS_EXTENSION_RESTRICT_UNDERSCORE()
-
-#    define PHI_SUPPORTS_RESTRICT() 1
-#    define PHI_RESTRICT            __restrict__
-
 #else
-
 #    define PHI_SUPPORTS_RESTRICT() 0
 #    define PHI_RESTRICT            /* Nothing */
-
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_RESTRICT_HPP

@@ -4,13 +4,11 @@
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/container/string_view.hpp>
+#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(17) && PHI_HAS_LIB_STRING_VIEW()
+#if PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
-#    define HAS_LIB_STRING_VIEW() 1
-#else
-#    define HAS_LIB_STRING_VIEW() 0
 #endif
 
 // TODO: Some tests don't work with MSVC
@@ -190,7 +188,7 @@ TEST_CASE("string_length std::basic_string")
 #endif
 }
 
-#if HAS_LIB_STRING_VIEW()
+#if PHI_HAS_LIB_STRING_VIEW()
 TEST_CASE("string_length std::basic_string_view")
 {
 #    if PHI_COMPILER_IS_NOT(MSVC)

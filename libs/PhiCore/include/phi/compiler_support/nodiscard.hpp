@@ -7,15 +7,16 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/features.hpp"
 
 #if PHI_HAS_FEATURE_ATTRIBUTE_NODISCARD()
 #    define PHI_NODISCARD       [[nodiscard]]
 #    define PHI_NODISCARD_CLASS [[nodiscard]]
-#elif PHI_HAS_EXTENSION_ATTRIBUTE_WARN_UNUSED_RESULT()
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_NODISCARD       __attribute__((warn_unused_result))
 #    define PHI_NODISCARD_CLASS __attribute__((warn_unused_result))
-#elif PHI_HAS_EXTENSION_CHECK_RETURN()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_NODISCARD       _Check_return_
 #    define PHI_NODISCARD_CLASS /* Nothing */
 #else

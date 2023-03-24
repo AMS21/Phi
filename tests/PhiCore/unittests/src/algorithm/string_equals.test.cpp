@@ -3,6 +3,7 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/container/string_view.hpp>
+#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
 #if PHI_HAS_LIB_STRING_VIEW()

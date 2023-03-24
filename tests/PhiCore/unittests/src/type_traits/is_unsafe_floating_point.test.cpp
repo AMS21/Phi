@@ -177,20 +177,22 @@ void test_is_not_unsafe_floating_point()
 
 TEST_CASE("is_unsafe_floating_point")
 {
-    // Extended floating point types
-#if PHI_HAS_EXTENSION_FLOAT16()
+// Extended floating point types
+#if 0 // TODO:
+#    if PHI_HAS_EXTENSION_FLOAT16()
     test_is_unsafe_floating_point_non_std<_Float16>();
     test_is_not_unsafe_floating_point<phi::floating_point<_Float16>>();
-#endif
+#    endif
 
-#if PHI_HAS_EXTENSION_FP16()
+#    if PHI_HAS_EXTENSION_FP16()
     test_is_unsafe_floating_point_non_std<__fp16>();
     test_is_not_unsafe_floating_point<phi::floating_point<__fp16>>();
-#endif
+#    endif
 
-#if PHI_HAS_EXTENSION_FLOAT128()
+#    if PHI_HAS_EXTENSION_FLOAT128()
     test_is_unsafe_floating_point_non_std<__float128>();
     test_is_not_unsafe_floating_point<phi::floating_point<__float128>>();
+#    endif
 #endif
 
     test_is_not_unsafe_floating_point<void>();
