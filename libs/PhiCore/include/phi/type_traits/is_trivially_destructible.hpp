@@ -37,7 +37,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivially_destructible_v =
 
 #    endif
 
-#elif PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
+#elif PHI_COMPILER_IS_ATLEAST(GCC, 4, 4, 0)
 
 #    include "phi/type_traits/is_destructible.hpp"
 
