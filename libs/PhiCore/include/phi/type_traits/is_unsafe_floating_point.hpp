@@ -32,23 +32,25 @@ namespace detail
     struct is_unsafe_floating_point_impl<long double> : public true_type
     {};
 
+#if 0 // TODO:
     // Extended floating point types
-#if PHI_HAS_EXTENSION_FLOAT16()
+#    if PHI_HAS_EXTENSION_FLOAT16()
     template <>
     struct is_unsafe_floating_point_impl<_Float16> : public true_type
     {};
-#endif
+#    endif
 
-#if PHI_HAS_EXTENSION_FP16()
+#    if PHI_HAS_EXTENSION_FP16()
     template <>
     struct is_unsafe_floating_point_impl<__fp16> : public true_type
     {};
-#endif
+#    endif
 
-#if PHI_HAS_EXTENSION_FLOAT128()
+#    if PHI_HAS_EXTENSION_FLOAT128()
     template <>
     struct is_unsafe_floating_point_impl<__float128> : public true_type
     {};
+#    endif
 #endif
 } // namespace detail
 

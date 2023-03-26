@@ -27,7 +27,6 @@
 #include "phi/core/move.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/forward/std/hash.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/conjunction.hpp"
 #include "phi/type_traits/decay.hpp"
 #include "phi/type_traits/enable_if.hpp"

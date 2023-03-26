@@ -8,7 +8,6 @@
 #endif
 
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_safe_type.hpp"
 #include "phi/type_traits/is_unsafe_non_bool_integral.hpp"

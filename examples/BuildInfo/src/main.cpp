@@ -3,7 +3,6 @@
 #include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
-#include <phi/generated/compiler_support/features.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
 #include <cstdio>
 

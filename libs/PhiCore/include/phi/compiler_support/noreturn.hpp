@@ -7,15 +7,14 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
+#include "phi/compiler_support/features.hpp"
 
-#if PHI_HAS_FEATURE_NORETURN()
+#if PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()
 #    define PHI_NORETURN [[noreturn]]
-#elif PHI_HAS_EXTENSION_NORETURN()
-#    define PHI_NORETURN _Noreturn
-#elif PHI_HAS_EXTENSION_ATTRIBUTE_NORETURN()
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_NORETURN __attribute__((noreturn))
-#elif PHI_HAS_EXTENSION_DECLSPEC_NORETURN()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_NORETURN __declspec(noreturn)
 #else
 #    define PHI_NORETURN /* Nothing */

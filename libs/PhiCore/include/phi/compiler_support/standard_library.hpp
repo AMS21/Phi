@@ -7,6 +7,9 @@
 #    pragma once
 #endif
 
+// Include ciso646 as it usually includes the standard library specific headers
+#include <ciso646>
+
 // Check explicit standards first
 #if defined(PHI_CONFIG_STDLIB_LIBCXX)
 #    define PHI_STANDARD_LIBRARY_LIBCXX() 1
@@ -14,25 +17,24 @@
 #    define PHI_STANDARD_LIBRARY_LIBSTDCXX() 1
 #else
 // Check default standard library
-#    include "phi/generated/compiler_support/features.hpp"
 
-#    if PHI_DEFAULT_STDLIB_GLIBCXX()
+#    if defined(__GLIBCXX__)
 #        define PHI_STANDARD_LIBRARY_LIBSTDCXX() 1
-#    elif PHI_DEFAULT_STDLIB_LLVM_LIBCXX()
+#    elif defined(_LIBCPP_VERSION)
 #        define PHI_STANDARD_LIBRARY_LIBCXX() 1
-#    elif PHI_DEFAULT_STDLIB_MSVC_STL()
+#    elif defined(_MSVC_STL_VERSION)
 #        define PHI_STANDARD_LIBRARY_MSVC() 1
 #    else
 #        error "Unable to determine default standard library"
 #    endif
 #endif
 
-#if !defined(PHI_STANDARD_LIBRARY_LIBCXX)
-#    define PHI_STANDARD_LIBRARY_LIBCXX() 0
-#endif
-
 #if !defined(PHI_STANDARD_LIBRARY_LIBSTDCXX)
 #    define PHI_STANDARD_LIBRARY_LIBSTDCXX() 0
+#endif
+
+#if !defined(PHI_STANDARD_LIBRARY_LIBCXX)
+#    define PHI_STANDARD_LIBRARY_LIBCXX() 0
 #endif
 
 #if !defined(PHI_STANDARD_LIBRARY_MSVC)
@@ -47,9 +49,6 @@
 #elif PHI_STANDARD_LIBRARY_MSVC()
 #    define PHI_STANDARD_LIBRARY_NAME() "msvc-stl"
 #endif
-
-// Include ciso646 as it usually includes the standard library specific headers
-#include <ciso646>
 
 // Define macros for opening and closing the std namespace
 #if PHI_STANDARD_LIBRARY_LIBCXX()

@@ -7,11 +7,15 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
-#if !defined(PHI_FABS) && !defined(PHI_SUPPORTS_FABS)
-#    if PHI_HAS_INTRINSIC_BUILTIN_FABS()
-#        define PHI_FABS(value)     __builtin_fabs(value)
+#if !defined(PHI_FABS) && !defined(PHI_FABSF) && !defined(PHI_FABSL) && !defined(PHI_SUPPORTS_FABS)
+
+#    if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+#        define PHI_FABS(value)  __builtin_fabs(value)
+#        define PHI_FABSF(value) __builtin_fabsf(value)
+#        define PHI_FABSL(value) __builtin_fabsl(value)
+
 #        define PHI_SUPPORTS_FABS() 1
 #    else
 #        define PHI_SUPPORTS_FABS() 0

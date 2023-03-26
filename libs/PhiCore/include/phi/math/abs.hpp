@@ -10,13 +10,10 @@
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/intrinsics/fabs.hpp"
-#include "phi/compiler_support/intrinsics/fabsf.hpp"
-#include "phi/compiler_support/intrinsics/fabsl.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/unused.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
-#include "phi/generated/compiler_support/features.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_floating_point.hpp"
 #include "phi/type_traits/is_integral.hpp"
@@ -65,7 +62,7 @@ namespace detail
                                                              true_type /*is_floating_point*/,
                                                              true_type /*is_signed*/) noexcept
     {
-#if PHI_SUPPORTS_FABSF()
+#if PHI_SUPPORTS_FABS()
         return PHI_FABSF(floating_point_numeric);
 #else
         return (floating_point_numeric > 0) ? floating_point_numeric : -floating_point_numeric;
@@ -87,7 +84,7 @@ namespace detail
             const long double floating_point_numeric, true_type /*is_floating_point*/,
             true_type /*is_signed*/) noexcept
     {
-#if PHI_SUPPORTS_FABSL()
+#if PHI_SUPPORTS_FABS()
         return PHI_FABSL(floating_point_numeric);
 #else
         return (floating_point_numeric > 0) ? floating_point_numeric : -floating_point_numeric;

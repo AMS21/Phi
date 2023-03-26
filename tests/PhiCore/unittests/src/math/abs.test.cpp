@@ -109,8 +109,7 @@ void test_abs_float()
     EXT_STATIC_REQUIRE(phi::to_unsafe(phi::abs(inf)) == phi::to_unsafe(inf));
     EXT_STATIC_REQUIRE(phi::to_unsafe(phi::abs(-inf)) == phi::to_unsafe(inf));
 
-#if (PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)) &&                                            \
-        (!PHI_SUPPORTS_FABSF() || !PHI_SUPPORTS_FABS() || !PHI_SUPPORTS_FABSL())
+#if (PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)) && !PHI_SUPPORTS_FABS()
     CHECK(phi::is_nan(phi::abs(qnan)));
     CHECK(phi::is_nan(phi::abs(-qnan)));
 

@@ -7,15 +7,17 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_NOTHROW_DESTRUCTIBLE) && !defined(PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE)
-#    if PHI_HAS_INTRINSIC_IS_NOTHROW_DESTRUCTIBLE()
+
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0) || PHI_COMPILER_IS(MSVC)
 #        define PHI_IS_NOTHROW_DESTRUCTIBLE(type)      __is_nothrow_destructible(type)
 #        define PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE() 1
 #    else
 #        define PHI_SUPPORTS_IS_NOTHROW_DESTRUCTIBLE() 0
 #    endif
+
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_NOTHROW_DESTRUCTIBLE_HPP

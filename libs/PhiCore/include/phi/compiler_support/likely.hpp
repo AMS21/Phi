@@ -7,7 +7,10 @@
 #    pragma once
 #endif
 
-#if PHI_HAS_EXTENSION_BUILTIN_EXPECT()
+#include "phi/compiler_support/compiler.hpp"
+#include "phi/compiler_support/features.hpp"
+
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_LIKELY(condition)   __builtin_expect(!!(condition), 1)
 #    define PHI_UNLIKELY(condition) __builtin_expect(!!(condition), 0)
 #else
@@ -15,7 +18,7 @@
 #    define PHI_UNLIKELY(condition) condition
 #endif
 
-#if PHI_HAS_FEATURE_LIKELY_CASE()
+#if PHI_HAS_FEATURE_ATTRIBUTE_LIKELY()
 #    define PHI_LIKELY_CASE   [[likely]]
 #    define PHI_UNLIKELY_CASE [[unlikely]]
 #else

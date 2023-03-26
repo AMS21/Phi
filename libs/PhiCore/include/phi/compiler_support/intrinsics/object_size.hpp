@@ -7,14 +7,14 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_OBJECT_SIZE) && !defined(PHI_SUPPORTS_OBJECT_SIZE)
 
 // https://gcc.gnu.org/onlinedocs/gcc/Object-Size-Checking.html
 // https://clang.llvm.org/docs/LanguageExtensions.html#evaluating-object-size-dynamically
 
-#    if PHI_HAS_INTRINSIC_BUILTIN_OBJECT_SIZE()
+#    if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #        define PHI_OBJECT_SIZE(pointer, type) __builtin_object_size(pointer, type)
 #        define PHI_SUPPORTS_OBJECT_SIZE()     1
 #    else

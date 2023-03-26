@@ -1,15 +1,18 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_UNUSED_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_UNUSED_HPP
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
 #endif
 
-#if PHI_HAS_FEATURE_MAYBE_UNUSED()
+#include "phi/compiler_support/compiler.hpp"
+#include "phi/compiler_support/features.hpp"
+
+#if PHI_HAS_FEATURE_ATTRIBUTE_MAYBE_UNUSED()
 #    define PHI_UNUSED [[maybe_unused]]
-#elif PHI_HAS_EXTENSION_ATTRIBUTE_UNUSED()
+#elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_UNUSED __attribute((unused))
 #else
 #    define PHI_UNUSED /* Unused */

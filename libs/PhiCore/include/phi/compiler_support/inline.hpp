@@ -5,7 +5,13 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_INLINE_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_INLINE_HPP
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/phi_config.hpp"
+
+#if PHI_HAS_EXTENSION_PRAGMA_ONCE()
+#    pragma once
+#endif
+
+#include "phi/compiler_support/compiler.hpp"
 
 /*!
  * \def PHI_ALWAYS_INLINE
@@ -15,9 +21,9 @@
  *          unknown.
 **/
 
-#if PHI_HAS_EXTENSION_ATTRIBUTE_ALWAYS_INLINE()
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_ALWAYS_INLINE __attribute__((always_inline)) inline
-#elif PHI_HAS_EXTENSION_FORCEINLINE()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_ALWAYS_INLINE __forceinline
 #else
 #    define PHI_ALWAYS_INLINE inline
@@ -29,9 +35,9 @@
  * \warning May not work if compiler is unknown.
 **/
 
-#if PHI_HAS_EXTENSION_ATTRIBUTE_NOINLINE()
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_NEVER_INLINE __attribute__((noinline))
-#elif PHI_HAS_EXTENSION_DECLSPEC_NOINLINE()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_NEVER_INLINE __declspec(noinline)
 #else
 #    define PHI_NEVER_INLINE /* nothing */

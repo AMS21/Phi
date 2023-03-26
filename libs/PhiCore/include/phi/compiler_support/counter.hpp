@@ -7,7 +7,9 @@
 #    pragma once
 #endif
 
-#if PHI_HAS_EXTENSION_COUNTER()
+#include "phi/compiler_support/compiler.hpp"
+
+#if PHI_COMPILER_IS_ATLEAST(GCC, 4, 4, 0) || PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS(MSVC)
 #    define PHI_COUNTER() __COUNTER__
 #else
 #    define PHI_COUNTER() __LINE__

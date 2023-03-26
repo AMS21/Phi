@@ -1,21 +1,20 @@
 #ifndef INCG_PHI_CORE_COMPILER_SUPPORT_UNREACHABLE_HPP
 #define INCG_PHI_CORE_COMPILER_SUPPORT_UNREACHABLE_HPP
 
-#include "phi/generated/compiler_support/features.hpp"
-#include "phi/preprocessor/function_like_macro.hpp"
+#include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once
 #endif
 
-#if PHI_HAS_EXTENSION_BUILTIN_UNREACHABLE()
+#include "phi/compiler_support/compiler.hpp"
+
+#if PHI_COMPILER_IS_ATLEAST(GCC, 4, 5, 0) || PHI_COMPILER_IS(CLANG_COMPAT)
 #    define PHI_UNREACHABLE() __builtin_unreachable()
-#elif PHI_HAS_EXTENSION_ASSUME()
+#elif PHI_COMPILER_IS(MSVC)
 #    define PHI_UNREACHABLE() __assume(0)
-#elif PHI_HAS_EXTENSION_BUILTIN_ASSUME()
-#    define PHI_UNREACHABLE() __builtin_assume(0)
 #else
-#    define PHI_UNREACHABLE() PHI_EMPTY_MACRO() /* Nothing */
+#    define PHI_UNREACHABLE() ((void)0)
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_UNREACHABLE_HPP

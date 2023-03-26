@@ -11,7 +11,7 @@
 #include "phi/compiler_support/intrinsics/is_trivially_destructible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-#if PHI_HAS_INTRINSIC_IS_TRIVIALLY_DESTRUCTIBLE()
+#if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
 
 #    define PHI_HAS_WORKING_IS_TRIVIALLY_DESTRUCTIBLE() 1
 
@@ -37,7 +37,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_trivially_destructible_v =
 
 #    endif
 
-#elif PHI_HAS_INTRINSIC_HAS_TRIVIAL_DESTRUCTOR()
+#elif PHI_COMPILER_IS_ATLEAST(GCC, 4, 4, 0)
 
 #    include "phi/type_traits/is_destructible.hpp"
 
@@ -92,10 +92,6 @@ struct is_trivially_destructible
 
 template <typename TypeT>
 struct is_trivially_destructible<TypeT[]> : public false_type
-{};
-
-template <typename TypeT>
-struct is_trivially_destructible : public bool_constant<!is_trivially_destructible<TypeT>::value>
 {};
 
 template <typename TypeT>

@@ -2,14 +2,17 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_length_unsafe.hpp>
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/container/string_view.hpp>
+#include <phi/core/boolean.hpp>
+#include <phi/core/integer.hpp>
+#include <phi/core/size_t.hpp>
+#include <phi/core/types.hpp>
+#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
-#if PHI_CPP_STANDARD_IS_ATLEAST(17) && PHI_HAS_LIB_STRING_VIEW()
+#if PHI_HAS_LIB_STRING_VIEW()
 #    include <string_view>
-#    define HAS_LIB_STRING_VIEW() 1
-#else
-#    define HAS_LIB_STRING_VIEW() 0
 #endif
 
 TEST_CASE("string_length_unsafe char")
@@ -150,7 +153,7 @@ TEST_CASE("string_length_unsafe std::basic_string")
     CHECK(phi::string_length_unsafe(std::wstring(L"a"), 2u) == 1u);
 }
 
-#if HAS_LIB_STRING_VIEW()
+#if PHI_HAS_LIB_STRING_VIEW()
 TEST_CASE("string_length_unsafe std::basic_string_view")
 {
 #    if PHI_COMPILER_IS_NOT(MSVC)

@@ -7,7 +7,6 @@
 #include <phi/core/integer.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/core/scope_ptr.hpp>
-#include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_integer.hpp>
 #include <vector>
 

@@ -3,6 +3,8 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals_ignore_case.hpp>
 #include <phi/container/string_view.hpp>
+#include <phi/core/boolean.hpp>
+#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
 #if PHI_HAS_LIB_STRING_VIEW()

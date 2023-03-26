@@ -1,22 +1,26 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-#include "test_types.hpp"
 #include <phi/algorithm/string_equals.hpp>
+#include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/intrinsics/source_location.hpp>
+#include <phi/container/string_view.hpp>
+#include <phi/core/boolean.hpp>
 #include <phi/core/source_location.hpp>
 #include <phi/type_traits/is_nothrow_default_constructible.hpp>
 #include <phi/type_traits/is_nothrow_destructible.hpp>
 #include <phi/type_traits/is_nothrow_move_assignable.hpp>
 #include <phi/type_traits/is_nothrow_move_constructible.hpp>
 #include <phi/type_traits/is_nothrow_swappable.hpp>
+#include <phi/type_traits/is_trivially_assignable.hpp>
+#include <phi/type_traits/is_trivially_constructible.hpp>
 #include <phi/type_traits/is_trivially_copy_assignable.hpp>
 #include <phi/type_traits/is_trivially_copy_constructible.hpp>
 #include <phi/type_traits/is_trivially_destructible.hpp>
 #include <phi/type_traits/is_trivially_move_assignable.hpp>
 #include <phi/type_traits/is_trivially_move_constructible.hpp>
 
-#if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \
-        PHI_HAS_INTRINSIC_BUILTIN_LINE()
+#if PHI_SUPPORTS_BUILTIN_LINE()
 #    define TEST_CURRENT() phi::source_location::current()
 #else
 #    define TEST_CURRENT() PHI_SOURCE_LOCATION_CURRENT()
@@ -74,8 +78,7 @@ TEST_CASE("source_location")
         CHECK(loc.column() == 21);
     }
 
-#if PHI_HAS_INTRINSIC_BUILTIN_FILE() && PHI_HAS_INTRINSIC_BUILTIN_FUNCTION() &&                    \
-        PHI_HAS_INTRINSIC_BUILTIN_LINE()
+#if PHI_SUPPORTS_BUILTIN_LINE()
     SECTION("current")
     {
         phi::source_location loc = phi::source_location::current();
@@ -83,7 +86,7 @@ TEST_CASE("source_location")
         //CHECK(phi::string_equals(loc.file_name(), "source_location.test.cpp"));
         //CHECK(phi::string_equals(loc.function_name(), "phi_test_function"));
         CHECK(loc.line() == __LINE__ - 4);
-#    if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#    if PHI_SUPPORTS_BUILTIN_COLUMN()
         CHECK(loc.column() > 0);
 #    else
         CHECK(loc.column() == 0);
@@ -124,7 +127,7 @@ TEST_CASE("source_location")
         //CHECK(phi::string_equals(loc.file_name(), "source_location.test.cpp"));
         //CHECK(phi::string_equals(loc.function_name(), "phi_test_function"));
         CHECK(loc.line() == __LINE__ - 4);
-#if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#if PHI_SUPPORTS_BUILTIN_COLUMN()
         CHECK(loc.column() > 0);
 #else
         CHECK(loc.column() == 0);
@@ -144,7 +147,7 @@ TEST_CASE("test f")
     //CHECK(phi::string_equals(f_loc.file_name(), "source_location.test.cpp"));
     CHECK(phi::string_equals(f_loc.function_name(), "f"));
     CHECK(f_loc.line() == __LINE__ - 9);
-#if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#if PHI_SUPPORTS_BUILTIN_COLUMN()
     CHECK(f_loc.column() > 0);
 #else
     CHECK(f_loc.column() == 0);
@@ -165,7 +168,7 @@ TEST_CASE("test g")
     CHECK(phi::string_equals(g_loc.function_name(), "g"));
     CHECK(g_loc.function_name_view() == "g");
     CHECK(g_loc.line() == 1000);
-#if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#if PHI_SUPPORTS_BUILTIN_COLUMN()
     CHECK(g_loc.column() > 0);
 #else
     CHECK(g_loc.column() == 0);
@@ -191,7 +194,7 @@ TEST_CASE("test h")
     CHECK(phi::string_equals(h_loc.function_name(), "h"));
     CHECK(h_loc.function_name_view() == "h");
     CHECK(h_loc.line() == 1000);
-#if PHI_HAS_INTRINSIC_BUILTIN_COLUMN()
+#if PHI_SUPPORTS_BUILTIN_COLUMN()
     CHECK(h_loc.column() > 0);
 #else
     CHECK(h_loc.column() == 0);

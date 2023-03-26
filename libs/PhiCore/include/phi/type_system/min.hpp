@@ -62,7 +62,7 @@ namespace type_system
             static constexpr TypeT value = TypeT(2.2250738585072014e-308);
         };
 
-#if PHI_HAS_EXTENSION_FLOAT128_LITERALS()
+#if PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE() >= 16
 
         template <typename TypeT>
         struct float_min_impl<TypeT, 16u>

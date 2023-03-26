@@ -1,7 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/features.hpp>
 #include <phi/compiler_support/warning.hpp>
-#include <phi/generated/compiler_support/features.hpp>
 #include <phi/type_traits/is_constant_evaluated.hpp>
 
 template <bool>

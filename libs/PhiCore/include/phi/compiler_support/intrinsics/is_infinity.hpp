@@ -7,10 +7,11 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_INFINITY) && !defined(PHI_SUPPORTS_IS_INFINITY)
-#    if PHI_HAS_INTRINSIC_BUILTIN_ISINF()
+
+#    if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
 #        define PHI_IS_INFINITY(value)     __builtin_isinf(value)
 #        define PHI_SUPPORTS_IS_INFINITY() 1
 #    else

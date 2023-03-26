@@ -1,7 +1,7 @@
 #ifndef INCG_PHI_PHICONFIG_HPP
 #define INCG_PHI_PHICONFIG_HPP
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/extensions/pragma_once.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
 #    pragma once

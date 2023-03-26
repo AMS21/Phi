@@ -7,15 +7,18 @@
 #    pragma once
 #endif
 
-#include "phi/generated/compiler_support/features.hpp"
+#include "phi/compiler_support/compiler.hpp"
 
 #if !defined(PHI_IS_CONSTRUCTIBLE) && !defined(PHI_SUPPORTS_IS_CONSTRUCTIBLE)
-#    if PHI_HAS_INTRINSIC_IS_CONSTRUCTIBLE()
+
+#    if PHI_COMPILER_IS_ATLEAST(GCC, 8, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 3, 5, 0) ||        \
+            PHI_COMPILER_IS(APPLECLANG) || PHI_COMPILER_IS(EMCC) || PHI_COMPILER_IS(MSVC)
 #        define PHI_IS_CONSTRUCTIBLE(...)       __is_constructible(__VA_ARGS__)
 #        define PHI_SUPPORTS_IS_CONSTRUCTIBLE() 1
 #    else
 #        define PHI_SUPPORTS_IS_CONSTRUCTIBLE() 0
 #    endif
+
 #endif
 
 #endif // INCH_PHI_CORE_COMPILER_SUPPORT_INTRINSICS_IS_CONSTRUCTIBLE_HPP
