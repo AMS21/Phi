@@ -41,7 +41,7 @@ PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(Fr
 #    include "phi/type_traits/is_void.hpp"
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
-#    if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0)
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) || PHI_COMPILER_IS_ATLEAST(APPLECLANG, 12, 4, 0)
 PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
 #    endif
 

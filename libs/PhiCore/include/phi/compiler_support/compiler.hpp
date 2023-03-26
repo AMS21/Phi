@@ -110,8 +110,7 @@
 #endif
 
 #if (defined(__GNUC__) || defined(__GNUG__)) &&                                                    \
-        (!PHI_COMPILER_CLANG() && !PHI_COMPILER_MINGW() && !PHI_COMPILER_EMCC() &&                 \
-         !PHI_COMPILER_APPLECLANG())
+        (!PHI_COMPILER_CLANG() && !PHI_COMPILER_EMCC() && !PHI_COMPILER_APPLECLANG())
 #    define PHI_COMPILER_GCC()      1
 #    define PHI_GCC_VERSION_MAJOR() __GNUC__
 #    define PHI_GCC_VERSION_MINOR() __GNUC_MINOR__
@@ -296,7 +295,7 @@
 #endif
 
 // pragma
-#if PHI_COMPILER_IS(CLANG) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                             \
+#if PHI_COMPILER_IS(CLANG_COMPAT) || PHI_COMPILER_IS_ATLEAST(GCC, 3, 0, 0) ||                      \
         PHI_COMPILER_IS_ATLEAST(ICC, 13, 0, 0)
 // clang-format off
 #    define PHI_PRAGMA(value) _Pragma(#value)
