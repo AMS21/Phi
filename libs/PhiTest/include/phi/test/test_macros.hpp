@@ -49,12 +49,12 @@ extern int main();
 #define GET_TEST_CASE_NAME() PHI_GLUE(phi_test_function_, PHI_COUNTER())
 
 #define DEFINE_TEST_CASE(name)                                                                     \
+    /* NOLINTBEGIN */                                                                              \
     static void name();                                                                            \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors")                                  \
     static const ::phi::test::detail::register_test_case PHI_GLUE(name, _register){&(name)};       \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
-    static void                                                                                    \
-    name() /* NOLINT(readability-function-cognitive-complexity,readability-function-size) */
+    static void name() /* NOLINTEND */
 
 #define TEST_CASE(...) DEFINE_TEST_CASE(GET_TEST_CASE_NAME())
 

@@ -39,4 +39,6 @@ CheckOptions:
     value: 'CamelCase'
   - key:   readability-identifier-naming.ValueTemplateParameterSuffix
     value: ''
+  - key:   cppcoreguidelines-avoid-do-while.IgnoreMacros
+    value: 'true'
 ...
