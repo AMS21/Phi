@@ -134,6 +134,7 @@ file(
   "include/phi/compiler_support/intrinsics.hpp"
   "include/phi/compiler_support/likely.hpp"
   "include/phi/compiler_support/nodiscard.hpp"
+  "include/phi/compiler_support/noexcept.hpp"
   "include/phi/compiler_support/noreturn.hpp"
   "include/phi/compiler_support/platform.hpp"
   "include/phi/compiler_support/restrict.hpp"
