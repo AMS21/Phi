@@ -27,7 +27,7 @@ public:
     using char_type  = char;
     using int_type   = int;
     using off_type   = std::streamoff;
-    using pos_type   = std::streampos;
+    using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
     static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
@@ -74,7 +74,7 @@ struct char_traits<wchar_t>
     using char_type  = wchar_t;
     using int_type   = wint_t;
     using off_type   = std::streamoff;
-    using pos_type   = std::streampos;
+    using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
     static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
@@ -168,7 +168,7 @@ struct char_traits<char16_t>
     using char_type  = char16_t;
     using int_type   = unsigned int;
     using off_type   = std::streamoff;
-    using pos_type   = std::u16streampos;
+    using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
     static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
@@ -215,7 +215,7 @@ struct char_traits<char32_t>
     using char_type  = char32_t;
     using int_type   = unsigned int;
     using off_type   = std::streamoff;
-    using pos_type   = std::u32streampos;
+    using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
     static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
