@@ -12,6 +12,7 @@
 #include "phi/algorithm/swap_ranges.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/unreachable.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -266,7 +267,7 @@ public:
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator find(const TypeT& value) const
-            noexcept(noexcept(value == value))
+            PHI_NOEXCEPT_EXPR(noexcept(value == value))
     {
         for (const_iterator itr = begin(); itr != end(); ++itr)
         {
@@ -280,8 +281,8 @@ public:
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
-    find_if(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator find_if(UnaryPredicateT predicate)
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (iterator itr = begin(); itr != end(); ++itr)
         {
@@ -296,7 +297,7 @@ public:
 
     template <typename UnaryPredicateT>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator find_if(UnaryPredicateT predicate) const
-            noexcept(noexcept(predicate(front())))
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (const_iterator itr = begin(); itr != end(); ++itr)
         {
@@ -310,8 +311,8 @@ public:
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
-    find_if_not(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator find_if_not(UnaryPredicateT predicate)
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (iterator itr = begin(); itr != end(); ++itr)
         {
@@ -326,7 +327,7 @@ public:
 
     template <typename UnaryPredicateT>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator find_if_not(UnaryPredicateT predicate) const
-            noexcept(noexcept(predicate(front())))
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (const_iterator itr = begin(); itr != end(); ++itr)
         {
@@ -368,8 +369,8 @@ public:
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
-    find_last_if(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator find_last_if(UnaryPredicateT predicate)
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (iterator itr = &back(); itr > begin(); --itr)
         {
@@ -384,7 +385,7 @@ public:
 
     template <typename UnaryPredicateT>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator
-    find_last_if(UnaryPredicateT predicate) const noexcept(noexcept(predicate(front())))
+    find_last_if(UnaryPredicateT predicate) const PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (const_iterator itr = &back(); itr > begin(); --itr)
         {
@@ -398,8 +399,8 @@ public:
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator
-    find_last_if_not(UnaryPredicateT predicate) noexcept(noexcept(predicate(front())))
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR iterator find_last_if_not(UnaryPredicateT predicate)
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (iterator itr = &back(); itr > begin(); --itr)
         {
@@ -414,7 +415,8 @@ public:
 
     template <typename UnaryPredicateT>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_iterator
-    find_last_if_not(UnaryPredicateT predicate) const noexcept(noexcept(predicate(front())))
+    find_last_if_not(UnaryPredicateT predicate) const
+            PHI_NOEXCEPT_EXPR(noexcept(predicate(front())))
     {
         for (const_iterator itr = &back(); itr > begin(); --itr)
         {

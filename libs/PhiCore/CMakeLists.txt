@@ -193,6 +193,7 @@ file(
   "include/phi/core/voidify.hpp"
   # forward
   "include/phi/forward/array.hpp"
+  "include/phi/forward/char_traits.hpp"
   "include/phi/forward/string_view.hpp"
   # forward/std
   "include/phi/forward/std/allocator.hpp"
