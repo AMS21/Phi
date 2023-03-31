@@ -194,6 +194,13 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(other.get() == &integer);
         CHECK(other.get() == base.get());
         CHECK(*other == 16);
+
+        base = other;
+
+        CHECK(other);
+        CHECK(other.get() == &integer);
+        CHECK(other.get() == base.get());
+        CHECK(*other == 16);
     }
 
     SECTION("operator=(observer_ptr&&)")
@@ -206,6 +213,13 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 29);
+
+        phi::observer_ptr<int> ptr2;
+
+        ptr = phi::move(ptr2);
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
     }
 
     SECTION("operator=(const not_null_observer_ptr&)")
@@ -621,6 +635,12 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(other.get() == &integer);
         CHECK(other.get() == base.get());
         CHECK(*other == 16);
+
+        other = base;
+
+        CHECK(other.get() == &integer);
+        CHECK(other.get() == base.get());
+        CHECK(*other == 16);
     }
 
     SECTION("operator=(not_null_observer_ptr&&)")
@@ -633,6 +653,12 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
 
         CHECK(ptr.get() == &integer2);
         CHECK(*ptr == 17);
+
+        phi::not_null_observer_ptr<int> ptr2{&integer1};
+        ptr = phi::move(ptr2);
+
+        CHECK(ptr.get() == &integer1);
+        CHECK(*ptr == 29);
     }
 
     SECTION("operator=(not_null_scope_ptr&)")

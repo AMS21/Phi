@@ -488,6 +488,10 @@ public:
         return *this;
     }
 
+    not_null_observer_ptr<TypeT>& operator=(const not_null_observer_ptr<TypeT>& other) = default;
+
+    not_null_observer_ptr<TypeT>& operator=(not_null_observer_ptr<TypeT>&& other) = default;
+
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT>& operator=(
             const not_null_observer_ptr<OtherT>& other) noexcept
