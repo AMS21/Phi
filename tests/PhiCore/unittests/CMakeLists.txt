@@ -62,6 +62,7 @@ file(
   "src/core/intptr_t.test.cpp"
   "src/core/invoke.test.cpp"
   "src/core/max_align_t.test.cpp"
+  "src/core/memcmp.test.cpp"
   "src/core/monitor.test.cpp"
   "src/core/move_if_noexcept.test.cpp"
   "src/core/move.test.cpp"
