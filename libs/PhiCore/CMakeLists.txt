@@ -15,6 +15,7 @@ file(
   "include/phi/algorithm/at.hpp"
   "include/phi/algorithm/clamp.hpp"
   "include/phi/algorithm/compare.hpp"
+  "include/phi/algorithm/copy_n.hpp"
   "include/phi/algorithm/count_if_not.hpp"
   "include/phi/algorithm/count_if.hpp"
   "include/phi/algorithm/count.hpp"
