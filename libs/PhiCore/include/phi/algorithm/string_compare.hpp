@@ -11,7 +11,6 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/unused.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/compare_result.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -19,11 +18,6 @@
 #include "phi/type_traits/make_signed.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
-PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
-#endif
 
 template <typename CharT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR CompareResult string_compare(const CharT* lhs,
@@ -144,8 +138,6 @@ PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, const CharT* rhs
 {
     return rhs == nullptr ? CompareResult::Equal : CompareResult::LessThan;
 }
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

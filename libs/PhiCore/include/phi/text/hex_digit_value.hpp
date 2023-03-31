@@ -21,9 +21,6 @@ namespace detail
 {
     PHI_CLANG_SUPPRESS_WARNING_PUSH()
     PHI_CLANG_SUPPRESS_WARNING("-Wchar-subscripts")
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
-    PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
-#endif
 
     struct hex_digit_value_lookup_table
     {
