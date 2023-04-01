@@ -312,7 +312,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK_FALSE(view.is_null());
     }
 
-    SECTION("operator=(std::strinb_view&&)")
+    SECTION("operator=(std::string_view&&)")
     {
         std::string_view std_view{"Hello World"};
         phi::string_view view;

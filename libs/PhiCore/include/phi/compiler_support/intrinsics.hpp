@@ -73,6 +73,7 @@
 #include "intrinsics/is_union.hpp"
 #include "intrinsics/is_unsigned.hpp"
 #include "intrinsics/is_volatile.hpp"
+#include "intrinsics/memcmp.hpp"
 #include "intrinsics/object_size.hpp"
 #include "intrinsics/offsetof.hpp"
 #include "intrinsics/remove_const.hpp"

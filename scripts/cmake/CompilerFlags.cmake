@@ -265,6 +265,11 @@ elseif(PHI_COMPILER_CLANG)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++2b-extensions)
   endif()
 
+  # Clang-16 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 16)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-unsafe-buffer-usage)
+  endif()
+
 elseif(PHI_COMPILER_EMCC)
 
   set(phi_warning_flags -Wundef)

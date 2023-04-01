@@ -23,6 +23,7 @@
 #include "phi/forward/std/string_view.hpp"
 #include "phi/forward/string_view.hpp"
 #include "phi/iterator/reverse_iterator.hpp"
+#include "phi/text/char_traits.hpp"
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_standard_layout.hpp"

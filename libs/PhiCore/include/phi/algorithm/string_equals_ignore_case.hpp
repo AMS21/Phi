@@ -8,7 +8,6 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/forward/std/string.hpp"
@@ -17,11 +16,6 @@
 #include "phi/text/to_lower_case.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-#if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
-PHI_CLANG_SUPPRESS_WARNING("-Wunsafe-buffer-usage")
-#endif
 
 // nullptr_t - x
 
@@ -226,8 +220,6 @@ PHI_NODISCARD constexpr boolean string_equals_ignore_case(
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

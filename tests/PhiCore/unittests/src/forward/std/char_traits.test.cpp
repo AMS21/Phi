@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/forward/std/char_traits.hpp>
+#include <phi/text/char_traits.hpp>
 
 TEST_CASE("forward.std.char_traits.forward")
 {

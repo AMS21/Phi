@@ -62,14 +62,18 @@ TEST_CASE("forward.string_view")
         phi::not_null_basic_string_view<int> view{ints};
         phi::not_null_string_view            view2{"str"};
         phi::not_null_wstring_view           view3{L"str"};
-        phi::not_null_u8string_view          view4{u8"str"};
-        phi::not_null_u16string_view         view5{u"str"};
-        phi::not_null_u32string_view         view6{U"str"};
+#if PHI_HAS_FEATURE_CHAR8_T()
+        phi::not_null_u8string_view view4{u8"str"};
+#endif
+        phi::not_null_u16string_view view5{u"str"};
+        phi::not_null_u32string_view view6{U"str"};
 
         (void)view;
         (void)view2;
         (void)view3;
+#if PHI_HAS_FEATURE_CHAR8_T()
         (void)view4;
+#endif
         (void)view5;
         (void)view6;
     }
