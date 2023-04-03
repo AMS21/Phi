@@ -91,6 +91,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Environment
+        run: scripts/ci/SetupEnvironment.sh
+
       - name: Setup Reviewdog
         uses: reviewdog/action-setup@v1.0.3
         with:
@@ -144,7 +147,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 15
+      LLVM_VERSION: 16
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
