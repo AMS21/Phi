@@ -56,7 +56,8 @@
 #    define PHI_ATTRIBUTE_RETURNS_NONNULL /* Nothing */
 #endif
 
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG) ||                                              \
+        PHI_COMPILER_IS_ATLEAST(APPLECLANG, 12, 4, 0) || PHI_COMPILER_IS(EMCC)
 #    define PHI_ATTRIBUTE_NONNULL                 __attribute__((nonnull))
 #    define PHI_ATTRIBUTE_NONNULL_PARAMETERS(...) __attribute__((nonnull(__VA_ARGS__)))
 #else
