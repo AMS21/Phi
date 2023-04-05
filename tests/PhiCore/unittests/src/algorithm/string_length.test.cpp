@@ -195,7 +195,9 @@ TEST_CASE("string_length std::basic_string")
 #if PHI_HAS_LIB_STRING_VIEW()
 TEST_CASE("string_length std::basic_string_view")
 {
-#    if PHI_COMPILER_IS_NOT(MSVC)
+    // TODO: Clang before 9.0.0 calls `wcslen` for `std::wstring_view` which is not constexpr
+#    if PHI_COMPILER_IS_NOT(MSVC) &&                                                               \
+            (PHI_COMPILER_IS_NOT(CLANG) || PHI_COMPILER_IS_ATLEAST(CLANG, 9, 0, 0))
     EXT_STATIC_REQUIRE(phi::string_length(std::string_view()) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(std::wstring_view()) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(std::string_view("")) == 0u);
