@@ -5,6 +5,8 @@
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits/is_constant_evaluated.hpp>
 
+#if PHI_HAS_WORKING_IS_CONSTANT_EVALUATED()
+
 template <bool>
 struct InTemplate
 {};
@@ -14,11 +16,12 @@ static constexpr bool constexpr_function() noexcept
     return phi::is_constant_evaluated();
 }
 
-#if PHI_HAS_FEATURE_CONSTEVAL()
+#    if PHI_HAS_FEATURE_CONSTEVAL()
 static consteval bool consteval_function() noexcept
 {
     return phi::is_constant_evaluated();
 }
+#    endif
 #endif
 
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()

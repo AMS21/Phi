@@ -4,7 +4,7 @@
 #include <phi/type_traits/is_base_of.hpp>
 #include <type_traits>
 
-// NOTE: emscripten before 1.39.0 have problems with incomplete unions
+// NOTE: emscripten before 1.39.0 and clang before 9.0.0 has problems with incomplete unions
 
 template <typename BaseT, typename DerivedT>
 void test_is_base_of_impl()
@@ -153,8 +153,10 @@ TEST_CASE("is_base_of")
     test_is_not_base_of<U1, B1>();
     test_is_not_base_of<U1, B2>();
     test_is_not_base_of<U1, D>();
-#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) && !PHI_COMPILER_IS_BELOW(CLANG, 9, 0, 0)
     test_is_not_base_of<U0, I0>();
+#else
+    SKIP_CHECK();
 #endif
     test_is_not_base_of<U1, I1>();
     test_is_not_base_of<U0, U1>();
@@ -164,22 +166,28 @@ TEST_CASE("is_base_of")
     test_is_not_base_of<I1, int>();
 
     // A union never has base classes (including incomplete types)
-#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) && !PHI_COMPILER_IS_BELOW(CLANG, 9, 0, 0)
     test_is_not_base_of<B, U0>();
     test_is_not_base_of<B1, U0>();
     test_is_not_base_of<B2, U0>();
     test_is_not_base_of<D, U0>();
+#else
+    SKIP_CHECK();
 #endif
     test_is_not_base_of<B, U1>();
     test_is_not_base_of<B1, U1>();
     test_is_not_base_of<B2, U1>();
     test_is_not_base_of<D, U1>();
-#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) && !PHI_COMPILER_IS_BELOW(CLANG, 9, 0, 0)
     test_is_not_base_of<I0, U0>();
+#else
+    SKIP_CHECK();
 #endif
     test_is_not_base_of<I1, U1>();
-#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
+#if !PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) && !PHI_COMPILER_IS_BELOW(CLANG, 9, 0, 0)
     test_is_not_base_of<U1, U0>();
+#else
+    SKIP_CHECK();
 #endif
     test_is_not_base_of<int, U0>();
     test_is_not_base_of<int, U1>();
