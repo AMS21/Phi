@@ -19,6 +19,8 @@
 #include "phi/core/forward.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/forward/observer_ptr.hpp"
+#include "phi/forward/ref_ptr.hpp"
 #include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_array.hpp"
@@ -64,16 +66,6 @@ namespace detail
         u32 m_NumberOfRefPtrs{1u};
     };
 } // namespace detail
-
-// forward declaration
-template <typename TypeT>
-class not_null_ref_ptr;
-
-template <typename TypeT>
-class observer_ptr;
-
-template <typename TypeT>
-class not_null_observer_ptr;
 
 // Reference counted non-atomic smart pointer
 template <typename TypeT>

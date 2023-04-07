@@ -21,6 +21,8 @@
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/types.hpp"
+#include "phi/forward/observer_ptr.hpp"
+#include "phi/forward/scope_ptr.hpp"
 #include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_array.hpp"
@@ -30,15 +32,6 @@
 #include "phi/type_traits/remove_extent.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-template <typename TypeT>
-class not_null_scope_ptr;
-
-template <typename TypeT>
-class observer_ptr;
-
-template <typename TypeT>
-class not_null_observer_ptr;
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
@@ -60,12 +53,12 @@ public:
         : m_Ptr{nullptr}
     {}
 
-    constexpr explicit scope_ptr(nullptr_t) noexcept
+    constexpr scope_ptr(nullptr_t) noexcept
         : m_Ptr{nullptr}
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    constexpr explicit scope_ptr(OtherT* ptr) noexcept
+    constexpr scope_ptr(OtherT* ptr) noexcept
         : m_Ptr{ptr}
     {}
 
@@ -321,7 +314,7 @@ public:
     not_null_scope_ptr(nullptr_t) = delete;
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR explicit not_null_scope_ptr(OtherT* ptr) noexcept
+    PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(OtherT* ptr) noexcept
         : m_Ptr{ptr}
     {
         PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");

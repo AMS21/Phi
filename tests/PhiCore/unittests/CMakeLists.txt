@@ -86,6 +86,10 @@ file(
   "src/core/voidify.test.cpp"
   # forward
   "src/forward/array.test.cpp"
+  "src/forward/flat_ptr.test.cpp"
+  "src/forward/observer_ptr.test.cpp"
+  "src/forward/ref_ptr.test.cpp"
+  "src/forward/scope_ptr.test.cpp"
   "src/forward/string_view.test.cpp"
   # forward/std
   "src/forward/std/allocator.test.cpp"

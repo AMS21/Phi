@@ -194,6 +194,10 @@ file(
   # forward
   "include/phi/forward/array.hpp"
   "include/phi/forward/char_traits.hpp"
+  "include/phi/forward/flat_ptr.hpp"
+  "include/phi/forward/observer_ptr.hpp"
+  "include/phi/forward/ref_ptr.hpp"
+  "include/phi/forward/scope_ptr.hpp"
   "include/phi/forward/string_view.hpp"
   # forward/std
   "include/phi/forward/std/allocator.hpp"

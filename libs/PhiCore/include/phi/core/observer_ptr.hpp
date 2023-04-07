@@ -20,26 +20,14 @@
 #include "phi/core/move.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/size_t.hpp"
+#include "phi/forward/observer_ptr.hpp"
+#include "phi/forward/ref_ptr.hpp"
+#include "phi/forward/scope_ptr.hpp"
 #include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-template <typename TypeT>
-class not_null_observer_ptr;
-
-template <typename TypeT>
-class scope_ptr;
-
-template <typename TypeT>
-class not_null_scope_ptr;
-
-template <typename TypeT>
-class ref_ptr;
-
-template <typename TypeT>
-class not_null_ref_ptr;
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
