@@ -424,6 +424,10 @@ TEST_CASE("invoke_result")
         test_result_of<PMD(std::reference_wrapper<S const>), const char&>();
         test_no_result<PMD(ND&)>();
     }
+
+// Workaround problems with AppleClang
+#if PHI_COMPILER_IS_NOT(APPLECLANG) || PHI_COMPILER_IS_ATLEAST(APPLECLANG, 13, 0, 0) ||            \
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
     {
         using PMD = char F::*;
 
@@ -529,6 +533,11 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(FD volatile))() const volatile&&, int>();
         test_invoke_result<int (F::*(FD const volatile))() const volatile&&, int>();
     }
+#else
+
+    SKIP_CHECK();
+
+#endif
     {
         test_invoke_result<int (F::*(std::reference_wrapper<F>))(), int>();
         test_invoke_result<int (F::*(std::reference_wrapper<const F>))() const, int>();
