@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/type_traits/is_lvalue_reference.hpp"
 #include "phi/type_traits/remove_reference.hpp"
@@ -14,13 +15,15 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>& type) noexcept
+PHI_ALWAYS_INLINE constexpr TypeT&& forward(
+        PHI_ATTRIBUTE_LIFETIMEBOUND remove_reference_t<TypeT>& type) noexcept
 {
     return static_cast<TypeT&&>(type);
 }
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(remove_reference_t<TypeT>&& type) noexcept
+PHI_ALWAYS_INLINE constexpr TypeT&& forward(
+        PHI_ATTRIBUTE_LIFETIMEBOUND remove_reference_t<TypeT>&& type) noexcept
 {
     static_assert(!is_lvalue_reference<TypeT>::value,
                   "phi::forward: Can not forward an rvalue as an lvalue");
