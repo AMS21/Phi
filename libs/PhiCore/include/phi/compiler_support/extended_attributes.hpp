@@ -40,6 +40,13 @@
 #    define PHI_ATTRIBUTE_POINTER /* Nothing */
 #endif
 
+// https://clang.llvm.org/docs/AttributeReference.html#lifetimebound
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 7, 0, 0) || PHI_COMPILER_IS(APPLECLANG) || PHI_COMPILER_IS(EMCC)
+#    define PHI_ATTRIBUTE_LIFETIMEBOUND [[clang::lifetimebound]]
+#else
+#    define PHI_ATTRIBUTE_LIFETIMEBOUND /* Nothing */
+#endif
+
 #if PHI_COMPILER_IS_ATLEAST(GCC, 4, 9, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 3, 5, 0) ||            \
         PHI_COMPILER_IS(APPLECLANG) || PHI_COMPILER_IS(EMCC)
 #    define PHI_ATTRIBUTE_RETURNS_NONNULL __attribute__((returns_nonnull))
