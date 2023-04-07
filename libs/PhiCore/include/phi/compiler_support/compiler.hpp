@@ -170,6 +170,10 @@
     (PHI_COMPILER_IS(compiler) &&                                                                  \
      (PHI_VERSION_CREATE(major, minor, patch) > PHI_COMPILER_VERSION(compiler)))
 
+#define PHI_COMPILER_WORKAROUND(compiler, major, minor, patch)                                     \
+    (PHI_COMPILER_IS_NOT(compiler) ||                                                              \
+     (PHI_VERSION_CREATE(major, minor, patch) <= PHI_COMPILER_VERSION(compiler)))
+
 // Compiler name and version
 #if PHI_COMPILER_IS(EMCC)
 #    define PHI_COMPILER_NAME()                  "Emscripten"
