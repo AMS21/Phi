@@ -193,7 +193,7 @@ TEST_CASE("is_literal_type")
     //test_is_not_literal_type<std::vector<int>>();
 #endif
 #if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0) ||              \
-        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_not_literal_type<phi::scope_ptr<int>>();
 #else
     test_is_literal_type_cxx20<phi::scope_ptr<int>>();
@@ -301,7 +301,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<derived_polymorphic>();
     test_is_not_literal_type<abstract>();
 #if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0) ||              \
-        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_not_literal_type<public_abstract>();
     test_is_not_literal_type<private_abstract>();
     test_is_not_literal_type<protected_abstract>();
@@ -315,7 +315,7 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<abstract_template<class_type>>();
     test_is_not_literal_type<abstract_template<incomplete_type>>();
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(MSVC) ||                     \
-        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_literal_type<public_abstract_deleted_destructor>();
     test_is_literal_type<protected_abstract_deleted_destructor>();
     test_is_literal_type<private_abstract_deleted_destructor>();
@@ -330,7 +330,7 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<protected_destructor>();
     test_is_literal_type<private_destructor>();
 #if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0) ||              \
-        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_not_literal_type<virtual_public_destructor>();
     test_is_not_literal_type<virtual_protected_destructor>();
     test_is_not_literal_type<virtual_private_destructor>();
@@ -343,7 +343,7 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<pure_protected_destructor>();
     test_is_not_literal_type<pure_private_destructor>();
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(MSVC) ||                     \
-        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_literal_type<deleted_public_destructor>();
     test_is_literal_type<deleted_protected_destructor>();
     test_is_literal_type<deleted_private_destructor>();
@@ -523,13 +523,13 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<non_constructible>();
 #endif
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(MSVC) ||                     \
-        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_literal_type<non_destructible>();
 #else
     test_is_not_literal_type_cxx20<non_destructible>();
 #endif
 #if PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0) ||              \
-        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 4, 0)
+        PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 0)
     test_is_not_literal_type<tracked>();
 #else
     test_is_literal_type_cxx20<tracked>();

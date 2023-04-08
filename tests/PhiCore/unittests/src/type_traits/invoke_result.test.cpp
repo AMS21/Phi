@@ -13,14 +13,16 @@
 #include <memory>
 #include <type_traits>
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Wvolatile")
 #endif
 
-PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(
         5215) // 'name' a function parameter with a volatile qualified type is deprecated in C++20
+
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 10, 0, 0) || PHI_COMPILER_IS_ATLEAST(APPLECLANG, 12, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
+#endif
 
 struct S
 {
@@ -539,6 +541,3 @@ TEST_CASE("invoke_result")
         test_invoke_result<decltype (&wat::foo)(wat), void>();
     }
 }
-
-PHI_MSVC_SUPPRESS_WARNING_POP()
-PHI_GCC_SUPPRESS_WARNING_POP()
