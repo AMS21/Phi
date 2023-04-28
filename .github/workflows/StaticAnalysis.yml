@@ -34,7 +34,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
@@ -95,7 +95,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
@@ -162,7 +162,7 @@ jobs:
           python-version: '3.x'
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
@@ -212,7 +212,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
@@ -261,7 +261,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
@@ -384,7 +384,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup Reviewdog
-        uses: reviewdog/action-setup@v1.0.3
+        uses: reviewdog/action-setup@v1.0.4
         with:
           reviewdog_version: latest
 
