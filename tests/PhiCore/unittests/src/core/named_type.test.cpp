@@ -877,9 +877,8 @@ TEST_CASE("Named arguments")
     using LastName  = phi::named_type<std::string, struct LastNameTag>;
     static const FirstName::argument first_name;
     static const LastName::argument  last_name;
-    auto get_full_name = [](FirstName const& first_name_arg, LastName const& last_name_arg) //
-    {
-        return first_name_arg.unsafe() + last_name_arg.unsafe();                            //
+    auto get_full_name = [](FirstName const& first_name_arg, LastName const& last_name_arg) {
+        return first_name_arg.unsafe() + last_name_arg.unsafe();
     };
 
     auto full_name = get_full_name(first_name = "James", last_name = "Bond");
