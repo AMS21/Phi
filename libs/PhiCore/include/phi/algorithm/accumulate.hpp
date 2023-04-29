@@ -3,7 +3,7 @@
  * @brief Contains the implementation of the accumulate algorithm from the C++ standard library.
  *
  * @see https://en.cppreference.com/w/cpp/algorithm/accumulate
- */                                                                                                \
+ */
 #ifndef INCG_PHI_CORE_ALGORITHM_ACCUMULATE_HPP
 #define INCG_PHI_CORE_ALGORITHM_ACCUMULATE_HPP
 
