@@ -1221,25 +1221,31 @@ TEST_CASE("Array")
     }
 }
 
-TEST_CASE("array size and max_size")
+TEST_CASE("array size, ssize, max_size and max_ssize")
 {
     {
         using array = phi::array<int, 0u>;
 
         array arr{};
         CHECK(arr.size() == 0u);
+        CHECK(arr.ssize() == 0);
         CHECK(arr.max_size() == 0u);
+        CHECK(arr.max_ssize() == 0);
         CHECK(arr.is_empty());
 
         const array carr{};
         CHECK(carr.size() == 0u);
+        CHECK(carr.ssize() == 0);
         CHECK(carr.max_size() == 0u);
+        CHECK(carr.max_ssize() == 0);
         CHECK(carr.is_empty());
 
         constexpr array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 0u);
+        STATIC_REQUIRE(ce_arr.ssize() == 0);
         STATIC_REQUIRE(ce_arr.max_size() == 0u);
+        STATIC_REQUIRE(ce_arr.max_ssize() == 0);
         STATIC_REQUIRE(ce_arr.is_empty());
     }
 
@@ -1248,18 +1254,24 @@ TEST_CASE("array size and max_size")
 
         array arr{};
         CHECK(arr.size() == 1u);
+        CHECK(arr.ssize() == 1);
         CHECK(arr.max_size() == 1u);
+        CHECK(arr.max_ssize() == 1);
         CHECK_FALSE(arr.is_empty());
 
         const array carr{};
         CHECK(carr.size() == 1u);
+        CHECK(carr.ssize() == 1);
         CHECK(carr.max_size() == 1u);
+        CHECK(carr.max_ssize() == 1);
         CHECK_FALSE(carr.is_empty());
 
         constexpr array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 1u);
+        STATIC_REQUIRE(ce_arr.ssize() == 1);
         STATIC_REQUIRE(ce_arr.max_size() == 1u);
+        STATIC_REQUIRE(ce_arr.max_ssize() == 1);
         STATIC_REQUIRE_FALSE(ce_arr.is_empty());
     }
 
@@ -1268,18 +1280,24 @@ TEST_CASE("array size and max_size")
 
         array arr{};
         CHECK(arr.size() == 2u);
+        CHECK(arr.ssize() == 2);
         CHECK(arr.max_size() == 2u);
+        CHECK(arr.max_ssize() == 2);
         CHECK_FALSE(arr.is_empty());
 
         const array carr{};
         CHECK(carr.size() == 2u);
+        CHECK(carr.ssize() == 2);
         CHECK(carr.max_size() == 2u);
+        CHECK(carr.max_ssize() == 2);
         CHECK_FALSE(carr.is_empty());
 
         constexpr array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 2u);
+        STATIC_REQUIRE(ce_arr.ssize() == 2);
         STATIC_REQUIRE(ce_arr.max_size() == 2u);
+        STATIC_REQUIRE(ce_arr.max_ssize() == 2);
         STATIC_REQUIRE_FALSE(ce_arr.is_empty());
     }
 
@@ -1288,18 +1306,24 @@ TEST_CASE("array size and max_size")
 
         array arr{};
         CHECK(arr.size() == 3u);
+        CHECK(arr.ssize() == 3);
         CHECK(arr.max_size() == 3u);
+        CHECK(arr.max_ssize() == 3);
         CHECK_FALSE(arr.is_empty());
 
         const array carr{};
         CHECK(carr.size() == 3u);
+        CHECK(carr.ssize() == 3);
         CHECK(carr.max_size() == 3u);
+        CHECK(carr.max_ssize() == 3);
         CHECK_FALSE(carr.is_empty());
 
         constexpr array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 3u);
+        STATIC_REQUIRE(ce_arr.ssize() == 3);
         STATIC_REQUIRE(ce_arr.max_size() == 3u);
+        STATIC_REQUIRE(ce_arr.max_ssize() == 3);
         STATIC_REQUIRE_FALSE(ce_arr.is_empty());
     }
 }

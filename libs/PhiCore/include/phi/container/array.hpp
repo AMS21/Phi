@@ -16,6 +16,7 @@
 #include "phi/compiler_support/unreachable.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
+#include "phi/core/narrow_cast.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/types.hpp"
 #include "phi/iterator/reverse_iterator.hpp"
@@ -168,9 +169,19 @@ public:
         return Size;
     }
 
+    PHI_NODISCARD constexpr isize ssize() const noexcept
+    {
+        return narrow_cast<isize>(Size);
+    }
+
     PHI_NODISCARD constexpr size_type max_size() const noexcept
     {
         return Size;
+    }
+
+    PHI_NODISCARD constexpr isize max_ssize() const noexcept
+    {
+        return narrow_cast<isize>(Size);
     }
 
     PHI_EXTENDED_CONSTEXPR void fill(const TypeT& value) noexcept
@@ -606,9 +617,19 @@ public:
         return 0u;
     }
 
+    PHI_NODISCARD constexpr isize ssize() const noexcept
+    {
+        return 0;
+    }
+
     PHI_NODISCARD constexpr size_type max_size() const noexcept
     {
         return 0u;
+    }
+
+    PHI_NODISCARD constexpr isize max_ssize() const noexcept
+    {
+        return 0;
     }
 
     constexpr void fill(const TypeT& /*value*/) noexcept
