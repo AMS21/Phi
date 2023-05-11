@@ -8,7 +8,6 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
 
@@ -66,9 +65,6 @@ namespace detail
     static constexpr hex_digit_value_lookup_table lookup_table;
 } // namespace detail
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
 PHI_NODISCARD constexpr u8 hex_digit_value(const char character) noexcept
 {
     PHI_ASSERT((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f') ||
@@ -77,8 +73,6 @@ PHI_NODISCARD constexpr u8 hex_digit_value(const char character) noexcept
 
     return detail::lookup_table[character];
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

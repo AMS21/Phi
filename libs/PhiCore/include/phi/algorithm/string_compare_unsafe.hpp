@@ -19,9 +19,6 @@
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
@@ -99,7 +96,6 @@ CompareResult string_compare_unsafe(nullptr_t, const CharT*, usize) = delete;
 
 DETAIL_PHI_END_NAMESPACE()
 
-PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 #endif // INCG_PHI_ALGORITHM_string_compare_unsafe_UNSAFE_HPP

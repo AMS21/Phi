@@ -233,9 +233,6 @@ public:
         return *this;
     }
 
-    PHI_GCC_SUPPRESS_WARNING_PUSH()
-    PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
     PHI_EXTENDED_CONSTEXPR TypeT& operator*() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr.");
@@ -263,8 +260,6 @@ public:
 
         return get();
     }
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
 
     constexpr explicit operator bool() const noexcept
     {

@@ -253,7 +253,6 @@ PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(flat_ptr& lhs, flat_ptr& rhs)
 // NOTE: The tautological compare warning is only valid if the compiler supports the non standard PHI_ATTRIBUTE_NONNULLL. The assert is a more generalized way to ensure that we don't get any null pointers
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
-PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
 
 class PHI_ATTRIBUTE_POINTER not_null_flat_ptr
 {
@@ -408,17 +407,12 @@ PHI_EXTENDED_CONSTEXPR_OR_INLINE flat_ptr& flat_ptr::operator=(not_null_flat_ptr
     return *this;
 }
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
 PHI_EXTENDED_CONSTEXPR not_null_flat_ptr flat_ptr::release_not_null() const noexcept
 {
     PHI_ASSERT(m_Pointer != nullptr, "Trying to release nullptr to phi::not_null_flat_ptr");
 
     return {m_Pointer};
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 constexpr boolean operator==(const not_null_flat_ptr& lhs, const not_null_flat_ptr& rhs) noexcept
 {

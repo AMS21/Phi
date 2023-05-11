@@ -221,9 +221,6 @@ public:
         return get();
     }
 
-    PHI_GCC_SUPPRESS_WARNING_PUSH()
-    PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
     PHI_EXTENDED_CONSTEXPR TypeT* operator->() PHI_ATTRIBUTE_RETURNS_NONNULL
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
@@ -247,8 +244,6 @@ public:
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
         return *get();
     }
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
 
 private:
     TypeT* m_Ptr;
@@ -414,9 +409,6 @@ public:
 
     operator boolean() = delete;
 
-    PHI_GCC_SUPPRESS_WARNING_PUSH()
-    PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Accessing phi::not_null_scope_ptr after it was deleted");
@@ -468,8 +460,6 @@ public:
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
         return *get();
     }
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
 
 private:
     PHI_EXTENDED_CONSTEXPR void clear() noexcept

@@ -25,9 +25,6 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
-
 template <typename TypeT, size_t Size>
 class array
 {
@@ -464,8 +461,6 @@ public:
 
     TypeT elements[Size];
 };
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(

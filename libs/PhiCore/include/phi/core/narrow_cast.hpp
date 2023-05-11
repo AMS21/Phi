@@ -23,7 +23,6 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 // Don't warn about float equal comparisons here since its a cast to ensure that your mixed float and int conversions are actually safe
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename TargetT, typename SourceT>
 PHI_NODISCARD

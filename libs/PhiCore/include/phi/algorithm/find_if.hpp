@@ -9,13 +9,8 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/warning.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=const")
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename InputIteratorT, typename UnaryPredicateT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR InputIteratorT
@@ -32,8 +27,6 @@ find_if(InputIteratorT first, InputIteratorT last, UnaryPredicateT predicate) no
 
     return last;
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

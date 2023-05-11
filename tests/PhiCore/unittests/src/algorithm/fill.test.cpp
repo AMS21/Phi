@@ -3,13 +3,10 @@
 #include <phi/algorithm/at.hpp>
 #include <phi/algorithm/fill.hpp>
 #include <phi/compiler_support/constexpr.hpp>
-#include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/core/assert.hpp>
 #include <phi/iterator/begin.hpp>
 #include <phi/iterator/end.hpp>
-
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 PHI_EXTENDED_CONSTEXPR bool test_fill_constexpr()
 {

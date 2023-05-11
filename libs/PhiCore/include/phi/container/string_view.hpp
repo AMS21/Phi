@@ -13,7 +13,6 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/integer.hpp"
@@ -39,9 +38,6 @@ class array;
 
 template <typename TypeT, typename TraitsT>
 class not_null_basic_string_view;
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename CharT, typename TraitsT /*= std::char_traits<CharT>*/>
 class PHI_ATTRIBUTE_POINTER basic_string_view
@@ -1590,8 +1586,6 @@ private:
     const CharT* m_Data;
     usize        m_Length;
 };
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 // Comparison functions
 

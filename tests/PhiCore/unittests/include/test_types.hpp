@@ -914,8 +914,6 @@ public:
         m_Value = new_val;
     }
 
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wsuggest-attribute=pure")
-
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const noexcept
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed);
@@ -923,8 +921,6 @@ public:
 
         return m_Value;
     }
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
 
 private:
     int   m_Value;
@@ -1003,8 +999,6 @@ struct trap_self_assign
     trap_self_assign(const trap_self_assign&) = default;
     trap_self_assign(trap_self_assign&&)      = default;
 
-    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wsuggest-attribute=pure")
-
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
     {
@@ -1021,8 +1015,6 @@ struct trap_self_assign
 
         return *this;
     }
-
-    PHI_GCC_SUPPRESS_WARNING_POP()
 };
 
 struct trap_deref

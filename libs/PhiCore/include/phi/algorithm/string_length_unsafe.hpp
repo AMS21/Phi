@@ -26,7 +26,6 @@ PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
 
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
-PHI_GCC_SUPPRESS_WARNING("-Wsuggest-attribute=pure")
 
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR usize
