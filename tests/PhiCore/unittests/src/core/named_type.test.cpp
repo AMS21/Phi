@@ -29,7 +29,6 @@ SOFTWARE.
 #include "constexpr_helper.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include <phi/compiler_support/compiler.hpp>
-#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/intrinsics/address_of.hpp>
 #include <phi/compiler_support/intrinsics/is_union.hpp>
 #include <phi/compiler_support/warning.hpp>
@@ -704,14 +703,13 @@ struct testFunctionCallable_A
     int x;
 };
 
-PHI_ATTRIBUTE_PURE testFunctionCallable_A operator+(testFunctionCallable_A const& lhs,
-                                                    testFunctionCallable_A const& rhs)
+testFunctionCallable_A operator+(testFunctionCallable_A const& lhs,
+                                 testFunctionCallable_A const& rhs)
 {
     return {lhs.x + rhs.x};
 }
 
-PHI_ATTRIBUTE_PURE bool operator==(testFunctionCallable_A const& lhs,
-                                   testFunctionCallable_A const& rhs)
+bool operator==(testFunctionCallable_A const& lhs, testFunctionCallable_A const& rhs)
 {
     return lhs.x == rhs.x;
 }

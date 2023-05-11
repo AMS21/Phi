@@ -2,7 +2,6 @@
 
 #include "constexpr_helper.hpp"
 #include "phi/compiler_support/unused.hpp"
-#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
 
@@ -77,7 +76,7 @@ namespace move_test
 
 using namespace move_test;
 
-PHI_ATTRIBUTE_CONST PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
+PHI_EXTENDED_CONSTEXPR bool test_constexpr_move()
 {
     int       local_integer       = 42;
     const int const_local_integer = local_integer;

@@ -127,38 +127,38 @@ namespace detail
             conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_addition_error(
-            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag /*tag*/, TypeT lhs,
+                                                         TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs > std::numeric_limits<TypeT>::max() - rhs :
                                 lhs < std::numeric_limits<TypeT>::min() - rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_addition_error(
-            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag /*tag*/, TypeT lhs,
+                                                         TypeT rhs) noexcept
     {
         return std::numeric_limits<TypeT>::max() - rhs < lhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_subtraction_error(
-            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag /*tag*/, TypeT lhs,
+                                                            TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs < std::numeric_limits<TypeT>::min() + rhs :
                                 lhs > std::numeric_limits<TypeT>::max() + rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_subtraction_error(
-            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag /*tag*/, TypeT lhs,
+                                                            TypeT rhs) noexcept
     {
         return lhs < rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_multiplication_error(
-            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag /*tag*/,
+                                                               TypeT lhs, TypeT rhs) noexcept
     {
         return lhs > TypeT(0) ?
                        (rhs > TypeT(0) ?
@@ -172,29 +172,28 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_multiplication_error(
-            unsigned_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag /*tag*/,
+                                                               TypeT lhs, TypeT rhs) noexcept
     {
         return rhs != TypeT(0) && lhs > std::numeric_limits<TypeT>::max() / rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_division_error(
-            signed_integer_tag /*tag*/, TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag /*tag*/, TypeT lhs,
+                                                         TypeT rhs) noexcept
     {
         return rhs == TypeT(0) || (rhs == TypeT(-1) && lhs == std::numeric_limits<TypeT>::min());
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_division_error(
-            unsigned_integer_tag /*tag*/, TypeT /*lhs*/, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag /*tag*/,
+                                                         TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE constexpr bool will_modulo_error(TypeT /*lhs*/,
-                                                                          TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
@@ -716,8 +715,8 @@ template <typename LhsT, typename RhsT, typename = detail::fallback_integer_resu
 constexpr int operator+(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE PHI_ATTRIBUTE_PURE PHI_EXTENDED_CONSTEXPR auto operator-(
-        const integer<LhsT>& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator-(const integer<LhsT>& lhs,
+                                                        const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     using type = detail::integer_result_t<LhsT, RhsT>;

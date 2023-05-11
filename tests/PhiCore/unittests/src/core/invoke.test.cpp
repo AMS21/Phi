@@ -1,7 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
-#include <phi/compiler_support/extended_attributes.hpp>
 #include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
@@ -83,7 +82,7 @@ struct DerivedFromTestClass : public TestClass
     {}
 };
 
-PHI_ATTRIBUTE_CONST int& foo(NonCopyable&& /*unused*/)
+int& foo(NonCopyable&& /*unused*/)
 {
     static int data = 42;
     return data;
@@ -416,7 +415,7 @@ TEST_CASE("invoke")
     STATIC_REQUIRE(sizeof(phi::invoke(&Type::g4, phi::declval<Type const&&>())) == 4);
 }
 
-PHI_ATTRIBUTE_CONST int foo(int /*unused*/)
+int foo(int /*unused*/)
 {
     return 42;
 }

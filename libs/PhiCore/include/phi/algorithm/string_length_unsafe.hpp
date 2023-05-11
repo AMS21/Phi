@@ -9,7 +9,6 @@
 
 #include "phi/algorithm/min.hpp"
 #include "phi/compiler_support/constexpr.hpp"
-#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -44,21 +43,21 @@ string_length_unsafe(CharT* string) noexcept
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
+PHI_NODISCARD constexpr usize string_length_unsafe(
         basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
+PHI_NODISCARD constexpr usize string_length_unsafe(
         std::basic_string<CharT, TraitsT, AllocatorT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
+PHI_NODISCARD constexpr usize string_length_unsafe(
         std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
@@ -87,22 +86,22 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
-        basic_string_view<CharT, TraitsT> string, usize length) noexcept
+PHI_NODISCARD constexpr usize string_length_unsafe(basic_string_view<CharT, TraitsT> string,
+                                                   usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
+PHI_NODISCARD constexpr usize string_length_unsafe(
         std::basic_string<CharT, TraitsT, AllocatorT> string, usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD PHI_ATTRIBUTE_PURE constexpr usize string_length_unsafe(
-        std::basic_string_view<CharT, TraitsT> string, usize length) noexcept
+PHI_NODISCARD constexpr usize string_length_unsafe(std::basic_string_view<CharT, TraitsT> string,
+                                                   usize length) noexcept
 {
     return min(usize(string.length()), length);
 }

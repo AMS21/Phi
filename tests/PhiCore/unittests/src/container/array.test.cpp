@@ -182,7 +182,7 @@ struct test_nondefault_initialization
 };
 
 // Test construction from an initializer-list
-PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_PURE bool test_initializer_list()
+PHI_EXTENDED_CONSTEXPR bool test_initializer_list()
 {
     {
         const phi::array<double, 3> a3_0 = {};
@@ -1626,7 +1626,7 @@ PHI_EXTENDED_CONSTEXPR void test_contiguous(const ContainerT& container)
     }
 }
 
-PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_PURE bool test_contiguous()
+PHI_EXTENDED_CONSTEXPR bool test_contiguous()
 {
     test_contiguous(phi::array<bool, 0>());
     test_contiguous(phi::array<bool, 1>());

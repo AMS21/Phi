@@ -120,9 +120,9 @@ int main()
         test_case_count += 1u;
     }
 
-    std::cout << "Test cases: " << test_case_count << '\n';
-    std::cout << "Asserts:    " << AssertCount << '\n';
-    std::cout << "Skipped:    " << SkipCount << '\n';
+    std::cout << "Test cases: " << test_case_count.unsafe() << '\n';
+    std::cout << "Asserts:    " << AssertCount.unsafe() << '\n';
+    std::cout << "Skipped:    " << SkipCount.unsafe() << '\n';
 
     return ReturnValue;
 }
