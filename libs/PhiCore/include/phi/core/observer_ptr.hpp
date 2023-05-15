@@ -12,6 +12,7 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/flat_ptr.hpp"
@@ -27,6 +28,8 @@
 #include "phi/type_traits/is_convertible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnonnull-compare")
 
 // A non owning smart pointer
 template <typename TypeT>
@@ -597,6 +600,8 @@ public:
 private:
     TypeT* m_Ptr;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs,
