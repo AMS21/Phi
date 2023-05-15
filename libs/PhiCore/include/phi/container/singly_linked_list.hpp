@@ -666,7 +666,7 @@ public:
     void splice_after(const_iterator position, singly_linked_list&& other, const_iterator iterator);
     void splice_after(const_iterator position, singly_linked_list& other, const_iterator first,
                       const_iterator last);
-    void splice_after(const_iterator position, singly_linked_list&& otheer, const_iterator first,
+    void splice_after(const_iterator position, singly_linked_list&& other, const_iterator first,
                       const_iterator last);
 
     size_type remove(const TypeT& value);

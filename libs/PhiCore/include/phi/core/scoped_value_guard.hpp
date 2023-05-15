@@ -61,6 +61,7 @@ public:
     }
 
 private:
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-const-or-ref-data-members)
     ValueT& m_Variable;
     ValueT  m_SavedValue;
 };
@@ -136,6 +137,7 @@ public:
     }
 
 private:
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-const-or-ref-data-members)
     ValueT& m_Variable;
     ValueT  m_SavedValue;
     boolean m_Armed;

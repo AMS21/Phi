@@ -40,7 +40,7 @@
 #        undef PHI_PLATFORM_IOS
 #        undef PHI_PLATFORM_IOS_SIMULATOR
 #        define PHI_PLATFORM_IOS()           1
-#        define PHI_PLATFORM_IOS_SUMULATOR() 1
+#        define PHI_PLATFORM_IOS_SIMULATOR() 1
 #        define PHI_PLATFORM_NAME()          "iOS Simulator"
 #    elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1
 #        undef PHI_PLATFORM_IOS
@@ -61,7 +61,7 @@
 
 #    if defined(__ANDROID__)
 #        undef PHI_PLATFORM_ANDROID
-#        define PHI_PLATFORM_ANDOIRD() 1
+#        define PHI_PLATFORM_ANDROID() 1
 #        define PHI_PLATFORM_NAME()    "Android"
 #    elif defined(linux) || defined(__linux) || defined(__linux__)
 #        undef PHI_PLATFORM_LINUX
@@ -102,4 +102,4 @@
 
 #define PHI_PLATFORM_IS_NOT(platform) (!(PHI_PLATFORM_IS(platform)))
 
-#endif // INCG_CPPBASE_OS_HPP
+#endif // INCG_PHI_CORE_COMPILER_SUPPORT_PLATFORM_HPP

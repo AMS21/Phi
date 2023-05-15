@@ -107,7 +107,7 @@ namespace type_system
         template <typename TypeT>
         PHI_NODISCARD constexpr TypeT max_impl() noexcept
         {
-            static_assert(false_t<TypeT>::value, "No specilization for the given type found.");
+            static_assert(false_t<TypeT>::value, "No specialization for the given type found.");
             return TypeT{};
         }
 

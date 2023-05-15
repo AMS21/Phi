@@ -12,7 +12,6 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -250,10 +249,6 @@ PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(flat_ptr& lhs, flat_ptr& rhs)
     lhs.swap(rhs);
 }
 
-// NOTE: The tautological compare warning is only valid if the compiler supports the non standard PHI_ATTRIBUTE_NONNULLL. The assert is a more generalized way to ensure that we don't get any null pointers
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
-
 class PHI_ATTRIBUTE_POINTER not_null_flat_ptr
 {
 public:
@@ -380,8 +375,6 @@ public:
 private:
     void* m_Pointer;
 };
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
     : m_Pointer(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)

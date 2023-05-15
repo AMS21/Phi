@@ -282,10 +282,10 @@
 #    define PHI_HAS_WARNING(warning) (0)
 #endif
 
-// is identifer / has keyword
+// is identifier / has keyword
 #if defined(__is_identifier)
-#    define PHI_IS_IDENTIFIER(identifer) __is_identifier(identifier)
-#    define PHI_HAS_KEYWORD(keyword)     !(__is_identifier(keyword))
+#    define PHI_IS_IDENTIFIER(identifier) __is_identifier(identifier)
+#    define PHI_HAS_KEYWORD(keyword)      !(__is_identifier(keyword))
 #else
 #    define PHI_IS_IDENTIFIER(keyword) (0)
 #    define PHI_HAS_KEYWORD(keyword)   (0)

@@ -972,9 +972,9 @@ TEST_CASE("Printable")
     CHECK(oss.str() == "42");
 }
 
-TEST_CASE("Dereferencable")
+TEST_CASE("Dereferenceable")
 {
-    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferencable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferenceable>;
 
     {
         StrongInt strong_int{1};
@@ -1004,9 +1004,9 @@ TEST_CASE("Dereferencable")
     }
 }
 
-TEST_CASE("Dereferencable constexpr")
+TEST_CASE("Dereferenceable constexpr")
 {
-    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferencable>;
+    using StrongInt = phi::named_type<int, struct StrongIntTag, phi::dereferenceable>;
 
     PHI_EXTENDED_CONSTEXPR StrongInt strong_int{28};
     EXT_STATIC_REQUIRE(*strong_int == 28);

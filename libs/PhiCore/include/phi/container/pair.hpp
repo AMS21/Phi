@@ -144,7 +144,7 @@ public:
         , second(other_pair.second)
     {}
 
-    // Implciti pair conversion constructor
+    // Implicit pair conversion constructor
     template <typename OtherFirstT, typename OtherSecondT,
               typename enable_if<enable_implicit_constructor<const OtherFirstT&,
                                                              const OtherSecondT&>>::type* = nullptr>
@@ -226,7 +226,7 @@ public:
         swap(first, second);
     }
 
-    PHI_NODISCARD constexpr pair<SecondT, FirstT> as_fliped() noexcept(
+    PHI_NODISCARD constexpr pair<SecondT, FirstT> as_flipped() noexcept(
             enable_nothrow_copy_constructor)
     {
         return pair<SecondT, FirstT>(second, first);

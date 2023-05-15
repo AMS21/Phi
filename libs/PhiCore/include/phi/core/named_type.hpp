@@ -114,8 +114,6 @@ public:
 
     struct argument
     {
-        PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
-
         // NOLINTNEXTLINE(misc-unconventional-assign-operator)
         named_type operator=(TypeT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
@@ -128,8 +126,6 @@ public:
         {
             return named_type(phi::forward<OtherT>(value));
         }
-
-        PHI_GCC_SUPPRESS_WARNING_POP()
 
         argument()                           = default;
         ~argument()                          = default;
@@ -148,8 +144,6 @@ PHI_NODISCARD constexpr StrongTypeT<TypeT> make_named(const TypeT& value)
 {
     return StrongTypeT<TypeT>(value);
 }
-
-PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Weffc++")
 
 template <typename TypeT>
 struct PHI_EBCO pre_incrementable : public crtp<TypeT, pre_incrementable>
@@ -190,8 +184,6 @@ struct PHI_EBCO post_decrementable : public crtp<TypeT, post_decrementable>
         return TypeT(this->underlying().unsafe()--);
     }
 };
-
-PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 struct PHI_EBCO binary_addable : public crtp<TypeT, binary_addable>
@@ -424,11 +416,11 @@ struct PHI_EBCO comparable : public crtp<TypeT, comparable>
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
-struct PHI_EBCO dereferencable;
+struct PHI_EBCO dereferenceable;
 
 template <typename TypeT, typename ParameterT, template <typename> class... SkillsT>
-struct PHI_EBCO dereferencable<named_type<TypeT, ParameterT, SkillsT...>>
-    : public crtp<named_type<TypeT, ParameterT, SkillsT...>, dereferencable>
+struct PHI_EBCO dereferenceable<named_type<TypeT, ParameterT, SkillsT...>>
+    : public crtp<named_type<TypeT, ParameterT, SkillsT...>, dereferenceable>
 {
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& operator*() &
     {

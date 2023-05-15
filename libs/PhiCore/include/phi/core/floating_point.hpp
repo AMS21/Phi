@@ -298,7 +298,7 @@ public:
     floating_point& operator%=(TypeT) = delete;
 
 private:
-    FloatT m_Value; /// Wraped float value
+    FloatT m_Value; /// Wrapped float value
 };
 
 //=== comparison ===//

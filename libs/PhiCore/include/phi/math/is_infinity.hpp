@@ -21,10 +21,8 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 template <typename FloatT>
 PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_infinity(
@@ -45,8 +43,7 @@ PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool>
     return is_infinity<typename FloatT::value_type>(value.unsafe());
 }
 
-PHI_CLANG_SUPPRESS_WARNING_POP()
-PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
 
 DETAIL_PHI_END_NAMESPACE()
 

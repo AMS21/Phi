@@ -26,7 +26,7 @@
 #include "phi/type_traits/is_array.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 
-// TODO: GCC claims theres a use after free here but I can't seem to find it and address sanitizer can't find it aswell?
+// TODO: GCC claims theres a use after free here but I can't seem to find it and address sanitizer can't find it as well?
 // TODO: Need to investigate anyways
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 #if PHI_COMPILER_IS_ATLEAST(GCC, 12, 0, 0)
@@ -475,7 +475,7 @@ public:
         , m_ControlBlock{other.m_ControlBlock}
     {
         PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
 
         m_ControlBlock->increment_ref_count();
     }
@@ -485,7 +485,7 @@ public:
         , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_ASSERT(m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -494,7 +494,7 @@ public:
         , m_ControlBlock{other.m_ControlBlock}
     {
         PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
-        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControllBlock was null");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
