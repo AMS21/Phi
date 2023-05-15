@@ -8,6 +8,7 @@ set -u
 
 upgraded_pip=0
 added_llvm_apt=0
+added_ubuntu_test_ppa=0
 root_dir=$(pwd)
 
 cmake_build_flags="-O3 -DNDEBUG -w -march=native -mtune=native"
@@ -80,6 +81,20 @@ add_llvm_apt() {
         echo "-- Adding LLVM-$1 apt done"
 
         added_llvm_apt=1
+    fi
+}
+
+add_ubuntu_test_ppa() {
+    if [[ "$added_ubuntu_test_ppa" == 0 ]]; then
+        echo "-- Adding Ubuntu Test PPA..."
+        retry sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        echo "-- Adding Ubuntu Test PPA done"
+
+        echo "-- Updating apt..."
+        retry sudo apt-get update -m
+        echo "-- Updating apt done"
+
+        added_ubuntu_test_ppa=1
     fi
 }
 
@@ -158,6 +173,8 @@ install_clang() {
 
 # Expects first parameter to the the requested version
 install_gcc() {
+    add_ubuntu_test_ppa
+
     echo "-- Installing gcc-$1..."
     apt_install "gcc-$1" "g++-$1" "gcc-$1-multilib" "g++-$1-multilib"
     echo "-- Installing gcc-$1 done"
