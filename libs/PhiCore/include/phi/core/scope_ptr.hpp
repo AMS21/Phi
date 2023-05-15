@@ -13,7 +13,6 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/flat_ptr.hpp"
@@ -32,10 +31,6 @@
 #include "phi/type_traits/remove_extent.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
-PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
 
 template <typename TypeT>
 class PHI_ATTRIBUTE_OWNER scope_ptr
@@ -474,8 +469,6 @@ private:
 
     TypeT* m_Ptr;
 };
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(const not_null_scope_ptr<LhsT>& lhs,

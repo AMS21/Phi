@@ -447,10 +447,6 @@ constexpr void swap(ref_ptr<TypeT>& lhs, ref_ptr<TypeT>& rhs) noexcept
     lhs.swap(rhs);
 }
 
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
-PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
-
 template <typename TypeT>
 class PHI_ATTRIBUTE_OWNER not_null_ref_ptr
 {
@@ -722,8 +718,6 @@ private:
     TypeT*                         m_Ptr;
     detail::ref_ptr_control_block* m_ControlBlock;
 };
-
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
 constexpr boolean operator==(const not_null_ref_ptr<LhsT>& lhs,

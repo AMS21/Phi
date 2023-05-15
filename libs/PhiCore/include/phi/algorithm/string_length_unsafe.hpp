@@ -10,7 +10,6 @@
 #include "phi/algorithm/min.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
-#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/types.hpp"
@@ -19,12 +18,6 @@
 #include "phi/forward/string_view.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
-
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
-PHI_CLANG_SUPPRESS_WARNING("-Wtautological-pointer-compare")
-
-PHI_GCC_SUPPRESS_WARNING_PUSH()
-PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")
 
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR usize
@@ -81,9 +74,6 @@ string_length_unsafe(CharT* string, usize length) noexcept
 
     return count;
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
-PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename CharT, typename TraitsT>
 PHI_NODISCARD constexpr usize string_length_unsafe(basic_string_view<CharT, TraitsT> string,
