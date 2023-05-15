@@ -78,6 +78,8 @@ add_llvm_apt() {
         echo "-- Updating apt done"
 
         echo "-- Adding LLVM-$1 apt done"
+
+        added_llvm_apt=1
     fi
 }
 
