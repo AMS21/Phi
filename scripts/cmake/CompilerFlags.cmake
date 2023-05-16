@@ -266,13 +266,18 @@ elseif(PHI_COMPILER_CLANG)
   endif()
 
   # Clang-13 flags
-  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13)
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13 AND PHI_CLANG_VERSION VERSION_LESS 17)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++2b-extensions)
   endif()
 
   # Clang-16 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 16)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-unsafe-buffer-usage)
+  endif()
+
+  # Clang-17 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 17)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++23-extensions)
   endif()
 
 elseif(PHI_COMPILER_EMCC)

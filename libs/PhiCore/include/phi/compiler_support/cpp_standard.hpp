@@ -45,8 +45,12 @@
 #    define PHI_CPLUSPLUS_23() (202101L)
 #endif
 
+// C++-26
+// TODO: This is the value clang-17 uses since its the only compiler currently supporting C++-26
+#define PHI_CPLUSPLUS_26() (202400L)
+
 // Latest C++ standard
-#define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_23()
+#define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_26()
 
 #if PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
 #    if defined(_MSVC_LANG)
@@ -69,7 +73,9 @@
 
 #define PHI_CPP_STANDARD_IS_BELOW(standard) (PHI_CPP_STANDARD() < PHI_CPLUSPLUS_##standard())
 
-#if PHI_CPP_STANDARD_IS_EXACTLY(23)
+#if PHI_CPP_STANDARD_IS_EXACTLY(26)
+#    define PHI_CPP_STANDARD_SHORT() 26
+#elif PHI_CPP_STANDARD_IS_EXACTLY(23)
 #    define PHI_CPP_STANDARD_SHORT() 23
 #elif PHI_CPP_STANDARD_IS_EXACTLY(20)
 #    define PHI_CPP_STANDARD_SHORT() 20

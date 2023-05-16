@@ -187,7 +187,43 @@ if(${CMAKE_VERSION} VERSION_LESS "3.20" OR DEFINED PHI_PLATFORM_EMSCRIPTEN)
   endforeach()
 endif()
 
-set(phi_supported_standards "23" "20" "17" "14" "11")
+# C++-26 Flags were introduced in CMake 3.25
+if(${CMAKE_VERSION} VERSION_LESS "3.25")
+  set(phi_known_cxx26_flags "-std=c++26" "-std=c++2c" "-std:c++26" "-std:c++latest" "-Qstd=c++26")
+  set(phi_known_cxx26_ext_flags "-std=gnu++26" "-std=gnu++26")
+
+  # Check normal flag
+  foreach(flag IN ITEMS ${phi_known_cxx26_flags})
+    set(var_name "PHI_STANDARD_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(CMAKE_CXX26_STANDARD_COMPILE_OPTION ${flag})
+      break()
+    endif()
+  endforeach()
+
+  # Check extension flags
+  foreach(flag IN ITEMS ${phi_known_cxx26_ext_flags})
+    set(var_name "PHI_EXTENSION_FLAG${flag}")
+    string(REPLACE "-" "_" var_name ${var_name})
+    string(REPLACE "=" "_" var_name ${var_name})
+    string(REPLACE ":" "_" var_name ${var_name})
+
+    phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+    if(${var_name})
+      phi_set_cache_value(CMAKE_CXX26_EXTENSION_COMPILE_OPTION ${flag})
+      break()
+    endif()
+  endforeach()
+endif()
+
+set(phi_supported_standards "26" "23" "20" "17" "14" "11")
 
 # Find the latest standard
 foreach(std IN ITEMS ${phi_supported_standards})
@@ -244,7 +280,7 @@ else()
   endforeach()
 
   if(NOT DEFINED phi_standard_version OR NOT DEFINED phi_standard_flag)
-    phi_error("Unsupported value for PHI_STANADRD \"${PHI_STANDARD}\"")
+    phi_error("Unsupported value for PHI_STANDARD \"${PHI_STANDARD}\"")
   endif()
 
   phi_log("Using explicit standard: C++-${phi_standard_version}/\"${phi_standard_flag}\"")
@@ -276,7 +312,14 @@ function(phi_target_set_standard)
     set(std_STANDARD ${phi_latest_standard_version})
   endif()
 
-  set(_valid_standards "98" "11" "14" "17" "20" "23")
+  set(_valid_standards
+      "98"
+      "11"
+      "14"
+      "17"
+      "20"
+      "23"
+      "26")
   list(FIND _valid_standards ${std_STANDARD} standard_is_valid)
   if(standard_is_valid EQUAL -1)
     phi_error(
