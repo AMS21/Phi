@@ -754,45 +754,51 @@ public:
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 
-// TODO: Noexcept
 template <typename TypeT, size_t Size>
-PHI_EXTENDED_CONSTEXPR boolean operator==(const array<TypeT, Size>& lhs,
-                                          const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean
+operator==(const array<TypeT, Size>& lhs,
+           const array<TypeT, Size>& rhs) noexcept(noexcept(equal(lhs.begin(), lhs.end(),
+                                                                  rhs.begin())))
 {
     return equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <typename TypeT, size_t Size>
 PHI_EXTENDED_CONSTEXPR boolean operator!=(const array<TypeT, Size>& lhs,
-                                          const array<TypeT, Size>& rhs)
+                                          const array<TypeT, Size>& rhs) noexcept(noexcept(!(lhs ==
+                                                                                             rhs)))
 {
     return !(lhs == rhs);
 }
 
 template <typename TypeT, size_t Size>
-PHI_EXTENDED_CONSTEXPR boolean operator<(const array<TypeT, Size>& lhs,
-                                         const array<TypeT, Size>& rhs)
+PHI_EXTENDED_CONSTEXPR boolean
+operator<(const array<TypeT, Size>& lhs, const array<TypeT, Size>& rhs) noexcept(
+        noexcept(lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())))
 {
     return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template <typename TypeT, size_t Size>
 PHI_EXTENDED_CONSTEXPR boolean operator<=(const array<TypeT, Size>& lhs,
-                                          const array<TypeT, Size>& rhs)
+                                          const array<TypeT, Size>& rhs) noexcept(noexcept(!(rhs <
+                                                                                             lhs)))
 {
     return !(rhs < lhs);
 }
 
 template <typename TypeT, size_t Size>
 PHI_EXTENDED_CONSTEXPR boolean operator>(const array<TypeT, Size>& lhs,
-                                         const array<TypeT, Size>& rhs)
+                                         const array<TypeT, Size>& rhs) noexcept(noexcept(rhs <
+                                                                                          lhs))
 {
     return rhs < lhs;
 }
 
 template <typename TypeT, size_t Size>
 PHI_EXTENDED_CONSTEXPR boolean operator>=(const array<TypeT, Size>& lhs,
-                                          const array<TypeT, Size>& rhs)
+                                          const array<TypeT, Size>& rhs) noexcept(noexcept(!(lhs <
+                                                                                             rhs)))
 {
     return !(lhs < rhs);
 }
