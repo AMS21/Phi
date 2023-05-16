@@ -24,7 +24,7 @@ file(
   "src/algorithm/string_length_unsafe.test.cpp"
   "src/algorithm/string_length.test.cpp"
   "src/algorithm/swap.test.cpp"
-  # compiler_suppport/intrinsics
+  # compiler_support/intrinsics
   "src/compiler_support/intrinsics/dynamic_object_size.test.cpp"
   "src/compiler_support/intrinsics/object_size.test.cpp"
   # compiler_support
