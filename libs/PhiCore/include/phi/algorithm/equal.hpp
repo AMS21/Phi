@@ -13,10 +13,10 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// TODO: noexcept
 template <typename InputIterator1T, typename InputIterator2T>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean equal(InputIterator1T first1, InputIterator1T last1,
-                                                   InputIterator2T first2)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean
+equal(InputIterator1T first1, InputIterator1T last1, InputIterator2T first2) noexcept(
+        noexcept(first1 != last1) && noexcept(++first1, ++first2) && noexcept(*first1 == *first2))
 {
     for (; first1 != last1; ++first1, ++first2)
     {
@@ -29,11 +29,14 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean equal(InputIterator1T first1, Input
     return true;
 }
 
-// TODO: noexcept
 template <typename InputIterator1T, typename InputIterator2T, typename BinaryPredicateT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean equal(InputIterator1T first1, InputIterator1T last1,
-                                                   InputIterator2T  first2,
-                                                   BinaryPredicateT predicate)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean
+equal(InputIterator1T first1, InputIterator1T last1, InputIterator2T first2,
+      BinaryPredicateT
+              predicate) noexcept(noexcept(first1 !=
+                                           last1) && noexcept(++first1,
+                                                              ++first2) && noexcept(!predicate(*first1,
+                                                                                               *first2)))
 {
     for (; first1 != last1; ++first1, ++first2)
     {
