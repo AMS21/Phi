@@ -55,11 +55,11 @@ compile_failure_test(NAME "core_integer_unsigned_unary_minus" SOURCE
                      "src/core/integer/unsigned_unary_minus.fail.cpp")
 
 # non_copyable
-compile_failure_test(NAME "core_non_nopyable_not_constructable" SOURCE
+compile_failure_test(NAME "core_non_copyable_not_constructable" SOURCE
                      "src/core/non_copyable/construct.fail.cpp")
-compile_failure_test(NAME "core_non_nopyable_copy_assign" SOURCE
+compile_failure_test(NAME "core_non_copyable_copy_assign" SOURCE
                      "src/core/non_copyable/copy_assign.fail.cpp")
-compile_failure_test(NAME "core_non_nopyable_copy_construct" SOURCE
+compile_failure_test(NAME "core_non_copyable_copy_construct" SOURCE
                      "src/core/non_copyable/copy_construct.fail.cpp")
 
 # not_null
