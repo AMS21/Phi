@@ -99,6 +99,8 @@ file(
   "src/forward/std/reference_wrapper.test.cpp"
   "src/forward/std/string_view.test.cpp"
   "src/forward/std/string.test.cpp"
+  # iterator
+  "src/iterator/iter_reference.test.cpp"
   # limits
   "src/limits/float_denorm_style.test.cpp"
   "src/limits/float_round_style.test.cpp"

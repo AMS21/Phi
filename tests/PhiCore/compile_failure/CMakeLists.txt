@@ -22,6 +22,10 @@ compile_failure_test(NAME "container_string_view_assign_nullptr" SOURCE
 # core address_of
 compile_failure_test(NAME "core_address_of_rvalue" SOURCE "src/core/address_of/rvalue.fail.cpp")
 
+# iterator iter_reference
+compile_failure_test(NAME "iterator_iter_reference_non_referenceable" SOURCE
+                     "src/iterator/iter_reference/non_referenceable.fail.cpp")
+
 # assert
 compile_failure_test(NAME "core_assert_constexpr" SOURCE
                      "src/core/assert/assert_constexpr.fail.cpp")

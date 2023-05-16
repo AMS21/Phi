@@ -216,6 +216,7 @@ file(
   "include/phi/iterator/distance.hpp"
   "include/phi/iterator/empty.hpp"
   "include/phi/iterator/end.hpp"
+  "include/phi/iterator/iter_reference.hpp"
   "include/phi/iterator/iterator_tags.hpp"
   "include/phi/iterator/iterator_traits.hpp"
   "include/phi/iterator/rbegin.hpp"
