@@ -12,6 +12,7 @@
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
+#include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -25,6 +26,8 @@
 #include "phi/type_traits/is_pointer.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnonnull-compare")
 
 class PHI_ATTRIBUTE_POINTER flat_ptr
 {
@@ -375,6 +378,8 @@ public:
 private:
     void* m_Pointer;
 };
+
+PHI_GCC_SUPPRESS_WARNING_POP()
 
 constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
     : m_Pointer(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)
