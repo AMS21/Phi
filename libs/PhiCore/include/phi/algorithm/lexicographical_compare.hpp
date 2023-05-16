@@ -13,12 +13,15 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-// TODO: noexcept
 template <typename InputIteratorLhsT, typename InputIteratorRhsT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean lexicographical_compare(InputIteratorLhsT first_lhs,
-                                                                     InputIteratorLhsT last_lhs,
-                                                                     InputIteratorRhsT first_rhs,
-                                                                     InputIteratorRhsT last_rhs)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean
+lexicographical_compare(InputIteratorLhsT first_lhs, InputIteratorLhsT last_lhs, InputIteratorRhsT first_rhs, InputIteratorRhsT last_rhs) noexcept(
+        noexcept(first_lhs != last_lhs) && noexcept(first_rhs != last_rhs) && noexcept(
+                ++first_lhs,
+                ++first_rhs) && noexcept(*first_lhs <
+                                         *first_rhs) && noexcept(*first_rhs <
+                                                                 *first_lhs) && noexcept(first_lhs ==
+                                                                                         last_lhs))
 {
     for (; (first_lhs != last_lhs) && (first_rhs != last_rhs); ++first_lhs, ++first_rhs)
     {
@@ -35,13 +38,14 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean lexicographical_compare(InputIterat
     return (first_lhs == last_lhs) && (first_rhs != last_rhs);
 }
 
-// TODO: noexcept
 template <typename InputIteratorLhsT, typename InputIteratorRhsT, typename BinaryPredicateT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean lexicographical_compare(InputIteratorLhsT first_lhs,
-                                                                     InputIteratorLhsT last_lhs,
-                                                                     InputIteratorRhsT first_rhs,
-                                                                     InputIteratorRhsT last_rhs,
-                                                                     BinaryPredicateT  predicate)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean
+lexicographical_compare(InputIteratorLhsT first_lhs, InputIteratorLhsT last_lhs, InputIteratorRhsT first_rhs, InputIteratorRhsT last_rhs, BinaryPredicateT predicate) noexcept(
+        noexcept(first_lhs != last_rhs) && noexcept(first_rhs != last_rhs) && noexcept(++first_lhs, ++first_rhs) && noexcept(
+                predicate(*first_lhs,
+                          *first_rhs)) && noexcept(predicate(*first_rhs,
+                                                             *first_lhs)) && noexcept(first_lhs ==
+                                                                                      last_lhs))
 {
     for (; (first_lhs != last_lhs) && (first_rhs != last_rhs); ++first_lhs, ++first_rhs)
     {
