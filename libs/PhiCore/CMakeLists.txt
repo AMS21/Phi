@@ -201,6 +201,7 @@ file(
   "include/phi/forward/string_view.hpp"
   # forward/std
   "include/phi/forward/std/allocator.hpp"
+  "include/phi/forward/std/array.hpp"
   "include/phi/forward/std/char_traits.hpp"
   "include/phi/forward/std/hash.hpp"
   "include/phi/forward/std/reference_wrapper.hpp"

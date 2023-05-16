@@ -93,6 +93,7 @@ file(
   "src/forward/string_view.test.cpp"
   # forward/std
   "src/forward/std/allocator.test.cpp"
+  "src/forward/std/array.test.cpp"
   "src/forward/std/char_traits.test.cpp"
   "src/forward/std/hash.test.cpp"
   "src/forward/std/reference_wrapper.test.cpp"
