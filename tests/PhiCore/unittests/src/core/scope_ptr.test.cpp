@@ -350,6 +350,34 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         (void)ptr2.leak_ptr();
     }
 
+    SECTION("operator== with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::scope_ptr<int> null_ptr;
+        phi::scope_ptr<int> ptr1(raw_ptr1);
+        phi::scope_ptr<int> ptr2(raw_ptr2);
+
+        CHECK_FALSE(null_ptr == raw_ptr1);
+        CHECK_FALSE(null_ptr == raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 == null_ptr);
+        CHECK_FALSE(raw_ptr2 == null_ptr);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         int* raw_ptr1 = new int(1);
@@ -377,6 +405,34 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         // Need to leak the pointer otherwise we get a double free
         (void)ptr2.leak_ptr();
+    }
+
+    SECTION("operator!= with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::scope_ptr<int> null_ptr;
+        phi::scope_ptr<int> ptr1(raw_ptr1);
+        phi::scope_ptr<int> ptr2(raw_ptr2);
+
+        CHECK(null_ptr != raw_ptr1);
+        CHECK(null_ptr != raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK(raw_ptr1 != null_ptr);
+        CHECK(raw_ptr2 != null_ptr);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("make_scope")
@@ -598,6 +654,27 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         (void)ptr2.leak_ptr();
     }
 
+    SECTION("operator== with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::not_null_scope_ptr<int> ptr1(raw_ptr1);
+        phi::not_null_scope_ptr<int> ptr2(raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         int* raw_ptr1 = new int(1);
@@ -618,6 +695,27 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         // Need to leak the pointer otherwise we get a double free
         (void)ptr2.leak_ptr();
+    }
+
+    SECTION("operator!= with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::not_null_scope_ptr<int> ptr1(raw_ptr1);
+        phi::not_null_scope_ptr<int> ptr2(raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("make_not_null_scope")

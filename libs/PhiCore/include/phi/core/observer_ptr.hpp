@@ -357,6 +357,18 @@ constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT>
 }
 
 template <typename LhsT, typename RhsT>
+constexpr boolean operator==(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+{
+    return lhs.get() == rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator==(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
+{
+    return lhs == rhs.get();
+}
+
+template <typename LhsT, typename RhsT>
 constexpr boolean operator!=(observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
@@ -384,6 +396,18 @@ template <typename LhsT, typename RhsT>
 constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+{
+    return lhs.get() != rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
+{
+    return lhs != rhs.get();
 }
 
 // A non owning smart pointer which may not be null
@@ -617,6 +641,18 @@ template <typename RhsT>
 boolean operator==(nullptr_t, not_null_observer_ptr<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT>
+constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+{
+    return lhs.get() == rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator==(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+{
+    return lhs == rhs.get();
+}
+
+template <typename LhsT, typename RhsT>
 constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs,
                              not_null_observer_ptr<RhsT> rhs) noexcept
 {
@@ -628,6 +664,18 @@ boolean operator!=(not_null_observer_ptr<LhsT>, nullptr_t) = delete;
 
 template <typename RhsT>
 boolean operator!=(nullptr_t, not_null_observer_ptr<RhsT>) = delete;
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+{
+    return lhs.get() != rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+{
+    return lhs != rhs.get();
+}
 
 // make functions
 

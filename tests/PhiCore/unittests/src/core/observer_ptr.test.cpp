@@ -444,6 +444,50 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(pointer1 == pointer3);
     }
 
+    SECTION("operator== with plain pointers")
+    {
+        int integer1 = 1;
+        int integer2 = 2;
+        int integer3 = 3;
+
+        phi::observer_ptr<int> null_pointer;
+        phi::observer_ptr<int> pointer1 = &integer1;
+        phi::observer_ptr<int> pointer2 = &integer2;
+        phi::observer_ptr<int> pointer3 = &integer3;
+
+        CHECK_FALSE(null_pointer == &integer1);
+        CHECK_FALSE(null_pointer == &integer2);
+        CHECK_FALSE(null_pointer == &integer3);
+
+        CHECK(pointer1 == &integer1);
+        CHECK_FALSE(pointer1 == &integer2);
+        CHECK_FALSE(pointer1 == &integer3);
+
+        CHECK_FALSE(pointer2 == &integer1);
+        CHECK(pointer2 == &integer2);
+        CHECK_FALSE(pointer2 == &integer3);
+
+        CHECK_FALSE(pointer3 == &integer1);
+        CHECK_FALSE(pointer3 == &integer2);
+        CHECK(pointer3 == &integer3);
+
+        CHECK_FALSE(&integer1 == null_pointer);
+        CHECK_FALSE(&integer2 == null_pointer);
+        CHECK_FALSE(&integer3 == null_pointer);
+
+        CHECK(&integer1 == pointer1);
+        CHECK_FALSE(&integer2 == pointer1);
+        CHECK_FALSE(&integer3 == pointer1);
+
+        CHECK_FALSE(&integer1 == pointer2);
+        CHECK(&integer2 == pointer2);
+        CHECK_FALSE(&integer3 == pointer2);
+
+        CHECK_FALSE(&integer1 == pointer3);
+        CHECK_FALSE(&integer2 == pointer3);
+        CHECK(&integer3 == pointer3);
+    }
+
     SECTION("operator!=")
     {
         int integer1 = 1;
@@ -486,6 +530,50 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         pointer3.reset();
 
         CHECK_FALSE(pointer1 != pointer3);
+    }
+
+    SECTION("operator!= with plain pointers")
+    {
+        int integer1 = 1;
+        int integer2 = 2;
+        int integer3 = 3;
+
+        phi::observer_ptr<int> null_pointer;
+        phi::observer_ptr<int> pointer1 = &integer1;
+        phi::observer_ptr<int> pointer2 = &integer2;
+        phi::observer_ptr<int> pointer3 = &integer3;
+
+        CHECK(null_pointer != &integer1);
+        CHECK(null_pointer != &integer2);
+        CHECK(null_pointer != &integer3);
+
+        CHECK_FALSE(pointer1 != &integer1);
+        CHECK(pointer1 != &integer2);
+        CHECK(pointer1 != &integer3);
+
+        CHECK(pointer2 != &integer1);
+        CHECK_FALSE(pointer2 != &integer2);
+        CHECK(pointer2 != &integer3);
+
+        CHECK(pointer3 != &integer1);
+        CHECK(pointer3 != &integer2);
+        CHECK_FALSE(pointer3 != &integer3);
+
+        CHECK(&integer1 != null_pointer);
+        CHECK(&integer2 != null_pointer);
+        CHECK(&integer3 != null_pointer);
+
+        CHECK_FALSE(&integer1 != pointer1);
+        CHECK(&integer2 != pointer1);
+        CHECK(&integer3 != pointer1);
+
+        CHECK(&integer1 != pointer2);
+        CHECK_FALSE(&integer2 != pointer2);
+        CHECK(&integer3 != pointer2);
+
+        CHECK(&integer1 != pointer3);
+        CHECK(&integer2 != pointer3);
+        CHECK_FALSE(&integer3 != pointer3);
     }
 
     SECTION("operator== not_null_observer_ptr")
@@ -760,6 +848,41 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(pointer2 == pointer3);
     }
 
+    SECTION("operator== with plain pointer")
+    {
+        int integer1 = 1;
+        int integer2 = 2;
+        int integer3 = 3;
+
+        phi::not_null_observer_ptr<int> pointer1 = &integer1;
+        phi::not_null_observer_ptr<int> pointer2 = &integer2;
+        phi::not_null_observer_ptr<int> pointer3 = &integer3;
+
+        CHECK(pointer1 == &integer1);
+        CHECK_FALSE(pointer1 == &integer2);
+        CHECK_FALSE(pointer1 == &integer3);
+
+        CHECK_FALSE(pointer2 == &integer1);
+        CHECK(pointer2 == &integer2);
+        CHECK_FALSE(pointer2 == &integer3);
+
+        CHECK_FALSE(pointer3 == &integer1);
+        CHECK_FALSE(pointer3 == &integer2);
+        CHECK(pointer3 == &integer3);
+
+        CHECK(&integer1 == pointer1);
+        CHECK_FALSE(&integer2 == pointer1);
+        CHECK_FALSE(&integer3 == pointer1);
+
+        CHECK_FALSE(&integer1 == pointer2);
+        CHECK(&integer2 == pointer2);
+        CHECK_FALSE(&integer3 == pointer2);
+
+        CHECK_FALSE(&integer1 == pointer3);
+        CHECK_FALSE(&integer2 == pointer3);
+        CHECK(&integer3 == pointer3);
+    }
+
     SECTION("operator!=")
     {
         int integer1 = 1;
@@ -783,6 +906,41 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(pointer1 != pointer2);
         CHECK(pointer1 != pointer3);
         CHECK_FALSE(pointer2 != pointer3);
+    }
+
+    SECTION("operator!= with plain pointers")
+    {
+        int integer1 = 1;
+        int integer2 = 2;
+        int integer3 = 3;
+
+        phi::not_null_observer_ptr<int> pointer1 = &integer1;
+        phi::not_null_observer_ptr<int> pointer2 = &integer2;
+        phi::not_null_observer_ptr<int> pointer3 = &integer3;
+
+        CHECK_FALSE(pointer1 != &integer1);
+        CHECK(pointer1 != &integer2);
+        CHECK(pointer1 != &integer3);
+
+        CHECK(pointer2 != &integer1);
+        CHECK_FALSE(pointer2 != &integer2);
+        CHECK(pointer2 != &integer3);
+
+        CHECK(pointer3 != &integer1);
+        CHECK(pointer3 != &integer2);
+        CHECK_FALSE(pointer3 != &integer3);
+
+        CHECK_FALSE(&integer1 != pointer1);
+        CHECK(&integer2 != pointer1);
+        CHECK(&integer3 != pointer1);
+
+        CHECK(&integer1 != pointer2);
+        CHECK_FALSE(&integer2 != pointer2);
+        CHECK(&integer3 != pointer2);
+
+        CHECK(&integer1 != pointer3);
+        CHECK(&integer2 != pointer3);
+        CHECK_FALSE(&integer3 != pointer3);
     }
 
     SECTION("hash")

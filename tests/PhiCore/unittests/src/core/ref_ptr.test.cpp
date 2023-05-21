@@ -430,6 +430,34 @@ TEST_CASE("ref_ptr")
         CHECK(ptr1 == ptr2);
     }
 
+    SECTION("operator== with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::ref_ptr<int> null;
+        phi::ref_ptr<int> ptr1(raw_ptr1);
+        phi::ref_ptr<int> ptr2(raw_ptr2);
+
+        CHECK_FALSE(null == raw_ptr1);
+        CHECK_FALSE(null == raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 == null);
+        CHECK_FALSE(raw_ptr2 == null);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         phi::ref_ptr<int> ptr1(new int(1));
@@ -451,6 +479,34 @@ TEST_CASE("ref_ptr")
         ptr2 = ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("operator!= with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::ref_ptr<int> null;
+        phi::ref_ptr<int> ptr1(raw_ptr1);
+        phi::ref_ptr<int> ptr2(raw_ptr2);
+
+        CHECK(null != raw_ptr1);
+        CHECK(null != raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK(raw_ptr1 != null);
+        CHECK(raw_ptr2 != null);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("make_ref")
@@ -703,6 +759,27 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         CHECK(ptr1 == ptr2);
     }
 
+    SECTION("operator== with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::not_null_ref_ptr<int> ptr1(raw_ptr1);
+        phi::not_null_ref_ptr<int> ptr2(raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         phi::not_null_ref_ptr<int> ptr1(new int(1));
@@ -713,6 +790,27 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         ptr2 = ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("operator!= with plain pointer")
+    {
+        int* raw_ptr1 = new int(1);
+        int* raw_ptr2 = new int(2);
+
+        phi::not_null_ref_ptr<int> ptr1(raw_ptr1);
+        phi::not_null_ref_ptr<int> ptr2(raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("make_not_null_ref")

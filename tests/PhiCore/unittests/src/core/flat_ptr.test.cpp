@@ -438,6 +438,31 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         CHECK(ptr1 == ptr2);
     }
 
+    SECTION("operator==(void*)")
+    {
+        phi::flat_ptr ptr1(raw_ptr1);
+        phi::flat_ptr ptr2(raw_ptr2);
+        phi::flat_ptr null;
+
+        CHECK_FALSE(null == raw_ptr1);
+        CHECK_FALSE(null == raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 == null);
+        CHECK_FALSE(raw_ptr2 == null);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         phi::flat_ptr ptr1(raw_ptr1);
@@ -459,6 +484,31 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         ptr2 = raw_ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("operator!=(void*)")
+    {
+        phi::flat_ptr ptr1(raw_ptr1);
+        phi::flat_ptr ptr2(raw_ptr2);
+        phi::flat_ptr null;
+
+        CHECK(null != raw_ptr1);
+        CHECK(null != raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK(raw_ptr1 != null);
+        CHECK(raw_ptr2 != null);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("std::hash")
@@ -637,6 +687,24 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
         CHECK(ptr1 == ptr2);
     }
 
+    SECTION("operator==(void*)")
+    {
+        phi::not_null_flat_ptr ptr1(raw_ptr1);
+        phi::not_null_flat_ptr ptr2(raw_ptr2);
+
+        CHECK(ptr1 == raw_ptr1);
+        CHECK_FALSE(ptr1 == raw_ptr2);
+
+        CHECK_FALSE(ptr2 == raw_ptr1);
+        CHECK(ptr2 == raw_ptr2);
+
+        CHECK(raw_ptr1 == ptr1);
+        CHECK_FALSE(raw_ptr2 == ptr1);
+
+        CHECK_FALSE(raw_ptr1 == ptr2);
+        CHECK(raw_ptr2 == ptr2);
+    }
+
     SECTION("operator!=")
     {
         phi::not_null_flat_ptr ptr1(raw_ptr1);
@@ -650,6 +718,24 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
         ptr2 = raw_ptr1;
 
         CHECK_FALSE(ptr1 != ptr2);
+    }
+
+    SECTION("operator!=(void*)")
+    {
+        phi::not_null_flat_ptr ptr1(raw_ptr1);
+        phi::not_null_flat_ptr ptr2(raw_ptr2);
+
+        CHECK_FALSE(ptr1 != raw_ptr1);
+        CHECK(ptr1 != raw_ptr2);
+
+        CHECK(ptr2 != raw_ptr1);
+        CHECK_FALSE(ptr2 != raw_ptr2);
+
+        CHECK_FALSE(raw_ptr1 != ptr1);
+        CHECK(raw_ptr2 != ptr1);
+
+        CHECK(raw_ptr1 != ptr2);
+        CHECK_FALSE(raw_ptr2 != ptr2);
     }
 
     SECTION("operator void*")

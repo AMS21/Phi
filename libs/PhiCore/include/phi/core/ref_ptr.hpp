@@ -424,6 +424,18 @@ constexpr boolean operator==(nullptr_t, const ref_ptr<RhsT>& rhs) noexcept
 }
 
 template <typename LhsT, typename RhsT>
+constexpr boolean operator==(const ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+{
+    return lhs.get() == rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator==(LhsT lhs, const ref_ptr<RhsT>& rhs) noexcept
+{
+    return lhs == rhs.get();
+}
+
+template <typename LhsT, typename RhsT>
 constexpr boolean operator!=(const ref_ptr<LhsT>& lhs, const ref_ptr<RhsT>& rhs) noexcept
 {
     return lhs.get() != rhs.get();
@@ -439,6 +451,18 @@ template <typename RhsT>
 constexpr boolean operator!=(nullptr_t, const ref_ptr<RhsT>& rhs) noexcept
 {
     return rhs.get() != nullptr;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(const ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+{
+    return lhs.get() != rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(LhsT lhs, const ref_ptr<RhsT>& rhs) noexcept
+{
+    return lhs != rhs.get();
 }
 
 template <typename TypeT>
@@ -733,6 +757,18 @@ template <typename RhsT>
 boolean operator==(nullptr_t, const not_null_ref_ptr<RhsT>& rhs) = delete;
 
 template <typename LhsT, typename RhsT>
+constexpr boolean operator==(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+{
+    return lhs.get() == rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator==(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) noexcept
+{
+    return lhs == rhs.get();
+}
+
+template <typename LhsT, typename RhsT>
 constexpr boolean operator!=(const not_null_ref_ptr<LhsT>& lhs,
                              const not_null_ref_ptr<RhsT>& rhs) noexcept
 {
@@ -744,6 +780,18 @@ boolean operator!=(const not_null_ref_ptr<LhsT>& lhs, nullptr_t) = delete;
 
 template <typename RhsT>
 boolean operator!=(nullptr_t, const not_null_ref_ptr<RhsT>& rhs) = delete;
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+{
+    return lhs.get() != rhs;
+}
+
+template <typename LhsT, typename RhsT>
+constexpr boolean operator!=(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) noexcept
+{
+    return lhs != rhs.get();
+}
 
 template <typename TypeT>
 constexpr void swap(not_null_ref_ptr<TypeT>& lhs, not_null_ref_ptr<TypeT>& rhs) noexcept
