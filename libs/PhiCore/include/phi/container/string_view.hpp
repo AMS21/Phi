@@ -239,6 +239,11 @@ public:
         return m_Length == 0u;
     }
 
+    PHI_NODISCARD constexpr boolean is_null_terminated() const noexcept
+    {
+        return m_Length > 0u && back() == '\0';
+    }
+
     // Element access
 
     PHI_NODISCARD constexpr const_reference operator[](size_type pos) const noexcept
@@ -1361,6 +1366,11 @@ public:
             const CharT* string) const noexcept
     {
         return find(string) != npos;
+    }
+
+    PHI_NODISCARD constexpr boolean is_null_terminated() const noexcept
+    {
+        return back() == '\0';
     }
 
     // find

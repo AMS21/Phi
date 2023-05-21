@@ -496,6 +496,17 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE_FALSE(test_view.is_null());
     }
 
+    SECTION("is_null_terminated")
+    {
+        constexpr phi::string_view null_view;
+        constexpr phi::string_view test_view{"Hello World"};
+        constexpr phi::string_view null_terminated_view{"Hello", 6u};
+
+        STATIC_REQUIRE_FALSE(null_view.is_null_terminated());
+        STATIC_REQUIRE_FALSE(test_view.is_null_terminated());
+        STATIC_REQUIRE(null_terminated_view.is_null_terminated());
+    }
+
     SECTION("operator[]/at()")
     {
         PHI_EXTENDED_CONSTEXPR phi::string_view test_view("Test");
