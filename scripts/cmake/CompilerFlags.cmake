@@ -660,7 +660,7 @@ elseif(PHI_COMPILER_MSVC)
   set(phi_fuzzing_support_flags)
 
   # "/Ge" and "/GZ" were deprecated with VS2005 and cause noisy compiler warnings
-  if(${PHI_MSVC_YEAR} VERSION_LESS 2005)
+  if(${MSVC_VERSION} VERSION_LESS 1400)
     set(phi_debug_flags
         ${phi_debug_flags}
         /Ge # https://learn.microsoft.com/cpp/build/reference/ge-enable-stack-probes
@@ -669,7 +669,7 @@ elseif(PHI_COMPILER_MSVC)
   endif()
 
   # MSVC-2017 flags
-  if(${PHI_MSVC_YEAR} VERSION_GREATER_EQUAL 2017)
+  if(${MSVC_VERSION} VERSION_GREATER_EQUAL 1910)
     set(phi_pedantic_flags ${phi_pedantic_flags} /permissive-)
     set(phi_disabled_warnings_flags
         ${phi_disabled_warnings_flags}
@@ -696,7 +696,7 @@ elseif(PHI_COMPILER_MSVC)
   endif()
 
   # MSVC-2019 flags
-  if(${PHI_MSVC_YEAR} VERSION_GREATER_EQUAL 2019)
+  if(${MSVC_VERSION} VERSION_GREATER_EQUAL 1920)
     set(phi_optimize_flags
         ${phi_optimize_flags}
         # Inline Function Expansion -
