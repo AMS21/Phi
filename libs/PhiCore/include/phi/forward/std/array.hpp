@@ -52,8 +52,12 @@ namespace std
 #elif PHI_STANDARD_LIBRARY_MSVC()
 // MSVC's std::array uses class instead of struct
 
+DETAIL_PHI_BEGIN_STD_NAMESPACE()
+
 template <typename TypeT, phi::size_t Size>
 class array;
+
+DETAIL_PHI_END_STD_NAMESPACE()
 
 #else
 // std::array forward with a struct
