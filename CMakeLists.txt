@@ -41,7 +41,7 @@ if(NOT DEFINED PHI_MAIN_PROJECT)
   endif()
 endif()
 
-# Load environemt information
+# Load environment information
 include(Environment)
 
 # Options
@@ -69,7 +69,7 @@ option(PHI_ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
 option(PHI_ENABLE_IWYU "Enable static analysis with include-what-you-use" OFF)
 option(PHI_TEST_WITH_ALL_STANDARDS "Build test application for all standards" ON)
 option(PHI_TEST_SPLIT_FILES "Split unittest files into multiple executables" ${PHI_COMPILER_EMCC})
-option(PHI_VERBOSE_CMAKE "Enable verbose priting during configuration" ${PHI_MAIN_PROJECT})
+option(PHI_VERBOSE_CMAKE "Enable verbose printing during configuration" ${PHI_MAIN_PROJECT})
 option(PHI_FUZZING_BUILD "Enable specific flags useful for fuzzing" OFF)
 
 phi_option(PHI_STANDARD_RUNTIME "Which standard runtime to use. Only affects windows platforms"
@@ -126,7 +126,7 @@ phi_set_cache_value(PHI_GENERATED_FILES_DIR "${CMAKE_BINARY_DIR}/generated-inclu
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
   phi_warn(
-    "You shoudnt build in a source directory (or any directory with a CMakeLists.txt file). Please consider makeing a build subdirectory."
+    "You shouldn't build in a source directory (or any directory with a CMakeLists.txt file). Please consider making a build subdirectory."
   )
 endif()
 
