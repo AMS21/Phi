@@ -88,7 +88,8 @@ set_property(
            "14"
            "17"
            "20"
-           "23")
+           "23"
+           "26")
 
 option(PHI_ENABLE_PSO "Enable platform specific optimization" OFF)
 phi_option(PHI_ARCH "Optimization target for platform specific optimization" STRING "native")
