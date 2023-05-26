@@ -711,6 +711,12 @@ elseif(PHI_COMPILER_MSVC)
         /Zc:preprocessor # https://learn.microsoft.com/cpp/build/reference/zc-preprocessor
     )
   endif()
+
+  # MSVC-2022 flags
+  if (${MSVC_VERSION} VERSION_GREATER_EQUAL 1930)
+    # NOTE: Since MSVC-2020 compiles the standard library into modules, where we cannot silence warnings, we need to disable them here
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} /wd4355 /wd5039 /wd5204)
+  endif()
 endif()
 
 # Move all flags to the cache
