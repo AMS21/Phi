@@ -716,7 +716,7 @@ elseif(PHI_COMPILER_MSVC)
   if(${MSVC_VERSION} VERSION_GREATER_EQUAL 1930)
     # NOTE: Since MSVC-2020 compiles the standard library into modules, where we cannot silence
     # warnings, we need to disable them here
-    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} /wd4355 /wd5039 /wd5204)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} /wd4355 /wd4738 /wd5039 /wd5204)
   endif()
 endif()
 
