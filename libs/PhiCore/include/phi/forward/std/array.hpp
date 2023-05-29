@@ -38,7 +38,7 @@ namespace std
 
 namespace std
 {
-    namespace __debug
+    inline namespace __debug
     {
 
         template <typename TypeT, phi::size_t Size>
