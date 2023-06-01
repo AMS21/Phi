@@ -158,6 +158,7 @@ file(
   "src/type_traits/add_cv.test.cpp"
   "src/type_traits/add_lvalue_reference.nointrinsic.test.cpp"
   "src/type_traits/add_lvalue_reference.test.cpp"
+  "src/type_traits/add_pointer.nointrinsic.test.cpp"
   "src/type_traits/add_pointer.test.cpp"
   "src/type_traits/add_rvalue_reference.test.cpp"
   "src/type_traits/add_volatile.test.cpp"

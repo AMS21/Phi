@@ -51,6 +51,7 @@ file(
   # compiler_support/intrinsics
   "include/phi/compiler_support/intrinsics/abort.hpp"
   "include/phi/compiler_support/intrinsics/add_lvalue_reference.hpp"
+  "include/phi/compiler_support/intrinsics/add_pointer.hpp"
   "include/phi/compiler_support/intrinsics/address_of.hpp"
   "include/phi/compiler_support/intrinsics/array_extent.hpp"
   "include/phi/compiler_support/intrinsics/array_rank.hpp"
