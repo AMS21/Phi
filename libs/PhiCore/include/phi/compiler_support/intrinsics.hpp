@@ -8,6 +8,7 @@
 #endif
 
 #include "intrinsics/abort.hpp"
+#include "intrinsics/add_lvalue_reference.hpp"
 #include "intrinsics/address_of.hpp"
 #include "intrinsics/array_extent.hpp"
 #include "intrinsics/array_rank.hpp"

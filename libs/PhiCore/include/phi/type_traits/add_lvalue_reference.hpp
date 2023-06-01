@@ -7,7 +7,24 @@
 #    pragma once
 #endif
 
-#include "phi/type_traits/is_referenceable.hpp"
+#include "phi/compiler_support/intrinsics/add_lvalue_reference.hpp"
+
+#if PHI_SUPPORTS_ADD_LVALUE_REFERENCE()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct add_lvalue_reference
+{
+    using type = PHI_ADD_LVALUE_REFERENCE(TypeT);
+};
+
+template <typename TypeT>
+using add_lvalue_reference_t = PHI_ADD_LVALUE_REFERENCE(TypeT);
+
+#else
+
+#    include "phi/type_traits/is_referenceable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -34,6 +51,8 @@ struct add_lvalue_reference
 
 template <typename TypeT>
 using add_lvalue_reference_t = typename add_lvalue_reference<TypeT>::type;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 
