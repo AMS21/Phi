@@ -335,7 +335,7 @@ file(
   "src/type_traits/is_unsafe_fundamental.test.cpp"
   "src/type_traits/is_unsafe_integer.test.cpp"
   "src/type_traits/is_unsafe_integral.test.cpp"
-  "src/type_traits/is_unasfe_non_bool_integral.test.cpp"
+  "src/type_traits/is_unsafe_non_bool_integral.test.cpp"
   "src/type_traits/is_unsafe_scalar.test.cpp"
   "src/type_traits/is_unsafe_signed_integer.test.cpp"
   "src/type_traits/is_unsafe_signed.test.cpp"
