@@ -36,6 +36,7 @@
 #include "phi/type_traits/has_difference_type.hpp"
 #include "phi/type_traits/has_element_type.hpp"
 #include "phi/type_traits/has_unique_object_representations.hpp"
+#include "phi/type_traits/has_value_type.hpp"
 #include "phi/type_traits/has_virtual_destructor.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/invoke_result.hpp"

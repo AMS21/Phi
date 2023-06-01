@@ -180,6 +180,7 @@ file(
   "src/type_traits/has_element_type.test.cpp"
   "src/type_traits/has_unique_object_representations.nointrinsic.test.cpp"
   "src/type_traits/has_unique_object_representations.test.cpp"
+  "src/type_traits/has_value_type.test.cpp"
   "src/type_traits/has_virtual_destructor.nointrinsic.test.cpp"
   "src/type_traits/has_virtual_destructor.test.cpp"
   "src/type_traits/integral_constant.test.cpp"

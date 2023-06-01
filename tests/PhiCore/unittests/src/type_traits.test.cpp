@@ -145,6 +145,12 @@ TEST_CASE("type_traits")
 #    endif
 #endif
 
+    // has_value_type
+    STATIC_REQUIRE_FALSE(phi::has_value_type<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::has_value_type_v<int>);
+#endif
+
     // has_virtual_destructor
 #if PHI_HAS_WORKING_HAS_VIRTUAL_DESTRUCTOR()
     STATIC_REQUIRE_FALSE(phi::has_virtual_destructor<int>::value);
