@@ -160,6 +160,7 @@ file(
   "src/type_traits/add_lvalue_reference.test.cpp"
   "src/type_traits/add_pointer.nointrinsic.test.cpp"
   "src/type_traits/add_pointer.test.cpp"
+  "src/type_traits/add_rvalue_reference.nointrinsic.test.cpp"
   "src/type_traits/add_rvalue_reference.test.cpp"
   "src/type_traits/add_volatile.test.cpp"
   "src/type_traits/aligned_storage.test.cpp"
