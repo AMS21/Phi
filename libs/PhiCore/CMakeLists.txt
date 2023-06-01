@@ -97,6 +97,8 @@ file(
   "include/phi/compiler_support/intrinsics/is_null_pointer.hpp"
   "include/phi/compiler_support/intrinsics/is_object.hpp"
   "include/phi/compiler_support/intrinsics/is_pod.hpp"
+  "include/phi/compiler_support/intrinsics/is_pointer_interconvertible_base_of.hpp"
+  "include/phi/compiler_support/intrinsics/is_pointer_interconvertible_with_class.hpp"
   "include/phi/compiler_support/intrinsics/is_polymorphic.hpp"
   "include/phi/compiler_support/intrinsics/is_reference.hpp"
   "include/phi/compiler_support/intrinsics/is_referenceable.hpp"
