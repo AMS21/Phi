@@ -121,6 +121,7 @@ file(
   "include/phi/compiler_support/intrinsics/memcmp.hpp"
   "include/phi/compiler_support/intrinsics/object_size.hpp"
   "include/phi/compiler_support/intrinsics/offsetof.hpp"
+  "include/phi/compiler_support/intrinsics/remove_all_extents.hpp"
   "include/phi/compiler_support/intrinsics/remove_const.hpp"
   "include/phi/compiler_support/intrinsics/remove_cv.hpp"
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"

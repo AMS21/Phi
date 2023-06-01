@@ -81,6 +81,7 @@
 #include "intrinsics/memcmp.hpp"
 #include "intrinsics/object_size.hpp"
 #include "intrinsics/offsetof.hpp"
+#include "intrinsics/remove_all_extents.hpp"
 #include "intrinsics/remove_const.hpp"
 #include "intrinsics/remove_cv.hpp"
 #include "intrinsics/remove_volatile.hpp"

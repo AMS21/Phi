@@ -360,6 +360,7 @@ file(
   "src/type_traits/make_unsigned.test.cpp"
   "src/type_traits/negation.test.cpp"
   "src/type_traits/rank.test.cpp"
+  "src/type_traits/remove_all_extents.nointrinsic.test.cpp"
   "src/type_traits/remove_all_extents.test.cpp"
   "src/type_traits/remove_const.test.cpp"
   "src/type_traits/remove_cv.test.cpp"
