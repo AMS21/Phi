@@ -11,6 +11,7 @@
 #include "intrinsics/address_of.hpp"
 #include "intrinsics/array_extent.hpp"
 #include "intrinsics/array_rank.hpp"
+#include "intrinsics/decay.hpp"
 #include "intrinsics/dynamic_object_size.hpp"
 #include "intrinsics/fabs.hpp"
 #include "intrinsics/floor.hpp"

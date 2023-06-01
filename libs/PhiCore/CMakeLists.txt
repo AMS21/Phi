@@ -53,6 +53,7 @@ file(
   "include/phi/compiler_support/intrinsics/address_of.hpp"
   "include/phi/compiler_support/intrinsics/array_extent.hpp"
   "include/phi/compiler_support/intrinsics/array_rank.hpp"
+  "include/phi/compiler_support/intrinsics/decay.hpp"
   "include/phi/compiler_support/intrinsics/dynamic_object_size.hpp"
   "include/phi/compiler_support/intrinsics/fabs.hpp"
   "include/phi/compiler_support/intrinsics/floor.hpp"

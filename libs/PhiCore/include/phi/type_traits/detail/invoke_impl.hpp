@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
+#include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/decay.hpp"
 #include "phi/type_traits/detail/nat.hpp"
 #include "phi/type_traits/enable_if.hpp"

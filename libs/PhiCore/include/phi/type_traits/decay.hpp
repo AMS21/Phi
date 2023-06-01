@@ -7,13 +7,30 @@
 #    pragma once
 #endif
 
-#include "phi/type_traits/add_pointer.hpp"
-#include "phi/type_traits/conditional.hpp"
-#include "phi/type_traits/is_array.hpp"
-#include "phi/type_traits/is_function.hpp"
-#include "phi/type_traits/is_referenceable.hpp"
-#include "phi/type_traits/remove_cv.hpp"
-#include "phi/type_traits/remove_extent.hpp"
+#include "phi/compiler_support/intrinsics/decay.hpp"
+
+#if PHI_SUPPORTS_DECAY()
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct decay
+{
+    using type = PHI_DECAY(TypeT);
+};
+
+template <typename TypeT>
+using decay_t = PHI_DECAY(TypeT);
+
+#else
+
+#    include "phi/type_traits/add_pointer.hpp"
+#    include "phi/type_traits/conditional.hpp"
+#    include "phi/type_traits/is_array.hpp"
+#    include "phi/type_traits/is_function.hpp"
+#    include "phi/type_traits/is_referenceable.hpp"
+#    include "phi/type_traits/remove_cv.hpp"
+#    include "phi/type_traits/remove_extent.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -47,6 +64,8 @@ public:
 
 template <typename TypeT>
 using decay_t = typename decay<TypeT>::type;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 

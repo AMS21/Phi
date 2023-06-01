@@ -170,6 +170,7 @@ file(
   "src/type_traits/copy_const.test.cpp"
   "src/type_traits/copy_cv.test.cpp"
   "src/type_traits/copy_volatile.test.cpp"
+  "src/type_traits/decay.nointrinsic.test.cpp"
   "src/type_traits/decay.test.cpp"
   "src/type_traits/disable_if.test.cpp"
   "src/type_traits/disjunction.test.cpp"
