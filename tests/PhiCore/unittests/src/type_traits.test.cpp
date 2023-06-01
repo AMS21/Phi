@@ -125,6 +125,12 @@ TEST_CASE("type_traits")
     STATIC_REQUIRE_FALSE(phi::false_v<int>);
 #endif
 
+    // has_element_type
+    STATIC_REQUIRE_FALSE(phi::has_element_type<int>::value);
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    STATIC_REQUIRE_FALSE(phi::has_element_type_v<int>);
+#endif
+
     // has_unique_object_representations
 #if PHI_HAS_WORKING_HAS_UNIQUE_OBJECT_REPRESENTATIONS()
     STATIC_REQUIRE(phi::has_unique_object_representations<unsigned>::value);
