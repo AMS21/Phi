@@ -115,7 +115,7 @@ file(
   "include/phi/compiler_support/intrinsics/remove_cv.hpp"
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"
   "include/phi/compiler_support/intrinsics/source_location.hpp"
-  "include/phi/compiler_support/intrinsics/traph.hpp"
+  "include/phi/compiler_support/intrinsics/trap.hpp"
   "include/phi/compiler_support/intrinsics/underlying_type.hpp"
   # compiler_support
   "include/phi/compiler_support/architecture.hpp"
