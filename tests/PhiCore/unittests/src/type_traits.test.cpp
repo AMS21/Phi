@@ -299,7 +299,7 @@ TEST_CASE("type_traits")
 
     // is_constant_evaluated
 #if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
-    static_assert(phi::is_constant_evaluated(), "is_constant_evulated");
+    static_assert(phi::is_constant_evaluated(), "is_constant_evaluated");
 #endif
 
     // is_constructible
