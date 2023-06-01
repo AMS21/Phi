@@ -56,6 +56,7 @@
 #include "intrinsics/is_null_pointer.hpp"
 #include "intrinsics/is_object.hpp"
 #include "intrinsics/is_pod.hpp"
+#include "intrinsics/is_pointer.hpp"
 #include "intrinsics/is_pointer_interconvertible_base_of.hpp"
 #include "intrinsics/is_pointer_interconvertible_with_class.hpp"
 #include "intrinsics/is_polymorphic.hpp"
