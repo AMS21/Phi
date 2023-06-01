@@ -40,6 +40,8 @@
 #    define PHI_CPLUSPLUS_23() (202100L)
 #elif PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
 #    define PHI_CPLUSPLUS_23() (202004L)
+#elif PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
+#    define PHI_CPLUSPLUS_23() (202302L)
 #else
 // C++-23 standard (Working draft)
 #    define PHI_CPLUSPLUS_23() (202101L)
