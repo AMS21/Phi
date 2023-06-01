@@ -370,6 +370,7 @@ file(
   "src/type_traits/remove_extent.test.cpp"
   "src/type_traits/remove_pointer.nointrinsic.test.cpp"
   "src/type_traits/remove_pointer.test.cpp"
+  "src/type_traits/remove_reference.nointrinsic.test.cpp"
   "src/type_traits/remove_reference.test.cpp"
   "src/type_traits/remove_volatile.test.cpp"
   "src/type_traits/signed_int_of_size.test.cpp"
