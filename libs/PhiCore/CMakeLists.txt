@@ -179,6 +179,7 @@ file(
   "include/phi/core/observer_ptr.hpp"
   "include/phi/core/offsetof.hpp"
   "include/phi/core/optional.hpp"
+  "include/phi/core/pointer_traits.hpp"
   "include/phi/core/ptrdiff_t.hpp"
   "include/phi/core/ref_ptr.hpp"
   "include/phi/core/scope_guard.hpp"
