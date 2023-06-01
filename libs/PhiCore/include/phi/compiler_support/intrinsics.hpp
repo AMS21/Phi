@@ -86,6 +86,7 @@
 #include "intrinsics/remove_cv.hpp"
 #include "intrinsics/remove_cvref.hpp"
 #include "intrinsics/remove_extent.hpp"
+#include "intrinsics/remove_pointer.hpp"
 #include "intrinsics/remove_volatile.hpp"
 #include "intrinsics/source_location.hpp"
 #include "intrinsics/trap.hpp"

@@ -7,7 +7,22 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/intrinsics/remove_pointer.hpp"
+
 DETAIL_PHI_BEGIN_NAMESPACE()
+
+#if PHI_SUPPORTS_REMOVE_POINTER()
+
+template <typename TypeT>
+struct remove_pointer
+{
+    using type = PHI_REMOVE_POINTER(TypeT);
+};
+
+template <typename TypeT>
+using remove_pointer_t = PHI_REMOVE_POINTER(TypeT);
+
+#else
 
 template <typename TypeT>
 struct remove_pointer
@@ -41,6 +56,8 @@ struct remove_pointer<TypeT* const volatile>
 
 template <typename TypeT>
 using remove_pointer_t = typename remove_pointer<TypeT>::type;
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 
