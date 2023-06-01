@@ -366,6 +366,7 @@ file(
   "src/type_traits/remove_cv.test.cpp"
   "src/type_traits/remove_cvref.nointrinsic.test.cpp"
   "src/type_traits/remove_cvref.test.cpp"
+  "src/type_traits/remove_extent.nointrinsic.test.cpp"
   "src/type_traits/remove_extent.test.cpp"
   "src/type_traits/remove_pointer.test.cpp"
   "src/type_traits/remove_reference.test.cpp"

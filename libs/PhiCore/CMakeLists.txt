@@ -125,6 +125,7 @@ file(
   "include/phi/compiler_support/intrinsics/remove_const.hpp"
   "include/phi/compiler_support/intrinsics/remove_cv.hpp"
   "include/phi/compiler_support/intrinsics/remove_cvref.hpp"
+  "include/phi/compiler_support/intrinsics/remove_extent.hpp"
   "include/phi/compiler_support/intrinsics/remove_volatile.hpp"
   "include/phi/compiler_support/intrinsics/source_location.hpp"
   "include/phi/compiler_support/intrinsics/trap.hpp"
