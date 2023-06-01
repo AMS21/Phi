@@ -176,6 +176,7 @@ file(
   "src/type_traits/extent.test.cpp"
   "src/type_traits/extent.nointrinsic.test.cpp"
   "src/type_traits/false_t.test.cpp"
+  "src/type_traits/has_difference_type.test.cpp"
   "src/type_traits/has_element_type.test.cpp"
   "src/type_traits/has_unique_object_representations.nointrinsic.test.cpp"
   "src/type_traits/has_unique_object_representations.test.cpp"

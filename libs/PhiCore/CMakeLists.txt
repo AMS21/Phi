@@ -299,6 +299,7 @@ file(
   "include/phi/type_traits/enable_if.hpp"
   "include/phi/type_traits/extent.hpp"
   "include/phi/type_traits/false_t.hpp"
+  "include/phi/type_traits/has_difference_type.hpp"
   "include/phi/type_traits/has_element_type.hpp"
   "include/phi/type_traits/has_unique_object_representations.hpp"
   "include/phi/type_traits/has_virtual_destructor.hpp"
