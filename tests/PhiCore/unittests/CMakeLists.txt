@@ -82,6 +82,7 @@ file(
   "src/core/sized_types.test.cpp"
   "src/core/source_location.test.cpp"
   "src/core/stop_watch.test.cpp"
+  "src/core/to_address.test.cpp"
   "src/core/types.test.cpp"
   "src/core/unsafe_cast.test.cpp"
   "src/core/voidify.test.cpp"
