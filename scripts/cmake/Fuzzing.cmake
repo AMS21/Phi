@@ -30,6 +30,20 @@ function(phi_add_fuzzer)
     phi_error("phi_add_fuzzer: You must specify a name using NAME")
   endif()
 
+  # The compiler_rt for clang on windows is build with non debug static standard library
+  if(PHI_COMPILER_CLANG AND PHI_PLATFORM_WINDOWS)
+    if(NOT ${PHI_STANDARD_RUNTIME} STREQUAL "Static")
+      phi_warn(
+        "phi_add_fuzzer: Standard runtime '${PHI_STANDARD_RUNTIME}' is not supported for clang fuzzers. You should use 'Static'"
+      )
+    endif()
+
+    # Ensure fuzzers are only build in release mode
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+      return()
+    endif()
+  endif()
+
   # Add our executable
   phi_add_executable(
     NAME

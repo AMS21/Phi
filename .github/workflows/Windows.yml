@@ -132,7 +132,8 @@ jobs:
           mkdir build -p
           cd build
 
-          cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }}
+          # Need to use static runtime to build our fuzzers
+          cmake .. -DCMAKE_BUILD_TYPE:STRING=${{ matrix.build_type }} -DPHI_STANDARD_RUNTIME:STRING="Static"
 
       - name: Build
         working-directory: ./build

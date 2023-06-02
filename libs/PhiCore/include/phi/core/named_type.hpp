@@ -59,8 +59,8 @@ SOFTWARE.
 #include <iosfwd>
 #include <utility>
 
-// Enable empty base class optimization with multiple inheritance on Visual Studio.
-#if PHI_COMPILER_IS_ATLEAST(MSVC, 19, 14, 0)
+// Enable empty base class optimization with multiple inheritance on Visual Studio or Clang on windows.
+#if PHI_COMPILER_IS_ATLEAST(MSVC, 19, 14, 0) || PHI_COMPILER_IS(WINCLANG)
 #    define PHI_EBCO __declspec(empty_bases)
 #else
 #    define PHI_EBCO /* Nothing */
