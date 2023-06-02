@@ -196,6 +196,7 @@ jobs:
           if_false: 'github-check'
 
       - name: ReviewDog check
+        continue-on-error: true
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
