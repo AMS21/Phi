@@ -51,6 +51,7 @@ jobs:
           - { os: macos-12, compiler_version: "14.0.1" }
           - { os: macos-12, compiler_version: "14.1"   }
           - { os: macos-12, compiler_version: "14.2"   }
+          - { os: macos-13, compiler_version: "14.3"   }
 
         build_type:
           - "Debug"
