@@ -124,9 +124,9 @@ private:
 
 public:
     constexpr static pointer pointer_to(
-            conditional_t<is_void<element_type>::value, nat, element_type>& pointer) noexcept
+            conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
     {
-        return pointer::pointer_to(pointer);
+        return pointer::pointer_to(ptr);
     }
 };
 
@@ -155,9 +155,9 @@ private:
 
 public:
     constexpr static pointer pointer_to(
-            conditional_t<is_void<element_type>::value, nat, element_type>& pointer) noexcept
+            conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
     {
-        return address_of(pointer);
+        return address_of(ptr);
     }
 };
 
