@@ -49,7 +49,9 @@ TEST_CASE("math.is_infinity - float")
     STATIC_TEST_IS_INFINITY(-INFINITY);
     STATIC_TEST_IS_INFINITY(HUGE_VALF);
     STATIC_TEST_IS_INFINITY(std::numeric_limits<float>::infinity());
+#if !PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
     STATIC_TEST_IS_INFINITY(-std::numeric_limits<float>::infinity());
+#endif
 
     STATIC_TEST_IS_NOT_INFINITY(0.0f);
     STATIC_TEST_IS_NOT_INFINITY(-0.0f);
@@ -69,7 +71,9 @@ TEST_CASE("math.is_infinity - float")
 TEST_CASE("math.is_infinity - double")
 {
     STATIC_TEST_IS_INFINITY(std::numeric_limits<double>::infinity());
+#if !PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
     STATIC_TEST_IS_INFINITY(-std::numeric_limits<double>::infinity());
+#endif
 
     STATIC_TEST_IS_NOT_INFINITY(0.0);
     STATIC_TEST_IS_NOT_INFINITY(-0.0);
@@ -89,7 +93,9 @@ TEST_CASE("math.is_infinity - double")
 TEST_CASE("math.is_infinity - long double")
 {
     STATIC_TEST_IS_INFINITY(std::numeric_limits<long double>::infinity());
+#if !PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
     STATIC_TEST_IS_INFINITY(-std::numeric_limits<long double>::infinity());
+#endif
 
     STATIC_TEST_IS_NOT_INFINITY(0.0L);
     STATIC_TEST_IS_NOT_INFINITY(-0.0L);
@@ -152,7 +158,9 @@ TEST_CASE("math.is_infinity - floating_point<double>")
 TEST_CASE("math.is_infinity - floating_point<long double>")
 {
     STATIC_TEST_IS_INFINITY(sl(std::numeric_limits<long double>::infinity()));
+#if !PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
     STATIC_TEST_IS_INFINITY(sl(-std::numeric_limits<long double>::infinity()));
+#endif
 
     STATIC_TEST_IS_NOT_INFINITY(sl(0.0L));
     STATIC_TEST_IS_NOT_INFINITY(sl(-0.0L));

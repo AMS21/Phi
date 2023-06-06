@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
@@ -45,7 +46,7 @@ TEST_CASE("is_nan")
     // See godbolt link for an example: https://godbolt.org/z/vWM8zdn97
     volatile float nan_value = NAN;
     if (nan_value == nan_value || !std::numeric_limits<float>::has_quiet_NaN ||
-        !std::numeric_limits<float>::has_signaling_NaN)
+        !std::numeric_limits<float>::has_signaling_NaN || PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39))
     {
         return;
     }
