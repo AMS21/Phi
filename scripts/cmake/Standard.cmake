@@ -3,7 +3,9 @@ phi_include_guard()
 include(CMakeParseArguments)
 
 # C++-11/14 Flags were introduces in CMake 3.1
-if(${CMAKE_VERSION} VERSION_LESS "3.1")
+if(${CMAKE_VERSION} VERSION_LESS "3.1"
+   OR NOT DEFINED CMAKE_CXX11_STANDARD_COMPILE_OPTION
+   OR NOT DEFINED CMAKE_CXX14_STANDARD_COMPILE_OPTION)
   # C++-11
   set(phi_known_cxx11_flags "-std=c++11" "-std=c++0x" "-std:c++11" "-std:c++latest" "-Qstd=c++11")
   set(phi_known_cxx11_ext_flags "-std=gnu++11" "-std=gnu++0x")
@@ -74,7 +76,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.1")
 endif()
 
 # C++-17 Flags were introduced in CMake 3.8
-if(${CMAKE_VERSION} VERSION_LESS "3.8")
+if(${CMAKE_VERSION} VERSION_LESS "3.8" OR NOT DEFINED CMAKE_CXX17_STANDARD_COMPILE_OPTION)
   set(phi_known_cxx17_flags "-std=c++17" "-std=c++1z" "-std:c++17" "-std:c++latest" "-Qstd=c++17")
   set(phi_known_cxx17_ext_flags "-std=gnu++17" "-std=gnu++1z")
 
@@ -110,7 +112,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.8")
 endif()
 
 # C++-20 Flags were introduced in CMake 3.12
-if(${CMAKE_VERSION} VERSION_LESS "3.12")
+if(${CMAKE_VERSION} VERSION_LESS "3.12" OR NOT DEFINED CMAKE_CXX20_STANDARD_COMPILE_OPTION)
   set(phi_known_cxx20_flags "-std=c++20" "-std=c++2a" "-std:c++20" "-std:c++latest" "-Qstd=c++20")
   set(phi_known_cxx20_ext_flags "-std=gnu++20" "-std=gnu++2a")
 
@@ -152,7 +154,9 @@ if(DEFINED PHI_PLATFORM_EMSCRIPTEN)
 endif()
 
 # C++-23 Flags were introduced in CMake 3.20
-if(${CMAKE_VERSION} VERSION_LESS "3.20" OR DEFINED PHI_PLATFORM_EMSCRIPTEN)
+if(${CMAKE_VERSION} VERSION_LESS "3.20"
+   OR DEFINED PHI_PLATFORM_EMSCRIPTEN
+   OR NOT DEFINED CMAKE_CXX23_STANDARD_COMPILE_OPTION)
   set(phi_known_cxx23_flags "-std=c++23" "-std=c++2b" "-std:c++23" "-std:c++latest" "-Qstd=c++23")
   set(phi_known_cxx23_ext_flags "-std=gnu++23" "-std=gnu++2b")
 
@@ -188,7 +192,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.20" OR DEFINED PHI_PLATFORM_EMSCRIPTEN)
 endif()
 
 # C++-26 Flags were introduced in CMake 3.25
-if(${CMAKE_VERSION} VERSION_LESS "3.25")
+if(${CMAKE_VERSION} VERSION_LESS "3.25" OR NOT DEFINED CMAKE_CXX26_STANDARD_COMPILE_OPTION)
   set(phi_known_cxx26_flags "-std=c++26" "-std=c++2c" "-std:c++26" "-std:c++latest" "-Qstd=c++26")
   set(phi_known_cxx26_ext_flags "-std=gnu++26" "-std=gnu++26")
 
@@ -240,12 +244,12 @@ foreach(std IN ITEMS ${phi_supported_standards})
   endif()
 endforeach()
 
-if(NOT DEFINED phi_latest_standard_version OR NOT DEFINED phi_latest_standard_flag)
+if(DEFINED phi_latest_standard_version AND DEFINED phi_latest_standard_flag)
+  phi_log("Latest standard: C++-${phi_latest_standard_version}/\"${phi_latest_standard_flag}\"")
+else()
   # No supported standard found
   phi_warn("Failed to find latest supported standard")
 endif()
-
-phi_log("Latest standard: C++-${phi_latest_standard_version}/\"${phi_latest_standard_flag}\"")
 
 if(${PHI_STANDARD} STREQUAL "latest")
   if(NOT DEFINED phi_latest_standard_version OR NOT DEFINED phi_latest_standard_flag)
