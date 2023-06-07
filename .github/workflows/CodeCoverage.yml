@@ -69,7 +69,7 @@ jobs:
 
       - name: Process coverage data
         working-directory: ./build
-        run: gcovr -j ${PROC_COUNT} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable "${GCOV_EXECUTABLE}" --verbose
+        run: gcovr -j ${PROC_COUNT} --delete --root ../ --print-summary --exclude-unreachable-branches --exclude-function-lines --xml-pretty --xml coverage.xml . --gcov-executable "${GCOV_EXECUTABLE}"
 
       - name: Upload coverage data
         uses: codecov/codecov-action@v3.1.4
