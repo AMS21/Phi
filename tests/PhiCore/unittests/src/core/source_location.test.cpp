@@ -154,9 +154,12 @@ TEST_CASE("test f")
 #endif
 }
 
+// NOTE: Messing with the line or current file creates problems with coverage generation
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
+
 static phi::source_location g()
 {
-#line 1000
+#    line 1000
     return TEST_CURRENT();
 }
 
@@ -168,16 +171,16 @@ TEST_CASE("test g")
     CHECK(phi::string_equals(g_loc.function_name(), "g"));
     CHECK(g_loc.function_name_view() == "g");
     CHECK(g_loc.line() == 1000);
-#if PHI_SUPPORTS_BUILTIN_COLUMN()
+#    if PHI_SUPPORTS_BUILTIN_COLUMN()
     CHECK(g_loc.column() > 0);
-#else
+#    else
     CHECK(g_loc.column() == 0);
-#endif
+#    endif
 }
 
 static phi::source_location h()
 {
-#line 1000 "test_file.cpp"
+#    line 1000 "test_file.cpp"
     return TEST_CURRENT();
 }
 
@@ -185,18 +188,20 @@ TEST_CASE("test h")
 {
     phi::source_location h_loc = h();
 
-#if PHI_COMPILER_IS_NOT(MSVC)
+#    if PHI_COMPILER_IS_NOT(MSVC)
     CHECK(phi::string_equals(h_loc.file_name(), "test_file.cpp"));
     CHECK(h_loc.file_name_view() == "test_file.cpp");
-#else
+#    else
     SKIP_CHECK();
-#endif
+#    endif
     CHECK(phi::string_equals(h_loc.function_name(), "h"));
     CHECK(h_loc.function_name_view() == "h");
     CHECK(h_loc.line() == 1000);
-#if PHI_SUPPORTS_BUILTIN_COLUMN()
+#    if PHI_SUPPORTS_BUILTIN_COLUMN()
     CHECK(h_loc.column() > 0);
-#else
+#    else
     CHECK(h_loc.column() == 0);
-#endif
+#    endif
 }
+
+#endif
