@@ -142,12 +142,23 @@ public:
         return ptr;
     }
 
-    PHI_NODISCARD constexpr flat_ptr flat() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR flat_ptr flat() noexcept
+    {
+        return flat_ptr(get());
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const flat_ptr flat() const noexcept
     {
         return flat_ptr(get());
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+        return not_null_flat_ptr{get()};
+    }
+
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const not_null_flat_ptr not_null_flat() const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
         return not_null_flat_ptr{get()};
@@ -160,10 +171,24 @@ public:
     }
 
     template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD constexpr observer_ptr<const OtherT> observer() const noexcept
+    {
+        return observer_ptr<const OtherT>{get()};
+    }
+
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null_observer() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<TypeT>{get()};
+    }
+
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<const OtherT> not_null_observer()
+            const noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        return not_null_observer_ptr<const TypeT>{get()};
     }
 
     template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -400,11 +425,25 @@ public:
         return not_null_flat_ptr{get()};
     }
 
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const not_null_flat_ptr not_null_flat() const noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+        return not_null_flat_ptr{get()};
+    }
+
     template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null_observer() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<OtherT>{get()};
+    }
+
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const not_null_observer_ptr<const OtherT>
+                                               not_null_observer() const noexcept
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+        return not_null_observer_ptr<const OtherT>{get()};
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>

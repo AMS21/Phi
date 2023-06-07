@@ -46,7 +46,8 @@ public:
 
     template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
     constexpr flat_ptr(PointerT pointer) noexcept
-        : m_Pointer(static_cast<void*>(pointer))
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        : m_Pointer(const_cast<void*>(static_cast<const void*>(pointer)))
     {}
 
     template <typename TypeT>
@@ -284,7 +285,8 @@ public:
 
     template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_flat_ptr(PointerT pointer) noexcept
-        : m_Pointer(static_cast<void*>(pointer))
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        : m_Pointer(const_cast<void*>(static_cast<const void*>(pointer)))
     {
         PHI_ASSERT(pointer != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
     }

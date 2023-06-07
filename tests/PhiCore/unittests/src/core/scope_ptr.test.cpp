@@ -744,6 +744,17 @@ TEST_CASE("scope_ptr - flat")
     CHECK(flat.get() == raw_ptr);
 }
 
+TEST_CASE("scope_ptr - flat - const")
+{
+    int*                      raw_ptr = new int(21);
+    const phi::scope_ptr<int> ptr{raw_ptr};
+
+    const phi::flat_ptr flat = ptr.flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
 TEST_CASE("scope_ptr - not_null_flat")
 {
     int*                raw_ptr = new int(21);
@@ -755,12 +766,34 @@ TEST_CASE("scope_ptr - not_null_flat")
     CHECK(flat.get() == raw_ptr);
 }
 
-TEST_CASE("not_null_scope_ptr - flat")
+TEST_CASE("scope_ptr - not_null_flat - const")
+{
+    int*                      raw_ptr = new int(21);
+    const phi::scope_ptr<int> ptr{raw_ptr};
+
+    const phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - not_null_flat")
 {
     int*                         raw_ptr = new int(21);
     phi::not_null_scope_ptr<int> ptr{raw_ptr};
 
     phi::not_null_flat_ptr flat = ptr.not_null_flat();
+
+    CHECK(ptr.get() == flat.get());
+    CHECK(flat.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - not_null_flat - const")
+{
+    int*                               raw_ptr = new int(21);
+    const phi::not_null_scope_ptr<int> ptr{raw_ptr};
+
+    const phi::not_null_flat_ptr flat = ptr.not_null_flat();
 
     CHECK(ptr.get() == flat.get());
     CHECK(flat.get() == raw_ptr);
@@ -777,6 +810,17 @@ TEST_CASE("scope_ptr - observer")
     CHECK(observer.get() == raw_ptr);
 }
 
+TEST_CASE("scope_ptr - observer - const")
+{
+    int*                      raw_ptr = new int(21);
+    const phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::observer_ptr<const int> observer = ptr.observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
 TEST_CASE("scope_ptr - not_null_observer")
 {
     int*                raw_ptr = new int(21);
@@ -788,12 +832,34 @@ TEST_CASE("scope_ptr - not_null_observer")
     CHECK(observer.get() == raw_ptr);
 }
 
-TEST_CASE("not_null_scope_ptr - observer")
+TEST_CASE("scope_ptr - not_null_observer - const")
+{
+    int*                      raw_ptr = new int(21);
+    const phi::scope_ptr<int> ptr{raw_ptr};
+
+    phi::not_null_observer_ptr<const int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - not_null_observer")
 {
     int*                         raw_ptr = new int(21);
     phi::not_null_scope_ptr<int> ptr{raw_ptr};
 
     phi::not_null_observer_ptr<int> observer = ptr.not_null_observer();
+
+    CHECK(ptr.get() == observer.get());
+    CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("not_null_scope_ptr - not_null_observer - const")
+{
+    int*                               raw_ptr = new int(21);
+    const phi::not_null_scope_ptr<int> ptr{raw_ptr};
+
+    const phi::not_null_observer_ptr<const int> observer = ptr.not_null_observer();
 
     CHECK(ptr.get() == observer.get());
     CHECK(observer.get() == raw_ptr);
