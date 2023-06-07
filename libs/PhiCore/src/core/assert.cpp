@@ -1,7 +1,13 @@
 #include "phi/core/assert.hpp"
 
+#include "phi/compiler_support/compiler.hpp"
 #include <cstdio>
 #include <cstdlib>
+
+// NOTE: Cheerp defines stderr as a macro which causes a 'disabled expansion of recursive macro' warning
+#if PHI_COMPILER_IS(CHEERP)
+#    undef stderr
+#endif
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

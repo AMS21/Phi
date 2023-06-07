@@ -4,6 +4,29 @@ include(Functions)
 
 # Detect information about the build environment
 
+function(phi_find_js_crosscompiler)
+  # Detect cross compiling emulator if non was set
+  if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    find_program(
+      CMAKE_CROSSCOMPILING_EMULATOR
+      NAMES node nodejs
+      DOC "cmake crosscompiling emulator")
+  endif()
+
+  # Detect node version
+  if(CMAKE_CROSSCOMPILING_EMULATOR)
+    execute_process(
+      COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} --version
+      OUTPUT_VARIABLE NODE_VERSION_RAW
+      ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    string(REGEX REPLACE "v([.0-9]+).*" "\\1" NODE_VERSION "${NODE_VERSION_RAW}")
+    phi_set_cache_value(PHI_NODE_VERSION ${NODE_VERSION})
+
+    phi_trace("Found node version ${PHI_NODE_VERSION} at \"${CMAKE_CROSSCOMPILING_EMULATOR}\"")
+  endif()
+endfunction()
+
 # CMake version
 phi_trace("CMake version ${CMAKE_VERSION}")
 
@@ -51,8 +74,11 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Emscripten")
   phi_set_cache_value(PHI_PLATFORM_EMSCRIPTEN 1)
   phi_trace("Platform: Emscripten")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Cheerp")
+  phi_set_cache_value(PHI_PLATFORM_CHEERP 1)
+  phi_trace("Platform: Cheerp")
 else()
-  phi_warn("Unsupported operating system or environment: ${CMAKE_SYSTEM_NAME}")
+  phi_warn("Unsupported operating system or environment: '${CMAKE_SYSTEM_NAME}'")
 endif()
 
 phi_log("System name: ${CMAKE_SYSTEM_NAME}")
@@ -83,63 +109,66 @@ phi_set_cache_value(PHI_FLAG_PREFIX_CHAR "-")
 
 # CMAKE_CXX_COMPILER_ID is an internal CMake variable subject to change, but there is no other way
 # to detect CLang at the moment
-if(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  # Treat emcc separate from regular clang
-  if(PHI_PLATFORM_EMSCRIPTEN)
-    phi_set_cache_value(PHI_COMPILER_EMCC 1)
+if(PHI_PLATFORM_EMSCRIPTEN)
+  phi_set_cache_value(PHI_COMPILER_EMCC 1)
 
-    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion"
-                    OUTPUT_VARIABLE EMCC_VERSION_OUTPUT)
-    string(REGEX REPLACE "([.0-9]+).*" "\\1" PHI_EMCC_VERSION "${EMCC_VERSION_OUTPUT}")
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion"
+                  OUTPUT_VARIABLE EMCC_VERSION_OUTPUT)
+  string(REGEX REPLACE "([.0-9]+).*" "\\1" PHI_EMCC_VERSION "${EMCC_VERSION_OUTPUT}")
 
-    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_EMCC_MACHINE)
-    string(STRIP "${PHI_EMCC_MACHINE}" PHI_EMCC_MACHINE)
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_EMCC_MACHINE)
+  string(STRIP "${PHI_EMCC_MACHINE}" PHI_EMCC_MACHINE)
 
-    phi_trace("Compiler: emcc-${PHI_EMCC_VERSION}")
-    phi_trace("Machine: ${PHI_EMCC_MACHINE}")
+  phi_trace("Compiler: emcc-${PHI_EMCC_VERSION}")
+  phi_trace("Machine: ${PHI_EMCC_MACHINE}")
 
-    # Add detect cross compiling emulator if non was set
-    if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
-      find_program(
-        CMAKE_CROSSCOMPILING_EMULATOR
-        NAMES node
-        DOC "cmake crosscompiling emulator")
-    endif()
-
-    # Detect node version
-    if(CMAKE_CROSSCOMPILING_EMULATOR)
-      execute_process(
-        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} --version
-        OUTPUT_VARIABLE NODE_VERSION_RAW
-        ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-      string(REGEX REPLACE "v([.0-9]+).*" "\\1" NODE_VERSION "${NODE_VERSION_RAW}")
-
-      phi_trace("Found node version ${NODE_VERSION} at \"${CMAKE_CROSSCOMPILING_EMULATOR}\"")
-    else()
-      phi_warn("Compiling with emscripten but no node cross-compiling emulator found!")
-    endif()
-  else()
-    phi_set_cache_value(PHI_COMPILER_CLANG 1)
-    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version"
-                    OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
-    string(REGEX REPLACE ".*clang version ([.0-9]+).*" "\\1" PHI_CLANG_VERSION
-                         "${CLANG_VERSION_OUTPUT}")
-
-    execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine"
-                    OUTPUT_VARIABLE PHI_CLANG_MACHINE)
-    string(STRIP "${PHI_CLANG_MACHINE}" PHI_CLANG_MACHINE)
-
-    phi_trace("Compiler: Clang-${PHI_CLANG_VERSION}")
-
-    # Test for AppleClang
-    if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
-      phi_set_cache_value(PHI_COMPILER_APPLECLANG 1)
-      phi_trace("Compiler: AppleClang")
-    endif()
-
-    phi_trace("Machine: ${PHI_CLANG_MACHINE}")
+  phi_find_js_crosscompiler()
+  if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    phi_warn("Compiling with Emscripten but no node cross-compiling emulator found!")
   endif()
+elseif(PHI_PLATFORM_CHEERP)
+  phi_set_cache_value(PHI_COMPILER_CHEERP 1)
+
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpversion"
+                  OUTPUT_VARIABLE CHEERP_DUMP_VERSION_OUTPUT)
+  string(REGEX REPLACE "([.0-9]+).*" "\\1" PHI_CHEERP_CLANG_VERSION "${CHEERP_DUMP_VERSION_OUTPUT}")
+  string(STRIP "${PHI_CHEERP_CLANG_VERSION}" PHI_CHEERP_CLANG_VERSION)
+
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE CHEERP_VERSION_OUTPUT)
+  string(REGEX REPLACE "Cheerp ([.0-9\-]+).*" "\\1" PHI_CHEERP_VERSION "${CHEERP_VERSION_OUTPUT}")
+  string(STRIP "${PHI_CHEERP_VERSION}" PHI_CHEERP_VERSION)
+
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_CHEERP_MACHINE)
+  string(STRIP "${PHI_CHEERP_MACHINE}" PHI_CHEERP_MACHINE)
+
+  phi_trace("Compiler: Cheerp-${PHI_CHEERP_VERSION} based on clang-${PHI_CHEERP_CLANG_VERSION}")
+  phi_trace("Machine: ${PHI_CHEERP_MACHINE}")
+
+  phi_find_js_crosscompiler()
+
+  if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    phi_warn("Compiling with Cheerp but no node cross-compiling emulator found!")
+  endif()
+
+elseif(CMAKE_CXX_COMPILER MATCHES "clang[+][+]" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  phi_set_cache_value(PHI_COMPILER_CLANG 1)
+
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "--version" OUTPUT_VARIABLE CLANG_VERSION_OUTPUT)
+  string(REGEX REPLACE ".*clang version ([.0-9]+).*" "\\1" PHI_CLANG_VERSION
+                       "${CLANG_VERSION_OUTPUT}")
+
+  execute_process(COMMAND "${CMAKE_CXX_COMPILER}" "-dumpmachine" OUTPUT_VARIABLE PHI_CLANG_MACHINE)
+  string(STRIP "${PHI_CLANG_MACHINE}" PHI_CLANG_MACHINE)
+
+  phi_trace("Compiler: Clang-${PHI_CLANG_VERSION}")
+
+  # Test for AppleClang
+  if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+    phi_set_cache_value(PHI_COMPILER_APPLECLANG 1)
+    phi_trace("Compiler: AppleClang")
+  endif()
+
+  phi_trace("Machine: ${PHI_CLANG_MACHINE}")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   phi_set_cache_value(PHI_COMPILER_GCC 1)
 

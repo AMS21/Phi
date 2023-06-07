@@ -4,7 +4,6 @@ include(Environment)
 include(internal/SetCacheValue)
 
 if(PHI_COMPILER_APPLECLANG)
-
   set(phi_warning_flags -Weverything -Wformat=2 -Wstrict-aliasing=2)
   set(phi_cxx_warning_flags)
   set(phi_warnings_as_errors_flag -Werror)
@@ -131,6 +130,152 @@ if(PHI_COMPILER_APPLECLANG)
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 13.3)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++2b-extensions)
   endif()
+
+elseif(PHI_COMPILER_EMCC)
+  set(phi_warning_flags -Wundef)
+  set(phi_cxx_warning_flags)
+  set(phi_warnings_as_errors_flag -Werror)
+  set(phi_pedantic_flags -pedantic -pedantic-errors)
+  set(phi_disabled_warnings_flags -w)
+  set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
+  set(phi_optimize_flags
+      -felide-constructors
+      -fforce-emit-vtables
+      -fmerge-all-constants
+      -fstrict-aliasing
+      -fstrict-enums
+      -fstrict-return
+      -fstrict-vtable-pointers)
+  set(phi_cxx_optimize_flags)
+  set(phi_lto_flags -flto=full -fsplit-lto-unit)
+  set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
+  set(phi_common_flags
+      -fborland-extensions
+      -fdeclspec
+      -fmacro-backtrace-limit=0
+      -fms-extensions
+      -pipe
+      -faligned-new
+      -fsized-deallocation
+      -fchar8_t)
+  set(phi_cxx_common_flags)
+  set(phi_color_diagnostics_flag -fdiagnostics-color=always)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
+                      -ftrivial-auto-var-init=pattern -grecord-command-line)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags)
+  set(phi_coverage_link_flags)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -ffinite-math-only
+      -ffp-contract=fast
+      -ffp-exception-behavior=ignore
+      -ffp-model=fast
+      -fno-honor-infinities
+      -fno-honor-nans
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
+  set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags
+      -fsanitize=address,pointer-compare,pointer-subtract
+      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
+      -fsanitize-address-use-odr-indicator)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags
+      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
+  )
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags)
+
+  # emcc-2.0 flags
+  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
+    set(phi_common_flags ${phi_common_flags} -bigobj)
+    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
+  endif()
+
+elseif(PHI_COMPILER_CHEERP)
+  set(phi_warning_flags -Wundef)
+  set(phi_cxx_warning_flags)
+  set(phi_warnings_as_errors_flag -Werror)
+  set(phi_pedantic_flags -pedantic -pedantic-errors)
+  set(phi_disabled_warnings_flags -w)
+  set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
+  set(phi_optimize_flags
+      -ffinite-loops
+      -felide-constructors
+      -fforce-emit-vtables
+      -fmerge-all-constants
+      -fstrict-aliasing
+      -fstrict-enums
+      -fstrict-return
+      -fstrict-vtable-pointers)
+  set(phi_cxx_optimize_flags)
+  set(phi_lto_flags -flto=full -fsplit-lto-unit)
+  set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
+  set(phi_common_flags
+      -fborland-extensions
+      -fdeclspec
+      -fmacro-backtrace-limit=0
+      -fms-extensions
+      -pipe
+      -faligned-new
+      -fsized-deallocation
+      -bigobj
+      -fchar8_t)
+  set(phi_cxx_common_flags)
+  set(phi_color_diagnostics_flag -fdiagnostics-color=always)
+  set(phi_disable_all_warnings_flag -w)
+  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
+                      -ftrivial-auto-var-init=pattern -grecord-command-line)
+  set(phi_debug_only_flags)
+  set(phi_coverage_compile_flags)
+  set(phi_coverage_link_flags)
+  set(phi_noexcept_flag -fno-exceptions)
+  set(phi_fast_math_flags
+      -ffast-math
+      -fassociative-math
+      -ffinite-math-only
+      -ffp-contract=fast
+      -ffp-exception-behavior=ignore
+      -ffp-model=fast
+      -fno-honor-infinities
+      -fno-honor-nans
+      -fno-math-errno
+      -fno-rounding-math
+      -fno-signed-zeros
+      -fno-trapping-math
+      -freciprocal-math
+      -funsafe-math-optimizations)
+  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
+  set(phi_no_rtti_flags -fno-rtti)
+  set(phi_sanitizer_address_flags
+      -fsanitize=address,pointer-compare,pointer-subtract
+      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
+      -fsanitize-address-use-odr-indicator)
+  set(phi_sanitizer_leak_flags -fsanitize=leak)
+  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+                                 -fsanitize-memory-use-after-dtor)
+  set(phi_sanitizer_thread_flags -fsanitize=thread)
+  set(phi_sanitizer_undefined_flags
+      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
+  )
+  set(phi_sanitizer_support_flags
+      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
+  set(phi_fuzzing_support_flags)
 
 elseif(PHI_COMPILER_CLANG)
   # https://clang.llvm.org/docs/DiagnosticsReference.html
@@ -278,82 +423,6 @@ elseif(PHI_COMPILER_CLANG)
   # Clang-17 flags
   if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 17)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++23-extensions)
-  endif()
-
-elseif(PHI_COMPILER_EMCC)
-
-  set(phi_warning_flags -Wundef)
-  set(phi_cxx_warning_flags)
-  set(phi_warnings_as_errors_flag -Werror)
-  set(phi_pedantic_flags -pedantic -pedantic-errors)
-  set(phi_disabled_warnings_flags -w)
-  set(phi_check_required_flags -Werror=unknown-attributes -Werror=attributes)
-  set(phi_optimize_flags
-      -felide-constructors
-      -fforce-emit-vtables
-      -fmerge-all-constants
-      -fstrict-aliasing
-      -fstrict-enums
-      -fstrict-return
-      -fstrict-vtable-pointers)
-  set(phi_cxx_optimize_flags)
-  set(phi_lto_flags -flto=full -fsplit-lto-unit)
-  set(phi_lto_optimization_flags -fwhole-program-vtables -fvirtual-function-elimination)
-  set(phi_common_flags
-      -fborland-extensions
-      -fdeclspec
-      -fmacro-backtrace-limit=0
-      -fms-extensions
-      -pipe
-      -faligned-new
-      -fsized-deallocation
-      -fchar8_t)
-  set(phi_cxx_common_flags)
-  set(phi_color_diagnostics_flag -fdiagnostics-color=always)
-  set(phi_disable_all_warnings_flag -w)
-  set(phi_debug_flags -fasynchronous-unwind-tables -fcheck-new -fdebug-macro
-                      -ftrivial-auto-var-init=pattern -grecord-command-line)
-  set(phi_debug_only_flags)
-  set(phi_coverage_compile_flags)
-  set(phi_coverage_link_flags)
-  set(phi_noexcept_flag -fno-exceptions)
-  set(phi_fast_math_flags
-      -ffast-math
-      -fassociative-math
-      -ffinite-math-only
-      -ffp-contract=fast
-      -ffp-exception-behavior=ignore
-      -ffp-model=fast
-      -fno-honor-infinities
-      -fno-honor-nans
-      -fno-math-errno
-      -fno-rounding-math
-      -fno-signed-zeros
-      -fno-trapping-math
-      -freciprocal-math
-      -funsafe-math-optimizations)
-  set(phi_precise_math_flags -ffp-contract=off -ffp-exception-behavior=strict -ffp-model=precise)
-  set(phi_no_rtti_flags -fno-rtti)
-  set(phi_sanitizer_address_flags
-      -fsanitize=address,pointer-compare,pointer-subtract
-      -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
-      -fsanitize-address-use-odr-indicator)
-  set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
-                                 -fsanitize-memory-use-after-dtor)
-  set(phi_sanitizer_thread_flags -fsanitize=thread)
-  set(phi_sanitizer_undefined_flags
-      -fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,local-bounds,nullability
-  )
-  set(phi_sanitizer_support_flags
-      -fno-common -fno-inline -fno-inline-functions -fno-omit-frame-pointer
-      -fno-optimize-sibling-calls -fno-sanitize-recover=all)
-  set(phi_fuzzing_support_flags)
-
-  # emcc-2.0 flags
-  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
-    set(phi_common_flags ${phi_common_flags} -bigobj)
-    set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
   endif()
 
 elseif(PHI_COMPILER_GCC)

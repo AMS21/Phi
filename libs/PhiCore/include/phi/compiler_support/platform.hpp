@@ -93,6 +93,10 @@
 #    define PHI_PLATFORM_UNIX()    1
 #    define PHI_PLATFORM_SOLARIS() 1
 #    define PHI_PLATFORM_NAME()    "Solaris"
+#elif defined(__CHEERP__)
+#    undef PHI_PLATFORM_WEB
+#    define PHI_PLATFORM_WEB()  1
+#    define PHI_PLATFORM_NAME() "Web"
 #else
 #    define PHI_PLATFORM_NAME() "Unknown"
 #    warning "Platform could not be detected"
