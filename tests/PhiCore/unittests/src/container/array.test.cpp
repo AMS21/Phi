@@ -525,6 +525,7 @@ TEST_CASE("Array")
                 CHECK_NOEXCEPT(arr.at(0u));
                 CHECK_NOEXCEPT(arr[0u]);
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
                 if (arr.size() > 0u) // always false
                 {
                     T0::reference ref1 = arr.at(0u);
@@ -532,6 +533,7 @@ TEST_CASE("Array")
                     (void)ref1;
                     (void)ref2;
                 }
+#endif
             }
 
             {
@@ -544,6 +546,7 @@ TEST_CASE("Array")
                 CHECK_NOEXCEPT(arr.at(0u));
                 CHECK_NOEXCEPT(arr[0u]);
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
                 if (arr.size() > 0u) // always false
                 {
                     TC0::reference ref1 = arr.at(0u);
@@ -551,6 +554,7 @@ TEST_CASE("Array")
                     (void)ref1;
                     (void)ref2;
                 }
+#endif
             }
         }
 
@@ -566,6 +570,7 @@ TEST_CASE("Array")
                 CHECK_NOEXCEPT(arr.at(0u));
                 CHECK_NOEXCEPT(arr[0u]);
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
                 if (arr.size() > 0u) // always false
                 {
                     T0::const_reference ref1 = arr.at(0u);
@@ -573,6 +578,7 @@ TEST_CASE("Array")
                     (void)ref1;
                     (void)ref2;
                 }
+#endif
             }
 
             {
@@ -585,6 +591,7 @@ TEST_CASE("Array")
                 CHECK_NOEXCEPT(arr.at(0u));
                 CHECK_NOEXCEPT(arr[0u]);
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
                 if (arr.size() > 0u) // always false
                 {
                     TC0::const_reference ref1 = arr.at(0u);
@@ -592,6 +599,7 @@ TEST_CASE("Array")
                     (void)ref1;
                     (void)ref2;
                 }
+#endif
             }
         }
 
@@ -697,20 +705,24 @@ TEST_CASE("Array")
             CHECK_SAME_TYPE(decltype(arr.front()), int&);
             CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr.size() > 0u) // always false
             {
                 (void)arr.front();
             }
+#endif
 
             TC0 arr2 = {};
             CHECK_SAME_TYPE(decltype(arr2.front()), TC0::reference);
             CHECK_SAME_TYPE(decltype(arr2.front()), const int&);
             CHECK_NOEXCEPT(arr2.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr2.size() > 0u) // always false
             {
                 (void)arr2.front();
             }
+#endif
         }
 
         SECTION("Zero size const")
@@ -720,20 +732,24 @@ TEST_CASE("Array")
             CHECK_SAME_TYPE(decltype(arr.front()), const int&);
             CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr.size() > 0u) // always false
             {
                 (void)arr.front();
             }
+#endif
 
             const TC0 arr2 = {};
             CHECK_SAME_TYPE(decltype(arr2.front()), TC0::const_reference);
             CHECK_SAME_TYPE(decltype(arr2.front()), const int&);
             CHECK_NOEXCEPT(arr2.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr2.size() > 0u) // always false
             {
                 (void)arr2.front();
             }
+#endif
         }
 
         SECTION("tracked")
@@ -846,20 +862,24 @@ TEST_CASE("Array")
             CHECK_SAME_TYPE(decltype(arr.back()), int&);
             CHECK_NOEXCEPT(arr.back());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr.size() > 0u) // always false
             {
                 (void)arr.back();
             }
+#endif
 
             TC0 arr2 = {};
             CHECK_SAME_TYPE(decltype(arr2.back()), TC0::reference);
             CHECK_SAME_TYPE(decltype(arr2.back()), const int&);
             CHECK_NOEXCEPT(arr2.back());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr2.size() > 0u) // always false
             {
                 (void)arr2.back();
             }
+#endif
         }
 
         SECTION("Zero size const")
@@ -869,20 +889,24 @@ TEST_CASE("Array")
             CHECK_SAME_TYPE(decltype(arr.back()), const int&);
             CHECK_NOEXCEPT(arr.back());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr.size() > 0u) // always false
             {
                 (void)arr.back();
             }
+#endif
 
             const TC0 arr2 = {};
             CHECK_SAME_TYPE(decltype(arr2.back()), TC0::const_reference);
             CHECK_SAME_TYPE(decltype(arr2.back()), const int&);
             CHECK_NOEXCEPT(arr2.back());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
             if (arr2.size() > 0u) // always false
             {
                 (void)arr2.back();
             }
+#endif
         }
 
         SECTION("tracked")
@@ -1573,7 +1597,7 @@ void test_array_is_aggregate()
     STATIC_REQUIRE(phi::is_aggregate<phi::array<TypeT, 5u>>::value);
 }
 
-TEST_CASE("array is_aggreagate")
+TEST_CASE("array is_aggregate")
 {
     test_array_is_aggregate<bool>();
     test_array_is_aggregate<char>();
@@ -1759,11 +1783,13 @@ TEST_CASE("array front")
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1773,11 +1799,13 @@ TEST_CASE("array front")
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1787,11 +1815,13 @@ TEST_CASE("array front")
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1801,11 +1831,13 @@ TEST_CASE("array front")
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 }
 
@@ -1864,11 +1896,13 @@ TEST_CASE("array back")
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1878,11 +1912,13 @@ TEST_CASE("array back")
         CHECK_SAME_TYPE(decltype(arr.front()), array::reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1892,11 +1928,13 @@ TEST_CASE("array back")
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 
     {
@@ -1906,11 +1944,13 @@ TEST_CASE("array back")
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
 
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
         // always false
         if (arr.size() > 0u)
         {
             (void)arr.front();
         }
+#endif
     }
 }
 
