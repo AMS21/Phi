@@ -49,6 +49,11 @@ file(
   "src/container/array.test.cpp"
   "src/container/singly_linked_list.test.cpp"
   "src/container/string_view.test.cpp"
+  # core/memcmp
+  "src/core/memcmp/no_constexpr_memcmp.test.cpp"
+  "src/core/memcmp/no_intrinsics.test.cpp"
+  "src/core/memcmp/no_memcmp.test.cpp"
+  "src/core/memcmp/value.test.cpp"
   # core
   "src/core/address_of.test.cpp"
   "src/core/as_const.test.cpp"
@@ -62,7 +67,6 @@ file(
   "src/core/intptr_t.test.cpp"
   "src/core/invoke.test.cpp"
   "src/core/max_align_t.test.cpp"
-  "src/core/memcmp.test.cpp"
   "src/core/monitor.test.cpp"
   "src/core/move_if_noexcept.test.cpp"
   "src/core/move.test.cpp"
