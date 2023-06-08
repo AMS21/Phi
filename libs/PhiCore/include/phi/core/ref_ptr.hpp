@@ -136,10 +136,7 @@ public:
         PHI_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
         PHI_ASSERT(m_ControlBlock != nullptr, "not_null_ref_ptr was null");
 
-        if (m_ControlBlock != nullptr)
-        {
-            m_ControlBlock->increment_ref_count();
-        }
+        m_ControlBlock->increment_ref_count();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -334,13 +331,13 @@ public:
         return get() != nullptr;
     }
 
-    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
     constexpr explicit operator const OtherT*() const noexcept
     {
         return get();
     }
 
-    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
     constexpr explicit operator OtherT*() noexcept
     {
         return get();
@@ -540,6 +537,7 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr not_null_ref_ptr& operator=(OtherT* ptr)
     {
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
 
         decrement_count_and_delete_if_required();
@@ -553,18 +551,24 @@ public:
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     constexpr not_null_ref_ptr& operator=(const not_null_ref_ptr& other) noexcept
     {
-        not_null_ref_ptr<TypeT>(other).swap(*this);
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
+        PHI_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null!");
 
-        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        not_null_ref_ptr<TypeT>(other).swap(*this);
 
         return *this;
     }
 
     constexpr not_null_ref_ptr& operator=(not_null_ref_ptr&& other) noexcept
     {
-        not_null_ref_ptr<TypeT>(move(other)).swap(*this);
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
+        PHI_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null!");
 
-        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        not_null_ref_ptr<TypeT>(move(other)).swap(*this);
 
         return *this;
     }
@@ -572,9 +576,12 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     constexpr not_null_ref_ptr& operator=(const not_null_ref_ptr<OtherT>& other) noexcept
     {
-        not_null_ref_ptr<TypeT>(other).swap(*this);
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
+        PHI_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null!");
 
-        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        not_null_ref_ptr<TypeT>(other).swap(*this);
 
         return *this;
     }
@@ -582,9 +589,12 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     constexpr not_null_ref_ptr& operator=(not_null_ref_ptr<OtherT>&& other) noexcept
     {
-        not_null_ref_ptr<TypeT>(move(other)).swap(*this);
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
+        PHI_ASSERT(other.m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null!");
 
-        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        not_null_ref_ptr<TypeT>(move(other)).swap(*this);
 
         return *this;
     }
@@ -594,7 +604,8 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr void reset(OtherT* ptr) noexcept
     {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
+        PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
 
         if (ptr == m_Ptr)
         {
@@ -660,13 +671,13 @@ public:
 
     operator boolean() = delete;
 
-    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
     PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator const OtherT*() const noexcept
     {
         return get();
     }
 
-    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
     PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator OtherT*() noexcept
     {
         return get();

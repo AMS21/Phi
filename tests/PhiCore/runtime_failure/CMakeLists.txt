@@ -124,6 +124,14 @@ runtime_failure_test(NAME "core_narrow_cast_invalid" SOURCE "src/core/narrow_cas
 runtime_failure_test(NAME "core_narrow_cast_invalid2" SOURCE
                      "src/core/narrow_cast/invalid2.fail.cpp")
 
+# not_null_ref_ptr
+runtime_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
+                     "src/core/not_null_ref_ptr/assign_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_construct_nullptr" SOURCE
+                     "src/core/not_null_ref_ptr/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_reset_nullptr" SOURCE
+                     "src/core/not_null_ref_ptr/reset_nullptr.fail.cpp")
+
 # observer_ptr
 runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
@@ -133,6 +141,20 @@ runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" 
                      "src/core/observer_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow" SOURCE
                      "src/core/observer_ptr/deref_null2.fail.cpp")
+
+# ref_ptr
+runtime_failure_test(NAME "core_ref_ptr_not_null_flat" SOURCE
+                     "src/core/ref_ptr/not_null_flat.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_not_null_observer" SOURCE
+                     "src/core/ref_ptr/not_null_observer.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_operator_arrow" SOURCE
+                     "src/core/ref_ptr/operator_arrow.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_operator_arrow_const" SOURCE
+                     "src/core/ref_ptr/operator_arrow_const.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_operator_star" SOURCE
+                     "src/core/ref_ptr/operator_star.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_operator_star_const" SOURCE
+                     "src/core/ref_ptr/operator_star_const.fail.cpp")
 
 # scope_ptr
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star" SOURCE

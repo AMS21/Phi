@@ -72,6 +72,14 @@ compile_failure_test(NAME "core_not_null_construct_from_nullptr" SOURCE
 compile_failure_test(NAME "core_not_null_construct_from_zero" SOURCE
                      "src/core/not_null/zero.fail.cpp")
 
+# not_null_ref_ptr
+compile_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
+                     "src/core/not_null_ref_ptr/assign_nullptr.fail.cpp")
+compile_failure_test(NAME "core_not_null_ref_ptr_construct_nullptr" SOURCE
+                     "src/core/not_null_ref_ptr/construct_nullptr.fail.cpp")
+compile_failure_test(NAME "core_not_null_ref_ptr_default_constructor" SOURCE
+                     "src/core/not_null_ref_ptr/default.fail.cpp")
+
 # observer_ptr
 compile_failure_test(NAME "core_observer_ptr_not_null_default_constructor" SOURCE
                      "src/core/observer_ptr/not_null_default.fail.cpp")

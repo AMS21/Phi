@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/core/boolean.hpp>
 #include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/observer_ptr.hpp>
@@ -14,7 +15,7 @@
 struct A
 {
     // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
-    bool f()
+    PHI_NODISCARD bool f() const
     {
         return true;
     }
@@ -95,6 +96,14 @@ TEST_CASE("ref_ptr")
         REQUIRE(copy);
         CHECK(copy.get() == raw_ptr);
         CHECK(ptr == copy);
+
+        phi::ref_ptr<int> empty;
+        phi::ref_ptr<int> empty_copy(empty);
+
+        CHECK_FALSE(empty);
+        CHECK_FALSE(empty_copy);
+        CHECK(empty.get() == empty_copy.get());
+        CHECK(empty == empty_copy);
     }
 
     SECTION("ref_ptr(ref_ptr&&)")
@@ -307,6 +316,12 @@ TEST_CASE("ref_ptr")
         ptr.reset(nullptr);
 
         CHECK(ptr.get() == nullptr);
+
+        ptr.reset(new int(23));
+        int* int_nullptr = nullptr;
+        ptr.reset(int_nullptr);
+
+        CHECK(ptr.get() == nullptr);
     }
 
     SECTION("swap")
@@ -373,21 +388,60 @@ TEST_CASE("ref_ptr")
         CHECK(null.use_count() == 0u);
     }
 
+    SECTION("operator bool")
+    {
+        phi::ref_ptr<int> ptr;
+
+        CHECK_FALSE(bool(ptr));
+
+        ptr = new int(21);
+
+        CHECK(bool(ptr));
+    }
+
+    SECTION("operator boolean")
+    {
+        phi::ref_ptr<int> ptr;
+
+        CHECK_FALSE(phi::boolean(ptr));
+
+        ptr = new int(21);
+
+        CHECK(phi::boolean(ptr));
+    }
+
     SECTION("operator TypeT*")
     {
         int*              raw_ptr = new int(12);
         phi::ref_ptr<int> ptr(raw_ptr);
 
         int* new_ptr = static_cast<int*>(ptr);
-
         CHECK(new_ptr == raw_ptr);
+
+        const phi::ref_ptr<int> const_ptr(ptr);
+        const int*              new_const_ptr = static_cast<int*>(ptr);
+
+        CHECK(new_const_ptr == raw_ptr);
+
+        Derived*              raw_derived = new Derived();
+        phi::ref_ptr<Derived> derived_ptr(raw_derived);
+        Base*                 new_base = static_cast<Base*>(derived_ptr);
+
+        CHECK(new_base == raw_derived);
+
+        phi::ref_ptr<Derived> const_derived_ptr(derived_ptr);
+        const Base*           new_const_base = static_cast<Base*>(derived_ptr);
+
+        CHECK(new_const_base == raw_derived);
     }
 
     SECTION("operator->")
     {
         phi::ref_ptr<A> ptr(new A);
-
         CHECK(ptr->f());
+
+        const phi::ref_ptr<A> const_ptr{new A};
+        CHECK(const_ptr->f());
     }
 
     SECTION("operator*")
@@ -405,6 +459,10 @@ TEST_CASE("ref_ptr")
 
         CHECK(*ptr == 9);
         CHECK(*raw_ptr == 9);
+
+        const phi::ref_ptr<A> const_ptr{new A};
+        const A&              raw_a = *const_ptr;
+        CHECK(raw_a.f());
     }
 
     SECTION("operator==")
@@ -719,15 +777,32 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         phi::not_null_ref_ptr<int> ptr(raw_ptr);
 
         int* new_ptr = static_cast<int*>(ptr);
-
         CHECK(new_ptr == raw_ptr);
+
+        phi::not_null_ref_ptr<int> const_ptr(ptr);
+
+        const int* new_const_ptr = static_cast<int*>(const_ptr);
+        CHECK(new_const_ptr == raw_ptr);
+
+        Derived*                       raw_derived = new Derived();
+        phi::not_null_ref_ptr<Derived> derived_ptr(raw_derived);
+
+        Base* new_base = static_cast<Base*>(derived_ptr);
+        CHECK(new_base == raw_derived);
+
+        const phi::not_null_ref_ptr<Derived> const_derived_ptr(derived_ptr);
+        const Base*                          new_const_base = static_cast<Base*>(derived_ptr);
+
+        CHECK(new_const_base == raw_derived);
     }
 
     SECTION("operator->")
     {
         phi::not_null_ref_ptr<A> ptr(new A);
-
         CHECK(ptr->f());
+
+        const phi::not_null_ref_ptr<A> const_ptr(new A());
+        CHECK(const_ptr->f());
     }
 
     SECTION("operator*")
@@ -745,6 +820,10 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
         CHECK(*ptr == 9);
         CHECK(*raw_ptr == 9);
+
+        const phi::not_null_ref_ptr<A> const_ptr(new A());
+        const A&                       raw_a = *const_ptr;
+        CHECK(raw_a.f());
     }
 
     SECTION("operator==")
@@ -891,4 +970,22 @@ TEST_CASE("not_null_ref_ptr - observer")
 
     CHECK(ptr.get() == observer.get());
     CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("ref_ptr - hash")
+{
+    phi::ref_ptr<int> ptr          = new int(21);
+    phi::size_t       ptr_hash     = std::hash<phi::ref_ptr<int>>{}(ptr);
+    phi::size_t       raw_ptr_hash = std::hash<int*>{}(ptr.get());
+
+    CHECK(ptr_hash == raw_ptr_hash);
+}
+
+TEST_CASE("not_null_ref_ptr - hash")
+{
+    phi::not_null_ref_ptr<int> ptr          = new int(21);
+    phi::size_t                ptr_hash     = std::hash<phi::not_null_ref_ptr<int>>{}(ptr);
+    phi::size_t                raw_ptr_hash = std::hash<int*>{}(ptr.get());
+
+    CHECK(ptr_hash == raw_ptr_hash);
 }
