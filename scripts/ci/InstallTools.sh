@@ -167,6 +167,8 @@ install_clang() {
 
     echo "GCOV_EXECUTABLE=llvm-cov-$1 gcov" >>"$GITHUB_ENV"
 
+    echo "AR_EXECUTABLE=llvm-ar-$1" >>"$GITHUB_ENV"
+
     echo "CC=clang-$1" >>"$GITHUB_ENV"
     echo "CXX=clang++-$1" >>"$GITHUB_ENV"
 }
@@ -196,6 +198,8 @@ install_gcc() {
     echo "GXX=g++-$1" >>"$GITHUB_ENV"
 
     echo "GCOV_EXECUTABLE=gcov-$1" >>"$GITHUB_ENV"
+
+    echo "AR_EXECUTABLE=ar" >>"$GITHUB_ENV"
 
     echo "CC=gcc-$1" >>"$GITHUB_ENV"
     echo "CXX=g++-$1" >>"$GITHUB_ENV"
