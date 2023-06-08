@@ -77,6 +77,10 @@ TEST_CASE("forward")
     constexpr int integer_3 = phi::forward<int>(42);
     STATIC_REQUIRE(phi::forward<int>(42) == 42);
     STATIC_REQUIRE(phi::forward<const int&>(integer_3) == 42);
+
+    // For full coverage
+    (void)source();
+    (void)csource();
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()

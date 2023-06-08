@@ -37,6 +37,10 @@ runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_rhs_with_size
 runtime_failure_test(NAME "algorithm_string_compare_unsafe_nullptr_both_with_size" SOURCE
                      "src/algorithm/string_compare_unsafe/nullptr_both_with_size.fail.cpp")
 
+# string_equals
+runtime_failure_test(NAME "algorithm_string_equals_zero_count" SOURCE
+                     "src/algorithm/string_equals/zero_count.fail.cpp")
+
 # string_length_unsafe
 runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr" SOURCE
                      "src/algorithm/string_length_unsafe/nullptr.fail.cpp")
@@ -124,6 +128,12 @@ runtime_failure_test(NAME "core_narrow_cast_invalid" SOURCE "src/core/narrow_cas
 runtime_failure_test(NAME "core_narrow_cast_invalid2" SOURCE
                      "src/core/narrow_cast/invalid2.fail.cpp")
 
+# not_null_observer_ptr
+runtime_failure_test(NAME "core_not_null_observer_ptr_construct_nullptr" SOURCE
+                     "src/core/not_null_observer_ptr/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_reset_nullptr" SOURCE
+                     "src/core/not_null_observer_ptr/reset_nullptr.fail.cpp")
+
 # not_null_ref_ptr
 runtime_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/assign_nullptr.fail.cpp")
@@ -137,6 +147,8 @@ runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_release_from_nullptr" SOURCE
                      "src/core/observer_ptr/release_from_null.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_not_null_flat" SOURCE
+                     "src/core/observer_ptr/not_null_flat.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" SOURCE
                      "src/core/observer_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow" SOURCE

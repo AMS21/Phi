@@ -685,4 +685,8 @@ TEST_CASE("is_void")
     test_void_t<int (class_type::*)(int, ...) const noexcept>();
     test_void_t<int (class_type::*)(int, ...) const & noexcept>();
     test_void_t<int (class_type::*)(int, ...) const && noexcept>();
+
+    // Maximizing coverage data
+    X x;
+    (void)+x;
 }

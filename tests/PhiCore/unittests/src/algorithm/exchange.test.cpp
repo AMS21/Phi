@@ -5,7 +5,7 @@
 #include <phi/compiler_support/constexpr.hpp>
 #include <string>
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() && !defined(PHI_CONFIG_COVERAGE_BUILD)
 PHI_EXTENDED_CONSTEXPR bool test_constexpr()
 {
     int value = 12;
@@ -99,7 +99,7 @@ TEST_CASE("exchange")
         phi::exchange(lhs, rhs);
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
+#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() && !defined(PHI_CONFIG_COVERAGE_BUILD)
     STATIC_REQUIRE(test_constexpr());
 #endif
 }

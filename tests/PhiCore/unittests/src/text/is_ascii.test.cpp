@@ -22,4 +22,6 @@ TEST_CASE("is_ascii")
     }
 
     test_is_ascii(127);
+
+    test_is_not_ascii(-1);
 }

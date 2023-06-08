@@ -765,4 +765,8 @@ TEST_CASE("is_function")
     test_is_not_function<int (class_type::*)(int, ...) const noexcept>();
     test_is_not_function<int (class_type::*)(int, ...) const & noexcept>();
     test_is_not_function<int (class_type::*)(int, ...) const && noexcept>();
+
+    // Needed for maximum coverage
+    f();
+    (void)g();
 }

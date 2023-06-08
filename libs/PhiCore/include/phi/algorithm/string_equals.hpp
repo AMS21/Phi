@@ -256,6 +256,8 @@ template <typename CharT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR boolean string_equals(const CharT* lhs, const CharT* rhs,
                                                            usize count) noexcept
 {
+    PHI_ASSERT(count > 0u, "count must be greater than zero");
+
     if ((lhs == nullptr || rhs == nullptr))
     {
         return static_cast<bool>(lhs == rhs);

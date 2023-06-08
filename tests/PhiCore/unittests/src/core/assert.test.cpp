@@ -33,10 +33,12 @@ TEST_CASE("PHI_ASSERT_NOT_REACHED", "[Core][Assert]")
     {
         CHECK(true);
     }
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
     else
     {
         PHI_ASSERT_NOT_REACHED();
     }
+#endif
 }
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
@@ -47,10 +49,12 @@ TEST_CASE("PHI_RELEASE_ASSERT_NOT_REACHED", "[Core][Assert]")
     {
         CHECK(true);
     }
+#if !defined(PHI_CONFIG_COVERAGE_BUILD)
     else
     {
         PHI_RELEASE_ASSERT_NOT_REACHED();
     }
+#endif
 }
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

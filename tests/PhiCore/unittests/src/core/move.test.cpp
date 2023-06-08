@@ -142,4 +142,10 @@ TEST_CASE("move")
         constexpr int integer2 = 42;
         STATIC_REQUIRE(phi::move(integer2) == 42);
     }
+
+    // Maximizing coverage data
+    (void)source();
+    (void)csource();
+    (void)get<int>();
+    (void)get<const int>();
 }

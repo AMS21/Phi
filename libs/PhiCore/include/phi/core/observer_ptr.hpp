@@ -274,6 +274,12 @@ public:
         return get();
     }
 
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
+    constexpr explicit operator OtherT*() const noexcept
+    {
+        return get();
+    }
+
     PHI_NODISCARD constexpr TypeT* get() const noexcept
     {
         return m_Ptr;
@@ -297,14 +303,7 @@ public:
         return not_null_flat_ptr{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> release_not_null() noexcept
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
-
-        return not_null_observer_ptr<TypeT>(release());
-    }
-
-    template <typename OtherT>
+    template <typename OtherT = TypeT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> release_not_null() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
@@ -582,8 +581,16 @@ public:
         return get();
     }
 
+    template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
+    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator OtherT*() const noexcept
+    {
+        return get();
+    }
+
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() const noexcept
     {
+        PHI_ASSERT(m_Ptr != nullptr, "Trying to access a nullptr");
+
         return m_Ptr;
     }
 

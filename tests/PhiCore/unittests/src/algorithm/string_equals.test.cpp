@@ -114,6 +114,54 @@ TEST_CASE("string_equals - char*, char*")
     CHECK_FALSE(phi::string_equals("Hello", "Hello "));
 }
 
+TEST_CASE("string_equals - char*, char*, count")
+{
+    STATIC_REQUIRE(phi::string_equals(null, null, 1u));
+    STATIC_REQUIRE(phi::string_equals(null, null, 2u));
+
+    STATIC_REQUIRE_FALSE(phi::string_equals(null, "Hello", 1u));
+    STATIC_REQUIRE_FALSE(phi::string_equals(null, "", 5u));
+
+    STATIC_REQUIRE_FALSE(phi::string_equals("Hello", null, 1u));
+    STATIC_REQUIRE_FALSE(phi::string_equals("", null, 5u));
+
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello", 1u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello", 2u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello", 3u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello", 4u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello", 100u));
+
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "", 1u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "", 2u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "", 5u));
+
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("", "Hello", 1u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("", "Hello", 2u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("", "Hello", 5u));
+
+    EXT_STATIC_REQUIRE(phi::string_equals("", "", 1u));
+    EXT_STATIC_REQUIRE(phi::string_equals("", "", 2u));
+    EXT_STATIC_REQUIRE(phi::string_equals("", "", 3u));
+
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "hello", 1u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "hello", 2u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "hello", 3u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "hello", 5u));
+
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Helli", 1u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Helli", 2u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Helli", 3u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Helli", 4u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "Helli", 5u));
+
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello ", 1u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello ", 2u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello ", 3u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello ", 4u));
+    EXT_STATIC_REQUIRE(phi::string_equals("Hello", "Hello ", 5u));
+    EXT_STATIC_REQUIRE_FALSE(phi::string_equals("Hello", "Hello ", 6u));
+}
+
 TEST_CASE("string_equals - char*, phi::string_view")
 {
     EXT_STATIC_REQUIRE(phi::string_equals(null, null_view));

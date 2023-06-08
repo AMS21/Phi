@@ -422,6 +422,7 @@ int foo(int /*unused*/)
 
 TEST_CASE("invoke basic test")
 {
+    CHECK(foo(101) == 42);
     //REQUIRE(phi::invoke(foo, 101) == 42);
 }
 
