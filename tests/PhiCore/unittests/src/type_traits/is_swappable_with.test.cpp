@@ -77,24 +77,22 @@ namespace is_swappable_with_ns
     struct D
     {};
 
-    void swap(A& /*unused*/, A& /*unused*/)
-    {}
+    void swap(A&, A&);
 
-    void swap(A& /*unused*/, B& /*unused*/)
-    {}
-    void swap(B& /*unused*/, A& /*unused*/)
-    {}
+    void swap(A&, B&);
 
-    void swap(A& /*unused*/, C& /*unused*/)
-    {} // missing swap(C, A)
-    void swap(D& /*unused*/, C& /*unused*/)
-    {}
+    void swap(B&, A&);
+
+    void swap(A&, C&);
+
+    // missing swap(C, A)
+
+    void swap(D&, C&);
 
     struct M
     {};
 
-    void swap(M&& /*unused*/, M&& /*unused*/)
-    {}
+    void swap(M&&, M&&);
 
     struct T0
     {};

@@ -26,11 +26,9 @@ namespace my_ns
         B& operator=(B const&) = delete;
     };
 
-    void swap(A& /*unused*/, A& /*unused*/) noexcept
-    {}
+    void swap(A&, A&) noexcept;
 
-    void swap(B& /*unused*/, B& /*unused*/)
-    {}
+    void swap(B&, B&);
 
     struct M
     {
@@ -38,20 +36,15 @@ namespace my_ns
         M& operator=(M const&) = delete;
     };
 
-    void swap(M&& /*unused*/, M&& /*unused*/) noexcept
-    {}
+    void swap(M&&, M&&) noexcept;
 
     struct ThrowingMove
     {
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        ThrowingMove(ThrowingMove&& /*unused*/)
-        {}
+        ThrowingMove(ThrowingMove&&);
 
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
-        ThrowingMove& operator=(ThrowingMove&& /*unused*/)
-        {
-            return *this;
-        }
+        ThrowingMove& operator=(ThrowingMove&&);
     };
 
 } // namespace my_ns

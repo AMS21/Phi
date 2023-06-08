@@ -113,20 +113,17 @@ namespace is_swappable_ns
     struct D
     {};
 
-    void swap(A& /*unused*/, A& /*unused*/)
-    {}
+    void swap(A&, A&);
 
-    void swap(A& /*unused*/, B& /*unused*/)
-    {}
+    void swap(A&, B&);
 
-    void swap(B& /*unused*/, A& /*unused*/)
-    {}
+    void swap(B&, A&);
 
-    void swap(A& /*unused*/, C& /*unused*/)
-    {} // missing swap(C, A)
+    void swap(A&, C&);
 
-    void swap(D& /*unused*/, C& /*unused*/)
-    {}
+    // missing swap(C, A)
+
+    void swap(D&, C&);
 
     struct M
     {
@@ -134,8 +131,7 @@ namespace is_swappable_ns
         M& operator=(M const&) = delete;
     };
 
-    void swap(M&& /*unused*/, M&& /*unused*/)
-    {}
+    void swap(M&&, M&&);
 
     struct DeletedSwap
     {
@@ -160,8 +156,7 @@ namespace is_swappable_ns
 
     struct F3
     {
-        friend void swap(F3& /*unused*/, F3 /*unused*/)
-        {}
+        friend void swap(F3&, F3);
     };
 } // namespace is_swappable_ns
 
@@ -171,8 +166,7 @@ namespace is_swappable_ns_2
     {};
 
     template <typename TypeT>
-    void swap(TypeT& /*unused*/, TypeT& /*unused*/)
-    {}
+    void swap(TypeT&, TypeT&);
 
 } // namespace is_swappable_ns_2
 
