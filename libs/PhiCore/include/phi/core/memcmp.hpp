@@ -41,6 +41,7 @@ PHI_EXTENDED_CONSTEXPR int memcmp(const TypeT* lhs, const TypeT* rhs, size_t cou
 #    if PHI_HAS_WORKING_IS_CONSTANT_EVALUATED()
     if (is_constant_evaluated())
     {
+        // GCOVR_EXCL_START
         for (; count > 0; --count, ++lhs, ++rhs)
         {
             if (*lhs < *rhs)
@@ -52,6 +53,7 @@ PHI_EXTENDED_CONSTEXPR int memcmp(const TypeT* lhs, const TypeT* rhs, size_t cou
                 return 1;
             }
         }
+        // GCOVR_EXCL_STOP
 
         return 0;
     }
