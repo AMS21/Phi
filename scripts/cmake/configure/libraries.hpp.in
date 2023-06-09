@@ -14,9 +14,11 @@
 
 // C++-20
 #if PHI_CPP_STANDARD_IS_ATLEAST(20)
-#    define PHI_HAS_LIB_SPAN() @PHI_HAS_LIB_SPAN@
+#    define PHI_HAS_LIB_SPAN()    @PHI_HAS_LIB_SPAN@
+#    define PHI_HAS_LIB_VERSION() @PHI_HAS_LIB_VERSION@
 #else
-#    define PHI_HAS_LIB_SPAN() 0
+#    define PHI_HAS_LIB_SPAN()    0
+#    define PHI_HAS_LIB_VERSION() 0
 #endif
 
 // clang-format on
