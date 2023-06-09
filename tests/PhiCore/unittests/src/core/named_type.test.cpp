@@ -519,38 +519,22 @@ TEST_CASE("BitWiseRightShiftable constexpr")
 
 TEST_CASE("Comparable")
 {
-    REQUIRE((10_meter == 10_meter));
-    REQUIRE(!(10_meter == 11_meter));
-    REQUIRE((10_meter != 11_meter));
-    REQUIRE(!(10_meter != 10_meter));
-    REQUIRE((10_meter < 11_meter));
-    REQUIRE(!(10_meter < 10_meter));
-    REQUIRE((10_meter <= 10_meter));
-    REQUIRE((10_meter <= 11_meter));
-    REQUIRE(!(10_meter <= 9_meter));
-    REQUIRE((11_meter > 10_meter));
-    REQUIRE(!(10_meter > 11_meter));
-    REQUIRE((11_meter >= 10_meter));
-    REQUIRE((10_meter >= 10_meter));
-    REQUIRE(!(9_meter >= 10_meter));
-}
-
-TEST_CASE("Comparable constexpr")
-{
-    EXT_STATIC_REQUIRE((10_meter == 10_meter));
-    EXT_STATIC_REQUIRE(!(10_meter == 11_meter));
-    EXT_STATIC_REQUIRE((10_meter != 11_meter));
-    EXT_STATIC_REQUIRE(!(10_meter != 10_meter));
-    EXT_STATIC_REQUIRE((10_meter < 11_meter));
-    EXT_STATIC_REQUIRE(!(10_meter < 10_meter));
-    EXT_STATIC_REQUIRE((10_meter <= 10_meter));
-    EXT_STATIC_REQUIRE((10_meter <= 11_meter));
-    EXT_STATIC_REQUIRE(!(10_meter <= 9_meter));
-    EXT_STATIC_REQUIRE((11_meter > 10_meter));
-    EXT_STATIC_REQUIRE(!(10_meter > 11_meter));
-    EXT_STATIC_REQUIRE((11_meter >= 10_meter));
-    EXT_STATIC_REQUIRE((10_meter >= 10_meter));
-    EXT_STATIC_REQUIRE(!(9_meter >= 10_meter));
+    EXT_STATIC_REQUIRE(10_meter == 10_meter);
+    EXT_STATIC_REQUIRE_FALSE(10_meter == 11_meter);
+    EXT_STATIC_REQUIRE_FALSE(11_meter == 10_meter);
+    EXT_STATIC_REQUIRE(10_meter != 11_meter);
+    EXT_STATIC_REQUIRE(11_meter != 10_meter);
+    EXT_STATIC_REQUIRE_FALSE(10_meter != 10_meter);
+    EXT_STATIC_REQUIRE(10_meter < 11_meter);
+    EXT_STATIC_REQUIRE_FALSE(10_meter < 10_meter);
+    EXT_STATIC_REQUIRE(10_meter <= 10_meter);
+    EXT_STATIC_REQUIRE(10_meter <= 11_meter);
+    EXT_STATIC_REQUIRE_FALSE(10_meter <= 9_meter);
+    EXT_STATIC_REQUIRE(11_meter > 10_meter);
+    EXT_STATIC_REQUIRE_FALSE(10_meter > 11_meter);
+    EXT_STATIC_REQUIRE(11_meter >= 10_meter);
+    EXT_STATIC_REQUIRE(10_meter >= 10_meter);
+    EXT_STATIC_REQUIRE_FALSE(9_meter >= 10_meter);
 }
 
 TEST_CASE("ConvertibleWithOperator")
