@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/nodiscard.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
@@ -16,7 +17,7 @@
 struct A
 {
     // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
-    bool f()
+    PHI_NODISCARD bool f() const
     {
         return true;
     }
@@ -63,6 +64,11 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(ptr.get() == nullptr);
         CHECK_FALSE(ptr);
+
+        phi::scope_ptr<int> ptr2{};
+
+        CHECK(ptr2.get() == nullptr);
+        CHECK_FALSE(ptr2);
     }
 
     SECTION("scope_ptr(nullptr_t)")
@@ -71,6 +77,11 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(ptr.get() == nullptr);
         CHECK_FALSE(ptr);
+
+        phi::scope_ptr<int> ptr2{nullptr};
+
+        CHECK(ptr2.get() == nullptr);
+        CHECK_FALSE(ptr2);
     }
 
     SECTION("scope_ptr(TypeT*)")
@@ -138,6 +149,11 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+
+        ptr = phi::move(ptr);
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
     }
 
     SECTION("operator=(not_null_scope_ptr&&)")
@@ -170,6 +186,11 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+
+        ptr = raw_ptr2;
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
     }
 
     SECTION("operator=(OtherT*)")
@@ -191,7 +212,7 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr2);
     }
 
-    SECTION("scope_ptr(nullptr_t)")
+    SECTION("operator=(nullptr_t)")
     {
         phi::scope_ptr<int> ptr;
 
@@ -251,6 +272,60 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
+
+        int* raw_ptr2 = new int(21);
+
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
+
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr);
+        CHECK(ptr.get() == raw_ptr2);
+
+        ptr.reset();
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+
+        ptr.reset(nullptr);
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+
+        ptr = new int(21);
+
+        ptr.reset(nullptr);
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+    }
+
+    SECTION("reset(OtherT*)")
+    {
+        Base*                raw_base = new Base();
+        phi::scope_ptr<Base> base_ptr(raw_base);
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == raw_base);
+
+        base_ptr.reset(nullptr);
+
+        CHECK_FALSE(base_ptr);
+        CHECK(base_ptr.get() == nullptr);
+
+        Derived* raw_derived = new Derived();
+        base_ptr.reset(raw_derived);
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == raw_derived);
+
+        base_ptr.reset(raw_derived);
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == raw_derived);
     }
 
     SECTION("swap")
@@ -295,6 +370,13 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* new_ptr = static_cast<int*>(ptr);
 
         CHECK(new_ptr == raw_ptr);
+
+        int*                      const_raw_ptr = new int(22);
+        const phi::scope_ptr<int> const_ptr{const_raw_ptr};
+
+        const int* new_const_ptr = static_cast<const int*>(const_ptr);
+
+        CHECK(new_const_ptr == const_raw_ptr);
     }
 
     SECTION("operator->")
@@ -302,6 +384,10 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         phi::scope_ptr<A> ptr(new A);
 
         CHECK(ptr->f());
+
+        const phi::scope_ptr<A> const_ptr{new A};
+
+        CHECK(const_ptr->f());
     }
 
     SECTION("operator*")
@@ -319,6 +405,12 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(*ptr == 9);
         CHECK(*raw_ptr == 9);
+
+        const phi::scope_ptr<A> const_ptr{new A};
+
+        const A& a_ref = *const_ptr;
+
+        CHECK(a_ref.f());
     }
 
     SECTION("operator==")
@@ -503,6 +595,16 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr);
     }
 
+    SECTION("not_null_scope_ptr(not_null_scope_ptr<OtherT>&&)")
+    {
+        Derived* raw_derived = new Derived();
+
+        phi::not_null_scope_ptr<Derived> derived_ptr{raw_derived};
+        phi::not_null_scope_ptr<Base>    base_ptr{phi::move(derived_ptr)};
+
+        CHECK(base_ptr.get() == raw_derived);
+    }
+
     SECTION("operator=(not_null_scope_ptr&&)")
     {
         int* raw_ptr = new int(16);
@@ -521,6 +623,25 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         ptr = phi::move(ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+
+        ptr = phi::move(ptr);
+
+        CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("operator=(not_null_scope_ptr<OtherT>&&)")
+    {
+        Derived*                         raw_derived = new Derived();
+        phi::not_null_scope_ptr<Derived> derived_ptr{raw_derived};
+        phi::not_null_scope_ptr<Base>    base_ptr{new Base()};
+
+        base_ptr = phi::move(derived_ptr);
+
+        CHECK(base_ptr.get() == raw_derived);
+
+        base_ptr = phi::move(base_ptr);
+
+        CHECK(base_ptr.get() == raw_derived);
     }
 
     SECTION("operator=(TypeT*)")
@@ -534,6 +655,10 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         CHECK(ptr.get() == raw_ptr);
 
         int* raw_ptr2 = new int(22);
+
+        ptr = raw_ptr2;
+
+        CHECK(ptr.get() == raw_ptr2);
 
         ptr = raw_ptr2;
 
@@ -577,6 +702,29 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         ptr.reset(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
+
+        int* raw_ptr2 = new int(21);
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr.get() == raw_ptr2);
+
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr.get() == raw_ptr2);
+    }
+
+    SECTION("reset(OtherT*)")
+    {
+        phi::not_null_scope_ptr<Base> ptr{new Derived()};
+
+        Derived* raw_ptr2 = new Derived();
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr.get() == raw_ptr2);
+
+        ptr.reset(raw_ptr2);
+
+        CHECK(ptr.get() == raw_ptr2);
     }
 
     SECTION("swap")
@@ -606,13 +754,20 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* new_ptr = static_cast<int*>(ptr);
 
         CHECK(new_ptr == raw_ptr);
+
+        int*                               raw_const_ptr = new int(21);
+        const phi::not_null_scope_ptr<int> const_ptr{raw_const_ptr};
+
+        CHECK(static_cast<const int*>(const_ptr) == raw_const_ptr);
     }
 
     SECTION("operator->")
     {
-        phi::not_null_scope_ptr<A> ptr(new A);
-
+        phi::not_null_scope_ptr<A> ptr{new A};
         CHECK(ptr->f());
+
+        const phi::not_null_scope_ptr<A> const_ptr{new A};
+        CHECK(const_ptr->f());
     }
 
     SECTION("operator*")
@@ -630,6 +785,10 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
 
         CHECK(*ptr == 9);
         CHECK(*raw_ptr == 9);
+
+        const phi::not_null_scope_ptr<A> const_ptr{new A()};
+        const A&                         const_ref = *const_ptr;
+        CHECK(const_ref.f());
     }
 
     SECTION("operator==")
@@ -681,9 +840,9 @@ TEST_CASE("scope_ptr", "[Core][scope_ptr]")
         int* raw_ptr2 = new int(2);
         int* raw_ptr3 = new int(3);
 
-        phi::scope_ptr<int> ptr1(raw_ptr1);
-        phi::scope_ptr<int> ptr2(raw_ptr2);
-        phi::scope_ptr<int> ptr3(raw_ptr3);
+        phi::not_null_scope_ptr<int> ptr1(raw_ptr1);
+        phi::not_null_scope_ptr<int> ptr2(raw_ptr2);
+        phi::not_null_scope_ptr<int> ptr3(raw_ptr3);
 
         CHECK(ptr1 != ptr2);
         CHECK(ptr1 != ptr3);
@@ -863,6 +1022,28 @@ TEST_CASE("not_null_scope_ptr - not_null_observer - const")
 
     CHECK(ptr.get() == observer.get());
     CHECK(observer.get() == raw_ptr);
+}
+
+TEST_CASE("scope_ptr - hash")
+{
+    int*                raw_ptr = new int(21);
+    phi::scope_ptr<int> ptr{raw_ptr};
+
+    const phi::size_t ptr_hash     = std::hash<phi::scope_ptr<int>>{}(ptr);
+    const phi::size_t raw_ptr_hash = std::hash<int*>{}(raw_ptr);
+
+    CHECK(ptr_hash == raw_ptr_hash);
+}
+
+TEST_CASE("not_null_scope_ptr - hash")
+{
+    int*                         raw_ptr = new int(21);
+    phi::not_null_scope_ptr<int> ptr{raw_ptr};
+
+    const phi::size_t ptr_hash     = std::hash<phi::not_null_scope_ptr<int>>{}(ptr);
+    const phi::size_t raw_ptr_hash = std::hash<int*>{}(raw_ptr);
+
+    CHECK(ptr_hash == raw_ptr_hash);
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()

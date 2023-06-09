@@ -142,6 +142,54 @@ runtime_failure_test(NAME "core_not_null_ref_ptr_construct_nullptr" SOURCE
 runtime_failure_test(NAME "core_not_null_ref_ptr_reset_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/reset_nullptr.fail.cpp")
 
+# not_null_scope_ptr
+runtime_failure_test(NAME "core_not_null_scope_ptr_assign_moved_not_null_scope_ptr" SOURCE
+                     "src/core/not_null_scope_ptr/assign_moved_not_null_scope_ptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_assign_nullptr" SOURCE
+                     "src/core/not_null_scope_ptr/assign_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_construct_moved_not_null_scope_ptr" SOURCE
+                     "src/core/not_null_scope_ptr/construct_moved_not_null_scope_ptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_construct_nullptr" SOURCE
+                     "src/core/not_null_scope_ptr/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_get_after_leak" SOURCE
+                     "src/core/not_null_scope_ptr/get_after_leak.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_get_after_leak_const" SOURCE
+                     "src/core/not_null_scope_ptr/get_after_leak_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_get_after_move" SOURCE
+                     "src/core/not_null_scope_ptr/get_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_leak_ptr_after_leak" SOURCE
+                     "src/core/not_null_scope_ptr/leak_ptr_after_leak.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_leak_ptr_after_move" SOURCE
+                     "src/core/not_null_scope_ptr/leak_ptr_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_not_null_flat" SOURCE
+                     "src/core/not_null_scope_ptr/not_null_flat.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_not_null_flat_const" SOURCE
+                     "src/core/not_null_scope_ptr/not_null_flat_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_not_null_observer" SOURCE
+                     "src/core/not_null_scope_ptr/not_null_observer.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_not_null_observer_const" SOURCE
+                     "src/core/not_null_scope_ptr/not_null_observer_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_arrow_after_leak" SOURCE
+                     "src/core/not_null_scope_ptr/operator_arrow_after_leak.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_arrow_after_leak_const" SOURCE
+                     "src/core/not_null_scope_ptr/operator_arrow_after_leak_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_arrow_after_move" SOURCE
+                     "src/core/not_null_scope_ptr/operator_star_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_star_after_leak" SOURCE
+                     "src/core/not_null_scope_ptr/operator_star_after_leak.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_star_after_leak_const" SOURCE
+                     "src/core/not_null_scope_ptr/operator_star_after_leak_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_operator_star_after_move" SOURCE
+                     "src/core/not_null_scope_ptr/operator_star_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_release_from_nullptr" SOURCE
+                     "src/core/not_null_scope_ptr/release_from_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_reset_nullptr" SOURCE
+                     "src/core/not_null_scope_ptr/reset_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_swap_after_move" SOURCE
+                     "src/core/not_null_scope_ptr/swap_after_move.fail.cpp")
+runtime_failure_test(NAME "core_not_null_scope_ptr_swap_after_move2" SOURCE
+                     "src/core/not_null_scope_ptr/swap_after_move2.fail.cpp")
+
 # observer_ptr
 runtime_failure_test(NAME "core_observer_ptr_not_null_assign_nullptr" SOURCE
                      "src/core/observer_ptr/not_null_assign_nullptr.fail.cpp")
@@ -169,22 +217,22 @@ runtime_failure_test(NAME "core_ref_ptr_operator_star_const" SOURCE
                      "src/core/ref_ptr/operator_star_const.fail.cpp")
 
 # scope_ptr
+runtime_failure_test(NAME "core_scope-ptr_assign_moved_not_null_scope_ptr" SOURCE
+                     "src/core/scope_ptr/assign_moved_not_null_scope_ptr.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_construct_moved_not_null_scope_ptr" SOURCE
+                     "src/core/scope_ptr/construct_moved_not_null_scope_ptr.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_not_null_flat" SOURCE
+                     "src/core/scope_ptr/not_null_flat.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_not_null_flat_const" SOURCE
+                     "src/core/scope_ptr/not_null_flat_const.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_not_null_observer" SOURCE
+                     "src/core/scope_ptr/not_null_observer.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_not_null_observer_const" SOURCE
+                     "src/core/scope_ptr/not_null_observer_const.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star" SOURCE
                      "src/core/scope_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_arrow" SOURCE
                      "src/core/scope_ptr/deref_null2.fail.cpp")
-runtime_failure_test(NAME "core_scope_ptr_release_from_nullptr" SOURCE
-                     "src/core/scope_ptr/release_from_nullptr.fail.cpp")
-runtime_failure_test(NAME "core_scope_ptr_not_null_assign_nullptr" SOURCE
-                     "src/core/scope_ptr/not_null_assign_nullptr.fail.cpp")
-runtime_failure_test(NAME "core_scope_ptr_ConstructWithNullptr" SOURCE
-                     "src/core/scope_ptr/not_null_construct_nullptr.fail.cpp")
-runtime_failure_test(NAME "core_not_null_scope_ptr_AccessAfterLeakPtrCall" SOURCE
-                     "src/core/scope_ptr/not_null_get_after_leak.fail.cpp")
-runtime_failure_test(NAME "core_not_null_scope_ptr_AccessAfterMoved" SOURCE
-                     "src/core/scope_ptr/not_null_get_after_move.fail.cpp")
-runtime_failure_test(NAME "core_not_null_scope_ptr_ResetNullptr" SOURCE
-                     "src/core/scope_ptr/not_null_reset_nullptr.fail.cpp")
 
 # text binary_digit_value
 runtime_failure_test(NAME "text_binary_digit_value_OutOfBounds" SOURCE
