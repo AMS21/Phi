@@ -4,6 +4,7 @@
 #include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/preprocessor/function_like_macro.hpp>
+#include <phi/preprocessor/stringify.hpp>
 #include <cstdio>
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
@@ -23,7 +24,12 @@ PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
 
 #define PRINT_VAL(text, val)                                                                       \
     PHI_BEGIN_MACRO()                                                                              \
-    std::printf(text ": " #val "\n");                                                              \
+    std::printf(text ": " PHI_STRINGIFY(val) "\n");                                                \
+    PHI_END_MACRO()
+
+#define PRINT_STR(text, str)                                                                       \
+    PHI_BEGIN_MACRO()                                                                              \
+    std::printf(text ": " str "\n");                                                               \
     PHI_END_MACRO()
 
 int main()
@@ -31,23 +37,24 @@ int main()
     // Compiler
     std::printf("Compiler info\n");
 
-    PRINT_VAL("Compiler name", PHI_COMPILER_NAME());
-    PRINT_VAL("Compiler version", PHI_CURRENT_COMPILER_VERSION_STR());
+    PRINT_STR("Compiler name", PHI_COMPILER_NAME());
+    PRINT_STR("Compiler version", PHI_CURRENT_COMPILER_VERSION_STR());
 
     PRINT_COND("Compiler is gcc", PHI_COMPILER_IS(GCC));
     PRINT_COND("Compiler is clang", PHI_COMPILER_IS(CLANG));
-    PRINT_COND("Compiler is appleclang", PHI_COMPILER_IS(APPLECLANG));
-    PRINT_COND("Compiler is winclang", PHI_COMPILER_IS(WINCLANG));
+    PRINT_COND("Compiler is AppleClang", PHI_COMPILER_IS(APPLECLANG));
+    PRINT_COND("Compiler is WinClang", PHI_COMPILER_IS(WINCLANG));
     PRINT_COND("Compiler is MSVC", PHI_COMPILER_IS(MSVC));
     PRINT_COND("Compiler is ICC", PHI_COMPILER_IS(ICC));
     PRINT_COND("Compiler is emcc", PHI_COMPILER_IS(EMCC));
     PRINT_COND("Compiler is mingw", PHI_COMPILER_IS(MINGW));
+    PRINT_COND("Compiler is Cheerp", PHI_COMPILER_IS(CHEERP));
 
     PRINT_COND("Compiler is gcc compat", PHI_COMPILER_IS(GCC_COMPAT));
     PRINT_COND("Compiler is clang compat", PHI_COMPILER_IS(CLANG_COMPAT));
 
     // CPlusPlus
-    std::printf("Enabled C++ standards\n");
+    std::printf("\nEnabled C++ standards\n");
     PRINT_VAL("PHI_CPP_STANDARD", PHI_CPP_STANDARD());
     PRINT_VAL("PHI_CPLUSPLUS_LATEST", PHI_CPLUSPLUS_LATEST());
 
@@ -57,9 +64,10 @@ int main()
     PRINT_COND("C++-17 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(17));
     PRINT_COND("C++-20 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(20));
     PRINT_COND("C++-23 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(23));
+    PRINT_COND("C++-26 Standard enabled", PHI_CPP_STANDARD_IS_ATLEAST(26));
 
     // Platform
-    std::printf("Platform info\n");
+    std::printf("\nPlatform info\n");
 
     PRINT_COND("Platform is Windows", PHI_PLATFORM_IS(WINDOWS));
     PRINT_COND("Platform is Apple", PHI_PLATFORM_IS(APPLE));
@@ -77,12 +85,16 @@ int main()
     PRINT_COND("Platform is Web", PHI_PLATFORM_IS(WEB));
 
     // Standard library
-    std::printf("Standard library info\n");
+    std::printf("\nStandard library info\n");
 
     PRINT_COND("Standard library libc++ ", PHI_STANDARD_LIBRARY_LIBCXX());
     PRINT_COND("Standard library libstdc++", PHI_STANDARD_LIBRARY_LIBSTDCXX());
     PRINT_COND("Standard library msvc-stl", PHI_STANDARD_LIBRARY_MSVC());
-    PRINT_VAL("PHI_STANDARD_LIBRARY_NAME", PHI_STANDARD_LIBRARY_NAME());
+    PRINT_STR("PHI_STANDARD_LIBRARY_NAME", PHI_STANDARD_LIBRARY_NAME());
+    PRINT_VAL("PHI_STANDARD_LIBRARY_DATE", PHI_STANDARD_LIBRARY_DATE());
+    PRINT_VAL("PHI_STANDARD_LIBRARY_VERSION_MAJOR", PHI_STANDARD_LIBRARY_VERSION_MAJOR());
+    PRINT_VAL("PHI_STANDARD_LIBRARY_VERSION_MINOR", PHI_STANDARD_LIBRARY_VERSION_MINOR());
+    PRINT_VAL("PHI_STANDARD_LIBRARY_VERSION_PATCH", PHI_STANDARD_LIBRARY_VERSION_PATCH());
 
     return 0;
 }
