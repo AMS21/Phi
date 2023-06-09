@@ -219,7 +219,7 @@ runtime_failure_test(NAME "core_ref_ptr_operator_star_const" SOURCE
                      "src/core/ref_ptr/operator_star_const.fail.cpp")
 
 # scope_ptr
-runtime_failure_test(NAME "core_scope-ptr_assign_moved_not_null_scope_ptr" SOURCE
+runtime_failure_test(NAME "core_scope_ptr_assign_moved_not_null_scope_ptr" SOURCE
                      "src/core/scope_ptr/assign_moved_not_null_scope_ptr.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_construct_moved_not_null_scope_ptr" SOURCE
                      "src/core/scope_ptr/construct_moved_not_null_scope_ptr.fail.cpp")
@@ -235,6 +235,14 @@ runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star" SOU
                      "src/core/scope_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_arrow" SOURCE
                      "src/core/scope_ptr/deref_null2.fail.cpp")
+
+# source_location
+runtime_failure_test(NAME "core_source_location_construct_file_nullptr" SOURCE
+                     "src/core/source_location/construct_file_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_source_location_construct_function_nullptr" SOURCE
+                     "src/core/source_location/construct_function_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_source_location_construct_line_zero" SOURCE
+                     "src/core/source_location/construct_line_zero.fail.cpp")
 
 # text binary_digit_value
 runtime_failure_test(NAME "text_binary_digit_value_OutOfBounds" SOURCE

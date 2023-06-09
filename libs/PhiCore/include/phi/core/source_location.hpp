@@ -21,22 +21,23 @@ struct source_location
 
     constexpr source_location() noexcept
         : m_FileName{""}
-        , m_FunctionName(m_FileName)
-        , m_LineNumber(0)
-        , m_Column(0)
+        , m_FunctionName{m_FileName}
+        , m_LineNumber{0}
+        , m_Column{0}
     {}
 
     // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
     constexpr source_location(const char* file, const char* function, uint_least32_t line,
                               uint_least32_t column) noexcept
-        : m_FileName(file)
-        , m_FunctionName(function)
-        , m_LineNumber(line)
-        , m_Column(column)
+        : m_FileName{file}
+        , m_FunctionName{function}
+        , m_LineNumber{line}
+        , m_Column{column}
     {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-        PHI_ASSERT(file != nullptr, "Don't pass nullptr to phi::source_location");
-        PHI_ASSERT(function != nullptr, "Don't pass nullptr to phi::source_location");
+        PHI_ASSERT(file != nullptr, "phi::source_location: Invalid file name");
+        PHI_ASSERT(function != nullptr, "phi::source_location: Invalid function name");
+        PHI_ASSERT(line > 0u, "phi::source_location: Invalid line number");
 #endif
     }
 

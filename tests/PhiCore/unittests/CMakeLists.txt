@@ -54,6 +54,10 @@ file(
   "src/core/memcmp/no_intrinsics.test.cpp"
   "src/core/memcmp/no_memcmp.test.cpp"
   "src/core/memcmp/value.test.cpp"
+  # core/source_location
+  "src/core/source_location/no_builtin_column.test.cpp"
+  "src/core/source_location/no_builtin_line.test.cpp"
+  "src/core/source_location/value.test.cpp"
   # core
   "src/core/address_of.test.cpp"
   "src/core/as_const.test.cpp"
@@ -84,7 +88,6 @@ file(
   "src/core/scoped_value_guard.test.cpp"
   "src/core/size_t.test.cpp"
   "src/core/sized_types.test.cpp"
-  "src/core/source_location.test.cpp"
   "src/core/stop_watch.test.cpp"
   "src/core/to_address.test.cpp"
   "src/core/types.test.cpp"
