@@ -12,6 +12,13 @@
 #    define PHI_HAS_LIB_STRING_VIEW() 0
 #endif
 
+// C++-20
+#if PHI_CPP_STANDARD_IS_ATLEAST(20)
+#    define PHI_HAS_LIB_SPAN() @PHI_HAS_LIB_SPAN@
+#else
+#    define PHI_HAS_LIB_SPAN() 0
+#endif
+
 // clang-format on
 
 #endif // INCG_PHI_CORE_GENERATED_COMPILER_SUPPORT_LIBRARIES_HPP

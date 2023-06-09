@@ -7,6 +7,8 @@ include(Standard)
 # Lib
 phi_check_cxx_source_compiles("#include <string_view>
 int main() {}" PHI_HAS_LIB_STRING_VIEW)
+phi_check_cxx_source_compiles("#include <span>
+int main() {}" PHI_HAS_LIB_SPAN)
 
 # Only require the latest standard flag
 set(CMAKE_REQUIRED_FLAGS "${phi_latest_standard_flag}")
