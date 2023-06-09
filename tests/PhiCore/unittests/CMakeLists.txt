@@ -103,6 +103,7 @@ file(
   "src/forward/std/char_traits.test.cpp"
   "src/forward/std/hash.test.cpp"
   "src/forward/std/reference_wrapper.test.cpp"
+  "src/forward/std/span.test.cpp"
   "src/forward/std/string_view.test.cpp"
   "src/forward/std/string.test.cpp"
   # iterator
