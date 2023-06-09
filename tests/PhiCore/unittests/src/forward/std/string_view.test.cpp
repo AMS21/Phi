@@ -4,12 +4,12 @@
 
 TEST_CASE("forward.std.string_view.forward")
 {
-    std::basic_string_view<int, std::char_traits<int>>* pointer  = nullptr;
-    std::string_view*                                   pointer2 = nullptr;
-    std::wstring_view*                                  pointer3 = nullptr;
-    std::u8string_view*                                 pointer4 = nullptr;
-    std::u16string_view*                                pointer5 = nullptr;
-    std::u32string_view*                                pointer6 = nullptr;
+    std::basic_string_view<char, std::char_traits<char>>* pointer  = nullptr;
+    std::string_view*                                     pointer2 = nullptr;
+    std::wstring_view*                                    pointer3 = nullptr;
+    std::u8string_view*                                   pointer4 = nullptr;
+    std::u16string_view*                                  pointer5 = nullptr;
+    std::u32string_view*                                  pointer6 = nullptr;
 
     CHECK(pointer == nullptr);
     CHECK(pointer2 == nullptr);
@@ -23,12 +23,12 @@ TEST_CASE("forward.std.string_view.forward")
 
 TEST_CASE("forward.std.string_view")
 {
-    std::basic_string_view<int, std::char_traits<int>> view;
-    std::string_view                                   view2;
-    std::wstring_view                                  view3;
-    std::u8string_view                                 view4;
-    std::u16string_view                                view5;
-    std::u32string_view                                view6;
+    std::basic_string_view<char, std::char_traits<char>> view;
+    std::string_view                                     view2;
+    std::wstring_view                                    view3;
+    std::u8string_view                                   view4;
+    std::u16string_view                                  view5;
+    std::u32string_view                                  view6;
 
     (void)view;
     (void)view2;
