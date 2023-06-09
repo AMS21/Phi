@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/core/flat_ptr.hpp>
+#include <phi/core/move.hpp>
 #include <phi/core/observer_ptr.hpp>
 #include <phi/core/ref_ptr.hpp>
 #include <phi/core/scope_ptr.hpp>
@@ -42,8 +43,13 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
         phi::observer_ptr<int> ptr2;
 
-        CHECK_FALSE(ptr);
+        CHECK_FALSE(ptr2);
         CHECK(ptr2.get() == nullptr);
+
+        phi::observer_ptr<int> ptr3{};
+
+        CHECK_FALSE(ptr3);
+        CHECK(ptr3.get() == nullptr);
     }
 
     SECTION("observer_ptr(nullptr_t)")
@@ -109,6 +115,23 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 19);
+
+        phi::observer_ptr<int> ptr2{phi::move(ptr)};
+
+        CHECK(ptr2);
+        CHECK(ptr2.get() == &integer);
+        CHECK(*ptr2 == 19);
+    }
+
+    SECTION("observer_ptr(observer_ptr<OtherT>&&)")
+    {
+        Derived                    raw_derived;
+        phi::observer_ptr<Derived> derived_ptr{phi::observer_ptr<Derived>(&raw_derived)};
+        phi::observer_ptr<Base>    base_ptr{phi::move(derived_ptr)};
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == &raw_derived);
+        CHECK(base_ptr.get() == derived_ptr.get());
     }
 
     SECTION("observer_ptr(const not_null_observer_ptr&)")
@@ -232,6 +255,19 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(*other == 16);
     }
 
+    SECTION("operator==(const observer_ptr<OtherT>&)")
+    {
+        Derived                    derived;
+        phi::observer_ptr<Derived> derived_ptr{&derived};
+        phi::observer_ptr<Base>    base_ptr;
+
+        base_ptr = derived_ptr;
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == &derived);
+        CHECK(base_ptr.get() == derived_ptr.get());
+    }
+
     SECTION("operator=(observer_ptr&&)")
     {
         int                    integer = 29;
@@ -251,12 +287,25 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(ptr.get() == nullptr);
     }
 
+    SECTION("operator=(observer_ptr<OtherT>&&)")
+    {
+        Derived                    derived;
+        phi::observer_ptr<Derived> derived_ptr{&derived};
+        phi::observer_ptr<Base>    base_ptr;
+
+        base_ptr = phi::move(derived_ptr);
+
+        CHECK(base_ptr);
+        CHECK(base_ptr.get() == &derived);
+    }
+
     SECTION("operator=(const not_null_observer_ptr&)")
     {
         int                             integer = 93;
         phi::not_null_observer_ptr<int> not_null(&integer);
+        phi::observer_ptr<int>          ptr;
 
-        phi::observer_ptr<int> ptr = not_null;
+        ptr = not_null;
 
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
@@ -265,8 +314,11 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
     SECTION("operator=(not_null_observer_ptr&&)")
     {
-        int                    integer = 92;
-        phi::observer_ptr<int> ptr     = phi::not_null_observer_ptr<int>(&integer);
+        int                             integer = 92;
+        phi::not_null_observer_ptr<int> not_null(&integer);
+        phi::observer_ptr<int>          ptr;
+
+        ptr = phi::move(not_null);
 
         CHECK(ptr);
         CHECK(ptr.get() == &integer);
@@ -761,6 +813,16 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(*ptr2 == 21);
     }
 
+    SECTION("not_null_observer_ptr(const not_null_observer_ptr<OtherT>&)")
+    {
+        Derived                             derived;
+        phi::not_null_observer_ptr<Derived> ptr1(&derived);
+        phi::not_null_observer_ptr<Base>    ptr2(ptr1);
+
+        CHECK(ptr2.get() == &derived);
+        CHECK(ptr2.get() == ptr1.get());
+    }
+
     SECTION("not_null_observer_ptr(not_null_observer_ptr&&)")
     {
         int                             integer = 19;
@@ -768,6 +830,24 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
 
         CHECK(ptr.get() == &integer);
         CHECK(*ptr == 19);
+
+        phi::not_null_observer_ptr<int> ptr2{phi::move(ptr)};
+
+        CHECK(ptr2.get() == &integer);
+        CHECK(*ptr2 == 19);
+    }
+
+    SECTION("not_null_observer_ptr(not_null_observer_ptr<OtherT>&&)")
+    {
+        Derived                          derived;
+        phi::not_null_observer_ptr<Base> ptr{phi::not_null_observer_ptr<Derived>(&derived)};
+
+        CHECK(ptr.get() == &derived);
+
+        phi::not_null_observer_ptr<Derived> derived_ptr{&derived};
+        phi::not_null_observer_ptr<Base>    ptr2{phi::move(derived_ptr)};
+
+        CHECK(ptr2.get() == &derived);
     }
 
     SECTION("operator=(TypeT*)")
@@ -801,6 +881,20 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
         CHECK(*other == 16);
     }
 
+    SECTION("operator=(const not_null_observer_ptr<OtherT>&)")
+    {
+        Derived                             derived;
+        phi::not_null_observer_ptr<Derived> derived_ptr{&derived};
+
+        Base                             base;
+        phi::not_null_observer_ptr<Base> ptr{&base};
+
+        ptr = derived_ptr;
+
+        CHECK(ptr.get() == &derived);
+        CHECK(ptr.get() == derived_ptr.get());
+    }
+
     SECTION("operator=(not_null_observer_ptr&&)")
     {
         int                             integer1 = 29;
@@ -817,6 +911,20 @@ TEST_CASE("not_null_observer_ptr", "[Core][observer_ptr][NotNullnot_null_observe
 
         CHECK(ptr.get() == &integer1);
         CHECK(*ptr == 29);
+    }
+
+    SECTION("operator=(not_null_observer_ptr<OtherT>&&)")
+    {
+        Derived                             derived;
+        phi::not_null_observer_ptr<Derived> derived_ptr{&derived};
+
+        Base                             base;
+        phi::not_null_observer_ptr<Base> ptr{&base};
+
+        ptr = phi::move(derived_ptr);
+
+        CHECK(ptr.get() == &derived);
+        CHECK(ptr.get() == derived_ptr.get());
     }
 
     SECTION("operator=(not_null_scope_ptr&)")

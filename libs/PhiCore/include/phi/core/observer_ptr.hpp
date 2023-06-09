@@ -139,7 +139,7 @@ public:
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(
             const observer_ptr<OtherT>& other) noexcept
     {
-        m_Ptr = other.m_Ptr;
+        m_Ptr = other.get();
 
         return *this;
     }
@@ -147,7 +147,7 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR observer_ptr<TypeT>& operator=(observer_ptr<OtherT>&& other) noexcept
     {
-        m_Ptr = move(other.m_Ptr);
+        m_Ptr = move(other.get());
 
         return *this;
     }
@@ -610,16 +610,6 @@ public:
     void reset(nullptr_t) = delete;
 
     PHI_EXTENDED_CONSTEXPR void swap(not_null_observer_ptr<TypeT>& other) noexcept
-    {
-        PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
-        PHI_ASSERT(other.get() != nullptr,
-                   "Trying to assign nullptr to phi::not_null_observer_ptr");
-
-        phi::swap(m_Ptr, other.m_Ptr);
-    }
-
-    template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_EXTENDED_CONSTEXPR void swap(not_null_observer_ptr<OtherT>& other) noexcept
     {
         PHI_ASSERT(get() != nullptr, "Trying to assign nullptr to phi::not_null_observer_ptr");
         PHI_ASSERT(other.get() != nullptr,
