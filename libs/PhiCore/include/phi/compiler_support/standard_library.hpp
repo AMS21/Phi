@@ -7,8 +7,23 @@
 #    pragma once
 #endif
 
-// Include ciso646 as it usually includes the standard library specific headers
-#include <ciso646>
+#include <phi/generated/compiler_support/libraries.hpp>
+
+// Check if the standard library has the <version> header
+#if PHI_HAS_LIB_VERSION()
+
+// Since C++-20 the <version> header should be used instead of <ciso646> to detect the standard library.
+// Also the <ciso646> header was removed with C++-20.
+// See: https://en.cppreference.com/w/cpp/header/version
+// See: https://en.cppreference.com/w/cpp/header/ciso646
+#    include <version>
+
+#else
+
+// Otherwise include ciso646 as it usually includes the standard library specific headers
+#    include <ciso646>
+
+#endif
 
 // Check explicit standards first
 #if defined(PHI_CONFIG_STDLIB_LIBCXX)
