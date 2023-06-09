@@ -140,6 +140,48 @@ TEST_CASE("scoped_value_guard", "[Core][scoped_value_guard]")
         CHECK(value == 0);
     }
 
+    SECTION("get_variable")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            phi::armed_scoped_value_guard<int> guard(value);
+
+            guard.get_variable() = 21;
+
+            CHECK(value == 21);
+        }
+        CHECK(value == 0);
+    }
+
+    SECTION("get_variable const")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            const phi::armed_scoped_value_guard<int> guard(value);
+
+            value = 21;
+
+            CHECK(guard.get_variable() == 21);
+        }
+        CHECK(value == 0);
+    }
+
+    SECTION("override_saved_value")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            phi::armed_scoped_value_guard<int> guard(value);
+
+            value = 21;
+            guard.override_saved_value(99);
+            CHECK(value == 21);
+        }
+        CHECK(value == 99);
+    }
+
     SECTION("disarm")
     {
         int value = 0;
@@ -206,6 +248,51 @@ TEST_CASE("scoped_value_guard", "[Core][scoped_value_guard]")
             CHECK(value == 21);
         }
         CHECK(value == 0);
+    }
+
+    SECTION("get_variable")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
+
+            guard.get_variable() = 21;
+
+            CHECK(value == 21);
+        }
+        CHECK(value == 0);
+    }
+
+    SECTION("get_variable const")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
+
+            value = 21;
+
+            CHECK(guard.get_variable() == 21);
+        }
+        CHECK(value == 0);
+    }
+
+    SECTION("override_saved_value")
+    {
+        int value = 0;
+        CHECK(value == 0);
+        {
+            phi::armed_scoped_value_guard<int> guard =
+                    phi::make_armed_scoped_value_guard<int>(value);
+
+            value = 21;
+            guard.override_saved_value(99);
+            CHECK(value == 21);
+        }
+        CHECK(value == 99);
     }
 
     SECTION("disarm")
