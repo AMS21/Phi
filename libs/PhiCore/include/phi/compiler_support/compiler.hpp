@@ -257,7 +257,7 @@
 #define PHI_CURRENT_COMPILER_VERSION_STR()                                                         \
     PHI_STRINGIFY(PHI_CURRENT_COMPILER_VERSION_MAJOR())                                            \
     "." PHI_STRINGIFY(PHI_CURRENT_COMPILER_VERSION_MINOR()) "." PHI_STRINGIFY(                     \
-            PHI_CURRENT_COMPILER_VERSION_MINOR())
+            PHI_CURRENT_COMPILER_VERSION_PATCH())
 
 // has attribute
 #if defined(__has_attribute)
