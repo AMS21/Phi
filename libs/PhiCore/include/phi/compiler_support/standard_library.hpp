@@ -40,9 +40,23 @@
 // NOTE: libc++ does not provide a date
 #    define PHI_STANDARD_LIBRARY_DATE() (0)
 
-#    define PHI_STANDARD_LIBRARY_VERSION_MAJOR() (_LIBCPP_VERSION >> 4)
-#    define PHI_STANDARD_LIBRARY_VERSION_MINOR() (_LIBCPP_VERSION >> 2 & 0xFF)
-#    define PHI_STANDARD_LIBRARY_VERSION_PATCH() (_LIBCPP_VERSION & 0xFF)
+// NOTE: Before version 16.0.0 libc++ used the format 'XXYZZ'
+//       See this commit: https://github.com/llvm/llvm-project/commit/b6ff5b470d5e4acfde59d57f18e575c0284941f4
+#    if (_LIBCPP_VERSION > 16000)
+
+// NOTE: libc++ version format 'XXYYZZ'
+#        define PHI_STANDARD_LIBRARY_VERSION_MAJOR() (_LIBCPP_VERSION / 10000)
+#        define PHI_STANDARD_LIBRARY_VERSION_MINOR() ((_LIBCPP_VERSION / 100) % 100)
+#        define PHI_STANDARD_LIBRARY_VERSION_PATCH() (_LIBCPP_VERSION % 100)
+
+#    else
+
+// NOTE: libc++ version format 'XXYZZ'
+#        define PHI_STANDARD_LIBRARY_VERSION_MAJOR() (_LIBCPP_VERSION / 1000)
+#        define PHI_STANDARD_LIBRARY_VERSION_MINOR() ((_LIBCPP_VERSION / 100) % 10)
+#        define PHI_STANDARD_LIBRARY_VERSION_PATCH() (_LIBCPP_VERSION % 100)
+
+#    endif
 
 #elif defined(__GLIBCXX__) || defined(_GLIBCXX_RELEASE)
 
