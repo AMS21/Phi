@@ -292,18 +292,21 @@ public:
     }
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(not_null_observer_ptr<TypeT>& pointer) noexcept
-        : m_Pointer{static_cast<void*>(pointer.get())}
+    constexpr not_null_flat_ptr(const not_null_observer_ptr<TypeT>& pointer) noexcept
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(not_null_ref_ptr<TypeT>& pointer) noexcept
-        : m_Pointer{static_cast<void*>(pointer.get())}
+    constexpr not_null_flat_ptr(const not_null_ref_ptr<TypeT>& pointer) noexcept
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(not_null_scope_ptr<TypeT>& pointer) noexcept
-        : m_Pointer{static_cast<void*>(pointer.get())}
+    constexpr not_null_flat_ptr(const not_null_scope_ptr<TypeT>& pointer) noexcept
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
 
     not_null_flat_ptr(const not_null_flat_ptr&) = default;
