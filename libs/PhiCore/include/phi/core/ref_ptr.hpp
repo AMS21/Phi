@@ -534,6 +534,8 @@ public:
 
     not_null_ref_ptr& operator=(nullptr_t) = delete;
 
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnonnull-compare")
+
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr not_null_ref_ptr& operator=(OtherT* ptr)
     {
@@ -547,6 +549,8 @@ public:
 
         return *this;
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     constexpr not_null_ref_ptr& operator=(const not_null_ref_ptr& other) noexcept
@@ -601,6 +605,8 @@ public:
 
     void reset(nullptr_t) = delete;
 
+    PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnonnull-compare")
+
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL constexpr void reset(OtherT* ptr) noexcept
     {
@@ -617,6 +623,8 @@ public:
         m_Ptr = ptr;
         allocate_control_block();
     }
+
+    PHI_GCC_SUPPRESS_WARNING_POP()
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
     {

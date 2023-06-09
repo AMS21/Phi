@@ -98,7 +98,9 @@ TEST_CASE("source_location")
     {
         CHECK_NOEXCEPT(phi::source_location());
         CHECK_NOEXCEPT(phi::source_location("file.cpp", "function", 3u, 1u));
+#if PHI_SUPPORTS_BUILTIN_LINE()
         CHECK_NOEXCEPT(phi::source_location::current());
+#endif
         CHECK_NOEXCEPT(phi::source_location().line());
         CHECK_NOEXCEPT(phi::source_location().column());
         CHECK_NOEXCEPT(phi::source_location().file_name());

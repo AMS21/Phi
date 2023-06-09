@@ -44,16 +44,15 @@ SOFTWARE.
 #define TEST_CONVERSION(lhs, rhs)                                                                  \
     (phi::is_nothrow_constructible<lhs, rhs>::value && phi::is_nothrow_assignable<lhs, rhs>::value)
 
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wfloat-equal")
 
-PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
+PHI_GCC_SUPPRESS_WARNING("-Wdouble-promotion")
 
 TEST_CASE("floating_point")
 {
-    SECTION("floating_point layout", "[Utility][Typs][FlooatingType]")
+    SECTION("floating_point layout", "[Utility][Typs][FloatingType]")
     {
         STATIC_REQUIRE(sizeof(float) == sizeof(phi::floating_point<float>));
         STATIC_REQUIRE(sizeof(double) == sizeof(phi::floating_point<double>));
@@ -629,6 +628,3 @@ TEST_CASE("core.floating_point.swap")
         CHECK(value2.unsafe() == 2.0L);
     }
 }
-
-PHI_GCC_SUPPRESS_WARNING_POP()
-PHI_CLANG_SUPPRESS_WARNING_POP()
