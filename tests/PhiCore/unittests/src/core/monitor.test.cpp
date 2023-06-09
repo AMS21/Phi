@@ -54,6 +54,9 @@ TEST_CASE("core.monitor.operators")
         phi::monitor<MonitorTestData> mon(3, 3.14);
 
         CHECK(mon->val == 2u);
+
+        const phi::monitor<MonitorTestData> const_mon(3, 3.14);
+        CHECK(const_mon->val == 2u);
     }
 
 #    if PHI_HAS_FEATURE_DECLTYPE_AUTO()
@@ -72,24 +75,36 @@ TEST_CASE("core.monitor.functions")
 {
     SECTION("ManualLock")
     {
-        phi::monitor<MonitorTestData> mon(3, 3.14);
+        phi::monitor<MonitorTestData> mon{3, 3.14};
 
         auto lock = mon.ManuallyLock();
 
         CHECK(lock->val == 2u);
         CHECK(lock.monitor == &mon);
+
+        const phi::monitor<MonitorTestData> const_mon{3, 3.14};
+
+        auto const_lock = const_mon.ManuallyLock();
+
+        CHECK(const_lock->val == 2u);
+        CHECK(const_lock.monitor == &const_mon);
     }
 
     SECTION("GetThreadUnsafeAccess")
     {
-        phi::monitor<MonitorTestData> mon(3, 3.14);
-
-        MonitorTestData& test_data = mon.GetThreadUnsafeAccess();
+        phi::monitor<MonitorTestData> mon{3, 3.14};
+        MonitorTestData&              test_data = mon.GetThreadUnsafeAccess();
 
         test_data.val += 3u;
 
         CHECK(test_data.val == 5u);
         CHECK(mon->val == 5u);
+
+        const phi::monitor<MonitorTestData> const_mon{3, 3.14};
+        const MonitorTestData&              const_test_data = const_mon.GetThreadUnsafeAccess();
+
+        CHECK(const_test_data.val == 2u);
+        CHECK(const_mon->val == 2u);
     }
 }
 
