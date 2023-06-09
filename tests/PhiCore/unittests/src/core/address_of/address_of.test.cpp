@@ -17,6 +17,9 @@ struct nothing
     }
 };
 
+static void function()
+{}
+
 TEST_CASE("address_of")
 {
     {
@@ -41,6 +44,14 @@ TEST_CASE("address_of")
             int     integer{0};
         };
         CHECK(phi::address_of(nothing_val) == reinterpret_cast<void*>(phi::address_of(integer)));
+    }
+
+    {
+        int  value = 0;
+        int& ref   = value;
+
+        CHECK(phi::address_of(ref) == &ref);
+        CHECK(phi::address_of(function) == function);
     }
 }
 

@@ -49,6 +49,11 @@ file(
   "src/container/array.test.cpp"
   "src/container/singly_linked_list.test.cpp"
   "src/container/string_view.test.cpp"
+  # core/address_of
+  "src/core/address_of/address_of.test.cpp"
+  "src/core/address_of/no_address_of_or_is_object.test.cpp"
+  "src/core/address_of/no_address_of.test.cpp"
+  "src/core/address_of/no_is_object.test.cpp"
   # core/memcmp
   "src/core/memcmp/no_constexpr_memcmp.test.cpp"
   "src/core/memcmp/no_intrinsics.test.cpp"
