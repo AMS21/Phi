@@ -27,6 +27,7 @@ SOFTWARE.
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/algorithm/swap.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/type_traits/is_default_constructible.hpp>
@@ -366,6 +367,266 @@ TEST_CASE("floating_point")
             CHECK(zero_hash == std::hash<float>{}(0.0f));
             CHECK(one_hash == std::hash<float>{}(1.0f));
         }
+    }
+}
+
+TEST_CASE("core.floating_point.constructor(const floating_point&)")
+{
+    {
+        phi::floating_point<float> value{0.0f};
+        phi::floating_point<float> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>  value{0.0f};
+        phi::floating_point<double> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double> value{0.0};
+        phi::floating_point<double> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>       value{0.0f};
+        phi::floating_point<long double> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double>      value{0.0};
+        phi::floating_point<long double> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<long double> value{0.0};
+        phi::floating_point<long double> other{value};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+}
+
+TEST_CASE("core.floating_point.constructor(floating_point&&)")
+{
+    {
+        phi::floating_point<float> value{0.0f};
+        phi::floating_point<float> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>  value{0.0f};
+        phi::floating_point<double> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double> value{0.0};
+        phi::floating_point<double> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>       value{0.0f};
+        phi::floating_point<long double> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double>      value{0.0};
+        phi::floating_point<long double> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<long double> value{0.0};
+        phi::floating_point<long double> other{phi::move(value)};
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+}
+
+TEST_CASE("core.floating_point.operator==(const floating_point&)")
+{
+    {
+        phi::floating_point<float> value{0.0f};
+        phi::floating_point<float> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>  value{0.0f};
+        phi::floating_point<double> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double> value{0.0f};
+        phi::floating_point<double> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>       value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double>      value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<long double> value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = value;
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+}
+
+TEST_CASE("core.floating_point.operator==(floating_point&&)")
+{
+    {
+        phi::floating_point<float> value{0.0f};
+        phi::floating_point<float> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>  value{0.0f};
+        phi::floating_point<double> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double> value{0.0f};
+        phi::floating_point<double> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<float>       value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<double>      value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+    {
+        phi::floating_point<long double> value{0.0f};
+        phi::floating_point<long double> other{1.0f};
+
+        other = phi::move(value);
+
+        CHECK(value.unsafe() == other.unsafe());
+    }
+}
+
+TEST_CASE("core.floating_point.swap")
+{
+    {
+        phi::floating_point<float> value1{1.0f};
+        phi::floating_point<float> value2{2.0f};
+
+        value1.swap(value2);
+
+        CHECK(value1.unsafe() == 2.0f);
+        CHECK(value2.unsafe() == 1.0f);
+
+        value2.swap(value1);
+
+        CHECK(value1.unsafe() == 1.0f);
+        CHECK(value2.unsafe() == 2.0f);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 2.0f);
+        CHECK(value2.unsafe() == 1.0f);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 1.0f);
+        CHECK(value2.unsafe() == 2.0f);
+    }
+    {
+        phi::floating_point<double> value1{1.0};
+        phi::floating_point<double> value2{2.0};
+
+        value1.swap(value2);
+
+        CHECK(value1.unsafe() == 2.0);
+        CHECK(value2.unsafe() == 1.0);
+
+        value2.swap(value1);
+
+        CHECK(value1.unsafe() == 1.0);
+        CHECK(value2.unsafe() == 2.0);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 2.0);
+        CHECK(value2.unsafe() == 1.0);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 1.0);
+        CHECK(value2.unsafe() == 2.0);
+    }
+    {
+        phi::floating_point<long double> value1{1.0L};
+        phi::floating_point<long double> value2{2.0L};
+
+        value1.swap(value2);
+
+        CHECK(value1.unsafe() == 2.0L);
+        CHECK(value2.unsafe() == 1.0L);
+
+        value2.swap(value1);
+
+        CHECK(value1.unsafe() == 1.0L);
+        CHECK(value2.unsafe() == 2.0L);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 2.0L);
+        CHECK(value2.unsafe() == 1.0L);
+
+        phi::swap(value1, value2);
+
+        CHECK(value1.unsafe() == 1.0L);
+        CHECK(value2.unsafe() == 2.0L);
     }
 }
 

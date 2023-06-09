@@ -139,6 +139,8 @@ public:
         return *this;
     }
 
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdouble-promotion")
+
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
     PHI_ALWAYS_INLINE floating_point& operator=(const floating_point<TypeT>& val) noexcept
@@ -146,6 +148,8 @@ public:
         m_Value = static_cast<TypeT>(val);
         return *this;
     }
+
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 
     template <typename TypeT,
               typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
