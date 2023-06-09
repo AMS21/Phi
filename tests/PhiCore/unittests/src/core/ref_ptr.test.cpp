@@ -56,16 +56,36 @@ TEST_CASE("ref_ptr")
     {
         phi::ref_ptr<int> ptr;
 
-        CHECK(ptr.get() == nullptr);
         CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+
+        phi::ref_ptr<int> ptr2{};
+
+        CHECK_FALSE(ptr2);
+        CHECK(ptr2.get() == nullptr);
+
+        phi::ref_ptr<int> ptr3 = {};
+
+        CHECK_FALSE(ptr3);
+        CHECK(ptr3.get() == nullptr);
     }
 
     SECTION("ref_ptr(nullptr_t)")
     {
         phi::ref_ptr<int> ptr(nullptr);
 
-        CHECK(ptr.get() == nullptr);
         CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+
+        phi::ref_ptr<int> ptr2{nullptr};
+
+        CHECK_FALSE(ptr2);
+        CHECK(ptr2.get() == nullptr);
+
+        phi::ref_ptr<int> ptr3 = nullptr;
+
+        CHECK_FALSE(ptr3);
+        CHECK(ptr3.get() == nullptr);
     }
 
     SECTION("ref_ptr(TypeT*)")
