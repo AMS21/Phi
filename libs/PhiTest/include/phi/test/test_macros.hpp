@@ -9,7 +9,6 @@
 
 #include <phi/compiler_support/counter.hpp>
 #include <phi/compiler_support/warning.hpp>
-#include <phi/preprocessor/function_like_macro.hpp>
 #include <phi/preprocessor/glue.hpp>
 #include <phi/type_traits/is_same.hpp>
 
@@ -61,12 +60,11 @@ extern int main();
 #define SECTION(...)
 
 #define DETAIL_CALL_IMPL(impl_name, ...)                                                           \
-    PHI_BEGIN_MACRO()                                                                              \
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     ::phi::test::detail::PHI_GLUE(, impl_name)(static_cast<bool>(__VA_ARGS__), #__VA_ARGS__,       \
                                                __FILE__, __LINE__);                                \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
-    PHI_END_MACRO()
+    (void(0))
 
 #define CHECK(...) DETAIL_CALL_IMPL(CheckImpl, __VA_ARGS__)
 
@@ -79,7 +77,6 @@ extern int main();
 #define SKIP_CHECK() ::phi::test::detail::IncreaseSkipCount()
 
 #define DETAIL_STATIC_REQUIRE_BEGIN()                                                              \
-    PHI_BEGIN_MACRO()                                                                              \
     PHI_GCC_SUPPRESS_WARNING_PUSH()                                                                \
     PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")                                                     \
     PHI_CLANG_SUPPRESS_WARNING_PUSH()                                                              \
@@ -88,7 +85,7 @@ extern int main();
 #define DETAIL_STATIC_REQUIRE_END()                                                                \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
-    PHI_END_MACRO()
+    (void(0))
 
 // Run all tests at runtime when gathering coverage data
 #if defined(PHI_CONFIG_COVERAGE_BUILD)
@@ -125,8 +122,16 @@ extern int main();
                                           " should not be declared noexcept but is");              \
     DETAIL_STATIC_REQUIRE_END()
 
-#define CHECK_SAME_TYPE(...) STATIC_REQUIRE(::phi::is_same<__VA_ARGS__>::value)
+#define CHECK_SAME_TYPE(...)                                                                       \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
+    static_assert(::phi::is_same<__VA_ARGS__>::value,                                              \
+                  "CHECK_SAME_TYPE: " #__VA_ARGS__ " should be the same type but aren't");         \
+    DETAIL_STATIC_REQUIRE_END()
 
-#define CHECK_NOT_SAME_TYPE(...) STATIC_REQUIRE_FALSE(::phi::is_same<__VA_ARGS__>::value)
+#define CHECK_NOT_SAME_TYPE(...)                                                                   \
+    DETAIL_STATIC_REQUIRE_BEGIN()                                                                  \
+    static_assert(::phi::is_not_same<__VA_ARGS__>::value,                                          \
+                  "CHECK_NOT_SAME_TYPE: " #__VA_ARGS__ " should not be the same type but are");    \
+    DETAIL_STATIC_REQUIRE_END()
 
 #endif // INCG_PHI_TEST_TEST_MACROS_HPP
