@@ -7,6 +7,8 @@
 #    pragma once
 #endif
 
+#include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/address_of.hpp>
 #include <phi/core/ptrdiff_t.hpp>
 #include <phi/type_traits/conditional.hpp>
@@ -67,7 +69,11 @@ namespace detail
         static true_type test(typename Type2T::template rebind<OtherT>* = 0);
 
     public:
-        static const bool value = decltype(test<TypeT>(0))::value;
+        PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wzero-as-null-pointer-constant")
+
+        static PHI_CONSTEXPR_AND_CONST bool value = decltype(test<TypeT>(0))::value;
+
+        PHI_CLANG_SUPPRESS_WARNING_POP()
     };
 
     template <typename TypeT, typename OtherT, bool = has_rebind<TypeT, OtherT>::value>
