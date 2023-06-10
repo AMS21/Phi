@@ -27,11 +27,6 @@ void print_val(phi::string_view text, long val)
     (void)std::printf("%s: %ld\n", text.data(), val);
 }
 
-void print_val(phi::string_view text, unsigned long val)
-{
-    (void)std::printf("%s: %lu\n", text.data(), val);
-}
-
 void print_val(phi::string_view text, phi::string_view val)
 {
     (void)std::printf("%s: %s\n", text.data(), val.data());
