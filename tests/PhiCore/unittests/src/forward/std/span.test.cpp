@@ -1,8 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/libraries.hpp>
 #include <phi/core/size_t.hpp>
 #include <phi/forward/std/span.hpp>
-#include <phi/generated/compiler_support/libraries.hpp>
 
 TEST_CASE("forward.std.span.forward")
 {
@@ -13,7 +13,7 @@ TEST_CASE("forward.std.span.forward")
     CHECK(pointer2 == nullptr);
 }
 
-#if PHI_HAS_LIB_SPAN()
+#if PHI_SUPPORTS_STDLIB_SPAN()
 
 #    include <span>
 

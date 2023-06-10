@@ -149,6 +149,7 @@ file(
   "include/phi/compiler_support/inline_variables.hpp"
   "include/phi/compiler_support/inline.hpp"
   "include/phi/compiler_support/intrinsics.hpp"
+  "include/phi/compiler_support/libraries.hpp"
   "include/phi/compiler_support/likely.hpp"
   "include/phi/compiler_support/nodiscard.hpp"
   "include/phi/compiler_support/noexcept.hpp"

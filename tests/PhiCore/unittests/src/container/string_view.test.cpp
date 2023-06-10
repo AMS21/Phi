@@ -5,6 +5,7 @@
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/libraries.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/container/string_view.hpp>
@@ -13,12 +14,11 @@
 #include <phi/core/move.hpp>
 #include <phi/core/size_t.hpp>
 #include <phi/core/types.hpp>
-#include <phi/generated/compiler_support/libraries.hpp>
 #include <phi/iterator/reverse_iterator.hpp>
 #include <phi/type_traits/is_trivially_copyable.hpp>
 #include <string>
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 #    include <string_view>
 #endif
 
@@ -168,7 +168,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE_FALSE(move_view2.end() == nullptr);
     }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
     SECTION("basic_string_view(const std::string_view&)")
     {
         std::string_view std_view{"Hello World"};
@@ -295,7 +295,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         CHECK(view.back() == 'i');
     }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
     SECTION("operator=(const std::strinb_view&)")
     {
         std::string_view std_view{"Hello World"};

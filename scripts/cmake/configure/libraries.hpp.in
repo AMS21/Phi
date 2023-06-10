@@ -5,21 +5,12 @@
 
 // clang-format off
 
-// C++-14
-#if PHI_CPP_STANDARD_IS_ATLEAST(17)
-#    define PHI_HAS_LIB_STRING_VIEW() @PHI_HAS_LIB_STRING_VIEW@
-#else
-#    define PHI_HAS_LIB_STRING_VIEW() 0
-#endif
+// C++-17
+#define PHI_HAS_LIB_STRING_VIEW() @PHI_HAS_LIB_STRING_VIEW@
 
 // C++-20
-#if PHI_CPP_STANDARD_IS_ATLEAST(20)
-#    define PHI_HAS_LIB_SPAN()    @PHI_HAS_LIB_SPAN@
-#    define PHI_HAS_LIB_VERSION() @PHI_HAS_LIB_VERSION@
-#else
-#    define PHI_HAS_LIB_SPAN()    0
-#    define PHI_HAS_LIB_VERSION() 0
-#endif
+#define PHI_HAS_LIB_SPAN()    @PHI_HAS_LIB_SPAN@
+#define PHI_HAS_LIB_VERSION() @PHI_HAS_LIB_VERSION@
 
 // clang-format on
 

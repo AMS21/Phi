@@ -2,18 +2,18 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals.hpp>
+#include <phi/compiler_support/libraries.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/boolean.hpp>
-#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 #    include <string_view>
 #endif
 
 static constexpr const char*            null = nullptr;
 static constexpr const phi::string_view null_view;
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 static constexpr const std::string_view std_null_view;
 #endif
 
@@ -46,7 +46,7 @@ TEST_CASE("string_equals - nullptr_t, phi::string_view")
     CHECK_FALSE(phi::string_equals(nullptr, phi::string_view("")));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_equals - nullptr_t, std::string_view")
 {
     STATIC_REQUIRE(phi::string_equals(nullptr, std_null_view));
@@ -189,7 +189,7 @@ TEST_CASE("string_equals - char*, phi::string_view")
     CHECK(phi::string_equals("", phi::string_view("")));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_equals - char*, std::string_view")
 {
     EXT_STATIC_REQUIRE(phi::string_equals(null, std_null_view));
@@ -300,7 +300,7 @@ TEST_CASE("string_equals - phi::string_view, phi::string_view")
     CHECK(phi::string_equals(phi::string_view(""), phi::string_view("")));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_equals - phi::string_view, std::string_view")
 {
     EXT_STATIC_REQUIRE(phi::string_equals(null_view, std_null_view));
@@ -346,7 +346,7 @@ TEST_CASE("string_equals - phi::string_view, std::string")
     CHECK(phi::string_equals(phi::string_view(""), std::string("")));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_equals - std::string_view, nullptr_t")
 {
     EXT_STATIC_REQUIRE(phi::string_equals(std_null_view, nullptr));
@@ -473,7 +473,7 @@ TEST_CASE("string_equals - std::string, phi::string_view")
     CHECK(phi::string_equals(std::string(""), phi::string_view("")));
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_equals - std::string, std::string_view")
 {
     const std::string null_string;

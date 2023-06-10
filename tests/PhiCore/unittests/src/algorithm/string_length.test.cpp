@@ -3,15 +3,15 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/libraries.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/integer.hpp>
 #include <phi/core/size_t.hpp>
 #include <phi/core/types.hpp>
-#include <phi/generated/compiler_support/libraries.hpp>
 #include <string>
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 #    include <string_view>
 #endif
 
@@ -192,7 +192,7 @@ TEST_CASE("string_length std::basic_string")
 #endif
 }
 
-#if PHI_HAS_LIB_STRING_VIEW()
+#if PHI_SUPPORTS_STDLIB_STRING_VIEW()
 TEST_CASE("string_length std::basic_string_view")
 {
     // TODO: Clang before 9.0.0 calls `wcslen` for `std::wstring_view` which is not constexpr
