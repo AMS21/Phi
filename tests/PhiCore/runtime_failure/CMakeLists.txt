@@ -47,7 +47,9 @@ runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr" SOURCE
 runtime_failure_test(NAME "algorithm_string_length_unsafe_nullptr_with_size" SOURCE
                      "src/algorithm/string_length_unsafe/nullptr_with_size.fail.cpp")
 
-# container array
+# container
+
+# array
 runtime_failure_test(NAME "container_array_AtOutOfBounds" SOURCE
                      "src/container/array/at_oob.fail.cpp")
 runtime_failure_test(NAME "container_array_ConstAtOutOfBounds" SOURCE
@@ -101,7 +103,9 @@ runtime_failure_test(NAME "container_string_view_Copy" SOURCE
 runtime_failure_test(NAME "container_string_view_Substr" SOURCE
                      "src/container/string_view/substr.fail.cpp")
 
-# core assert
+# core
+
+# assert
 runtime_failure_test(NAME "core_assert_with_args" SOURCE
                      "src/core/assert/assert_with_args.fail.cpp")
 runtime_failure_test(NAME "core_assert_with_args_regex" SOURCE

@@ -19,6 +19,8 @@ TEST_CASE("unreachable", "[Config][Unreachable]")
     }
     else
     {
+        // GCOVR_EXCL_START
         PHI_UNREACHABLE();
+        // GCOVR_EXCL_STOP
     }
 }

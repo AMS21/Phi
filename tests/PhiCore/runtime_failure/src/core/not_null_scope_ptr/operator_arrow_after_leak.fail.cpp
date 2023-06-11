@@ -14,6 +14,8 @@ int main()
 
     phi::not_null_scope_ptr<A> ptr{new A()};
 
+    ptr->test();
+
     (void)ptr.leak_ptr();
     ptr->test();
 }

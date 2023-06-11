@@ -53,6 +53,9 @@ TEST_CASE("address_of")
         CHECK(phi::address_of(ref) == &ref);
         CHECK(phi::address_of(function) == function);
     }
+
+    // To maximize coverage
+    function();
 }
 
 struct Pointer
