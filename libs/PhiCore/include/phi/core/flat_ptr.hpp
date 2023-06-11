@@ -181,6 +181,23 @@ public:
         m_Pointer = nullptr;
     }
 
+    PHI_EXTENDED_CONSTEXPR void reset(nullptr_t) noexcept
+    {
+        clear();
+    }
+
+    PHI_EXTENDED_CONSTEXPR void reset(const void* other = nullptr) noexcept
+    {
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        m_Pointer = const_cast<void*>(other);
+    }
+
+    template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
+    PHI_EXTENDED_CONSTEXPR void reset(const PointerT other = nullptr) noexcept
+    {
+        m_Pointer = static_cast<void*>(other);
+    }
+
     constexpr explicit operator bool() const noexcept
     {
         return get() != nullptr;
@@ -381,6 +398,17 @@ public:
     PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator void*() noexcept
     {
         return get();
+    }
+
+    void reset(nullptr_t) = delete;
+
+    template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
+    PHI_EXTENDED_CONSTEXPR void reset(const PointerT other) noexcept
+    {
+        PHI_ASSERT(other != nullptr, "Trying to assign nullptr to phi::not_null_flat_ptr");
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        m_Pointer = const_cast<void*>(static_cast<const void*>(other));
     }
 
     PHI_EXTENDED_CONSTEXPR void swap(not_null_flat_ptr& other) noexcept

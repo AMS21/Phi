@@ -358,6 +358,39 @@ TEST_CASE("flat_ptr", "[Core][flat_ptr]")
         CHECK(ptr.get() == nullptr);
     }
 
+    SECTION("reset()")
+    {
+        int           integer = 21;
+        phi::flat_ptr ptr{&integer};
+
+        ptr.reset();
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+    }
+
+    SECTION("reset(TypeT*)")
+    {
+        int           integer = 21;
+        phi::flat_ptr ptr;
+
+        ptr.reset(&integer);
+
+        CHECK(ptr);
+        CHECK(ptr.get() == &integer);
+    }
+
+    SECTION("reset(nullptr_t)")
+    {
+        int           integer = 21;
+        phi::flat_ptr ptr{&integer};
+
+        ptr.reset(nullptr);
+
+        CHECK_FALSE(ptr);
+        CHECK(ptr.get() == nullptr);
+    }
+
     SECTION("release_not_null")
     {
         phi::flat_ptr ptr(raw_ptr1);
@@ -714,6 +747,13 @@ TEST_CASE("not_null_flat_ptr", "[Core][flat_ptr][not_null_flat_ptr]")
 
         CHECK(ptr1.get() == raw_ptr1);
         CHECK(ptr2.get() == raw_ptr2);
+    }
+
+    SECTION("reset")
+    {
+        phi::not_null_flat_ptr ptr{raw_ptr1};
+
+        ptr.reset(raw_ptr2);
     }
 
     SECTION("operator==")

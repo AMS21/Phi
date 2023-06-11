@@ -163,6 +163,8 @@ runtime_failure_test(NAME "core_not_null_flat_ptr_assign_nullptr" SOURCE
                      "src/core/not_null_flat_ptr/assign_nullptr.fail.cpp")
 runtime_failure_test(NAME "core_not_null_flat_ptr_construct_nullptr" SOURCE
                      "src/core/not_null_flat_ptr/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_flat_ptr_reset_nullptr" SOURCE
+                     "src/core/not_null_flat_ptr/reset_nullptr.fail.cpp")
 
 # not_null_observer_ptr
 runtime_failure_test(NAME "core_not_null_observer_ptr_assign_nullptr" SOURCE
