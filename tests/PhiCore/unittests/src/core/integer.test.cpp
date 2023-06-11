@@ -385,11 +385,15 @@ TEST_CASE("integer")
 
         SECTION("assignment")
         {
-            int_t val_a(0);
+            int_t val_a{0};
             val_a = 32;
             CHECK(static_cast<phi::int32_t>(val_a) == 32);
             val_a = -25;
             CHECK(static_cast<phi::int32_t>(val_a) == -25);
+
+            int_t val_b{3};
+            val_a = val_b;
+            CHECK(static_cast<phi::int32_t>(val_a) == 3);
         }
 
         SECTION("unary")
@@ -624,6 +628,74 @@ TEST_CASE("integer")
             STATIC_REQUIRE(bool(int_t(5) >= 4));
             STATIC_REQUIRE(!(int_t(4) >= 5));
             STATIC_REQUIRE(bool(int_t(5) >= 5));
+        }
+
+        SECTION("min")
+        {
+            STATIC_REQUIRE(phi::integer<phi::int8_t>::min() ==
+                           std::numeric_limits<phi::int8_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::int16_t>::min() ==
+                           std::numeric_limits<phi::int16_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::int32_t>::min() ==
+                           std::numeric_limits<phi::int32_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::int64_t>::min() ==
+                           std::numeric_limits<phi::int64_t>::min());
+
+            STATIC_REQUIRE(phi::integer<phi::uint8_t>::min() ==
+                           std::numeric_limits<phi::uint8_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::uint16_t>::min() ==
+                           std::numeric_limits<phi::uint16_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::uint32_t>::min() ==
+                           std::numeric_limits<phi::uint32_t>::min());
+            STATIC_REQUIRE(phi::integer<phi::uint64_t>::min() ==
+                           std::numeric_limits<phi::uint64_t>::min());
+        }
+
+        SECTION("max")
+        {
+            STATIC_REQUIRE(phi::integer<phi::int8_t>::max() ==
+                           std::numeric_limits<phi::int8_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::int16_t>::max() ==
+                           std::numeric_limits<phi::int16_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::int32_t>::max() ==
+                           std::numeric_limits<phi::int32_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::int64_t>::max() ==
+                           std::numeric_limits<phi::int64_t>::max());
+
+            STATIC_REQUIRE(phi::integer<phi::uint8_t>::max() ==
+                           std::numeric_limits<phi::uint8_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::uint16_t>::max() ==
+                           std::numeric_limits<phi::uint16_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::uint32_t>::max() ==
+                           std::numeric_limits<phi::uint32_t>::max());
+            STATIC_REQUIRE(phi::integer<phi::uint64_t>::max() ==
+                           std::numeric_limits<phi::uint64_t>::max());
+        }
+
+        SECTION("swap")
+        {
+            int_t val_a{3};
+            int_t val_b{5};
+
+            val_a.swap(val_b);
+
+            CHECK(val_a.unsafe() == 5);
+            CHECK(val_b.unsafe() == 3);
+
+            val_b.swap(val_a);
+
+            CHECK(val_a.unsafe() == 3);
+            CHECK(val_b.unsafe() == 5);
+
+            phi::swap(val_a, val_b);
+
+            CHECK(val_a.unsafe() == 5);
+            CHECK(val_b.unsafe() == 3);
+
+            phi::swap(val_b, val_a);
+
+            CHECK(val_a.unsafe() == 3);
+            CHECK(val_b.unsafe() == 5);
         }
 
         SECTION("i/o")
@@ -936,6 +1008,10 @@ TEST_CASE("detail::will_multiplication_error")
     STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, imin));
     STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imin, imax));
     STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, imax));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, 2));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, imax, 3));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, 2, imax));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(stag, 3, imax));
 
     // Unsigned
     STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 0u, 0u));
@@ -948,6 +1024,10 @@ TEST_CASE("detail::will_multiplication_error")
     STATIC_REQUIRE_FALSE(phi::detail::will_multiplication_error(utag, 1u, umax));
 
     STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, umax, umax));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, umax, 2u));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, umax, 3u));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, 2u, umax));
+    STATIC_REQUIRE(phi::detail::will_multiplication_error(utag, 3u, umax));
 }
 
 TEST_CASE("detail::will_division_error")

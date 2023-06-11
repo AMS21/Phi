@@ -121,6 +121,32 @@ runtime_failure_test(NAME "release_assert_not_reached" SOURCE
 runtime_failure_test(NAME "core_flat_ptr_release_from_nullptr" SOURCE
                      "src/core/flat_ptr/release_from_nullptr.fail.cpp")
 
+# integer
+runtime_failure_test(NAME "core_integer_divide_equals" SOURCE
+                     "src/core/integer/divide_equals.fail.cpp")
+runtime_failure_test(NAME "core_integer_divide" SOURCE "src/core/integer/divide.fail.cpp")
+runtime_failure_test(NAME "core_integer_minus_equals" SOURCE
+                     "src/core/integer/minus_equals.fail.cpp")
+runtime_failure_test(NAME "core_integer_minus" SOURCE "src/core/integer/minus.fail.cpp")
+runtime_failure_test(NAME "core_integer_modulo_equals" SOURCE
+                     "src/core/integer/modulo_equals.fail.cpp")
+runtime_failure_test(NAME "core_integer_modulo" SOURCE "src/core/integer/modulo.fail.cpp")
+runtime_failure_test(NAME "core_integer_plus_equals" SOURCE "src/core/integer/plus_equals.fail.cpp")
+runtime_failure_test(NAME "core_integer_plus" SOURCE "src/core/integer/plus.fail.cpp")
+runtime_failure_test(NAME "core_integer_post_decrement" SOURCE
+                     "src/core/integer/post_decrement.fail.cpp")
+runtime_failure_test(NAME "core_integer_post_increment" SOURCE
+                     "src/core/integer/post_increment.fail.cpp")
+runtime_failure_test(NAME "core_integer_pre_decrement" SOURCE
+                     "src/core/integer/pre_decrement.fail.cpp")
+runtime_failure_test(NAME "core_integer_pre_increment" SOURCE
+                     "src/core/integer/pre_increment.fail.cpp")
+runtime_failure_test(NAME "core_integer_time_equals" SOURCE
+                     "src/core/integer/times_equals.fail.cpp")
+runtime_failure_test(NAME "core_integer_time" SOURCE "src/core/integer/times.fail.cpp")
+runtime_failure_test(NAME "core_integer_unary_minus_overflow" SOURCE
+                     "src/core/integer/unary_minus_overflow.fail.cpp")
+
 # narrow_cast
 runtime_failure_test(NAME "core_narrow_cast_invalid" SOURCE "src/core/narrow_cast/invalid.fail.cpp")
 runtime_failure_test(NAME "core_narrow_cast_invalid2" SOURCE
