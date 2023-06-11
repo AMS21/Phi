@@ -118,6 +118,8 @@ file(
   "include/phi/compiler_support/intrinsics/is_union.hpp"
   "include/phi/compiler_support/intrinsics/is_unsigned.hpp"
   "include/phi/compiler_support/intrinsics/is_volatile.hpp"
+  "include/phi/compiler_support/intrinsics/make_signed.hpp"
+  "include/phi/compiler_support/intrinsics/make_unsigned.hpp"
   "include/phi/compiler_support/intrinsics/memcmp.hpp"
   "include/phi/compiler_support/intrinsics/object_size.hpp"
   "include/phi/compiler_support/intrinsics/offsetof.hpp"
