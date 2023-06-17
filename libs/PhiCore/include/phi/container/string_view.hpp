@@ -224,6 +224,11 @@ public:
         return m_Length;
     }
 
+    PHI_NODISCARD constexpr size_type bytes_length() const noexcept
+    {
+        return m_Length * sizeof(CharT);
+    }
+
     PHI_NODISCARD constexpr size_type max_length() const noexcept
     {
         return std::numeric_limits<size_type>::max();

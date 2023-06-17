@@ -754,4 +754,27 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
     }
 }
 
+TEST_CASE("string_view - bytes_length")
+{
+    constexpr static phi::string_view str = "Hello World";
+    STATIC_REQUIRE(str.length() == 11u);
+    STATIC_REQUIRE(str.bytes_length() == 11u);
+
+    constexpr static phi::wstring_view wstr = L"Hello World";
+    STATIC_REQUIRE(wstr.length() == 11u);
+    STATIC_REQUIRE(wstr.bytes_length() == 11u * sizeof(wchar_t));
+
+    constexpr static phi::u8string_view u8str = u8"Hello World";
+    STATIC_REQUIRE(u8str.length() == 11u);
+    STATIC_REQUIRE(u8str.bytes_length() == 11u);
+
+    constexpr static phi::u16string_view u16str = u"Hello World";
+    STATIC_REQUIRE(u16str.length() == 11u);
+    STATIC_REQUIRE(u16str.bytes_length() == 22u);
+
+    constexpr static phi::u32string_view u32str = U"Hello World";
+    STATIC_REQUIRE(u32str.length() == 11u);
+    STATIC_REQUIRE(u32str.bytes_length() == 44u);
+}
+
 PHI_GCC_SUPPRESS_WARNING_POP()
