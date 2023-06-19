@@ -2174,15 +2174,19 @@ TEST_CASE("min_index")
     }
 }
 
-const static auto lambda_eq0         = [](const int& value) noexcept { return value == 0; };
-const static auto lambda_eq1         = [](const int& value) noexcept { return value == 1; };
-const static auto lambda_eq2         = [](const int& value) noexcept { return value == 2; };
-const static auto lambda_eq3         = [](const int& value) noexcept { return value == 3; };
-const static auto lambda_even        = [](const int& value) noexcept { return value % 2 == 0; };
-const static auto lambda_odd         = [](const int& value) noexcept { return value % 2 == 1; };
-const static auto lambda_true        = [](const int& /*value*/) noexcept { return true; };
-const static auto lambda_false       = [](const int& /*value*/) noexcept { return false; };
-const static auto lambda_false_throw = [](const int& /*value*/) -> bool { throw ""; };
+const static auto lambda_eq0   = [](const int& value) noexcept { return value == 0; };
+const static auto lambda_eq1   = [](const int& value) noexcept { return value == 1; };
+const static auto lambda_eq2   = [](const int& value) noexcept { return value == 2; };
+const static auto lambda_eq3   = [](const int& value) noexcept { return value == 3; };
+const static auto lambda_ne0   = [](const int& value) noexcept { return value != 0; };
+const static auto lambda_ne1   = [](const int& value) noexcept { return value != 1; };
+const static auto lambda_ne2   = [](const int& value) noexcept { return value != 2; };
+const static auto lambda_ne3   = [](const int& value) noexcept { return value != 3; };
+const static auto lambda_even  = [](const int& value) noexcept { return value % 2 == 0; };
+const static auto lambda_odd   = [](const int& value) noexcept { return value % 2 == 1; };
+const static auto lambda_true  = [](const int& /*value*/) noexcept { return true; };
+const static auto lambda_false = [](const int& /*value*/) noexcept { return false; };
+const static auto lambda_throw = [](const int& /*value*/) -> bool { throw ""; };
 
 TEST_CASE("array find")
 {
@@ -2270,12 +2274,20 @@ TEST_CASE("array find_if")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
+        CHECK(arr.find_if(lambda_eq0) == arr.end());
         CHECK(arr.find_if(lambda_eq1) == &arr.at(0u));
         CHECK(arr.find_if(lambda_eq2) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_eq3) == &arr.at(2u));
+        CHECK(arr.find_if(lambda_ne0) == &arr.at(0u));
+        CHECK(arr.find_if(lambda_ne1) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_ne2) == &arr.at(0u));
+        CHECK(arr.find_if(lambda_ne3) == &arr.at(0u));
         CHECK(arr.find_if(lambda_even) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_odd) == &arr.at(0u));
         CHECK(arr.find_if(lambda_false) == arr.end());
+        CHECK(arr.find_if(lambda_true) == &arr.at(0u));
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 
@@ -2283,12 +2295,20 @@ TEST_CASE("array find_if")
         using array = phi::array<int, 0u>;
         array arr;
 
+        CHECK(arr.find_if(lambda_eq0) == arr.end());
         CHECK(arr.find_if(lambda_eq1) == arr.end());
         CHECK(arr.find_if(lambda_eq2) == arr.end());
+        CHECK(arr.find_if(lambda_eq3) == arr.end());
+        CHECK(arr.find_if(lambda_ne0) == arr.end());
+        CHECK(arr.find_if(lambda_ne1) == arr.end());
+        CHECK(arr.find_if(lambda_ne2) == arr.end());
+        CHECK(arr.find_if(lambda_ne3) == arr.end());
         CHECK(arr.find_if(lambda_even) == arr.end());
+        CHECK(arr.find_if(lambda_odd) == arr.end());
         CHECK(arr.find_if(lambda_false) == arr.end());
+        CHECK(arr.find_if(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::iterator);
-        CHECK_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 
@@ -2296,12 +2316,20 @@ TEST_CASE("array find_if")
         using array = phi::array<int, 3u>;
         const array arr{1, 2, 3};
 
+        CHECK(arr.find_if(lambda_eq0) == arr.end());
         CHECK(arr.find_if(lambda_eq1) == &arr.at(0u));
         CHECK(arr.find_if(lambda_eq2) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_eq3) == &arr.at(2u));
+        CHECK(arr.find_if(lambda_ne0) == &arr.at(0u));
+        CHECK(arr.find_if(lambda_ne1) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_ne2) == &arr.at(0u));
+        CHECK(arr.find_if(lambda_ne3) == &arr.at(0u));
         CHECK(arr.find_if(lambda_even) == &arr.at(1u));
+        CHECK(arr.find_if(lambda_odd) == &arr.at(0u));
         CHECK(arr.find_if(lambda_false) == arr.end());
+        CHECK(arr.find_if(lambda_true) == &arr.at(0u));
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 
@@ -2309,12 +2337,20 @@ TEST_CASE("array find_if")
         using array = phi::array<int, 0u>;
         const array arr;
 
+        CHECK(arr.find_if(lambda_eq0) == arr.end());
         CHECK(arr.find_if(lambda_eq1) == arr.end());
         CHECK(arr.find_if(lambda_eq2) == arr.end());
+        CHECK(arr.find_if(lambda_eq3) == arr.end());
+        CHECK(arr.find_if(lambda_ne0) == arr.end());
+        CHECK(arr.find_if(lambda_ne1) == arr.end());
+        CHECK(arr.find_if(lambda_ne2) == arr.end());
+        CHECK(arr.find_if(lambda_ne3) == arr.end());
         CHECK(arr.find_if(lambda_even) == arr.end());
+        CHECK(arr.find_if(lambda_odd) == arr.end());
         CHECK(arr.find_if(lambda_false) == arr.end());
+        CHECK(arr.find_if(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 
@@ -2322,12 +2358,19 @@ TEST_CASE("array find_if")
         using array = phi::array<int, 3u>;
         constexpr array arr{1, 2, 3};
 
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_eq0) == arr.end());
         EXT_STATIC_REQUIRE(arr.find_if(lambda_eq1) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if(lambda_eq2) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_eq3) == &arr.at(2u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_ne0) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_ne1) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_ne2) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_ne3) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if(lambda_even) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if(lambda_odd) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 
@@ -2340,7 +2383,7 @@ TEST_CASE("array find_if")
         STATIC_REQUIRE(arr.find_if(lambda_even) == arr.end());
         STATIC_REQUIRE(arr.find_if(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if(lambda_false));
     }
 }
@@ -2353,10 +2396,18 @@ TEST_CASE("array find_if_not")
 
         CHECK(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_eq1) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_eq2) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_eq3) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_ne0) == arr.end());
+        CHECK(arr.find_if_not(lambda_ne1) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_ne2) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_ne3) == &arr.at(2u));
+        CHECK(arr.find_if_not(lambda_even) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_odd) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_false) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 
@@ -2369,7 +2420,7 @@ TEST_CASE("array find_if_not")
         CHECK(arr.find_if_not(lambda_even) == arr.end());
         CHECK(arr.find_if_not(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::iterator);
-        CHECK_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 
@@ -2379,10 +2430,18 @@ TEST_CASE("array find_if_not")
 
         CHECK(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_eq1) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_eq2) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_eq3) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_ne0) == arr.end());
+        CHECK(arr.find_if_not(lambda_ne1) == &arr.at(0u));
+        CHECK(arr.find_if_not(lambda_ne2) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_ne3) == &arr.at(2u));
+        CHECK(arr.find_if_not(lambda_even) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_odd) == &arr.at(1u));
+        CHECK(arr.find_if_not(lambda_false) == &arr.at(0u));
         CHECK(arr.find_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 
@@ -2395,7 +2454,7 @@ TEST_CASE("array find_if_not")
         CHECK(arr.find_if_not(lambda_even) == arr.end());
         CHECK(arr.find_if_not(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 
@@ -2405,10 +2464,18 @@ TEST_CASE("array find_if_not")
 
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq1) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq2) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq3) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_ne0) == arr.end());
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_ne1) == &arr.at(0u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_ne2) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_ne3) == &arr.at(2u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_even) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_odd) == &arr.at(1u));
+        EXT_STATIC_REQUIRE(arr.find_if_not(lambda_false) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 
@@ -2421,7 +2488,7 @@ TEST_CASE("array find_if_not")
         STATIC_REQUIRE(arr.find_if_not(lambda_even) == arr.end());
         STATIC_REQUIRE(arr.find_if_not(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_if_not(lambda_false));
     }
 }
@@ -2439,6 +2506,13 @@ TEST_CASE("array find_last")
         CHECK(arr.find_last(4) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last(1)), array::iterator);
         CHECK_NOEXCEPT(arr.find_last(1));
+
+        array arr2{0, 1, 2, 3};
+        CHECK(arr2.find_last(0) == &arr2.front());
+        CHECK(arr2.find_last(1) == &arr2.at(1u));
+        CHECK(arr2.find_last(2) == &arr2.at(2u));
+        CHECK(arr2.find_last(3) == &arr2.at(3u));
+        CHECK(arr2.find_last(4) == arr2.end());
     }
 
     {
@@ -2464,6 +2538,13 @@ TEST_CASE("array find_last")
         CHECK(arr.find_last(4) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last(1)), array::const_iterator);
         CHECK_NOEXCEPT(arr.find_last(1));
+
+        array arr2{1, 2, 2};
+        CHECK(arr2.find_last(0) == arr2.end());
+        CHECK(arr2.find_last(1) == &arr2.at(0u));
+        CHECK(arr2.find_last(2) == &arr2.at(2u));
+        CHECK(arr2.find_last(3) == arr2.end());
+        CHECK(arr2.find_last(4) == arr2.end());
     }
 
     {
@@ -2520,12 +2601,20 @@ TEST_CASE("array find_last_if")
         using array = phi::array<int, 3u>;
         array arr{1, 2, 3};
 
+        CHECK(arr.find_last_if(lambda_eq0) == arr.end());
         CHECK(arr.find_last_if(lambda_eq1) == &arr.at(0u));
         CHECK(arr.find_last_if(lambda_eq2) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_eq3) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne0) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne1) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne2) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne3) == &arr.at(1u));
         CHECK(arr.find_last_if(lambda_even) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_odd) == &arr.at(2u));
         CHECK(arr.find_last_if(lambda_false) == arr.end());
+        CHECK(arr.find_last_if(lambda_true) == &arr.at(2u));
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 
@@ -2538,7 +2627,7 @@ TEST_CASE("array find_last_if")
         CHECK(arr.find_last_if(lambda_even) == arr.end());
         CHECK(arr.find_last_if(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::iterator);
-        CHECK_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 
@@ -2546,12 +2635,20 @@ TEST_CASE("array find_last_if")
         using array = phi::array<int, 3u>;
         const array arr{1, 2, 3};
 
+        CHECK(arr.find_last_if(lambda_eq0) == arr.end());
         CHECK(arr.find_last_if(lambda_eq1) == &arr.at(0u));
         CHECK(arr.find_last_if(lambda_eq2) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_eq3) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne0) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne1) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne2) == &arr.at(2u));
+        CHECK(arr.find_last_if(lambda_ne3) == &arr.at(1u));
         CHECK(arr.find_last_if(lambda_even) == &arr.at(1u));
+        CHECK(arr.find_last_if(lambda_odd) == &arr.at(2u));
         CHECK(arr.find_last_if(lambda_false) == arr.end());
+        CHECK(arr.find_last_if(lambda_true) == &arr.at(2u));
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 
@@ -2564,7 +2661,7 @@ TEST_CASE("array find_last_if")
         CHECK(arr.find_last_if(lambda_even) == arr.end());
         CHECK(arr.find_last_if(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 
@@ -2586,7 +2683,7 @@ TEST_CASE("array find_last_if")
 #endif
 
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 
@@ -2599,7 +2696,7 @@ TEST_CASE("array find_last_if")
         STATIC_REQUIRE(arr.find_last_if(lambda_even) == arr.end());
         STATIC_REQUIRE(arr.find_last_if(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_last_if(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if(lambda_false));
     }
 }
@@ -2611,11 +2708,19 @@ TEST_CASE("array find_last_if_not")
         array arr{1, 2, 3};
 
         CHECK(arr.find_last_if_not(lambda_eq0) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_eq1) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_eq2) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_eq3) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_ne0) == arr.end());
+        CHECK(arr.find_last_if_not(lambda_ne1) == &arr.at(0u));
+        CHECK(arr.find_last_if_not(lambda_ne2) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_ne3) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_odd) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_even) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_false) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 
@@ -2628,7 +2733,7 @@ TEST_CASE("array find_last_if_not")
         CHECK(arr.find_last_if_not(lambda_even) == arr.end());
         CHECK(arr.find_last_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::iterator);
-        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 
@@ -2637,11 +2742,19 @@ TEST_CASE("array find_last_if_not")
         const array arr{1, 2, 3};
 
         CHECK(arr.find_last_if_not(lambda_eq0) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_eq1) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_eq2) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_eq3) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_ne0) == arr.end());
+        CHECK(arr.find_last_if_not(lambda_ne1) == &arr.at(0u));
+        CHECK(arr.find_last_if_not(lambda_ne2) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_ne3) == &arr.at(2u));
+        CHECK(arr.find_last_if_not(lambda_even) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_odd) == &arr.at(1u));
+        CHECK(arr.find_last_if_not(lambda_false) == &arr.at(2u));
         CHECK(arr.find_last_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 
@@ -2654,7 +2767,7 @@ TEST_CASE("array find_last_if_not")
         CHECK(arr.find_last_if_not(lambda_even) == arr.end());
         CHECK(arr.find_last_if_not(lambda_true) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 
@@ -2676,7 +2789,7 @@ TEST_CASE("array find_last_if_not")
 #endif
 
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOT_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 
@@ -2689,7 +2802,7 @@ TEST_CASE("array find_last_if_not")
         STATIC_REQUIRE(arr.find_last_if_not(lambda_even) == arr.end());
         STATIC_REQUIRE(arr.find_last_if_not(lambda_false) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find_last_if_not(lambda_false)), array::const_iterator);
-        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false_throw));
+        CHECK_NOEXCEPT(arr.find_last_if_not(lambda_throw));
         CHECK_NOEXCEPT(arr.find_last_if_not(lambda_false));
     }
 }
