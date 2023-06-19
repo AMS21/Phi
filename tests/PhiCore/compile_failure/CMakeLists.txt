@@ -62,16 +62,6 @@ compile_failure_test(NAME "core_non_copyable_copy_assign" SOURCE
 compile_failure_test(NAME "core_non_copyable_copy_construct" SOURCE
                      "src/core/non_copyable/copy_construct.fail.cpp")
 
-# not_null
-compile_failure_test(NAME "core_not_null_default_constructor" SOURCE
-                     "src/core/not_null/defaulted.fail.cpp")
-compile_failure_test(NAME "core_not_null_non_pointer" SOURCE
-                     "src/core/not_null/non_pointer.fail.cpp")
-compile_failure_test(NAME "core_not_null_construct_from_nullptr" SOURCE
-                     "src/core/not_null/nullptr.fail.cpp")
-compile_failure_test(NAME "core_not_null_construct_from_zero" SOURCE
-                     "src/core/not_null/zero.fail.cpp")
-
 # not_null_ref_ptr
 compile_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/assign_nullptr.fail.cpp")

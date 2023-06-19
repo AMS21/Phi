@@ -192,7 +192,6 @@ file(
   "include/phi/core/named_type.hpp"
   "include/phi/core/narrow_cast.hpp"
   "include/phi/core/non_copyable.hpp"
-  "include/phi/core/not_null.hpp"
   "include/phi/core/nullptr_t.hpp"
   "include/phi/core/observer_ptr.hpp"
   "include/phi/core/offsetof.hpp"
