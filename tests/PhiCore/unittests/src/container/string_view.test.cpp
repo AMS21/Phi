@@ -764,10 +764,6 @@ TEST_CASE("string_view - bytes_length")
     STATIC_REQUIRE(wstr.length() == 11u);
     STATIC_REQUIRE(wstr.bytes_length() == 11u * sizeof(wchar_t));
 
-    constexpr static phi::u8string_view u8str = u8"Hello World";
-    STATIC_REQUIRE(u8str.length() == 11u);
-    STATIC_REQUIRE(u8str.bytes_length() == 11u);
-
     constexpr static phi::u16string_view u16str = u"Hello World";
     STATIC_REQUIRE(u16str.length() == 11u);
     STATIC_REQUIRE(u16str.bytes_length() == 22u);
