@@ -305,6 +305,14 @@ runtime_failure_test(NAME "text_digit_value_OutOfBounds" SOURCE
 # hex_digit_value
 runtime_failure_test(NAME "text_hex_digit_value_OutOfBounds" SOURCE
                      "src/text/hex_digit_value/out_of_bounds.fail.cpp")
+runtime_failure_test(NAME "text_hex_digit_value_OutOfBounds2" SOURCE
+                     "src/text/hex_digit_value/out_of_bounds2.fail.cpp")
+runtime_failure_test(NAME "text_hex_digit_value_OutOfBounds3" SOURCE
+                     "src/text/hex_digit_value/out_of_bounds3.fail.cpp")
+runtime_failure_test(NAME "text_hex_digit_value_OutOfBounds4" SOURCE
+                     "src/text/hex_digit_value/out_of_bounds4.fail.cpp")
+runtime_failure_test(NAME "text_hex_digit_value_OutOfBounds5" SOURCE
+                     "src/text/hex_digit_value/out_of_bounds5.fail.cpp")
 
 # octal_digit_value
 runtime_failure_test(NAME "text_octal_digit_value_OutOfBounds" SOURCE
