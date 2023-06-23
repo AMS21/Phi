@@ -77,6 +77,7 @@ if(PHI_COMPILER_APPLECLANG)
   set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage -fprofile-instr-generate
                               -fcoverage-mapping)
   set(phi_noexcept_flag -fno-exceptions)
+  set(phi_exception_warning_flag)
   set(phi_fast_math_flags
       -ffast-math
       -fassociative-math
@@ -167,6 +168,7 @@ elseif(PHI_COMPILER_EMCC)
   set(phi_coverage_compile_flags)
   set(phi_coverage_link_flags)
   set(phi_noexcept_flag -fno-exceptions)
+  set(phi_exception_warning_flag)
   set(phi_fast_math_flags
       -ffast-math
       -fassociative-math
@@ -244,6 +246,7 @@ elseif(PHI_COMPILER_CHEERP)
   set(phi_coverage_compile_flags)
   set(phi_coverage_link_flags)
   set(phi_noexcept_flag -fno-exceptions)
+  set(phi_exception_warning_flag)
   set(phi_fast_math_flags
       -ffast-math
       -fassociative-math
@@ -357,6 +360,7 @@ elseif(PHI_COMPILER_CLANG)
   set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage -fprofile-instr-generate
                               -fcoverage-mapping)
   set(phi_noexcept_flag -fno-exceptions)
+  set(phi_exception_warning_flag)
   set(phi_fast_math_flags
       -ffast-math
       -fassociative-math
@@ -488,7 +492,6 @@ elseif(PHI_COMPILER_GCC)
   set(phi_cxx_warning_flags
       -Waligned-new=all
       -Wdelete-non-virtual-dtor
-      -Wnoexcept
       -Wnon-virtual-dtor # warn the user if a class with virtual functions has a non-virtual
       # destructor. This helps catch hard to track down memory errors
       -Wold-style-cast # warn for c-style casts
@@ -537,6 +540,7 @@ elseif(PHI_COMPILER_GCC)
                                  -fno-omit-frame-pointer)
   set(phi_coverage_link_flags -fprofile-arcs -ftest-coverage --coverage)
   set(phi_noexcept_flag -fno-exceptions)
+  set(phi_exception_warning_flag -Wnoexcept)
   set(phi_fast_math_flags
       -ffast-math
       -fassociative-math
@@ -715,6 +719,7 @@ elseif(PHI_COMPILER_MSVC)
   set(phi_coverage_compile_flags)
   set(phi_coverage_link_flags)
   set(phi_noexcept_flag) # TODO: Add support for MSVC
+  set(phi_exception_warning_flag)
   set(phi_fast_math_flags /fp:fast /fp:except-)
   set(phi_precise_math_flags /fp:precise)
   set(phi_no_rtti_flags # https://learn.microsoft.com/cpp/build/reference/gr-enable-run-time-type-information
@@ -808,6 +813,7 @@ phi_set_cache_value(phi_debug_only_flags "${phi_debug_only_flags}")
 phi_set_cache_value(phi_coverage_compile_flags "${phi_coverage_compile_flags}")
 phi_set_cache_value(phi_coverage_link_flags "${phi_coverage_link_flags}")
 phi_set_cache_value(phi_noexcept_flag "${phi_noexcept_flag}")
+phi_set_cache_value(phi_exception_warning_flag "${phi_exception_warning_flag}")
 phi_set_cache_value(phi_fast_math_flags "${phi_fast_math_flags}")
 phi_set_cache_value(phi_precise_math_flags "${phi_precise_math_flags}")
 phi_set_cache_value(phi_no_rtti_flags "${phi_no_rtti_flags}")

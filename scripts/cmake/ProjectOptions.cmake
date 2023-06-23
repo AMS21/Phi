@@ -73,7 +73,12 @@ function(phi_configure_project)
       TARGET ${target}
       PROPERTY TYPE)
 
-    # Skip utililty targets
+    get_property(
+      target_linker_language
+      TARGET ${target}
+      PROPERTY LINKER_LANGUAGE)
+
+    # Skip utility targets
     if("${target_type}" STREQUAL "UTILITY")
       continue()
     endif()
@@ -171,7 +176,7 @@ function(phi_configure_project)
       # Get target source dir
       get_target_property(target_source_dir ${target} SOURCE_DIR)
 
-      # Soure dir to relative
+      # Source dir to relative
       file(RELATIVE_PATH target_src_dir_rel ${CMAKE_CURRENT_SOURCE_DIR} ${target_source_dir})
 
       string(SUBSTRING "${target_src_dir_rel}" 0 ${external_length} test_string)
@@ -206,6 +211,14 @@ function(phi_configure_project)
       endif()
 
       phi_target_set_warnings(TARGET ${target} ${warn_cmd})
+    endif()
+
+    # Enable exception warnings only when exceptions are enabled and were using C++
+    if(conf_WARNINGS
+       AND NOT conf_NO_EXCEPTIONS
+       AND NOT is_external
+       AND target_linker_language STREQUAL CXX)
+      target_compile_options(${target} ${visibility_scope} ${phi_exception_warning_flag})
     endif()
 
     # RTTI
