@@ -43,11 +43,13 @@ DETAIL_PHI_END_NAMESPACE()
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wtautological-pointer-compare")                         \
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
     PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")                                                  \
+    PHI_MSVC_SUPPRESS_WARNING_WITH_PUSH(4702) /* unreachable code */                               \
     if (PHI_UNLIKELY(!static_cast<bool>(condition)))                                               \
     {                                                                                              \
         ::phi::detail::phi_assert_failure_handler(#condition, __FILE__, __LINE__,                  \
                                                   PHI_CURRENT_FUNCTION());                         \
     }                                                                                              \
+    PHI_MSVC_SUPPRESS_WARNING_POP()                                                                \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     PHI_END_MACRO()
@@ -60,6 +62,7 @@ DETAIL_PHI_END_NAMESPACE()
         PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wtautological-pointer-compare")                     \
         PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                       \
         PHI_GCC_SUPPRESS_WARNING("-Wnonnull-compare")                                              \
+        PHI_MSVC_SUPPRESS_WARNING_WITH_PUSH(4702) /* unreachable code */                           \
         DETAIL_PHI_WRAPPED_ASSUME(static_cast<bool>(condition));                                   \
         if (::phi::is_constant_evaluated() && !static_cast<bool>(condition))                       \
         {                                                                                          \
@@ -67,6 +70,7 @@ DETAIL_PHI_END_NAMESPACE()
                                                       PHI_CURRENT_FUNCTION());                     \
             PHI_UNREACHABLE();                                                                     \
         }                                                                                          \
+        PHI_MSVC_SUPPRESS_WARNING_POP()                                                            \
         PHI_CLANG_SUPPRESS_WARNING_POP()                                                           \
         PHI_GCC_SUPPRESS_WARNING_POP()                                                             \
         PHI_END_MACRO()

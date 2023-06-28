@@ -1579,6 +1579,9 @@ public:
         return m_Value != nullptr;
     }
 
+    PHI_MSVC_SUPPRESS_WARNING_PUSH()
+    PHI_MSVC_SUPPRESS_WARNING(4702) // unreachable code
+
     /// Returns the contained value if there is one, otherwise throws bad_optional_access
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& value()
     {
@@ -1599,6 +1602,8 @@ public:
 
         PHI_ASSERT_NOT_REACHED();
     }
+
+    PHI_MSVC_SUPPRESS_WARNING_POP()
 
     /// Returns the stored value if there is one, otherwise returns `alternative`
     template <typename OtherT>
