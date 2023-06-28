@@ -239,8 +239,8 @@ runtime_failure_test(NAME "core_not_null_scope_ptr_swap_after_move2" SOURCE
                      "src/core/not_null_scope_ptr/swap_after_move2.fail.cpp")
 
 # observer_ptr
-runtime_failure_test(NAME "core_observer_ptr_release_from_nullptr" SOURCE
-                     "src/core/observer_ptr/release_from_null.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_not_null" SOURCE
+                     "src/core/observer_ptr/not_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_not_null_flat" SOURCE
                      "src/core/observer_ptr/not_null_flat.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" SOURCE

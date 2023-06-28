@@ -443,25 +443,12 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         CHECK(const_ptr.get() == nullptr);
     }
 
-    SECTION("release")
-    {
-        int                    integer = 25;
-        phi::observer_ptr<int> ptr(&integer);
-
-        int* i_ptr = ptr.release();
-
-        CHECK_FALSE(ptr);
-        CHECK(ptr.get() == nullptr);
-        REQUIRE(i_ptr);
-        CHECK(i_ptr == &integer);
-    }
-
-    SECTION("release_not_null")
+    SECTION("not_null")
     {
         int                    integer = 63;
         phi::observer_ptr<int> ptr(&integer);
 
-        phi::not_null_observer_ptr<int> not_null = ptr.release_not_null();
+        phi::not_null_observer_ptr<int> not_null = ptr.not_null();
 
         CHECK(not_null.get() == &integer);
         CHECK(*not_null == 63);
@@ -469,7 +456,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
         Derived                    derived;
         phi::observer_ptr<Derived> derived_ptr{&derived};
 
-        phi::not_null_observer_ptr<Base> base_ptr = derived_ptr.release_not_null<Base>();
+        phi::not_null_observer_ptr<Base> base_ptr = derived_ptr.not_null<Base>();
 
         CHECK(base_ptr.get() == &derived);
     }

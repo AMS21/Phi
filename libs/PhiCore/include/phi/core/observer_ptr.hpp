@@ -285,13 +285,6 @@ public:
         return m_Ptr;
     }
 
-    PHI_EXTENDED_CONSTEXPR TypeT* release() noexcept
-    {
-        TypeT* ptr = m_Ptr;
-        reset();
-        return ptr;
-    }
-
     PHI_NODISCARD constexpr flat_ptr flat() noexcept
     {
         return flat_ptr{get()};
@@ -304,11 +297,11 @@ public:
     }
 
     template <typename OtherT = TypeT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> release_not_null() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot release to not null with nullptr");
 
-        return not_null_observer_ptr<OtherT>(static_cast<OtherT*>(release()));
+        return not_null_observer_ptr<OtherT>(static_cast<OtherT*>(get()));
     }
 
     PHI_EXTENDED_CONSTEXPR void reset(TypeT* ptr = nullptr) noexcept

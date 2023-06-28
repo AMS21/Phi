@@ -8,5 +8,5 @@ int main()
 
     phi::observer_ptr<int> ptr;
 
-    (void)ptr.release_not_null();
+    (void)ptr.not_null();
 }
