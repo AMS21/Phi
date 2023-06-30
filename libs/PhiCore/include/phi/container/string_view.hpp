@@ -77,8 +77,8 @@ public:
 
     // Constructors
     constexpr basic_string_view() noexcept
-        : m_Data(nullptr)
-        , m_Length(0u)
+        : m_Data{nullptr}
+        , m_Length{0u}
     {}
 
     basic_string_view(const basic_string_view& other) = default;

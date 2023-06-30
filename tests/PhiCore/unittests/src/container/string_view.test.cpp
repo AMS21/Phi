@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include "phi/forward/string_view.hpp"
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
@@ -38,6 +39,22 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
         EXT_STATIC_REQUIRE(view.is_null());
         EXT_STATIC_REQUIRE(view.begin() == nullptr);
         EXT_STATIC_REQUIRE(view.end() == nullptr);
+
+        phi::string_view view2;
+        CHECK(view2.data() == nullptr);
+        CHECK(view2.length() == 0u);
+        CHECK(view2.is_empty());
+        CHECK(view2.is_null());
+        CHECK(view2.begin() == nullptr);
+        CHECK(view2.end() == nullptr);
+
+        phi::string_view view3{};
+        CHECK(view3.data() == nullptr);
+        CHECK(view3.length() == 0u);
+        CHECK(view3.is_empty());
+        CHECK(view3.is_null());
+        CHECK(view3.begin() == nullptr);
+        CHECK(view3.end() == nullptr);
     }
 
     SECTION("basic_string_view(CharT[])")
