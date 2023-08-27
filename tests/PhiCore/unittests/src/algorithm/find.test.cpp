@@ -9,42 +9,255 @@
 
 TEST_CASE("algorithm.find - c-array")
 {
-    static constexpr const int array[10]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    // first == last
+    {
+        static constexpr const int array[1]{0};
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+        CHECK(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::end(array), phi::end(array), 0));
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 5) == &phi::at(array, 5u));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 5) == &phi::at(array, 5u));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 5));
+        CHECK(phi::find(phi::begin(array), phi::begin(array), 0) == phi::begin(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::begin(array), 0) == phi::begin(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::begin(array), 0));
+    }
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 9) == &phi::at(array, 9u));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 9) == &phi::at(array, 9u));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 9));
+    // Size 1
+    {
+        static constexpr const int array[1]{0};
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 10) == phi::end(array));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 10) == phi::end(array));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 10));
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
+
+    // Size 2
+    {
+        static constexpr const int array[2]{0, 1};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const int array[2]{0, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
+
+    // Size 3
+    {
+        static constexpr const int array[3]{0, 1, 2};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == &phi::at(array, 2u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == &phi::at(array, 2u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 3) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 3) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 3));
+    }
+
+    {
+        static constexpr const int array[3]{0, 1, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const int array[3]{0, 0, 1};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 2u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 2u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const int array[3]{0, 0, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
 }
 
 TEST_CASE("algorithm.find - phi::array")
 {
-    static constexpr const phi::array<int, 10u> array{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
+    // first == last
+    {
+        static constexpr const phi::array<int, 1u> array{0};
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == phi::begin(array));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+        CHECK(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::end(array), phi::end(array), 0));
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 5) == &phi::at(array, 5u));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 5) == &phi::at(array, 5u));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 5));
+        CHECK(phi::find(phi::begin(array), phi::begin(array), 0) == phi::begin(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::begin(array), 0) == phi::begin(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::begin(array), 0));
+    }
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 9) == &phi::at(array, 9u));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 9) == &phi::at(array, 9u));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 9));
+    // Size 0
+    {
+        static constexpr const phi::array<int, 0u> array;
 
-    CHECK(phi::find(phi::begin(array), phi::end(array), 10) == phi::end(array));
-    EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 10) == phi::end(array));
-    CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 10));
+        CHECK(phi::find(array.begin(), array.end(), 0) == array.end());
+        EXT_STATIC_REQUIRE(phi::find(array.begin(), array.end(), 0) == array.end());
+        CHECK_NOEXCEPT(phi::find(array.begin(), array.end(), 0));
+    }
+
+    // Size 1
+    {
+        static constexpr const phi::array<int, 1u> array{0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
+
+    // Size 2
+    {
+        static constexpr const phi::array<int, 2u> array{0, 1};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const phi::array<int, 2u> array{0, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
+
+    // Size 3
+    {
+        static constexpr const phi::array<int, 3u> array{0, 1, 2};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == &phi::at(array, 2u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == &phi::at(array, 2u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 3) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 3) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 3));
+    }
+
+    {
+        static constexpr const phi::array<int, 3u> array{0, 1, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 1u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const phi::array<int, 3u> array{0, 0, 1};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 2u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == &phi::at(array, 2u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 2) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 2));
+    }
+
+    {
+        static constexpr const phi::array<int, 3u> array{0, 0, 0};
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 0));
+
+        CHECK(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 1) == phi::end(array));
+        CHECK_NOEXCEPT(phi::find(phi::begin(array), phi::end(array), 1));
+    }
 }
