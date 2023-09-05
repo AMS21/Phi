@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -87,7 +87,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -152,7 +152,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -208,7 +208,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -254,7 +254,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -332,7 +332,7 @@ jobs:
       # NOTE: We won't cache the compiliation since CodeQL requires a full rebuild for analysis to work
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -377,7 +377,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -459,7 +459,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -511,7 +511,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -535,7 +535,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -567,7 +567,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
