@@ -211,18 +211,27 @@ void test_vector2_op()
         constexpr phi::vector2<TypeT> vec0(base_t(3), base_t(4));
         constexpr phi::vector2<TypeT> vec1(base_t(4), base_t(3));
         constexpr phi::vector2<TypeT> vec2(base_t(7), base_t(2));
+        constexpr phi::vector2<TypeT> vec3{base_t(3), base_t(3)};
 
-        STATIC_REQUIRE(bool(vec0 == vec0));
-        STATIC_REQUIRE_FALSE(bool(vec0 == vec1));
-        STATIC_REQUIRE_FALSE(bool(vec0 == vec2));
+        STATIC_REQUIRE(vec0 == vec0);
+        STATIC_REQUIRE_FALSE(vec0 == vec1);
+        STATIC_REQUIRE_FALSE(vec0 == vec2);
+        STATIC_REQUIRE_FALSE(vec0 == vec3);
 
-        STATIC_REQUIRE_FALSE(bool(vec1 == vec0));
-        STATIC_REQUIRE(bool(vec1 == vec1));
-        STATIC_REQUIRE_FALSE(bool(vec1 == vec2));
+        STATIC_REQUIRE_FALSE(vec1 == vec0);
+        STATIC_REQUIRE(vec1 == vec1);
+        STATIC_REQUIRE_FALSE(vec1 == vec2);
+        STATIC_REQUIRE_FALSE(vec1 == vec3);
 
-        STATIC_REQUIRE_FALSE(bool(vec2 == vec0));
-        STATIC_REQUIRE_FALSE(bool(vec2 == vec1));
-        STATIC_REQUIRE(bool(vec2 == vec2));
+        STATIC_REQUIRE_FALSE(vec2 == vec0);
+        STATIC_REQUIRE_FALSE(vec2 == vec1);
+        STATIC_REQUIRE(vec2 == vec2);
+        STATIC_REQUIRE_FALSE(vec2 == vec3);
+
+        STATIC_REQUIRE_FALSE(vec3 == vec0);
+        STATIC_REQUIRE_FALSE(vec3 == vec1);
+        STATIC_REQUIRE_FALSE(vec3 == vec2);
+        STATIC_REQUIRE(vec3 == vec3);
     }
 
     SECTION("operator!=(const vector2&, const vector2&)")
@@ -230,18 +239,27 @@ void test_vector2_op()
         constexpr phi::vector2<TypeT> vec0(base_t(3), base_t(4));
         constexpr phi::vector2<TypeT> vec1(base_t(4), base_t(3));
         constexpr phi::vector2<TypeT> vec2(base_t(7), base_t(2));
+        constexpr phi::vector2<TypeT> vec3(base_t(3), base_t(3));
 
-        STATIC_REQUIRE_FALSE(bool(vec0 != vec0));
-        STATIC_REQUIRE(bool(vec0 != vec1));
-        STATIC_REQUIRE(bool(vec0 != vec2));
+        STATIC_REQUIRE_FALSE(vec0 != vec0);
+        STATIC_REQUIRE(vec0 != vec1);
+        STATIC_REQUIRE(vec0 != vec2);
+        STATIC_REQUIRE(vec0 != vec3);
 
-        STATIC_REQUIRE(bool(vec1 != vec0));
-        STATIC_REQUIRE_FALSE(bool(vec1 != vec1));
-        STATIC_REQUIRE(bool(vec1 != vec2));
+        STATIC_REQUIRE(vec1 != vec0);
+        STATIC_REQUIRE_FALSE(vec1 != vec1);
+        STATIC_REQUIRE(vec1 != vec2);
+        STATIC_REQUIRE(vec1 != vec3);
 
-        STATIC_REQUIRE(bool(vec2 != vec0));
-        STATIC_REQUIRE(bool(vec2 != vec1));
-        STATIC_REQUIRE_FALSE(bool(vec2 != vec2));
+        STATIC_REQUIRE(vec2 != vec0);
+        STATIC_REQUIRE(vec2 != vec1);
+        STATIC_REQUIRE_FALSE(vec2 != vec2);
+        STATIC_REQUIRE(vec2 != vec3);
+
+        STATIC_REQUIRE(vec3 != vec0);
+        STATIC_REQUIRE(vec3 != vec1);
+        STATIC_REQUIRE(vec3 != vec2);
+        STATIC_REQUIRE_FALSE(vec3 != vec3);
     }
 }
 
