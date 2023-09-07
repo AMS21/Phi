@@ -3,9 +3,13 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
 #include <phi/algorithm/find.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/iterator/begin.hpp>
 #include <phi/iterator/end.hpp>
+
+PHI_MSVC_SUPPRESS_WARNING(
+        5246) // 'elements': the initialization of a subobject should be wrapped in braces
 
 TEST_CASE("algorithm.find - c-array")
 {
