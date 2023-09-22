@@ -60,7 +60,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
 
 using Meter =
         phi::named_type<unsigned long long, struct MeterParameter, phi::addable, phi::comparable>;
-constexpr Meter operator"" _meter(unsigned long long value)
+constexpr Meter operator""_meter(unsigned long long value)
 {
     return Meter(value);
 }

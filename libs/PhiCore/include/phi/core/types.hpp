@@ -301,71 +301,71 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
 inline namespace literals
 {
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR i8 operator"" _i8()
+    PHI_CONSTEVAL_OR_CONSTEXPR i8 operator""_i8()
     {
         return {detail::parse_signed<int8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR u8 operator"" _u8()
+    PHI_CONSTEVAL_OR_CONSTEXPR u8 operator""_u8()
     {
         return {detail::parse_unsigned<uint8_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR i16 operator"" _i16()
+    PHI_CONSTEVAL_OR_CONSTEXPR i16 operator""_i16()
     {
         return {detail::parse_signed<int16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR u16 operator"" _u16()
+    PHI_CONSTEVAL_OR_CONSTEXPR u16 operator""_u16()
     {
         return {detail::parse_unsigned<uint16_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR i32 operator"" _i32()
+    PHI_CONSTEVAL_OR_CONSTEXPR i32 operator""_i32()
     {
         return {detail::parse_signed<int32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR u32 operator"" _u32()
+    PHI_CONSTEVAL_OR_CONSTEXPR u32 operator""_u32()
     {
         return {detail::parse_unsigned<uint32_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR i64 operator"" _i64()
+    PHI_CONSTEVAL_OR_CONSTEXPR i64 operator""_i64()
     {
         return {detail::parse_signed<int64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR u64 operator"" _u64()
+    PHI_CONSTEVAL_OR_CONSTEXPR u64 operator""_u64()
     {
         return {detail::parse_unsigned<uint64_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR isize operator"" _isize()
+    PHI_CONSTEVAL_OR_CONSTEXPR isize operator""_isize()
     {
         return {detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>()};
     }
 
     template <char... DigitsT>
-    PHI_CONSTEVAL_OR_CONSTEXPR usize operator"" _usize()
+    PHI_CONSTEVAL_OR_CONSTEXPR usize operator""_usize()
     {
         return {detail::parse_unsigned<size_t, DigitsT...>()};
     }
 
-    PHI_CONSTEVAL_OR_CONSTEXPR f32 operator"" _f32(long double val)
+    PHI_CONSTEVAL_OR_CONSTEXPR f32 operator""_f32(long double val)
     {
         return {static_cast<float32>(val)};
     }
 
-    PHI_CONSTEVAL_OR_CONSTEXPR f64 operator"" _f64(long double val)
+    PHI_CONSTEVAL_OR_CONSTEXPR f64 operator""_f64(long double val)
     {
         return {static_cast<float64>(val)};
     }
