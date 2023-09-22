@@ -36,8 +36,8 @@ public:
     scoped_value_guard(const scoped_value_guard&) = default;
     scoped_value_guard(scoped_value_guard&&)      = default;
 
-    scoped_value_guard& operator=(const scoped_value_guard&)  = default;
-    scoped_value_guard& operator=(scoped_value_guard&&)       = default;
+    scoped_value_guard& operator=(const scoped_value_guard&) = default;
+    scoped_value_guard& operator=(scoped_value_guard&&)      = default;
 #endif
 
     PHI_CONSTEXPR_DESTRUCTOR ~scoped_value_guard() noexcept

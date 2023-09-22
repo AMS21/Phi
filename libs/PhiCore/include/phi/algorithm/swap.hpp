@@ -31,7 +31,7 @@ PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 template <typename TypeT>
 inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT& lhs, TypeT& rhs) noexcept(
-        is_nothrow_move_constructible<TypeT>::value&& is_nothrow_move_assignable<TypeT>::value)
+        is_nothrow_move_constructible<TypeT>::value && is_nothrow_move_assignable<TypeT>::value)
 {
     TypeT temp(phi::move(lhs));
     lhs = phi::move(rhs);

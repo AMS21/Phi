@@ -17,7 +17,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename OtherT = TypeT>
 PHI_EXTENDED_CONSTEXPR inline TypeT exchange(TypeT& obj, OtherT&& new_value) noexcept(
-        is_nothrow_move_constructible<TypeT>::value&& is_nothrow_assignable<TypeT, OtherT>::value)
+        is_nothrow_move_constructible<TypeT>::value && is_nothrow_assignable<TypeT, OtherT>::value)
 {
     TypeT old_value = phi::move(obj);
     obj             = phi::forward<OtherT>(new_value);

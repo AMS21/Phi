@@ -20,17 +20,17 @@ namespace detail
     using signed_int8   = signed char;
     using unsigned_int8 = unsigned char;
 #elif PHI_TYPE_SYSTEM_SIZEOF_SHORT() * CHAR_BIT == 8
-    using signed_int8    = signed short;
-    using unsigned int8  = unsigned short;
+    using signed_int8   = signed short;
+    using unsigned int8 = unsigned short;
 #elif PHI_TYPE_SYSTEM_SIZEOF_INT() * CHAR_BIT == 8
-    using signed_int8    = signed int;
-    using unsigned int8  = unsigned int;
+    using signed_int8   = signed int;
+    using unsigned int8 = unsigned int;
 #elif PHI_TYPE_SYSTEM_SIZEOF_LONG() * CHAR_BIT == 8
-    using signed_int8    = signed long;
-    using unsigned_int8  = unsigned long;
+    using signed_int8   = signed long;
+    using unsigned_int8 = unsigned long;
 #elif PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG() * CHAR_BIT == 8
-    using signed_int8    = signed long long;
-    using unsigned_int8  = unsigned long long;
+    using signed_int8   = signed long long;
+    using unsigned_int8 = unsigned long long;
 #else
     // Guess reasonable default
     using signed_int8   = signed char;
@@ -107,9 +107,9 @@ namespace detail
 #if PHI_TYPE_SYSTEM_SIZEOF_FLOAT() * CHAR_BIT == 32
     using float32 = float;
 #elif PHI_TYPE_SYSTEM_SIZEOF_DOUBLE() * CHAR_BIT == 32
-    using float32        = double;
+    using float32 = double;
 #elif PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE() * CHAR_BIT == 32
-    using float32        = long double;
+    using float32 = long double;
 #else
     // Guess reasonable default
     using float32 = float;
@@ -119,12 +119,12 @@ namespace detail
 #if PHI_TYPE_SYSTEM_SIZEOF_FLOAT() * CHAR_BIT == 64
     using float64 = float;
 #elif PHI_TYPE_SYSTEM_SIZEOF_DOUBLE() * CHAR_BIT == 64
-    using float64        = double;
+    using float64 = double;
 #elif PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE() * CHAR_BIT == 64
-    using float64        = long double;
+    using float64 = long double;
 #else
     // Guess reasonable default
-    using float64  = double;
+    using float64 = double;
 #endif
 
     PHI_GCC_SUPPRESS_WARNING_PUSH()
@@ -136,10 +136,10 @@ namespace detail
     using float128 = float;
 #elif PHI_TYPE_SYSTEM_SIZEOF_DOUBLE() * CHAR_BIT == 128
 #    define PHI_TYPE_SYSTEM_HAS_FLOAT128() 1
-    using float128       = double;
+    using float128 = double;
 #elif PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE() * CHAR_BIT == 128
 #    define PHI_TYPE_SYSTEM_HAS_FLOAT128() 1
-    using float128       = long double;
+    using float128 = long double;
 #else
 #    define PHI_TYPE_SYSTEM_HAS_FLOAT128() 0
     using float128 = void;

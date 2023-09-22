@@ -145,10 +145,11 @@ struct test_nondefault_initialization
         // Test aggregate initialization
         {
             {
-                    // TODO: This is failing
-                    //phi::array<T, 0> a0_0 = {{}};
-                    //(void)a0_0;
-            } {
+                // TODO: This is failing
+                //phi::array<T, 0> a0_0 = {{}};
+                //(void)a0_0;
+            }
+            {
                 phi::array<T, 1> a1_0 = {{}};
                 (void)a1_0;
                 phi::array<T, 1> a1_1 = {{T()}};

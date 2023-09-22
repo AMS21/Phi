@@ -189,7 +189,7 @@ TEST_CASE("is_invocable")
         test_is_not_invocable_compat<Sink, const volatile void>();
     }
     {
-        using Fn  = int (Tag::*)(int);
+        using Fn  = int  (Tag::*)(int);
         using RFn = int (Tag::*)(int)&&;
         // INVOKE bullet 1, 2 and 3
         {
@@ -264,37 +264,37 @@ TEST_CASE("is_invocable")
             test_is_invocable<Fn, CT&>();
         }
     }
-    { // bullet 7
-     {// Function pointer
-      using Fp = void(*)(Tag&, int);
-    test_is_invocable<Fp, Tag&, int>();
-    test_is_invocable<Fp, DerFromTag&, int>();
-    test_is_not_invocable<Fp, const Tag&, int>();
-    test_is_not_invocable<Fp>();
-    test_is_not_invocable<Fp, Tag&>();
-}
-{
-    // Function reference
-    using Fp = void (&)(Tag&, int);
-    test_is_invocable<Fp, Tag&, int>();
-    test_is_invocable<Fp, DerFromTag&, int>();
-    test_is_not_invocable<Fp, const Tag&, int>();
-    test_is_not_invocable<Fp>();
-    test_is_not_invocable<Fp, Tag&>();
-}
-{
-    // Function object
-    using Fn = NotCallableWithInt;
-    test_is_invocable<Fn, Tag>();
-    test_is_not_invocable<Fn, int>();
-}
-}
-{
-    // Check for is_invocable_v
-    using Fn = void (*)();
-    test_is_invocable<Fn>();
-    test_is_not_invocable<Fn, int>();
-}
+    {     // bullet 7
+        { // Function pointer
+            using Fp = void (*)(Tag&, int);
+            test_is_invocable<Fp, Tag&, int>();
+            test_is_invocable<Fp, DerFromTag&, int>();
+            test_is_not_invocable<Fp, const Tag&, int>();
+            test_is_not_invocable<Fp>();
+            test_is_not_invocable<Fp, Tag&>();
+        }
+        {
+            // Function reference
+            using Fp = void (&)(Tag&, int);
+            test_is_invocable<Fp, Tag&, int>();
+            test_is_invocable<Fp, DerFromTag&, int>();
+            test_is_not_invocable<Fp, const Tag&, int>();
+            test_is_not_invocable<Fp>();
+            test_is_not_invocable<Fp, Tag&>();
+        }
+        {
+            // Function object
+            using Fn = NotCallableWithInt;
+            test_is_invocable<Fn, Tag>();
+            test_is_not_invocable<Fn, int>();
+        }
+    }
+    {
+        // Check for is_invocable_v
+        using Fn = void (*)();
+        test_is_invocable<Fn>();
+        test_is_not_invocable<Fn, int>();
+    }
 }
 
 PHI_GCC_SUPPRESS_WARNING_POP()

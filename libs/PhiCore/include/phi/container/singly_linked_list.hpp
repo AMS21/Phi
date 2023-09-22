@@ -597,8 +597,8 @@ public:
         delete prev_head;
     }
 
-    PHI_NODISCARD value_type take_front() noexcept(
-            is_nothrow_destructible<TypeT>::value&& is_nothrow_move_assignable<TypeT>::value)
+    PHI_NODISCARD value_type take_front() noexcept(is_nothrow_destructible<TypeT>::value &&
+                                                   is_nothrow_move_assignable<TypeT>::value)
     {
         PHI_ASSERT(m_Head != nullptr, "");
 

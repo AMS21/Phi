@@ -46,8 +46,8 @@ public:
     scope_guard(scope_guard&&)      = default;
     scope_guard(const scope_guard&) = default;
 
-    scope_guard& operator=(const scope_guard&)  = default;
-    scope_guard& operator=(scope_guard&&)       = default;
+    scope_guard& operator=(const scope_guard&) = default;
+    scope_guard& operator=(scope_guard&&)      = default;
 #endif
 
     PHI_CONSTEXPR_DESTRUCTOR ~scope_guard()

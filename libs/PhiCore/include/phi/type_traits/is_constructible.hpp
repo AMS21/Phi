@@ -122,7 +122,7 @@ namespace detail
     {};
 
     template <typename FromT, typename ToT,
-              bool = is_lvalue_reference<FromT>::value&& is_rvalue_reference<ToT>::value>
+              bool = is_lvalue_reference<FromT>::value && is_rvalue_reference<ToT>::value>
     struct is_lvalue_to_rvalue_ref;
 
     // Detect whether we have an lvalue of non-function type

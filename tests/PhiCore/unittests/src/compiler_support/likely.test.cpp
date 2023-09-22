@@ -20,11 +20,11 @@ TEST_CASE("Likely", "[Likely]")
     {
         switch (index)
         {
-        PHI_UNLIKELY_CASE case 3 : {
+        PHI_UNLIKELY_CASE case 3: {
             CHECK(index == 3);
             break;
         }
-        PHI_LIKELY_CASE case 5 : {
+        PHI_LIKELY_CASE case 5: {
             CHECK(index == 5);
             break;
         }

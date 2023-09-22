@@ -115,8 +115,8 @@ public:
               typename enable_if<enable_explicit_constructor<OtherFirstT, OtherSecondT>()>::type* =
                       nullptr>
     constexpr explicit pair(OtherFirstT&& other_first, OtherSecondT&& other_second) noexcept(
-            is_nothrow_constructible<FirstT, OtherFirstT>::value&&
-                    is_nothrow_constructible<SecondT, OtherSecondT>::value)
+            is_nothrow_constructible<FirstT, OtherFirstT>::value &&
+            is_nothrow_constructible<SecondT, OtherSecondT>::value)
         : first{forward<OtherFirstT>(other_first)}
         , second{forward<OtherSecondT>(other_second)}
     {}
@@ -127,8 +127,8 @@ public:
               typename enable_if<enable_implicit_constructor<OtherFirstT, OtherSecondT>()>::type* =
                       nullptr>
     constexpr pair(OtherFirstT&& other_first, OtherSecondT&& other_second) noexcept(
-            is_nothrow_constructible<FirstT, OtherFirstT>::value&&
-                    is_nothrow_constructible<SecondT, OtherSecondT>::value)
+            is_nothrow_constructible<FirstT, OtherFirstT>::value &&
+            is_nothrow_constructible<SecondT, OtherSecondT>::value)
         : first{forward<OtherFirstT>(other_first)}
         , second{forward<OtherSecondT>(other_second)}
     {}
@@ -138,8 +138,8 @@ public:
               typename enable_if<enable_explicit_constructor<const OtherFirstT&,
                                                              const OtherSecondT&>>::type* = nullptr>
     constexpr explicit pair(const pair<OtherFirstT, OtherSecondT>& other_pair) noexcept(
-            is_nothrow_constructible<FirstT, const OtherFirstT&>::value&&
-                    is_nothrow_constructible<SecondT, const OtherSecondT&>::value)
+            is_nothrow_constructible<FirstT, const OtherFirstT&>::value &&
+            is_nothrow_constructible<SecondT, const OtherSecondT&>::value)
         : first{other_pair.first}
         , second(other_pair.second)
     {}
@@ -149,8 +149,8 @@ public:
               typename enable_if<enable_implicit_constructor<const OtherFirstT&,
                                                              const OtherSecondT&>>::type* = nullptr>
     constexpr pair(const pair<OtherFirstT, SecondT>& other_pair) noexcept(
-            is_nothrow_constructible<FirstT, const OtherFirstT&>::value&&
-                    is_nothrow_constructible<SecondT, const OtherSecondT&>::value)
+            is_nothrow_constructible<FirstT, const OtherFirstT&>::value &&
+            is_nothrow_constructible<SecondT, const OtherSecondT&>::value)
         : first{other_pair.first}
         , second{other_pair.second}
     {}
@@ -160,8 +160,8 @@ public:
               typename enable_if<enable_explicit_constructor<OtherFirstT, OtherSecondT>()>::type* =
                       nullptr>
     constexpr explicit pair(pair<OtherFirstT, OtherSecondT>&& other_pair) noexcept(
-            is_nothrow_constructible<FirstT, OtherFirstT&&>::value&&
-                    is_nothrow_constructible<SecondT, OtherSecondT&&>::value)
+            is_nothrow_constructible<FirstT, OtherFirstT&&>::value &&
+            is_nothrow_constructible<SecondT, OtherSecondT&&>::value)
         : first{forward<OtherFirstT>(other_pair.first)}
         , second{forward<OtherSecondT>(other_pair.second)}
     {}
@@ -171,8 +171,8 @@ public:
               typename enable_if<enable_implicit_constructor<OtherFirstT, OtherSecondT>()>::type* =
                       nullptr>
     constexpr pair(pair<OtherFirstT, OtherSecondT>&& other_pair) noexcept(
-            is_nothrow_constructible<FirstT, OtherFirstT&&>::value&&
-                    is_nothrow_constructible<SecondT, OtherSecondT&&>::value)
+            is_nothrow_constructible<FirstT, OtherFirstT&&>::value &&
+            is_nothrow_constructible<SecondT, OtherSecondT&&>::value)
         : first{forward<OtherFirstT>(other_pair.first)}
         , second{forward<OtherSecondT>(other_pair.second)}
     {}
@@ -187,8 +187,8 @@ public:
             typename conditional<is_copy_assignable<FirstT>::value &&
                                          is_copy_assignable<SecondT>::value,
                                  pair, nat>::type const&
-                    other_pair) noexcept(is_nothrow_copy_assignable<first_type>::value&&
-                                                 is_nothrow_copy_assignable<second_type>::value)
+                    other_pair) noexcept(is_nothrow_copy_assignable<first_type>::value &&
+                                         is_nothrow_copy_assignable<second_type>::value)
     {
         first  = other_pair.first;
         second = other_pair.second;
@@ -200,8 +200,8 @@ public:
             typename conditional<is_move_assignable<first_type>::value &&
                                          is_move_assignable<second_type>::value,
                                  pair, nat>::type&&
-                    other_pair) noexcept(is_nothrow_move_assignable<FirstT>::value&&
-                                                 is_nothrow_move_assignable<SecondT>::value)
+                    other_pair) noexcept(is_nothrow_move_assignable<FirstT>::value &&
+                                         is_nothrow_move_assignable<SecondT>::value)
     {
         first  = forward<first_type>(other_pair.first);
         second = forward<second_type>(other_pair.second);
@@ -209,8 +209,8 @@ public:
         return *this;
     }
 
-    constexpr void swap(pair& other_pair) noexcept(
-            is_nothrow_swappable<FirstT>::value&& is_nothrow_swappable<SecondT>::value)
+    constexpr void swap(pair& other_pair) noexcept(is_nothrow_swappable<FirstT>::value &&
+                                                   is_nothrow_swappable<SecondT>::value)
     {
         using phi::swap;
 
@@ -218,8 +218,8 @@ public:
         swap(second, other_pair.second);
     }
 
-    constexpr void flip() noexcept(
-            is_nothrow_swappable<FirstT>::value&& is_nothrow_swappable<SecondT>::value)
+    constexpr void flip() noexcept(is_nothrow_swappable<FirstT>::value &&
+                                   is_nothrow_swappable<SecondT>::value)
     {
         using phi::swap;
 
@@ -277,8 +277,9 @@ constexpr boolean operator<=(const pair<FirstT, SecondT>& lhs, const pair<FirstT
 template <typename FirstT, typename SecondT>
 constexpr
         typename enable_if<is_swappable<FirstT>::value && is_swappable<SecondT>::value, void>::type
-        swap(pair<FirstT, SecondT>& lhs, pair<FirstT, SecondT>& rhs) noexcept(
-                is_nothrow_swappable<FirstT>::value&& is_nothrow_swappable<SecondT>::value)
+        swap(pair<FirstT, SecondT>& lhs,
+             pair<FirstT, SecondT>& rhs) noexcept(is_nothrow_swappable<FirstT>::value &&
+                                                  is_nothrow_swappable<SecondT>::value)
 {
     lhs.swap(rhs);
 }
@@ -287,8 +288,9 @@ template <typename FirstT, typename SecondT>
 constexpr
         typename enable_if<is_swappable<const FirstT>::value && is_swappable<const SecondT>::value,
                            void>::type
-        swap(const pair<FirstT, SecondT>& lhs, const pair<FirstT, SecondT>& rhs) noexcept(
-                is_nothrow_swappable<FirstT>::value&& is_nothrow_swappable<SecondT>::value)
+        swap(const pair<FirstT, SecondT>& lhs,
+             const pair<FirstT, SecondT>& rhs) noexcept(is_nothrow_swappable<FirstT>::value &&
+                                                        is_nothrow_swappable<SecondT>::value)
 {
     lhs.swap(rhs);
 }

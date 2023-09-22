@@ -42,7 +42,7 @@ namespace detail
     struct is_nothrow_convertible_impl_2<FromT, ToT, false> : public false_type
     {};
 
-    template <typename FromT, typename ToT, bool = is_void<FromT>::value&& is_void<ToT>::value>
+    template <typename FromT, typename ToT, bool = is_void<FromT>::value && is_void<ToT>::value>
     struct is_nothrow_convertible_impl : public is_nothrow_convertible_impl_2<FromT, ToT>
     {};
 

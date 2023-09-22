@@ -297,12 +297,13 @@ void test_bullet_three_one()
     // Test that the ternary operator is not applied when the types are the
     // same.
     {
-            //using T1     = const void;
-            //using Expect = void;
-            //test_common_type<T1, T1, Expect>();
-            //test_common_type<T1, T1, typename phi::common_type<T1>::type>();
-            //test_common_type<T1, T1, phi::common_type_t<T1>>();
-    } {
+        //using T1     = const void;
+        //using Expect = void;
+        //test_common_type<T1, T1, Expect>();
+        //test_common_type<T1, T1, typename phi::common_type<T1>::type>();
+        //test_common_type<T1, T1, phi::common_type_t<T1>>();
+    }
+    {
         //using T1     = int const[];
         //using Expect = const int*;
         //test_common_type<T1, T1, Expect>();
@@ -326,11 +327,11 @@ void test_bullet_three_one()
 void test_bullet_three_three()
 {
     {
-            //using T1     = const int*;
-            //using T2     = int*;
-            //using Expect = TernaryOp<T1, T2>::type;
-            //test_common_type<T1, T2, Expect>();
-            //test_common_type<T2, T1, Expect>();
+        //using T1     = const int*;
+        //using T2     = int*;
+        //using Expect = TernaryOp<T1, T2>::type;
+        //test_common_type<T1, T2, Expect>();
+        //test_common_type<T2, T1, Expect>();
     } // Test that there is no ::type member when the ternary op is ill-formed
     {
         using T1 = int;

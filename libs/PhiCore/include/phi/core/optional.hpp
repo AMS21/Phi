@@ -364,9 +364,9 @@ namespace detail
     };
 
     // This class manages conditionally having a trivial copy assignment operator
-    template <typename TypeT,
-              bool = is_trivially_copy_assignable<TypeT>::value&& is_trivially_copy_constructible<
-                      TypeT>::value&& is_trivially_destructible<TypeT>::value>
+    template <typename TypeT, bool = is_trivially_copy_assignable<TypeT>::value &&
+                                     is_trivially_copy_constructible<TypeT>::value &&
+                                     is_trivially_destructible<TypeT>::value>
     struct optional_copy_assign_base : public optional_move_base<TypeT>
     {
         using optional_move_base<TypeT>::optional_move_base;
@@ -390,9 +390,9 @@ namespace detail
     };
 
     // This class manages conditionally having a trivial move assignment operator
-    template <typename TypeT,
-              bool = is_trivially_destructible<TypeT>::value&& is_trivially_move_constructible<
-                      TypeT>::value&& is_trivially_move_assignable<TypeT>::value>
+    template <typename TypeT, bool = is_trivially_destructible<TypeT>::value &&
+                                     is_trivially_move_constructible<TypeT>::value &&
+                                     is_trivially_move_assignable<TypeT>::value>
     struct optional_move_assign_base : public optional_copy_assign_base<TypeT>
     {
         using optional_copy_assign_base<TypeT>::optional_copy_assign_base;
@@ -411,8 +411,8 @@ namespace detail
         optional_move_assign_base& operator=(const optional_move_assign_base& rhs) = default;
 
         optional_move_assign_base& operator=(optional_move_assign_base&& rhs) noexcept(
-                is_nothrow_move_constructible<TypeT>::value&&
-                        is_nothrow_move_assignable<TypeT>::value)
+                is_nothrow_move_constructible<TypeT>::value &&
+                is_nothrow_move_assignable<TypeT>::value)
         {
             this->assign(phi::move(rhs));
             return *this;
@@ -766,7 +766,7 @@ public:
     /// If one has a value, it is moved to the other and the movee is left
     /// valueless.
     PHI_EXTENDED_CONSTEXPR void swap(optional& rhs) noexcept(
-            is_nothrow_move_constructible<TypeT>::value&& is_nothrow_swappable<TypeT>::value)
+            is_nothrow_move_constructible<TypeT>::value && is_nothrow_swappable<TypeT>::value)
     {
         using phi::swap;
         if (has_value())
