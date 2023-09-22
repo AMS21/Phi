@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 16
+      LLVM_VERSION: 17
 
     steps:
       - name: Checkout
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 16
+      LLVM_VERSION: 17
 
     steps:
       - name: Checkout
@@ -147,7 +147,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 16
+      LLVM_VERSION: 17
       CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
@@ -250,7 +250,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      LLVM_VERSION: 16
+      LLVM_VERSION: 17
 
     steps:
       - name: Checkout
@@ -315,7 +315,7 @@ jobs:
 
     env:
       CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"run-queries": ["--off-heap-ram=0"]}}'
-      LLVM_VERSION: 16
+      LLVM_VERSION: 17
 
     permissions:
       actions: read
