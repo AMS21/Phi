@@ -67,7 +67,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup XCode
-        uses: maxim-lobanov/setup-xcode@v1.5.1
+        uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
           xcode-version: ${{ matrix.cfg.compiler_version }}
 
