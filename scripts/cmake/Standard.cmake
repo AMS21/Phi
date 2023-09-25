@@ -147,10 +147,13 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12" OR NOT DEFINED CMAKE_CXX20_STANDARD_COMP
   endforeach()
 endif()
 
-# Don't trust what CMake says about emscriptens C++-23 support
+# Don't trust what CMake says about emscriptens C++-23/26 support
 if(DEFINED PHI_PLATFORM_EMSCRIPTEN)
   unset(CMAKE_CXX23_STANDARD_COMPILE_OPTION)
   unset(CMAKE_CXX23_EXTENSION_COMPILE_OPTION)
+
+  unset(CMAKE_CXX26_STANDARD_COMPILE_OPTION)
+  unset(CMAKE_CXX26_EXTENSION_COMPILE_OPTION)
 endif()
 
 # C++-23 Flags were introduced in CMake 3.20
