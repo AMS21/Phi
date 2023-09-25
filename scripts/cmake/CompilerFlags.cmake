@@ -204,7 +204,11 @@ elseif(PHI_COMPILER_EMCC)
 
   # emcc-2.0 flags
   if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
-    set(phi_common_flags ${phi_common_flags} -bigobj)
+
+    # '-bigobj' is only supported until 3.1.40
+    if(PHI_EMCC_VERSION VERSION_LESS 3.1.40)
+      set(phi_common_flags ${phi_common_flags} -bigobj)
+    endif()
     set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
   endif()
 
