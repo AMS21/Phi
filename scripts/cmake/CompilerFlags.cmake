@@ -100,7 +100,7 @@ if(PHI_COMPILER_APPLECLANG)
       -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
       -fsanitize-address-use-odr-indicator)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+  set(phi_sanitizer_memory_flags -fsanitize=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
   set(phi_sanitizer_thread_flags -fsanitize=thread)
   set(phi_sanitizer_undefined_flags
@@ -191,7 +191,7 @@ elseif(PHI_COMPILER_EMCC)
       -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
       -fsanitize-address-use-odr-indicator)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+  set(phi_sanitizer_memory_flags -fsanitize=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
   set(phi_sanitizer_thread_flags -fsanitize=thread)
   set(phi_sanitizer_undefined_flags
@@ -269,7 +269,7 @@ elseif(PHI_COMPILER_CHEERP)
       -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
       -fsanitize-address-use-odr-indicator)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+  set(phi_sanitizer_memory_flags -fsanitize=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
   set(phi_sanitizer_thread_flags -fsanitize=thread)
   set(phi_sanitizer_undefined_flags
@@ -383,7 +383,7 @@ elseif(PHI_COMPILER_CLANG)
       -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope
       -fsanitize-address-use-odr-indicator)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+  set(phi_sanitizer_memory_flags -fsanitize=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
   set(phi_sanitizer_thread_flags -fsanitize=thread)
   set(phi_sanitizer_undefined_flags
@@ -559,7 +559,7 @@ elseif(PHI_COMPILER_GCC)
   set(phi_no_rtti_flags -fno-rtti)
   set(phi_sanitizer_address_flags -fsanitize=address -fsanitize-address-use-after-scope)
   set(phi_sanitizer_leak_flags -fsanitize=leak)
-  set(phi_sanitizer_memory_flags -fsanitizer=memory -fsanitize-memory-track-origins=2
+  set(phi_sanitizer_memory_flags -fsanitize=memory -fsanitize-memory-track-origins=2
                                  -fsanitize-memory-use-after-dtor)
   set(phi_sanitizer_thread_flags -fsanitize=thread)
   set(phi_sanitizer_undefined_flags -fsanitize=undefined,float-divide-by-zero,bounds-strict)
