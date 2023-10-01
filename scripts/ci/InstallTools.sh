@@ -135,7 +135,7 @@ install_clang() {
 
     # Install clang
     echo "-- Installing clang-$1..."
-    apt_install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "g++-multilib"
+    apt_install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "llvm-$1" "g++-multilib"
 
     # Starting with llvm-14 there is a separate package for the compiler runtime (rt) which is needed for things like sanitizers and fuzzers
     if [[ $1 -ge 14 ]]; then
