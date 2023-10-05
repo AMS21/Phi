@@ -181,6 +181,7 @@ file(
   "include/phi/core/flat_ptr.hpp"
   "include/phi/core/floating_point.hpp"
   "include/phi/core/forward.hpp"
+  "include/phi/core/ignore.hpp"
   "include/phi/core/integer.hpp"
   "include/phi/core/intptr_t.hpp"
   "include/phi/core/invoke.hpp"

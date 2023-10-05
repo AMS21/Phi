@@ -72,6 +72,7 @@ file(
   "src/core/flat_ptr.test.cpp"
   "src/core/floating_point.test.cpp"
   "src/core/forward.test.cpp"
+  "src/core/ignore.test.cpp"
   "src/core/integer.test.cpp"
   "src/core/intptr_t.test.cpp"
   "src/core/invoke.test.cpp"
