@@ -10,22 +10,6 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 template <typename TypeT>
 struct ignore_t
 {
-#if 0
-    template <typename OtherT>
-    constexpr ignore_t(const OtherT& /*other*/) noexcept
-    {}
-
-    template <typename OtherT>
-    constexpr ignore_t(OtherT&& /*other*/) noexcept
-    {}
-
-    template <typename OtherT>
-    const inline constexpr ignore_t<TypeT>& operator=(const OtherT& /*other*/) const noexcept
-    {
-        return *this;
-    }
-#endif
-
     template <typename OtherT>
     // NOLINTNEXTLINE(misc-unconventional-assign-operator,cppcoreguidelines-missing-std-forward)
     const inline constexpr ignore_t<TypeT>& operator=(OtherT&& /*other*/) const noexcept
