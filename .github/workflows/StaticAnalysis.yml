@@ -100,7 +100,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -157,7 +157,7 @@ jobs:
           submodules: recursive
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -218,7 +218,7 @@ jobs:
           reviewdog_version: latest
 
       - name: Setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
