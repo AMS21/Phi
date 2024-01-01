@@ -71,7 +71,7 @@ jobs:
         run: scripts/ci/SetupEnvironment.sh
 
       - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1.12.1
+        uses: ilammy/msvc-dev-cmd@v1.13.0
         with:
           arch: ${{ matrix.arch }}
 
