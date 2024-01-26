@@ -189,7 +189,7 @@ TEST_CASE("is_invocable")
         test_is_not_invocable_compat<Sink, const volatile void>();
     }
     {
-        using Fn  = int  (Tag::*)(int);
+        using Fn  = int (Tag::*)(int);
         using RFn = int (Tag::*)(int)&&;
         // INVOKE bullet 1, 2 and 3
         {
