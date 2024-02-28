@@ -9,6 +9,8 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 
+DETAIL_PHI_BEGIN_NAMESPACE()
+
 template <typename InputIteratorT, typename SizeT, typename OutputIteratorT>
 PHI_EXTENDED_CONSTEXPR OutputIteratorT
 copy_n(InputIteratorT first, SizeT count, OutputIteratorT result) noexcept(
@@ -29,5 +31,7 @@ copy_n(InputIteratorT first, SizeT count, OutputIteratorT result) noexcept(
 
     return result;
 }
+
+DETAIL_PHI_END_NAMESPACE()
 
 #endif // INCG_PHI_CORE_ALGORITHM_COPY_N_HPP
