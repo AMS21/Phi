@@ -77,4 +77,5 @@ jobs:
           file: ./build/coverage.xml
           flags: ${{ runner.os }},${{ matrix.compiler }},${{ matrix.build_type }}
           name: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
