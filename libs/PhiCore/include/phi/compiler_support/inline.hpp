@@ -22,11 +22,17 @@
 **/
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+
 #    define PHI_ALWAYS_INLINE __attribute__((always_inline)) inline
+
 #elif PHI_COMPILER_IS(MSVC)
+
 #    define PHI_ALWAYS_INLINE __forceinline
+
 #else
+
 #    define PHI_ALWAYS_INLINE inline
+
 #endif
 
 /*!
@@ -36,11 +42,17 @@
 **/
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+
 #    define PHI_NEVER_INLINE __attribute__((noinline))
+
 #elif PHI_COMPILER_IS(MSVC)
+
 #    define PHI_NEVER_INLINE __declspec(noinline)
+
 #else
+
 #    define PHI_NEVER_INLINE /* nothing */
+
 #endif
 
 #ifdef PHI_CONFIG_ALWAYS_INLINE_OVERWRITE

@@ -45,7 +45,6 @@ SOFTWARE.
 #include "phi/core/sized_types.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_signed.hpp"
-#include "phi/type_traits/is_unsigned.hpp"
 #include "phi/type_traits/make_signed.hpp"
 #include <limits>
 

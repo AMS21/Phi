@@ -1,6 +1,5 @@
 #include <phi/test/test_macros.hpp>
 
-#include "constexpr_helper.hpp"
 #include <phi/algorithm/max.hpp>
 
 TEST_CASE("max")

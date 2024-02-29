@@ -1,7 +1,6 @@
 #ifndef INCG_PHI_CORE_TEXT_CHAR_TRAITS_HPP
 #define INCG_PHI_CORE_TEXT_CHAR_TRAITS_HPP
 
-#include "phi/compiler_support/standard_library.hpp"
 #include "phi/phi_config.hpp"
 
 #if PHI_HAS_EXTENSION_PRAGMA_ONCE()
@@ -14,7 +13,6 @@
 #include "phi/core/assert.hpp"
 #include "phi/core/memcmp.hpp"
 #include "phi/forward/char_traits.hpp"
-#include <cstdio>
 #include <iosfwd>
 
 DETAIL_PHI_BEGIN_NAMESPACE()

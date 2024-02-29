@@ -60,7 +60,7 @@ public:
 
     template <typename... ArgsT>
     constexpr monitor(ArgsT&&... args) noexcept
-        : m_SharedData{phi::forward<ArgsT>(args)...}
+        : m_SharedData{forward<ArgsT>(args)...}
     {}
 
     /*!
@@ -95,7 +95,7 @@ public:
             noexcept(is_nothrow_invocable<CallableT, SharedDataT>::value)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
-        return phi::invoke(phi::forward<CallableT>(callable), m_SharedData);
+        return invoke(forward<CallableT>(callable), m_SharedData);
     }
 #endif
 

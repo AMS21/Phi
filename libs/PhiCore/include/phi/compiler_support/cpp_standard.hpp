@@ -14,37 +14,55 @@
 
 // C++-17
 #if PHI_COMPILER_IS_BELOW(MSVC, 19, 20, 0)
+
 // MSVC before 2019 uses 201704 for C++-17
 #    define PHI_CPLUSPLUS_17() (201704L)
+
 #else
+
 // C++-17 standard from march 2017
 #    define PHI_CPLUSPLUS_17() (201703L)
+
 #endif
 
 // C++-20
 #if PHI_COMPILER_IS_BELOW(GCC, 11, 0, 0)
+
 // GCC-8 - GCC-10 use 201709 for C++-20
 // See: https://godbolt.org/z/86a93zjYo
 #    define PHI_CPLUSPLUS_20() (201709L)
+
 #elif PHI_COMPILER_IS_BELOW(CLANG, 10, 0, 0) || PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0) ||           \
         PHI_COMPILER_IS_BELOW(APPLECLANG, 12, 0, 5)
+
 // Clang version before clang-10 uses 201707 for C++-20
 #    define PHI_CPLUSPLUS_20() (201707L)
+
 #else
+
 // C++-20 standard from february 2020
 #    define PHI_CPLUSPLUS_20() (202002L)
+
 #endif
 
 // C++-23
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
+
 #    define PHI_CPLUSPLUS_23() (202100L)
+
 #elif PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
+
 #    define PHI_CPLUSPLUS_23() (202004L)
+
 #elif PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 39)
+
 #    define PHI_CPLUSPLUS_23() (202302L)
+
 #else
+
 // C++-23 standard (Working draft)
 #    define PHI_CPLUSPLUS_23() (202101L)
+
 #endif
 
 // C++-26
@@ -55,16 +73,26 @@
 #define PHI_CPLUSPLUS_LATEST() PHI_CPLUSPLUS_26()
 
 #if PHI_COMPILER_IS(MSVC) && PHI_COMPILER_IS_NOT(WINCLANG)
+
 #    if defined(_MSVC_LANG)
+
 #        define PHI_CPP_STANDARD() _MSVC_LANG
+
 #    else
+
 #        define PHI_CPP_STANDARD() PHI_CPLUSPLUS_LATEST()
+
 #    endif
+
 #elif defined(__cplusplus)
+
 #    define PHI_CPP_STANDARD() __cplusplus
+
 #else
+
 // Use C++-98 as fallback
 #    define PHI_CPP_STANDARD() PHI_CPLUSPLUS_98()
+
 #endif
 
 #define PHI_CPP_STANDARD_IS_EXACTLY(standard) (PHI_CPP_STANDARD() == PHI_CPLUSPLUS_##standard())

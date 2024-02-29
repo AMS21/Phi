@@ -23,7 +23,9 @@
 #    define PHI_HAS_BUG_GCC_102305() 1
 
 #else
+
 #    define PHI_HAS_BUG_GCC_102305() 0
+
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_BUGS_GCC_102305_HPP

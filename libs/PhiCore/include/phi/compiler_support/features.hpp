@@ -86,6 +86,8 @@
 #    define PHI_HAS_FEATURE_EXTERN_TEMPLATE()    0
 #    define PHI_HAS_FEATURE_STATIC_ASSERT()      0
 #    define PHI_HAS_FEATURE_AUTO()               0
+#    define PHI_HAS_FEATURE_NOEXCEPT()           0
+#    define PHI_HAS_FEATURE_NOEXCEPT_EXPR()      0
 #endif
 
 // C++-14 features

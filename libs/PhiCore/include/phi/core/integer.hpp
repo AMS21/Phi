@@ -35,9 +35,7 @@ SOFTWARE.
 
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
-#include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/inline.hpp"
-#include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"

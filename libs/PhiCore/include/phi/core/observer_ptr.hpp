@@ -16,7 +16,6 @@
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/flat_ptr.hpp"
-#include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/nullptr_t.hpp"
 #include "phi/core/size_t.hpp"

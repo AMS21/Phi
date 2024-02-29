@@ -19,16 +19,26 @@
 **/
 
 #if PHI_COMPILER_IS(MSVC)
+
 #    define PHI_CURRENT_FUNCTION() __FUNCSIG__
+
 #elif PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW) || PHI_COMPILER_IS(CLANG)
+
 #    define PHI_CURRENT_FUNCTION() __PRETTY_FUNCTION__
+
 #elif (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 600)) ||                                  \
         (defined(__IBMPHI__) && (__IBMPHI__ >= 500))
+
 #    define PHI_CURRENT_FUNCTION() __FUNCTION__
+
 #elif defined(__BORLANDC__) && (__BORLANDC__ >= 0x550)
+
 #    define PHI_CURRENT_FUNCTION() __FUNC__
+
 #else
+
 #    define PHI_CURRENT_FUNCTION() __func__ /* use __func__ from C99 as fallback */
+
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_CURRENT_FUNCTION_HPP

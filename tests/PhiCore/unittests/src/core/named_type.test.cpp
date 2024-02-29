@@ -36,12 +36,8 @@ SOFTWARE.
 #include <phi/type_traits/is_default_constructible.hpp>
 #include <phi/type_traits/is_nothrow_constructible.hpp>
 #include <phi/type_traits/is_trivially_constructible.hpp>
-#include <cmath>
-#include <iomanip>
-#include <iostream>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
@@ -386,19 +382,19 @@ TEST_CASE("Modulable constexpr")
     EXT_STATIC_REQUIRE(ModulableType{5}.operator%=(strong_int).unsafe() == 1);
 }
 
-TEST_CASE("BitWiseInvertable")
+TEST_CASE("BitWiseInvertible")
 {
-    using BitWiseInvertableType =
-            phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
-    BitWiseInvertableType strong_int(13);
+    using BitWiseInvertibleType =
+            phi::named_type<int, struct BitWiseInvertibleTag, phi::bit_wise_invertible>;
+    BitWiseInvertibleType strong_int(13);
     CHECK((~strong_int).unsafe() == (~13));
 }
 
-TEST_CASE("BitWiseInvertable constexpr")
+TEST_CASE("BitWiseInvertible constexpr")
 {
-    using BitWiseInvertableType =
-            phi::named_type<int, struct BitWiseInvertableTag, phi::bit_wise_invertable>;
-    constexpr BitWiseInvertableType strong_int(13);
+    using BitWiseInvertibleType =
+            phi::named_type<int, struct BitWiseInvertibleTag, phi::bit_wise_invertible>;
+    constexpr BitWiseInvertibleType strong_int(13);
     EXT_STATIC_REQUIRE((~strong_int).unsafe() == (~13));
 }
 

@@ -1,6 +1,5 @@
 #include <phi/test/test_macros.hpp>
 
-#include "constexpr_helper.hpp"
 #include <phi/algorithm/min.hpp>
 
 TEST_CASE("min")

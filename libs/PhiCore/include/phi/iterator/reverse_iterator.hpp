@@ -10,10 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/core/boolean.hpp"
-#include "phi/iterator/iterator_tags.hpp"
 #include "phi/iterator/iterator_traits.hpp"
-#include "phi/type_traits/conditional.hpp"
-#include "phi/type_traits/is_derived_from.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

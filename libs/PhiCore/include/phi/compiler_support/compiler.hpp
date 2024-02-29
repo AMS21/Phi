@@ -8,7 +8,6 @@
 #define INCG_PHI_CORE_COMPILER_SUPPORT_COMPILER_HPP
 
 #include "phi/compiler_support/platform.hpp"
-#include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp" // PHI_VERSION_CREATE
 

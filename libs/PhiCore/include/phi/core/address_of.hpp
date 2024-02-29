@@ -9,7 +9,6 @@
 #endif
 
 #include "phi/compiler_support/intrinsics/address_of.hpp"
-#include "phi/compiler_support/intrinsics/is_union.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_object.hpp"

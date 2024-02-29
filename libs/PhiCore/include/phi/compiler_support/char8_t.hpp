@@ -16,9 +16,13 @@ PHI_CLANG_SUPPRESS_WARNING("-Wc++20-compat")
 PHI_CLANG_SUPPRESS_WARNING("-Wc++2a-compat")
 
 #if PHI_HAS_FEATURE_CHAR8_T()
+
 // Compiler has native support for char8_t
+
 #else
+
 using char8_t = unsigned char;
+
 #endif
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

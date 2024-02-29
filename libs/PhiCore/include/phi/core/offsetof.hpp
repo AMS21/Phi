@@ -14,8 +14,11 @@
 #endif
 
 #if PHI_SUPPORTS_OFFSETOF()
+
 #    define offsetof(type, member) PHI_OFFSETOF(type, member)
+
 #else
+
 #    include "phi/core/size_t.hpp"
 
 #    define offsetof(type, member)                                                                 \

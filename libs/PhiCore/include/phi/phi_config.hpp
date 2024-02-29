@@ -1,5 +1,5 @@
-#ifndef INCG_PHI_PHICONFIG_HPP
-#define INCG_PHI_PHICONFIG_HPP
+#ifndef INCG_PHI_PHI_CONFIG_HPP
+#define INCG_PHI_PHI_CONFIG_HPP
 
 #include "phi/compiler_support/extensions/pragma_once.hpp"
 
@@ -9,8 +9,6 @@
 
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/platform.hpp"
-#include "phi/compiler_support/warning.hpp"
-#include "phi/preprocessor/glue.hpp"
 #include "phi/preprocessor/stringify.hpp"
 #include "phi/preprocessor/versioning.hpp"
 
@@ -82,4 +80,4 @@
 #    endif
 #endif
 
-#endif // INCG_PHI_PHICONFIG_HPP
+#endif // INCG_PHI_PHI_CONFIG_HPP

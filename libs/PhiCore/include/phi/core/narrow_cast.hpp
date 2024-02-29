@@ -11,7 +11,6 @@
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
-#include "phi/core/forward.hpp"
 #include "phi/core/unsafe_cast.hpp"
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/make_unsafe.hpp"

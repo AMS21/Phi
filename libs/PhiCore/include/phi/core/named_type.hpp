@@ -31,8 +31,8 @@ SOFTWARE.
  * \brief Exports the strongly typed class NamedType.
  *
 **/
-#ifndef INCG_PHI_CORE_NAMEDTYPE_HPP
-#define INCG_PHI_CORE_NAMEDTYPE_HPP
+#ifndef INCG_PHI_CORE_NAMED_TYPE_HPP
+#define INCG_PHI_CORE_NAMED_TYPE_HPP
 
 #include "phi/phi_config.hpp"
 
@@ -49,7 +49,6 @@ SOFTWARE.
 #include "phi/core/crtp.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
-#include "phi/core/size_t.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_nothrow_copy_constructible.hpp"
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
@@ -124,7 +123,7 @@ public:
         // NOLINTNEXTLINE(misc-unconventional-assign-operator)
         named_type operator=(OtherT&& value) const // lgtm [cpp/assignment-does-not-return-this]
         {
-            return named_type(phi::forward<OtherT>(value));
+            return named_type(forward<OtherT>(value));
         }
 
         argument()                           = default;
@@ -293,7 +292,7 @@ struct PHI_EBCO modulable : public crtp<TypeT, modulable>
 };
 
 template <typename TypeT>
-struct PHI_EBCO bit_wise_invertable : public crtp<TypeT, bit_wise_invertable>
+struct PHI_EBCO bit_wise_invertible : public crtp<TypeT, bit_wise_invertible>
 {
     PHI_NODISCARD constexpr TypeT operator~() const
     {
@@ -525,7 +524,7 @@ struct PHI_EBCO arithmetic : public pre_incrementable<TypeT>,
                              multiplicable<TypeT>,
                              divisible<TypeT>,
                              modulable<TypeT>,
-                             bit_wise_invertable<TypeT>,
+                             bit_wise_invertible<TypeT>,
                              bit_wise_andable<TypeT>,
                              bit_wise_orable<TypeT>,
                              bit_wise_xorable<TypeT>,
@@ -564,4 +563,4 @@ DETAIL_PHI_END_STD_NAMESPACE()
 
 #undef PHI_EBCO
 
-#endif // INCG_PHI_CORE_NAMEDTYPE_HPP
+#endif // INCG_PHI_CORE_NAMED_TYPE_HPP

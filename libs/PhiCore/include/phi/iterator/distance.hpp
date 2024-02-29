@@ -41,7 +41,7 @@ namespace detail
 /// \endcond
 
 template <typename InputIteratorT>
-inline constexpr typename iterator_traits<InputIteratorT>::difference_type distance(
+PHI_NODISCARD inline constexpr typename iterator_traits<InputIteratorT>::difference_type distance(
         InputIteratorT first, InputIteratorT last)
 {
     return detail::distance_impl(first, last,

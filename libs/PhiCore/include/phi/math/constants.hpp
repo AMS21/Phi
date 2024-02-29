@@ -8,7 +8,6 @@
 #endif
 
 #include "phi/compiler_support/inline.hpp"
-#include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/types.hpp"
 #include "phi/core/unsafe_cast.hpp"

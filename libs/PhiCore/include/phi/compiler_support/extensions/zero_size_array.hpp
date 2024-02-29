@@ -10,9 +10,13 @@
 #include "phi/compiler_support/compiler.hpp"
 
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(CLANG_COMPAT)
+
 #    define PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() 1
+
 #else
+
 #    define PHI_HAS_EXTENSION_ZERO_SIZE_ARRAY() 0
+
 #endif
 
 #endif // INCG_PHI_CORE_COMPILER_SUPPORT_EXTENSIONS_ZERO_SIZE_ARRAY_HPP

@@ -40,7 +40,7 @@ PHI_MSVC_SUPPRESS_WARNING(
 
 struct NoDefault
 {
-    constexpr NoDefault(int)
+    constexpr NoDefault(int /*unused*/)
     {}
 };
 

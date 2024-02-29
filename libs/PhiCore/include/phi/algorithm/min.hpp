@@ -15,13 +15,13 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD constexpr TypeT min(TypeT&& value) noexcept
+PHI_NODISCARD PHI_CONSTEXPR TypeT min(TypeT&& value) noexcept
 {
     return forward<TypeT>(value);
 }
 
 template <typename FirstT, typename SecondT, typename... RestT>
-PHI_NODISCARD constexpr typename std::common_type<FirstT, SecondT, RestT...>::type min(
+PHI_NODISCARD PHI_CONSTEXPR typename std::common_type<FirstT, SecondT, RestT...>::type min(
         FirstT&& first, SecondT&& second, RestT&&... rest) noexcept
 {
     using common_t = typename std::common_type<FirstT, SecondT, RestT...>::type;

@@ -7,8 +7,6 @@
 #    pragma once
 #endif
 
-#include "phi/type_traits/detail/nat.hpp"
-
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
