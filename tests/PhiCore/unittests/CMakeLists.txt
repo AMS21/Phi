@@ -98,6 +98,7 @@ file(
   "src/core/types.test.cpp"
   "src/core/unsafe_cast.test.cpp"
   "src/core/voidify.test.cpp"
+  "src/core/wint_t.test.cpp"
   # forward
   "src/forward/array.test.cpp"
   "src/forward/flat_ptr.test.cpp"
