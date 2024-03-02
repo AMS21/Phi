@@ -43,7 +43,6 @@ SOFTWARE.
 #include <functional>
 #include <iosfwd>
 #include <limits>
-#include <utility>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
