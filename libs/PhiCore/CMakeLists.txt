@@ -211,6 +211,7 @@ file(
   "include/phi/core/types.hpp"
   "include/phi/core/unsafe_cast.hpp"
   "include/phi/core/voidify.hpp"
+  "include/phi/core/wint_t.hpp"
   # forward
   "include/phi/forward/array.hpp"
   "include/phi/forward/char_traits.hpp"

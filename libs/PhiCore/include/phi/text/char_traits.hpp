@@ -12,6 +12,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/memcmp.hpp"
+#include "phi/core/wint_t.hpp"
 #include "phi/forward/char_traits.hpp"
 #include <iosfwd>
 
