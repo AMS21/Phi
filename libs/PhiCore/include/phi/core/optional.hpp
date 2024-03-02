@@ -347,7 +347,7 @@ namespace detail
         {
             if (rhs.has_value())
             {
-                this->construct(move(rhs.get()));
+                this->construct(phi::move(rhs.get()));
             }
             else
             {
