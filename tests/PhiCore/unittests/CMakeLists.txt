@@ -111,6 +111,7 @@ file(
   "src/forward/std/array.test.cpp"
   "src/forward/std/char_traits.test.cpp"
   "src/forward/std/hash.test.cpp"
+  "src/forward/std/pair.test.cpp"
   "src/forward/std/reference_wrapper.test.cpp"
   "src/forward/std/span.test.cpp"
   "src/forward/std/string_view.test.cpp"

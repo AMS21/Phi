@@ -225,6 +225,7 @@ file(
   "include/phi/forward/std/array.hpp"
   "include/phi/forward/std/char_traits.hpp"
   "include/phi/forward/std/hash.hpp"
+  "include/phi/forward/std/pair.hpp"
   "include/phi/forward/std/reference_wrapper.hpp"
   "include/phi/forward/std/span.hpp"
   "include/phi/forward/std/string_view.hpp"
