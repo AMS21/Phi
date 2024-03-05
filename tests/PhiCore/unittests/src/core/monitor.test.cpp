@@ -7,7 +7,6 @@
 #include <phi/core/monitor.hpp>
 #include <phi/core/size_t.hpp>
 #include <thread>
-#include <utility>
 #include <vector>
 
 #if defined(PHI_CONFIG_THREADS)
