@@ -47,10 +47,10 @@ DETAIL_PHI_END_NAMESPACE()
 #else
 
 #    include "phi/core/size_t.hpp"
+#    include "phi/forward/std/pair.hpp"
 #    include "phi/type_traits/detail/yes_no_type.hpp"
 #    include "phi/type_traits/is_abstract.hpp"
 #    include "phi/type_traits/is_complete.hpp"
-#    include <utility>
 
 #    if PHI_HAS_WORKING_IS_ABSTRACT()
 #        define PHI_HAS_WORKING_IS_DEFAULT_CONSTRUCTIBLE() 1
