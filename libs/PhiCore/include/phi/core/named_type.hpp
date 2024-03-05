@@ -49,6 +49,7 @@ SOFTWARE.
 #include "phi/core/crtp.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
+#include "phi/forward/std/hash.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_nothrow_copy_constructible.hpp"
 #include "phi/type_traits/is_nothrow_move_constructible.hpp"
@@ -56,7 +57,6 @@ SOFTWARE.
 #include "phi/type_traits/remove_reference.hpp"
 #include <functional>
 #include <iosfwd>
-#include <utility>
 
 // Enable empty base class optimization with multiple inheritance on Visual Studio or Clang on windows.
 #if PHI_COMPILER_IS_ATLEAST(MSVC, 19, 14, 0) || PHI_COMPILER_IS(WINCLANG)
