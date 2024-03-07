@@ -13,8 +13,8 @@ function(phi_find_js_crosscompiler)
       DOC "cmake crosscompiling emulator")
   endif()
 
-  # Remove any quotes since Emscripten in version prior to 2.0.22 adds them for 'CMAKE_CROSSCOMPILING_EMULATOR'
-  # which causes the execute_process call to fail
+  # Remove any quotes since Emscripten in version prior to 2.0.22 adds them for
+  # 'CMAKE_CROSSCOMPILING_EMULATOR' which causes the execute_process call to fail
   string(REPLACE "\"" "" CMAKE_CROSSCOMPILING_EMULATOR "${CMAKE_CROSSCOMPILING_EMULATOR}")
 
   # Detect node version
