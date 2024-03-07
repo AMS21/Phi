@@ -13,6 +13,10 @@ function(phi_find_js_crosscompiler)
       DOC "cmake crosscompiling emulator")
   endif()
 
+  # Remove any quotes since Emscripten in version prior to 2.0.22 adds them for 'CMAKE_CROSSCOMPILING_EMULATOR'
+  # which causes the execute_process call to fail
+  string(REPLACE "\"" "" CMAKE_CROSSCOMPILING_EMULATOR "${CMAKE_CROSSCOMPILING_EMULATOR}")
+
   # Detect node version
   if(CMAKE_CROSSCOMPILING_EMULATOR)
     execute_process(
@@ -123,6 +127,7 @@ if(PHI_PLATFORM_EMSCRIPTEN)
   phi_trace("Machine: ${PHI_EMCC_MACHINE}")
 
   phi_find_js_crosscompiler()
+
   if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
     phi_warn("Compiling with Emscripten but no node cross-compiling emulator found!")
   endif()
