@@ -10,8 +10,9 @@ echo "Scanning all files in \"$(pwd)\"..."
 
 all_files=$(find . -type f ! -path "./.git/*" -exec grep -Iq . {} \; -print)
 
-# 3 Request per minute
-sleep_time=20s
+# 12 Request per minute. Archive.org asks for no more than 15 requests per minute
+# https://archive.org/details/toomanyrequests_20191110
+sleep_time=5s
 
 # Iterate over each file
 for file in $all_files; do
