@@ -21,7 +21,6 @@ concurrency:
 
 jobs:
   cppcheck:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     env:
@@ -79,7 +78,6 @@ jobs:
           cat cppcheck_filtered.log | reviewdog -efm="%f:%l:%c: %m" -reporter=${{ steps.reporter.outputs.value }} -name CppCheck -level warning
 
   clang-tidy:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     env:
@@ -143,7 +141,6 @@ jobs:
           cat build/clang_tidy_output.log | reviewdog -efm="%f:%l:%c: warning: %m" -reporter=${{ steps.reporter.outputs.value }} -name Clang-Tidy -level warning
 
   include-what-you-use:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     env:
@@ -202,7 +199,6 @@ jobs:
           cat build/iwyu_filtered.log | reviewdog -efm="%Z%A%f:%l:%c: error: %m" -efm="%C%m" -reporter=${{ steps.reporter.outputs.value }} -name include-what-you-use -level warning
 
   cmake-lint:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     steps:
@@ -245,7 +241,6 @@ jobs:
           cat cmake_lint.log | reviewdog -efm="%f:%l: %m" -reporter=${{ steps.reporter.outputs.value }} -name cmake-lint -level warning
 
   pvs-studio:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
     if: false
 
@@ -310,7 +305,6 @@ jobs:
           cat build/PVS-Studio_filtered.err | reviewdog -efm="%f:%l:%c: %m" -reporter=${{ steps.reporter.outputs.value }} -name PVS-Studio -level warning
 
   code-ql:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-22.04
 
     env:
@@ -368,7 +362,6 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   mull:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
 
     env:
@@ -445,7 +438,6 @@ jobs:
           cat build/mull_report_filtered.log | reviewdog -efm="%f:%l:%c: warning: %m" -reporter=${{ steps.reporter.outputs.value }} -name mull -level warning
 
   msvc-code-analysis:
-    # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
     runs-on: windows-2022
 
     permissions:
@@ -501,7 +493,6 @@ jobs:
 
   dev-skim:
     name: DevSkim
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     permissions:
@@ -525,7 +516,6 @@ jobs:
 
   codacy-security-scan:
     name: Codacy Security Scan
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
 
     permissions:
@@ -562,7 +552,6 @@ jobs:
 
   shellcheck:
     name: ShellCheck
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
     runs-on: ubuntu-22.04
 
     steps:

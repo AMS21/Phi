@@ -19,7 +19,6 @@ permissions: read-all
 
 jobs:
   BatchFuzzing:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     strategy:

@@ -17,7 +17,6 @@ permissions: read-all
 
 jobs:
   Pruning:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     steps:
@@ -41,7 +40,6 @@ jobs:
           storage-repo-branch-coverage: gh-pages  # Optional. Defaults to "gh-pages".
 
   Coverage:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-20.04
 
     steps:
