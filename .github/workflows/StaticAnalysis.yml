@@ -148,7 +148,6 @@ jobs:
 
     env:
       LLVM_VERSION: 17
-      CMAKE_BUILD_PARALLEL_LEVEL: "2"
 
     steps:
       - name: Checkout
