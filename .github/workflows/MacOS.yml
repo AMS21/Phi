@@ -91,7 +91,7 @@ jobs:
         run: ctest . -C ${{ matrix.build_type }}
 
   gcc:
-    runs-on: macos-11
+    runs-on: macos-13
 
     strategy:
       fail-fast: false
