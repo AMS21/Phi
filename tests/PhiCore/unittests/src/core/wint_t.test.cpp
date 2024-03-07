@@ -10,7 +10,12 @@
 
 TEST_CASE("wint_t")
 {
+    // NOTE: For Emscripten version prior to 3.1.42 'std::win_t' was declared as 'unsigned int' while '__WINT_TYPE__' was 'int'
+    // this was fixed by this commit: https://github.com/emscripten-core/emscripten/commit/45546004a08d182298ae547ec92947b1806a6bea
+    // Associated GitHub issue: https://github.com/emscripten-core/emscripten/issues/19583
+#if PHI_COMPILER_WORKAROUND(EMCC, 3, 1, 42)
     CHECK_SAME_TYPE(phi::wint_t, std::wint_t);
+#endif
     STATIC_REQUIRE(sizeof(phi::wint_t) == sizeof(std::wint_t));
 
     // Apple/Web Platform
@@ -25,7 +30,7 @@ TEST_CASE("wint_t")
     STATIC_REQUIRE_FALSE(std::is_unsigned<phi::wint_t>::value);
     STATIC_REQUIRE(std::is_signed<phi::wint_t>::value);
 
-// Windows platform
+    // Windows platform
 #elif PHI_PLATFORM_IS(WINDOWS)
 
     CHECK_SAME_TYPE(phi::wint_t, unsigned short);
