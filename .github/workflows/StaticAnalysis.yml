@@ -368,12 +368,12 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   mull:
-    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md
-    runs-on: ubuntu-20.04
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+    runs-on: ubuntu-22.04
 
     env:
-      LLVM_VERSION: 12
-      MULL_VERSION: 12
+      LLVM_VERSION: 14
+      MULL_VERSION: 14
 
     steps:
       - name: Checkout
