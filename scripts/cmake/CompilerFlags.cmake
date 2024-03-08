@@ -202,14 +202,14 @@ elseif(PHI_COMPILER_EMCC)
       -fno-optimize-sibling-calls -fno-sanitize-recover=all)
   set(phi_fuzzing_support_flags)
 
-  # emcc-2.0 flags
-  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0)
-
-    # '-bigobj' is only supported until 3.1.40
-    if(PHI_EMCC_VERSION VERSION_LESS 3.1.40)
-      set(phi_common_flags ${phi_common_flags} -bigobj)
-    endif()
+  # emcc-2.0.14 flags
+  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0.14)
     set(phi_optimize_flags ${phi_optimize_flags} -ffinite-loops)
+  endif()
+
+  # '-bigobj' is only supported from 2.0.27 until 3.1.40
+  if(PHI_EMCC_VERSION VERSION_GREATER_EQUAL 2.0.27 AND PHI_EMCC_VERSION VERSION_LESS 3.1.40)
+    set(phi_common_flags ${phi_common_flags} -bigobj)
   endif()
 
 elseif(PHI_COMPILER_CHEERP)
