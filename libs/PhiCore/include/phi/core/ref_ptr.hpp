@@ -170,11 +170,15 @@ public:
             {
                 delete m_Ptr;
                 delete m_ControlBlock;
+                m_ControlBlock = nullptr;
             }
         }
 
         m_Ptr = ptr;
-        allocate_control_block();
+        if (ptr)
+        {
+            m_ControlBlock = allocate_control_block();
+        }
 
         return *this;
     }
@@ -319,6 +323,11 @@ public:
         }
 
         return 0u;
+    }
+
+    PHI_NODISCARD constexpr boolean has_control_block() const noexcept
+    {
+        return m_ControlBlock != nullptr;
     }
 
     constexpr explicit operator bool() const noexcept

@@ -58,16 +58,22 @@ TEST_CASE("ref_ptr")
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         phi::ref_ptr<int> ptr2{};
 
         CHECK_FALSE(ptr2);
         CHECK(ptr2.get() == nullptr);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK_FALSE(ptr2.has_control_block());
 
         phi::ref_ptr<int> ptr3 = {};
 
         CHECK_FALSE(ptr3);
         CHECK(ptr3.get() == nullptr);
+        CHECK(ptr3.use_count() == 0u);
+        CHECK_FALSE(ptr3.has_control_block());
     }
 
     SECTION("ref_ptr(nullptr_t)")
@@ -76,16 +82,22 @@ TEST_CASE("ref_ptr")
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         phi::ref_ptr<int> ptr2{nullptr};
 
         CHECK_FALSE(ptr2);
         CHECK(ptr2.get() == nullptr);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK_FALSE(ptr2.has_control_block());
 
         phi::ref_ptr<int> ptr3 = nullptr;
 
         CHECK_FALSE(ptr3);
         CHECK(ptr3.get() == nullptr);
+        CHECK(ptr3.use_count() == 0u);
+        CHECK_FALSE(ptr3.has_control_block());
     }
 
     SECTION("ref_ptr(TypeT*)")
@@ -95,6 +107,16 @@ TEST_CASE("ref_ptr")
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
+
+        int*              raw_ptr2 = nullptr;
+        phi::ref_ptr<int> ptr2(raw_ptr2);
+
+        CHECK_FALSE(ptr2);
+        CHECK(ptr2.get() == nullptr);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK(ptr2.has_control_block());
     }
 
     SECTION("ref_ptr(OtherT*)")
@@ -104,6 +126,16 @@ TEST_CASE("ref_ptr")
 
         REQUIRE(ptr);
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
+
+        Derived*           raw_ptr2 = nullptr;
+        phi::ref_ptr<Base> ptr2{raw_ptr2};
+
+        CHECK_FALSE(ptr2);
+        CHECK(ptr2.get() == nullptr);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK(ptr2.has_control_block());
     }
 
     SECTION("ref_ptr(const ref_ptr&)")
@@ -116,6 +148,10 @@ TEST_CASE("ref_ptr")
         REQUIRE(copy);
         CHECK(copy.get() == raw_ptr);
         CHECK(ptr == copy);
+        CHECK(ptr.use_count() == 2u);
+        CHECK(copy.use_count() == 2u);
+        CHECK(ptr.has_control_block());
+        CHECK(copy.has_control_block());
 
         phi::ref_ptr<int> empty;
         phi::ref_ptr<int> empty_copy(empty);
@@ -124,6 +160,10 @@ TEST_CASE("ref_ptr")
         CHECK_FALSE(empty_copy);
         CHECK(empty.get() == empty_copy.get());
         CHECK(empty == empty_copy);
+        CHECK(empty.use_count() == 0u);
+        CHECK(empty_copy.use_count() == 0u);
+        CHECK_FALSE(empty.has_control_block());
+        CHECK_FALSE(empty_copy.has_control_block());
     }
 
     SECTION("ref_ptr(ref_ptr&&)")
@@ -134,6 +174,11 @@ TEST_CASE("ref_ptr")
 
         CHECK(copy);
         CHECK(copy.get() == raw_ptr);
+        CHECK(copy.use_count() == 1u);
+        CHECK(copy.has_control_block());
+        CHECK(base.get() == nullptr);
+        CHECK(base.use_count() == 0u);
+        CHECK_FALSE(base.has_control_block());
     }
 
     SECTION("ref_ptr(const not_null_ref_ptr&)")
@@ -145,6 +190,9 @@ TEST_CASE("ref_ptr")
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
         CHECK(ptr.get() == not_null.get());
+        CHECK(ptr.use_count() == 2u);
+        CHECK(not_null.use_count() == 2u);
+        CHECK(ptr.has_control_block());
     }
 
     SECTION("ref_ptr(not_null_ref_ptr&&)")
@@ -155,6 +203,8 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
     }
 
     SECTION("operator=(nullptr_t)")
@@ -162,16 +212,22 @@ TEST_CASE("ref_ptr")
         phi::ref_ptr<int> ptr(new int(21));
 
         CHECK(ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         ptr = nullptr;
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         ptr = nullptr;
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
     }
 
     SECTION("operator=(TypeT*)")
@@ -184,17 +240,23 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         ptr = null;
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         int* raw_ptr2 = new int(44);
         ptr           = raw_ptr2;
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
     }
 
     SECTION("operator=(const ref_ptr&)")
@@ -208,17 +270,29 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 2u);
+        CHECK(ptr2.use_count() == 2u);
+        CHECK(ptr.has_control_block());
+        CHECK(ptr2.has_control_block());
 
         ptr = phi::ref_ptr<int>();
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK_FALSE(ptr.has_control_block());
+        CHECK(ptr2.has_control_block());
 
         int* raw_ptr3 = new int(44);
         ptr           = raw_ptr3;
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK(ptr.has_control_block());
+        CHECK(ptr2.has_control_block());
     }
 
     SECTION("operator=(ref_ptr&&)")
@@ -232,17 +306,29 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK(ptr.has_control_block());
+        CHECK_FALSE(ptr2.has_control_block());
 
         int* raw_ptr3 = new int(23);
         ptr           = phi::ref_ptr<int>(raw_ptr3);
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK(ptr.has_control_block());
+        CHECK_FALSE(ptr2.has_control_block());
 
         ptr = phi::ref_ptr<int>();
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
+        CHECK_FALSE(ptr2.has_control_block());
 
         int* raw_ptr4 = new int(24);
 
@@ -250,6 +336,10 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr4);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 0u);
+        CHECK(ptr.has_control_block());
+        CHECK_FALSE(ptr2.has_control_block());
     }
 
     SECTION("operator=(const not_null_ref_ptr&)")
@@ -263,12 +353,18 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 2u);
+        CHECK(not_null.use_count() == 2u);
+        CHECK(ptr.has_control_block());
 
         int* raw_ptr3 = new int(44);
         ptr           = phi::not_null_ref_ptr<int>(raw_ptr3);
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(not_null.use_count() == 1u);
+        CHECK(ptr.has_control_block());
     }
 
     SECTION("operator=(not_null_ref_ptr&&)")
@@ -282,6 +378,8 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         int*                       raw_ptr3 = new int(23);
         phi::not_null_ref_ptr<int> not_null2(raw_ptr3);
@@ -289,6 +387,8 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         ptr.clear();
 
@@ -298,6 +398,8 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr);
         CHECK(ptr.get() == raw_ptr4);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
     }
 
     SECTION("clear")
@@ -308,11 +410,16 @@ TEST_CASE("ref_ptr")
 
         CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         ptr = new int(23);
         ptr.clear();
 
+        CHECK_FALSE(ptr);
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
     }
 
     SECTION("reset")
@@ -323,25 +430,35 @@ TEST_CASE("ref_ptr")
         ptr.reset(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         int* raw_ptr2 = new int(22);
         ptr.reset(raw_ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         ptr.reset(raw_ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr.has_control_block());
 
         ptr.reset(nullptr);
 
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
 
         ptr.reset(new int(23));
         int* int_nullptr = nullptr;
         ptr.reset(int_nullptr);
 
         CHECK(ptr.get() == nullptr);
+        CHECK(ptr.use_count() == 0u);
+        CHECK_FALSE(ptr.has_control_block());
     }
 
     SECTION("swap")
@@ -355,11 +472,19 @@ TEST_CASE("ref_ptr")
 
         CHECK(ptr.get() == raw_ptr2);
         CHECK(ptr2.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK(ptr.has_control_block());
+        CHECK(ptr2.has_control_block());
 
         phi::swap(ptr, ptr2);
 
         CHECK(ptr.get() == raw_ptr);
         CHECK(ptr2.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
+        CHECK(ptr.has_control_block());
+        CHECK(ptr2.has_control_block());
     }
 
     SECTION("use_count")
@@ -632,6 +757,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         phi::not_null_ref_ptr<int> ptr(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
     }
 
     SECTION("not_null_ref_ptr(OtherT*)")
@@ -640,6 +766,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         phi::not_null_ref_ptr<Base> ptr(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
     }
 
     SECTION("not_null_ref_ptr(const not_null_ref_ptr&)")
@@ -650,6 +777,8 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
         CHECK(copy.get() == raw_ptr);
         CHECK(ptr == copy);
+        CHECK(ptr.use_count() == 2u);
+        CHECK(copy.use_count() == 2u);
     }
 
     SECTION("not_null_ref_ptr(not_null_ref_ptr&&)")
@@ -659,6 +788,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         phi::not_null_ref_ptr<int> copy(phi::move(base));
 
         CHECK(copy.get() == raw_ptr);
+        CHECK(copy.use_count() == 1u);
     }
 
     SECTION("operator=(TypeT*)")
@@ -669,11 +799,13 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         ptr = raw_ptr;
 
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
 
         int* raw_ptr2 = new int(44);
         ptr           = raw_ptr2;
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
     }
 
     SECTION("operator=(const not_null_ref_ptr&)")
@@ -686,11 +818,15 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         ptr = ptr2;
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 2u);
+        CHECK(ptr2.use_count() == 2u);
 
         int* raw_ptr3 = new int(44);
         ptr           = raw_ptr3;
 
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
     }
 
     SECTION("operator=(not_null_ref_ptr&&)")
@@ -703,17 +839,20 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         ptr = phi::move(ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
 
         int* raw_ptr3 = new int(23);
         ptr           = phi::not_null_ref_ptr<int>(raw_ptr3);
 
         CHECK(ptr.get() == raw_ptr3);
+        CHECK(ptr.use_count() == 1u);
 
         int* raw_ptr4 = new int(24);
 
         ptr = phi::not_null_ref_ptr<int>(raw_ptr4);
 
         CHECK(ptr.get() == raw_ptr4);
+        CHECK(ptr.use_count() == 1u);
     }
 
     SECTION("reset")
@@ -724,15 +863,18 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
         ptr.reset(raw_ptr);
 
         CHECK(ptr.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
 
         int* raw_ptr2 = new int(22);
         ptr.reset(raw_ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
 
         ptr.reset(raw_ptr2);
 
         CHECK(ptr.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
     }
 
     SECTION("swap")
@@ -746,11 +888,15 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
         CHECK(ptr.get() == raw_ptr2);
         CHECK(ptr2.get() == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
 
         phi::swap(ptr, ptr2);
 
         CHECK(ptr.get() == raw_ptr);
         CHECK(ptr2.get() == raw_ptr2);
+        CHECK(ptr.use_count() == 1u);
+        CHECK(ptr2.use_count() == 1u);
     }
 
     SECTION("use_count")
@@ -798,6 +944,7 @@ TEST_CASE("not_null_ref_ptr", "[Core][ref_ptr][ref_ptr][not_null_ref_ptr]")
 
         int* new_ptr = static_cast<int*>(ptr);
         CHECK(new_ptr == raw_ptr);
+        CHECK(ptr.use_count() == 1u);
 
         phi::not_null_ref_ptr<int> const_ptr(ptr);
 
