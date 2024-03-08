@@ -34,10 +34,10 @@ DETAIL_PHI_BEGIN_NAMESPACE()
  * @note This function uses move semantics to avoid unnecessary copying of values.
  * @see https://en.cppreference.com/w/cpp/algorithm/accumulate
  */
-// TODO: noexcept
 template <typename InputIteratorT, typename TypeT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last,
-                                                      TypeT init)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT
+accumulate(InputIteratorT first, InputIteratorT last, TypeT init) noexcept(noexcept(
+        first != last) && noexcept(++first) && noexcept(*first) && noexcept(init += *first))
 {
     for (; first != last; ++first)
     {
@@ -47,7 +47,6 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, Inpu
     return init;
 }
 
-// TODO: noexcept
 /**
  * @brief Calculates the sum of values in the range [first, last), using the binary operation `binary_operator`
  * to accumulate the values.
@@ -67,8 +66,10 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, Inpu
  * @see https://en.cppreference.com/w/cpp/algorithm/accumulate
  */
 template <typename InputIteratorT, typename TypeT, typename BinaryOperationT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(InputIteratorT first, InputIteratorT last,
-                                                      TypeT init, BinaryOperationT binary_operator)
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT
+accumulate(InputIteratorT first, InputIteratorT last, TypeT init, BinaryOperationT binary_operator) noexcept(
+        noexcept(first != last) && noexcept(++first) && noexcept(*first) && noexcept(
+                init = binary_operator(init, *first)))
 {
     for (; first != last; ++first)
     {
