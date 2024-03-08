@@ -365,8 +365,8 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      LLVM_VERSION: 14
-      MULL_VERSION: 14
+      LLVM_VERSION: 12
+      MULL_VERSION: 12
 
     steps:
       - name: Checkout
