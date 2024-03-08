@@ -102,8 +102,16 @@ runtime_failure_test(NAME "container_string_view_RemoveSuffix" SOURCE
                      "src/container/string_view/remove_suffix.fail.cpp")
 runtime_failure_test(NAME "container_string_view_Copy" SOURCE
                      "src/container/string_view/copy.fail.cpp")
-runtime_failure_test(NAME "container_string_view_Substr" SOURCE
-                     "src/container/string_view/substr.fail.cpp")
+runtime_failure_test(NAME "container_string_view_substring_view_iterator" SOURCE
+                     "src/container/string_view/substring_view_iterator.fail.cpp")
+runtime_failure_test(NAME "container_string_view_substring_view_iterator2" SOURCE
+                     "src/container/string_view/substring_view_iterator2.fail.cpp")
+runtime_failure_test(NAME "container_string_view_substring_view_iterator3" SOURCE
+                     "src/container/string_view/substring_view_iterator3.fail.cpp")
+runtime_failure_test(NAME "container_string_view_substring_view" SOURCE
+                     "src/container/string_view/substring_view.fail.cpp")
+runtime_failure_test(NAME "container_string_view_substring_view2" SOURCE
+                     "src/container/string_view/substring_view2.fail.cpp")
 
 # core
 

@@ -8,5 +8,5 @@ int main()
 
     phi::string_view view("test");
 
-    (void)view.substring_view(6u);
+    (void)view.substring_view(99u);
 }
