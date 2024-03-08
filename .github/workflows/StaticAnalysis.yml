@@ -362,7 +362,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   mull:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     env:
       LLVM_VERSION: 12
