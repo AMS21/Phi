@@ -13,10 +13,6 @@ function(phi_find_js_crosscompiler)
       DOC "cmake crosscompiling emulator")
   endif()
 
-  # Remove any quotes since Emscripten in version prior to 2.0.22 adds them for
-  # 'CMAKE_CROSSCOMPILING_EMULATOR' which causes the execute_process call to fail
-  string(REPLACE "\"" "" CMAKE_CROSSCOMPILING_EMULATOR "${CMAKE_CROSSCOMPILING_EMULATOR}")
-
   # Detect node version
   if(CMAKE_CROSSCOMPILING_EMULATOR)
     execute_process(
@@ -126,7 +122,11 @@ if(PHI_PLATFORM_EMSCRIPTEN)
   phi_trace("Compiler: emcc-${PHI_EMCC_VERSION}")
   phi_trace("Machine: ${PHI_EMCC_MACHINE}")
 
-  phi_find_js_crosscompiler()
+  # Emscripten versions prior to 2.0.22 add double quotes for 'CMAKE_CROSSCOMPILING_EMULATOR' which
+  # causes problems
+  if(PHI_EMCC_VERSION VERSION_LESS 2.0.22)
+    string(REPLACE "\"" "" CMAKE_CROSSCOMPILING_EMULATOR ${CMAKE_CROSSCOMPILING_EMULATOR})
+  endif()
 
   if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
     phi_warn("Compiling with Emscripten but no node cross-compiling emulator found!")
@@ -148,8 +148,6 @@ elseif(PHI_PLATFORM_CHEERP)
 
   phi_trace("Compiler: Cheerp-${PHI_CHEERP_VERSION} based on clang-${PHI_CHEERP_CLANG_VERSION}")
   phi_trace("Machine: ${PHI_CHEERP_MACHINE}")
-
-  phi_find_js_crosscompiler()
 
   if(NOT CMAKE_CROSSCOMPILING_EMULATOR)
     phi_warn("Compiling with Cheerp but no node cross-compiling emulator found!")
@@ -375,6 +373,10 @@ phi_log("Compiler ID: \"${CMAKE_CXX_COMPILER_ID}\"")
 phi_log("Generator: \"${CMAKE_GENERATOR}\"")
 
 # Crosscompiling emulator
+if(PHI_COMPILER_EMCC OR PHI_COMPILER_CHEERP)
+  phi_find_js_crosscompiler()
+endif()
+
 if(CMAKE_CROSSCOMPILING_EMULATOR)
   phi_log("Crosscompiling emulator: \"${CMAKE_CROSSCOMPILING_EMULATOR}\"")
 endif()
