@@ -255,6 +255,8 @@ runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow_
                      "src/core/observer_ptr/deref_null2_const.fail.cpp")
 
 # ref_ptr
+runtime_failure_test(NAME "core_ref_ptr_control_block_double_free" SOURCE
+                     "src/core/ref_ptr/control_block_double_free.fail.cpp")
 runtime_failure_test(NAME "core_ref_ptr_not_null_flat" SOURCE
                      "src/core/ref_ptr/not_null_flat.fail.cpp")
 runtime_failure_test(NAME "core_ref_ptr_not_null_observer" SOURCE
