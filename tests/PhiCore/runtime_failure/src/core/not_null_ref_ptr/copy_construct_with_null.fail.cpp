@@ -1,7 +1,6 @@
 #include "SetupRuntimeFailure.hpp"
 
 #include <phi/compiler_support/warning.hpp>
-#include <phi/core/move.hpp>
 
 // NOTE: Very evil macro hack to create an invalid not_null_ref_ptr
 PHI_CLANG_SUPPRESS_WARNING("-Wkeyword-macro")
@@ -16,8 +15,7 @@ int main()
     phi::not_null_ref_ptr<int> not_null = new int(21);
 
     // Create invalid state
-    delete not_null.m_Ptr;
-    not_null.m_Ptr = nullptr;
+    not_null.m_ControlBlock = nullptr;
 
-    phi::not_null_ref_ptr<int> ptr(phi::move(not_null));
+    phi::not_null_ref_ptr<int> ptr(not_null);
 }

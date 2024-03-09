@@ -197,20 +197,16 @@ runtime_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/assign_nullptr.fail.cpp")
 runtime_failure_test(NAME "core_not_null_ref_ptr_construct_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/construct_nullptr.fail.cpp")
-runtime_failure_test(
-  NAME "core_not_null_ref_ptr_copy_construct_not_null_ref_ptr_null_control_block" SOURCE
-  "src/core/not_null_ref_ptr/copy_construct_not_null_ref_ptr_null_control_block.fail.cpp")
-runtime_failure_test(
-  NAME "core_not_null_ref_ptr_copy_construct_not_null_ref_ptr_null_pointer" SOURCE
-  "src/core/not_null_ref_ptr/copy_construct_not_null_ref_ptr_null_pointer.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_copy_construct_with_null" SOURCE
+                     "src/core/not_null_ref_ptr/copy_construct_with_null.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_copy_construct_with_null2" SOURCE
+                     "src/core/not_null_ref_ptr/copy_construct_with_null2.fail.cpp")
 runtime_failure_test(NAME "core_not_null_ref_ptr_get_after_moved" SOURCE
                      "src/core/not_null_ref_ptr/get_after_moved.fail.cpp")
-runtime_failure_test(
-  NAME "core_not_null_ref_ptr_move_construct_not_null_ref_ptr_null_control_block" SOURCE
-  "src/core/not_null_ref_ptr/move_construct_not_null_ref_ptr_null_control_block.fail.cpp")
-runtime_failure_test(
-  NAME "core_not_null_ref_ptr_move_construct_not_null_ref_ptr_null_pointer" SOURCE
-  "src/core/not_null_ref_ptr/move_construct_not_null_ref_ptr_null_pointer.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_move_construct_with_null" SOURCE
+                     "src/core/not_null_ref_ptr/move_construct_with_null.fail.cpp")
+runtime_failure_test(NAME "core_not_null_ref_ptr_move_construct_with_null2" SOURCE
+                     "src/core/not_null_ref_ptr/move_construct_with_null2.fail.cpp")
 runtime_failure_test(NAME "core_not_null_ref_ptr_reset_nullptr" SOURCE
                      "src/core/not_null_ref_ptr/reset_nullptr.fail.cpp")
 
@@ -279,14 +275,14 @@ runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow_
 # ref_ptr
 runtime_failure_test(NAME "core_ref_ptr_control_block_double_free" SOURCE
                      "src/core/ref_ptr/control_block_double_free.fail.cpp")
-runtime_failure_test(NAME "core_ref_ptr_copy_construct_not_null_ref_ptr_null_pointer" SOURCE
-                     "src/core/ref_ptr/copy_construct_not_null_ref_ptr_null_pointer.fail.cpp")
-runtime_failure_test(NAME "core_ref_ptr_copy_construct_not_null_ref_ptr_null_control_block" SOURCE
-                     "src/core/ref_ptr/copy_construct_not_null_ref_ptr_null_control_block.fail.cpp")
-runtime_failure_test(NAME "core_ref_ptr_move_construct_not_null_ref_ptr_null_pointer" SOURCE
-                     "src/core/ref_ptr/move_construct_not_null_ref_ptr_null_pointer.fail.cpp")
-runtime_failure_test(NAME "core_ref_ptr_move_construct_not_null_ref_ptr_null_control_block" SOURCE
-                     "src/core/ref_ptr/move_construct_not_null_ref_ptr_null_control_block.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_copy_construct_with_null" SOURCE
+                     "src/core/ref_ptr/copy_construct_with_null.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_copy_construct_with_null2" SOURCE
+                     "src/core/ref_ptr/copy_construct_with_null2.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_move_construct_with_null" SOURCE
+                     "src/core/ref_ptr/move_construct_with_null.fail.cpp")
+runtime_failure_test(NAME "core_ref_ptr_move_construct_with_null2" SOURCE
+                     "src/core/ref_ptr/move_construct_with_null2.fail.cpp")
 runtime_failure_test(NAME "core_ref_ptr_not_null_flat" SOURCE
                      "src/core/ref_ptr/not_null_flat.fail.cpp")
 runtime_failure_test(NAME "core_ref_ptr_not_null_observer" SOURCE

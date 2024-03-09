@@ -15,8 +15,7 @@ int main()
     phi::not_null_ref_ptr<int> not_null = new int(21);
 
     // Create invalid state
-    delete not_null.m_ControlBlock;
-    not_null.m_ControlBlock = nullptr;
+    not_null.m_Ptr = nullptr;
 
     phi::not_null_ref_ptr<int> ptr(not_null);
 }
