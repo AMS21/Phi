@@ -189,8 +189,32 @@ runtime_failure_test(NAME "core_not_null_observer_ptr_assign_nullptr" SOURCE
                      "src/core/not_null_observer_ptr/assign_nullptr.fail.cpp")
 runtime_failure_test(NAME "core_not_null_observer_ptr_construct_nullptr" SOURCE
                      "src/core/not_null_observer_ptr/construct_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_copy_construct_null" SOURCE
+                     "src/core/not_null_observer_ptr/copy_construct_null.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_copy_construct_null2" SOURCE
+                     "src/core/not_null_observer_ptr/copy_construct_null2.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_deref_null_const" SOURCE
+                     "src/core/not_null_observer_ptr/deref_null_const.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_deref_null_const2" SOURCE
+                     "src/core/not_null_observer_ptr/deref_null_const2.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_deref_null" SOURCE
+                     "src/core/not_null_observer_ptr/deref_null.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_deref_null2" SOURCE
+                     "src/core/not_null_observer_ptr/deref_null2.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_get" SOURCE
+                     "src/core/not_null_observer_ptr/get.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_move_construct_null" SOURCE
+                     "src/core/not_null_observer_ptr/move_construct_null.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_move_construct_null2" SOURCE
+                     "src/core/not_null_observer_ptr/move_construct_null2.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_not_null_flat" SOURCE
+                     "src/core/not_null_observer_ptr/not_null_flat.fail.cpp")
 runtime_failure_test(NAME "core_not_null_observer_ptr_reset_nullptr" SOURCE
                      "src/core/not_null_observer_ptr/reset_nullptr.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_swap" SOURCE
+                     "src/core/not_null_observer_ptr/swap.fail.cpp")
+runtime_failure_test(NAME "core_not_null_observer_ptr_swap2" SOURCE
+                     "src/core/not_null_observer_ptr/swap2.fail.cpp")
 
 # not_null_ref_ptr
 runtime_failure_test(NAME "core_not_null_ref_ptr_assign_nullptr" SOURCE
@@ -259,6 +283,10 @@ runtime_failure_test(NAME "core_not_null_scope_ptr_swap_after_move2" SOURCE
                      "src/core/not_null_scope_ptr/swap_after_move2.fail.cpp")
 
 # observer_ptr
+runtime_failure_test(NAME "core_observer_ptr_copy_construct_null" SOURCE
+                     "src/core/observer_ptr/copy_construct_null.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_copy_construct_null2" SOURCE
+                     "src/core/observer_ptr/copy_construct_null2.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_not_null" SOURCE
                      "src/core/observer_ptr/not_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_not_null_flat" SOURCE
@@ -267,6 +295,10 @@ runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star" 
                      "src/core/observer_ptr/deref_null.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_star_const" SOURCE
                      "src/core/observer_ptr/deref_null_const.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_move_construct_null" SOURCE
+                     "src/core/observer_ptr/move_construct_null.fail.cpp")
+runtime_failure_test(NAME "core_observer_ptr_move_construct_null2" SOURCE
+                     "src/core/observer_ptr/move_construct_null2.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow" SOURCE
                      "src/core/observer_ptr/deref_null2.fail.cpp")
 runtime_failure_test(NAME "core_observer_ptr_dereference_nullptr_operator_arrow_const" SOURCE
