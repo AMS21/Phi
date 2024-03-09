@@ -169,51 +169,62 @@ constexpr bool test_to_address()
 {
     int integer = 0;
     CHECK_NOEXCEPT(phi::to_address(&integer));
-    PHI_RELEASE_ASSERT(phi::to_address(&integer) == &integer);
+    PHI_RELEASE_ASSERT(phi::to_address(&integer) == &integer,
+                       "phi::to_address(&integer) == &integer");
 
     P1 pointer1(&integer);
     CHECK_NOEXCEPT(phi::to_address(pointer1));
-    PHI_RELEASE_ASSERT(phi::to_address(pointer1) == &integer);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer1) == &integer,
+                       "phi::to_address(pointer1) == &integer");
 
     P2 pointer2(&integer);
     CHECK_NOEXCEPT(phi::to_address(pointer2));
-    PHI_RELEASE_ASSERT(phi::to_address(pointer2) == &integer);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer2) == &integer,
+                       "phi::to_address(pointer2) == &integer");
 
     P3 pointer3(&integer);
     CHECK_NOEXCEPT(phi::to_address(pointer3));
-    PHI_RELEASE_ASSERT(phi::to_address(pointer3) == &integer);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer3) == &integer,
+                       "phi::to_address(pointer3) == &integer");
 
     P4 pointer4(&integer);
     CHECK_NOEXCEPT(phi::to_address(pointer4));
-    PHI_RELEASE_ASSERT(phi::to_address(pointer4) == &integer);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer4) == &integer,
+                       "phi::to_address(pointer4) == &integer");
 
     CHECK_SAME_TYPE(decltype(phi::to_address(phi::declval<int const*>())), int const*);
     CHECK_SAME_TYPE(decltype(phi::to_address(phi::declval<P5>())), int const*);
     CHECK_SAME_TYPE(decltype(phi::to_address(phi::declval<P6>())), int const*);
 
     P7::CanQual<int>* pointer7 = nullptr;
-    PHI_RELEASE_ASSERT(phi::to_address(pointer7) == nullptr);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer7) == nullptr,
+                       "phi::to_address(pointer7) == nullptr");
     CHECK_SAME_TYPE(decltype(phi::to_address(pointer7)), P7::CanQual<int>*);
 
     Holder<Incomplete>*               pointer8_nil = nullptr; // for C++03 compatibility
     P8::FancyPtrA<Holder<Incomplete>> pointer_8a   = pointer8_nil;
-    PHI_RELEASE_ASSERT(phi::to_address(pointer_8a) == pointer8_nil);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer_8a) == pointer8_nil,
+                       "phi::to_address(pointer_8a) == pointer8_nil");
     CHECK_SAME_TYPE(decltype(phi::to_address(pointer_8a)), decltype(pointer8_nil));
 
     P8::FancyPtrB<Holder<Incomplete>> pointer_8b = pointer8_nil;
-    PHI_RELEASE_ASSERT(phi::to_address(pointer_8b) == pointer8_nil);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer_8b) == pointer8_nil,
+                       "phi::to_address(pointer_8b) == pointer8_nil");
     CHECK_SAME_TYPE(decltype(phi::to_address(pointer_8b)), decltype(pointer8_nil));
 
     int pointer9[2] = {};
-    PHI_RELEASE_ASSERT(phi::to_address(pointer9) == pointer9);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer9) == pointer9,
+                       "phi::to_address(pointer9) == pointer9");
     CHECK_SAME_TYPE(decltype(phi::to_address(pointer9)), int*);
 
     const int pointer10[2] = {};
-    PHI_RELEASE_ASSERT(phi::to_address(pointer10) == pointer10);
+    PHI_RELEASE_ASSERT(phi::to_address(pointer10) == pointer10,
+                       "phi::to_address(pointer10) == pointer10");
     CHECK_SAME_TYPE(decltype(phi::to_address(pointer10)), const int*);
 
     int (*pointer11)() = nullptr;
-    PHI_RELEASE_ASSERT(phi::to_address(&pointer11) == &pointer11);
+    PHI_RELEASE_ASSERT(phi::to_address(&pointer11) == &pointer11,
+                       "phi::to_address(&pointer11) == &pointer11");
     CHECK_SAME_TYPE(decltype(phi::to_address(&pointer11)), int (**)());
 
     return true;

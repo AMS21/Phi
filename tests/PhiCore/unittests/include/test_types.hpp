@@ -862,16 +862,16 @@ public:
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
-        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
-        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
     }
 
     PHI_EXTENDED_CONSTEXPR tracked(tracked&& other) noexcept
         : m_Value{other.m_Value}
         , m_State{State::Constructed}
     {
-        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
-        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
 
         other.m_State = State::MovedFrom;
     }
@@ -879,9 +879,9 @@ public:
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
     PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
     {
-        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
-        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
-        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed, "this object is already destroyed");
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
 
         m_Value = other.m_Value;
         return *this;
@@ -889,9 +889,9 @@ public:
 
     PHI_EXTENDED_CONSTEXPR tracked& operator=(tracked&& other) noexcept
     {
-        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
-        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom);
-        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed, "this object is already destroyed");
+        PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
+        PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
 
         m_Value       = other.m_Value;
         other.m_State = State::MovedFrom;
@@ -901,23 +901,24 @@ public:
 
     PHI_CONSTEXPR_DESTRUCTOR ~tracked() noexcept
     {
-        PHI_RELEASE_ASSERT(m_State != State::Destroyed); // Double destroy
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed,
+                           "~tracked() called on destroyed object - double destroy");
 
         m_State = State::Destroyed;
     }
 
     PHI_EXTENDED_CONSTEXPR void set_value(int new_val) noexcept
     {
-        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
-        PHI_RELEASE_ASSERT(m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed, "set_value() called on destroyed object");
+        PHI_RELEASE_ASSERT(m_State != State::MovedFrom, "set_value() called on moved-from object");
 
         m_Value = new_val;
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const noexcept
     {
-        PHI_RELEASE_ASSERT(m_State != State::Destroyed);
-        PHI_RELEASE_ASSERT(m_State != State::MovedFrom);
+        PHI_RELEASE_ASSERT(m_State != State::Destroyed, "value() called on destroyed object");
+        PHI_RELEASE_ASSERT(m_State != State::MovedFrom, "value() called on moved-from object");
 
         return m_Value;
     }
@@ -1003,7 +1004,7 @@ struct trap_self_assign
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
-        PHI_RELEASE_ASSERT(&other != this);
+        PHI_RELEASE_ASSERT(&other != this, "self-assignment is not allowed");
 
         return *this;
     }
@@ -1011,7 +1012,7 @@ struct trap_self_assign
     PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(trap_self_assign&& other) noexcept
     {
         PHI_UNUSED_PARAMETER(other);
-        PHI_RELEASE_ASSERT(&other != this);
+        PHI_RELEASE_ASSERT(&other != this, "self-assignment is not allowed");
 
         return *this;
     }

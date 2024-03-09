@@ -37,7 +37,7 @@ constexpr bool test_ignore()
 {
     {
         const phi::ignore_t<unsigned char>& res = (phi::ignore = 42);
-        PHI_RELEASE_ASSERT(&res == &phi::ignore);
+        PHI_RELEASE_ASSERT(&res == &phi::ignore, "Result should be phi::ignore");
     }
     {
         phi::ignore_t<unsigned char> copy  = phi::ignore;

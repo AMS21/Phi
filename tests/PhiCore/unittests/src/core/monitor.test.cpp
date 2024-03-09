@@ -14,6 +14,9 @@
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wuseless-cast")
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
+#    if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Wunsafe-loop-optimizations")
+#    endif
 
 struct MonitorTestData
 {

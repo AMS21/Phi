@@ -309,9 +309,13 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<const volatile int*&&>();
     test_is_nothrow_constructible<void*>();
     test_is_nothrow_constructible<char[3]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_nothrow_constructible<char[]>();
+#endif
     test_is_nothrow_constructible<char* [3]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_nothrow_constructible<char*[]>();
+#endif
     test_is_nothrow_constructible<int(*)[3]>();
     test_is_nothrow_constructible<int(*)[]>();
     test_is_not_nothrow_constructible<int(&)[3]>();
@@ -323,13 +327,17 @@ TEST_CASE("is_nothrow_constructible")
 #else
     test_is_nothrow_constructible<char[3][2]>();
 #endif
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_nothrow_constructible<char[][2]>();
+#endif
 #if PHI_COMPILER_IS_BELOW(EMCC, 1, 39, 0)
     test_is_nothrow_constructible_no_std<char* [3][2]>();
 #else
     test_is_nothrow_constructible<char* [3][2]>();
 #endif
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_nothrow_constructible<char*[][2]>();
+#endif
     test_is_nothrow_constructible<int(*)[3][2]>();
     test_is_nothrow_constructible<int(*)[][2]>();
     test_is_not_nothrow_constructible<int(&)[3][2]>();
@@ -337,7 +345,9 @@ TEST_CASE("is_nothrow_constructible")
     test_is_not_nothrow_constructible<int(&&)[3][2]>();
     test_is_not_nothrow_constructible<int(&&)[][2]>();
     test_is_nothrow_constructible<class_type>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_nothrow_constructible<class_type[]>();
+#endif
     test_is_nothrow_constructible<class_type[2]>();
     test_is_nothrow_constructible<template_type<void>>();
     test_is_nothrow_constructible<template_type<int>>();

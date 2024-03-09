@@ -14,9 +14,9 @@ PHI_EXTENDED_CONSTEXPR bool test_fill_constexpr()
 
     phi::fill(phi::begin(array), phi::end(array), -1);
 
-    PHI_RELEASE_ASSERT(phi::at(array, 0u) == -1);
-    PHI_RELEASE_ASSERT(phi::at(array, 1u) == -1);
-    PHI_RELEASE_ASSERT(phi::at(array, 2u) == -1);
+    PHI_RELEASE_ASSERT(phi::at(array, 0u) == -1, "phi::at(array, 0u) == -1");
+    PHI_RELEASE_ASSERT(phi::at(array, 1u) == -1, "phi::at(array, 1u) == -1");
+    PHI_RELEASE_ASSERT(phi::at(array, 2u) == -1, "phi::at(array, 2u) == -1");
 
     return true;
 }

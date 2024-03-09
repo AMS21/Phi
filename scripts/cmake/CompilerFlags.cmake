@@ -452,7 +452,6 @@ elseif(PHI_COMPILER_GCC)
       -Wconversion # warn on type conversions that may lose data
       -Wdate-time
       -Wdouble-promotion # warn if float is implicit promoted to double
-      -Wduplicated-branches # warn if if / else branches have duplicated code
       -Wduplicated-cond # warn if if / else chain has duplicated conditions
       -Wextra # reasonable and standard
       -Wfloat-equal
@@ -586,7 +585,10 @@ elseif(PHI_COMPILER_GCC)
 
   # GCC-8 flags
   if(PHI_GCC_VERSION VERSION_GREATER_EQUAL 8)
-    set(phi_warning_flags ${phi_warning_flags} -Wsuggest-attribute=cold -Wsuggest-attribute=malloc)
+    set(phi_warning_flags
+        ${phi_warning_flags}
+        -Wduplicated-branches # warn if if / else branches have duplicated code
+        -Wsuggest-attribute=cold -Wsuggest-attribute=malloc)
     set(phi_cxx_warning_flags ${phi_cxx_warning_flags} -Wcatch-value=3 -Wextra-semi)
     set(phi_debug_flags ${phi_debug_flags} -ginline-points -gstatement-frontiers)
     set(phi_coverage_compile_flags ${phi_coverage_compile_flags} -fprofile-abs-path)

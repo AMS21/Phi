@@ -14,7 +14,7 @@
 #include <vector>
 
 template <typename TypeT>
-void test_is_trivially_move_constructible_impl()
+void test_is_trivially_move_constructible_no_std_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
     STATIC_REQUIRE(phi::is_trivially_move_constructible<TypeT>::value);
@@ -29,6 +29,14 @@ void test_is_trivially_move_constructible_impl()
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_move_constructible<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_move_constructible<TypeT>);
+#endif
+}
+
+template <typename TypeT>
+void test_is_trivially_move_constructible_impl()
+{
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
+    test_is_trivially_move_constructible_no_std_impl<TypeT>();
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_trivially_move_constructible<TypeT>::value);
@@ -37,7 +45,7 @@ void test_is_trivially_move_constructible_impl()
 }
 
 template <typename TypeT>
-void test_is_not_trivially_move_constructible_impl()
+void test_is_not_trivially_move_constructible_no_std_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_move_constructible<TypeT>::value);
@@ -50,6 +58,14 @@ void test_is_not_trivially_move_constructible_impl()
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_move_constructible<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_move_constructible<TypeT>);
+#endif
+}
+
+template <typename TypeT>
+void test_is_not_trivially_move_constructible_impl()
+{
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_CONSTRUCTIBLE()
+    test_is_not_trivially_move_constructible_no_std_impl<TypeT>();
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_trivially_move_constructible<TypeT>::value);
@@ -101,6 +117,15 @@ void test_is_not_trivially_move_constructible()
     test_is_not_trivially_move_constructible_impl<const volatile TypeT>();
 }
 
+template <typename TypeT>
+void test_is_not_trivially_move_constructible_no_std()
+{
+    test_is_not_trivially_move_constructible_no_std_impl<TypeT>();
+    test_is_not_trivially_move_constructible_no_std_impl<const TypeT>();
+    test_is_not_trivially_move_constructible_no_std_impl<volatile TypeT>();
+    test_is_not_trivially_move_constructible_no_std_impl<const volatile TypeT>();
+}
+
 struct A
 {
     A(const A&);
@@ -135,7 +160,11 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_trivially_move_constructible_c<B>();
     test_is_not_trivially_move_constructible<C>();
 
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<void>();
+#else
+    test_is_not_trivially_move_constructible_no_std<void>();
+#endif
     test_is_trivially_move_constructible_cv<phi::nullptr_t>();
     test_is_trivially_move_constructible_cv<bool>();
     test_is_trivially_move_constructible_cv<char>();
@@ -200,20 +229,24 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_trivially_move_constructible_cv<volatile int*&&>();
     test_is_trivially_move_constructible_cv<const volatile int*&&>();
     test_is_trivially_move_constructible_cv<void*>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<char[3]>();
     test_is_not_trivially_move_constructible<char[]>();
     test_is_not_trivially_move_constructible<char* [3]>();
     test_is_not_trivially_move_constructible<char*[]>();
+#endif
     test_is_trivially_move_constructible_cv<int(*)[3]>();
     test_is_trivially_move_constructible_cv<int(*)[]>();
     test_is_trivially_move_constructible_cv<int(&)[3]>();
     test_is_trivially_move_constructible_cv<int(&)[]>();
     test_is_trivially_move_constructible_cv<int(&&)[3]>();
     test_is_trivially_move_constructible_cv<int(&&)[]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<char[3][2]>();
     test_is_not_trivially_move_constructible<char[][2]>();
     test_is_not_trivially_move_constructible<char* [3][2]>();
     test_is_not_trivially_move_constructible<char*[][2]>();
+#endif
     test_is_trivially_move_constructible_cv<int(*)[3][2]>();
     test_is_trivially_move_constructible_cv<int(*)[][2]>();
     test_is_trivially_move_constructible_cv<int(&)[3][2]>();
@@ -221,8 +254,10 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_trivially_move_constructible_cv<int(&&)[3][2]>();
     test_is_trivially_move_constructible_cv<int(&&)[][2]>();
     test_is_not_trivially_move_constructible<class_type>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<class_type[]>();
     test_is_not_trivially_move_constructible<class_type[2]>();
+#endif
     test_is_trivially_move_constructible_c<template_type<void>>();
     test_is_trivially_move_constructible_c<template_type<int>>();
     test_is_trivially_move_constructible_c<template_type<class_type>>();
@@ -280,7 +315,9 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_trivially_move_constructible_cv<EnumUnsigned>();
     test_is_trivially_move_constructible_cv<EnumClass>();
     test_is_trivially_move_constructible_cv<EnumStruct>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<function_type>();
+#endif
     test_is_trivially_move_constructible_cv<function_ptr>();
     test_is_trivially_move_constructible_cv<member_object_ptr>();
     test_is_trivially_move_constructible_cv<member_function_ptr>();
@@ -335,6 +372,8 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_trivially_move_constructible_c<trap_deref>();
     test_is_trivially_move_constructible_c<trap_array_subscript>();
 
+    // TODO: The exact range is still unknown
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_constructible<void()>();
     test_is_not_trivially_move_constructible<void()&>();
     test_is_not_trivially_move_constructible<void() &&>();
@@ -534,6 +573,7 @@ TEST_CASE("is_trivially_move_constructible")
     test_is_not_trivially_move_constructible<int(int, ...) const volatile noexcept>();
     test_is_not_trivially_move_constructible<int(int, ...) const volatile & noexcept>();
     test_is_not_trivially_move_constructible<int(int, ...) const volatile && noexcept>();
+#endif
 
     test_is_trivially_move_constructible_cv<void (*)()>();
     test_is_trivially_move_constructible_cv<void (*)() noexcept>();

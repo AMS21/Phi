@@ -249,9 +249,13 @@ TEST_CASE("is_implicitly_default_constructible")
     test_is_not_implicitly_default_constructible<const volatile int*&&>();
     test_is_implicitly_default_constructible<void*>();
     test_is_implicitly_default_constructible<char[3]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_implicitly_default_constructible<char[]>();
+#endif
     test_is_implicitly_default_constructible<char* [3]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_implicitly_default_constructible<char*[]>();
+#endif
     test_is_implicitly_default_constructible<int(*)[3]>();
     test_is_implicitly_default_constructible<int(*)[]>();
     test_is_not_implicitly_default_constructible<int(&)[3]>();
@@ -259,9 +263,13 @@ TEST_CASE("is_implicitly_default_constructible")
     test_is_not_implicitly_default_constructible<int(&&)[3]>();
     test_is_not_implicitly_default_constructible<int(&&)[]>();
     test_is_implicitly_default_constructible<char[3][2]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_implicitly_default_constructible<char[][2]>();
+#endif
     test_is_implicitly_default_constructible<char* [3][2]>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_implicitly_default_constructible<char*[][2]>();
+#endif
     test_is_implicitly_default_constructible<int(*)[3][2]>();
     test_is_implicitly_default_constructible<int(*)[][2]>();
     test_is_not_implicitly_default_constructible<int(&)[3][2]>();
@@ -269,7 +277,9 @@ TEST_CASE("is_implicitly_default_constructible")
     test_is_not_implicitly_default_constructible<int(&&)[3][2]>();
     test_is_not_implicitly_default_constructible<int(&&)[][2]>();
     test_is_implicitly_default_constructible<class_type>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_implicitly_default_constructible<class_type[]>();
+#endif
     test_is_implicitly_default_constructible<class_type[2]>();
     test_is_implicitly_default_constructible<template_type<void>>();
     test_is_implicitly_default_constructible<template_type<int>>();

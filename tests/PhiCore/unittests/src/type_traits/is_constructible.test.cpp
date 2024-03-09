@@ -373,8 +373,8 @@ TEST_CASE("is_constructible")
 #endif
 
     // Test unconstructible types
-    // NOTE: This really only works with GCC and I don't believe its required by the standard
-#if PHI_COMPILER_IS(GCC)
+    // NOTE: This really only works with GCC-8+ and I don't believe its required by the standard
+#if PHI_COMPILER_IS_ATLEAST(GCC, 8, 0, 0)
     test_is_not_constructible<Foo<int>>();
 #endif
 

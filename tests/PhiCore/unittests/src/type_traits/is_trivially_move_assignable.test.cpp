@@ -14,7 +14,7 @@
 #include <vector>
 
 template <typename TypeT>
-void test_is_trivially_move_assignable_impl()
+void test_is_trivially_move_assignable_no_std_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE()
     STATIC_REQUIRE(phi::is_trivially_move_assignable<TypeT>::value);
@@ -29,6 +29,14 @@ void test_is_trivially_move_assignable_impl()
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_move_assignable<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_move_assignable<TypeT>);
+#endif
+}
+
+template <typename TypeT>
+void test_is_trivially_move_assignable_impl()
+{
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE()
+    test_is_trivially_move_assignable_no_std_impl<TypeT>();
 
     // Standard compatibility
     STATIC_REQUIRE(std::is_trivially_move_assignable<TypeT>::value);
@@ -37,7 +45,7 @@ void test_is_trivially_move_assignable_impl()
 }
 
 template <typename TypeT>
-void test_is_not_trivially_move_assignable_impl()
+void test_is_not_trivially_move_assignable_no_std_impl()
 {
 #if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE()
     STATIC_REQUIRE_FALSE(phi::is_trivially_move_assignable<TypeT>::value);
@@ -50,6 +58,14 @@ void test_is_not_trivially_move_assignable_impl()
 
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_trivially_move_assignable<TypeT>);
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivially_move_assignable<TypeT>);
+#endif
+}
+
+template <typename TypeT>
+void test_is_not_trivially_move_assignable_impl()
+{
+#if PHI_HAS_WORKING_IS_TRIVIALLY_MOVE_ASSIGNABLE()
+    test_is_not_trivially_move_assignable_no_std_impl<TypeT>();
 
     // Standard compatibility
     STATIC_REQUIRE_FALSE(std::is_trivially_move_assignable<TypeT>::value);
@@ -92,6 +108,15 @@ void test_is_not_trivially_move_assignable()
     test_is_not_trivially_move_assignable_impl<const volatile TypeT>();
 }
 
+template <typename TypeT>
+void test_is_not_trivially_move_assignable_no_std()
+{
+    test_is_not_trivially_move_assignable_no_std_impl<TypeT>();
+    test_is_not_trivially_move_assignable_no_std_impl<const TypeT>();
+    test_is_not_trivially_move_assignable_no_std_impl<volatile TypeT>();
+    test_is_not_trivially_move_assignable_no_std_impl<const volatile TypeT>();
+}
+
 struct A
 {
     A& operator=(const A&);
@@ -113,7 +138,11 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable<B>();
     test_is_not_trivially_move_assignable<C>();
 
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void>();
+#endif
     test_is_trivially_move_assignable_v<phi::nullptr_t>();
     test_is_trivially_move_assignable_v<bool>();
     test_is_trivially_move_assignable_v<char>();
@@ -313,6 +342,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable<trap_array_subscript>();
 
     test_is_not_trivially_move_assignable<void()>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void()&>();
     test_is_not_trivially_move_assignable<void() &&>();
     test_is_not_trivially_move_assignable<void() const>();
@@ -324,7 +354,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void() const volatile>();
     test_is_not_trivially_move_assignable<void() const volatile&>();
     test_is_not_trivially_move_assignable<void() const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void()&>();
+    test_is_not_trivially_move_assignable_no_std<void() &&>();
+    test_is_not_trivially_move_assignable_no_std<void() const>();
+    test_is_not_trivially_move_assignable_no_std<void() const&>();
+    test_is_not_trivially_move_assignable_no_std<void() const&&>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<void() noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void() & noexcept>();
     test_is_not_trivially_move_assignable<void() && noexcept>();
     test_is_not_trivially_move_assignable<void() const noexcept>();
@@ -336,8 +380,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void() const volatile noexcept>();
     test_is_not_trivially_move_assignable<void() const volatile & noexcept>();
     test_is_not_trivially_move_assignable<void() const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void() & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void() const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<void(int)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(int)&>();
     test_is_not_trivially_move_assignable<void(int) &&>();
     test_is_not_trivially_move_assignable<void(int) const>();
@@ -349,7 +407,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int) const volatile>();
     test_is_not_trivially_move_assignable<void(int) const volatile&>();
     test_is_not_trivially_move_assignable<void(int) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(int)&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) &&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const&&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<void(int) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(int) & noexcept>();
     test_is_not_trivially_move_assignable<void(int) && noexcept>();
     test_is_not_trivially_move_assignable<void(int) const noexcept>();
@@ -361,8 +433,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int) const volatile noexcept>();
     test_is_not_trivially_move_assignable<void(int) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<void(int) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(int) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int) const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<void(...)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(...)&>();
     test_is_not_trivially_move_assignable<void(...) &&>();
     test_is_not_trivially_move_assignable<void(...) const>();
@@ -374,7 +460,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(...) const volatile>();
     test_is_not_trivially_move_assignable<void(...) const volatile&>();
     test_is_not_trivially_move_assignable<void(...) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(...)&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) &&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const&&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<void(...) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(...) & noexcept>();
     test_is_not_trivially_move_assignable<void(...) && noexcept>();
     test_is_not_trivially_move_assignable<void(...) const noexcept>();
@@ -386,8 +486,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(...) const volatile noexcept>();
     test_is_not_trivially_move_assignable<void(...) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<void(...) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(...) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(...) const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<void(int, ...)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(int, ...)&>();
     test_is_not_trivially_move_assignable<void(int, ...) &&>();
     test_is_not_trivially_move_assignable<void(int, ...) const>();
@@ -399,7 +513,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int, ...) const volatile>();
     test_is_not_trivially_move_assignable<void(int, ...) const volatile&>();
     test_is_not_trivially_move_assignable<void(int, ...) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(int, ...)&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) &&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const&&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<void(int, ...) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<void(int, ...) & noexcept>();
     test_is_not_trivially_move_assignable<void(int, ...) && noexcept>();
     test_is_not_trivially_move_assignable<void(int, ...) const noexcept>();
@@ -411,8 +539,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int, ...) const volatile noexcept>();
     test_is_not_trivially_move_assignable<void(int, ...) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<void(int, ...) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<int()>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int()&>();
     test_is_not_trivially_move_assignable<int() &&>();
     test_is_not_trivially_move_assignable<int() const>();
@@ -424,7 +566,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int() const volatile>();
     test_is_not_trivially_move_assignable<int() const volatile&>();
     test_is_not_trivially_move_assignable<int() const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int()&>();
+    test_is_not_trivially_move_assignable_no_std<int() &&>();
+    test_is_not_trivially_move_assignable_no_std<int() const>();
+    test_is_not_trivially_move_assignable_no_std<int() const&>();
+    test_is_not_trivially_move_assignable_no_std<int() const&&>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<int() noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int() & noexcept>();
     test_is_not_trivially_move_assignable<int() && noexcept>();
     test_is_not_trivially_move_assignable<int() const noexcept>();
@@ -436,8 +592,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int() const volatile noexcept>();
     test_is_not_trivially_move_assignable<int() const volatile & noexcept>();
     test_is_not_trivially_move_assignable<int() const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int() & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int() const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<int(int)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(int)&>();
     test_is_not_trivially_move_assignable<int(int) &&>();
     test_is_not_trivially_move_assignable<int(int) const>();
@@ -449,7 +619,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int) const volatile>();
     test_is_not_trivially_move_assignable<int(int) const volatile&>();
     test_is_not_trivially_move_assignable<int(int) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(int)&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) &&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const&&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<int(int) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(int) & noexcept>();
     test_is_not_trivially_move_assignable<int(int) && noexcept>();
     test_is_not_trivially_move_assignable<int(int) const noexcept>();
@@ -461,8 +645,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int) const volatile noexcept>();
     test_is_not_trivially_move_assignable<int(int) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<int(int) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(int) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int) const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<int(...)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(...)&>();
     test_is_not_trivially_move_assignable<int(...) &&>();
     test_is_not_trivially_move_assignable<int(...) const>();
@@ -474,7 +672,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(...) const volatile>();
     test_is_not_trivially_move_assignable<int(...) const volatile&>();
     test_is_not_trivially_move_assignable<int(...) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(...)&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) &&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const&&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<int(...) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(...) & noexcept>();
     test_is_not_trivially_move_assignable<int(...) && noexcept>();
     test_is_not_trivially_move_assignable<int(...) const noexcept>();
@@ -486,8 +698,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(...) const volatile noexcept>();
     test_is_not_trivially_move_assignable<int(...) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<int(...) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(...) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(...) const volatile && noexcept>();
+#endif
 
     test_is_not_trivially_move_assignable<int(int, ...)>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(int, ...)&>();
     test_is_not_trivially_move_assignable<int(int, ...) &&>();
     test_is_not_trivially_move_assignable<int(int, ...) const>();
@@ -499,7 +725,21 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int, ...) const volatile>();
     test_is_not_trivially_move_assignable<int(int, ...) const volatile&>();
     test_is_not_trivially_move_assignable<int(int, ...) const volatile&&>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(int, ...)&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) &&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const&&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile&&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile&&>();
+#endif
     test_is_not_trivially_move_assignable<int(int, ...) noexcept>();
+#if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_move_assignable<int(int, ...) & noexcept>();
     test_is_not_trivially_move_assignable<int(int, ...) && noexcept>();
     test_is_not_trivially_move_assignable<int(int, ...) const noexcept>();
@@ -511,6 +751,19 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int, ...) const volatile noexcept>();
     test_is_not_trivially_move_assignable<int(int, ...) const volatile & noexcept>();
     test_is_not_trivially_move_assignable<int(int, ...) const volatile && noexcept>();
+#else
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) volatile && noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile & noexcept>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) const volatile && noexcept>();
+#endif
 
     test_is_trivially_move_assignable_v<void (*)()>();
     test_is_trivially_move_assignable_v<void (*)() noexcept>();

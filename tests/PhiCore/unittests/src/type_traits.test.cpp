@@ -7,7 +7,6 @@
 // Very basic tests that all the type traits are actually included.
 // Functional testing is done in separate files
 
-PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-member-function")
 
 struct S

@@ -25,6 +25,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+// Invalid warning from older gcc versions
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wunsafe-loop-optimizations")
+#endif
+
 template <typename TypeT, size_t Size>
 class array
 {
@@ -461,6 +466,10 @@ public:
 
     TypeT elements[Size];
 };
+
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_POP()
+#endif
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(

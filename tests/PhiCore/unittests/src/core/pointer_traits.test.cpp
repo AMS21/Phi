@@ -143,18 +143,18 @@ constexpr bool test_pointer_to()
     {
         int i = 0;
         CHECK_SAME_TYPE(decltype(phi::pointer_traits<int*>::pointer_to(i)), int*);
-        PHI_RELEASE_ASSERT(phi::pointer_traits<int*>::pointer_to(i) == &i);
+        PHI_RELEASE_ASSERT(phi::pointer_traits<int*>::pointer_to(i) == &i, "");
     }
     {
         int i = 0;
         CHECK_SAME_TYPE(decltype(phi::pointer_traits<const int*>::pointer_to(i)), const int*);
-        PHI_RELEASE_ASSERT(phi::pointer_traits<const int*>::pointer_to(i) == &i);
+        PHI_RELEASE_ASSERT(phi::pointer_traits<const int*>::pointer_to(i) == &i, "");
     }
     {
         bool test = true;
         Ptr  ptr{&test};
         CHECK_SAME_TYPE(decltype(phi::pointer_traits<Ptr>::pointer_to(test)), Ptr);
-        PHI_RELEASE_ASSERT(phi::pointer_traits<Ptr>::pointer_to(test) == ptr);
+        PHI_RELEASE_ASSERT(phi::pointer_traits<Ptr>::pointer_to(test) == ptr, "");
     }
 
     return true;

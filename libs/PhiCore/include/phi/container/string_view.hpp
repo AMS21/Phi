@@ -1009,8 +1009,8 @@ public:
         : m_Data{array}
         , m_Length{Size}
     {
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     template <size_t Size>
@@ -1018,8 +1018,8 @@ public:
         : m_Data{array.data()}
         , m_Length{array.size()}
     {
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL
@@ -1027,8 +1027,8 @@ public:
         : m_Data{string}
         , m_Length{string_length(string)}
     {
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL
@@ -1036,8 +1036,8 @@ public:
         : m_Data(string)
         , m_Length(count)
     {
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     not_null_basic_string_view(nullptr_t) = delete;
@@ -1055,8 +1055,8 @@ public:
         m_Data   = array;
         m_Length = Size;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1068,8 +1068,8 @@ public:
         m_Data   = array.data();
         m_Length = Size;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1164,8 +1164,8 @@ public:
         m_Data -= count.unsafe();
         m_Length += count;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1184,8 +1184,8 @@ public:
         m_Data += count.unsafe();
         m_Length -= count;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1196,8 +1196,8 @@ public:
 
         m_Length -= count;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1206,8 +1206,8 @@ public:
     {
         m_Length = new_size;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return *this;
     }
@@ -1218,8 +1218,8 @@ public:
         other = *this;
         *this = tmp;
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     // String operations
@@ -1232,8 +1232,8 @@ public:
         const size_type rlen = min(count, length() - pos);
         TraitsT::copy(destination, data() + pos.unsafe(), rlen.unsafe());
 
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
 
         return rlen;
     }
@@ -1579,8 +1579,8 @@ private:
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
     {
-        PHI_ASSERT(m_Data != nullptr);
-        PHI_ASSERT(m_Length > 0u);
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
         PHI_ASSERT(pos < length(), "Index out of bounds!");
 
         return m_Data[pos.unsafe()];
