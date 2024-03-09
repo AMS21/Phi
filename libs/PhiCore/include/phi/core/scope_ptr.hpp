@@ -48,16 +48,16 @@ public:
     using const_pointer   = const TypeT*;
 
     constexpr scope_ptr() noexcept
-        : m_Ptr{nullptr}
+        : m_Ptr(nullptr)
     {}
 
     constexpr scope_ptr(nullptr_t) noexcept
-        : m_Ptr{nullptr}
+        : m_Ptr(nullptr)
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     constexpr scope_ptr(OtherT* ptr) noexcept
-        : m_Ptr{ptr}
+        : m_Ptr(ptr)
     {}
 
     scope_ptr(const scope_ptr<TypeT>&) = delete;
@@ -68,21 +68,17 @@ public:
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     constexpr scope_ptr(scope_ptr<OtherT>&& other) noexcept
-        : m_Ptr{other.leak_ptr()}
+        : m_Ptr(other.leak_ptr())
     {}
 
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<TypeT>&& other) noexcept
-        : m_Ptr{other.leak_ptr()}
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign from moved not_null_scope_ptr");
-    }
+        : m_Ptr(other.leak_ptr())
+    {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
-        : m_Ptr{other.leak_ptr()}
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign from moved not_null_scope_ptr");
-    }
+        : m_Ptr(other.leak_ptr())
+    {}
 
     PHI_CONSTEXPR_DESTRUCTOR ~scope_ptr() noexcept
     {
@@ -105,8 +101,6 @@ public:
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR scope_ptr<TypeT>& operator=(not_null_scope_ptr<OtherT>&& other) noexcept
     {
-        PHI_ASSERT(other.get() != nullptr, "Trying to assign from moved not_null_scope_ptr");
-
         reset(other.leak_ptr());
 
         return *this;
@@ -158,12 +152,14 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+
         return not_null_flat_ptr{get()};
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const not_null_flat_ptr not_null_flat() const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+
         return not_null_flat_ptr{get()};
     }
 
@@ -183,6 +179,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null_observer() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+
         return not_null_observer_ptr<TypeT>{get()};
     }
 
@@ -191,6 +188,7 @@ public:
             const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+
         return not_null_observer_ptr<const TypeT>{get()};
     }
 
@@ -236,17 +234,15 @@ public:
         phi::swap(m_Ptr, other.m_Ptr);
     }
 
-    PHI_NODISCARD constexpr TypeT* get() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT* get() noexcept
     {
         return m_Ptr;
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    PHI_NODISCARD constexpr const TypeT* get() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT* get() const noexcept
     {
         return m_Ptr;
     }
-#endif
 
     constexpr explicit operator bool() const noexcept
     {
@@ -271,24 +267,28 @@ public:
     PHI_EXTENDED_CONSTEXPR TypeT* operator->() PHI_ATTRIBUTE_RETURNS_NONNULL
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const PHI_ATTRIBUTE_RETURNS_NONNULL
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR TypeT& operator*()
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return *get();
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return *get();
     }
 
@@ -381,7 +381,7 @@ public:
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(OtherT* ptr) noexcept
-        : m_Ptr{ptr}
+        : m_Ptr(ptr)
     {
         PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
     }
@@ -390,16 +390,12 @@ public:
 
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(not_null_scope_ptr<TypeT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
-    }
+    {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr(not_null_scope_ptr<OtherT>&& other) noexcept
         : m_Ptr(other.leak_ptr())
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
-    }
+    {}
 
     PHI_CONSTEXPR_DESTRUCTOR ~not_null_scope_ptr() noexcept
     {
@@ -412,8 +408,6 @@ public:
     PHI_EXTENDED_CONSTEXPR not_null_scope_ptr<TypeT>& operator=(
             not_null_scope_ptr<OtherT>&& other) noexcept
     {
-        PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to phi::not_null_scope_ptr");
-
         if (m_Ptr != other.get())
         {
             reset(other.leak_ptr());
@@ -449,12 +443,14 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+
         return not_null_flat_ptr{get()};
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const not_null_flat_ptr not_null_flat() const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
+
         return not_null_flat_ptr{get()};
     }
 
@@ -462,6 +458,7 @@ public:
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<OtherT> not_null_observer() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+
         return not_null_observer_ptr<OtherT>{get()};
     }
 
@@ -470,6 +467,7 @@ public:
                                                not_null_observer() const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
+
         return not_null_observer_ptr<const OtherT>{get()};
     }
 
@@ -499,14 +497,13 @@ public:
 
     operator boolean() = delete;
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR TypeT* get() noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Accessing phi::not_null_scope_ptr after it was deleted");
 
         return m_Ptr;
     }
 
-#if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
     PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_EXTENDED_CONSTEXPR const TypeT* get()
             const noexcept
     {
@@ -514,7 +511,6 @@ public:
 
         return m_Ptr;
     }
-#endif
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL explicit operator const TypeT*()
             const noexcept
@@ -530,24 +526,28 @@ public:
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->()
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return get();
     }
 
     PHI_EXTENDED_CONSTEXPR TypeT& operator*()
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return *get();
     }
 
     PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
+
         return *get();
     }
 

@@ -343,8 +343,12 @@ runtime_failure_test(NAME "core_scope_ptr_not_null_observer_const" SOURCE
                      "src/core/scope_ptr/not_null_observer_const.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star" SOURCE
                      "src/core/scope_ptr/deref_null.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_star_const" SOURCE
+                     "src/core/scope_ptr/deref_null_const.fail.cpp")
 runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_arrow" SOURCE
                      "src/core/scope_ptr/deref_null2.fail.cpp")
+runtime_failure_test(NAME "core_scope_ptr_dereference_nullptr_operator_arrow_const" SOURCE
+                     "src/core/scope_ptr/deref_null_const2.fail.cpp")
 
 # source_location
 runtime_failure_test(NAME "core_source_location_construct_file_nullptr" SOURCE
