@@ -36,8 +36,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
  */
 template <typename InputIteratorT, typename TypeT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT
-accumulate(InputIteratorT first, InputIteratorT last, TypeT init) noexcept(noexcept(
-        first != last) && noexcept(++first) && noexcept(*first) && noexcept(init += *first))
+accumulate(InputIteratorT first, InputIteratorT last,
+           TypeT init) noexcept(noexcept(first != last) && noexcept(++first) && noexcept(*first) &&
+                                noexcept(init += *first))
 {
     for (; first != last; ++first)
     {
@@ -66,10 +67,11 @@ accumulate(InputIteratorT first, InputIteratorT last, TypeT init) noexcept(noexc
  * @see https://en.cppreference.com/w/cpp/algorithm/accumulate
  */
 template <typename InputIteratorT, typename TypeT, typename BinaryOperationT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT
-accumulate(InputIteratorT first, InputIteratorT last, TypeT init, BinaryOperationT binary_operator) noexcept(
-        noexcept(first != last) && noexcept(++first) && noexcept(*first) && noexcept(
-                init = binary_operator(init, *first)))
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT accumulate(
+        InputIteratorT first, InputIteratorT last, TypeT init,
+        BinaryOperationT binary_operator) noexcept(noexcept(first != last) && noexcept(++first) &&
+                                                   noexcept(*first) &&
+                                                   noexcept(init = binary_operator(init, *first)))
 {
     for (; first != last; ++first)
     {

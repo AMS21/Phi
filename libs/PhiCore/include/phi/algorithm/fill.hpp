@@ -12,11 +12,10 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ForwardIteratorT, typename TypeT>
-PHI_EXTENDED_CONSTEXPR void fill(
-        ForwardIteratorT first, ForwardIteratorT last,
-        const TypeT& value) noexcept(noexcept(first !=
-                                              last) && noexcept(++first) && noexcept(*first =
-                                                                                             value))
+PHI_EXTENDED_CONSTEXPR void fill(ForwardIteratorT first, ForwardIteratorT last,
+                                 const TypeT& value) noexcept(noexcept(first != last) &&
+                                                              noexcept(++first) &&
+                                                              noexcept(*first = value))
 {
     for (; first != last; ++first)
     {

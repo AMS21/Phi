@@ -14,8 +14,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename InputIteratorT, typename UnaryPredicateT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR InputIteratorT
-find_if_not(InputIteratorT first, InputIteratorT last, UnaryPredicateT predicate) noexcept(
-        noexcept(first != last) && noexcept(++first) && noexcept(!predicate(*first)))
+find_if_not(InputIteratorT first, InputIteratorT last,
+            UnaryPredicateT predicate) noexcept(noexcept(first != last) && noexcept(++first) &&
+                                                noexcept(!predicate(*first)))
 {
     for (; first != last; ++first)
     {

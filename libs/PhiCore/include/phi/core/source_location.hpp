@@ -51,13 +51,11 @@ struct source_location
 #    endif
                                                      ) noexcept
     {
-        return source_location
-        {
-            file, function, line,
+        return source_location{file, function, line,
 #    if PHI_SUPPORTS_BUILTIN_COLUMN()
-                    column
+                               column
 #    else
-                    0
+                               0
 #    endif
         };
     }

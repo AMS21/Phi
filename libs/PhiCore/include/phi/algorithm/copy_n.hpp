@@ -13,10 +13,11 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename InputIteratorT, typename SizeT, typename OutputIteratorT>
 PHI_EXTENDED_CONSTEXPR OutputIteratorT
-copy_n(InputIteratorT first, SizeT count, OutputIteratorT result) noexcept(
-        noexcept(count > 0) && noexcept(*result = *first) && noexcept(++result) && noexcept(
-                count == SizeT(1)) && noexcept(count !=
-                                               SizeT(1)) && noexcept(++count) && noexcept(++first))
+copy_n(InputIteratorT first, SizeT count,
+       OutputIteratorT result) noexcept(noexcept(count > 0) && noexcept(*result = *first) &&
+                                        noexcept(++result) && noexcept(count == SizeT(1)) &&
+                                        noexcept(count != SizeT(1)) && noexcept(++count) &&
+                                        noexcept(++first))
 {
     if (count > 0)
     {
