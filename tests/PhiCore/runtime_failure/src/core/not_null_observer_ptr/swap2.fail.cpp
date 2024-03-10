@@ -21,5 +21,5 @@ int main()
     int                             value = 21;
     phi::not_null_observer_ptr<int> other{&value};
 
-    (void)other.swap(not_null);
+    other.swap(not_null);
 }
