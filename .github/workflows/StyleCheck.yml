@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     env:
-      LLVM_VERSION: 17
+      LLVM_VERSION: 18
 
     steps:
       - name: Checkout
