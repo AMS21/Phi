@@ -7,7 +7,7 @@ endif()
 set(PHI_CACHE_OPTIONS
     "auto"
     CACHE STRING "Compiler cache to be used")
-set(PHI_CACHE_OPTIONS_VALUES "auto" "ccache" "sccache" "clcache")
+set(PHI_CACHE_OPTIONS_VALUES "auto" "sccache" "ccache" "clcache")
 set_property(CACHE PHI_CACHE_OPTIONS PROPERTY STRINGS ${PHI_CACHE_OPTIONS_VALUES})
 list(FIND PHI_CACHE_OPTIONS_VALUES ${PHI_CACHE_OPTIONS} PHI_CACHE_OPTIONS_INDEX)
 
