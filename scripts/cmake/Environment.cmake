@@ -37,6 +37,37 @@ elseif(CMAKE_CONFIGURATION_TYPES)
   phi_trace("CMake Configuration types: \"${phi_cmake_configuration_types_list}\"")
 endif()
 
+# Generator
+if(CMAKE_GENERATOR_PLATFORM AND CMAKE_GENERATOR_TOOLSET)
+  phi_log(
+    "Generator: \"${CMAKE_GENERATOR}-${CMAKE_GENERATOR_PLATFORM}-${CMAKE_GENERATOR_TOOLSET}\"")
+elseif(CMAKE_GENERATOR_PLATFORM)
+  phi_log("Generator: \"${CMAKE_GENERATOR}-${CMAKE_GENERATOR_PLATFORM}\"")
+elseif(CMAKE_GENERATOR_TOOLSET)
+  phi_log("Generator: \"${CMAKE_GENERATOR}-${CMAKE_GENERATOR_TOOLSET}\"")
+else()
+  phi_log("Generator: \"${CMAKE_GENERATOR}\"")
+endif()
+
+# Make program
+if(CMAKE_MAKE_PROGRAM)
+  execute_process(
+    COMMAND "${CMAKE_MAKE_PROGRAM}" --version
+    OUTPUT_VARIABLE MAKE_VERSION
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  if(MAKE_VERSION)
+    phi_log("Make program: \"${CMAKE_MAKE_PROGRAM}\" version ${MAKE_VERSION}")
+  else()
+    phi_log("Make program: \"${CMAKE_MAKE_PROGRAM}\"")
+  endif()
+endif()
+
+# Toolchain file
+if(CMAKE_TOOLCHAIN_FILE)
+  phi_log("Toolchain file: \"${CMAKE_TOOLCHAIN_FILE}\"")
+endif()
+
 # Detect Platform
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
   phi_set_cache_value(PHI_PLATFORM_WINDOWS 1)
@@ -81,7 +112,8 @@ else()
   phi_warn("Unsupported operating system or environment: '${CMAKE_SYSTEM_NAME}'")
 endif()
 
-phi_log("System name: ${CMAKE_SYSTEM_NAME}")
+phi_log("System: ${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_VERSION}")
+phi_log("System processor: ${CMAKE_SYSTEM_PROCESSOR}")
 
 # Detect the architecture
 phi_cxx_check_type_size(void* PHI_SIZEOF_VOID_PTR)
@@ -368,9 +400,6 @@ else()
 endif()
 
 phi_log("Compiler ID: \"${CMAKE_CXX_COMPILER_ID}\"")
-
-# Generator
-phi_log("Generator: \"${CMAKE_GENERATOR}\"")
 
 # Crosscompiling emulator
 if(PHI_COMPILER_EMCC OR PHI_COMPILER_CHEERP)
