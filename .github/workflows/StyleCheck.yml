@@ -35,17 +35,13 @@ jobs:
       - name: Run clang-format
         run: clang-format-${{ env.LLVM_VERSION }} -i $(find -iname "*.[hc]pp" -type f)
 
-      - name: Display diff
-        run: git diff
-
       - name: Report result
         run: |
-          git_dirty=$(git status -s)
-          if [ -z "$git_dirty" ]; then
+          if [ -z "$(git status -s)" ]; then
             echo Everything seems to be in order
           else
             echo Formatting problems found!
-            echo Check 'Display diff' for further information
+            git diff --color=always --minimal
             exit 1
           fi
 
