@@ -2,6 +2,40 @@ phi_include_guard()
 
 include(CMakeParseArguments)
 
+# C++-98/03 Flags are not available in any CMake version
+set(phi_known_cxx98_flags "-std=c++98" "-std:c++03" "-Qstd=c++98" "-Qstd=c++03")
+set(phi_known_cxx98_ext_flags "-std=gnu++98" "-std=gnu++03")
+
+# Check normal flag
+foreach(flag IN ITEMS ${phi_known_cxx98_flags})
+  set(var_name "PHI_STANDARD_FLAG${flag}")
+  string(REPLACE "-" "_" var_name ${var_name})
+  string(REPLACE "=" "_" var_name ${var_name})
+  string(REPLACE ":" "_" var_name ${var_name})
+
+  phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+  if(${var_name})
+    phi_set_cache_value(CMAKE_CXX98_STANDARD_COMPILE_OPTION ${flag})
+    break()
+  endif()
+endforeach()
+
+# Check extension flags
+foreach(flag IN ITEMS ${phi_known_cxx98_ext_flags})
+  set(var_name "PHI_EXTENSION_FLAG${flag}")
+  string(REPLACE "-" "_" var_name ${var_name})
+  string(REPLACE "=" "_" var_name ${var_name})
+  string(REPLACE ":" "_" var_name ${var_name})
+
+  phi_check_cxx_compiler_flag(${flag} ${var_name})
+
+  if(${var_name})
+    phi_set_cache_value(CMAKE_CXX98_EXTENSION_COMPILE_OPTION ${flag})
+    break()
+  endif()
+endforeach()
+
 # C++-11/14 Flags were introduces in CMake 3.1
 if(${CMAKE_VERSION} VERSION_LESS "3.1"
    OR NOT DEFINED CMAKE_CXX11_STANDARD_COMPILE_OPTION
@@ -336,14 +370,29 @@ function(phi_target_set_standard)
 
   # phi_trace( "Setting C++-${standard} standard for target \"${target}\"")
 
-  set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD ${std_STANDARD})
-  set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD_REQUIRED ON)
-
-  # Optionally allow extensions
-  if(std_EXTENSION)
-    set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS ON)
-  else()
-    # By default disable extensions
+  # For C++98 CMake don't set the flags so we need to do it manually and tell CMake not to set its
+  # flags
+  if(${std_STANDARD} STREQUAL "98")
+    # Disable flags from CMake
+    set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD_REQUIRED OFF)
     set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS OFF)
+
+    # Manually add C++98 flags
+    if(std_EXTENSION)
+      target_compile_options(${std_TARGET} PRIVATE ${CMAKE_CXX98_EXTENSION_COMPILE_OPTION})
+    else()
+      target_compile_options(${std_TARGET} PRIVATE ${CMAKE_CXX98_STANDARD_COMPILE_OPTION})
+    endif()
+  else()
+    set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD ${std_STANDARD})
+    set_property(TARGET ${std_TARGET} PROPERTY CXX_STANDARD_REQUIRED ON)
+
+    # Optionally allow extensions
+    if(std_EXTENSION)
+      set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS ON)
+    else()
+      # By default disable extensions
+      set_property(TARGET ${std_TARGET} PROPERTY CXX_EXTENSIONS OFF)
+    endif()
   endif()
 endfunction()
