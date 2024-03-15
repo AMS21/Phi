@@ -11,7 +11,7 @@
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/size_t.hpp"
-#include <initializer_list>
+#include "phi/forward/std/initializer_list.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

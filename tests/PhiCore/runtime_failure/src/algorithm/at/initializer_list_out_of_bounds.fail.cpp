@@ -1,6 +1,7 @@
 #include "SetupRuntimeFailure.hpp"
 
 #include <phi/algorithm/at.hpp>
+#include <initializer_list>
 
 int main()
 {

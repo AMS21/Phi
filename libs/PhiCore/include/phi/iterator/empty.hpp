@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/size_t.hpp"
+#include "phi/forward/std/initializer_list.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -26,13 +27,11 @@ PHI_NODISCARD constexpr bool empty(const TypeT (&array)[Size]) noexcept
     return false;
 }
 
-/*
 template <typename TypeT>
-PHI_NODISCARD constexpr bool empty(initializer_list<TypeT> il) noexcept
+PHI_NODISCARD constexpr bool empty(std::initializer_list<TypeT> init_list) noexcept
 {
-    return il.size() == 0;
+    return init_list.size() == 0;
 }
-*/
 
 DETAIL_PHI_END_NAMESPACE()
 
