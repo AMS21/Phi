@@ -1,5 +1,6 @@
 #include "phi/test/test_macros.hpp"
 
+#include <phi/compiler_support/likely.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/types.hpp>
 #include <phi/phi_config.hpp>
@@ -42,54 +43,20 @@ namespace test
     namespace detail
     {
         void CheckImpl(bool value, const char* expression, const char* file,
-                       unsigned long long line_number)
+                       unsigned long long line_number, bool required, bool expected)
         {
             AssertCount += 1u;
 
-            if (!value)
+            if (PHI_UNLIKELY(value != expected))
             {
                 PrintFailure(expression, file, line_number);
+
+                if (required)
+                {
+                    std::exit(EXIT_FAILURE);
+                }
 
                 ReturnValue = 1;
-            }
-        }
-
-        void CheckFalseImpl(bool value, const char* expression, const char* file,
-                            unsigned long long line_number)
-        {
-            AssertCount += 1u;
-
-            if (value)
-            {
-                PrintFailure(expression, file, line_number);
-
-                ReturnValue = 1;
-            }
-        }
-
-        void RequireImpl(bool value, const char* expression, const char* file,
-                         unsigned long long line_number)
-        {
-            AssertCount += 1u;
-
-            if (!value)
-            {
-                PrintFailure(expression, file, line_number);
-
-                std::exit(1);
-            }
-        }
-
-        void RequireFalseImpl(bool value, const char* expression, const char* file,
-                              unsigned long long line_number)
-        {
-            AssertCount += 1u;
-
-            if (value)
-            {
-                PrintFailure(expression, file, line_number);
-
-                std::exit(1);
             }
         }
 

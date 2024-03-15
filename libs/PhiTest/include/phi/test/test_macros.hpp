@@ -21,16 +21,7 @@ namespace test
         using TestSignature = void (*)();
 
         void CheckImpl(bool value, const char* expression, const char* file,
-                       unsigned long long line_number);
-
-        void CheckFalseImpl(bool value, const char* expression, const char* file,
-                            unsigned long long line_number);
-
-        void RequireImpl(bool value, const char* expression, const char* file,
-                         unsigned long long line_number);
-
-        void RequireFalseImpl(bool value, const char* expression, const char* file,
-                              unsigned long long line_number);
+                       unsigned long long line_number, bool required, bool expected);
 
         struct register_test_case
         {
@@ -59,20 +50,20 @@ extern int main();
 
 #define SECTION(...)
 
-#define DETAIL_CALL_IMPL(impl_name, ...)                                                           \
+#define DETAIL_CALL_IMPL(required, expected, ...)                                                  \
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wuseless-cast")                                           \
-    ::phi::test::detail::PHI_GLUE(, impl_name)(static_cast<bool>(__VA_ARGS__), #__VA_ARGS__,       \
-                                               __FILE__, __LINE__);                                \
+    ::phi::test::detail::CheckImpl(static_cast<bool>(__VA_ARGS__), #__VA_ARGS__, __FILE__,         \
+                                   __LINE__, required, expected);                                  \
     PHI_GCC_SUPPRESS_WARNING_POP()                                                                 \
     (void(0))
 
-#define CHECK(...) DETAIL_CALL_IMPL(CheckImpl, __VA_ARGS__)
+#define CHECK(...) DETAIL_CALL_IMPL(false, true, __VA_ARGS__)
 
-#define CHECK_FALSE(...) DETAIL_CALL_IMPL(CheckFalseImpl, __VA_ARGS__)
+#define CHECK_FALSE(...) DETAIL_CALL_IMPL(false, false, __VA_ARGS__)
 
-#define REQUIRE(...) DETAIL_CALL_IMPL(RequireImpl, __VA_ARGS__)
+#define REQUIRE(...) DETAIL_CALL_IMPL(true, true, __VA_ARGS__)
 
-#define REQUIRE_FALSE(...) DETAIL_CALL_IMPL(RequireFalseImpl, __VA_ARGS__)
+#define REQUIRE_FALSE(...) DETAIL_CALL_IMPL(true, false, __VA_ARGS__)
 
 #define SKIP_CHECK() ::phi::test::detail::IncreaseSkipCount()
 
