@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
 
@@ -24,8 +25,7 @@ namespace detail
 
     struct hex_digit_value_lookup_table
     {
-        PHI_CONSTEXPR hex_digit_value_lookup_table() noexcept
-            : m_Table{}
+        PHI_CONSTEXPR hex_digit_value_lookup_table() PHI_NOEXCEPT : m_Table{}
         {
             m_Table['0'] = 0;
             m_Table['1'] = 1;
@@ -51,7 +51,7 @@ namespace detail
             m_Table['F'] = 15;
         }
 
-        PHI_CONSTEXPR unsigned char operator[](char const index) const noexcept
+        PHI_CONSTEXPR unsigned char operator[](char const index) const PHI_NOEXCEPT
         {
             // NOLINTNEXTLINE(bugprone-signed-char-misuse)
             return static_cast<unsigned char>(m_Table[static_cast<size_t>(index)]);
@@ -66,7 +66,7 @@ namespace detail
     static PHI_CONSTEXPR hex_digit_value_lookup_table lookup_table;
 } // namespace detail
 
-PHI_NODISCARD PHI_CONSTEXPR u8 hex_digit_value(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR u8 hex_digit_value(const char character) PHI_NOEXCEPT
 {
     PHI_ASSERT((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f') ||
                        (character >= 'A' && character <= 'F'),

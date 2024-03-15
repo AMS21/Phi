@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/invoke.hpp"
@@ -34,18 +35,19 @@ class monitor final
 private:
     struct monitor_helper
     {
-        PHI_CONSTEXPR explicit monitor_helper(const monitor* monitor_arg) noexcept
-                PHI_ATTRIBUTE_NONNULL : monitor{monitor_arg},
-                                        lock{monitor->m_Mutex}
+        PHI_CONSTEXPR explicit monitor_helper(const monitor* monitor_arg)
+                PHI_NOEXCEPT PHI_ATTRIBUTE_NONNULL : monitor{monitor_arg},
+                                                     lock{monitor->m_Mutex}
         {}
 
-        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR SharedDataT* operator->() noexcept
+        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR SharedDataT* operator->()
+                PHI_NOEXCEPT
         {
             return &monitor->m_SharedData;
         }
 
         PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const SharedDataT* operator->()
-                const noexcept
+                const PHI_NOEXCEPT
         {
             return &monitor->m_SharedData;
         }
@@ -59,25 +61,24 @@ public:
     using element_type = SharedDataT;
 
     template <typename... ArgsT>
-    PHI_CONSTEXPR monitor(ArgsT&&... args) noexcept
-        : m_SharedData{forward<ArgsT>(args)...}
+    PHI_CONSTEXPR monitor(ArgsT&&... args) PHI_NOEXCEPT : m_SharedData{forward<ArgsT>(args)...}
     {}
 
     /*!
     * \brief Creates a monitor.
     * \param shared_data the data to be protected by the monitor.
     **/
-    PHI_CONSTEXPR explicit monitor(SharedDataT shared_data) noexcept
+    PHI_CONSTEXPR explicit monitor(SharedDataT shared_data) PHI_NOEXCEPT
         : m_SharedData{move(shared_data)}
     {}
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper operator->() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper operator->() PHI_NOEXCEPT
     {
         return monitor_helper(this);
     }
 
     // NOLINTNEXTLINE(readability-const-return-type)
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper operator->() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper operator->() const PHI_NOEXCEPT
     {
         return monitor_helper(this);
     }
@@ -92,30 +93,31 @@ public:
     **/
     template <typename CallableT>
     auto operator()(CallableT&& callable) const
-            noexcept(is_nothrow_invocable<CallableT, SharedDataT>::value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_invocable<CallableT, SharedDataT>::value)
     {
         std::lock_guard<std::mutex> lock_guard{m_Mutex};
         return invoke(forward<CallableT>(callable), m_SharedData);
     }
 #endif
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper ManuallyLock() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR monitor_helper ManuallyLock() PHI_NOEXCEPT
     {
         return monitor_helper{this};
     }
 
     // NOLINTNEXTLINE(readability-const-return-type)
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper ManuallyLock() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const monitor_helper ManuallyLock() const PHI_NOEXCEPT
     {
         return monitor_helper{this};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR SharedDataT& GetThreadUnsafeAccess() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR SharedDataT& GetThreadUnsafeAccess() PHI_NOEXCEPT
     {
         return m_SharedData;
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const SharedDataT& GetThreadUnsafeAccess() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const SharedDataT& GetThreadUnsafeAccess() const
+            PHI_NOEXCEPT
     {
         return m_SharedData;
     }

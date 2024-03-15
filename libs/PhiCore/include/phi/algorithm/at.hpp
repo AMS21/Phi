@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/forward/std/initializer_list.hpp"
@@ -16,7 +17,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, size_t Size>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index) noexcept
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index) PHI_NOEXCEPT
 {
     PHI_ASSERT(index < Size, "Index {} is out of bounds! Max value: {}", index, Size - 1);
 
@@ -26,9 +27,9 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index)
 template <typename ContainerT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index)
 #if defined(PHI_DEBUG)
-        noexcept(noexcept(container.at(index)))
+        PHI_NOEXCEPT_EXPR(noexcept(container.at(index)))
 #else
-        noexcept(noexcept(container[index]))
+        PHI_NOEXCEPT_EXPR(noexcept(container[index]))
 #endif
                 -> decltype(container[container.size()])
 {
@@ -44,7 +45,7 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index
 
 template <typename TypeT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT at(std::initializer_list<TypeT> list,
-                                              phi::size_t                  index) noexcept
+                                              phi::size_t                  index) PHI_NOEXCEPT
 {
     PHI_ASSERT(index < list.size(), "Index {} is out of bounds! Max value: {}", index,
                list.size() - 1);

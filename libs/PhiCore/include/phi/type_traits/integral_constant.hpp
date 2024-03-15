@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -23,12 +24,12 @@ struct integral_constant
 
     static PHI_CONSTEXPR_AND_CONST TypeT value = Value;
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR operator TypeT() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR operator TypeT() const PHI_NOEXCEPT
     {
         return value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT operator()() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT operator()() const PHI_NOEXCEPT
     {
         return value;
     }

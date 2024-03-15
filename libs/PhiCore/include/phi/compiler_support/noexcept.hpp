@@ -11,11 +11,11 @@
 
 #if PHI_HAS_FEATURE_NOEXCEPT()
 
-#    define PHI_NOEXCEPT() noexcept
+#    define PHI_NOEXCEPT noexcept
 
 #else
 
-#    define PHI_NOEXCEPT() /* Nothing */
+#    define PHI_NOEXCEPT /* Nothing */
 
 #endif
 

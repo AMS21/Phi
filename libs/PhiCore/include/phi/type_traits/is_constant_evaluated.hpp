@@ -11,6 +11,7 @@
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/intrinsics/is_constant_evaluated.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 
 #if PHI_HAS_FEATURE_IF_CONSTEVAL() || PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
 #    define PHI_HAS_WORKING_IS_CONSTANT_EVALUATED() 1
@@ -20,7 +21,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool is_constant_evaluated() noexcept
+PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool is_constant_evaluated() PHI_NOEXCEPT
 {
 #if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
     return PHI_IS_CONSTANT_EVALUATED();

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/types.hpp"
@@ -33,36 +34,28 @@ public:
     using const_reverse_iterator = phi::reverse_iterator<const_iterator>;
 
     // Constructors
-    PHI_CONSTEXPR vector2(TypeT val_x, TypeT val_y) noexcept
-        : x(val_x)
-        , y(val_y)
+    PHI_CONSTEXPR vector2(TypeT val_x, TypeT val_y) PHI_NOEXCEPT : x(val_x), y(val_y)
     {}
 
-    PHI_CONSTEXPR explicit vector2(TypeT val_xy) noexcept
-        : x(val_xy)
-        , y(val_xy)
+    PHI_CONSTEXPR explicit vector2(TypeT val_xy) PHI_NOEXCEPT : x(val_xy), y(val_xy)
     {}
 
-    PHI_CONSTEXPR vector2(const vector2<TypeT>& other) noexcept
-        : x(other.x)
-        , y(other.y)
+    PHI_CONSTEXPR vector2(const vector2<TypeT>& other) PHI_NOEXCEPT : x(other.x), y(other.y)
     {}
 
-    PHI_CONSTEXPR vector2(vector2<TypeT>&& other) noexcept
-        : x(move(other.x))
-        , y(move(other.y))
+    PHI_CONSTEXPR vector2(vector2<TypeT>&& other) PHI_NOEXCEPT : x(move(other.x)), y(move(other.y))
     {}
 
     template <typename OtherT>
-    PHI_CONSTEXPR vector2(const vector2<OtherT>& other) noexcept
-        : x(static_cast<TypeT>(other.x))
-        , y(static_cast<TypeT>(other.y))
+    PHI_CONSTEXPR vector2(const vector2<OtherT>& other) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(other.x)),
+          y(static_cast<TypeT>(other.y))
     {}
 
     template <typename OtherT>
-    PHI_CONSTEXPR vector2(vector2<OtherT>&& other) noexcept
-        : x(static_cast<TypeT>(move(other.x)))
-        , y(static_cast<TypeT>(move(other.y)))
+    PHI_CONSTEXPR vector2(vector2<OtherT>&& other) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(move(other.x))),
+          y(static_cast<TypeT>(move(other.y)))
     {}
 
     ~vector2() = default;
@@ -81,13 +74,13 @@ public:
 // Unary Operators
 
 template <typename TypeT>
-PHI_CONSTEXPR vector2<TypeT> operator+(const vector2<TypeT>& rhs) noexcept
+PHI_CONSTEXPR vector2<TypeT> operator+(const vector2<TypeT>& rhs) PHI_NOEXCEPT
 {
     return rhs;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR vector2<TypeT> operator-(const vector2<TypeT>& rhs) noexcept
+PHI_CONSTEXPR vector2<TypeT> operator-(const vector2<TypeT>& rhs) PHI_NOEXCEPT
 {
     static_assert(!is_integer<TypeT>::value || is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
@@ -102,14 +95,15 @@ PHI_MSVC_SUPPRESS_WARNING(
         4365) // 'action' : conversion from 'type_1' to 'type_2', signed/unsigned mismatch
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector2<LhsT> operator+(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept
+PHI_CONSTEXPR vector2<LhsT> operator+(const vector2<LhsT>& lhs,
+                                      const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     return vector2<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y);
 }
 
 template <typename LhsT, typename RhsT>
 PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator+=(vector2<LhsT>&       lhs,
-                                                 const vector2<RhsT>& rhs) noexcept
+                                                 const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     lhs.x += rhs.x;
     lhs.y += rhs.y;
@@ -118,14 +112,15 @@ PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator+=(vector2<LhsT>&       lhs,
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector2<LhsT> operator-(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept
+PHI_CONSTEXPR vector2<LhsT> operator-(const vector2<LhsT>& lhs,
+                                      const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     return vector2<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y);
 }
 
 template <typename LhsT, typename RhsT>
 PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator-=(vector2<LhsT>&       lhs,
-                                                 const vector2<RhsT>& rhs) noexcept
+                                                 const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     lhs.x -= rhs.x;
     lhs.y -= rhs.y;
@@ -134,13 +129,13 @@ PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator-=(vector2<LhsT>&       lhs,
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector2<LhsT> operator*(const vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_CONSTEXPR vector2<LhsT> operator*(const vector2<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     return vector2<LhsT>(lhs.x * rhs, lhs.y * rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator*=(vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator*=(vector2<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     lhs.x *= rhs;
     lhs.y *= rhs;
@@ -149,13 +144,13 @@ PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator*=(vector2<LhsT>& lhs, const RhsT&
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector2<LhsT> operator/(const vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_CONSTEXPR vector2<LhsT> operator/(const vector2<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     return vector2<LhsT>(lhs.x / rhs, lhs.y / rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator/=(vector2<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator/=(vector2<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     lhs.x /= rhs;
     lhs.y /= rhs;
@@ -166,13 +161,13 @@ PHI_EXTENDED_CONSTEXPR vector2<LhsT>& operator/=(vector2<LhsT>& lhs, const RhsT&
 PHI_MSVC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const vector2<LhsT>& lhs, const vector2<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.x != rhs.x || lhs.y != rhs.y;
 }

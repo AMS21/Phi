@@ -9,12 +9,13 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/types.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD PHI_CONSTEXPR u8 binary_digit_value(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR u8 binary_digit_value(const char character) PHI_NOEXCEPT
 {
     PHI_ASSERT(character >= '0' && character <= '1', "Character out of bounds");
 

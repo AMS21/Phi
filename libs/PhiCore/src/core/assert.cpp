@@ -14,7 +14,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     PHI_NORETURN void phi_assert_failure_handler(const char* condition, const char* file,
-                                                 int line_number, const char* function) noexcept
+                                                 int line_number, const char* function) PHI_NOEXCEPT
     {
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
         (void)std::fprintf(stderr,

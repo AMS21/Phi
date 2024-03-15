@@ -7,17 +7,18 @@
 #    pragma once
 #endif
 
-#include <phi/compiler_support/constexpr.hpp>
-#include <phi/compiler_support/warning.hpp>
-#include <phi/core/address_of.hpp>
-#include <phi/core/ptrdiff_t.hpp>
-#include <phi/type_traits/conditional.hpp>
-#include <phi/type_traits/detail/nat.hpp>
-#include <phi/type_traits/has_difference_type.hpp>
-#include <phi/type_traits/has_element_type.hpp>
-#include <phi/type_traits/integral_constant.hpp>
-#include <phi/type_traits/is_void.hpp>
-#include <phi/type_traits/void_t.hpp>
+#include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
+#include "phi/compiler_support/warning.hpp"
+#include "phi/core/address_of.hpp"
+#include "phi/core/ptrdiff_t.hpp"
+#include "phi/type_traits/conditional.hpp"
+#include "phi/type_traits/detail/nat.hpp"
+#include "phi/type_traits/has_difference_type.hpp"
+#include "phi/type_traits/has_element_type.hpp"
+#include "phi/type_traits/integral_constant.hpp"
+#include "phi/type_traits/is_void.hpp"
+#include "phi/type_traits/void_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -130,7 +131,7 @@ private:
 
 public:
     static PHI_CONSTEXPR pointer
-    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
+    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) PHI_NOEXCEPT
     {
         return pointer::pointer_to(ptr);
     }
@@ -161,7 +162,7 @@ private:
 
 public:
     static PHI_CONSTEXPR pointer
-    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
+    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) PHI_NOEXCEPT
     {
         return address_of(ptr);
     }

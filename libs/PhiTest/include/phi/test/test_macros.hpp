@@ -8,6 +8,7 @@
 #endif
 
 #include <phi/compiler_support/counter.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/preprocessor/glue.hpp>
 #include <phi/type_traits/is_same.hpp>
@@ -25,10 +26,10 @@ namespace test
 
         struct register_test_case
         {
-            explicit register_test_case(TestSignature func) noexcept;
+            explicit register_test_case(TestSignature func) PHI_NOEXCEPT;
         };
 
-        void IncreaseSkipCount() noexcept;
+        void IncreaseSkipCount() PHI_NOEXCEPT;
     } // namespace detail
 } // namespace test
 

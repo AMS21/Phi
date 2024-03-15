@@ -3,14 +3,14 @@
 #include <phi/text/is_lower_case.hpp>
 #include <cctype>
 
-void test_is_lower_case(const char character) noexcept
+void test_is_lower_case(const char character)
 {
     CHECK(phi::is_lower_case(character));
     CHECK(std::islower(character));
     CHECK_NOEXCEPT(phi::is_lower_case(character));
 }
 
-void test_is_not_lower_case(const char character) noexcept
+void test_is_not_lower_case(const char character)
 {
     CHECK_FALSE(phi::is_lower_case(character));
     CHECK_FALSE(std::islower(character));

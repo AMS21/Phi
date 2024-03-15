@@ -3,14 +3,14 @@
 #include <phi/text/is_upper_case.hpp>
 #include <cctype>
 
-void test_is_upper_case(const char character) noexcept
+void test_is_upper_case(const char character)
 {
     CHECK(phi::is_upper_case(character));
     CHECK(std::isupper(character));
     CHECK_NOEXCEPT(phi::is_upper_case(character));
 }
 
-void test_is_not_upper_case(const char character) noexcept
+void test_is_not_upper_case(const char character)
 {
     CHECK_FALSE(phi::is_upper_case(character));
     CHECK_FALSE(std::isupper(character));

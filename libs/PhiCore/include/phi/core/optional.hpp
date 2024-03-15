@@ -14,6 +14,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/address_of.hpp"
@@ -161,9 +162,7 @@ namespace detail
     template <typename TypeT, bool = is_trivially_destructible<TypeT>::value>
     struct optional_storage_base
     {
-        PHI_CONSTEXPR optional_storage_base() noexcept
-            : m_dummy()
-            , m_has_value(false)
+        PHI_CONSTEXPR optional_storage_base() PHI_NOEXCEPT : m_dummy(), m_has_value(false)
         {}
 
         template <typename... ArgsT>
@@ -197,9 +196,9 @@ namespace detail
     template <typename TypeT>
     struct optional_storage_base<TypeT, true>
     {
-        PHI_CONSTEXPR optional_storage_base() noexcept
-            : m_dummy()
-            , m_has_value(false) // NOLINT(cppcoreguidelines-use-default-member-init)
+        PHI_CONSTEXPR optional_storage_base() PHI_NOEXCEPT
+            : m_dummy(),
+              m_has_value(false) // NOLINT(cppcoreguidelines-use-default-member-init)
         {}
 
         template <typename... OtherT>
@@ -231,14 +230,14 @@ namespace detail
     {
         using optional_storage_base<TypeT>::optional_storage_base;
 
-        void hard_reset() noexcept
+        void hard_reset() PHI_NOEXCEPT
         {
             get().~TypeT();
             this->m_has_value = false;
         }
 
         template <typename... ArgsT>
-        void construct(ArgsT&&... args) noexcept
+        void construct(ArgsT&&... args) PHI_NOEXCEPT
         {
             new (address_of(this->m_value)) TypeT(phi::forward<ArgsT>(args)...);
             this->m_has_value = true;
@@ -342,8 +341,8 @@ namespace detail
         optional_move_base()                              = default;
         optional_move_base(const optional_move_base& rhs) = default;
 
-        optional_move_base(optional_move_base&& rhs) noexcept(
-                is_nothrow_move_constructible<TypeT>::value)
+        optional_move_base(optional_move_base&& rhs)
+                PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
         {
             if (rhs.has_value())
             {
@@ -405,9 +404,9 @@ namespace detail
 
         optional_move_assign_base& operator=(const optional_move_assign_base& rhs) = default;
 
-        optional_move_assign_base& operator=(optional_move_assign_base&& rhs) noexcept(
-                is_nothrow_move_constructible<TypeT>::value &&
-                is_nothrow_move_assignable<TypeT>::value)
+        optional_move_assign_base& operator=(optional_move_assign_base&& rhs)
+                PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value&&
+                                          is_nothrow_move_assignable<TypeT>::value)
         {
             this->assign(move(rhs));
             return *this;
@@ -420,41 +419,41 @@ namespace detail
               bool EnableMove = is_move_constructible<TypeT>::value>
     struct optional_delete_ctor_base
     {
-        optional_delete_ctor_base()                                                = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)                = default;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = default;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
+        optional_delete_ctor_base()                                            = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)            = default;
+        optional_delete_ctor_base(optional_delete_ctor_base&&)                 = default;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&)      = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, true, false>
     {
-        optional_delete_ctor_base()                                                = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)                = default;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = delete;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
+        optional_delete_ctor_base()                                            = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)            = default;
+        optional_delete_ctor_base(optional_delete_ctor_base&&)                 = delete;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&)      = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, false, true>
     {
-        optional_delete_ctor_base()                                                = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)                = delete;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = default;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
+        optional_delete_ctor_base()                                            = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)            = delete;
+        optional_delete_ctor_base(optional_delete_ctor_base&&)                 = default;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&)      = default;
     };
 
     template <typename TypeT>
     struct optional_delete_ctor_base<TypeT, false, false>
     {
-        optional_delete_ctor_base()                                                = default;
-        optional_delete_ctor_base(const optional_delete_ctor_base&)                = delete;
-        optional_delete_ctor_base(optional_delete_ctor_base&&) noexcept            = delete;
-        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&)     = default;
-        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&) noexcept = default;
+        optional_delete_ctor_base()                                            = default;
+        optional_delete_ctor_base(const optional_delete_ctor_base&)            = delete;
+        optional_delete_ctor_base(optional_delete_ctor_base&&)                 = delete;
+        optional_delete_ctor_base& operator=(const optional_delete_ctor_base&) = default;
+        optional_delete_ctor_base& operator=(optional_delete_ctor_base&&)      = default;
     };
 
     // optional_delete_assign_base will conditionally delete copy and move
@@ -466,41 +465,41 @@ namespace detail
                       (is_move_constructible<TypeT>::value && is_move_assignable<TypeT>::value)>
     struct optional_delete_assign_base
     {
-        optional_delete_assign_base()                                                  = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = default;
+        optional_delete_assign_base()                                              = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)            = default;
+        optional_delete_assign_base(optional_delete_assign_base&&)                 = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = default;
+        optional_delete_assign_base& operator=(optional_delete_assign_base&&)      = default;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, true, false>
     {
-        optional_delete_assign_base()                                                  = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = default;
-        optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = delete;
+        optional_delete_assign_base()                                              = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)            = default;
+        optional_delete_assign_base(optional_delete_assign_base&&)                 = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = default;
+        optional_delete_assign_base& operator=(optional_delete_assign_base&&)      = delete;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, false, true>
     {
-        optional_delete_assign_base()                                                  = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = delete;
-        optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = default;
+        optional_delete_assign_base()                                              = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)            = default;
+        optional_delete_assign_base(optional_delete_assign_base&&)                 = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = delete;
+        optional_delete_assign_base& operator=(optional_delete_assign_base&&)      = default;
     };
 
     template <typename TypeT>
     struct optional_delete_assign_base<TypeT, false, false>
     {
-        optional_delete_assign_base()                                                  = default;
-        optional_delete_assign_base(const optional_delete_assign_base&)                = default;
-        optional_delete_assign_base(optional_delete_assign_base&&) noexcept            = default;
-        optional_delete_assign_base& operator=(const optional_delete_assign_base&)     = delete;
-        optional_delete_assign_base& operator=(optional_delete_assign_base&&) noexcept = delete;
+        optional_delete_assign_base()                                              = default;
+        optional_delete_assign_base(const optional_delete_assign_base&)            = default;
+        optional_delete_assign_base(optional_delete_assign_base&&)                 = default;
+        optional_delete_assign_base& operator=(const optional_delete_assign_base&) = delete;
+        optional_delete_assign_base& operator=(optional_delete_assign_base&&)      = delete;
     };
 } // namespace detail
 
@@ -510,7 +509,7 @@ struct nullopt_t
     struct do_not_use
     {};
 
-    PHI_CONSTEXPR explicit nullopt_t(do_not_use, do_not_use) noexcept
+    PHI_CONSTEXPR explicit nullopt_t(do_not_use, do_not_use) PHI_NOEXCEPT
     {}
 };
 
@@ -540,9 +539,9 @@ public:
     using value_type = TypeT;
 
     /// Constructs an optional that does not contain a value.
-    PHI_CONSTEXPR optional() noexcept = default;
+    optional() = default;
 
-    PHI_CONSTEXPR optional(nullopt_t) noexcept
+    PHI_CONSTEXPR optional(nullopt_t) PHI_NOEXCEPT
     {}
 
     /// Copy constructor
@@ -636,7 +635,7 @@ public:
     /// Assignment to empty.
     ///
     /// Destroys the current value if there is one.
-    optional& operator=(nullopt_t) noexcept
+    optional& operator=(nullopt_t) PHI_NOEXCEPT
     {
         if (has_value())
         {
@@ -760,8 +759,8 @@ public:
     /// If both have a value, the values are swapped.
     /// If one has a value, it is moved to the other and the movee is left
     /// valueless.
-    PHI_EXTENDED_CONSTEXPR void swap(optional& rhs) noexcept(
-            is_nothrow_move_constructible<TypeT>::value && is_nothrow_swappable<TypeT>::value)
+    PHI_EXTENDED_CONSTEXPR void swap(optional& rhs) PHI_NOEXCEPT_EXPR(
+            is_nothrow_move_constructible<TypeT>::value&& is_nothrow_swappable<TypeT>::value)
     {
         using phi::swap;
         if (has_value())
@@ -818,12 +817,12 @@ public:
     }
 
     /// Returns whether or not the optional has a value
-    PHI_NODISCARD PHI_CONSTEXPR bool has_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool has_value() const PHI_NOEXCEPT
     {
         return this->m_has_value;
     }
 
-    PHI_CONSTEXPR explicit operator bool() const noexcept
+    PHI_CONSTEXPR explicit operator bool() const PHI_NOEXCEPT
     {
         return this->m_has_value;
     }
@@ -897,7 +896,7 @@ public:
     }
 
     /// Destroys the stored value if one exists, making the optional empty
-    PHI_EXTENDED_CONSTEXPR void reset() noexcept
+    PHI_EXTENDED_CONSTEXPR void reset() PHI_NOEXCEPT
     {
         if (has_value())
         {
@@ -1226,73 +1225,77 @@ PHI_CONSTEXPR boolean operator>=(const optional<TypeT>& lhs, const optional<Othe
 
 /// Compares an optional to a `nullopt`
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator==(const optional<TypeT>& lhs, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator==(const optional<TypeT>& lhs, nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return !lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator==(nullopt_t /*unused*/, const optional<TypeT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(nullopt_t /*unused*/, const optional<TypeT>& rhs) PHI_NOEXCEPT
 {
     return !rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator!=(const optional<TypeT>& lhs, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator!=(const optional<TypeT>& lhs, nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator!=(nullopt_t /*unused*/, const optional<TypeT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(nullopt_t /*unused*/, const optional<TypeT>& rhs) PHI_NOEXCEPT
 {
     return rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator<(const optional<TypeT>& /*unused*/, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator<(const optional<TypeT>& /*unused*/,
+                                nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return false;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator<(nullopt_t /*unused*/, const optional<TypeT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator<(nullopt_t /*unused*/, const optional<TypeT>& rhs) PHI_NOEXCEPT
 {
     return rhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator<=(const optional<TypeT>& lhs, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator<=(const optional<TypeT>& lhs, nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return !lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator<=(nullopt_t /*unused*/, const optional<TypeT>& /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator<=(nullopt_t /*unused*/,
+                                 const optional<TypeT>& /*unused*/) PHI_NOEXCEPT
 {
     return true;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator>(const optional<TypeT>& lhs, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator>(const optional<TypeT>& lhs, nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return lhs.has_value();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator>(nullopt_t /*unused*/, const optional<TypeT>& /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator>(nullopt_t /*unused*/,
+                                const optional<TypeT>& /*unused*/) PHI_NOEXCEPT
 {
     return false;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator>=(const optional<TypeT>& /*unused*/, nullopt_t /*unused*/) noexcept
+PHI_CONSTEXPR boolean operator>=(const optional<TypeT>& /*unused*/,
+                                 nullopt_t /*unused*/) PHI_NOEXCEPT
 {
     return true;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR boolean operator>=(nullopt_t /*unused*/, const optional<TypeT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator>=(nullopt_t /*unused*/, const optional<TypeT>& rhs) PHI_NOEXCEPT
 {
     return !rhs.has_value();
 }
@@ -1374,7 +1377,7 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT, enable_if_t<is_move_constructible<TypeT>::value>* = nullptr,
           enable_if_t<is_swappable<TypeT>::value>* = nullptr>
-void swap(optional<TypeT>& lhs, optional<TypeT>& rhs) noexcept(noexcept(lhs.swap(rhs)))
+void swap(optional<TypeT>& lhs, optional<TypeT>& rhs) PHI_NOEXCEPT_EXPR(noexcept(lhs.swap(rhs)))
 {
     return lhs.swap(rhs);
 }
@@ -1450,19 +1453,17 @@ public:
     using value_type = TypeT&;
 
     /// Constructs an optional that does not contain a value.
-    PHI_CONSTEXPR optional() noexcept
-        : m_value(nullptr)
+    PHI_CONSTEXPR optional() PHI_NOEXCEPT : m_value(nullptr)
     {}
 
-    PHI_CONSTEXPR optional(nullopt_t /*unused*/) noexcept
-        : m_value(nullptr)
+    PHI_CONSTEXPR optional(nullopt_t /*unused*/) PHI_NOEXCEPT : m_value(nullptr)
     {}
 
     /// Copy constructor
     ///
     /// If `rhs` contains a value, the stored value is direct-initialized with
     /// it. Otherwise, the constructed optional is empty.
-    PHI_CONSTEXPR optional(const optional& rhs) noexcept = default;
+    optional(const optional& rhs) = default;
 
     /// Move constructor
     ///
@@ -1473,15 +1474,13 @@ public:
     /// Constructs the stored value with `other`.
     template <typename OtherT                                            = TypeT,
               enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
-    PHI_CONSTEXPR optional(OtherT&& other) noexcept
-        : m_value(address_of(other))
+    PHI_CONSTEXPR optional(OtherT&& other) PHI_NOEXCEPT : m_value(address_of(other))
     {
         static_assert(is_lvalue_reference<OtherT>::value, "OtherT must be an lvalue");
     }
 
     template <typename OtherT>
-    PHI_CONSTEXPR explicit optional(const optional<OtherT>& rhs) noexcept
-        : optional(*rhs)
+    PHI_CONSTEXPR explicit optional(const optional<OtherT>& rhs) PHI_NOEXCEPT : optional(*rhs)
     {}
 
     /// No-op
@@ -1490,7 +1489,7 @@ public:
     /// Assignment to empty.
     ///
     /// Destroys the current value if there is one.
-    PHI_EXTENDED_CONSTEXPR optional& operator=(nullopt_t /*unused*/) noexcept
+    PHI_EXTENDED_CONSTEXPR optional& operator=(nullopt_t /*unused*/) PHI_NOEXCEPT
     {
         m_value = nullptr;
         return *this;
@@ -1517,7 +1516,7 @@ public:
     /// Rebinds this optional to the referee of `rhs` if there is one. Otherwise
     /// resets the stored value in `*this`.
     template <typename OtherT>
-    PHI_EXTENDED_CONSTEXPR optional& operator=(const optional<OtherT>& rhs) noexcept
+    PHI_EXTENDED_CONSTEXPR optional& operator=(const optional<OtherT>& rhs) PHI_NOEXCEPT
     {
         m_value = address_of(rhs.value());
         return *this;
@@ -1526,44 +1525,44 @@ public:
     /// Rebinds this optional to `u`.
     template <typename OtherT                                            = TypeT,
               enable_if_t<!detail::is_optional<decay_t<OtherT>>::value>* = nullptr>
-    PHI_EXTENDED_CONSTEXPR optional& emplace(OtherT&& u) noexcept
+    PHI_EXTENDED_CONSTEXPR optional& emplace(OtherT&& u) PHI_NOEXCEPT
     {
         return *this = forward<OtherT>(u);
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(optional& rhs) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(optional& rhs) PHI_NOEXCEPT
     {
         swap(m_value, rhs.m_value);
     }
 
     /// Returns a pointer to the stored value
-    PHI_EXTENDED_CONSTEXPR TypeT* operator->() noexcept
+    PHI_EXTENDED_CONSTEXPR TypeT* operator->() PHI_NOEXCEPT
     {
         return m_value;
     }
 
-    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const noexcept
+    PHI_EXTENDED_CONSTEXPR const TypeT* operator->() const PHI_NOEXCEPT
     {
         return m_value;
     }
 
     /// Returns the stored value
-    PHI_EXTENDED_CONSTEXPR TypeT& operator*() noexcept
+    PHI_EXTENDED_CONSTEXPR TypeT& operator*() PHI_NOEXCEPT
     {
         return *m_value;
     }
 
-    PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const noexcept
+    PHI_EXTENDED_CONSTEXPR const TypeT& operator*() const PHI_NOEXCEPT
     {
         return *m_value;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR bool has_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool has_value() const PHI_NOEXCEPT
     {
         return m_value != nullptr;
     }
 
-    PHI_CONSTEXPR explicit operator bool() const noexcept
+    PHI_CONSTEXPR explicit operator bool() const PHI_NOEXCEPT
     {
         return m_value != nullptr;
     }
@@ -1596,7 +1595,7 @@ public:
 
     /// Returns the stored value if there is one, otherwise returns `alternative`
     template <typename OtherT>
-    PHI_NODISCARD PHI_CONSTEXPR TypeT value_or(OtherT&& alternative) const& noexcept
+    PHI_NODISCARD PHI_CONSTEXPR TypeT value_or(OtherT&& alternative) const& PHI_NOEXCEPT
     {
         static_assert(is_copy_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be copy constructible and convertible from OtherT");
@@ -1606,7 +1605,7 @@ public:
 
     /// \group value_or
     template <typename OtherT>
-    PHI_NODISCARD PHI_CONSTEXPR TypeT value_or(OtherT&& alternative) && noexcept
+            PHI_NODISCARD PHI_CONSTEXPR TypeT value_or(OtherT&& alternative) && PHI_NOEXCEPT
     {
         static_assert(is_move_constructible<TypeT>::value && is_convertible<OtherT&&, TypeT>::value,
                       "TypeT must be move constructible and convertible from OtherT");
@@ -1615,7 +1614,7 @@ public:
     }
 
     /// Destroys the stored value if one exists, making the optional empty
-    PHI_EXTENDED_CONSTEXPR void reset() noexcept
+    PHI_EXTENDED_CONSTEXPR void reset() PHI_NOEXCEPT
     {
         m_value = nullptr;
     }

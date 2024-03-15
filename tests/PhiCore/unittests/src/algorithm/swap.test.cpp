@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/type_traits/is_same.hpp>
@@ -19,7 +20,7 @@ struct CopyOnly
     {}
 
     // NOLINTNEXTLINE(modernize-use-equals-default)
-    CopyOnly(const CopyOnly& /*other*/) noexcept
+    CopyOnly(const CopyOnly& /*other*/) PHI_NOEXCEPT
     {}
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment,modernize-use-equals-default)
@@ -39,7 +40,7 @@ struct MoveOnly
     MoveOnly(MoveOnly&& /*other*/)
     {}
 
-    MoveOnly& operator=(MoveOnly&& /*other*/) noexcept
+    MoveOnly& operator=(MoveOnly&& /*other*/) PHI_NOEXCEPT
     {
         return *this;
     }
@@ -51,10 +52,10 @@ struct NoexceptMoveOnly
     NoexceptMoveOnly()
     {}
 
-    NoexceptMoveOnly(NoexceptMoveOnly&& /*other*/) noexcept
+    NoexceptMoveOnly(NoexceptMoveOnly&& /*other*/) PHI_NOEXCEPT
     {}
 
-    NoexceptMoveOnly& operator=(NoexceptMoveOnly&& /*other*/) noexcept
+    NoexceptMoveOnly& operator=(NoexceptMoveOnly&& /*other*/) PHI_NOEXCEPT
     {
         return *this;
     }

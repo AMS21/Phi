@@ -3,14 +3,14 @@
 #include <phi/text/is_alpha.hpp>
 #include <cctype>
 
-void test_is_alpha(const char character) noexcept
+void test_is_alpha(const char character)
 {
     CHECK(phi::is_alpha(character));
     CHECK(std::isalpha(character));
     CHECK_NOEXCEPT(phi::is_alpha(character));
 }
 
-void test_is_not_alpha(const char character) noexcept
+void test_is_not_alpha(const char character)
 {
     CHECK_FALSE(phi::is_alpha(character));
     CHECK_FALSE(std::isalpha(character));

@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -18,8 +19,8 @@ struct ignore_t
 {
     template <typename OtherT>
     // NOLINTNEXTLINE(misc-unconventional-assign-operator,cppcoreguidelines-missing-std-forward)
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR_AND_CONST ignore_t<TypeT>& operator=(
-            OtherT&& /*other*/) const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR_AND_CONST ignore_t<TypeT>& operator=(OtherT&& /*other*/) const
+            PHI_NOEXCEPT
     {
         return *this;
     }

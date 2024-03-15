@@ -3,14 +3,14 @@
 #include <phi/text/is_blank.hpp>
 #include <cctype>
 
-void test_is_blank(const char character) noexcept
+void test_is_blank(const char character)
 {
     CHECK(phi::is_blank(character));
     CHECK(std::isblank(character));
     CHECK_NOEXCEPT(phi::is_blank(character));
 }
 
-void test_is_not_blank(const char character) noexcept
+void test_is_not_blank(const char character)
 {
     CHECK_FALSE(phi::is_blank(character));
     CHECK_FALSE(std::isblank(character));

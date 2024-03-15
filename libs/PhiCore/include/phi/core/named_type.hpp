@@ -43,6 +43,7 @@ SOFTWARE.
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/address_of.hpp"
@@ -82,7 +83,7 @@ public:
 
     explicit PHI_CONSTEXPR named_type(const TypeT& value)
 #if PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE()
-            noexcept(is_nothrow_copy_constructible<TypeT>::value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
 #endif
         : m_Value(value)
     {}
@@ -90,18 +91,18 @@ public:
     template <typename OtherT = TypeT, typename = enable_if_t<!is_reference<OtherT>::value, void>>
     explicit PHI_CONSTEXPR named_type(TypeT&& value)
 #if PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE()
-            noexcept(is_nothrow_move_constructible<TypeT>::value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
 #endif
         : m_Value(phi::move(value))
     {}
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& unsafe() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& unsafe() PHI_NOEXCEPT
     {
         return m_Value;
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR_AND_CONST_OR(const)
-            remove_reference_t<TypeT>& unsafe() const noexcept
+            remove_reference_t<TypeT>& unsafe() const PHI_NOEXCEPT
     {
         return m_Value;
     }
@@ -550,9 +551,9 @@ struct hash<phi::named_type<TypeT, ParameterT, SkillsT...>>
     using named_type      = phi::named_type<TypeT, ParameterT, SkillsT...>;
     using checkIfHashable = typename enable_if<named_type::is_hashable, void>::type;
 
-    size_t operator()(const named_type& value) const noexcept
+    size_t operator()(const named_type& value) const PHI_NOEXCEPT
     {
-        static_assert(noexcept(std::hash<TypeT>()(value.unsafe())),
+        static_assert(PHI_NOEXCEPT_EXPR(std::hash<TypeT>()(value.unsafe())),
                       "hash fuction should not throw");
 
         return std::hash<TypeT>()(value.unsafe());

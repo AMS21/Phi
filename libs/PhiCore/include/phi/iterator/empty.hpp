@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/forward/std/initializer_list.hpp"
 
@@ -21,14 +22,14 @@ PHI_NODISCARD PHI_CONSTEXPR auto empty(const ContainerT& container) -> decltype(
 }
 
 template <typename TypeT, size_t Size>
-PHI_NODISCARD PHI_CONSTEXPR bool empty(const TypeT (&array)[Size]) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool empty(const TypeT (&array)[Size]) PHI_NOEXCEPT
 {
     (void)array;
     return false;
 }
 
 template <typename TypeT>
-PHI_NODISCARD PHI_CONSTEXPR bool empty(std::initializer_list<TypeT> init_list) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool empty(std::initializer_list<TypeT> init_list) PHI_NOEXCEPT
 {
     return init_list.size() == 0;
 }

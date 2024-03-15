@@ -10,12 +10,14 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/make_safe.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_safe_t<TypeT> to_safe(TypeT original) noexcept
+PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_safe_t<TypeT> to_safe(TypeT original)
+        PHI_NOEXCEPT
 {
     return static_cast<make_safe_t<TypeT>>(original);
 }

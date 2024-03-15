@@ -4,6 +4,7 @@
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/bugs/gcc_102305.hpp>
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -82,7 +83,7 @@ struct A
 
 struct B
 {
-    B(const B&) noexcept;
+    B(const B&) PHI_NOEXCEPT;
 };
 
 struct C
@@ -100,12 +101,12 @@ struct D
 
 struct E
 {
-    E() noexcept;
+    E() PHI_NOEXCEPT;
 };
 
 struct F
 {
-    F(int, double, char) noexcept;
+    F(int, double, char) PHI_NOEXCEPT;
 };
 
 struct G
@@ -131,7 +132,7 @@ struct I
 struct J
 {
     // NOLINTNEXTLINE(modernize-use-equals-default)
-    ~J() noexcept(false)
+    ~J() PHI_NOEXCEPT_EXPR(false)
     {}
 };
 
@@ -142,7 +143,8 @@ struct K
     // TODO: Weird clang formatting here
 
     template <typename... OtherT>
-    K(OtherT...) noexcept;
+    K(OtherT...)
+    PHI_NOEXCEPT;
 };
 
 struct L
@@ -154,7 +156,7 @@ struct L
 template <typename TypeT>
 struct N
 {
-    N() noexcept
+    N() PHI_NOEXCEPT
     {
         TypeT::error;
     }
@@ -162,17 +164,17 @@ struct N
 
 struct Tuple
 {
-    Tuple(empty&& /*unused*/) noexcept
+    Tuple(empty&& /*unused*/) PHI_NOEXCEPT
     {}
 };
 
 struct DThrows
 {
-    DThrows(int /*unused*/) noexcept(true)
+    DThrows(int /*unused*/) PHI_NOEXCEPT_EXPR(true)
     {}
 
     // NOLINTNEXTLINE(modernize-use-equals-default)
-    ~DThrows() noexcept(false)
+    ~DThrows() PHI_NOEXCEPT_EXPR(false)
     {}
 };
 

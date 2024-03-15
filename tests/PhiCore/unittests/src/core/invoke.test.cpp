@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
@@ -341,17 +342,17 @@ struct CopyThrows
     CopyThrows(const CopyThrows& /*unused*/)
     {}
 
-    CopyThrows(CopyThrows&& /*unused*/) noexcept
+    CopyThrows(CopyThrows&& /*unused*/) PHI_NOEXCEPT
     {}
 };
 
 struct NoThrowCallable
 {
-    void operator()() noexcept
+    void operator()() PHI_NOEXCEPT
     {}
 
     // NOLINTNEXTLINE(performance-unnecessary-value-param)
-    void operator()(CopyThrows /*unused*/) noexcept
+    void operator()(CopyThrows /*unused*/) PHI_NOEXCEPT
     {}
 };
 

@@ -9,11 +9,12 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_graphical_character(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_graphical_character(const char character) PHI_NOEXCEPT
 {
     return (character >= 33 && character <= 126);
 }

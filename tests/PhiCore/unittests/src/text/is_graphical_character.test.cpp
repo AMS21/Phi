@@ -3,14 +3,14 @@
 #include <phi/text/is_graphical_character.hpp>
 #include <cctype>
 
-void test_is_graphical_character(const char character) noexcept
+void test_is_graphical_character(const char character)
 {
     CHECK(phi::is_graphical_character(character));
     CHECK(std::isgraph(character));
     CHECK_NOEXCEPT(phi::is_graphical_character(character));
 }
 
-void test_is_not_graphical_character(const char character) noexcept
+void test_is_not_graphical_character(const char character)
 {
     CHECK_FALSE(phi::is_graphical_character(character));
     CHECK_FALSE(std::isgraph(character));

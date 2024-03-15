@@ -10,6 +10,7 @@
 #include "phi/compiler_support/assume.hpp"
 #include "phi/compiler_support/current_function.hpp"
 #include "phi/compiler_support/likely.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/noreturn.hpp"
 #include "phi/compiler_support/unreachable.hpp"
 #include "phi/compiler_support/warning.hpp"
@@ -23,7 +24,7 @@ namespace detail
 {
     PHI_NORETURN extern void phi_assert_failure_handler(const char* condition, const char* file,
                                                         int         line_number,
-                                                        const char* function) noexcept;
+                                                        const char* function) PHI_NOEXCEPT;
 } // namespace detail
 /// \endcond
 

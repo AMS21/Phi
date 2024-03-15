@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/is_safe_type.hpp"
 #include "phi/type_traits/make_unsafe.hpp"
@@ -23,14 +24,14 @@ namespace detail
 
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, true_type /*is_safe_type*/) noexcept
+            TypeT original, true_type /*is_safe_type*/) PHI_NOEXCEPT
     {
         return original.unsafe();
     }
 
     template <typename TypeT>
     PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_unsafe_t<TypeT> to_unsafe_impl(
-            TypeT original, false_type /*is_safe_type*/) noexcept
+            TypeT original, false_type /*is_safe_type*/) PHI_NOEXCEPT
     {
         return original;
     }
@@ -39,8 +40,8 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_unsafe_t<TypeT> to_unsafe(
-        TypeT original) noexcept
+PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR make_unsafe_t<TypeT> to_unsafe(TypeT original)
+        PHI_NOEXCEPT
 {
     return detail::to_unsafe_impl(original, is_safe_type<TypeT>{});
 }

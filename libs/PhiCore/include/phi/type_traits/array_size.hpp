@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/extent.hpp"
 #include "phi/type_traits/is_array.hpp"
@@ -16,7 +17,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <unsigned Dimension = 0u, typename TypeT>
-PHI_NODISCARD PHI_CONSTEXPR size_t array_size(TypeT& /*array*/) noexcept
+PHI_NODISCARD PHI_CONSTEXPR size_t array_size(TypeT& /*array*/) PHI_NOEXCEPT
 {
     static_assert(is_array<TypeT>::value, "phi::array_size may only be used on array types");
 

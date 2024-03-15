@@ -2,6 +2,7 @@
 
 #include <phi/compiler_support/compiler.hpp>
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
 #include <phi/core/monitor.hpp>
@@ -20,12 +21,10 @@ PHI_GCC_SUPPRESS_WARNING("-Wunsafe-loop-optimizations")
 
 struct MonitorTestData
 {
-    PHI_CONSTEXPR MonitorTestData() noexcept
-        : val(1u)
+    PHI_CONSTEXPR MonitorTestData() PHI_NOEXCEPT : val(1u)
     {}
 
-    PHI_CONSTEXPR MonitorTestData(int /*unused*/, double /*unused*/) noexcept
-        : val(2u)
+    PHI_CONSTEXPR MonitorTestData(int /*unused*/, double /*unused*/) PHI_NOEXCEPT : val(2u)
     {}
 
     phi::size_t val;
@@ -113,7 +112,7 @@ TEST_CASE("core.monitor.functions")
 static PHI_CONSTEXPR_AND_CONST phi::size_t test_thread_count{20u};
 static PHI_CONSTEXPR_AND_CONST phi::size_t test_write_count{10000u};
 
-static void test_function(phi::monitor<MonitorTestData>& test_data) noexcept
+static void test_function(phi::monitor<MonitorTestData>& test_data) PHI_NOEXCEPT
 {
     for (phi::size_t i{0u}; i < test_write_count; ++i)
     {

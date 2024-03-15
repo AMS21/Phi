@@ -38,6 +38,7 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v =
 
 #else
 
+#    include "phi/compiler_support/noexcept.hpp"
 #    include "phi/core/declval.hpp"
 #    include "phi/core/size_t.hpp"
 #    include "phi/type_traits/is_destructible.hpp"
@@ -55,7 +56,7 @@ namespace detail
 
     template <typename TypeT>
     struct is_nothrow_destructible_impl<true, TypeT>
-        : public bool_constant<noexcept(declval<TypeT>().~TypeT())>
+        : public bool_constant<PHI_NOEXCEPT_EXPR(declval<TypeT>().~TypeT())>
     {};
 } // namespace detail
 

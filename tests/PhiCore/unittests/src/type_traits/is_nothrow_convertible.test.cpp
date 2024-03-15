@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/type_traits/is_convertible.hpp>
 #include <phi/type_traits/is_nothrow_convertible.hpp>
 #include <type_traits>
@@ -73,7 +74,7 @@ class D
 {
 public:
     // NOLINTNEXTLINE(readability-make-member-function-const)
-    operator C() noexcept
+    operator C() PHI_NOEXCEPT
     {
         return c;
     }
@@ -82,11 +83,11 @@ public:
 
 struct DThrows
 {
-    DThrows(int /*unused*/) noexcept
+    DThrows(int /*unused*/) PHI_NOEXCEPT
     {}
 
     // NOLINTNEXTLINE(modernize-use-equals-default)
-    ~DThrows() noexcept(false)
+    ~DThrows() PHI_NOEXCEPT_EXPR(false)
     {}
 };
 

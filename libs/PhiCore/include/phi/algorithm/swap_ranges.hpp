@@ -10,6 +10,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/compiler.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/declval.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -19,7 +20,7 @@ PHI_EXTENDED_CONSTEXPR RhsIteratorT swap_ranges(LhsIteratorT lhs_first, LhsItera
                                                 RhsIteratorT rhs_first)
 // TODO: This noexcept expression seems to not work on gcc-8
 #if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
-        noexcept(noexcept(swap(*declval<LhsIteratorT>(), *declval<RhsIteratorT>())))
+        PHI_NOEXCEPT_EXPR(noexcept(swap(*declval<LhsIteratorT>(), *declval<RhsIteratorT>())))
 #endif
 {
     for (; lhs_first != lhs_last; ++lhs_first, (void)++rhs_first)

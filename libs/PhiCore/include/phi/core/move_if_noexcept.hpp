@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/move.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/is_copy_constructible.hpp"
@@ -27,7 +28,7 @@ namespace detail
 
 template <typename TypeT>
 PHI_NODISCARD inline PHI_CONSTEXPR typename detail::move_if_noexcept_result_t<TypeT>
-move_if_noexcept(TypeT& arg) noexcept
+move_if_noexcept(TypeT& arg) PHI_NOEXCEPT
 {
     return move(arg);
 }

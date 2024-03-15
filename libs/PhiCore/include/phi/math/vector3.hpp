@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/types.hpp"
@@ -40,68 +41,60 @@ public:
 
     ~vector3() = default;
 
-    PHI_CONSTEXPR vector3(TypeT val_x, TypeT val_y, TypeT val_z) noexcept
-        : x(val_x)
-        , y(val_y)
-        , z(val_z)
+    PHI_CONSTEXPR vector3(TypeT val_x, TypeT val_y, TypeT val_z) PHI_NOEXCEPT : x(val_x),
+                                                                                y(val_y),
+                                                                                z(val_z)
     {}
 
-    PHI_CONSTEXPR explicit vector3(TypeT val_xyz) noexcept
-        : x(val_xyz)
-        , y(val_xyz)
-        , z(val_xyz)
+    PHI_CONSTEXPR explicit vector3(TypeT val_xyz) PHI_NOEXCEPT : x(val_xyz), y(val_xyz), z(val_xyz)
     {}
 
-    PHI_CONSTEXPR vector3(const vector2<TypeT>& vec2, TypeT val_z) noexcept
-        : x(vec2.x)
-        , y(vec2.y)
-        , z(val_z)
+    PHI_CONSTEXPR vector3(const vector2<TypeT>& vec2, TypeT val_z) PHI_NOEXCEPT : x(vec2.x),
+                                                                                  y(vec2.y),
+                                                                                  z(val_z)
     {}
 
-    PHI_CONSTEXPR vector3(vector2<TypeT>&& vec2, TypeT val_z) noexcept
-        : x(phi::move(vec2.x))
-        , y(phi::move(vec2.y))
-        , z(val_z)
+    PHI_CONSTEXPR vector3(vector2<TypeT>&& vec2, TypeT val_z) PHI_NOEXCEPT : x(phi::move(vec2.x)),
+                                                                             y(phi::move(vec2.y)),
+                                                                             z(val_z)
     {}
 
     template <typename OtherT>
-    PHI_CONSTEXPR vector3(const vector2<OtherT>& vec2, TypeT val_z) noexcept
-        : x(static_cast<TypeT>(vec2.x))
-        , y(static_cast<TypeT>(vec2.y))
-        , z(val_z)
+    PHI_CONSTEXPR vector3(const vector2<OtherT>& vec2, TypeT val_z) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(vec2.x)),
+          y(static_cast<TypeT>(vec2.y)),
+          z(val_z)
     {}
 
     template <typename OtherT>
-    PHI_CONSTEXPR vector3(vector2<OtherT>&& vec2, TypeT val_z) noexcept
-        : x(static_cast<TypeT>(phi::move(vec2.x)))
-        , y(static_cast<TypeT>(phi::move(vec2.y)))
-        , z(val_z)
+    PHI_CONSTEXPR vector3(vector2<OtherT>&& vec2, TypeT val_z) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(phi::move(vec2.x))),
+          y(static_cast<TypeT>(phi::move(vec2.y))),
+          z(val_z)
     {}
 
-    PHI_CONSTEXPR vector3(const vector3<TypeT>& other) noexcept
-        : x(other.x)
-        , y(other.y)
-        , z(other.z)
+    PHI_CONSTEXPR vector3(const vector3<TypeT>& other) PHI_NOEXCEPT : x(other.x),
+                                                                      y(other.y),
+                                                                      z(other.z)
     {}
 
-    PHI_CONSTEXPR vector3(vector3<TypeT>&& other) noexcept
-        : x(phi::move(other.x))
-        , y(phi::move(other.y))
-        , z(phi::move(other.z))
-    {}
-
-    template <typename OtherT>
-    PHI_CONSTEXPR vector3(const vector3<OtherT>& other) noexcept
-        : x(static_cast<TypeT>(other.x))
-        , y(static_cast<TypeT>(other.y))
-        , z(static_cast<TypeT>(other.z))
+    PHI_CONSTEXPR vector3(vector3<TypeT>&& other) PHI_NOEXCEPT : x(phi::move(other.x)),
+                                                                 y(phi::move(other.y)),
+                                                                 z(phi::move(other.z))
     {}
 
     template <typename OtherT>
-    PHI_CONSTEXPR vector3(vector3<OtherT>&& other) noexcept
-        : x(static_cast<TypeT>(phi::move(other.x)))
-        , y(static_cast<TypeT>(phi::move(other.y)))
-        , z(static_cast<TypeT>(phi::move(other.z)))
+    PHI_CONSTEXPR vector3(const vector3<OtherT>& other) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(other.x)),
+          y(static_cast<TypeT>(other.y)),
+          z(static_cast<TypeT>(other.z))
+    {}
+
+    template <typename OtherT>
+    PHI_CONSTEXPR vector3(vector3<OtherT>&& other) PHI_NOEXCEPT
+        : x(static_cast<TypeT>(phi::move(other.x))),
+          y(static_cast<TypeT>(phi::move(other.y))),
+          z(static_cast<TypeT>(phi::move(other.z)))
     {}
 
     // Operators
@@ -119,13 +112,13 @@ public:
 // Unary operators
 
 template <typename TypeT>
-PHI_CONSTEXPR vector3<TypeT> operator+(const vector3<TypeT>& rhs) noexcept
+PHI_CONSTEXPR vector3<TypeT> operator+(const vector3<TypeT>& rhs) PHI_NOEXCEPT
 {
     return rhs;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR vector3<TypeT> operator-(const vector3<TypeT>& rhs) noexcept
+PHI_CONSTEXPR vector3<TypeT> operator-(const vector3<TypeT>& rhs) PHI_NOEXCEPT
 {
     static_assert(!is_integer<TypeT>::value || is_signed<TypeT>::value,
                   "Cannot call unary minus on unsigned integer");
@@ -136,14 +129,15 @@ PHI_CONSTEXPR vector3<TypeT> operator-(const vector3<TypeT>& rhs) noexcept
 // Binary Operators
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector3<LhsT> operator+(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) noexcept
+PHI_CONSTEXPR vector3<LhsT> operator+(const vector3<LhsT>& lhs,
+                                      const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     return vector3<LhsT>(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
 PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator+=(vector3<LhsT>&       lhs,
-                                                 const vector3<RhsT>& rhs) noexcept
+                                                 const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     lhs.x += rhs.x;
     lhs.y += rhs.y;
@@ -153,14 +147,15 @@ PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator+=(vector3<LhsT>&       lhs,
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector3<LhsT> operator-(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) noexcept
+PHI_CONSTEXPR vector3<LhsT> operator-(const vector3<LhsT>& lhs,
+                                      const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     return vector3<LhsT>(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
 }
 
 template <typename LhsT, typename RhsT>
 PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator-=(vector3<LhsT>&       lhs,
-                                                 const vector3<RhsT>& rhs) noexcept
+                                                 const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     lhs.x -= rhs.x;
     lhs.y -= rhs.y;
@@ -170,13 +165,13 @@ PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator-=(vector3<LhsT>&       lhs,
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector3<LhsT> operator*(const vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_CONSTEXPR vector3<LhsT> operator*(const vector3<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     return vector3<LhsT>(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator*=(vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator*=(vector3<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     lhs.x *= rhs;
     lhs.y *= rhs;
@@ -186,13 +181,13 @@ PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator*=(vector3<LhsT>& lhs, const RhsT&
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR vector3<LhsT> operator/(const vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_CONSTEXPR vector3<LhsT> operator/(const vector3<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     return vector3<LhsT>(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator/=(vector3<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator/=(vector3<LhsT>& lhs, const RhsT& rhs) PHI_NOEXCEPT
 {
     lhs.x /= rhs;
     lhs.y /= rhs;
@@ -202,13 +197,13 @@ PHI_EXTENDED_CONSTEXPR vector3<LhsT>& operator/=(vector3<LhsT>& lhs, const RhsT&
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const vector3<LhsT>& lhs, const vector3<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z;
 }

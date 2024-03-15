@@ -37,6 +37,7 @@ SOFTWARE.
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_bool.hpp"
@@ -65,43 +66,42 @@ public:
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
     // cppcheck-suppress noExplicitConstructor
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean(TypeT value) noexcept
-        : m_Value(value)
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean(TypeT value) PHI_NOEXCEPT : m_Value(value)
     {}
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean& operator=(TypeT value) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean& operator=(TypeT value) PHI_NOEXCEPT
     {
         m_Value = value;
         return *this;
     }
 
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR explicit operator bool() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR explicit operator bool() const PHI_NOEXCEPT
     {
         return m_Value;
     }
 
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!() const PHI_NOEXCEPT
     {
         return {!m_Value};
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool unsafe() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool unsafe() const PHI_NOEXCEPT
     {
         return m_Value;
     }
 
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR void flip() noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR void flip() PHI_NOEXCEPT
     {
         m_Value = !m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean as_flipped() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean as_flipped() const PHI_NOEXCEPT
     {
         return boolean{!m_Value};
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(boolean& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(boolean& other) PHI_NOEXCEPT
     {
         phi::swap(m_Value, other.m_Value);
     }
@@ -110,36 +110,38 @@ private:
     bool m_Value; /// The Wrapped bool value
 };
 
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs,
+                                                   const boolean& rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs, TypeT rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs, TypeT rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(TypeT lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(TypeT lhs, const boolean& rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs,
+                                                   const boolean& rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs, TypeT rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs, TypeT rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(TypeT lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(TypeT lhs, const boolean& rhs) PHI_NOEXCEPT
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
@@ -162,7 +164,7 @@ std::basic_ostream<CharT, CharTraitsT>& operator<<(std::basic_ostream<CharT, Cha
     return stream << static_cast<bool>(value);
 }
 
-PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(boolean& lhs, boolean& rhs) noexcept
+PHI_EXTENDED_CONSTEXPR PHI_ALWAYS_INLINE void swap(boolean& lhs, boolean& rhs) PHI_NOEXCEPT
 {
     lhs.swap(rhs);
 }
@@ -175,7 +177,7 @@ DETAIL_PHI_BEGIN_STD_NAMESPACE()
 template <>
 struct hash<phi::boolean>
 {
-    phi::size_t operator()(phi::boolean value) const noexcept
+    phi::size_t operator()(phi::boolean value) const PHI_NOEXCEPT
     {
         return std::hash<bool>()(static_cast<bool>(value));
     }

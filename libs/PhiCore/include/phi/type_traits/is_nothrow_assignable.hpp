@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_assignable.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_ASSIGNABLE()
@@ -59,7 +60,7 @@ namespace detail
 
     template <typename TypeT, typename ArgT>
     struct is_nothrow_assignable_impl<true, TypeT, ArgT>
-        : public bool_constant<noexcept(declval<TypeT>() = declval<ArgT>())>
+        : public bool_constant<PHI_NOEXCEPT_EXPR(declval<TypeT>() = declval<ArgT>())>
     {};
 } // namespace detail
 

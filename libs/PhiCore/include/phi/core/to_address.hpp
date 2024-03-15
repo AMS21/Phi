@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/core/pointer_traits.hpp"
 #include "phi/type_traits/conjunction.hpp"
@@ -21,7 +22,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT>
-    PHI_CONSTEXPR TypeT* to_address_impl(TypeT* pointer) noexcept
+    PHI_CONSTEXPR TypeT* to_address_impl(TypeT* pointer) PHI_NOEXCEPT
     {
         static_assert(is_not_function<TypeT>::value,
                       "phi::detail::to_address_impl: TypeT must not be a function type");
@@ -62,7 +63,7 @@ namespace detail
                                          is_class<PointerT>, is_fancy_pointer<PointerT>>::value>>
     PHI_CONSTEXPR decay_t<
             decltype(to_address_impl_helper<PointerT>::call(declval<const PointerT&>()))>
-    to_address_impl(const PointerT& pointer) noexcept
+    to_address_impl(const PointerT& pointer) PHI_NOEXCEPT
     {
         return to_address_impl_helper<PointerT>::call(pointer);
     }
@@ -71,7 +72,7 @@ namespace detail
     struct to_address_impl_helper
     {
         static PHI_CONSTEXPR decltype(to_address_impl(declval<const PointerT&>().operator->()))
-        call(const PointerT& pointer) noexcept
+        call(const PointerT& pointer) PHI_NOEXCEPT
         {
             return to_address_impl(pointer.operator->());
         }
@@ -83,7 +84,7 @@ namespace detail
     {
         static PHI_CONSTEXPR decltype(pointer_traits<PointerT>::to_address(
                 declval<const PointerT&>()))
-        call(const PointerT& pointer) noexcept
+        call(const PointerT& pointer) PHI_NOEXCEPT
         {
             return pointer_traits<PointerT>::to_address(pointer);
         }
@@ -91,14 +92,14 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-PHI_CONSTEXPR auto to_address(TypeT* pointer) noexcept
+PHI_CONSTEXPR auto to_address(TypeT* pointer) PHI_NOEXCEPT
 {
     return detail::to_address_impl(pointer);
 }
 
 template <typename PointerT>
-PHI_CONSTEXPR auto to_address(const PointerT& pointer) noexcept
-        -> decltype(detail::to_address_impl(pointer))
+PHI_CONSTEXPR auto to_address(const PointerT& pointer)
+        PHI_NOEXCEPT -> decltype(detail::to_address_impl(pointer))
 {
     return detail::to_address_impl(pointer);
 }

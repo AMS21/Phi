@@ -9,12 +9,13 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/remove_reference.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_CONSTEXPR remove_reference_t<TypeT>&& move(PHI_ATTRIBUTE_LIFETIMEBOUND TypeT&& arg) noexcept
+PHI_CONSTEXPR remove_reference_t<TypeT>&& move(PHI_ATTRIBUTE_LIFETIMEBOUND TypeT&& arg) PHI_NOEXCEPT
 {
     return static_cast<remove_reference_t<TypeT>&&>(arg);
 }

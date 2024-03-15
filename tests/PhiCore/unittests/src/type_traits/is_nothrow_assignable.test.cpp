@@ -2,6 +2,7 @@
 
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <phi/type_traits/is_assignable.hpp>
 #include <phi/type_traits/is_nothrow_assignable.hpp>
@@ -98,9 +99,9 @@ struct C
 
 struct D
 {
-    D& operator=(const D&) noexcept;
+    D& operator=(const D&) PHI_NOEXCEPT;
     D& operator=(int);
-    D& operator=(double) noexcept;
+    D& operator=(double) PHI_NOEXCEPT;
 };
 
 struct E

@@ -5,14 +5,14 @@
 
 // TODO: Test with constexpr
 
-void test_is_alpha_numeric(const char character) noexcept
+void test_is_alpha_numeric(const char character)
 {
     CHECK(phi::is_alpha_numeric(character));
     CHECK(std::isalnum(character));
     CHECK_NOEXCEPT(phi::is_alpha_numeric(character));
 }
 
-void test_is_not_alpha_numeric(const char character) noexcept
+void test_is_not_alpha_numeric(const char character)
 {
     CHECK_FALSE(phi::is_alpha_numeric(character));
     CHECK_FALSE(std::isalnum(character));

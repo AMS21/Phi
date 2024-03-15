@@ -11,6 +11,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/intrinsics/address_of.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_object.hpp"
 
@@ -20,7 +21,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 PHI_NODISCARD PHI_CONSTEXPR typename enable_if<is_object<TypeT>::value, TypeT*>::type address_of(
-        TypeT& arg) noexcept
+        TypeT& arg) PHI_NOEXCEPT
 {
 #    if PHI_SUPPORTS_ADDRESS_OF()
     return PHI_ADDRESS_OF(arg);
@@ -32,7 +33,7 @@ PHI_NODISCARD PHI_CONSTEXPR typename enable_if<is_object<TypeT>::value, TypeT*>:
 
 template <typename TypeT>
 PHI_NODISCARD PHI_CONSTEXPR typename enable_if<!is_object<TypeT>::value, TypeT*>::type address_of(
-        TypeT& arg) noexcept
+        TypeT& arg) PHI_NOEXCEPT
 {
     return &arg;
 }
@@ -40,7 +41,7 @@ PHI_NODISCARD PHI_CONSTEXPR typename enable_if<!is_object<TypeT>::value, TypeT*>
 #else
 
 template <typename TypeT>
-PHI_NODISCARD PHI_CONSTEXPR TypeT* address_of(TypeT& arg) noexcept
+PHI_NODISCARD PHI_CONSTEXPR TypeT* address_of(TypeT& arg) PHI_NOEXCEPT
 {
 #    if PHI_SUPPORTS_ADDRESS_OF()
     return PHI_ADDRESS_OF(arg);

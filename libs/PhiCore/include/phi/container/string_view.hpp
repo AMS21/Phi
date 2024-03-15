@@ -13,6 +13,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/integer.hpp"
@@ -76,9 +77,7 @@ public:
     static PHI_CONSTEXPR size_t npos = std::numeric_limits<size_t>::max();
 
     // Constructors
-    PHI_CONSTEXPR basic_string_view() noexcept
-        : m_Data(nullptr)
-        , m_Length(0u)
+    PHI_CONSTEXPR basic_string_view() PHI_NOEXCEPT : m_Data(nullptr), m_Length(0u)
     {}
 
     basic_string_view(const basic_string_view& other) = default;
@@ -86,56 +85,50 @@ public:
     basic_string_view(basic_string_view&& other) = default;
 
     template <size_t Size>
-    PHI_CONSTEXPR basic_string_view(CharT (&array)[Size]) noexcept
-        : m_Data{array}
-        , m_Length{Size}
+    PHI_CONSTEXPR basic_string_view(CharT (&array)[Size]) PHI_NOEXCEPT : m_Data{array},
+                                                                         m_Length{Size}
     {}
 
     template <size_t Size>
-    PHI_CONSTEXPR basic_string_view(const array<CharT, Size>& array) noexcept
-        : m_Data{array.data()}
-        , m_Length{array.size()}
+    PHI_CONSTEXPR basic_string_view(const array<CharT, Size>& array) PHI_NOEXCEPT
+        : m_Data{array.data()},
+          m_Length{array.size()}
     {}
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) noexcept
-        : m_Data(string)
-        , m_Length(string_length(string))
+    PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string) PHI_NOEXCEPT
+        : m_Data(string),
+          m_Length(string_length(string))
     {}
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string, size_type count) noexcept
-        : m_Data(string)
-        , m_Length(count)
+    PHI_EXTENDED_CONSTEXPR basic_string_view(const CharT* string, size_type count) PHI_NOEXCEPT
+        : m_Data(string),
+          m_Length(count)
     {}
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view(
-            const std::basic_string_view<CharT, TraitsT>& other) noexcept
-        : m_Data{other.data()}
-        , m_Length{other.length()}
+    PHI_EXTENDED_CONSTEXPR basic_string_view(const std::basic_string_view<CharT, TraitsT>& other)
+            PHI_NOEXCEPT : m_Data{other.data()},
+                           m_Length{other.length()}
     {}
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view(
-            std::basic_string_view<CharT, TraitsT>&& other) noexcept
-        : m_Data{other.data()}
-        , m_Length{other.length()}
-    {}
-
-    template <typename AllocatorT>
-    PHI_EXTENDED_CONSTEXPR basic_string_view(
-            const std::basic_string<CharT, TraitsT, AllocatorT>& other) noexcept
-        : m_Data{other.data()}
-        , m_Length{other.length()}
+    PHI_EXTENDED_CONSTEXPR basic_string_view(std::basic_string_view<CharT, TraitsT>&& other)
+            PHI_NOEXCEPT : m_Data{other.data()},
+                           m_Length{other.length()}
     {}
 
     template <typename AllocatorT>
     PHI_EXTENDED_CONSTEXPR basic_string_view(
-            std::basic_string<CharT, TraitsT, AllocatorT>&& other) noexcept
-        : m_Data{other.data()}
-        , m_Length{other.length()}
+            const std::basic_string<CharT, TraitsT, AllocatorT>& other) PHI_NOEXCEPT
+        : m_Data{other.data()},
+          m_Length{other.length()}
     {}
 
-    PHI_CONSTEXPR basic_string_view(nullptr_t) noexcept
-        : m_Data{nullptr}
-        , m_Length{0u}
+    template <typename AllocatorT>
+    PHI_EXTENDED_CONSTEXPR basic_string_view(std::basic_string<CharT, TraitsT, AllocatorT>&& other)
+            PHI_NOEXCEPT : m_Data{other.data()},
+                           m_Length{other.length()}
+    {}
+
+    PHI_CONSTEXPR basic_string_view(nullptr_t) PHI_NOEXCEPT : m_Data{nullptr}, m_Length{0u}
     {}
 
     ~basic_string_view() = default;
@@ -145,7 +138,7 @@ public:
     basic_string_view& operator=(basic_string_view&& other) = default;
 
     template <size_t Size>
-    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(CharT (&array)[Size]) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(CharT (&array)[Size]) PHI_NOEXCEPT
     {
         m_Data   = array;
         m_Length = Size;
@@ -154,7 +147,8 @@ public:
     }
 
     template <size_t Size>
-    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(const array<CharT, Size>& array) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(const array<CharT, Size>& array)
+            PHI_NOEXCEPT
     {
         m_Data   = array.data();
         m_Length = Size;
@@ -162,7 +156,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(nullptr_t) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& operator=(nullptr_t) PHI_NOEXCEPT
     {
         m_Data   = nullptr;
         m_Length = 0u;
@@ -170,115 +164,115 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, TraitsT>() const noexcept
+    PHI_EXTENDED_CONSTEXPR operator std::basic_string_view<CharT, TraitsT>() const PHI_NOEXCEPT
     {
         return std::basic_string_view<CharT, TraitsT>(data(), length().unsafe());
     }
 
     // Iterators
 
-    PHI_NODISCARD PHI_CONSTEXPR iterator begin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator begin() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR iterator end() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator end() const PHI_NOEXCEPT
     {
         return m_Data + m_Length.unsafe();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_iterator cbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator cbegin() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_iterator cend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator cend() const PHI_NOEXCEPT
     {
         return m_Data + m_Length.unsafe();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rbegin() const PHI_NOEXCEPT
     {
         return reverse_iterator(end());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rend() const PHI_NOEXCEPT
     {
         return reverse_iterator(begin());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crbegin() const PHI_NOEXCEPT
     {
         return reverse_iterator(rbegin());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crend() const PHI_NOEXCEPT
     {
         return reverse_iterator(rend());
     }
 
     // Capacity
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type length() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type length() const PHI_NOEXCEPT
     {
         return m_Length;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type bytes_length() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type bytes_length() const PHI_NOEXCEPT
     {
         return m_Length * sizeof(CharT);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type max_length() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type max_length() const PHI_NOEXCEPT
     {
         return std::numeric_limits<size_type>::max();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_null() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_null() const PHI_NOEXCEPT
     {
         return m_Data == nullptr;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_empty() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_empty() const PHI_NOEXCEPT
     {
         return m_Length == 0u;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_null_terminated() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_null_terminated() const PHI_NOEXCEPT
     {
         return m_Length > 0u && back() == '\0';
     }
 
     // Element access
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference operator[](size_type pos) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference operator[](size_type pos) const PHI_NOEXCEPT
     {
         return data_at(pos);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference at(size_type pos) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference at(size_type pos) const PHI_NOEXCEPT
     {
         return data_at(pos);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference front() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference front() const PHI_NOEXCEPT
     {
         return data_at(0u);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference back() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference back() const PHI_NOEXCEPT
     {
         return data_at(length() - 1u);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_pointer data() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_pointer data() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
     // Modifiers
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& clear() noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& clear() PHI_NOEXCEPT
     {
         m_Data   = nullptr;
         m_Length = 0u;
@@ -286,7 +280,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& add_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& add_prefix(size_type count) PHI_NOEXCEPT
     {
         m_Data -= count.unsafe();
         m_Length += count;
@@ -294,14 +288,14 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& add_postfix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& add_postfix(size_type count) PHI_NOEXCEPT
     {
         m_Length += count;
 
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& remove_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& remove_prefix(size_type count) PHI_NOEXCEPT
     {
         PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
@@ -311,7 +305,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& remove_suffix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& remove_suffix(size_type count) PHI_NOEXCEPT
     {
         PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
@@ -320,14 +314,14 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR basic_string_view& resize(size_type new_size) noexcept
+    PHI_EXTENDED_CONSTEXPR basic_string_view& resize(size_type new_size) PHI_NOEXCEPT
     {
         m_Length = new_size;
 
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(basic_string_view& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(basic_string_view& other) PHI_NOEXCEPT
     {
         const basic_string_view tmp(other);
         other = *this;
@@ -337,7 +331,7 @@ public:
     // String operations
 
     PHI_EXTENDED_CONSTEXPR size_type copy(CharT* destination, size_type count,
-                                          size_type pos = 0u) const noexcept
+                                          size_type pos = 0u) const PHI_NOEXCEPT
     {
         PHI_ASSERT(pos <= length(), "Invalid position");
 
@@ -348,7 +342,7 @@ public:
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
-    substring_view(size_type pos = 0u, size_type count = npos) const noexcept
+    substring_view(size_type pos = 0u, size_type count = npos) const PHI_NOEXCEPT
     {
         PHI_ASSERT(pos <= length(), "Invalid position");
 
@@ -356,7 +350,7 @@ public:
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR basic_string_view
-    substring_view(iterator begin_iterator, iterator end_iterator) const noexcept
+    substring_view(iterator begin_iterator, iterator end_iterator) const PHI_NOEXCEPT
     {
         PHI_ASSERT(begin_iterator >= begin() && begin_iterator <= end(),
                    "Invalid position for begin_iterator");
@@ -370,7 +364,7 @@ public:
 
     // Comparing
 
-    PHI_NODISCARD PHI_CONSTEXPR i32 compare(basic_string_view other) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR i32 compare(basic_string_view other) const PHI_NOEXCEPT
     {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         {
@@ -400,80 +394,80 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos, size_type count,
-                                            basic_string_view other) const noexcept
+                                            basic_string_view other) const PHI_NOEXCEPT
     {
         return substring_view(pos, count).compare(other);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos1, size_type count1,
                                             basic_string_view other, size_type pos2,
-                                            size_type count2) const noexcept
+                                            size_type count2) const PHI_NOEXCEPT
     {
         return substring_view(pos1, count1).compare(other.substring_view(pos2, count2));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR i32 compare(const CharT* string) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR i32 compare(const CharT* string) const PHI_NOEXCEPT
     {
         return compare(basic_string_view(string));
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos, size_type count,
-                                            const CharT* string) const noexcept
+                                            const CharT* string) const PHI_NOEXCEPT
     {
         return substring_view(pos, count).compare(basic_string_view(string));
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos, size_type count1, const CharT* string,
-                                            size_type count2) const noexcept
+                                            size_type count2) const PHI_NOEXCEPT
     {
         return substring_view(pos, count1).compare(basic_string_view(string, count2));
     }
 
     // Searching
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(basic_string_view view) const PHI_NOEXCEPT
     {
         return length() >= view.length() && compare(0u, view.length(), view) == 0;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(CharT character) const PHI_NOEXCEPT
     {
         return starts_with(basic_string_view(&character, 1u));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(const CharT* string) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(const CharT* string) const PHI_NOEXCEPT
     {
         return starts_with(basic_string_view(string));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(basic_string_view view) const PHI_NOEXCEPT
     {
         return length() >= view.length() && compare(length() - view.length(), npos, view) == 0;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(CharT character) const PHI_NOEXCEPT
     {
         return ends_with(basic_string_view(&character, 1u));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(const CharT* string) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(const CharT* string) const PHI_NOEXCEPT
     {
         return ends_with(basic_string_view(string));
     }
 
     // contains
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean contains(basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean contains(basic_string_view view) const PHI_NOEXCEPT
     {
         return find(view) != npos;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean contains(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean contains(CharT character) const PHI_NOEXCEPT
     {
         return find(character) != npos;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean contains(const CharT* string) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean contains(const CharT* string) const PHI_NOEXCEPT
     {
         return find(string) != npos;
     }
@@ -481,7 +475,7 @@ public:
     // find
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find(basic_string_view view,
-                                                        size_type         pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         PHI_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
 
@@ -490,19 +484,20 @@ public:
                                                     view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type find(CharT character, size_type pos = 0u) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type find(CharT     character,
+                                               size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find(const CharT* string,
-                                               size_type    pos = 0u) const noexcept
+                                               size_type    pos = 0u) const PHI_NOEXCEPT
     {
         return find(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find(const CharT* string, size_type pos,
-                                               size_type count) const noexcept
+                                               size_type count) const PHI_NOEXCEPT
     {
         return find(basic_string_view(string, count), pos);
     }
@@ -510,7 +505,7 @@ public:
     // rfind
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type rfind(basic_string_view view,
-                                                         size_type pos = npos) const noexcept
+                                                         size_type pos = npos) const PHI_NOEXCEPT
     {
         if (length() < view.length())
         {
@@ -534,25 +529,25 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type rfind(CharT     character,
-                                                size_type pos = npos) const noexcept
+                                                size_type pos = npos) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type rfind(const CharT* string,
-                                                size_type    pos = npos) const noexcept
+                                                size_type    pos = npos) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type rfind(const CharT* string, size_type pos,
-                                                size_type count) const noexcept
+                                                size_type count) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(basic_string_view view,
-                                                        size_type         pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         return pos >= length() ? npos :
                                  to_pos(std::find_first_of(cbegin() + pos, cend(), view.cbegin(),
@@ -560,25 +555,25 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(CharT     character,
-                                                        size_type pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(const CharT* string,
-                                                        size_type    pos = 0u) const noexcept
+                                                        size_type    pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(const CharT* string, size_type pos,
-                                                        size_type count) const noexcept
+                                                        size_type count) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(string, count), pos);
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find_last_of(basic_string_view view,
-                                                                size_type pos = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type
+    find_last_of(basic_string_view view, size_type pos = npos) const PHI_NOEXCEPT
     {
         if (is_empty())
         {
@@ -595,50 +590,50 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_of(CharT     character,
-                                                       size_type pos = npos) const noexcept
+                                                       size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_of(const CharT* string,
-                                                       size_type    pos = npos) const noexcept
+                                                       size_type    pos = npos) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_of(const CharT* string, size_type pos,
-                                                       size_type count) const noexcept
+                                                       size_type count) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(basic_string_view view,
-                                                            size_type pos = 0u) const noexcept
+                                                            size_type pos = 0u) const PHI_NOEXCEPT
     {
         return pos >= length() ? npos :
                                  to_pos(std::find_if(cbegin() + pos, cend(), not_in_view(view)));
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(CharT     character,
-                                                            size_type pos = 0u) const noexcept
+                                                            size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(const CharT* string,
-                                                            size_type    pos = 0u) const noexcept
+                                                            size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(const CharT* string, size_type pos,
-                                                            size_type count) const noexcept
+                                                            size_type count) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type
-    find_last_not_of(basic_string_view view, size_type pos = npos) const noexcept
+    find_last_not_of(basic_string_view view, size_type pos = npos) const PHI_NOEXCEPT
     {
         if (is_empty())
         {
@@ -655,19 +650,19 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_not_of(CharT     character,
-                                                           size_type pos = npos) const noexcept
+                                                           size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_not_of(const CharT* string,
-                                                           size_type    pos = npos) const noexcept
+                                                           size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_not_of(const CharT* string, size_type pos,
-                                                           size_type count) const noexcept
+                                                           size_type count) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(string, count), pos);
     }
@@ -677,29 +672,28 @@ private:
     {
         const basic_string_view view;
 
-        PHI_CONSTEXPR explicit not_in_view(basic_string_view other) noexcept
-            : view(other)
+        PHI_CONSTEXPR explicit not_in_view(basic_string_view other) PHI_NOEXCEPT : view(other)
         {}
 
-        PHI_NODISCARD PHI_CONSTEXPR boolean operator()(CharT character) const noexcept
+        PHI_NODISCARD PHI_CONSTEXPR boolean operator()(CharT character) const PHI_NOEXCEPT
         {
             return npos == view.find_first_of(character);
         }
     };
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const PHI_NOEXCEPT
     {
         PHI_ASSERT(pos < length(), "Index out of bounds!");
 
         return m_Data[pos.unsafe()];
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type to_pos(const_iterator position) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type to_pos(const_iterator position) const PHI_NOEXCEPT
     {
         return position == cend() ? npos : size_type(position - cbegin());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type to_pos(const_reverse_iterator position) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type to_pos(const_reverse_iterator position) const PHI_NOEXCEPT
     {
         return position == crend() ? npos : size_type(crend() - position - 1);
     }
@@ -714,42 +708,42 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs,
-                                 basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.is_null() == rhs.is_null() && lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs,
-                                 basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<(basic_string_view<CharT, TraitsT> lhs,
-                                basic_string_view<CharT, TraitsT> rhs) noexcept
+                                basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<=(basic_string_view<CharT, TraitsT> lhs,
-                                 basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>(basic_string_view<CharT, TraitsT> lhs,
-                                basic_string_view<CharT, TraitsT> rhs) noexcept
+                                basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
-                                 basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) >= 0;
 }
@@ -757,34 +751,36 @@ PHI_CONSTEXPR boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
 // ==
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs,
+                                 const CharT*                      rhs) PHI_NOEXCEPT
 {
     return lhs.is_null() == (rhs == nullptr) && lhs.length() == string_length(rhs) &&
            lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator==(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const CharT*                      lhs,
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return (lhs == nullptr) == rhs.is_null() && string_length(lhs) == rhs.length() &&
            rhs.compare(lhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs, nullptr_t) PHI_NOEXCEPT
 {
     return lhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator==(nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(nullptr_t, basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return rhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs,
-                                 std::basic_string<CharT, TraitsT> rhs) noexcept
+                                 std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.is_null() == (rhs.data() == nullptr) && lhs.length() == rhs.length() &&
            lhs.compare(rhs) == 0;
@@ -792,7 +788,7 @@ PHI_CONSTEXPR boolean operator==(basic_string_view<CharT, TraitsT> lhs,
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator==(std::basic_string<CharT, TraitsT> lhs,
-                                 basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return (lhs.data() == nullptr) == rhs.is_null() && lhs.length() == rhs.length() &&
            rhs.compare(lhs) == 0;
@@ -801,39 +797,41 @@ PHI_CONSTEXPR boolean operator==(std::basic_string<CharT, TraitsT> lhs,
 // !=
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs,
+                                 const CharT*                      rhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator!=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const CharT*                      lhs,
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs, nullptr_t) PHI_NOEXCEPT
 {
     return !lhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator!=(nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(nullptr_t, basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return !rhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator!=(basic_string_view<CharT, TraitsT> lhs,
-                                 std::basic_string<CharT, TraitsT> rhs) noexcept
+                                 std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator!=(std::basic_string<CharT, TraitsT> rhs,
-                                 basic_string_view<CharT, TraitsT> lhs) noexcept
+                                 basic_string_view<CharT, TraitsT> lhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
@@ -841,27 +839,29 @@ PHI_CONSTEXPR boolean operator!=(std::basic_string<CharT, TraitsT> rhs,
 // <
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator<(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator<(basic_string_view<CharT, TraitsT> lhs,
+                                const CharT*                      rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator<(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator<(const CharT*                      lhs,
+                                basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<(basic_string_view<CharT, TraitsT> lhs,
-                                std::basic_string<CharT, TraitsT> rhs) noexcept
+                                std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<(std::basic_string<CharT, TraitsT> rhs,
-                                basic_string_view<CharT, TraitsT> lhs) noexcept
+                                basic_string_view<CharT, TraitsT> lhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) > 0;
 }
@@ -869,27 +869,29 @@ PHI_CONSTEXPR boolean operator<(std::basic_string<CharT, TraitsT> rhs,
 // <=
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator<=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator<=(basic_string_view<CharT, TraitsT> lhs,
+                                 const CharT*                      rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator<=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator<=(const CharT*                      lhs,
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) >= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<=(basic_string_view<CharT, TraitsT> lhs,
-                                 std::basic_string<CharT, TraitsT> rhs) noexcept
+                                 std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<=(std::basic_string<CharT, TraitsT> rhs,
-                                 basic_string_view<CharT, TraitsT> lhs) noexcept
+                                 basic_string_view<CharT, TraitsT> lhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) >= 0;
 }
@@ -897,27 +899,29 @@ PHI_CONSTEXPR boolean operator<=(std::basic_string<CharT, TraitsT> rhs,
 // >
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator>(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator>(basic_string_view<CharT, TraitsT> lhs,
+                                const CharT*                      rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator>(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator>(const CharT*                      lhs,
+                                basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>(basic_string_view<CharT, TraitsT> lhs,
-                                std::basic_string<CharT, TraitsT> rhs) noexcept
+                                std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>(std::basic_string<CharT, TraitsT> rhs,
-                                basic_string_view<CharT, TraitsT> lhs) noexcept
+                                basic_string_view<CharT, TraitsT> lhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) < 0;
 }
@@ -925,27 +929,29 @@ PHI_CONSTEXPR boolean operator>(std::basic_string<CharT, TraitsT> rhs,
 // >=
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator>=(basic_string_view<CharT, TraitsT> lhs, const CharT* rhs) noexcept
+PHI_CONSTEXPR boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
+                                 const CharT*                      rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) >= 0;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_CONSTEXPR boolean operator>=(const CharT* lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator>=(const CharT*                      lhs,
+                                 basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>=(basic_string_view<CharT, TraitsT> lhs,
-                                 std::basic_string<CharT, TraitsT> rhs) noexcept
+                                 std::basic_string<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) >= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>=(std::basic_string<CharT, TraitsT> rhs,
-                                 basic_string_view<CharT, TraitsT> lhs) noexcept
+                                 basic_string_view<CharT, TraitsT> lhs) PHI_NOEXCEPT
 {
     return rhs.compare(lhs) <= 0;
 }
@@ -1008,36 +1014,34 @@ public:
     not_null_basic_string_view(not_null_basic_string_view&& other) = default;
 
     template <size_t Size>
-    PHI_CONSTEXPR PHI_ATTRIBUTE_NONNULL not_null_basic_string_view(CharT (&array)[Size]) noexcept
-        : m_Data{array}
-        , m_Length{Size}
+    PHI_CONSTEXPR PHI_ATTRIBUTE_NONNULL not_null_basic_string_view(CharT (&array)[Size])
+            PHI_NOEXCEPT : m_Data{array},
+                           m_Length{Size}
     {
         PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
         PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     template <size_t Size>
-    PHI_CONSTEXPR not_null_basic_string_view(const array<CharT, Size>& array) noexcept
-        : m_Data{array.data()}
-        , m_Length{array.size()}
+    PHI_CONSTEXPR not_null_basic_string_view(const array<CharT, Size>& array) PHI_NOEXCEPT
+        : m_Data{array.data()},
+          m_Length{array.size()}
+    {
+        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
+        PHI_ASSERT(m_Length > 0u, "Invalid length");
+    }
+
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL not_null_basic_string_view(const CharT* string)
+            PHI_NOEXCEPT : m_Data{string},
+                           m_Length{string_length(string)}
     {
         PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
         PHI_ASSERT(m_Length > 0u, "Invalid length");
     }
 
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL
-    not_null_basic_string_view(const CharT* string) noexcept
-        : m_Data{string}
-        , m_Length{string_length(string)}
-    {
-        PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
-        PHI_ASSERT(m_Length > 0u, "Invalid length");
-    }
-
-    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL
-    not_null_basic_string_view(const CharT* string, size_type count) noexcept
-        : m_Data(string)
-        , m_Length(count)
+    not_null_basic_string_view(const CharT* string, size_type count) PHI_NOEXCEPT : m_Data(string),
+                                                                                    m_Length(count)
     {
         PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
         PHI_ASSERT(m_Length > 0u, "Invalid length");
@@ -1049,11 +1053,11 @@ public:
 
     not_null_basic_string_view& operator=(const not_null_basic_string_view& other) = default;
 
-    not_null_basic_string_view& operator=(not_null_basic_string_view&& other) noexcept = default;
+    not_null_basic_string_view& operator=(not_null_basic_string_view&& other) = default;
 
     template <size_t Size>
     PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL not_null_basic_string_view& operator=(
-            CharT (&array)[Size]) noexcept
+            CharT (&array)[Size]) PHI_NOEXCEPT
     {
         m_Data   = array;
         m_Length = Size;
@@ -1065,8 +1069,8 @@ public:
     }
 
     template <size_t Size>
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& operator=(
-            const array<CharT, Size>& array) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& operator=(const array<CharT, Size>& array)
+            PHI_NOEXCEPT
     {
         m_Data   = array.data();
         m_Length = Size;
@@ -1081,88 +1085,91 @@ public:
 
     // Iterators
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR iterator begin() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR iterator begin() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR iterator end() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR iterator end() const PHI_NOEXCEPT
     {
         return m_Data + m_Length.unsafe();
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_iterator cbegin() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_iterator
+    cbegin() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_iterator cend() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_iterator
+    cend() const PHI_NOEXCEPT
     {
         return m_Data + m_Length.unsafe();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rbegin() const PHI_NOEXCEPT
     {
         return reverse_iterator(end());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reverse_iterator rend() const PHI_NOEXCEPT
     {
         return reverse_iterator(begin());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crbegin() const PHI_NOEXCEPT
     {
         return reverse_iterator(rbegin());
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crend() const PHI_NOEXCEPT
     {
         return reverse_iterator(rend());
     }
 
     // Capacity
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type length() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type length() const PHI_NOEXCEPT
     {
         return m_Length;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type max_length() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type max_length() const PHI_NOEXCEPT
     {
         return std::numeric_limits<size_type>::max();
     }
 
     // Element access
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference operator[](size_type pos) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference operator[](size_type pos) const PHI_NOEXCEPT
     {
         return data_at(pos);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference at(size_type pos) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference at(size_type pos) const PHI_NOEXCEPT
     {
         return data_at(pos);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference front() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference front() const PHI_NOEXCEPT
     {
         return data_at(0u);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const_reference back() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference back() const PHI_NOEXCEPT
     {
         return data_at(length() - 1u);
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_pointer data() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const_pointer
+    data() const PHI_NOEXCEPT
     {
         return m_Data;
     }
 
     // Modifiers
 
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& add_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& add_prefix(size_type count) PHI_NOEXCEPT
     {
         m_Data -= count.unsafe();
         m_Length += count;
@@ -1173,14 +1180,14 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& add_postfix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& add_postfix(size_type count) PHI_NOEXCEPT
     {
         m_Length += count;
 
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& remove_prefix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& remove_prefix(size_type count) PHI_NOEXCEPT
     {
         PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
@@ -1193,7 +1200,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& remove_suffix(size_type count) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& remove_suffix(size_type count) PHI_NOEXCEPT
     {
         PHI_ASSERT(count <= length(), "Cannot remove more than size");
 
@@ -1205,7 +1212,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& resize(size_type new_size) noexcept
+    PHI_EXTENDED_CONSTEXPR not_null_basic_string_view& resize(size_type new_size) PHI_NOEXCEPT
     {
         m_Length = new_size;
 
@@ -1215,7 +1222,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR void swap(not_null_basic_string_view& other) noexcept
+    PHI_EXTENDED_CONSTEXPR void swap(not_null_basic_string_view& other) PHI_NOEXCEPT
     {
         const not_null_basic_string_view tmp(other);
         other = *this;
@@ -1227,8 +1234,8 @@ public:
 
     // String operations
 
-    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL size_type copy(CharT* destination, size_type count,
-                                                                size_type pos = 0u) const noexcept
+    PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL size_type
+    copy(CharT* destination, size_type count, size_type pos = 0u) const PHI_NOEXCEPT
     {
         PHI_ASSERT(pos <= length(), "Invalid position");
 
@@ -1242,7 +1249,7 @@ public:
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_basic_string_view
-    substring_view(size_type pos = 0u, size_type count = npos) const noexcept
+    substring_view(size_type pos = 0u, size_type count = npos) const PHI_NOEXCEPT
     {
         PHI_ASSERT(pos <= length(), "Invalid position");
 
@@ -1250,7 +1257,7 @@ public:
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR PHI_ATTRIBUTE_NONNULL not_null_basic_string_view
-    substring_view(iterator begin_iterator, iterator end_iterator) const noexcept
+    substring_view(iterator begin_iterator, iterator end_iterator) const PHI_NOEXCEPT
     {
         PHI_ASSERT(begin_iterator >= begin() && begin_iterator <= end(),
                    "Invalid position for begin_iterator");
@@ -1264,7 +1271,7 @@ public:
 
     // Comparing
 
-    PHI_NODISCARD PHI_CONSTEXPR i32 compare(not_null_basic_string_view other) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR i32 compare(not_null_basic_string_view other) const PHI_NOEXCEPT
     {
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
         {
@@ -1294,90 +1301,92 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos, size_type count,
-                                            not_null_basic_string_view other) const noexcept
+                                            not_null_basic_string_view other) const PHI_NOEXCEPT
     {
         return substring_view(pos, count).compare(other);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR i32 compare(size_type pos1, size_type count1,
                                             not_null_basic_string_view other, size_type pos2,
-                                            size_type count2) const noexcept
+                                            size_type count2) const PHI_NOEXCEPT
     {
         return substring_view(pos1, count1).compare(other.substring_view(pos2, count2));
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR i32
-    compare(const CharT* string) const noexcept
+    compare(const CharT* string) const PHI_NOEXCEPT
     {
         return compare(basic_string_view(string));
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR i32
-    compare(size_type pos, size_type count, const CharT* string) const noexcept
+    compare(size_type pos, size_type count, const CharT* string) const PHI_NOEXCEPT
     {
         return substring_view(pos, count).compare(basic_string_view(string));
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR i32 compare(size_type pos, size_type count1,
-                                                                  const CharT* string,
-                                                                  size_type count2) const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR i32
+    compare(size_type pos, size_type count1, const CharT* string,
+            size_type count2) const PHI_NOEXCEPT
     {
         return substring_view(pos, count1).compare(basic_string_view(string, count2));
     }
 
     // Searching
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(not_null_basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean
+    starts_with(not_null_basic_string_view view) const PHI_NOEXCEPT
     {
         return length() >= view.length() && compare(0u, view.length(), view) == 0;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean starts_with(CharT character) const PHI_NOEXCEPT
     {
         return starts_with(basic_string_view(&character, 1u));
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR boolean
-    starts_with(const CharT* string) const noexcept
+    starts_with(const CharT* string) const PHI_NOEXCEPT
     {
         return starts_with(basic_string_view(string));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(not_null_basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean
+    ends_with(not_null_basic_string_view view) const PHI_NOEXCEPT
     {
         return length() >= view.length() && compare(length() - view.length(), npos, view) == 0;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean ends_with(CharT character) const PHI_NOEXCEPT
     {
         return ends_with(basic_string_view(&character, 1u));
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR boolean
-    ends_with(const CharT* string) const noexcept
+    ends_with(const CharT* string) const PHI_NOEXCEPT
     {
         return ends_with(basic_string_view(string));
     }
 
     // contains
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean contains(not_null_basic_string_view view) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean contains(not_null_basic_string_view view) const PHI_NOEXCEPT
     {
         return find(view) != npos;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean contains(CharT character) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean contains(CharT character) const PHI_NOEXCEPT
     {
         return find(character) != npos;
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR boolean
-    contains(const CharT* string) const noexcept
+    contains(const CharT* string) const PHI_NOEXCEPT
     {
         return find(string) != npos;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_null_terminated() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_null_terminated() const PHI_NOEXCEPT
     {
         return back() == '\0';
     }
@@ -1385,7 +1394,7 @@ public:
     // find
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find(not_null_basic_string_view view,
-                                                        size_type pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         PHI_ASSERT(view.length() == 0u || view.data() != nullptr, "Invalid argument view");
 
@@ -1394,20 +1403,20 @@ public:
                                                     view.cend(), TraitsT::eq));
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR size_type find(CharT character, size_type pos = 0u) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type find(CharT     character,
+                                               size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find(const CharT* string, size_type pos = 0u) const noexcept
+    find(const CharT* string, size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find(basic_string_view(string), pos);
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type find(const CharT* string,
-                                                                     size_type    pos,
-                                                                     size_type count) const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
+    find(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return find(basic_string_view(string, count), pos);
     }
@@ -1415,7 +1424,7 @@ public:
     // rfind
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type rfind(not_null_basic_string_view view,
-                                                         size_type pos = npos) const noexcept
+                                                         size_type pos = npos) const PHI_NOEXCEPT
     {
         if (length() < view.length())
         {
@@ -1439,25 +1448,25 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type rfind(CharT     character,
-                                                size_type pos = npos) const noexcept
+                                                size_type pos = npos) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    rfind(const CharT* string, size_type pos = npos) const noexcept
+    rfind(const CharT* string, size_type pos = npos) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    rfind(const CharT* string, size_type pos, size_type count) const noexcept
+    rfind(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return rfind(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(not_null_basic_string_view view,
-                                                        size_type pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         return pos >= length() ? npos :
                                  to_pos(std::find_first_of(cbegin() + pos, cend(), view.cbegin(),
@@ -1465,25 +1474,25 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_of(CharT     character,
-                                                        size_type pos = 0u) const noexcept
+                                                        size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_first_of(const CharT* string, size_type pos = 0u) const noexcept
+    find_first_of(const CharT* string, size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_first_of(const CharT* string, size_type pos, size_type count) const noexcept
+    find_first_of(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return find_first_of(basic_string_view(string, count), pos);
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type find_last_of(not_null_basic_string_view view,
-                                                                size_type pos = npos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type
+    find_last_of(not_null_basic_string_view view, size_type pos = npos) const PHI_NOEXCEPT
     {
         if (pos >= length())
         {
@@ -1495,50 +1504,50 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_of(CharT     character,
-                                                       size_type pos = npos) const noexcept
+                                                       size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_last_of(const CharT* string, size_type pos = npos) const noexcept
+    find_last_of(const CharT* string, size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_last_of(const CharT* string, size_type pos, size_type count) const noexcept
+    find_last_of(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return find_last_of(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(not_null_basic_string_view view,
-                                                            size_type pos = 0u) const noexcept
+                                                            size_type pos = 0u) const PHI_NOEXCEPT
     {
         return pos >= length() ? npos :
                                  to_pos(std::find_if(cbegin() + pos, cend(), not_in_view(view)));
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_first_not_of(CharT     character,
-                                                            size_type pos = 0u) const noexcept
+                                                            size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_first_not_of(const CharT* string, size_type pos = 0u) const noexcept
+    find_first_not_of(const CharT* string, size_type pos = 0u) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_first_not_of(const CharT* string, size_type pos, size_type count) const noexcept
+    find_first_not_of(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return find_first_not_of(basic_string_view(string, count), pos);
     }
 
     PHI_NODISCARD PHI_EXTENDED_CONSTEXPR size_type
-    find_last_not_of(not_null_basic_string_view view, size_type pos = npos) const noexcept
+    find_last_not_of(not_null_basic_string_view view, size_type pos = npos) const PHI_NOEXCEPT
     {
         if (pos >= length())
         {
@@ -1550,19 +1559,19 @@ public:
     }
 
     PHI_NODISCARD PHI_CONSTEXPR size_type find_last_not_of(CharT     character,
-                                                           size_type pos = npos) const noexcept
+                                                           size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(&character, 1u), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_last_not_of(const CharT* string, size_type pos = npos) const noexcept
+    find_last_not_of(const CharT* string, size_type pos = npos) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(string), pos);
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    find_last_not_of(const CharT* string, size_type pos, size_type count) const noexcept
+    find_last_not_of(const CharT* string, size_type pos, size_type count) const PHI_NOEXCEPT
     {
         return find_last_not_of(basic_string_view(string, count), pos);
     }
@@ -1572,17 +1581,17 @@ private:
     {
         const not_null_basic_string_view view;
 
-        PHI_CONSTEXPR explicit not_in_view(not_null_basic_string_view other) noexcept
+        PHI_CONSTEXPR explicit not_in_view(not_null_basic_string_view other) PHI_NOEXCEPT
             : view(other)
         {}
 
-        PHI_NODISCARD PHI_CONSTEXPR boolean operator()(CharT character) const noexcept
+        PHI_NODISCARD PHI_CONSTEXPR boolean operator()(CharT character) const PHI_NOEXCEPT
         {
             return npos == view.find_first_of(character);
         }
     };
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const_reference data_at(size_type pos) const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Data != nullptr, "Invalid data pointer");
         PHI_ASSERT(m_Length > 0u, "Invalid length");
@@ -1592,13 +1601,13 @@ private:
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    to_pos(const_iterator position) const noexcept
+    to_pos(const_iterator position) const PHI_NOEXCEPT
     {
         return position == cend() ? npos : size_type(position - cbegin());
     }
 
     PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR size_type
-    to_pos(const_reverse_iterator position) const noexcept
+    to_pos(const_reverse_iterator position) const PHI_NOEXCEPT
     {
         return position == crend() ? npos : size_type(crend() - position - 1);
     }
@@ -1611,42 +1620,42 @@ private:
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator==(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                 not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.length() == rhs.length() && lhs.compare(rhs) == 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator!=(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                 not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return !(lhs == rhs);
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) < 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator<=(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                 not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) <= 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) > 0;
 }
 
 template <typename CharT, typename TraitsT>
 PHI_CONSTEXPR boolean operator>=(not_null_basic_string_view<CharT, TraitsT> lhs,
-                                 not_null_basic_string_view<CharT, TraitsT> rhs) noexcept
+                                 not_null_basic_string_view<CharT, TraitsT> rhs) PHI_NOEXCEPT
 {
     return lhs.compare(rhs) >= 0;
 }

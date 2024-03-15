@@ -3,14 +3,14 @@
 #include <phi/text/is_punctuation.hpp>
 #include <cctype>
 
-void test_is_punctuation(const char character) noexcept
+void test_is_punctuation(const char character)
 {
     CHECK(phi::is_punctuation(character));
     CHECK(std::ispunct(character));
     CHECK_NOEXCEPT(phi::is_punctuation(character));
 }
 
-void test_is_not_punctuation(const char character) noexcept
+void test_is_not_punctuation(const char character)
 {
     CHECK_FALSE(phi::is_punctuation(character));
     CHECK_FALSE(std::ispunct(character));

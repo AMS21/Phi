@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/generated/compiler_support/type_system.hpp"
 #include "phi/type_traits/false_t.hpp"
@@ -76,14 +77,14 @@ namespace type_system
 
         // Base implementation
         template <typename TypeT>
-        PHI_NODISCARD PHI_CONSTEXPR TypeT min_impl() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR TypeT min_impl() PHI_NOEXCEPT
         {
             static_assert(false_t<TypeT>::value, "No specialization for the given type found.");
             return TypeT{};
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR bool min_impl<bool>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR bool min_impl<bool>() PHI_NOEXCEPT
         {
             return false;
         }
@@ -91,7 +92,7 @@ namespace type_system
         // Character types
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char min_impl<char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char min_impl<char>() PHI_NOEXCEPT
         {
 #if PHI_TYPE_SYSTEM_CHAR_SIGNED()
             return detail::signed_min_impl<char, PHI_TYPE_SYSTEM_SIZEOF_CHAR()>::value;
@@ -101,7 +102,7 @@ namespace type_system
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR wchar_t min_impl<wchar_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR wchar_t min_impl<wchar_t>() PHI_NOEXCEPT
         {
 #if PHI_TYPE_SYSTEM_WCHAR_T_SIGNED()
             return detail::signed_min_impl<wchar_t, PHI_TYPE_SYSTEM_SIZEOF_WCHAR_T()>::value;
@@ -113,7 +114,7 @@ namespace type_system
 #if PHI_HAS_FEATURE_CHAR8_T()
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char8_t min_impl<char8_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char8_t min_impl<char8_t>() PHI_NOEXCEPT
         {
             return 0u;
         }
@@ -121,44 +122,44 @@ namespace type_system
 #endif
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char16_t min_impl<char16_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char16_t min_impl<char16_t>() PHI_NOEXCEPT
         {
             return 0u;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char32_t min_impl<char32_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char32_t min_impl<char32_t>() PHI_NOEXCEPT
         {
             return 0u;
         }
 
         // Signed integer type
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR signed char min_impl<signed char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR signed char min_impl<signed char>() PHI_NOEXCEPT
         {
             return detail::signed_min_impl<signed char, PHI_TYPE_SYSTEM_SIZEOF_CHAR()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR short min_impl<short>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR short min_impl<short>() PHI_NOEXCEPT
         {
             return detail::signed_min_impl<short, PHI_TYPE_SYSTEM_SIZEOF_SHORT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR int min_impl<int>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR int min_impl<int>() PHI_NOEXCEPT
         {
             return detail::signed_min_impl<int, PHI_TYPE_SYSTEM_SIZEOF_INT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long min_impl<long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long min_impl<long>() PHI_NOEXCEPT
         {
             return detail::signed_min_impl<long, PHI_TYPE_SYSTEM_SIZEOF_LONG()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long long min_impl<long long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long long min_impl<long long>() PHI_NOEXCEPT
         {
             return detail::signed_min_impl<long long, PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG()>::value;
         }
@@ -166,31 +167,31 @@ namespace type_system
         // Unsigned integer types
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned char min_impl<unsigned char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned char min_impl<unsigned char>() PHI_NOEXCEPT
         {
             return 0;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned short min_impl<unsigned short>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned short min_impl<unsigned short>() PHI_NOEXCEPT
         {
             return 0;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned min_impl<unsigned>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned min_impl<unsigned>() PHI_NOEXCEPT
         {
             return 0;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned long min_impl<unsigned long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned long min_impl<unsigned long>() PHI_NOEXCEPT
         {
             return 0;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned long long min_impl<unsigned long long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned long long min_impl<unsigned long long>() PHI_NOEXCEPT
         {
             return 0;
         }
@@ -198,26 +199,26 @@ namespace type_system
         // Floating point numbers
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR float min_impl<float>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR float min_impl<float>() PHI_NOEXCEPT
         {
             return detail::float_min_impl<float, PHI_TYPE_SYSTEM_SIZEOF_FLOAT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR double min_impl<double>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR double min_impl<double>() PHI_NOEXCEPT
         {
             return detail::float_min_impl<double, PHI_TYPE_SYSTEM_SIZEOF_DOUBLE()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long double min_impl<long double>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long double min_impl<long double>() PHI_NOEXCEPT
         {
             return detail::float_min_impl<long double, PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE()>::value;
         }
     } // namespace detail
 
     template <typename TypeT>
-    PHI_NODISCARD PHI_CONSTEXPR remove_cv_t<TypeT> min() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR remove_cv_t<TypeT> min() PHI_NOEXCEPT
     {
         return detail::min_impl<remove_cv_t<make_unsafe_t<TypeT>>>();
     }

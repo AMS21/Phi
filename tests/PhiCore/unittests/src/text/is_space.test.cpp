@@ -3,14 +3,14 @@
 #include <phi/text/is_space.hpp>
 #include <cctype>
 
-void test_is_space(const char character) noexcept
+void test_is_space(const char character)
 {
     CHECK(phi::is_space(character));
     CHECK(std::isspace(character));
     CHECK_NOEXCEPT(phi::is_space(character));
 }
 
-void test_is_not_space(const char character) noexcept
+void test_is_not_space(const char character)
 {
     CHECK_FALSE(phi::is_space(character));
     CHECK_FALSE(std::isspace(character));

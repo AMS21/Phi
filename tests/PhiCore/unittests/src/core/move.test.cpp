@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
@@ -9,9 +10,9 @@
 class move_only
 {
 public:
-    move_only(move_only&& /*other*/) noexcept
+    move_only(move_only&& /*other*/) PHI_NOEXCEPT
     {}
-    move_only& operator=(move_only&& /*other*/) noexcept
+    move_only& operator=(move_only&& /*other*/) PHI_NOEXCEPT
     {
         return *this;
     }
@@ -47,7 +48,7 @@ static int        integer       = 42; // NOLINT(cppcoreguidelines-avoid-non-cons
 static const int& const_integer = integer;
 
 template <typename QualIntT>
-QualIntT get() noexcept
+QualIntT get() PHI_NOEXCEPT
 {
     return static_cast<QualIntT>(integer);
 }
@@ -66,7 +67,7 @@ namespace move_test
             ++copy_ctor;
         }
 
-        A(A&& /*other*/) noexcept
+        A(A&& /*other*/) PHI_NOEXCEPT
         {
             ++move_ctor;
         }

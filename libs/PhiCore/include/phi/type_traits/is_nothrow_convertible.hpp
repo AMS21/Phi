@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -24,10 +25,11 @@ PHI_CLANG_SUPPRESS_WARNING("-Wunused-template")
 namespace detail
 {
     template <typename TypeT>
-    static void is_nothrow_convertible_test_noexcept(TypeT) noexcept;
+    static void is_nothrow_convertible_test_noexcept(TypeT) PHI_NOEXCEPT;
 
     template <typename FromT, typename ToT>
-    static bool_constant<noexcept(is_nothrow_convertible_test_noexcept<ToT>(declval<FromT>()))>
+    static bool_constant<
+            PHI_NOEXCEPT_EXPR(is_nothrow_convertible_test_noexcept<ToT>(declval<FromT>()))>
     is_nothrow_convertible_test();
 
     template <typename FromT, typename ToT>

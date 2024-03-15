@@ -9,13 +9,14 @@
 
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/declval.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-PHI_EXTENDED_CONSTEXPR void iterator_swap(LhsIteratorT lhs, RhsIteratorT rhs) noexcept(
-        noexcept(swap(*declval<LhsIteratorT>(), *declval<RhsIteratorT>())))
+PHI_EXTENDED_CONSTEXPR void iterator_swap(LhsIteratorT lhs, RhsIteratorT rhs)
+        PHI_NOEXCEPT_EXPR(noexcept(swap(*declval<LhsIteratorT>(), *declval<RhsIteratorT>())))
 {
     swap(*lhs, *rhs);
 }

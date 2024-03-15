@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/generated/compiler_support/type_system.hpp"
 #include "phi/type_traits/false_t.hpp"
@@ -107,14 +108,14 @@ namespace type_system
 
         // Base implementation
         template <typename TypeT>
-        PHI_NODISCARD PHI_CONSTEXPR TypeT max_impl() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR TypeT max_impl() PHI_NOEXCEPT
         {
             static_assert(false_t<TypeT>::value, "No specialization for the given type found.");
             return TypeT{};
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR bool max_impl<bool>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR bool max_impl<bool>() PHI_NOEXCEPT
         {
             return true;
         }
@@ -122,7 +123,7 @@ namespace type_system
         // Character types
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char max_impl<char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char max_impl<char>() PHI_NOEXCEPT
         {
 #if PHI_TYPE_SYSTEM_CHAR_SIGNED()
             return detail::signed_int_max_impl<char, PHI_TYPE_SYSTEM_SIZEOF_CHAR()>::value;
@@ -132,7 +133,7 @@ namespace type_system
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR wchar_t max_impl<wchar_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR wchar_t max_impl<wchar_t>() PHI_NOEXCEPT
         {
 #if PHI_TYPE_SYSTEM_WCHAR_T_SIGNED()
             return detail::signed_int_max_impl<wchar_t, PHI_TYPE_SYSTEM_SIZEOF_WCHAR_T()>::value;
@@ -144,7 +145,7 @@ namespace type_system
 #if PHI_HAS_FEATURE_CHAR8_T()
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char8_t max_impl<char8_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char8_t max_impl<char8_t>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<char8_t, 1u>::value;
         }
@@ -152,44 +153,44 @@ namespace type_system
 #endif
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char16_t max_impl<char16_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char16_t max_impl<char16_t>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<char16_t, 2u>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR char32_t max_impl<char32_t>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR char32_t max_impl<char32_t>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<char32_t, 4u>::value;
         }
 
         // Signed integer type
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR signed char max_impl<signed char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR signed char max_impl<signed char>() PHI_NOEXCEPT
         {
             return detail::signed_int_max_impl<signed char, PHI_TYPE_SYSTEM_SIZEOF_CHAR()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR short max_impl<short>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR short max_impl<short>() PHI_NOEXCEPT
         {
             return detail::signed_int_max_impl<short, PHI_TYPE_SYSTEM_SIZEOF_SHORT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR int max_impl<int>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR int max_impl<int>() PHI_NOEXCEPT
         {
             return detail::signed_int_max_impl<int, PHI_TYPE_SYSTEM_SIZEOF_INT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long max_impl<long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long max_impl<long>() PHI_NOEXCEPT
         {
             return detail::signed_int_max_impl<long, PHI_TYPE_SYSTEM_SIZEOF_LONG()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long long max_impl<long long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long long max_impl<long long>() PHI_NOEXCEPT
         {
             return detail::signed_int_max_impl<long long,
                                                PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG()>::value;
@@ -198,34 +199,34 @@ namespace type_system
         // Unsigned integer types
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned char max_impl<unsigned char>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned char max_impl<unsigned char>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<unsigned char,
                                                  PHI_TYPE_SYSTEM_SIZEOF_CHAR()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned short max_impl<unsigned short>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned short max_impl<unsigned short>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<unsigned short,
                                                  PHI_TYPE_SYSTEM_SIZEOF_SHORT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned max_impl<unsigned>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned max_impl<unsigned>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<unsigned, PHI_TYPE_SYSTEM_SIZEOF_INT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned long max_impl<unsigned long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned long max_impl<unsigned long>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<unsigned long,
                                                  PHI_TYPE_SYSTEM_SIZEOF_LONG()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR unsigned long long max_impl<unsigned long long>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR unsigned long long max_impl<unsigned long long>() PHI_NOEXCEPT
         {
             return detail::unsigned_int_max_impl<unsigned long long,
                                                  PHI_TYPE_SYSTEM_SIZEOF_LONG_LONG()>::value;
@@ -234,26 +235,26 @@ namespace type_system
         // Floating point numbers
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR float max_impl<float>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR float max_impl<float>() PHI_NOEXCEPT
         {
             return detail::float_max_impl<float, PHI_TYPE_SYSTEM_SIZEOF_FLOAT()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR double max_impl<double>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR double max_impl<double>() PHI_NOEXCEPT
         {
             return detail::float_max_impl<double, PHI_TYPE_SYSTEM_SIZEOF_DOUBLE()>::value;
         }
 
         template <>
-        PHI_NODISCARD PHI_CONSTEXPR long double max_impl<long double>() noexcept
+        PHI_NODISCARD PHI_CONSTEXPR long double max_impl<long double>() PHI_NOEXCEPT
         {
             return detail::float_max_impl<long double, PHI_TYPE_SYSTEM_SIZEOF_LONG_DOUBLE()>::value;
         }
     } // namespace detail
 
     template <typename TypeT>
-    PHI_NODISCARD PHI_CONSTEXPR remove_cv_t<TypeT> max() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR remove_cv_t<TypeT> max() PHI_NOEXCEPT
     {
         return detail::max_impl<remove_cv_t<make_unsafe_t<TypeT>>>();
     }

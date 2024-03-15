@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/core/assert.hpp>
 #include <phi/core/observer_ptr.hpp>
 #include <phi/core/pointer_traits.hpp>
@@ -127,13 +128,13 @@ struct Ptr
     template <typename>
     using rebind = Ptr;
 
-    static PHI_CONSTEXPR Ptr pointer_to(bool& b) noexcept
+    static PHI_CONSTEXPR Ptr pointer_to(bool& b) PHI_NOEXCEPT
     {
         return Ptr{&b};
     }
 };
 
-PHI_CONSTEXPR bool operator==(const Ptr& lhs, const Ptr& rhs) noexcept
+PHI_CONSTEXPR bool operator==(const Ptr& lhs, const Ptr& rhs) PHI_NOEXCEPT
 {
     return lhs.value == rhs.value;
 }

@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/forward.hpp"
@@ -30,22 +31,19 @@ public:
     using value_type = ValueT;
     using error_type = ErrorT;
 
-    PHI_CONSTEXPR error_or(const ValueT& value) noexcept
-        : m_Value(value)
+    PHI_CONSTEXPR error_or(const ValueT& value) PHI_NOEXCEPT : m_Value(value)
     {}
 
-    PHI_CONSTEXPR error_or(ValueT&& value) noexcept
-        : m_Value(move(value))
+    PHI_CONSTEXPR error_or(ValueT&& value) PHI_NOEXCEPT : m_Value(move(value))
     {}
 
     template <typename OtherT>
     // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR error_or(OtherT&& value) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR error_or(OtherT&& value) PHI_NOEXCEPT
         : m_Value(forward<OtherT>(value))
     {}
 
-    PHI_CONSTEXPR error_or(ErrorT&& error) noexcept
-        : m_Error(move(error))
+    PHI_CONSTEXPR error_or(ErrorT&& error) PHI_NOEXCEPT : m_Error(move(error))
     {}
 
     // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -60,7 +58,7 @@ public:
 
     error_or& operator=(error_or const& other) = default;
 
-    PHI_NODISCARD PHI_CONSTEXPR ValueT& value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT& value() const PHI_NOEXCEPT
     {
         PHI_ASSERT(!is_error(), "Calling value() with error set");
         PHI_ASSERT(has_value(), "Calling value() with no value set");
@@ -68,7 +66,7 @@ public:
         return m_Value.value();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR ErrorT& error() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ErrorT& error() const PHI_NOEXCEPT
     {
         PHI_ASSERT(is_error(), "Calling error() with no error set");
         PHI_ASSERT(!has_value(), "Calling error() with value set");
@@ -76,12 +74,12 @@ public:
         return m_Error.value();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_error() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_error() const PHI_NOEXCEPT
     {
         return m_Error.has_value();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean has_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean has_value() const PHI_NOEXCEPT
     {
         return m_Value.has_value();
     }
@@ -104,8 +102,7 @@ public:
 
     error_or() = default;
 
-    PHI_CONSTEXPR error_or(ErrorT error) noexcept
-        : m_Error(move(error))
+    PHI_CONSTEXPR error_or(ErrorT error) PHI_NOEXCEPT : m_Error(move(error))
     {}
 
     error_or(error_or const& other) = default;
@@ -123,19 +120,19 @@ public:
     template <typename ReturnT>
     ReturnT value() = delete;
 
-    PHI_NODISCARD PHI_CONSTEXPR ErrorT& error() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ErrorT& error() const PHI_NOEXCEPT
     {
         PHI_ASSERT(is_error(), "Calling error() with no error set");
 
         return m_Error.value();
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_error() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_error() const PHI_NOEXCEPT
     {
         return m_Error.has_value();
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean has_value() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean has_value() const PHI_NOEXCEPT
     {
         return false;
     }

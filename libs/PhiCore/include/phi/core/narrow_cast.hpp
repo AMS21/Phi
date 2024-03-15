@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/unsafe_cast.hpp"
@@ -29,7 +30,7 @@ PHI_NODISCARD
         PHI_CONSTEXPR
 #endif
                 TargetT
-                narrow_cast(SourceT&& source) noexcept
+                narrow_cast(SourceT&& source) PHI_NOEXCEPT
 {
 #if defined(PHI_DEBUG)
     using unsafe_target_t = make_unsafe_t<phi::remove_reference_t<TargetT>>;

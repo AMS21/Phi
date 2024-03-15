@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -21,9 +22,9 @@ public:
     using this_type  = scoped_value_guard<ValueT>;
     using value_type = ValueT;
 
-    PHI_CONSTEXPR explicit scoped_value_guard(ValueT& variable) noexcept
-        : m_Variable(variable)
-        , m_SavedValue(variable)
+    PHI_CONSTEXPR explicit scoped_value_guard(ValueT& variable) PHI_NOEXCEPT
+        : m_Variable(variable),
+          m_SavedValue(variable)
     {}
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -40,22 +41,22 @@ public:
     scoped_value_guard& operator=(scoped_value_guard&&)      = default;
 #endif
 
-    PHI_CONSTEXPR_DESTRUCTOR ~scoped_value_guard() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~scoped_value_guard() PHI_NOEXCEPT
     {
         m_Variable = m_SavedValue;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const PHI_NOEXCEPT
     {
         return m_Variable;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const PHI_NOEXCEPT
     {
         return m_SavedValue;
     }
 
-    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) noexcept
+    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) PHI_NOEXCEPT
     {
         m_SavedValue = new_value;
     }
@@ -78,10 +79,10 @@ public:
     using this_type  = armed_scoped_value_guard<ValueT>;
     using value_type = ValueT;
 
-    PHI_CONSTEXPR explicit armed_scoped_value_guard(ValueT& variable) noexcept
-        : m_Variable(variable)
-        , m_SavedValue(variable)
-        , m_Armed(true)
+    PHI_CONSTEXPR explicit armed_scoped_value_guard(ValueT& variable) PHI_NOEXCEPT
+        : m_Variable(variable),
+          m_SavedValue(variable),
+          m_Armed(true)
     {}
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -98,7 +99,7 @@ public:
     armed_scoped_value_guard& operator=(armed_scoped_value_guard&&)      = default;
 #endif
 
-    PHI_CONSTEXPR_DESTRUCTOR ~armed_scoped_value_guard() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~armed_scoped_value_guard() PHI_NOEXCEPT
     {
         if (m_Armed)
         {
@@ -106,32 +107,32 @@ public:
         }
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const PHI_NOEXCEPT
     {
         return m_Variable;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const PHI_NOEXCEPT
     {
         return m_SavedValue;
     }
 
-    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) noexcept
+    PHI_EXTENDED_CONSTEXPR void override_saved_value(const ValueT& new_value) PHI_NOEXCEPT
     {
         m_SavedValue = new_value;
     }
 
-    PHI_EXTENDED_CONSTEXPR void disarm() noexcept
+    PHI_EXTENDED_CONSTEXPR void disarm() PHI_NOEXCEPT
     {
         m_Armed = false;
     }
 
-    PHI_EXTENDED_CONSTEXPR void rearm() noexcept
+    PHI_EXTENDED_CONSTEXPR void rearm() PHI_NOEXCEPT
     {
         m_Armed = true;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const PHI_NOEXCEPT
     {
         return m_Armed;
     }
@@ -149,15 +150,15 @@ armed_scoped_value_guard(TypeT) -> armed_scoped_value_guard<TypeT>;
 #endif
 
 template <typename ValueT>
-PHI_NODISCARD PHI_CONSTEXPR scoped_value_guard<ValueT> make_scoped_value_guard(
-        ValueT& variable) noexcept
+PHI_NODISCARD PHI_CONSTEXPR scoped_value_guard<ValueT> make_scoped_value_guard(ValueT& variable)
+        PHI_NOEXCEPT
 {
     return scoped_value_guard<ValueT>(variable);
 }
 
 template <typename ValueT>
 PHI_NODISCARD PHI_CONSTEXPR armed_scoped_value_guard<ValueT> make_armed_scoped_value_guard(
-        ValueT& variable) noexcept
+        ValueT& variable) PHI_NOEXCEPT
 {
     return armed_scoped_value_guard<ValueT>(variable);
 }

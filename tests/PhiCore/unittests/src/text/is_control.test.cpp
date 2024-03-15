@@ -3,14 +3,14 @@
 #include <phi/text/is_control.hpp>
 #include <cctype>
 
-void test_is_control(const char character) noexcept
+void test_is_control(const char character)
 {
     CHECK(phi::is_control(character));
     CHECK(std::iscntrl(character));
     CHECK_NOEXCEPT(phi::is_control(character));
 }
 
-void test_is_not_control(const char character) noexcept
+void test_is_not_control(const char character)
 {
     CHECK_FALSE(phi::is_control(character));
     CHECK_FALSE(std::iscntrl(character));

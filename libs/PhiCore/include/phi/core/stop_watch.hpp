@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include <chrono>
 #include <ratio>
 
@@ -21,12 +22,11 @@ public:
     using clock_type      = ClockT;
     using time_point_type = std::chrono::time_point<ClockT>;
 
-    stop_watch() noexcept
-        : m_BeginTimePoint(ClockT::now())
+    stop_watch() PHI_NOEXCEPT : m_BeginTimePoint(ClockT::now())
     {}
 
     template <typename StorageT = double, typename PeriodT = std::milli>
-    PHI_NODISCARD std::chrono::duration<StorageT, PeriodT> get_elapsed() const noexcept
+    PHI_NODISCARD std::chrono::duration<StorageT, PeriodT> get_elapsed() const PHI_NOEXCEPT
     {
         const std::chrono::time_point<ClockT> current_time_point = ClockT::now();
 

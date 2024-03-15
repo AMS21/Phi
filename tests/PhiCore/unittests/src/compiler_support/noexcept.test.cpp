@@ -6,9 +6,9 @@
 TEST_CASE("PHI_NOEXCEPT")
 {
 #if PHI_HAS_FEATURE_NOEXCEPT()
-    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT()), "noexcept"));
+    STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT), "noexcept"));
 #else
-    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT()), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT), ""));
 #endif
 }
 

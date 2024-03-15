@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/cpp_standard.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/core/move.hpp"
@@ -32,8 +33,7 @@ public:
     using this_type   = scope_guard<ActionT>;
     using action_type = ActionT;
 
-    PHI_CONSTEXPR explicit scope_guard(ActionT action) noexcept
-        : m_Action(phi::move(action))
+    PHI_CONSTEXPR explicit scope_guard(ActionT action) PHI_NOEXCEPT : m_Action(phi::move(action))
     {}
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -76,9 +76,9 @@ public:
     using this_type   = armed_scope_guard<ActionT>;
     using action_type = ActionT;
 
-    PHI_CONSTEXPR explicit armed_scope_guard(ActionT action) noexcept
-        : m_Action(phi::move(action))
-        , m_Armed{true}
+    PHI_CONSTEXPR explicit armed_scope_guard(ActionT action) PHI_NOEXCEPT
+        : m_Action(phi::move(action)),
+          m_Armed{true}
     {}
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(17)
@@ -103,17 +103,17 @@ public:
         }
     }
 
-    PHI_EXTENDED_CONSTEXPR void disarm() noexcept
+    PHI_EXTENDED_CONSTEXPR void disarm() PHI_NOEXCEPT
     {
         m_Armed = false;
     }
 
-    PHI_EXTENDED_CONSTEXPR void rearm() noexcept
+    PHI_EXTENDED_CONSTEXPR void rearm() PHI_NOEXCEPT
     {
         m_Armed = true;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const PHI_NOEXCEPT
     {
         return m_Armed;
     }
@@ -129,15 +129,15 @@ armed_scope_guard(TypeT) -> armed_scope_guard<TypeT>;
 #endif
 
 template <typename ActionT>
-PHI_NODISCARD PHI_CONSTEXPR scope_guard<remove_cvref_t<ActionT>> make_scope_guard(
-        ActionT&& action) noexcept
+PHI_NODISCARD PHI_CONSTEXPR scope_guard<remove_cvref_t<ActionT>> make_scope_guard(ActionT&& action)
+        PHI_NOEXCEPT
 {
     return scope_guard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));
 }
 
 template <typename ActionT>
 PHI_NODISCARD PHI_CONSTEXPR armed_scope_guard<remove_cvref_t<ActionT>> make_armed_scope_guard(
-        ActionT&& action) noexcept
+        ActionT&& action) PHI_NOEXCEPT
 {
     return armed_scope_guard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));
 }

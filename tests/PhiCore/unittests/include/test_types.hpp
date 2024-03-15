@@ -3,6 +3,7 @@
 
 #include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/nodiscard.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/standard_library.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
@@ -321,102 +322,103 @@ struct explicit_class
 
 struct nothrow_explicit_class
 {
-    nothrow_explicit_class(double&) noexcept;
-    explicit nothrow_explicit_class(int&) noexcept;
-    nothrow_explicit_class(double&, int&, double&) noexcept;
+    nothrow_explicit_class(double&) PHI_NOEXCEPT;
+    explicit nothrow_explicit_class(int&) PHI_NOEXCEPT;
+    nothrow_explicit_class(double&, int&, double&) PHI_NOEXCEPT;
 };
 
 struct throw_explicit_class
 {
-    throw_explicit_class(double&) noexcept(false);
-    explicit throw_explicit_class(int&) noexcept(false);
-    throw_explicit_class(double&, int&, double&) noexcept(false);
+    throw_explicit_class(double&) PHI_NOEXCEPT_EXPR(false);
+    explicit throw_explicit_class(int&) PHI_NOEXCEPT_EXPR(false);
+    throw_explicit_class(double&, int&, double&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct throw_default_class
 {
-    throw_default_class() noexcept(false);
+    throw_default_class() PHI_NOEXCEPT_EXPR(false);
 };
 
 struct throw_copy_constructible_class
 {
-    throw_copy_constructible_class(const throw_copy_constructible_class&) noexcept(false);
+    throw_copy_constructible_class(const throw_copy_constructible_class&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct throw_move_constructible_class
 {
-    throw_move_constructible_class(throw_move_constructible_class&&) noexcept(false);
+    throw_move_constructible_class(throw_move_constructible_class&&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct throw_destructor
 {
-    ~throw_destructor() noexcept(false);
+    ~throw_destructor() PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_explicit_class
 {
-    noexcept_explicit_class(double&) noexcept;
-    explicit noexcept_explicit_class(int&) noexcept;
-    noexcept_explicit_class(double&, int&, double&) noexcept;
+    noexcept_explicit_class(double&) PHI_NOEXCEPT;
+    explicit noexcept_explicit_class(int&) PHI_NOEXCEPT;
+    noexcept_explicit_class(double&, int&, double&) PHI_NOEXCEPT;
 };
 
 struct except_explicit_class
 {
-    except_explicit_class(double&) noexcept(false);
-    explicit except_explicit_class(int&) noexcept(false);
-    except_explicit_class(double&, int&, double&) noexcept(false);
+    except_explicit_class(double&) PHI_NOEXCEPT_EXPR(false);
+    explicit except_explicit_class(int&) PHI_NOEXCEPT_EXPR(false);
+    except_explicit_class(double&, int&, double&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_default_class
 {
-    noexcept_default_class() noexcept;
+    noexcept_default_class() PHI_NOEXCEPT;
 };
 
 struct except_default_class
 {
-    except_default_class() noexcept(false);
+    except_default_class() PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_copy_constructible_class
 {
-    noexcept_copy_constructible_class(const noexcept_copy_constructible_class&) noexcept;
+    noexcept_copy_constructible_class(const noexcept_copy_constructible_class&) PHI_NOEXCEPT;
 };
 
 struct except_copy_constructible_class
 {
-    except_copy_constructible_class(const except_copy_constructible_class&) noexcept(false);
+    except_copy_constructible_class(const except_copy_constructible_class&)
+            PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_move_constructible_class
 {
-    noexcept_move_constructible_class(noexcept_move_constructible_class&&) noexcept;
+    noexcept_move_constructible_class(noexcept_move_constructible_class&&) PHI_NOEXCEPT;
     noexcept_move_constructible_class& operator=(noexcept_move_constructible_class&&) = default;
 };
 
 struct except_move_constructible_class
 {
-    except_move_constructible_class(except_move_constructible_class&&) noexcept(false);
+    except_move_constructible_class(except_move_constructible_class&&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_copy_assign_class
 {
-    noexcept_copy_assign_class& operator=(const noexcept_copy_assign_class&) noexcept;
+    noexcept_copy_assign_class& operator=(const noexcept_copy_assign_class&) PHI_NOEXCEPT;
 };
 
 struct except_copy_assign_class
 {
-    except_copy_assign_class& operator=(const except_copy_assign_class&) noexcept(false);
+    except_copy_assign_class& operator=(const except_copy_assign_class&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct noexcept_move_assign_class
 {
     noexcept_move_assign_class(noexcept_move_assign_class&&) = default;
-    noexcept_move_assign_class& operator=(noexcept_move_assign_class&&) noexcept;
+    noexcept_move_assign_class& operator=(noexcept_move_assign_class&&) PHI_NOEXCEPT;
 };
 
 struct except_move_assign_class
 {
-    except_move_assign_class& operator=(except_move_assign_class&&) noexcept(false);
+    except_move_assign_class& operator=(except_move_assign_class&&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct deleted_copy_assign_class
@@ -432,37 +434,37 @@ struct deleted_move_assign_class
 struct noexcept_move_constructible_and_assignable_class
 {
     noexcept_move_constructible_and_assignable_class(
-            noexcept_move_constructible_and_assignable_class&&) noexcept;
+            noexcept_move_constructible_and_assignable_class&&) PHI_NOEXCEPT;
 
     noexcept_move_constructible_and_assignable_class& operator=(
-            noexcept_move_constructible_and_assignable_class&&) noexcept;
+            noexcept_move_constructible_and_assignable_class&&) PHI_NOEXCEPT;
 };
 
 struct except_move_constructible_noexcept_move_assign_class
 {
     except_move_constructible_noexcept_move_assign_class(
-            except_move_constructible_noexcept_move_assign_class&&) noexcept(false);
+            except_move_constructible_noexcept_move_assign_class&&) PHI_NOEXCEPT_EXPR(false);
 
     except_move_constructible_noexcept_move_assign_class& operator=(
-            except_move_constructible_noexcept_move_assign_class&&) noexcept;
+            except_move_constructible_noexcept_move_assign_class&&) PHI_NOEXCEPT;
 };
 
 struct noexcept_move_constructible_except_move_assign_class
 {
     noexcept_move_constructible_except_move_assign_class(
-            noexcept_move_constructible_except_move_assign_class&&) noexcept;
+            noexcept_move_constructible_except_move_assign_class&&) PHI_NOEXCEPT;
 
     noexcept_move_constructible_except_move_assign_class& operator=(
-            noexcept_move_constructible_except_move_assign_class&&) noexcept(false);
+            noexcept_move_constructible_except_move_assign_class&&) PHI_NOEXCEPT_EXPR(false);
 };
 
 struct except_move_constructible_and_assign_class
 {
-    except_move_constructible_and_assign_class(
-            except_move_constructible_and_assign_class&&) noexcept(false);
+    except_move_constructible_and_assign_class(except_move_constructible_and_assign_class&&)
+            PHI_NOEXCEPT_EXPR(false);
 
     except_move_constructible_and_assign_class& operator=(
-            except_move_constructible_and_assign_class&&) noexcept(false);
+            except_move_constructible_and_assign_class&&) PHI_NOEXCEPT_EXPR(false);
 };
 
 template <typename ToT>
@@ -694,10 +696,10 @@ PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
 static auto Lambda = []() {};
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-static auto LambdaNoexcept = []() noexcept {};
+static auto LambdaNoexcept = []() PHI_NOEXCEPT {};
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-static auto LambdaThrows = []() noexcept(false) {};
+static auto LambdaThrows = []() PHI_NOEXCEPT(false) {};
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
@@ -848,27 +850,21 @@ class tracked
     };
 
 public:
-    PHI_CONSTEXPR tracked() noexcept
-        : m_Value{0}
-        , m_State{State::Constructed}
+    PHI_CONSTEXPR tracked() PHI_NOEXCEPT : m_Value{0}, m_State{State::Constructed}
     {}
 
-    PHI_CONSTEXPR explicit tracked(int val) noexcept
-        : m_Value{val}
-        , m_State{State::Constructed}
+    PHI_CONSTEXPR explicit tracked(int val) PHI_NOEXCEPT : m_Value{val}, m_State{State::Constructed}
     {}
 
-    PHI_EXTENDED_CONSTEXPR tracked(const tracked& other) noexcept
-        : m_Value{other.m_Value}
-        , m_State{State::Constructed}
+    PHI_EXTENDED_CONSTEXPR tracked(const tracked& other) PHI_NOEXCEPT : m_Value{other.m_Value},
+                                                                        m_State{State::Constructed}
     {
         PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
         PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
     }
 
-    PHI_EXTENDED_CONSTEXPR tracked(tracked&& other) noexcept
-        : m_Value{other.m_Value}
-        , m_State{State::Constructed}
+    PHI_EXTENDED_CONSTEXPR tracked(tracked&& other) PHI_NOEXCEPT : m_Value{other.m_Value},
+                                                                   m_State{State::Constructed}
     {
         PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
         PHI_RELEASE_ASSERT(other.m_State != State::Destroyed, "other object is already destroyed");
@@ -877,7 +873,7 @@ public:
     }
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
-    PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked& operator=(const tracked& other) PHI_NOEXCEPT
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed, "this object is already destroyed");
         PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
@@ -887,7 +883,7 @@ public:
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR tracked& operator=(tracked&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR tracked& operator=(tracked&& other) PHI_NOEXCEPT
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed, "this object is already destroyed");
         PHI_RELEASE_ASSERT(other.m_State != State::MovedFrom, "other object is already moved-from");
@@ -899,7 +895,7 @@ public:
         return *this;
     }
 
-    PHI_CONSTEXPR_DESTRUCTOR ~tracked() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~tracked() PHI_NOEXCEPT
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed,
                            "~tracked() called on destroyed object - double destroy");
@@ -907,7 +903,7 @@ public:
         m_State = State::Destroyed;
     }
 
-    PHI_EXTENDED_CONSTEXPR void set_value(int new_val) noexcept
+    PHI_EXTENDED_CONSTEXPR void set_value(int new_val) PHI_NOEXCEPT
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed, "set_value() called on destroyed object");
         PHI_RELEASE_ASSERT(m_State != State::MovedFrom, "set_value() called on moved-from object");
@@ -915,7 +911,7 @@ public:
         m_Value = new_val;
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR int value() const PHI_NOEXCEPT
     {
         PHI_RELEASE_ASSERT(m_State != State::Destroyed, "value() called on destroyed object");
         PHI_RELEASE_ASSERT(m_State != State::MovedFrom, "value() called on moved-from object");
@@ -941,7 +937,7 @@ struct trap_constructible
     trap_constructible& operator=(trap_constructible&&)      = default;
 
     template <typename... ArgsT>
-    PHI_CONSTEXPR trap_constructible(ArgsT&&... /*args*/) noexcept
+    PHI_CONSTEXPR trap_constructible(ArgsT&&... /*args*/) PHI_NOEXCEPT
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_constructible constructor must not be used");
@@ -951,7 +947,7 @@ struct trap_constructible
 struct trap_implicit_conversion
 {
     template <typename TypeT>
-    PHI_CONSTEXPR operator TypeT() noexcept
+    PHI_CONSTEXPR operator TypeT() PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_implicit_conversion::operator TypeT, must never be instantiated");
@@ -963,7 +959,8 @@ struct trap_implicit_conversion
 struct trap_comma
 {
     template <typename TypeT>
-    friend PHI_CONSTEXPR bool operator,(const trap_comma& /*unused*/, TypeT&& /*unused*/) noexcept
+    friend PHI_CONSTEXPR bool operator,(const trap_comma& /*unused*/,
+                                        TypeT&& /*unused*/) PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -972,7 +969,8 @@ struct trap_comma
     }
 
     template <typename TypeT>
-    friend PHI_CONSTEXPR bool operator,(TypeT&& /*unused*/, const trap_comma& /*unused*/) noexcept
+    friend PHI_CONSTEXPR bool operator,(TypeT&& /*unused*/,
+                                        const trap_comma& /*unused*/) PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -984,7 +982,7 @@ struct trap_comma
 struct trap_call
 {
     template <typename... ArgsT>
-    PHI_CONSTEXPR bool operator()(ArgsT&&... /*unused*/) noexcept
+    PHI_CONSTEXPR bool operator()(ArgsT&&... /*unused*/) PHI_NOEXCEPT
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_call::operator() must never be instantiated");
@@ -1001,7 +999,7 @@ struct trap_self_assign
     trap_self_assign(trap_self_assign&&)      = default;
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
-    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) noexcept
+    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(const trap_self_assign& other) PHI_NOEXCEPT
     {
         PHI_UNUSED_PARAMETER(other);
         PHI_RELEASE_ASSERT(&other != this, "self-assignment is not allowed");
@@ -1009,7 +1007,7 @@ struct trap_self_assign
         return *this;
     }
 
-    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(trap_self_assign&& other) noexcept
+    PHI_EXTENDED_CONSTEXPR trap_self_assign& operator=(trap_self_assign&& other) PHI_NOEXCEPT
     {
         PHI_UNUSED_PARAMETER(other);
         PHI_RELEASE_ASSERT(&other != this, "self-assignment is not allowed");
@@ -1021,7 +1019,7 @@ struct trap_self_assign
 struct trap_deref
 {
     template <typename TypeT>
-    PHI_CONSTEXPR TypeT operator*() noexcept
+    PHI_CONSTEXPR TypeT operator*() PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_deref::operator*() must never be instantiated");
@@ -1029,7 +1027,7 @@ struct trap_deref
     }
 
     template <typename TypeT>
-    PHI_CONSTEXPR TypeT* operator->() noexcept
+    PHI_CONSTEXPR TypeT* operator->() PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_deref::operator->() must never be instantiated");
@@ -1040,7 +1038,7 @@ struct trap_deref
 struct trap_array_subscript
 {
     template <typename TypeT>
-    PHI_CONSTEXPR bool operator[](TypeT /*index*/) noexcept
+    PHI_CONSTEXPR bool operator[](TypeT /*index*/) PHI_NOEXCEPT
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_array_subscript::operator[] must never be instantiated");

@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/type_traits/detail/invoke_impl.hpp"
 #include "phi/type_traits/invoke_result.hpp"
@@ -16,9 +17,8 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename FunctionT, typename... ArgsT>
-PHI_CONSTEXPR invoke_result_t<FunctionT, ArgsT...> invoke(
-        FunctionT&& function,
-        ArgsT&&... args) noexcept(is_nothrow_invocable<FunctionT, ArgsT...>::value)
+PHI_CONSTEXPR invoke_result_t<FunctionT, ArgsT...> invoke(FunctionT&& function, ArgsT&&... args)
+        PHI_NOEXCEPT(is_nothrow_invocable<FunctionT, ArgsT...>::value)
 {
     return detail::invoke_impl(phi::forward<FunctionT>(function), phi::forward<ArgsT>(args)...);
 }

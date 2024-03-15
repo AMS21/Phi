@@ -10,26 +10,27 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/types.hpp"
 #include "phi/core/unsafe_cast.hpp"
 #include "phi/preprocessor/glue.hpp"
 
 #define DETAIL_PHI_DECLARE_CONSTANT(name, value)                                                   \
     template <typename TypeT>                                                                      \
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT PHI_GLUE(name, _v)() noexcept              \
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT PHI_GLUE(name, _v)() PHI_NOEXCEPT          \
     {                                                                                              \
         return ::phi::unsafe_cast<TypeT>(value);                                                   \
     }                                                                                              \
                                                                                                    \
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f64 name() noexcept                       \
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f64 name() PHI_NOEXCEPT                   \
     {                                                                                              \
         return ::phi::PHI_GLUE(name, _v)<f64>();                                                   \
     }                                                                                              \
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f64 PHI_GLUE(name, _64)() noexcept        \
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f64 PHI_GLUE(name, _64)() PHI_NOEXCEPT    \
     {                                                                                              \
         return ::phi::PHI_GLUE(name, _v)<f64>();                                                   \
     }                                                                                              \
-    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f32 PHI_GLUE(name, _32)() noexcept        \
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR ::phi::f32 PHI_GLUE(name, _32)() PHI_NOEXCEPT    \
     {                                                                                              \
         return ::phi::PHI_GLUE(name, _v)<f32>();                                                   \
     }

@@ -3,14 +3,14 @@
 #include <phi/text/is_binary_digit.hpp>
 #include <cctype>
 
-void test_is_binary_digit(const char character) noexcept
+void test_is_binary_digit(const char character)
 {
     CHECK(phi::is_binary_digit(character));
     CHECK(std::isdigit(character));
     CHECK_NOEXCEPT(phi::is_binary_digit(character));
 }
 
-void test_is_not_binary_digit(const char character) noexcept
+void test_is_not_binary_digit(const char character)
 {
     CHECK_FALSE(phi::is_binary_digit(character));
     CHECK_NOEXCEPT(phi::is_binary_digit(character));

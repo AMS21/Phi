@@ -10,6 +10,7 @@
 #include "phi/algorithm/swap.hpp"
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -27,8 +28,8 @@ namespace detail
     struct is_nothrow_swappable_with_impl
     {
         static PHI_CONSTEXPR_AND_CONST bool value =
-                noexcept(swap(declval<TypeT>(), declval<OtherT>())) &&
-                noexcept(swap(declval<OtherT>(), declval<TypeT>()));
+                PHI_NOEXCEPT_EXPR(swap(declval<TypeT>(), declval<OtherT>())) &&
+                PHI_NOEXCEPT_EXPR(swap(declval<OtherT>(), declval<TypeT>()));
     };
 
     template <typename TypeT, typename OtherT>

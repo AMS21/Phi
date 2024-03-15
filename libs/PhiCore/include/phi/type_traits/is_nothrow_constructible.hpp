@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_constructible.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_CONSTRUCTIBLE()
@@ -78,13 +79,13 @@ namespace detail
     template <typename TypeT, typename... ArgsT>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false, TypeT,
                                          ArgsT...>
-        : public bool_constant<noexcept(TypeT(declval<ArgsT>()...))>
+        : public bool_constant<PHI_NOEXCEPT_EXPR(TypeT(declval<ArgsT>()...))>
     {};
 
     template <typename TypeT, size_t Dimension>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
                                          TypeT[Dimension]>
-        : public bool_constant<noexcept(typename remove_all_extents<TypeT>::type())>
+        : public bool_constant<PHI_NOEXCEPT_EXPR(typename remove_all_extents<TypeT>::type())>
     {};
 
     template <typename TypeT, size_t Dimension, typename ArgT>
@@ -102,13 +103,13 @@ namespace detail
     {};
 
     template <typename TypeT>
-    void implicit_conversion_to(TypeT) noexcept
+    void implicit_conversion_to(TypeT) PHI_NOEXCEPT
     {}
 
     template <typename TypeT, typename ArgT>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ true, TypeT,
                                          ArgT>
-        : public bool_constant<noexcept(implicit_conversion_to<TypeT>(declval<ArgT>()))>
+        : public bool_constant<PHI_NOEXCEPT_EXPR(implicit_conversion_to<TypeT>(declval<ArgT>()))>
     {};
 
     template <typename TypeT, bool IsReference, typename... ArgsT>

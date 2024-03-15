@@ -55,6 +55,7 @@ PHI_MSVC_SUPPRESS_WARNING(
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/core/forward.hpp>
@@ -1076,7 +1077,7 @@ TEST_CASE("Noexcept", "[noexcept]")
 
         struct nothrow_swappable
         {
-            nothrow_swappable& swap(const nothrow_swappable&) noexcept
+            nothrow_swappable& swap(const nothrow_swappable&) PHI_NOEXCEPT
             {
                 return *this;
             }
@@ -1118,7 +1119,7 @@ TEST_CASE("Noexcept", "[noexcept]")
 
         struct nothrow_move
         {
-            nothrow_move(nothrow_move&&) noexcept = default;
+            nothrow_move(nothrow_move&&) = default;
         };
 
         struct throw_move
@@ -1142,7 +1143,7 @@ TEST_CASE("Noexcept", "[noexcept]")
         struct nothrow_move_assign
         {
             nothrow_move_assign()                                      = default;
-            nothrow_move_assign(nothrow_move_assign&&) noexcept        = default;
+            nothrow_move_assign(nothrow_move_assign&&)                 = default;
             nothrow_move_assign& operator=(const nothrow_move_assign&) = default;
         };
 

@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/add_rvalue_reference.hpp"
 
@@ -32,7 +33,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wdeprecated-volatile")
 #endif
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE add_rvalue_reference_t<TypeT> declval() noexcept
+PHI_ALWAYS_INLINE add_rvalue_reference_t<TypeT> declval() PHI_NOEXCEPT
 {
     static_assert(detail::declval_protector<TypeT>::stop, "phi::declval() must not be used!");
 

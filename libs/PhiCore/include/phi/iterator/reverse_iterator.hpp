@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/iterator/iterator_traits.hpp"
 
@@ -25,8 +26,7 @@ public:
     using iterator_category = typename iterator_traits<IteratorT>::iterator_category;
     using iterator_type     = IteratorT;
 
-    PHI_CONSTEXPR reverse_iterator() noexcept
-        : m_Current()
+    PHI_CONSTEXPR reverse_iterator() PHI_NOEXCEPT : m_Current()
     {}
 
     PHI_CONSTEXPR explicit reverse_iterator(IteratorT value)

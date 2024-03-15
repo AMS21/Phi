@@ -2,6 +2,7 @@
 
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <type_traits>
@@ -18,7 +19,7 @@ struct Tag
 
 struct Implicit
 {
-    Implicit(int /*unused*/) noexcept
+    Implicit(int /*unused*/) PHI_NOEXCEPT
     {}
 };
 
@@ -30,20 +31,20 @@ struct ThrowsImplicit
 
 struct Explicit
 {
-    explicit Explicit(int /*unused*/) noexcept
+    explicit Explicit(int /*unused*/) PHI_NOEXCEPT
     {}
 };
 
 template <bool IsNoexcept, typename RetT, typename... ArgsT>
 struct CallObject
 {
-    RetT operator()(ArgsT&&...) const noexcept(IsNoexcept);
+    RetT operator()(ArgsT&&...) const PHI_NOEXCEPT_EXPR(IsNoexcept);
 };
 
 struct Sink
 {
     template <typename... ArgsT>
-    void operator()(ArgsT&&... /*unused*/) const noexcept // NOLINT(cert-dcl50-cpp)
+    void operator()(ArgsT&&... /*unused*/) const PHI_NOEXCEPT // NOLINT(cert-dcl50-cpp)
     {}
 };
 
@@ -133,7 +134,7 @@ void test_is_not_nothrow_invocable_r_compat()
 TEST_CASE("is_nothrow_invocable_r")
 {
 #if PHI_HAS_FEATURE_NOEXCEPT_FUNCTION_TYPE()
-    using AbominableFunc = void(...) const noexcept;
+    using AbominableFunc = void(...) const PHI_NOEXCEPT;
 #else
     using AbominableFunc = void(...) const;
 #endif

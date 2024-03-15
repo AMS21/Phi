@@ -3,14 +3,14 @@
 #include <phi/text/is_hex_digit.hpp>
 #include <cctype>
 
-void test_is_hex_digit(const char character) noexcept
+void test_is_hex_digit(const char character)
 {
     CHECK(phi::is_hex_digit(character));
     CHECK(std::isxdigit(character));
     CHECK_NOEXCEPT(phi::is_hex_digit(character));
 }
 
-void test_is_not_hex_digit(const char character) noexcept
+void test_is_not_hex_digit(const char character)
 {
     CHECK_FALSE(phi::is_hex_digit(character));
     CHECK_FALSE(std::isxdigit(character));

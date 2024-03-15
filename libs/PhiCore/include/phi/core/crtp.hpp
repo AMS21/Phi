@@ -9,6 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -16,12 +17,12 @@ template <typename TypeT, template <typename> class CRTPTypeT>
 class crtp
 {
 public:
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& underlying() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& underlying() PHI_NOEXCEPT
     {
         return static_cast<TypeT&>(*this);
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& underlying() const noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR const TypeT& underlying() const PHI_NOEXCEPT
     {
         return static_cast<const TypeT&>(*this);
     }

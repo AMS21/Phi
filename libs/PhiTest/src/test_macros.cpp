@@ -1,6 +1,7 @@
 #include "phi/test/test_macros.hpp"
 
 #include <phi/compiler_support/likely.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/types.hpp>
 #include <phi/phi_config.hpp>
@@ -12,7 +13,7 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
 PHI_CLANG_SUPPRESS_WARNING("-Wexit-time-destructors")
 
-static std::forward_list<phi::test::detail::TestSignature>& GetFunctionRegister() noexcept
+static std::forward_list<phi::test::detail::TestSignature>& GetFunctionRegister() PHI_NOEXCEPT
 {
     static std::forward_list<phi::test::detail::TestSignature> function_register;
 
@@ -60,12 +61,12 @@ namespace test
             }
         }
 
-        register_test_case::register_test_case(TestSignature func) noexcept
+        register_test_case::register_test_case(TestSignature func) PHI_NOEXCEPT
         {
             GetFunctionRegister().emplace_front(func);
         }
 
-        void IncreaseSkipCount() noexcept
+        void IncreaseSkipCount() PHI_NOEXCEPT
         {
             SkipCount += 1u;
         }

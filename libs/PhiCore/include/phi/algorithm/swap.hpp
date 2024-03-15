@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/move.hpp"
 #include "phi/core/size_t.hpp"
@@ -30,8 +31,9 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wnoexcept")
 
 template <typename TypeT>
-inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT& lhs, TypeT& rhs) noexcept(
-        is_nothrow_move_constructible<TypeT>::value && is_nothrow_move_assignable<TypeT>::value)
+inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT& lhs, TypeT& rhs)
+        PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value&&
+                                  is_nothrow_move_assignable<TypeT>::value)
 {
     TypeT temp(phi::move(lhs));
     lhs = phi::move(rhs);
@@ -39,8 +41,9 @@ inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT& lhs, Type
 }
 
 template <typename TypeT, size_t Dimension>
-inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(
-        TypeT (&lhs)[Dimension], TypeT (&rhs)[Dimension]) noexcept(noexcept(swap(*lhs, *rhs)))
+inline PHI_EXTENDED_CONSTEXPR detail::swap_result_t<TypeT> swap(TypeT (&lhs)[Dimension],
+                                                                TypeT (&rhs)[Dimension])
+        PHI_NOEXCEPT_EXPR(noexcept(swap(*lhs, *rhs)))
 {
     for (size_t i = 0u; i != Dimension; ++i)
     {

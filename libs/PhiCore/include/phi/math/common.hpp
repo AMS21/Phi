@@ -9,18 +9,19 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include <limits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_CONSTEXPR PHI_ALWAYS_INLINE TypeT square(const TypeT value) noexcept
+PHI_CONSTEXPR PHI_ALWAYS_INLINE TypeT square(const TypeT value) PHI_NOEXCEPT
 {
     return value * value;
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR PHI_ALWAYS_INLINE TypeT cube(const TypeT value) noexcept
+PHI_CONSTEXPR PHI_ALWAYS_INLINE TypeT cube(const TypeT value) PHI_NOEXCEPT
 {
     return value * value * value;
 }
@@ -31,7 +32,7 @@ namespace detail
 {
     template <typename TypeT>
     PHI_CONSTEXPR TypeT sqrtNewtonRaphson(const TypeT value, const TypeT curr,
-                                          const TypeT prev) noexcept
+                                          const TypeT prev) PHI_NOEXCEPT
     {
         return curr == prev ? curr : sqrtNewtonRaphson(value, 0.5 * (curr + value / curr), curr);
     }
@@ -48,7 +49,7 @@ namespace detail
  *
 **/
 template <typename TypeT>
-PHI_CONSTEXPR TypeT sqrt(const TypeT value) noexcept
+PHI_CONSTEXPR TypeT sqrt(const TypeT value) PHI_NOEXCEPT
 {
     return value >= 0 && value < std::numeric_limits<TypeT>::infinity() ?
                    detail::sqrtNewtonRaphson(value, value, 0) :

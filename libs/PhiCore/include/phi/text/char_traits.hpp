@@ -10,6 +10,7 @@
 #include "phi/algorithm/copy_n.hpp"
 #include "phi/compiler_support/char8_t.hpp"
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/memcmp.hpp"
 #include "phi/core/wint_t.hpp"
@@ -29,23 +30,23 @@ public:
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) PHI_NOEXCEPT
     {
         lhs = rhs;
     }
 
-    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs == rhs;
     }
 
-    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs < rhs;
     }
 
     static PHI_EXTENDED_CONSTEXPR int compare(const char_type* lhs, const char_type* rhs,
-                                              size_t count) noexcept
+                                              size_t count) PHI_NOEXCEPT
     {
         if (count == 0)
         {
@@ -57,7 +58,7 @@ public:
 
     static PHI_EXTENDED_CONSTEXPR char_type* copy(char_type*       string_to,
                                                   const char_type* string_from,
-                                                  size_t           count) noexcept
+                                                  size_t           count) PHI_NOEXCEPT
     {
         PHI_ASSERT(string_from < string_to || string_from >= string_to + count,
                    "char_traits::copy overlapped range");
@@ -76,23 +77,23 @@ struct char_traits<wchar_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) PHI_NOEXCEPT
     {
         lhs = rhs;
     }
 
-    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs == rhs;
     }
 
-    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs < rhs;
     }
 
     static PHI_EXTENDED_CONSTEXPR int compare(const char_type* lhs, const char_type* rhs,
-                                              size_t count) noexcept
+                                              size_t count) PHI_NOEXCEPT
     {
         if (count == 0)
         {
@@ -104,7 +105,7 @@ struct char_traits<wchar_t>
 
     static PHI_EXTENDED_CONSTEXPR char_type* copy(char_type*       string_to,
                                                   const char_type* string_from,
-                                                  size_t           count) noexcept
+                                                  size_t           count) PHI_NOEXCEPT
     {
         PHI_ASSERT(string_from < string_to || string_from >= string_to + count,
                    "char_traits::copy overlapped range");
@@ -123,23 +124,23 @@ struct char_traits<char8_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) PHI_NOEXCEPT
     {
         lhs = rhs;
     }
 
-    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs == rhs;
     }
 
-    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs < rhs;
     }
 
     static PHI_EXTENDED_CONSTEXPR int compare(const char_type* lhs, const char_type* rhs,
-                                              size_t count) noexcept
+                                              size_t count) PHI_NOEXCEPT
     {
         if (count == 0)
         {
@@ -151,7 +152,7 @@ struct char_traits<char8_t>
 
     static PHI_EXTENDED_CONSTEXPR char_type* copy(char_type*       string_to,
                                                   const char_type* string_from,
-                                                  size_t           count) noexcept
+                                                  size_t           count) PHI_NOEXCEPT
     {
         PHI_ASSERT(string_from < string_to || string_from >= string_to + count,
                    "char_traits::copy overlapped range");
@@ -170,23 +171,23 @@ struct char_traits<char16_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) PHI_NOEXCEPT
     {
         lhs = rhs;
     }
 
-    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs == rhs;
     }
 
-    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs < rhs;
     }
 
     static PHI_EXTENDED_CONSTEXPR int compare(const char_type* lhs, const char_type* rhs,
-                                              size_t count) noexcept
+                                              size_t count) PHI_NOEXCEPT
     {
         if (count == 0)
         {
@@ -198,7 +199,7 @@ struct char_traits<char16_t>
 
     static PHI_EXTENDED_CONSTEXPR char_type* copy(char_type*       string_to,
                                                   const char_type* string_from,
-                                                  size_t           count) noexcept
+                                                  size_t           count) PHI_NOEXCEPT
     {
         PHI_ASSERT(string_from < string_to || string_from >= string_to + count,
                    "char_traits::copy overlapped range");
@@ -217,23 +218,23 @@ struct char_traits<char32_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) PHI_NOEXCEPT
     {
         lhs = rhs;
     }
 
-    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs == rhs;
     }
 
-    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) PHI_NOEXCEPT
     {
         return lhs < rhs;
     }
 
     static PHI_EXTENDED_CONSTEXPR int compare(const char_type* lhs, const char_type* rhs,
-                                              size_t count) noexcept
+                                              size_t count) PHI_NOEXCEPT
     {
         if (count == 0)
         {
@@ -245,7 +246,7 @@ struct char_traits<char32_t>
 
     static PHI_EXTENDED_CONSTEXPR char_type* copy(char_type*       string_to,
                                                   const char_type* string_from,
-                                                  size_t           count) noexcept
+                                                  size_t           count) PHI_NOEXCEPT
     {
         PHI_ASSERT(string_from < string_to || string_from >= string_to + count,
                    "char_traits::copy overlapped range");

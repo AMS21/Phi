@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
@@ -13,13 +14,13 @@ struct A
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunneeded-internal-declaration")
 
-static A source() noexcept
+static A source() PHI_NOEXCEPT
 {
     return {};
 }
 
 // NOLINTNEXTLINE(readability-const-return-type)
-static const A csource() noexcept
+static const A csource() PHI_NOEXCEPT
 {
     return A();
 }

@@ -4,34 +4,27 @@
 #include <phi/algorithm/at.hpp>
 #include <phi/algorithm/find_if.hpp>
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/container/array.hpp>
 #include <phi/iterator/begin.hpp>
 #include <phi/iterator/end.hpp>
 
-static PHI_CONSTEXPR_AND_CONST auto lambda_eq0 = [](const int& value) noexcept {
-    return value == 0;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_eq1 = [](const int& value) noexcept {
-    return value == 1;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_eq9 = [](const int& value) noexcept {
-    return value == 9;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_eq10 = [](const int& value) noexcept {
-    return value == 10;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_even = [](const int& value) noexcept {
-    return value % 2 == 0;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_odd = [](const int& value) noexcept {
-    return value % 2 == 1;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_true = [](const int& /*value*/) noexcept {
-    return true;
-};
-static PHI_CONSTEXPR_AND_CONST auto lambda_false = [](const int& /*value*/) noexcept {
-    return false;
-};
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq0 = [](const int& value)
+                                                         PHI_NOEXCEPT { return value == 0; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq1 = [](const int& value)
+                                                         PHI_NOEXCEPT { return value == 1; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq9 = [](const int& value)
+                                                         PHI_NOEXCEPT { return value == 9; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq10 = [](const int& value)
+                                                          PHI_NOEXCEPT { return value == 10; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_even = [](const int& value)
+                                                          PHI_NOEXCEPT { return value % 2 == 0; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_odd = [](const int& value)
+                                                         PHI_NOEXCEPT { return value % 2 == 1; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_true = [](const int& /*value*/)
+                                                          PHI_NOEXCEPT { return true; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_false = [](const int& /*value*/)
+                                                           PHI_NOEXCEPT { return false; };
 static PHI_CONSTEXPR_AND_CONST auto lambda_false_throw = [](const int& /*value*/) -> bool {
     throw "";
 };

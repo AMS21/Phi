@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -79,7 +80,7 @@ struct A
 
 struct B
 {
-    B(const B&) noexcept;
+    B(const B&) PHI_NOEXCEPT;
 };
 
 struct C

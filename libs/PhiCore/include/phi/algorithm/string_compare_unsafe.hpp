@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/compare_result.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -19,7 +20,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR CompareResult
-string_compare_unsafe(const CharT* lhs, const CharT* rhs) noexcept
+string_compare_unsafe(const CharT* lhs, const CharT* rhs) PHI_NOEXCEPT
 {
     PHI_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare_unsafe");
     PHI_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare_unsafe");
@@ -55,7 +56,7 @@ CompareResult string_compare_unsafe(nullptr_t, const CharT*) = delete;
 
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL_PARAMETERS(1, 2) PHI_EXTENDED_CONSTEXPR CompareResult
-        string_compare_unsafe(const CharT* lhs, const CharT* rhs, usize count) noexcept
+        string_compare_unsafe(const CharT* lhs, const CharT* rhs, usize count) PHI_NOEXCEPT
 {
     PHI_ASSERT(lhs != nullptr, "May not pass nullptr to string_compare_unsafe");
     PHI_ASSERT(rhs != nullptr, "May not pass nullptr to string_compare_unsafe");

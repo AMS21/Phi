@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/move_if_noexcept.hpp>
 
@@ -27,7 +28,7 @@ struct noexcept_move_copy
 {
     noexcept_move_copy() = default;
 
-    noexcept_move_copy(noexcept_move_copy&& other) noexcept
+    noexcept_move_copy(noexcept_move_copy&& other) PHI_NOEXCEPT
     {
         other.m_Status = false;
     }
@@ -47,7 +48,7 @@ struct noexcept_move_no_copy
 {
     noexcept_move_no_copy() = default;
 
-    noexcept_move_no_copy(noexcept_move_no_copy&& other) noexcept
+    noexcept_move_no_copy(noexcept_move_no_copy&& other) PHI_NOEXCEPT
     {
         other.m_Status = false;
     }
@@ -67,7 +68,7 @@ struct except_move_copy
 {
     except_move_copy() = default;
 
-    except_move_copy(except_move_copy&& other) noexcept(false)
+    except_move_copy(except_move_copy&& other) PHI_NOEXCEPT_EXPR(false)
     {
         other.m_Status = false;
     }
@@ -87,7 +88,7 @@ struct except_move_no_copy
 {
     except_move_no_copy() = default;
 
-    except_move_no_copy(except_move_no_copy&& other) noexcept(false)
+    except_move_no_copy(except_move_no_copy&& other) PHI_NOEXCEPT_EXPR(false)
     {
         other.m_Status = false;
     }

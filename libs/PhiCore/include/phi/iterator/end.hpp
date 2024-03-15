@@ -9,33 +9,34 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/size_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ContainerT>
-PHI_NODISCARD PHI_CONSTEXPR auto end(ContainerT& container) noexcept(noexcept(container.end()))
-        -> decltype(container.end())
+PHI_NODISCARD PHI_CONSTEXPR auto end(ContainerT& container)
+        PHI_NOEXCEPT_EXPR(noexcept(container.end())) -> decltype(container.end())
 {
     return container.end();
 }
 
 template <typename ContainerT>
-PHI_NODISCARD PHI_CONSTEXPR auto end(const ContainerT& container) noexcept(
-        noexcept(container.end())) -> decltype(container.end())
+PHI_NODISCARD PHI_CONSTEXPR auto end(const ContainerT& container)
+        PHI_NOEXCEPT_EXPR(noexcept(container.end())) -> decltype(container.end())
 {
     return container.end();
 }
 
 template <typename TypeT, size_t Size>
-PHI_NODISCARD PHI_CONSTEXPR TypeT* end(TypeT (&array)[Size]) noexcept
+PHI_NODISCARD PHI_CONSTEXPR TypeT* end(TypeT (&array)[Size]) PHI_NOEXCEPT
 {
     return array + Size;
 }
 
 template <typename ContainerT>
-PHI_NODISCARD PHI_CONSTEXPR auto cend(const ContainerT& container) noexcept(
-        noexcept(end(container))) -> decltype(end(container))
+PHI_NODISCARD PHI_CONSTEXPR auto cend(const ContainerT& container)
+        PHI_NOEXCEPT_EXPR(noexcept(end(container))) -> decltype(end(container))
 {
     return end(container);
 }

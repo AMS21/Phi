@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <type_traits>
 
@@ -32,16 +33,16 @@ namespace is_nothrow_swappable_with_ns
 
     void swap(A&, A&);
 
-    void swap(A&, B&) noexcept;
-    void swap(B&, A&) noexcept;
+    void swap(A&, B&) PHI_NOEXCEPT;
+    void swap(B&, A&) PHI_NOEXCEPT;
 
-    void swap(A&, C&) noexcept;
+    void swap(A&, C&) PHI_NOEXCEPT;
     void swap(C&, A&);
 
     struct M
     {};
 
-    void swap(M&&, M&&) noexcept;
+    void swap(M&&, M&&) PHI_NOEXCEPT;
 
 } // namespace is_nothrow_swappable_with_ns
 

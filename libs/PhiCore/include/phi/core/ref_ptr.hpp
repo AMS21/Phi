@@ -12,6 +12,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/assert.hpp"
@@ -40,22 +41,22 @@ namespace detail
     class ref_ptr_control_block
     {
     public:
-        PHI_NODISCARD boolean should_delete() const noexcept
+        PHI_NODISCARD boolean should_delete() const PHI_NOEXCEPT
         {
             return m_NumberOfRefPtrs == 0u;
         }
 
-        PHI_NODISCARD phi::u32 get_ref_use_count() const noexcept
+        PHI_NODISCARD phi::u32 get_ref_use_count() const PHI_NOEXCEPT
         {
             return m_NumberOfRefPtrs;
         }
 
-        void increment_ref_count() noexcept
+        void increment_ref_count() PHI_NOEXCEPT
         {
             m_NumberOfRefPtrs += 1u;
         }
 
-        void decrement_ref_count() noexcept
+        void decrement_ref_count() PHI_NOEXCEPT
         {
             PHI_ASSERT(m_NumberOfRefPtrs != 0u, "Double delete");
 
@@ -80,14 +81,10 @@ public:
     using pointer         = TypeT*;
     using const_pointer   = const TypeT*;
 
-    PHI_CONSTEXPR ref_ptr() noexcept
-        : m_Ptr{nullptr}
-        , m_ControlBlock{nullptr}
+    PHI_CONSTEXPR ref_ptr() PHI_NOEXCEPT : m_Ptr{nullptr}, m_ControlBlock{nullptr}
     {}
 
-    PHI_CONSTEXPR ref_ptr(nullptr_t) noexcept
-        : m_Ptr{nullptr}
-        , m_ControlBlock{nullptr}
+    PHI_CONSTEXPR ref_ptr(nullptr_t) PHI_NOEXCEPT : m_Ptr{nullptr}, m_ControlBlock{nullptr}
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
@@ -96,9 +93,8 @@ public:
         , m_ControlBlock{allocate_control_block()}
     {}
 
-    PHI_CONSTEXPR ref_ptr(const ref_ptr& other) noexcept
-        : m_Ptr{other.m_Ptr}
-        , m_ControlBlock{other.m_ControlBlock}
+    PHI_CONSTEXPR ref_ptr(const ref_ptr& other) PHI_NOEXCEPT : m_Ptr{other.m_Ptr},
+                                                               m_ControlBlock{other.m_ControlBlock}
     {
         if (m_ControlBlock != nullptr)
         {
@@ -106,15 +102,15 @@ public:
         }
     }
 
-    PHI_CONSTEXPR ref_ptr(ref_ptr&& other) noexcept
-        : m_Ptr{exchange(other.m_Ptr, nullptr)}
-        , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
+    PHI_CONSTEXPR ref_ptr(ref_ptr&& other) PHI_NOEXCEPT
+        : m_Ptr{exchange(other.m_Ptr, nullptr)},
+          m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr(const ref_ptr<OtherT>& other) noexcept
-        : m_Ptr{other.m_Ptr}
-        , m_ControlBlock{other.m_ControlBlock}
+    PHI_CONSTEXPR ref_ptr(const ref_ptr<OtherT>& other) PHI_NOEXCEPT
+        : m_Ptr{other.m_Ptr},
+          m_ControlBlock{other.m_ControlBlock}
     {
         if (m_ControlBlock != nullptr)
         {
@@ -123,15 +119,15 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr(ref_ptr<OtherT>&& other) noexcept
-        : m_Ptr{exchange(other.m_Ptr, nullptr)}
-        , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
+    PHI_CONSTEXPR ref_ptr(ref_ptr<OtherT>&& other) PHI_NOEXCEPT
+        : m_Ptr{exchange(other.m_Ptr, nullptr)},
+          m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr(const not_null_ref_ptr<OtherT>& other) noexcept
-        : m_Ptr{other.m_Ptr}
-        , m_ControlBlock{other.m_ControlBlock}
+    PHI_CONSTEXPR ref_ptr(const not_null_ref_ptr<OtherT>& other) PHI_NOEXCEPT
+        : m_Ptr{other.m_Ptr},
+          m_ControlBlock{other.m_ControlBlock}
     {
         PHI_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
         PHI_ASSERT(m_ControlBlock != nullptr, "not_null_ref_ptr was null");
@@ -140,20 +136,20 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr(not_null_ref_ptr<OtherT>&& other) noexcept
-        : m_Ptr{exchange(other.m_Ptr, nullptr)}
-        , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
+    PHI_CONSTEXPR ref_ptr(not_null_ref_ptr<OtherT>&& other) PHI_NOEXCEPT
+        : m_Ptr{exchange(other.m_Ptr, nullptr)},
+          m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
         PHI_ASSERT(m_Ptr != nullptr, "not_null_ref_ptr was null");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
-    PHI_CONSTEXPR_DESTRUCTOR ~ref_ptr() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~ref_ptr() PHI_NOEXCEPT
     {
         clear();
     }
 
-    PHI_CONSTEXPR ref_ptr& operator=(nullptr_t) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(nullptr_t) PHI_NOEXCEPT
     {
         clear();
 
@@ -184,14 +180,14 @@ public:
     }
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
-    PHI_CONSTEXPR ref_ptr& operator=(const ref_ptr& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(const ref_ptr& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(other).swap(*this);
 
         return *this;
     }
 
-    PHI_CONSTEXPR ref_ptr& operator=(ref_ptr&& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(ref_ptr&& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(move(other)).swap(*this);
 
@@ -199,7 +195,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr& operator=(const ref_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(const ref_ptr<OtherT>& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(other).swap(*this);
 
@@ -207,7 +203,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr& operator=(ref_ptr<OtherT>&& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(ref_ptr<OtherT>&& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(move(other)).swap(*this);
 
@@ -215,7 +211,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr& operator=(const not_null_ref_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(const not_null_ref_ptr<OtherT>& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(other).swap(*this);
 
@@ -223,14 +219,14 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR ref_ptr& operator=(not_null_ref_ptr<OtherT>&& other) noexcept
+    PHI_CONSTEXPR ref_ptr& operator=(not_null_ref_ptr<OtherT>&& other) PHI_NOEXCEPT
     {
         ref_ptr<TypeT>(move(other)).swap(*this);
 
         return *this;
     }
 
-    PHI_CONSTEXPR void clear() noexcept
+    PHI_CONSTEXPR void clear() PHI_NOEXCEPT
     {
         if (m_ControlBlock == nullptr)
         {
@@ -248,13 +244,13 @@ public:
         }
     }
 
-    PHI_CONSTEXPR void reset(nullptr_t) noexcept
+    PHI_CONSTEXPR void reset(nullptr_t) PHI_NOEXCEPT
     {
         clear();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR void reset(OtherT* ptr) noexcept
+    PHI_CONSTEXPR void reset(OtherT* ptr) PHI_NOEXCEPT
     {
         if (ptr == m_Ptr)
         {
@@ -274,30 +270,31 @@ public:
         }
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR flat_ptr flat() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR flat_ptr flat() PHI_NOEXCEPT
     {
         return flat_ptr{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
         return not_null_flat_ptr{get()};
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR observer_ptr<TypeT> observer() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR observer_ptr<TypeT> observer() PHI_NOEXCEPT
     {
         return observer_ptr<TypeT>{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer()
+            PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
         return not_null_observer_ptr<TypeT>{get()};
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR void swap(ref_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR void swap(ref_ptr<OtherT>& other) PHI_NOEXCEPT
     {
         using phi::swap;
 
@@ -305,17 +302,17 @@ public:
         swap(m_ControlBlock, other.m_ControlBlock);
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR TypeT* get() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR TypeT* get() PHI_NOEXCEPT
     {
         return m_Ptr;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR const TypeT* get() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const TypeT* get() const PHI_NOEXCEPT
     {
         return m_Ptr;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR usize use_count() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR usize use_count() const PHI_NOEXCEPT
     {
         if (m_ControlBlock != nullptr)
         {
@@ -325,55 +322,55 @@ public:
         return 0u;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR boolean has_control_block() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean has_control_block() const PHI_NOEXCEPT
     {
         return m_ControlBlock != nullptr;
     }
 
-    PHI_CONSTEXPR explicit operator bool() const noexcept
+    PHI_CONSTEXPR explicit operator bool() const PHI_NOEXCEPT
     {
         return get() != nullptr;
     }
 
-    PHI_CONSTEXPR explicit operator boolean() const noexcept
+    PHI_CONSTEXPR explicit operator boolean() const PHI_NOEXCEPT
     {
         return get() != nullptr;
     }
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_CONSTEXPR explicit operator const OtherT*() const noexcept
+    PHI_CONSTEXPR explicit operator const OtherT*() const PHI_NOEXCEPT
     {
         return get();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_CONSTEXPR explicit operator OtherT*() noexcept
+    PHI_CONSTEXPR explicit operator OtherT*() PHI_NOEXCEPT
     {
         return get();
     }
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL TypeT* operator->() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL const TypeT* operator->() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return get();
     }
 
-    TypeT& operator*() noexcept
+    TypeT& operator*() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
         return *get();
     }
 
-    const TypeT& operator*() const noexcept
+    const TypeT& operator*() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Cannot dereference a nullptr");
 
@@ -412,67 +409,67 @@ private:
 };
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.get() == rhs.get();
 }
 
 template <typename LhsT>
-PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, nullptr_t) PHI_NOEXCEPT
 {
     return lhs.get() == nullptr;
 }
 
 template <typename RhsT>
-PHI_CONSTEXPR boolean operator==(nullptr_t, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(nullptr_t, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return rhs.get() == nullptr;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const ref_ptr<LhsT>& lhs, RhsT rhs) PHI_NOEXCEPT
 {
     return lhs.get() == rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(LhsT lhs, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(LhsT lhs, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.get() != rhs.get();
 }
 
 template <typename LhsT>
-PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, nullptr_t) PHI_NOEXCEPT
 {
     return lhs.get() != nullptr;
 }
 
 template <typename RhsT>
-PHI_CONSTEXPR boolean operator!=(nullptr_t, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(nullptr_t, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return rhs.get() != nullptr;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const ref_ptr<LhsT>& lhs, RhsT rhs) PHI_NOEXCEPT
 {
     return lhs.get() != rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(LhsT lhs, const ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(LhsT lhs, const ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs != rhs.get();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR void swap(ref_ptr<TypeT>& lhs, ref_ptr<TypeT>& rhs) noexcept
+PHI_CONSTEXPR void swap(ref_ptr<TypeT>& lhs, ref_ptr<TypeT>& rhs) PHI_NOEXCEPT
 {
     lhs.swap(rhs);
 }
@@ -493,16 +490,16 @@ public:
     not_null_ref_ptr(nullptr_t) = delete;
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR not_null_ref_ptr(OtherT* ptr) noexcept
-        : m_Ptr{ptr}
-        , m_ControlBlock{allocate_control_block()}
+    PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR not_null_ref_ptr(OtherT* ptr) PHI_NOEXCEPT
+        : m_Ptr{ptr},
+          m_ControlBlock{allocate_control_block()}
     {
         PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
     }
 
-    PHI_CONSTEXPR not_null_ref_ptr(const not_null_ref_ptr& other) noexcept
-        : m_Ptr{other.m_Ptr}
-        , m_ControlBlock{other.m_ControlBlock}
+    PHI_CONSTEXPR not_null_ref_ptr(const not_null_ref_ptr& other) PHI_NOEXCEPT
+        : m_Ptr{other.m_Ptr},
+          m_ControlBlock{other.m_ControlBlock}
     {
         PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
@@ -510,33 +507,33 @@ public:
         m_ControlBlock->increment_ref_count();
     }
 
-    PHI_CONSTEXPR not_null_ref_ptr(not_null_ref_ptr&& other) noexcept
-        : m_Ptr{exchange(other.m_Ptr, nullptr)}
-        , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
+    PHI_CONSTEXPR not_null_ref_ptr(not_null_ref_ptr&& other) PHI_NOEXCEPT
+        : m_Ptr{exchange(other.m_Ptr, nullptr)},
+          m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR not_null_ref_ptr(const not_null_ref_ptr<OtherT>& other) noexcept
-        : m_Ptr{other.m_Ptr}
-        , m_ControlBlock{other.m_ControlBlock}
+    PHI_CONSTEXPR not_null_ref_ptr(const not_null_ref_ptr<OtherT>& other) PHI_NOEXCEPT
+        : m_Ptr{other.m_Ptr},
+          m_ControlBlock{other.m_ControlBlock}
     {
         PHI_ASSERT(other.get() != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(other.m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR not_null_ref_ptr(not_null_ref_ptr<OtherT>&& other) noexcept
-        : m_Ptr{exchange(other.m_Ptr, nullptr)}
-        , m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
+    PHI_CONSTEXPR not_null_ref_ptr(not_null_ref_ptr<OtherT>&& other) PHI_NOEXCEPT
+        : m_Ptr{exchange(other.m_Ptr, nullptr)},
+          m_ControlBlock{exchange(other.m_ControlBlock, nullptr)}
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
     }
 
-    PHI_CONSTEXPR_DESTRUCTOR ~not_null_ref_ptr() noexcept
+    PHI_CONSTEXPR_DESTRUCTOR ~not_null_ref_ptr() PHI_NOEXCEPT
     {
         clear();
     }
@@ -562,7 +559,7 @@ public:
     PHI_GCC_SUPPRESS_WARNING_POP()
 
     // NOLINTNEXTLINE(bugprone-unhandled-self-assignment)
-    PHI_CONSTEXPR not_null_ref_ptr& operator=(const not_null_ref_ptr& other) noexcept
+    PHI_CONSTEXPR not_null_ref_ptr& operator=(const not_null_ref_ptr& other) PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
@@ -574,7 +571,7 @@ public:
         return *this;
     }
 
-    PHI_CONSTEXPR not_null_ref_ptr& operator=(not_null_ref_ptr&& other) noexcept
+    PHI_CONSTEXPR not_null_ref_ptr& operator=(not_null_ref_ptr&& other) PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
@@ -587,7 +584,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR not_null_ref_ptr& operator=(const not_null_ref_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR not_null_ref_ptr& operator=(const not_null_ref_ptr<OtherT>& other) PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
@@ -600,7 +597,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR not_null_ref_ptr& operator=(not_null_ref_ptr<OtherT>&& other) noexcept
+    PHI_CONSTEXPR not_null_ref_ptr& operator=(not_null_ref_ptr<OtherT>&& other) PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
@@ -617,7 +614,7 @@ public:
     PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wnonnull-compare")
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR void reset(OtherT* ptr) noexcept
+    PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR void reset(OtherT* ptr) PHI_NOEXCEPT
     {
         PHI_ASSERT(ptr != nullptr, "Trying to assign nullptr to not_null_ref_ptr");
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null!");
@@ -635,14 +632,15 @@ public:
 
     PHI_GCC_SUPPRESS_WARNING_POP()
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_flat_ptr not_null_flat() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_flat_ptr from nullptr");
 
         return not_null_flat_ptr{get()};
     }
 
-    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer() noexcept
+    PHI_NODISCARD PHI_EXTENDED_CONSTEXPR not_null_observer_ptr<TypeT> not_null_observer()
+            PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to create not_null_observer_ptr from nullptr");
 
@@ -650,7 +648,7 @@ public:
     }
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    PHI_CONSTEXPR void swap(not_null_ref_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR void swap(not_null_ref_ptr<OtherT>& other) PHI_NOEXCEPT
     {
         using phi::swap;
 
@@ -663,21 +661,21 @@ public:
         swap(m_ControlBlock, other.m_ControlBlock);
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR TypeT* get() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR TypeT* get() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const TypeT* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const TypeT* get() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return m_Ptr;
     }
 
-    PHI_NODISCARD PHI_CONSTEXPR usize use_count() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR usize use_count() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_ControlBlock != nullptr, "ControlBlock was null");
 
@@ -689,39 +687,39 @@ public:
     operator boolean() = delete;
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator const OtherT*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator const OtherT*() const PHI_NOEXCEPT
     {
         return get();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator OtherT*() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator OtherT*() PHI_NOEXCEPT
     {
         return get();
     }
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR TypeT* operator->() noexcept
-    {
-        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
-
-        return get();
-    }
-
-    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const TypeT* operator->() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR TypeT* operator->() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return get();
     }
 
-    PHI_CONSTEXPR TypeT& operator*() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const TypeT* operator->() const PHI_NOEXCEPT
+    {
+        PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
+
+        return get();
+    }
+
+    PHI_CONSTEXPR TypeT& operator*() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
         return *get();
     }
 
-    PHI_CONSTEXPR const TypeT& operator*() const noexcept
+    PHI_CONSTEXPR const TypeT& operator*() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Ptr != nullptr, "Using not_null_ref_ptr after it was moved from");
 
@@ -732,7 +730,7 @@ private:
     // Need to declare ref_ptr as a friend to access the control block
     friend ref_ptr<TypeT>;
 
-    PHI_CONSTEXPR void clear() noexcept
+    PHI_CONSTEXPR void clear() PHI_NOEXCEPT
     {
         // As clear is called from the destructor the control block can actually be null here if the ref_ptr was moved from.
         if (m_ControlBlock != nullptr)
@@ -747,7 +745,8 @@ private:
 #endif
     }
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL detail::ref_ptr_control_block* allocate_control_block() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL detail::ref_ptr_control_block* allocate_control_block()
+            PHI_NOEXCEPT
     {
         m_ControlBlock = new (std::nothrow) detail::ref_ptr_control_block();
 
@@ -755,7 +754,7 @@ private:
         return m_ControlBlock;
     }
 
-    void decrement_count_and_delete_if_required() noexcept
+    void decrement_count_and_delete_if_required() PHI_NOEXCEPT
     {
         PHI_ASSERT(m_ControlBlock != nullptr, "Unexpected nullptr for control block");
 
@@ -773,7 +772,7 @@ private:
 
 template <typename LhsT, typename RhsT>
 PHI_CONSTEXPR boolean operator==(const not_null_ref_ptr<LhsT>& lhs,
-                                 const not_null_ref_ptr<RhsT>& rhs) noexcept
+                                 const not_null_ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.get() == rhs.get();
 }
@@ -785,20 +784,20 @@ template <typename RhsT>
 boolean operator==(nullptr_t, const not_null_ref_ptr<RhsT>& rhs) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) PHI_NOEXCEPT
 {
     return lhs.get() == rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator==(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
 PHI_CONSTEXPR boolean operator!=(const not_null_ref_ptr<LhsT>& lhs,
-                                 const not_null_ref_ptr<RhsT>& rhs) noexcept
+                                 const not_null_ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs.get() != rhs.get();
 }
@@ -810,19 +809,19 @@ template <typename RhsT>
 boolean operator!=(nullptr_t, const not_null_ref_ptr<RhsT>& rhs) = delete;
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(const not_null_ref_ptr<LhsT>& lhs, RhsT rhs) PHI_NOEXCEPT
 {
     return lhs.get() != rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_CONSTEXPR boolean operator!=(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(LhsT lhs, const not_null_ref_ptr<RhsT>& rhs) PHI_NOEXCEPT
 {
     return lhs != rhs.get();
 }
 
 template <typename TypeT>
-PHI_CONSTEXPR void swap(not_null_ref_ptr<TypeT>& lhs, not_null_ref_ptr<TypeT>& rhs) noexcept
+PHI_CONSTEXPR void swap(not_null_ref_ptr<TypeT>& lhs, not_null_ref_ptr<TypeT>& rhs) PHI_NOEXCEPT
 {
     lhs.swap(rhs);
 }
@@ -851,7 +850,7 @@ DETAIL_PHI_BEGIN_STD_NAMESPACE()
 template <typename TypeT>
 struct hash<phi::ref_ptr<TypeT>>
 {
-    PHI_NODISCARD PHI_CONSTEXPR size_t operator()(phi::ref_ptr<TypeT> pointer) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_t operator()(phi::ref_ptr<TypeT> pointer) const PHI_NOEXCEPT
     {
         return std::hash<TypeT*>()(pointer.get());
     }
@@ -861,7 +860,7 @@ template <typename TypeT>
 struct hash<phi::not_null_ref_ptr<TypeT>>
 {
     PHI_NODISCARD PHI_CONSTEXPR size_t
-    operator()(phi::not_null_ref_ptr<TypeT> pointer) const noexcept
+    operator()(phi::not_null_ref_ptr<TypeT> pointer) const PHI_NOEXCEPT
     {
         return std::hash<TypeT*>()(pointer.get());
     }

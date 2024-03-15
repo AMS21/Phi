@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/nodiscard.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/forward.hpp"
@@ -40,34 +41,34 @@ public:
     using pointer         = value_type*;
     using const_pointer   = const value_type*;
 
-    explicit singly_linked_list_node(const TypeT& value) noexcept(
-            is_nothrow_copy_constructible<TypeT>::value)
+    explicit singly_linked_list_node(const TypeT& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
         : m_Value{value}
         , m_Next{nullptr}
     {}
 
-    explicit singly_linked_list_node(TypeT&& value) noexcept(
-            is_nothrow_move_constructible<TypeT>::value)
+    explicit singly_linked_list_node(TypeT&& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
         : m_Value{value}
         , m_Next{nullptr}
     {}
 
-    PHI_NODISCARD const_reference value() const noexcept
+    PHI_NODISCARD const_reference value() const PHI_NOEXCEPT
     {
         return m_Value;
     }
 
-    PHI_NODISCARD boolean is_last() const noexcept
+    PHI_NODISCARD boolean is_last() const PHI_NOEXCEPT
     {
         return m_Next == nullptr;
     }
 
-    PHI_NODISCARD boolean has_next() const noexcept
+    PHI_NODISCARD boolean has_next() const PHI_NOEXCEPT
     {
         return m_Next != nullptr;
     }
 
-    PHI_NODISCARD this_type* next() const noexcept
+    PHI_NODISCARD this_type* next() const PHI_NOEXCEPT
     {
         return m_Next;
     }
@@ -95,35 +96,34 @@ public:
     using pointer           = value_type*;
     using const_pointer     = const value_type*;
 
-    singly_linked_list_iterator() noexcept
-        : m_Node{nullptr}
-        , m_Next{nullptr}
-        , m_WasRemoved{false}
+    singly_linked_list_iterator() PHI_NOEXCEPT : m_Node{nullptr},
+                                                 m_Next{nullptr},
+                                                 m_WasRemoved{false}
     {}
 
-    PHI_NODISCARD boolean operator==(const singly_linked_list_iterator& other) const noexcept
+    PHI_NODISCARD boolean operator==(const singly_linked_list_iterator& other) const PHI_NOEXCEPT
     {
         return m_Node == other.m_Node;
     }
 
     PHI_NODISCARD boolean
-    operator==(const singly_linked_list_const_iterator<ListTypeT>& other) const noexcept
+    operator==(const singly_linked_list_const_iterator<ListTypeT>& other) const PHI_NOEXCEPT
     {
         return m_Node == other.m_Node;
     }
 
-    PHI_NODISCARD boolean operator!=(const singly_linked_list_iterator& other) const noexcept
+    PHI_NODISCARD boolean operator!=(const singly_linked_list_iterator& other) const PHI_NOEXCEPT
     {
         return m_Node != other.m_Node;
     }
 
     PHI_NODISCARD boolean
-    operator!=(const singly_linked_list_const_iterator<ListTypeT>& other) const noexcept
+    operator!=(const singly_linked_list_const_iterator<ListTypeT>& other) const PHI_NOEXCEPT
     {
         return m_Node != other.m_Node;
     }
 
-    singly_linked_list_iterator& operator++() noexcept
+    singly_linked_list_iterator& operator++() PHI_NOEXCEPT
     {
         if (m_WasRemoved)
         {
@@ -139,7 +139,7 @@ public:
         return *this;
     }
 
-    PHI_NODISCARD reference operator*() noexcept
+    PHI_NODISCARD reference operator*() PHI_NOEXCEPT
     {
         PHI_ASSERT(!m_WasRemoved, "");
         PHI_ASSERT(m_Node != nullptr, "");
@@ -147,7 +147,7 @@ public:
         return m_Node->value();
     }
 
-    PHI_NODISCARD const_reference operator*() const noexcept
+    PHI_NODISCARD const_reference operator*() const PHI_NOEXCEPT
     {
         PHI_ASSERT(!m_WasRemoved, "");
         PHI_ASSERT(m_Node != nullptr, "");
@@ -155,7 +155,7 @@ public:
         return m_Node->value();
     }
 
-    PHI_NODISCARD pointer operator->() noexcept
+    PHI_NODISCARD pointer operator->() PHI_NOEXCEPT
     {
         PHI_ASSERT(!m_WasRemoved, "");
         PHI_ASSERT(m_Node != nullptr, "");
@@ -163,7 +163,7 @@ public:
         return m_Node->value();
     }
 
-    PHI_NODISCARD const_pointer operator->() const noexcept
+    PHI_NODISCARD const_pointer operator->() const PHI_NOEXCEPT
     {
         PHI_ASSERT(!m_WasRemoved, "");
         PHI_ASSERT(m_Node != nullptr, "");
@@ -171,12 +171,12 @@ public:
         return m_Node->value();
     }
 
-    PHI_NODISCARD boolean is_valid() const noexcept
+    PHI_NODISCARD boolean is_valid() const PHI_NOEXCEPT
     {
         return m_Node != nullptr;
     }
 
-    PHI_NODISCARD boolean has_next() const noexcept
+    PHI_NODISCARD boolean has_next() const PHI_NOEXCEPT
     {
         return m_Next != nullptr;
     }
@@ -189,10 +189,10 @@ public:
     }
 
 private:
-    explicit singly_linked_list_iterator(node_type* node) noexcept
-        : m_Node(node)
-        , m_Next(node ? node->next : nullptr)
-        , m_WasRemoved{false}
+    explicit singly_linked_list_iterator(node_type* node) PHI_NOEXCEPT
+        : m_Node(node),
+          m_Next(node ? node->next : nullptr),
+          m_WasRemoved{false}
     {}
 
     friend ListTypeT;
@@ -220,34 +220,34 @@ public:
     using pointer           = value_type*;
     using const_pointer     = const value_type*;
 
-    singly_linked_list_const_iterator() noexcept
-        : m_Node{nullptr}
-        , m_Next{nullptr}
+    singly_linked_list_const_iterator() PHI_NOEXCEPT : m_Node{nullptr}, m_Next{nullptr}
     {}
 
-    PHI_NODISCARD boolean operator==(const singly_linked_list_const_iterator& other) const noexcept
+    PHI_NODISCARD boolean
+    operator==(const singly_linked_list_const_iterator& other) const PHI_NOEXCEPT
     {
         return m_Node == other.m_Node;
     }
 
     PHI_NODISCARD boolean
-    operator==(const singly_linked_list_iterator<list_type>& other) const noexcept
+    operator==(const singly_linked_list_iterator<list_type>& other) const PHI_NOEXCEPT
     {
         return m_Node == other.m_Node;
     }
 
-    PHI_NODISCARD boolean operator!=(const singly_linked_list_const_iterator& other) const noexcept
+    PHI_NODISCARD boolean
+    operator!=(const singly_linked_list_const_iterator& other) const PHI_NOEXCEPT
     {
         return m_Node != other.m_Node;
     }
 
     PHI_NODISCARD boolean
-    operator!=(const singly_linked_list_iterator<list_type>& other) const noexcept
+    operator!=(const singly_linked_list_iterator<list_type>& other) const PHI_NOEXCEPT
     {
         return m_Node != other.m_Node;
     }
 
-    singly_linked_list_const_iterator& operator++() noexcept
+    singly_linked_list_const_iterator& operator++() PHI_NOEXCEPT
     {
         m_Node = m_Next;
         if (m_Next != nullptr)
@@ -258,34 +258,34 @@ public:
         return *this;
     }
 
-    PHI_NODISCARD const_reference operator*() const noexcept
+    PHI_NODISCARD const_reference operator*() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
-    PHI_NODISCARD const_pointer operator->() const noexcept
+    PHI_NODISCARD const_pointer operator->() const PHI_NOEXCEPT
     {
         PHI_ASSERT(m_Node != nullptr, "");
 
         return m_Node->value();
     }
 
-    PHI_NODISCARD boolean is_valid() const noexcept
+    PHI_NODISCARD boolean is_valid() const PHI_NOEXCEPT
     {
         return m_Node != nullptr;
     }
 
-    PHI_NODISCARD boolean has_next() const noexcept
+    PHI_NODISCARD boolean has_next() const PHI_NOEXCEPT
     {
         return m_Next != nullptr;
     }
 
 private:
-    explicit singly_linked_list_const_iterator(node_type* node) noexcept
-        : m_Node(node)
-        , m_Next(node ? node->next : nullptr)
+    explicit singly_linked_list_const_iterator(node_type* node) PHI_NOEXCEPT
+        : m_Node(node),
+          m_Next(node ? node->next : nullptr)
     {}
 
     friend ListTypeT;
@@ -312,9 +312,7 @@ public:
     using iterator        = singly_linked_list_iterator<this_type>;
     using const_iterator  = singly_linked_list_const_iterator<this_type>;
 
-    singly_linked_list() noexcept
-        : m_Head{nullptr}
-        , m_Tail{nullptr}
+    singly_linked_list() PHI_NOEXCEPT : m_Head{nullptr}, m_Tail{nullptr}
     {}
 
     explicit singly_linked_list(size_type count);
@@ -326,9 +324,8 @@ public:
 
     singly_linked_list(const singly_linked_list& other);
 
-    singly_linked_list(singly_linked_list&& other) noexcept
-        : m_Head(other.m_Head)
-        , m_Tail(other.m_Tail)
+    singly_linked_list(singly_linked_list&& other) PHI_NOEXCEPT : m_Head(other.m_Head),
+                                                                  m_Tail(other.m_Tail)
     {
         other.m_Head = nullptr;
         other.m_Tail = nullptr;
@@ -336,14 +333,14 @@ public:
 
     singly_linked_list(std::initializer_list<TypeT> init);
 
-    ~singly_linked_list() noexcept
+    ~singly_linked_list() PHI_NOEXCEPT
     {
         clear();
     }
 
     singly_linked_list& operator=(const singly_linked_list& other); // TODO: Noexcept
 
-    singly_linked_list& operator=(singly_linked_list&& other) noexcept
+    singly_linked_list& operator=(singly_linked_list&& other) PHI_NOEXCEPT
     {
         m_Head = other.m_Head;
         m_Tail = other.m_Tail;
@@ -361,90 +358,90 @@ public:
     template <typename InputIteratorT>
     void assign(InputIteratorT first, InputIteratorT last); // TODO: Noexcept
 
-    PHI_NODISCARD iterator before_begin() noexcept
+    PHI_NODISCARD iterator before_begin() PHI_NOEXCEPT
     {
         return m_Head - sizeof(singly_linked_list_node<TypeT>);
     }
 
-    PHI_NODISCARD const_iterator before_begin() const noexcept
+    PHI_NODISCARD const_iterator before_begin() const PHI_NOEXCEPT
     {
         return m_Head - sizeof(singly_linked_list_node<TypeT>);
     }
 
-    PHI_NODISCARD const_iterator cbefore_begin() const noexcept
+    PHI_NODISCARD const_iterator cbefore_begin() const PHI_NOEXCEPT
     {
         return before_begin();
     }
 
-    PHI_NODISCARD iterator begin() noexcept
+    PHI_NODISCARD iterator begin() PHI_NOEXCEPT
     {
         return m_Head;
     }
 
-    PHI_NODISCARD const_iterator begin() const noexcept
+    PHI_NODISCARD const_iterator begin() const PHI_NOEXCEPT
     {
         return m_Head;
     }
 
-    PHI_NODISCARD const_iterator cbegin() const noexcept
+    PHI_NODISCARD const_iterator cbegin() const PHI_NOEXCEPT
     {
         return m_Head;
     }
 
-    PHI_NODISCARD iterator end() noexcept
+    PHI_NODISCARD iterator end() PHI_NOEXCEPT
     {
         return {};
     }
 
-    PHI_NODISCARD const_iterator end() const noexcept
+    PHI_NODISCARD const_iterator end() const PHI_NOEXCEPT
     {
         return {};
     }
 
-    PHI_NODISCARD const_iterator cend() const noexcept
+    PHI_NODISCARD const_iterator cend() const PHI_NOEXCEPT
     {
         return {};
     }
 
-    PHI_NODISCARD boolean is_empty() const noexcept
+    PHI_NODISCARD boolean is_empty() const PHI_NOEXCEPT
     {
         return m_Head == nullptr;
     }
 
-    PHI_NODISCARD size_type max_size() const noexcept
+    PHI_NODISCARD size_type max_size() const PHI_NOEXCEPT
     {
         return size_type::limits_type::max();
     }
 
-    PHI_NODISCARD reference front() noexcept
+    PHI_NODISCARD reference front() PHI_NOEXCEPT
     {
         PHI_ASSERT(!is_empty(), "");
 
         return m_Head->m_Value;
     }
 
-    PHI_NODISCARD const_reference front() const noexcept
+    PHI_NODISCARD const_reference front() const PHI_NOEXCEPT
     {
         PHI_ASSERT(!is_empty(), "");
 
         return m_Head->m_Value;
     }
 
-    PHI_NODISCARD reference back() noexcept
+    PHI_NODISCARD reference back() PHI_NOEXCEPT
     {
         PHI_ASSERT(!is_empty(), "");
 
         return m_Tail->m_Value;
     }
 
-    PHI_NODISCARD const_reference back() const noexcept
+    PHI_NODISCARD const_reference back() const PHI_NOEXCEPT
     {
         PHI_ASSERT(!is_empty(), "");
 
         return m_Tail->m_Value;
     }
 
-    PHI_NODISCARD size_type length() const noexcept
+    PHI_NODISCARD size_type length() const PHI_NOEXCEPT
     {
         size_type size{0u};
         for (node_type* node = m_Head; node != nullptr; node = node->next())
@@ -456,8 +453,8 @@ public:
     }
 
     template <typename... ArgsT>
-    boolean try_emplace_front(ArgsT&&... args) noexcept(
-            is_nothrow_constructible<TypeT, ArgsT...>::value)
+    boolean try_emplace_front(ArgsT&&... args)
+            PHI_NOEXCEPT_EXPR(is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         if (node == nullptr)
@@ -470,8 +467,8 @@ public:
     }
 
     template <typename... ArgsT>
-    boolean try_emplace_back(ArgsT&&... args) noexcept(
-            is_nothrow_constructible<TypeT, ArgsT...>::value)
+    boolean try_emplace_back(ArgsT&&... args)
+            PHI_NOEXCEPT_EXPR(is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         if (node == nullptr)
@@ -483,7 +480,8 @@ public:
         return true;
     }
 
-    boolean try_push_front(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
+    boolean try_push_front(const TypeT& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
         if (node == nullptr)
@@ -495,7 +493,8 @@ public:
         return true;
     }
 
-    boolean try_push_front(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
+    boolean try_push_front(TypeT&& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         if (node == nullptr)
@@ -507,7 +506,8 @@ public:
         return true;
     }
 
-    boolean try_push_back(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
+    boolean try_push_back(const TypeT& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
         if (node == nullptr)
@@ -519,7 +519,8 @@ public:
         return true;
     }
 
-    boolean try_push_back(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
+    boolean try_push_back(TypeT&& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         if (node == nullptr)
@@ -532,8 +533,8 @@ public:
     }
 
     template <typename... ArgsT>
-    reference emplace_front(ArgsT&&... args) noexcept(
-            is_nothrow_constructible<TypeT, ArgsT...>::value)
+    reference emplace_front(ArgsT&&... args)
+            PHI_NOEXCEPT_EXPR(is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         PHI_ASSERT(node != nullptr, "");
@@ -542,8 +543,8 @@ public:
     }
 
     template <typename... ArgsT>
-    reference emplace_back(ArgsT&&... args) noexcept(
-            is_nothrow_constructible<TypeT, ArgsT...>::value)
+    reference emplace_back(ArgsT&&... args)
+            PHI_NOEXCEPT_EXPR(is_nothrow_constructible<TypeT, ArgsT...>::value)
     {
         node_type* node = new (std::nothrow) node_type{forward<ArgsT>(args)...};
         PHI_ASSERT(node != nullptr, "");
@@ -551,7 +552,8 @@ public:
         assign_back(node);
     }
 
-    void push_front(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
+    void push_front(const TypeT& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
         PHI_ASSERT(node != nullptr, "");
@@ -559,7 +561,7 @@ public:
         assign_front(node);
     }
 
-    void push_front(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
+    void push_front(TypeT&& value) PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         PHI_ASSERT(node != nullptr, "");
@@ -567,7 +569,8 @@ public:
         assign_front(node);
     }
 
-    void push_back(const TypeT& value) noexcept(is_nothrow_copy_constructible<TypeT>::value)
+    void push_back(const TypeT& value)
+            PHI_NOEXCEPT_EXPR(is_nothrow_copy_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(value);
         PHI_ASSERT(node != nullptr, "");
@@ -575,7 +578,7 @@ public:
         assign_back(node);
     }
 
-    void push_back(TypeT&& value) noexcept(is_nothrow_move_constructible<TypeT>::value)
+    void push_back(TypeT&& value) PHI_NOEXCEPT_EXPR(is_nothrow_move_constructible<TypeT>::value)
     {
         node_type* node = new (std::nothrow) node_type(forward<TypeT>(value));
         PHI_ASSERT(node != nullptr, "");
@@ -583,7 +586,7 @@ public:
         assign_back(node);
     }
 
-    void pop_front() noexcept(is_nothrow_destructible<TypeT>::value)
+    void pop_front() PHI_NOEXCEPT_EXPR(is_nothrow_destructible<TypeT>::value)
     {
         PHI_ASSERT(m_Head != nullptr, "");
 
@@ -597,8 +600,8 @@ public:
         delete prev_head;
     }
 
-    PHI_NODISCARD value_type take_front() noexcept(is_nothrow_destructible<TypeT>::value &&
-                                                   is_nothrow_move_assignable<TypeT>::value)
+    PHI_NODISCARD value_type take_front() PHI_NOEXCEPT_EXPR(
+            is_nothrow_destructible<TypeT>::value&& is_nothrow_move_assignable<TypeT>::value)
     {
         PHI_ASSERT(m_Head != nullptr, "");
 
@@ -647,7 +650,7 @@ public:
     void resize(size_type new_size);
     void resize(size_type new_size, const value_type& value);
 
-    void clear() noexcept
+    void clear() PHI_NOEXCEPT
     {
         for (node_type* node = m_Head; node != nullptr;)
         {
@@ -688,7 +691,7 @@ public:
     template <typename CompareT>
     void sort(CompareT comp);
 
-    void reverse() noexcept;
+    void reverse() PHI_NOEXCEPT;
 
     PHI_NODISCARD boolean contains(const TypeT& value) const;
 
@@ -701,17 +704,17 @@ public:
     template <typename UnaryPredicateT>
     const_iterator find_if(UnaryPredicateT predicate) const;
 
-    PHI_NODISCARD TypeT max() const noexcept;
-    PHI_NODISCARD TypeT min() const noexcept;
+    PHI_NODISCARD TypeT max() const PHI_NOEXCEPT;
+    PHI_NODISCARD TypeT min() const PHI_NOEXCEPT;
 
-    PHI_NODISCARD iterator       max_index() noexcept;
-    PHI_NODISCARD const_iterator max_index() const noexcept;
+    PHI_NODISCARD iterator       max_index() PHI_NOEXCEPT;
+    PHI_NODISCARD const_iterator max_index() const PHI_NOEXCEPT;
 
-    PHI_NODISCARD iterator       min_index() noexcept;
-    PHI_NODISCARD const_iterator min_index() const noexcept;
+    PHI_NODISCARD iterator       min_index() PHI_NOEXCEPT;
+    PHI_NODISCARD const_iterator min_index() const PHI_NOEXCEPT;
 
 private:
-    void assign_back(node_type* node) noexcept
+    void assign_back(node_type* node) PHI_NOEXCEPT
     {
         if (m_Head == nullptr)
         {
@@ -724,7 +727,7 @@ private:
         m_Tail         = node;
     }
 
-    void assign_front(node_type* node) noexcept
+    void assign_front(node_type* node) PHI_NOEXCEPT
     {
         if (m_Head == nullptr)
         {

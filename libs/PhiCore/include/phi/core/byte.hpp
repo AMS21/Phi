@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/enable_if.hpp"
 #include "phi/type_traits/is_unsafe_integral.hpp"
 
@@ -18,78 +19,78 @@ enum class byte : unsigned char
 {
 };
 
-PHI_CONSTEXPR byte operator|(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator|(byte lhs, byte rhs) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) |
                                                         static_cast<unsigned int>(rhs)));
 }
 
 PHI_EXTENDED_CONSTEXPR
-byte& operator|=(byte& lhs, byte rhs) noexcept
+byte& operator|=(byte& lhs, byte rhs) PHI_NOEXCEPT
 {
     return lhs = lhs | rhs;
 }
 
-PHI_CONSTEXPR byte operator&(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator&(byte lhs, byte rhs) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) &
                                                         static_cast<unsigned int>(rhs)));
 }
 
 PHI_EXTENDED_CONSTEXPR
-byte& operator&=(byte& lhs, byte rhs) noexcept
+byte& operator&=(byte& lhs, byte rhs) PHI_NOEXCEPT
 {
     return lhs = lhs & rhs;
 }
 
-PHI_CONSTEXPR byte operator^(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator^(byte lhs, byte rhs) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) ^
                                                         static_cast<unsigned int>(rhs)));
 }
 
 PHI_EXTENDED_CONSTEXPR
-byte& operator^=(byte& lhs, byte rhs) noexcept
+byte& operator^=(byte& lhs, byte rhs) PHI_NOEXCEPT
 {
     return lhs = lhs ^ rhs;
 }
 
-PHI_CONSTEXPR byte operator~(byte value) noexcept
+PHI_CONSTEXPR byte operator~(byte value) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(~static_cast<unsigned int>(value)));
 }
 
 template <typename IntegerT>
 PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator<<=(
-        byte& lhs, IntegerT shift) noexcept
+        byte& lhs, IntegerT shift) PHI_NOEXCEPT
 {
     return lhs = lhs << shift;
 }
 
 template <typename IntegerT>
 PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator<<(
-        byte lhs, IntegerT shift) noexcept
+        byte lhs, IntegerT shift) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) << shift));
 }
 
 template <typename IntegerT>
 PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator>>=(
-        byte& lhs, IntegerT shift) noexcept
+        byte& lhs, IntegerT shift) PHI_NOEXCEPT
 {
     return lhs = lhs >> shift;
 }
 
 template <typename IntegerT>
 PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator>>(
-        byte lhs, IntegerT shift) noexcept
+        byte lhs, IntegerT shift) PHI_NOEXCEPT
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) >> shift));
 }
 
 template <typename IntegerT>
 PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, IntegerT>::type to_integer(
-        byte value) noexcept
+        byte value) PHI_NOEXCEPT
 {
     return static_cast<IntegerT>(value);
 }

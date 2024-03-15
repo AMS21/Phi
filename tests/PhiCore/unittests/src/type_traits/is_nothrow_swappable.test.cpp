@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/noexcept.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <type_traits>
 
@@ -26,7 +27,7 @@ namespace my_ns
         B& operator=(B const&) = delete;
     };
 
-    void swap(A&, A&) noexcept;
+    void swap(A&, A&) PHI_NOEXCEPT;
 
     void swap(B&, B&);
 
@@ -36,7 +37,7 @@ namespace my_ns
         M& operator=(M const&) = delete;
     };
 
-    void swap(M&&, M&&) noexcept;
+    void swap(M&&, M&&) PHI_NOEXCEPT;
 
     struct ThrowingMove
     {
