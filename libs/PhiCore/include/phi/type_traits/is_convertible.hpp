@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_convertible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_convertible : public bool_constant<!PHI_IS_CONVERTIBLE(FromT, ToT)
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_convertible_v = PHI_IS_CONVERTIBLE(FromT, ToT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_convertible_v = PHI_IS_CONVERTIBLE(FromT, ToT);
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(FromT, ToT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_convertible_v = !PHI_IS_CONVERTIBLE(FromT, ToT);
 
 #    endif
 
@@ -81,10 +82,10 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_convertible_v = is_convertible<FromT, ToT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_convertible_v = is_convertible<FromT, ToT>::value;
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = is_not_convertible<FromT, ToT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_convertible_v = is_not_convertible<FromT, ToT>::value;
 
 #    endif
 
@@ -92,7 +93,6 @@ PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = is_not_convertible<Fro
 
 // Workaround implementation since the other version crashes the msvc compiler
 
-#    include "phi/compiler_support/constexpr.hpp"
 #    include "phi/core/declval.hpp"
 #    include "phi/type_traits/is_array.hpp"
 #    include "phi/type_traits/is_function.hpp"
@@ -231,10 +231,10 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_convertible_v = is_convertible<FromT, ToT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_convertible_v = is_convertible<FromT, ToT>::value;
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_not_convertible_v = is_not_convertible<FromT, ToT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_convertible_v = is_not_convertible<FromT, ToT>::value;
 
 #    endif
 

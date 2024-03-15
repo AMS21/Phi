@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals_ignore_case.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/libraries.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/boolean.hpp>
@@ -11,10 +12,10 @@
 #    include <string_view>
 #endif
 
-static constexpr const char*            null = nullptr;
-static constexpr const phi::string_view null_view;
+static PHI_CONSTEXPR_AND_CONST char* null = nullptr;
+static PHI_CONSTEXPR_AND_CONST phi::string_view null_view;
 #if PHI_SUPPORTS_STDLIB_STRING_VIEW()
-static constexpr const std::string_view std_null_view;
+static PHI_CONSTEXPR_AND_CONST std::string_view std_null_view;
 #endif
 
 TEST_CASE("string_equals_ignore_case - nullptr_t, nullptr_t")

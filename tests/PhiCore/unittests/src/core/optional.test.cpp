@@ -264,11 +264,11 @@ TEST_CASE("optional constexpr")
 {
     SECTION("empty construct")
     {
-        constexpr phi::optional<int> o2{};
-        constexpr phi::optional<int> o3 = {};
-        constexpr phi::optional<int> o4 = phi::nullopt;
-        constexpr phi::optional<int> o5 = {phi::nullopt};
-        constexpr phi::optional<int> o6(phi::nullopt);
+        PHI_CONSTEXPR phi::optional<int> o2{};
+        PHI_CONSTEXPR phi::optional<int> o3 = {};
+        PHI_CONSTEXPR phi::optional<int> o4 = phi::nullopt;
+        PHI_CONSTEXPR phi::optional<int> o5 = {phi::nullopt};
+        PHI_CONSTEXPR phi::optional<int> o6(phi::nullopt);
 
         STATIC_REQUIRE(!o2);
         STATIC_REQUIRE(!o3);
@@ -376,12 +376,12 @@ TEST_CASE("optional emplace")
 #    endif
 }
 
-constexpr int get_int(int)
+PHI_CONSTEXPR int get_int(int)
 {
     return 42;
 }
 
-constexpr phi::optional<int> get_opt_int(int)
+PHI_CONSTEXPR phi::optional<int> get_opt_int(int)
 {
     return 42;
 }
@@ -517,19 +517,19 @@ TEST_CASE("optional monadic operations", "[monadic]")
     SECTION("map constexpr")
     {
         // test each overload in turn
-        constexpr phi::optional<int> o16  = 42;
-        constexpr auto               o16r = o16.map(get_int);
+        PHI_CONSTEXPR phi::optional<int> o16  = 42;
+        PHI_CONSTEXPR auto               o16r = o16.map(get_int);
         STATIC_REQUIRE(*o16r == 42);
 
-        constexpr phi::optional<int> o20  = 42;
-        constexpr auto               o20r = phi::move(o20).map(get_int);
+        PHI_CONSTEXPR phi::optional<int> o20  = 42;
+        PHI_CONSTEXPR auto               o20r = phi::move(o20).map(get_int);
         STATIC_REQUIRE(*o20r == 42);
 
-        constexpr phi::optional<int> o32  = phi::nullopt;
-        constexpr auto               o32r = o32.map(get_int);
+        PHI_CONSTEXPR phi::optional<int> o32  = phi::nullopt;
+        PHI_CONSTEXPR auto               o32r = o32.map(get_int);
         STATIC_REQUIRE(!o32r);
-        constexpr phi::optional<int> o36  = phi::nullopt;
-        constexpr auto               o36r = phi::move(o36).map(get_int);
+        PHI_CONSTEXPR phi::optional<int> o36  = phi::nullopt;
+        PHI_CONSTEXPR auto               o36r = phi::move(o36).map(get_int);
         STATIC_REQUIRE(!o36r);
     }
 
@@ -661,19 +661,19 @@ TEST_CASE("optional monadic operations", "[monadic]")
     SECTION("transform constexpr")
     {
         // test each overload in turn
-        constexpr phi::optional<int> o16  = 42;
-        constexpr auto               o16r = o16.transform(get_int);
+        PHI_CONSTEXPR phi::optional<int> o16  = 42;
+        PHI_CONSTEXPR auto               o16r = o16.transform(get_int);
         STATIC_REQUIRE(*o16r == 42);
 
-        constexpr phi::optional<int> o20  = 42;
-        constexpr auto               o20r = phi::move(o20).transform(get_int);
+        PHI_CONSTEXPR phi::optional<int> o20  = 42;
+        PHI_CONSTEXPR auto               o20r = phi::move(o20).transform(get_int);
         STATIC_REQUIRE(*o20r == 42);
 
-        constexpr phi::optional<int> o32  = phi::nullopt;
-        constexpr auto               o32r = o32.transform(get_int);
+        PHI_CONSTEXPR phi::optional<int> o32  = phi::nullopt;
+        PHI_CONSTEXPR auto               o32r = o32.transform(get_int);
         STATIC_REQUIRE(!o32r);
-        constexpr phi::optional<int> o36  = phi::nullopt;
-        constexpr auto               o36r = phi::move(o36).transform(get_int);
+        PHI_CONSTEXPR phi::optional<int> o36  = phi::nullopt;
+        PHI_CONSTEXPR auto               o36r = phi::move(o36).transform(get_int);
         STATIC_REQUIRE(!o36r);
     }
 
@@ -771,20 +771,20 @@ TEST_CASE("optional monadic operations", "[monadic]")
 
     SECTION("constexpr and_then")
     {
-        constexpr phi::optional<int> o10  = 42;
-        constexpr auto               o10r = o10.and_then(get_opt_int);
+        PHI_CONSTEXPR phi::optional<int> o10  = 42;
+        PHI_CONSTEXPR auto               o10r = o10.and_then(get_opt_int);
         REQUIRE(*o10r == 42);
 
-        constexpr phi::optional<int> o11  = 42;
-        constexpr auto               o11r = phi::move(o11).and_then(get_opt_int);
+        PHI_CONSTEXPR phi::optional<int> o11  = 42;
+        PHI_CONSTEXPR auto               o11r = phi::move(o11).and_then(get_opt_int);
         REQUIRE(*o11r == 42);
 
-        constexpr phi::optional<int> o18  = phi::nullopt;
-        constexpr auto               o18r = o18.and_then(get_opt_int);
+        PHI_CONSTEXPR phi::optional<int> o18  = phi::nullopt;
+        PHI_CONSTEXPR auto               o18r = o18.and_then(get_opt_int);
         REQUIRE(!o18r);
 
-        constexpr phi::optional<int> o19  = phi::nullopt;
-        constexpr auto               o19r = phi::move(o19).and_then(get_opt_int);
+        PHI_CONSTEXPR phi::optional<int> o19  = phi::nullopt;
+        PHI_CONSTEXPR auto               o19r = phi::move(o19).and_then(get_opt_int);
         REQUIRE(!o19r);
     }
 #    endif
@@ -1010,7 +1010,7 @@ TEST_CASE("Make optional", "[make_optional]")
     auto o1 = phi::make_optional(42);
     auto o2 = phi::optional<int>(42);
 
-    constexpr bool is_same = phi::is_same<decltype(o1), phi::optional<int>>::value;
+    PHI_CONSTEXPR bool is_same = phi::is_same<decltype(o1), phi::optional<int>>::value;
     REQUIRE(is_same);
     REQUIRE(o1 == o2);
 

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_base_of.hpp"
 #include "phi/type_traits/is_convertible.hpp"
@@ -32,10 +33,10 @@ struct is_not_derived_from : public bool_constant<!is_derived_from<DerivedT, Bas
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename DerivedT, typename BaseT>
-PHI_INLINE_VARIABLE constexpr bool is_derived_from_v = is_derived_from<DerivedT, BaseT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_derived_from_v = is_derived_from<DerivedT, BaseT>::value;
 
 template <typename DerivedT, typename BaseT>
-PHI_INLINE_VARIABLE constexpr bool is_not_derived_from_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_derived_from_v =
         is_not_derived_from<DerivedT, BaseT>::value;
 
 #endif

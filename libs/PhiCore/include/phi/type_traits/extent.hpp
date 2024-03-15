@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/array_extent.hpp"
 #include "phi/core/size_t.hpp"
@@ -23,7 +24,7 @@ struct extent : public integral_constant<size_t, PHI_ARRAY_EXTENT(TypeT, Dimensi
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, unsigned Dimension = 0u>
-PHI_INLINE_VARIABLE constexpr size_t extent_v = PHI_ARRAY_EXTENT(TypeT, Dimension);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t extent_v = PHI_ARRAY_EXTENT(TypeT, Dimension);
 
 #    endif
 
@@ -52,7 +53,7 @@ struct extent<TypeT[I], N> : public extent<TypeT, N - 1u>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, unsigned Dimension = 0u>
-PHI_INLINE_VARIABLE constexpr size_t extent_v = extent<TypeT, Dimension>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t extent_v = extent<TypeT, Dimension>::value;
 
 #    endif
 

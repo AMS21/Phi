@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_const.hpp"
 #include "phi/type_traits/add_lvalue_reference.hpp"
@@ -27,10 +28,11 @@ struct is_not_copy_assignable : public bool_constant<!is_copy_assignable<TypeT>:
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_copy_assignable_v = is_copy_assignable<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_copy_assignable_v = is_copy_assignable<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_copy_assignable_v = is_not_copy_assignable<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_copy_assignable_v =
+        is_not_copy_assignable<TypeT>::value;
 
 #endif
 

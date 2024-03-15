@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 
@@ -20,22 +21,25 @@ struct integral_constant
     using value_type = TypeT;
     using type       = integral_constant<TypeT, Value>;
 
-    static constexpr TypeT value = Value;
+    static PHI_CONSTEXPR_AND_CONST TypeT value = Value;
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr operator TypeT() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR operator TypeT() const noexcept
     {
         return value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr TypeT operator()() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT operator()() const noexcept
     {
         return value;
     }
 };
 
 #if PHI_CPP_STANDARD_IS_BELOW(17)
+
 template <typename TypeT, TypeT Value>
-constexpr TypeT integral_constant<TypeT, Value>::value; // NOLINT(readability-redundant-declaration)
+PHI_CONSTEXPR TypeT
+        integral_constant<TypeT, Value>::value; // NOLINT(readability-redundant-declaration)
+
 #endif
 
 using true_type  = integral_constant<bool, true>;

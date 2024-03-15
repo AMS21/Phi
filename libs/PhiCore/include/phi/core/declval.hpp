@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/add_rvalue_reference.hpp"
@@ -19,7 +20,7 @@ namespace detail
     template <typename TypeT>
     struct declval_protector
     {
-        static constexpr bool                stop = false;
+        static PHI_CONSTEXPR_AND_CONST bool  stop = false;
         static add_rvalue_reference_t<TypeT> delegate_type();
     };
 } // namespace detail

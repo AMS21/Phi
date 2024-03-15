@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_complete.hpp"
 #include "phi/type_traits/is_unbounded_array.hpp"
@@ -28,11 +29,11 @@ struct is_not_complete_or_unbounded_void
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_complete_or_unbounded_void_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_complete_or_unbounded_void_v =
         is_complete_or_unbounded_void<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_complete_or_unbounded_void_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_complete_or_unbounded_void_v =
         is_not_complete_or_unbounded_void<TypeT>::value;
 
 #endif

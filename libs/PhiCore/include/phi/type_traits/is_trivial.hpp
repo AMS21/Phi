@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/compiler.hpp"
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivial.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
@@ -32,10 +33,10 @@ struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIAL(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivial_v = PHI_IS_TRIVIAL(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_trivial_v = PHI_IS_TRIVIAL(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v = !PHI_IS_TRIVIAL(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_trivial_v = !PHI_IS_TRIVIAL(TypeT);
 
 #    endif
 
@@ -58,11 +59,11 @@ struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(Typ
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivial_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_trivial_v =
         PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) && PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_trivial_v =
         !PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) || !PHI_IS_TRIVIALLY_COPYABLE(TypeT);
 
 #    endif
@@ -93,10 +94,10 @@ struct is_not_trivial : public bool_constant<is_trivial<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_trivial_v = is_trivial<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_trivial_v = is_trivial<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_trivial_v = is_not_trivial<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_trivial_v = is_not_trivial<TypeT>::value;
 
 #    endif
 

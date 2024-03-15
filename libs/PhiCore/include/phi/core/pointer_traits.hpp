@@ -129,8 +129,8 @@ private:
     {};
 
 public:
-    constexpr static pointer pointer_to(
-            conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
+    static PHI_CONSTEXPR pointer
+    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
     {
         return pointer::pointer_to(ptr);
     }
@@ -160,19 +160,23 @@ private:
     {};
 
 public:
-    constexpr static pointer pointer_to(
-            conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
+    static PHI_CONSTEXPR pointer
+    pointer_to(conditional_t<is_void<element_type>::value, nat, element_type>& ptr) noexcept
     {
         return address_of(ptr);
     }
 };
 
 #if PHI_CPP_STANDARD_IS_ATLEAST(11)
+
 template <typename FromT, typename ToT>
 using rebind_pointer_t = typename pointer_traits<FromT>::template rebind<ToT>;
+
 #else
+
 template <typename FromT, typename ToT>
 using rebind_pointer_t = typename pointer_traits<FromT>::template rebind<ToT>::other;
+
 #endif
 
 DETAIL_PHI_END_NAMESPACE()

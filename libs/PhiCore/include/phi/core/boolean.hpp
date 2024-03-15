@@ -65,38 +65,38 @@ public:
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
     // cppcheck-suppress noExplicitConstructor
-    PHI_ALWAYS_INLINE constexpr boolean(TypeT value) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean(TypeT value) noexcept
         : m_Value(value)
     {}
 
     template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-    PHI_ALWAYS_INLINE constexpr boolean& operator=(TypeT value) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean& operator=(TypeT value) noexcept
     {
         m_Value = value;
         return *this;
     }
 
-    PHI_ALWAYS_INLINE constexpr explicit operator bool() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR explicit operator bool() const noexcept
     {
         return m_Value;
     }
 
-    PHI_ALWAYS_INLINE constexpr boolean operator!() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!() const noexcept
     {
         return {!m_Value};
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool unsafe() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool unsafe() const noexcept
     {
         return m_Value;
     }
 
-    PHI_ALWAYS_INLINE constexpr void flip() noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR void flip() noexcept
     {
         m_Value = !m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr boolean as_flipped() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean as_flipped() const noexcept
     {
         return boolean{!m_Value};
     }
@@ -110,36 +110,36 @@ private:
     bool m_Value; /// The Wrapped bool value
 };
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const boolean& lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs, const boolean& rhs) noexcept
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE constexpr boolean operator==(const boolean& lhs, TypeT rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const boolean& lhs, TypeT rhs) noexcept
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE constexpr boolean operator==(TypeT lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(TypeT lhs, const boolean& rhs) noexcept
 {
     return {static_cast<bool>(lhs) == static_cast<bool>(rhs)};
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const boolean& lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs, const boolean& rhs) noexcept
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const boolean& lhs, TypeT rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const boolean& lhs, TypeT rhs) noexcept
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }
 
 template <typename TypeT, typename = detail::enable_if_boolean_t<TypeT>>
-PHI_ALWAYS_INLINE constexpr boolean operator!=(TypeT lhs, const boolean& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(TypeT lhs, const boolean& rhs) noexcept
 {
     return {static_cast<bool>(lhs) != static_cast<bool>(rhs)};
 }

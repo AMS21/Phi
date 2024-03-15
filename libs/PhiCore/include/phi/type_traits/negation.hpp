@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -23,7 +24,7 @@ struct negation : public bool_constant<!bool(BoolT::value)>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename BoolT>
-PHI_INLINE_VARIABLE constexpr bool negation_v = negation<BoolT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool negation_v = negation<BoolT>::value;
 
 #endif
 

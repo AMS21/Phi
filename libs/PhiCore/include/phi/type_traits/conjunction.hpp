@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/conditional.hpp"
@@ -33,7 +34,7 @@ struct conjunction<Bool1T, BoolsT...>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename... BoolsT>
-PHI_INLINE_VARIABLE constexpr bool conjunction_v = conjunction<BoolsT...>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool conjunction_v = conjunction<BoolsT...>::value;
 
 #endif
 

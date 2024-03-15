@@ -71,8 +71,8 @@ TEST_CASE("is_corresponding_member")
     // Succeeds because arguments have types int A::* and int B::*
     test_is_corresponding_member(&C::a, &C::b);
 
-    constexpr int C::*a = &C::a;
-    constexpr int C::*b = &C::b;
+    PHI_CONSTEXPR int C::*a = &C::a;
+    PHI_CONSTEXPR int C::*b = &C::b;
     test_is_not_corresponding_member(a, b);
     // Not corresponding members, because arguments both have type int C::*
 

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_layout_compatible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -28,10 +29,11 @@ struct is_not_layout_compatible : public bool_constant<!PHI_IS_LAYOUT_COMPATIBLE
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename WithT>
-PHI_INLINE_VARIABLE constexpr bool is_layout_compatible_v = PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_layout_compatible_v =
+        PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT);
 
 template <typename TypeT, typename WithT>
-PHI_INLINE_VARIABLE constexpr bool is_not_layout_compatible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_layout_compatible_v =
         !PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT);
 
 #    endif
@@ -58,11 +60,11 @@ struct is_not_layout_compatible : public bool_constant<!is_layout_compatible<Typ
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename WithT>
-PHI_INLINE_VARIABLE constexpr bool is_layout_compatible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_layout_compatible_v =
         is_layout_compatible<TypeT, WithT>::value;
 
 template <typename TypeT, typename WithT>
-PHI_INLINE_VARIABLE constexpr bool is_not_layout_compatible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_layout_compatible_v =
         is_not_layout_compatible<TypeT, WithT>::value;
 
 #    endif

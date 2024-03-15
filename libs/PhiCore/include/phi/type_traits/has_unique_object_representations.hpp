@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/has_unique_object_representations.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -56,11 +57,11 @@ struct has_no_unique_object_representations : public false_type
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_unique_object_representations_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_unique_object_representations_v =
         has_unique_object_representations<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_no_unique_object_representations_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_no_unique_object_representations_v =
         has_no_unique_object_representations<TypeT>::value;
 
 #endif

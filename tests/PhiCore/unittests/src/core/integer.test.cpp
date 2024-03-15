@@ -26,6 +26,7 @@ SOFTWARE.
 
 #include "constexpr_helper.hpp"
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
@@ -375,11 +376,11 @@ TEST_CASE("integer")
 
         SECTION("constructor")
         {
-            constexpr int_t val_a(0);
+            PHI_CONSTEXPR int_t val_a(0);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_a) == 0);
-            constexpr int_t val_b(32);
+            PHI_CONSTEXPR int_t val_b(32);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_b) == 32);
-            constexpr int_t val_c(-25);
+            PHI_CONSTEXPR int_t val_c(-25);
             STATIC_REQUIRE(static_cast<phi::int32_t>(val_c) == -25);
         }
 
@@ -398,7 +399,7 @@ TEST_CASE("integer")
 
         SECTION("unary")
         {
-            constexpr int_t val_a(13);
+            PHI_CONSTEXPR int_t val_a(13);
             STATIC_REQUIRE(static_cast<phi::int32_t>(+val_a) == static_cast<phi::int32_t>(val_a));
             EXT_STATIC_REQUIRE(static_cast<phi::int32_t>(-val_a) ==
                                -static_cast<phi::int32_t>(val_a));
@@ -898,13 +899,13 @@ TEST_CASE("integer")
 PHI_CLANG_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
 
-constexpr static phi::detail::signed_integer_tag   stag;
-constexpr static phi::detail::unsigned_integer_tag utag;
+PHI_CONSTEXPR static phi::detail::signed_integer_tag   stag;
+PHI_CONSTEXPR static phi::detail::unsigned_integer_tag utag;
 
-constexpr static int imax = std::numeric_limits<int>::max();
-constexpr static int imin = std::numeric_limits<int>::min();
+PHI_CONSTEXPR static int imax = std::numeric_limits<int>::max();
+PHI_CONSTEXPR static int imin = std::numeric_limits<int>::min();
 
-constexpr static unsigned umax = std::numeric_limits<unsigned>::max();
+PHI_CONSTEXPR static unsigned umax = std::numeric_limits<unsigned>::max();
 
 TEST_CASE("detail::will_addition_error")
 {

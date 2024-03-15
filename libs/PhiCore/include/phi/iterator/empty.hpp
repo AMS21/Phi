@@ -15,20 +15,20 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ContainerT>
-PHI_NODISCARD constexpr auto empty(const ContainerT& container) -> decltype(container.empty())
+PHI_NODISCARD PHI_CONSTEXPR auto empty(const ContainerT& container) -> decltype(container.empty())
 {
     return container.empty();
 }
 
 template <typename TypeT, size_t Size>
-PHI_NODISCARD constexpr bool empty(const TypeT (&array)[Size]) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool empty(const TypeT (&array)[Size]) noexcept
 {
     (void)array;
     return false;
 }
 
 template <typename TypeT>
-PHI_NODISCARD constexpr bool empty(std::initializer_list<TypeT> init_list) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool empty(std::initializer_list<TypeT> init_list) noexcept
 {
     return init_list.size() == 0;
 }

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "type_traits_helper.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/nullptr_t.hpp>
 #include <type_traits>
@@ -47,7 +48,7 @@ struct Sink
 };
 
 template <typename RetT, typename FuncT, typename... ArgsT>
-constexpr bool throws_invocable_r()
+PHI_CONSTEXPR bool throws_invocable_r()
 {
 #if PHI_HAS_WORKING_IS_INVOCABLE()
     return phi::is_invocable_r<RetT, FuncT, ArgsT...>::value &&

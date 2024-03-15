@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/swap.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/move.hpp>
 #include <phi/type_traits/is_assignable.hpp>
@@ -185,16 +186,16 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("constructor")
     {
         {
-            constexpr phi::boolean bool1(true);
+            PHI_CONSTEXPR phi::boolean bool1(true);
             STATIC_REQUIRE(bool1);
 
-            constexpr phi::boolean bool2(false);
+            PHI_CONSTEXPR phi::boolean bool2(false);
             STATIC_REQUIRE_FALSE(bool2);
 
-            constexpr phi::boolean bool3(bool1);
+            PHI_CONSTEXPR phi::boolean bool3(bool1);
             STATIC_REQUIRE(bool3);
 
-            constexpr phi::boolean bool4(phi::move(bool2));
+            PHI_CONSTEXPR phi::boolean bool4(phi::move(bool2));
             STATIC_REQUIRE_FALSE(bool4);
         }
 
@@ -235,11 +236,11 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("negate")
     {
         {
-            constexpr phi::boolean bool1(true);
+            PHI_CONSTEXPR phi::boolean bool1(true);
             STATIC_REQUIRE_FALSE(!bool1);
             CHECK_NOEXCEPT(!bool1);
 
-            constexpr phi::boolean bool2(false);
+            PHI_CONSTEXPR phi::boolean bool2(false);
             STATIC_REQUIRE(!bool2);
             CHECK_NOEXCEPT(!bool2);
         }
@@ -265,7 +266,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
 
             CHECK(unsafe_bool1);
 
-            constexpr phi::boolean bool2{false};
+            PHI_CONSTEXPR phi::boolean bool2{false};
 
             bool unsafe_bool2 = static_cast<bool>(bool2);
             CHECK_NOEXCEPT(static_cast<bool>(bool2));
@@ -274,16 +275,16 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
         }
 
         {
-            constexpr phi::boolean bool1{true};
+            PHI_CONSTEXPR phi::boolean bool1{true};
 
-            constexpr bool unsafe_bool1 = static_cast<bool>(bool1);
+            PHI_CONSTEXPR bool unsafe_bool1 = static_cast<bool>(bool1);
             CHECK_NOEXCEPT(static_cast<bool>(bool1));
 
             STATIC_REQUIRE(unsafe_bool1);
 
-            constexpr phi::boolean bool2{false};
+            PHI_CONSTEXPR phi::boolean bool2{false};
 
-            constexpr bool unsafe_bool2 = static_cast<bool>(bool2);
+            PHI_CONSTEXPR bool unsafe_bool2 = static_cast<bool>(bool2);
             CHECK_NOEXCEPT(static_cast<bool>(bool2));
 
             STATIC_REQUIRE_FALSE(unsafe_bool2);
@@ -293,7 +294,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("comparison")
     {
         {
-            constexpr phi::boolean bool1(true);
+            PHI_CONSTEXPR phi::boolean bool1(true);
             STATIC_REQUIRE(bool1 == true);
             STATIC_REQUIRE(true == bool1);
             STATIC_REQUIRE(bool1 != false);
@@ -301,7 +302,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
             STATIC_REQUIRE(bool1 == phi::boolean(true));
             STATIC_REQUIRE(bool1 != phi::boolean(false));
 
-            constexpr phi::boolean bool2(false);
+            PHI_CONSTEXPR phi::boolean bool2(false);
             STATIC_REQUIRE(bool2 == false);
             STATIC_REQUIRE(false == bool2);
             STATIC_REQUIRE(bool2 != true);
@@ -373,7 +374,7 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("unsafe")
     {
         {
-            constexpr phi::boolean boolean(true);
+            PHI_CONSTEXPR phi::boolean boolean(true);
             STATIC_REQUIRE(boolean.unsafe());
             CHECK_NOEXCEPT(boolean.unsafe());
         }
@@ -402,14 +403,14 @@ TEST_CASE("boolean", "[Utility][Types][boolean]")
     SECTION("as_flipped")
     {
         {
-            constexpr phi::boolean boolean{true};
+            PHI_CONSTEXPR phi::boolean boolean{true};
             STATIC_REQUIRE(boolean);
 
-            constexpr phi::boolean flipped_bool = boolean.as_flipped();
+            PHI_CONSTEXPR phi::boolean flipped_bool = boolean.as_flipped();
             STATIC_REQUIRE(boolean);
             STATIC_REQUIRE_FALSE(flipped_bool);
 
-            constexpr phi::boolean double_flipped_bool = flipped_bool.as_flipped();
+            PHI_CONSTEXPR phi::boolean double_flipped_bool = flipped_bool.as_flipped();
             STATIC_REQUIRE(boolean);
             STATIC_REQUIRE_FALSE(flipped_bool);
             STATIC_REQUIRE(double_flipped_bool);

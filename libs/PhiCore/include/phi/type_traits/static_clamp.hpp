@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/size_t.hpp"
@@ -29,7 +30,7 @@ struct static_clamp
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <size_t Value, size_t MinValue, size_t MaxValue>
-PHI_INLINE_VARIABLE constexpr size_t static_clamp_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t static_clamp_v =
         static_clamp<Value, MinValue, MaxValue>::value;
 
 #endif

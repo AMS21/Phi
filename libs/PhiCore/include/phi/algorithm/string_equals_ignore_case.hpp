@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/nullptr_t.hpp"
@@ -20,34 +21,34 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 // nullptr_t - x
 
 template <typename CharT = char>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(nullptr_t, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(nullptr_t, nullptr_t) noexcept
 {
     return true;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(nullptr_t, const CharT* rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(nullptr_t, const CharT* rhs) noexcept
 {
     return rhs == nullptr;
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(nullptr_t, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.is_null();
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        nullptr_t, std::basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(nullptr_t, std::basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return rhs.data() == nullptr;
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        nullptr_t, std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(nullptr_t, std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
 {
     return rhs.data() == nullptr;
 }
@@ -55,7 +56,7 @@ PHI_NODISCARD constexpr boolean string_equals_ignore_case(
 // CharT - x
 
 template <typename CharT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(const CharT* lhs, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(const CharT* lhs, nullptr_t) noexcept
 {
     return lhs == nullptr;
 }
@@ -98,7 +99,7 @@ string_equals_ignore_case(const CharT* lhs, std::basic_string_view<CharT, Traits
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(
         const CharT* lhs, std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs, rhs.data());
@@ -107,8 +108,8 @@ PHI_NODISCARD constexpr boolean string_equals_ignore_case(
 // phi::basic_string_view - x
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(basic_string_view<CharT, TraitsT> lhs,
-                                                          nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(basic_string_view<CharT, TraitsT> lhs,
+                                                              nullptr_t) noexcept
 {
     return lhs.is_null();
 }
@@ -121,23 +122,23 @@ string_equals_ignore_case(basic_string_view<CharT, TraitsT> lhs, const CharT* rh
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(
         basic_string_view<CharT, TraitsT> lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(
         basic_string_view<CharT, TraitsT> lhs, std::basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        basic_string_view<CharT, TraitsT>             lhs,
-        std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(basic_string_view<CharT, TraitsT>             lhs,
+                          std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
@@ -145,8 +146,8 @@ PHI_NODISCARD constexpr boolean string_equals_ignore_case(
 // std::string_view - x
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string_view<CharT, TraitsT> lhs, nullptr_t) noexcept
 {
     return lhs.data() == nullptr;
 }
@@ -159,24 +160,24 @@ string_equals_ignore_case(std::basic_string_view<CharT, TraitsT> lhs, const Char
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(
         std::basic_string_view<CharT, TraitsT> lhs, basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string_view<CharT, TraitsT> lhs,
-        std::basic_string_view<CharT, TraitsT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string_view<CharT, TraitsT> lhs,
+                          std::basic_string_view<CharT, TraitsT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string_view<CharT, TraitsT>        lhs,
-        std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string_view<CharT, TraitsT>        lhs,
+                          std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
@@ -184,39 +185,39 @@ PHI_NODISCARD constexpr boolean string_equals_ignore_case(
 // std::basic_string - x
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string<CharT, TraitsT, AllocatorT> lhs, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string<CharT, TraitsT, AllocatorT> lhs, nullptr_t) noexcept
 {
     return lhs.data() == nullptr;
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
+PHI_NODISCARD PHI_CONSTEXPR boolean string_equals_ignore_case(
         std::basic_string<CharT, TraitsT, AllocatorT> lhs, const CharT* rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs);
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string<CharT, TraitsT, AllocatorT> lhs,
-        basic_string_view<CharT, TraitsT>             rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string<CharT, TraitsT, AllocatorT> lhs,
+                          basic_string_view<CharT, TraitsT>             rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string<CharT, TraitsT, AllocatorT> lhs,
-        std::basic_string_view<CharT, TraitsT>        rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string<CharT, TraitsT, AllocatorT> lhs,
+                          std::basic_string_view<CharT, TraitsT>        rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr boolean string_equals_ignore_case(
-        std::basic_string<CharT, TraitsT, AllocatorT> lhs,
-        std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR boolean
+string_equals_ignore_case(std::basic_string<CharT, TraitsT, AllocatorT> lhs,
+                          std::basic_string<CharT, TraitsT, AllocatorT> rhs) noexcept
 {
     return string_equals_ignore_case(lhs.data(), rhs.data());
 }

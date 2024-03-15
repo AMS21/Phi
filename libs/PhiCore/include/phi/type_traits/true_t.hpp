@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
@@ -19,7 +20,7 @@ struct true_t : public bool_constant<true>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename... TypesT>
-PHI_INLINE_VARIABLE constexpr bool true_v = true;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool true_v = true;
 
 #endif
 

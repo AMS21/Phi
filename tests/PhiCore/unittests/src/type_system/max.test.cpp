@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
@@ -17,7 +18,7 @@ void type_system_max_std_impl()
 
     // NOTE: Needed as a workaround for glibcxx's max causing the `implicit-signed-integer-truncation` to fire
     // see: https://godbolt.org/z/8Yqff34P4
-    static constexpr TypeT max_value = std::numeric_limits<TypeT>::max();
+    static PHI_CONSTEXPR TypeT max_value = std::numeric_limits<TypeT>::max();
     CHECK(phi::type_system::max<TypeT>() == max_value);
 
     CHECK_NOEXCEPT(phi::type_system::max<TypeT>());

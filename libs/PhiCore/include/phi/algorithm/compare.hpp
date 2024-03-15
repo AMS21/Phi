@@ -7,14 +7,15 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/compare_result.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsT, typename RhsT>
-PHI_NODISCARD constexpr CompareResult compare(LhsT lhs,
-                                              RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
+PHI_NODISCARD PHI_CONSTEXPR CompareResult
+compare(LhsT lhs, RhsT rhs) noexcept(noexcept(lhs == rhs && lhs < rhs))
 {
     return (lhs == rhs) ? CompareResult::Equal :
            (lhs < rhs)  ? CompareResult::LessThan :

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/features.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/type_traits/is_constant_evaluated.hpp>
@@ -11,7 +12,7 @@ template <bool>
 struct InTemplate
 {};
 
-static constexpr bool constexpr_function() noexcept
+static PHI_CONSTEXPR bool constexpr_function() noexcept
 {
     return phi::is_constant_evaluated();
 }
@@ -59,7 +60,7 @@ TEST_CASE("is_constant_evaluated")
     CHECK(local_static == 42);
 
     // Constexpr initialization
-    constexpr bool constexpr_val = phi::is_constant_evaluated();
+    PHI_CONSTEXPR bool constexpr_val = phi::is_constant_evaluated();
     STATIC_REQUIRE(constexpr_val);
 
     // Constexpr function evoked at runtime
@@ -67,7 +68,7 @@ TEST_CASE("is_constant_evaluated")
     CHECK_FALSE(constexpr_function_runtime_result);
 
     // Constexpr function evoked at compile time
-    constexpr bool constexpr_function_constexpr_result = constexpr_function();
+    PHI_CONSTEXPR bool constexpr_function_constexpr_result = constexpr_function();
     STATIC_REQUIRE(constexpr_function_constexpr_result);
 
 #        if defined(PHI_CONFIG_COVERAGE_BUILD)

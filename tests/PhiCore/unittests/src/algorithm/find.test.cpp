@@ -3,6 +3,7 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
 #include <phi/algorithm/find.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/container/array.hpp>
 #include <phi/iterator/begin.hpp>
@@ -15,7 +16,7 @@ TEST_CASE("algorithm.find - c-array")
 {
     // first == last
     {
-        static constexpr const int array[1]{0};
+        static PHI_CONSTEXPR_AND_CONST int array[1]{0};
 
         CHECK(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
         EXT_STATIC_REQUIRE(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
@@ -28,7 +29,7 @@ TEST_CASE("algorithm.find - c-array")
 
     // Size 1
     {
-        static constexpr const int array[1]{0};
+        static PHI_CONSTEXPR_AND_CONST int array[1]{0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -41,7 +42,7 @@ TEST_CASE("algorithm.find - c-array")
 
     // Size 2
     {
-        static constexpr const int array[2]{0, 1};
+        static PHI_CONSTEXPR_AND_CONST int array[2]{0, 1};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -57,7 +58,7 @@ TEST_CASE("algorithm.find - c-array")
     }
 
     {
-        static constexpr const int array[2]{0, 0};
+        static PHI_CONSTEXPR_AND_CONST int array[2]{0, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -70,7 +71,7 @@ TEST_CASE("algorithm.find - c-array")
 
     // Size 3
     {
-        static constexpr const int array[3]{0, 1, 2};
+        static PHI_CONSTEXPR_AND_CONST int array[3]{0, 1, 2};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -90,7 +91,7 @@ TEST_CASE("algorithm.find - c-array")
     }
 
     {
-        static constexpr const int array[3]{0, 1, 0};
+        static PHI_CONSTEXPR_AND_CONST int array[3]{0, 1, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -106,7 +107,7 @@ TEST_CASE("algorithm.find - c-array")
     }
 
     {
-        static constexpr const int array[3]{0, 0, 1};
+        static PHI_CONSTEXPR_AND_CONST int array[3]{0, 0, 1};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -122,7 +123,7 @@ TEST_CASE("algorithm.find - c-array")
     }
 
     {
-        static constexpr const int array[3]{0, 0, 0};
+        static PHI_CONSTEXPR_AND_CONST int array[3]{0, 0, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -138,7 +139,7 @@ TEST_CASE("algorithm.find - phi::array")
 {
     // first == last
     {
-        static constexpr const phi::array<int, 1u> array{0};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 1u> array{0};
 
         CHECK(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
         EXT_STATIC_REQUIRE(phi::find(phi::end(array), phi::end(array), 0) == phi::end(array));
@@ -151,7 +152,7 @@ TEST_CASE("algorithm.find - phi::array")
 
     // Size 0
     {
-        static constexpr const phi::array<int, 0u> array;
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 0u> array;
 
         CHECK(phi::find(array.begin(), array.end(), 0) == array.end());
         EXT_STATIC_REQUIRE(phi::find(array.begin(), array.end(), 0) == array.end());
@@ -160,7 +161,7 @@ TEST_CASE("algorithm.find - phi::array")
 
     // Size 1
     {
-        static constexpr const phi::array<int, 1u> array{0};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 1u> array{0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -173,7 +174,7 @@ TEST_CASE("algorithm.find - phi::array")
 
     // Size 2
     {
-        static constexpr const phi::array<int, 2u> array{0, 1};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 2u> array{0, 1};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -189,7 +190,7 @@ TEST_CASE("algorithm.find - phi::array")
     }
 
     {
-        static constexpr const phi::array<int, 2u> array{0, 0};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 2u> array{0, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -202,7 +203,7 @@ TEST_CASE("algorithm.find - phi::array")
 
     // Size 3
     {
-        static constexpr const phi::array<int, 3u> array{0, 1, 2};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 3u> array{0, 1, 2};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -222,7 +223,7 @@ TEST_CASE("algorithm.find - phi::array")
     }
 
     {
-        static constexpr const phi::array<int, 3u> array{0, 1, 0};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 3u> array{0, 1, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -238,7 +239,7 @@ TEST_CASE("algorithm.find - phi::array")
     }
 
     {
-        static constexpr const phi::array<int, 3u> array{0, 0, 1};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 3u> array{0, 0, 1};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
@@ -254,7 +255,7 @@ TEST_CASE("algorithm.find - phi::array")
     }
 
     {
-        static constexpr const phi::array<int, 3u> array{0, 0, 0};
+        static PHI_CONSTEXPR_AND_CONST phi::array<int, 3u> array{0, 0, 0};
 
         CHECK(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));
         EXT_STATIC_REQUIRE(phi::find(phi::begin(array), phi::end(array), 0) == &phi::at(array, 0u));

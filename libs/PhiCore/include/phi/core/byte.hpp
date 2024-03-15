@@ -18,7 +18,7 @@ enum class byte : unsigned char
 {
 };
 
-constexpr byte operator|(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator|(byte lhs, byte rhs) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) |
                                                         static_cast<unsigned int>(rhs)));
@@ -30,7 +30,7 @@ byte& operator|=(byte& lhs, byte rhs) noexcept
     return lhs = lhs | rhs;
 }
 
-constexpr byte operator&(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator&(byte lhs, byte rhs) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) &
                                                         static_cast<unsigned int>(rhs)));
@@ -42,7 +42,7 @@ byte& operator&=(byte& lhs, byte rhs) noexcept
     return lhs = lhs & rhs;
 }
 
-constexpr byte operator^(byte lhs, byte rhs) noexcept
+PHI_CONSTEXPR byte operator^(byte lhs, byte rhs) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) ^
                                                         static_cast<unsigned int>(rhs)));
@@ -54,41 +54,41 @@ byte& operator^=(byte& lhs, byte rhs) noexcept
     return lhs = lhs ^ rhs;
 }
 
-constexpr byte operator~(byte value) noexcept
+PHI_CONSTEXPR byte operator~(byte value) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(~static_cast<unsigned int>(value)));
 }
 
 template <typename IntegerT>
-constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator<<=(
+PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator<<=(
         byte& lhs, IntegerT shift) noexcept
 {
     return lhs = lhs << shift;
 }
 
 template <typename IntegerT>
-constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator<<(
+PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator<<(
         byte lhs, IntegerT shift) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) << shift));
 }
 
 template <typename IntegerT>
-constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator>>=(
+PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type& operator>>=(
         byte& lhs, IntegerT shift) noexcept
 {
     return lhs = lhs >> shift;
 }
 
 template <typename IntegerT>
-constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator>>(
+PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, byte>::type operator>>(
         byte lhs, IntegerT shift) noexcept
 {
     return static_cast<byte>(static_cast<unsigned char>(static_cast<unsigned int>(lhs) >> shift));
 }
 
 template <typename IntegerT>
-constexpr typename enable_if<is_unsafe_integral<IntegerT>::value, IntegerT>::type to_integer(
+PHI_CONSTEXPR typename enable_if<is_unsafe_integral<IntegerT>::value, IntegerT>::type to_integer(
         byte value) noexcept
 {
     return static_cast<IntegerT>(value);

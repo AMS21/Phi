@@ -40,7 +40,7 @@ PHI_MSVC_SUPPRESS_WARNING(
 
 struct NoDefault
 {
-    constexpr NoDefault(int /*unused*/)
+    PHI_CONSTEXPR NoDefault(int /*unused*/)
     {}
 };
 
@@ -222,20 +222,21 @@ struct Trivial
 };
 struct NonTrivial
 {
-    constexpr NonTrivial()
+    PHI_CONSTEXPR NonTrivial()
     {}
-    constexpr NonTrivial(NonTrivial const&)
+
+    PHI_CONSTEXPR NonTrivial(NonTrivial const&)
     {}
 };
 struct NonEmptyNonTrivial
 {
-    int i;
-    int j;
-    constexpr NonEmptyNonTrivial()
+    int           i;
+    int           j;
+    PHI_CONSTEXPR NonEmptyNonTrivial()
         : i(22)
         , j(33)
     {}
-    constexpr NonEmptyNonTrivial(NonEmptyNonTrivial const&)
+    PHI_CONSTEXPR NonEmptyNonTrivial(NonEmptyNonTrivial const&)
         : i(22)
         , j(33)
     {}
@@ -272,10 +273,10 @@ TEST_CASE("Initialization")
 
 struct NonTrivialCopy
 {
-    constexpr NonTrivialCopy()
+    PHI_CONSTEXPR NonTrivialCopy()
     {}
 
-    constexpr NonTrivialCopy(NonTrivialCopy const&)
+    PHI_CONSTEXPR NonTrivialCopy(NonTrivialCopy const&)
     {}
 
     PHI_EXTENDED_CONSTEXPR NonTrivialCopy& operator=(NonTrivialCopy const&)
@@ -285,7 +286,7 @@ struct NonTrivialCopy
 };
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-constexpr bool test_implicit_copy_constexpr()
+PHI_CONSTEXPR bool test_implicit_copy_constexpr()
 {
     {
         using Array = phi::array<double, 3>;
@@ -452,7 +453,7 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            constexpr T arr = {1, 2, 4};
+            PHI_CONSTEXPR T arr = {1, 2, 4};
 
             CHECK_SAME_TYPE(decltype(arr.at(0u)), T::const_reference);
             CHECK_SAME_TYPE(decltype(arr.at(0u)), const int&);
@@ -643,7 +644,7 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            constexpr T constexpr_array = {1, 2, 4};
+            PHI_CONSTEXPR T constexpr_array = {1, 2, 4};
 
             CHECK_SAME_TYPE(decltype(constexpr_array.front()), T::const_reference);
             CHECK_SAME_TYPE(decltype(constexpr_array.front()), const int&);
@@ -792,7 +793,7 @@ TEST_CASE("Array")
     {
         SECTION("Constexpr")
         {
-            constexpr T constexpr_array = {1, 2, 4};
+            PHI_CONSTEXPR T constexpr_array = {1, 2, 4};
 
             EXT_STATIC_REQUIRE(constexpr_array.back() == 4);
         }
@@ -1265,7 +1266,7 @@ TEST_CASE("array size, ssize, max_size and max_ssize")
         CHECK(carr.max_ssize() == 0);
         CHECK(carr.is_empty());
 
-        constexpr array ce_arr{};
+        PHI_CONSTEXPR array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 0u);
         STATIC_REQUIRE(ce_arr.ssize() == 0);
@@ -1291,7 +1292,7 @@ TEST_CASE("array size, ssize, max_size and max_ssize")
         CHECK(carr.max_ssize() == 1);
         CHECK_FALSE(carr.is_empty());
 
-        constexpr array ce_arr{};
+        PHI_CONSTEXPR array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 1u);
         STATIC_REQUIRE(ce_arr.ssize() == 1);
@@ -1317,7 +1318,7 @@ TEST_CASE("array size, ssize, max_size and max_ssize")
         CHECK(carr.max_ssize() == 2);
         CHECK_FALSE(carr.is_empty());
 
-        constexpr array ce_arr{};
+        PHI_CONSTEXPR array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 2u);
         STATIC_REQUIRE(ce_arr.ssize() == 2);
@@ -1343,7 +1344,7 @@ TEST_CASE("array size, ssize, max_size and max_ssize")
         CHECK(carr.max_ssize() == 3);
         CHECK_FALSE(carr.is_empty());
 
-        constexpr array ce_arr{};
+        PHI_CONSTEXPR array ce_arr{};
 
         STATIC_REQUIRE(ce_arr.size() == 3u);
         STATIC_REQUIRE(ce_arr.ssize() == 3);
@@ -1375,7 +1376,7 @@ TEST_CASE("array fill")
 
 struct NonSwappable
 {
-    constexpr NonSwappable() = default;
+    PHI_CONSTEXPR NonSwappable() = default;
 
     NonSwappable(const NonSwappable&)            = delete;
     NonSwappable& operator=(const NonSwappable&) = delete;
@@ -1383,7 +1384,7 @@ struct NonSwappable
 
 struct ThrowSwappable
 {
-    constexpr ThrowSwappable() = default;
+    PHI_CONSTEXPR ThrowSwappable() = default;
 
     ThrowSwappable(const ThrowSwappable&)
     {}
@@ -1698,7 +1699,7 @@ TEST_CASE("array is_empty")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         STATIC_REQUIRE_FALSE(arr.is_empty());
         CHECK_NOEXCEPT(arr.is_empty());
@@ -1722,7 +1723,7 @@ TEST_CASE("array is_empty")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr{};
+        PHI_CONSTEXPR array arr{};
 
         STATIC_REQUIRE(arr.is_empty());
         CHECK_NOEXCEPT(arr.is_empty());
@@ -1769,7 +1770,7 @@ TEST_CASE("array front")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
@@ -1827,7 +1828,7 @@ TEST_CASE("array front")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr{};
+        PHI_CONSTEXPR array arr{};
 
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
@@ -1882,7 +1883,7 @@ TEST_CASE("array back")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         CHECK(arr.front() == 1);
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
@@ -1940,7 +1941,7 @@ TEST_CASE("array back")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr{};
+        PHI_CONSTEXPR array arr{};
 
         CHECK_SAME_TYPE(decltype(arr.front()), array::const_reference);
         CHECK_NOEXCEPT(arr.front());
@@ -1983,7 +1984,7 @@ TEST_CASE("array max")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{5, 2, 3};
+        PHI_CONSTEXPR array arr{5, 2, 3};
 
         EXT_STATIC_REQUIRE(arr.max() == 5);
         CHECK_NOEXCEPT(arr.max());
@@ -2057,7 +2058,7 @@ TEST_CASE("max_index")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         STATIC_REQUIRE_SAN(arr.max_index() == &arr[2u]);
         CHECK_SAME_TYPE(decltype(arr.max_index()), array::const_iterator);
@@ -2093,7 +2094,7 @@ TEST_CASE("array min")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{5, 2, 3};
+        PHI_CONSTEXPR array arr{5, 2, 3};
 
         EXT_STATIC_REQUIRE(arr.min() == 2);
         CHECK_NOEXCEPT(arr.min());
@@ -2167,7 +2168,7 @@ TEST_CASE("min_index")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         STATIC_REQUIRE_SAN(arr.min_index() == &arr.front());
         CHECK_SAME_TYPE(decltype(arr.min_index()), array::const_iterator);
@@ -2245,7 +2246,7 @@ TEST_CASE("array find")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         EXT_STATIC_REQUIRE(arr.find(1) == &arr.front());
         EXT_STATIC_REQUIRE(arr.find(2) == &arr.at(1u));
@@ -2258,7 +2259,7 @@ TEST_CASE("array find")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find(0) == arr.end());
         STATIC_REQUIRE(arr.find(1) == arr.end());
@@ -2357,7 +2358,7 @@ TEST_CASE("array find_if")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         EXT_STATIC_REQUIRE(arr.find_if(lambda_eq0) == arr.end());
         EXT_STATIC_REQUIRE(arr.find_if(lambda_eq1) == &arr.at(0u));
@@ -2377,7 +2378,7 @@ TEST_CASE("array find_if")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find_if(lambda_eq1) == arr.end());
         STATIC_REQUIRE(arr.find_if(lambda_eq2) == arr.end());
@@ -2461,7 +2462,7 @@ TEST_CASE("array find_if_not")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq0) == &arr.at(0u));
         EXT_STATIC_REQUIRE(arr.find_if_not(lambda_eq1) == &arr.at(1u));
@@ -2482,7 +2483,7 @@ TEST_CASE("array find_if_not")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find_if_not(lambda_eq1) == arr.end());
         STATIC_REQUIRE(arr.find_if_not(lambda_eq2) == arr.end());
@@ -2562,7 +2563,7 @@ TEST_CASE("array find_last")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
 #if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
@@ -2585,7 +2586,7 @@ TEST_CASE("array find_last")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find_last(0) == arr.end());
         STATIC_REQUIRE(arr.find_last(1) == arr.end());
@@ -2668,7 +2669,7 @@ TEST_CASE("array find_last_if")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
 #if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
@@ -2690,7 +2691,7 @@ TEST_CASE("array find_last_if")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find_last_if(lambda_eq1) == arr.end());
         STATIC_REQUIRE(arr.find_last_if(lambda_eq2) == arr.end());
@@ -2774,7 +2775,7 @@ TEST_CASE("array find_last_if_not")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array arr{1, 2, 3};
+        PHI_CONSTEXPR array arr{1, 2, 3};
 
         // NOTE: Before gcc-10 some of the sanitizer pointer functions are not constexpr
 #if PHI_COMPILER_IS_BELOW(GCC, 10, 0, 0)
@@ -2796,7 +2797,7 @@ TEST_CASE("array find_last_if_not")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array arr;
+        PHI_CONSTEXPR array arr;
 
         STATIC_REQUIRE(arr.find_last_if_not(lambda_eq1) == arr.end());
         STATIC_REQUIRE(arr.find_last_if_not(lambda_eq2) == arr.end());
@@ -3116,8 +3117,8 @@ TEST_CASE("array compare")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array lhs{1, 2, 3};
-        constexpr array rhs{1, 2, 3};
+        PHI_CONSTEXPR array lhs{1, 2, 3};
+        PHI_CONSTEXPR array rhs{1, 2, 3};
 
         EXT_STATIC_REQUIRE(lhs == rhs);
         EXT_STATIC_REQUIRE_FALSE(lhs != rhs);
@@ -3158,8 +3159,8 @@ TEST_CASE("array compare")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array lhs{1, 2, 5};
-        constexpr array rhs{1, 2, 3};
+        PHI_CONSTEXPR array lhs{1, 2, 5};
+        PHI_CONSTEXPR array rhs{1, 2, 3};
 
         EXT_STATIC_REQUIRE_FALSE(lhs == rhs);
         EXT_STATIC_REQUIRE(lhs != rhs);
@@ -3200,8 +3201,8 @@ TEST_CASE("array compare")
 
     {
         using array = phi::array<int, 3u>;
-        constexpr array lhs{1, 2, 3};
-        constexpr array rhs{5, 2, 3};
+        PHI_CONSTEXPR array lhs{1, 2, 3};
+        PHI_CONSTEXPR array rhs{5, 2, 3};
 
         EXT_STATIC_REQUIRE_FALSE(lhs == rhs);
         EXT_STATIC_REQUIRE(lhs != rhs);
@@ -3242,8 +3243,8 @@ TEST_CASE("array compare")
 
     {
         using array = phi::array<int, 0u>;
-        constexpr array lhs{};
-        constexpr array rhs{};
+        PHI_CONSTEXPR array lhs{};
+        PHI_CONSTEXPR array rhs{};
 
         EXT_STATIC_REQUIRE(lhs == rhs);
         EXT_STATIC_REQUIRE_FALSE(lhs != rhs);

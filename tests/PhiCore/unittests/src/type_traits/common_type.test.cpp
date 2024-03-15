@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/type_traits/common_type.hpp>
 #include <phi/type_traits/decay.hpp>
@@ -144,14 +145,14 @@ template <typename TypeT>
 using always_bool = typename always_bool_imp<TypeT>::type;
 
 template <typename... ArgsT>
-constexpr auto no_common_type_imp(int /*unused*/)
+PHI_CONSTEXPR auto no_common_type_imp(int /*unused*/)
         -> always_bool<typename phi::common_type<ArgsT...>::type>
 {
     return false;
 }
 
 template <typename... ArgsT>
-constexpr bool no_common_type_imp(long /*unused*/)
+PHI_CONSTEXPR bool no_common_type_imp(long /*unused*/)
 {
     return true;
 }

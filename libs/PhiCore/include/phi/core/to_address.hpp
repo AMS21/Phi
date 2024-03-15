@@ -7,20 +7,21 @@
 #    pragma once
 #endif
 
-#include <phi/core/declval.hpp>
-#include <phi/core/pointer_traits.hpp>
-#include <phi/type_traits/conjunction.hpp>
-#include <phi/type_traits/decay.hpp>
-#include <phi/type_traits/enable_if.hpp>
-#include <phi/type_traits/is_class.hpp>
-#include <phi/type_traits/is_function.hpp>
+#include "phi/compiler_support/constexpr.hpp"
+#include "phi/core/declval.hpp"
+#include "phi/core/pointer_traits.hpp"
+#include "phi/type_traits/conjunction.hpp"
+#include "phi/type_traits/decay.hpp"
+#include "phi/type_traits/enable_if.hpp"
+#include "phi/type_traits/is_class.hpp"
+#include "phi/type_traits/is_function.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
     template <typename TypeT>
-    constexpr TypeT* to_address_impl(TypeT* pointer) noexcept
+    PHI_CONSTEXPR TypeT* to_address_impl(TypeT* pointer) noexcept
     {
         static_assert(is_not_function<TypeT>::value,
                       "phi::detail::to_address_impl: TypeT must not be a function type");
@@ -49,7 +50,7 @@ namespace detail
     template <typename PointerT>
     struct is_fancy_pointer
     {
-        static constexpr const bool value =
+        static PHI_CONSTEXPR_AND_CONST bool value =
                 pointer_has_operator_arrow<PointerT>::value || has_to_address<PointerT>::value;
     };
 
@@ -59,7 +60,8 @@ namespace detail
     // enable_if is needed here to avoid instantiating checks for fancy pointers on raw pointers
     template <typename PointerT, typename = enable_if_t<conjunction<
                                          is_class<PointerT>, is_fancy_pointer<PointerT>>::value>>
-    constexpr decay_t<decltype(to_address_impl_helper<PointerT>::call(declval<const PointerT&>()))>
+    PHI_CONSTEXPR decay_t<
+            decltype(to_address_impl_helper<PointerT>::call(declval<const PointerT&>()))>
     to_address_impl(const PointerT& pointer) noexcept
     {
         return to_address_impl_helper<PointerT>::call(pointer);
@@ -68,8 +70,8 @@ namespace detail
     template <typename PointerT, typename>
     struct to_address_impl_helper
     {
-        constexpr static decltype(to_address_impl(declval<const PointerT&>().operator->())) call(
-                const PointerT& pointer) noexcept
+        static PHI_CONSTEXPR decltype(to_address_impl(declval<const PointerT&>().operator->()))
+        call(const PointerT& pointer) noexcept
         {
             return to_address_impl(pointer.operator->());
         }
@@ -79,7 +81,8 @@ namespace detail
     struct to_address_impl_helper<PointerT, decltype((void)pointer_traits<PointerT>::to_address(
                                                     declval<const PointerT&>()))>
     {
-        constexpr static decltype(pointer_traits<PointerT>::to_address(declval<const PointerT&>()))
+        static PHI_CONSTEXPR decltype(pointer_traits<PointerT>::to_address(
+                declval<const PointerT&>()))
         call(const PointerT& pointer) noexcept
         {
             return pointer_traits<PointerT>::to_address(pointer);
@@ -88,13 +91,13 @@ namespace detail
 } // namespace detail
 
 template <typename TypeT>
-constexpr auto to_address(TypeT* pointer) noexcept
+PHI_CONSTEXPR auto to_address(TypeT* pointer) noexcept
 {
     return detail::to_address_impl(pointer);
 }
 
 template <typename PointerT>
-constexpr auto to_address(const PointerT& pointer) noexcept
+PHI_CONSTEXPR auto to_address(const PointerT& pointer) noexcept
         -> decltype(detail::to_address_impl(pointer))
 {
     return detail::to_address_impl(pointer);

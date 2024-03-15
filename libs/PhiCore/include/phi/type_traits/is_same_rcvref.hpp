@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/remove_cvref.hpp"
@@ -24,10 +25,10 @@ struct is_not_same_rcvref : public is_not_same<remove_cvref_t<LhsT>, remove_cvre
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_same_rcvref_v = is_same_rcvref<LhsT, RhsT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_same_rcvref_v = is_same_rcvref<LhsT, RhsT>::value;
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_same_rcvref_v = is_not_same_rcvref<LhsT, RhsT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_same_rcvref_v = is_not_same_rcvref<LhsT, RhsT>::value;
 
 #endif
 

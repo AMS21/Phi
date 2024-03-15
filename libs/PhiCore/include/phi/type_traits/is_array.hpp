@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -35,10 +36,10 @@ struct is_not_array : public bool_constant<!is_array<TypeT>::value>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_array_v = is_array<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_array_v = is_array<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_array_v = is_not_array<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_array_v = is_not_array<TypeT>::value;
 
 #endif
 

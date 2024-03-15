@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_standard_layout.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -28,10 +29,10 @@ struct is_not_standard_layout : public bool_constant<!PHI_IS_STANDARD_LAYOUT(Typ
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_standard_layout_v = PHI_IS_STANDARD_LAYOUT(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_standard_layout_v = PHI_IS_STANDARD_LAYOUT(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_standard_layout_v = !PHI_IS_STANDARD_LAYOUT(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_standard_layout_v = !PHI_IS_STANDARD_LAYOUT(TypeT);
 
 #    endif
 
@@ -59,10 +60,11 @@ struct is_not_standard_layout : public bool_constant<!is_standard_layout<TypeT>:
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_standard_layout_v = is_standard_layout<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_standard_layout_v = is_standard_layout<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_standard_layout_v = is_not_standard_layout<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_standard_layout_v =
+        is_not_standard_layout<TypeT>::value;
 
 #    endif
 

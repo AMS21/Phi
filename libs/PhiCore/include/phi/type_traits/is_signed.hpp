@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
@@ -42,10 +43,10 @@ struct is_not_signed : public bool_constant<!is_signed<TypeT>::value>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_signed_v = is_signed<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_signed_v = is_signed<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_signed_v = is_not_signed<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_signed_v = is_not_signed<TypeT>::value;
 
 #endif
 

@@ -1,7 +1,8 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
-#include "phi/compiler_support/unused.hpp"
+#include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/move.hpp>
 
@@ -134,12 +135,12 @@ TEST_CASE("move")
         test(source());
     }
     {
-        constexpr int integer2 = 42;
+        PHI_CONSTEXPR int integer2 = 42;
         STATIC_REQUIRE(phi::move(integer2) == 42);
         EXT_STATIC_REQUIRE(test_constexpr_move());
     }
     {
-        constexpr int integer2 = 42;
+        PHI_CONSTEXPR int integer2 = 42;
         STATIC_REQUIRE(phi::move(integer2) == 42);
     }
 

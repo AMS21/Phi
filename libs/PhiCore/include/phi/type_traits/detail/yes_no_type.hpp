@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/size_t.hpp"
@@ -24,7 +25,8 @@ namespace detail
         char padding;
     };
 
-    PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_yes_type = sizeof(yes_type);
+    PHI_INLINE_VARIABLE PHI_CONSTEXPR_AND_CONST static phi::size_t sizeof_yes_type =
+            sizeof(yes_type);
 
     // size == 8
     struct no_type
@@ -32,7 +34,7 @@ namespace detail
         char padding[8];
     };
 
-    PHI_INLINE_VARIABLE constexpr static phi::size_t sizeof_no_type = sizeof(no_type);
+    PHI_INLINE_VARIABLE PHI_CONSTEXPR_AND_CONST static phi::size_t sizeof_no_type = sizeof(no_type);
 } // namespace detail
 
 PHI_GCC_SUPPRESS_WARNING_POP()

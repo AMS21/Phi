@@ -35,6 +35,7 @@ SOFTWARE.
 #endif
 
 #include "phi/compiler_support/consteval.hpp"
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/core/floating_point.hpp"
@@ -144,19 +145,21 @@ namespace detail
     template <char CharT>
     struct to_digit_impl<CharT, decimal_digit>
     {
-        static constexpr auto value = static_cast<int>(CharT) - static_cast<int>('0');
+        static PHI_CONSTEXPR_AND_CONST auto value = static_cast<int>(CharT) - static_cast<int>('0');
     };
 
     template <char CharT>
     struct to_digit_impl<CharT, lower_hexadecimal_digit>
     {
-        static constexpr auto value = static_cast<int>(CharT) - static_cast<int>('a') + 10;
+        static PHI_CONSTEXPR_AND_CONST auto value =
+                static_cast<int>(CharT) - static_cast<int>('a') + 10;
     };
 
     template <char CharT>
     struct to_digit_impl<CharT, upper_hexadecimal_digit>
     {
-        static constexpr auto value = static_cast<int>(CharT) - static_cast<int>('A') + 10;
+        static PHI_CONSTEXPR_AND_CONST auto value =
+                static_cast<int>(CharT) - static_cast<int>('A') + 10;
     };
 
     template <typename TypeT, TypeT Base, char CharT>

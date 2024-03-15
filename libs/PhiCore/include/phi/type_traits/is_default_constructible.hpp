@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_constructible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -33,10 +34,11 @@ struct is_not_default_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_default_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_default_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_default_constructible_v = !PHI_IS_CONSTRUCTIBLE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_default_constructible_v =
+        !PHI_IS_CONSTRUCTIBLE(TypeT);
 
 #    endif
 
@@ -74,14 +76,14 @@ namespace detail
     template <typename TypeT, bool Boolean>
     struct is_default_constructible_abstract_filter
     {
-        static constexpr const bool value =
+        static PHI_CONSTEXPR_AND_CONST bool value =
                 sizeof(is_default_constructible_imp::test<TypeT>(0)) == detail::sizeof_yes_type;
     };
 
     template <typename TypeT>
     struct is_default_constructible_abstract_filter<TypeT, true>
     {
-        static constexpr const bool value = false;
+        static PHI_CONSTEXPR_AND_CONST bool value = false;
     };
 } // namespace detail
 
@@ -139,11 +141,11 @@ struct is_not_default_constructible : public bool_constant<!is_default_construct
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_default_constructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_default_constructible_v =
         is_default_constructible<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_default_constructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_default_constructible_v =
         is_not_default_constructible<TypeT>::value;
 
 #    endif

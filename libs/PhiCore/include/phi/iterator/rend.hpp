@@ -7,24 +7,25 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/iterator/reverse_iterator.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ContainerT>
-constexpr auto rend(ContainerT& container) -> decltype(container.rend())
+PHI_CONSTEXPR auto rend(ContainerT& container) -> decltype(container.rend())
 {
     return container.rend();
 }
 
 template <typename ContainerT>
-constexpr auto rend(const ContainerT& container) -> decltype(container.rend())
+PHI_CONSTEXPR auto rend(const ContainerT& container) -> decltype(container.rend())
 {
     return container.rend();
 }
 
 template <typename TypeT, size_t Size>
-constexpr reverse_iterator<TypeT*> rend(TypeT (&array)[Size])
+PHI_CONSTEXPR reverse_iterator<TypeT*> rend(TypeT (&array)[Size])
 {
     return reverse_iterator<TypeT*>(array + Size);
 }
@@ -32,7 +33,7 @@ constexpr reverse_iterator<TypeT*> rend(TypeT (&array)[Size])
 // TODO: Support for initializer lists
 
 template <typename ContainerT>
-constexpr auto crend(const ContainerT& container) -> decltype(rend(container))
+PHI_CONSTEXPR auto crend(const ContainerT& container) -> decltype(rend(container))
 {
     return rend(container);
 }

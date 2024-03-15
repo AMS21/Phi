@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_assignable.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,11 @@ struct is_not_nothrow_assignable : public bool_constant<!PHI_IS_NOTHROW_ASSIGNAB
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v = PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_assignable_v =
+        PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT);
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_assignable_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_assignable_v =
         !PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT);
 
 #    endif
@@ -75,11 +77,11 @@ struct is_not_nothrow_assignable : public bool_constant<!is_nothrow_assignable<T
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_assignable_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_assignable_v =
         is_nothrow_assignable<TypeT, ArgT>::value;
 
 template <typename TypeT, typename ArgT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_assignable_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_assignable_v =
         is_not_nothrow_assignable<TypeT, ArgT>::value;
 
 #    endif

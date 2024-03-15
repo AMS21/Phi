@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_empty.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -28,10 +29,10 @@ struct is_not_empty : public bool_constant<!PHI_IS_EMPTY(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_empty_v = PHI_IS_EMPTY(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_empty_v = PHI_IS_EMPTY(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_empty_v = !PHI_IS_EMPTY(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_empty_v = !PHI_IS_EMPTY(TypeT);
 
 #    endif
 
@@ -89,10 +90,10 @@ struct is_not_empty : public bool_constant<!is_empty<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_empty_v = is_empty<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_empty_v = is_empty<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_empty_v = is_not_empty<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_empty_v = is_not_empty<TypeT>::value;
 
 #    endif
 

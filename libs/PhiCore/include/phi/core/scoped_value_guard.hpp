@@ -21,7 +21,7 @@ public:
     using this_type  = scoped_value_guard<ValueT>;
     using value_type = ValueT;
 
-    constexpr explicit scoped_value_guard(ValueT& variable) noexcept
+    PHI_CONSTEXPR explicit scoped_value_guard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)
     {}
@@ -45,12 +45,12 @@ public:
         m_Variable = m_SavedValue;
     }
 
-    PHI_NODISCARD constexpr ValueT& get_variable() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    PHI_NODISCARD constexpr ValueT get_saved_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
@@ -78,7 +78,7 @@ public:
     using this_type  = armed_scoped_value_guard<ValueT>;
     using value_type = ValueT;
 
-    constexpr explicit armed_scoped_value_guard(ValueT& variable) noexcept
+    PHI_CONSTEXPR explicit armed_scoped_value_guard(ValueT& variable) noexcept
         : m_Variable(variable)
         , m_SavedValue(variable)
         , m_Armed(true)
@@ -106,12 +106,12 @@ public:
         }
     }
 
-    PHI_NODISCARD constexpr ValueT& get_variable() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT& get_variable() const noexcept
     {
         return m_Variable;
     }
 
-    PHI_NODISCARD constexpr ValueT get_saved_value() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR ValueT get_saved_value() const noexcept
     {
         return m_SavedValue;
     }
@@ -131,7 +131,7 @@ public:
         m_Armed = true;
     }
 
-    PHI_NODISCARD constexpr boolean is_armed() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const noexcept
     {
         return m_Armed;
     }
@@ -149,14 +149,14 @@ armed_scoped_value_guard(TypeT) -> armed_scoped_value_guard<TypeT>;
 #endif
 
 template <typename ValueT>
-PHI_NODISCARD constexpr scoped_value_guard<ValueT> make_scoped_value_guard(
+PHI_NODISCARD PHI_CONSTEXPR scoped_value_guard<ValueT> make_scoped_value_guard(
         ValueT& variable) noexcept
 {
     return scoped_value_guard<ValueT>(variable);
 }
 
 template <typename ValueT>
-PHI_NODISCARD constexpr armed_scoped_value_guard<ValueT> make_armed_scoped_value_guard(
+PHI_NODISCARD PHI_CONSTEXPR armed_scoped_value_guard<ValueT> make_armed_scoped_value_guard(
         ValueT& variable) noexcept
 {
     return armed_scoped_value_guard<ValueT>(variable);

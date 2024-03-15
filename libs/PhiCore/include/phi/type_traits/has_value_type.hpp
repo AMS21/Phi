@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/integral_constant.hpp"
@@ -29,10 +30,10 @@ struct has_no_value_type : public bool_constant<!has_value_type<TypeT>::value>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_value_type_v = has_value_type<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_value_type_v = has_value_type<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_no_value_type_v = has_no_value_type<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_no_value_type_v = has_no_value_type<TypeT>::value;
 
 #endif
 

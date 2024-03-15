@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/core/move_if_noexcept.hpp>
 
@@ -127,8 +128,8 @@ TEST_CASE("move_if_noexcept")
     CHECK_SAME_TYPE(decltype(phi::move_if_noexcept(legacy_class)), const legacy&);
     CHECK_NOEXCEPT(phi::move_if_noexcept(legacy_class));
 
-    constexpr int integer1 = 23;
-    constexpr int integer2 = phi::move_if_noexcept(integer1);
+    PHI_CONSTEXPR int integer1 = 23;
+    PHI_CONSTEXPR int integer2 = phi::move_if_noexcept(integer1);
     CHECK_NOEXCEPT(phi::move_if_noexcept(integer1));
     PHI_UNUSED_VARIABLE(integer2);
     STATIC_REQUIRE(integer2 == 23);
@@ -157,8 +158,8 @@ TEST_CASE("move_if_noexcept")
     PHI_UNUSED_VARIABLE(emnc2);
     CHECK_FALSE(emnc1);
 
-    constexpr simple simple_class{5};
-    constexpr simple simple_class2 = phi::move_if_noexcept(simple_class);
+    PHI_CONSTEXPR simple simple_class{5};
+    PHI_CONSTEXPR simple simple_class2 = phi::move_if_noexcept(simple_class);
     CHECK_NOEXCEPT(phi::move_if_noexcept(simple_class2));
     PHI_UNUSED_VARIABLE(simple_class2);
 }

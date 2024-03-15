@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -43,11 +44,11 @@ struct is_not_static_castable_to : public bool_constant<!is_static_castable_to<F
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_static_castable_to_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_static_castable_to_v =
         is_static_castable_to<FromT, ToT>::value;
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_not_static_castable_to_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_static_castable_to_v =
         is_not_static_castable_to<FromT, ToT>::value;
 
 #endif

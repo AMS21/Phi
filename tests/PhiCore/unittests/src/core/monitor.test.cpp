@@ -20,11 +20,11 @@ PHI_GCC_SUPPRESS_WARNING("-Wunsafe-loop-optimizations")
 
 struct MonitorTestData
 {
-    constexpr MonitorTestData() noexcept
+    PHI_CONSTEXPR MonitorTestData() noexcept
         : val(1u)
     {}
 
-    constexpr MonitorTestData(int /*unused*/, double /*unused*/) noexcept
+    PHI_CONSTEXPR MonitorTestData(int /*unused*/, double /*unused*/) noexcept
         : val(2u)
     {}
 

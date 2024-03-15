@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_same.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_same : public bool_constant<!PHI_IS_SAME(LhsT, RhsT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_same_v = PHI_IS_SAME(LhsT, RhsT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_same_v = PHI_IS_SAME(LhsT, RhsT);
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_same_v = !PHI_IS_SAME(LhsT, RhsT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_same_v = !PHI_IS_SAME(LhsT, RhsT);
 
 #    endif
 
@@ -54,10 +55,10 @@ struct is_not_same<TypeT, TypeT> : public false_type
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_same_v = is_same<LhsT, RhsT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_same_v = is_same<LhsT, RhsT>::value;
 
 template <typename TypeT, typename OtherT>
-PHI_INLINE_VARIABLE constexpr bool is_not_same_v = is_not_same<TypeT, OtherT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_same_v = is_not_same<TypeT, OtherT>::value;
 
 #    endif
 

@@ -7,6 +7,8 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -16,13 +18,14 @@ struct ignore_t
 {
     template <typename OtherT>
     // NOLINTNEXTLINE(misc-unconventional-assign-operator,cppcoreguidelines-missing-std-forward)
-    const inline constexpr ignore_t<TypeT>& operator=(OtherT&& /*other*/) const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR_AND_CONST ignore_t<TypeT>& operator=(
+            OtherT&& /*other*/) const noexcept
     {
         return *this;
     }
 };
 
-PHI_INLINE_VARIABLE constexpr ignore_t<unsigned char> ignore = ignore_t<unsigned char>{};
+PHI_INLINE_VARIABLE PHI_CONSTEXPR ignore_t<unsigned char> ignore = ignore_t<unsigned char>{};
 
 DETAIL_PHI_END_NAMESPACE()
 

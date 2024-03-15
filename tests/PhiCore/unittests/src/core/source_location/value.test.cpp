@@ -3,6 +3,7 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_equals.hpp>
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/intrinsics/source_location.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/boolean.hpp>
@@ -111,7 +112,7 @@ TEST_CASE("source_location")
 
     SECTION("Constexpr")
     {
-        constexpr phi::source_location location =
+        PHI_CONSTEXPR phi::source_location location =
                 phi::source_location{"file.cpp", "function", 3u, 1u};
 
         EXT_STATIC_REQUIRE(phi::string_equals(location.file_name(), "file.cpp"));

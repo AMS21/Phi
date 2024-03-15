@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
 #include "phi/type_traits/conditional.hpp"
@@ -101,7 +102,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T, typename... ArgsT,
               typename = enable_if_bullet1<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(
+    inline PHI_CONSTEXPR auto invoke_impl(
             FunctionPointerT&& func, Arg0T&& arg0,
             ArgsT&&... args) noexcept(noexcept((static_cast<Arg0T&&>(arg0).*
                                                 func)(static_cast<ArgsT&&>(args)...)))
@@ -112,7 +113,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T, typename... ArgsT,
               typename = enable_if_bullet2<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(
+    inline PHI_CONSTEXPR auto invoke_impl(
             FunctionPointerT&& func, Arg0T&& arg0,
             ArgsT&&... args) noexcept(noexcept((arg0.get().*func)(static_cast<ArgsT&&>(args)...)))
             -> decltype((arg0.get().*func)(static_cast<ArgsT&&>(args)...))
@@ -122,7 +123,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T, typename... ArgsT,
               typename = enable_if_bullet3<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(
+    inline PHI_CONSTEXPR auto invoke_impl(
             FunctionPointerT&& func, Arg0T&& arg0,
             ArgsT&&... args) noexcept(noexcept(((*static_cast<Arg0T&&>(arg0)).*
                                                 func)(static_cast<ArgsT&&>(args)...)))
@@ -135,7 +136,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T,
               typename = enable_if_bullet4<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(noexcept(
+    inline PHI_CONSTEXPR auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(noexcept(
             static_cast<Arg0T&&>(arg0).*func)) -> decltype(static_cast<Arg0T&&>(arg0).*func)
     {
         return static_cast<Arg0T&&>(arg0).*func;
@@ -143,7 +144,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T,
               typename = enable_if_bullet5<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(
+    inline PHI_CONSTEXPR auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(
             noexcept(arg0.get().*func)) -> decltype(arg0.get().*func)
     {
         return arg0.get().*func;
@@ -151,7 +152,7 @@ namespace detail
 
     template <typename FunctionPointerT, typename Arg0T,
               typename = enable_if_bullet6<FunctionPointerT, Arg0T>>
-    inline constexpr auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(noexcept(
+    inline PHI_CONSTEXPR auto invoke_impl(FunctionPointerT&& func, Arg0T&& arg0) noexcept(noexcept(
             (*static_cast<Arg0T&&>(arg0)).*func)) -> decltype((*static_cast<Arg0T&&>(arg0)).*func)
     {
         return (*static_cast<Arg0T&&>(arg0)).*func;
@@ -163,7 +164,7 @@ namespace detail
     PHI_CLANG_SUPPRESS_WARNING("-Wsign-conversion")
 
     template <typename FunctionPointerT, typename... ArgsT>
-    inline constexpr auto invoke_impl(FunctionPointerT&& func, ArgsT&&... args) noexcept(
+    inline PHI_CONSTEXPR auto invoke_impl(FunctionPointerT&& func, ArgsT&&... args) noexcept(
             noexcept(static_cast<FunctionPointerT&&>(func)(static_cast<ArgsT&&>(args)...)))
             -> decltype(static_cast<FunctionPointerT&&>(func)(static_cast<ArgsT&&>(args)...))
     {
@@ -190,7 +191,7 @@ namespace detail
                 is_not_same<ResultT, nat>::value,
                 conditional_t<is_void<ReturnT>::value, true_type, is_convertible<ResultT, ReturnT>>,
                 false_type>;
-        static constexpr const bool value = type::value;
+        static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
 
     template <typename FunctionPointerT, typename... ArgsT>
@@ -200,7 +201,7 @@ namespace detail
               typename... ArgsT>
     struct nothrow_invokable_r_impl
     {
-        static constexpr const bool value = false;
+        static PHI_CONSTEXPR_AND_CONST bool value = false;
     };
 
     template <typename ReturnT, typename FunctionPointerT, typename... ArgsT>
@@ -211,14 +212,14 @@ namespace detail
         template <typename TypeT>
         static void test_noexcept(TypeT) noexcept;
 
-        static constexpr const bool value = noexcept(ThisT::test_noexcept<ReturnT>(
+        static PHI_CONSTEXPR_AND_CONST bool value = noexcept(ThisT::test_noexcept<ReturnT>(
                 invoke_impl(declval<FunctionPointerT>(), declval<ArgsT>()...)));
     };
 
     template <typename ReturnT, typename FunctionPointerT, typename... ArgsT>
     struct nothrow_invokable_r_impl<true, true, ReturnT, FunctionPointerT, ArgsT...>
     {
-        static constexpr const bool value =
+        static PHI_CONSTEXPR_AND_CONST bool value =
                 noexcept(invoke_impl(declval<FunctionPointerT>(), declval<ArgsT>()...));
     };
 

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/intrinsics/is_constant_evaluated.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
@@ -19,7 +20,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD PHI_ALWAYS_INLINE constexpr bool is_constant_evaluated() noexcept
+PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR bool is_constant_evaluated() noexcept
 {
 #if PHI_SUPPORTS_IS_CONSTANT_EVALUATED()
     return PHI_IS_CONSTANT_EVALUATED();

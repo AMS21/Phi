@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_destructible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,11 @@ struct is_not_nothrow_destructible : public bool_constant<!PHI_IS_NOTHROW_DESTRU
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v = PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_destructible_v =
+        PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v =
         !PHI_IS_NOTHROW_DESTRUCTIBLE(TypeT);
 
 #    endif
@@ -81,11 +83,11 @@ struct is_not_nothrow_destructible : public bool_constant<!is_nothrow_destructib
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_destructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_destructible_v =
         is_nothrow_destructible<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_destructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v =
         is_not_nothrow_destructible<TypeT>::value;
 
 #    endif

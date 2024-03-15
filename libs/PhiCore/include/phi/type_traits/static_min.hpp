@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/size_t.hpp"
@@ -33,7 +34,7 @@ struct static_min<FirstV, SecondT, RestVs...>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <size_t FirstV, size_t... RestVs>
-PHI_INLINE_VARIABLE constexpr size_t static_min_v = static_min<FirstV, RestVs...>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t static_min_v = static_min<FirstV, RestVs...>::value;
 
 #endif
 

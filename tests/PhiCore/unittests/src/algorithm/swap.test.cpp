@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "test_types.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/declval.hpp>
 #include <phi/type_traits/is_same.hpp>
@@ -87,13 +88,13 @@ template <typename TypeT>
 auto can_swap_test(...) -> phi::false_type;
 
 template <typename TypeT>
-constexpr bool can_swap()
+PHI_CONSTEXPR bool can_swap()
 {
     return phi::is_same<decltype(can_swap_test<TypeT>(0)), void>::value;
 }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-constexpr bool test_swap_constexpr()
+PHI_CONSTEXPR bool test_swap_constexpr()
 {
     int lhs = 1;
     int rhs = 2;

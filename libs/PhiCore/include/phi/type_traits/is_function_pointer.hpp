@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_function.hpp"
@@ -27,10 +28,10 @@ struct is_not_function_pointer : public bool_constant<!is_function_pointer<TypeT
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_function_pointer_v = is_function_pointer<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_function_pointer_v = is_function_pointer<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_function_pointer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_function_pointer_v =
         is_not_function_pointer<TypeT>::value;
 
 #endif

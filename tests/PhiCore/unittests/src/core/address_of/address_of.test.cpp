@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/address_of.hpp>
 
 struct A
@@ -60,7 +61,7 @@ TEST_CASE("address_of")
 
 struct Pointer
 {
-    constexpr Pointer(void* new_value)
+    PHI_CONSTEXPR Pointer(void* new_value)
         : value(new_value)
     {}
 
@@ -79,15 +80,15 @@ struct B
 
 #if PHI_SUPPORTS_ADDRESS_OF()
 #    define STATIC_REQUIRE_ADR(...) STATIC_REQUIRE(__VA_ARGS__)
-#    define CONSTEXPR_ADR           constexpr
+#    define CONSTEXPR_ADR           PHI_CONSTEXPR
 #else
 #    define STATIC_REQUIRE_ADR(...) REQUIRE(__VA_ARGS__)
 #    define CONSTEXPR_ADR
 #endif
 
-constexpr int    integer    = 0;
-constexpr double double_val = 0.0;
-constexpr B      class_value{};
+PHI_CONSTEXPR int    integer    = 0;
+PHI_CONSTEXPR double double_val = 0.0;
+PHI_CONSTEXPR B      class_value{};
 
 TEST_CASE("address_of - constexpr")
 {

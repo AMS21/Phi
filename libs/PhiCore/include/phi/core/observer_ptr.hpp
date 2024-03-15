@@ -43,36 +43,36 @@ public:
     using pointer         = TypeT*;
     using const_pointer   = const TypeT*;
 
-    constexpr observer_ptr() noexcept
+    PHI_CONSTEXPR observer_ptr() noexcept
         : m_Ptr(nullptr)
     {}
 
     ~observer_ptr() = default;
 
-    constexpr observer_ptr(nullptr_t) noexcept
+    PHI_CONSTEXPR observer_ptr(nullptr_t) noexcept
         : m_Ptr(nullptr)
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    constexpr observer_ptr(OtherT* ptr) noexcept
+    PHI_CONSTEXPR observer_ptr(OtherT* ptr) noexcept
         : m_Ptr(ptr)
     {}
 
-    constexpr observer_ptr(const observer_ptr<TypeT>& other) noexcept
+    PHI_CONSTEXPR observer_ptr(const observer_ptr<TypeT>& other) noexcept
         : m_Ptr{other.m_Ptr}
     {}
 
-    constexpr observer_ptr(observer_ptr<TypeT>&& other) noexcept
+    PHI_CONSTEXPR observer_ptr(observer_ptr<TypeT>&& other) noexcept
         : m_Ptr{move(other.m_Ptr)}
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    constexpr observer_ptr(const observer_ptr<OtherT>& other) noexcept
+    PHI_CONSTEXPR observer_ptr(const observer_ptr<OtherT>& other) noexcept
         : m_Ptr(other.get())
     {}
 
     template <typename OtherT, enable_if_t<is_convertible<OtherT*, TypeT*>::value, int> = 0>
-    constexpr observer_ptr(observer_ptr<OtherT>&& other) noexcept
+    PHI_CONSTEXPR observer_ptr(observer_ptr<OtherT>&& other) noexcept
         : m_Ptr(move(other.get()))
     {}
 
@@ -238,33 +238,33 @@ public:
         return get();
     }
 
-    constexpr explicit operator bool() const noexcept
+    PHI_CONSTEXPR explicit operator bool() const noexcept
     {
         return get() != nullptr;
     }
 
-    constexpr explicit operator boolean() const noexcept
+    PHI_CONSTEXPR explicit operator boolean() const noexcept
     {
         return get() != nullptr;
     }
 
-    constexpr explicit operator TypeT*() const noexcept
+    PHI_CONSTEXPR explicit operator TypeT*() const noexcept
     {
         return get();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    constexpr explicit operator OtherT*() const noexcept
+    PHI_CONSTEXPR explicit operator OtherT*() const noexcept
     {
         return get();
     }
 
-    PHI_NODISCARD constexpr TypeT* get() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR TypeT* get() const noexcept
     {
         return m_Ptr;
     }
 
-    PHI_NODISCARD constexpr flat_ptr flat() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR flat_ptr flat() noexcept
     {
         return flat_ptr{get()};
     }
@@ -298,85 +298,85 @@ private:
 };
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
 
 template <typename LhsT>
-constexpr boolean operator==(observer_ptr<LhsT> lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator==(observer_ptr<LhsT> lhs, nullptr_t) noexcept
 {
     return lhs.get() == nullptr;
 }
 
 template <typename RhsT>
-constexpr boolean operator==(nullptr_t, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(nullptr_t, observer_ptr<RhsT> rhs) noexcept
 {
     return rhs.get() == nullptr;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(observer_ptr<LhsT> lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(observer_ptr<LhsT> lhs, not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+PHI_CONSTEXPR boolean operator==(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
 {
     return lhs.get() == rhs;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
 template <typename LhsT>
-constexpr boolean operator!=(observer_ptr<LhsT> lhs, nullptr_t) noexcept
+PHI_CONSTEXPR boolean operator!=(observer_ptr<LhsT> lhs, nullptr_t) noexcept
 {
     return lhs.get() != nullptr;
 }
 
 template <typename RhsT>
-constexpr boolean operator!=(nullptr_t, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(nullptr_t, observer_ptr<RhsT> rhs) noexcept
 {
     return rhs.get() != nullptr;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(observer_ptr<LhsT> lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(observer_ptr<LhsT> lhs, not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(not_null_observer_ptr<LhsT> lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
 {
     return lhs.get() != rhs;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(LhsT* lhs, observer_ptr<RhsT> rhs) noexcept
 {
     return lhs != rhs.get();
 }
@@ -532,18 +532,18 @@ public:
 
     operator boolean() = delete;
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator TypeT*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator TypeT*() const noexcept
     {
         return get();
     }
 
     template <typename OtherT, enable_if_t<is_convertible<TypeT*, OtherT*>::value, int> = 0>
-    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator OtherT*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator OtherT*() const noexcept
     {
         return get();
     }
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr TypeT* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR TypeT* get() const noexcept
     {
         PHI_ASSERT(m_Ptr != nullptr, "Trying to access a nullptr");
 
@@ -581,8 +581,8 @@ private:
 PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs,
-                             not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(not_null_observer_ptr<LhsT> lhs,
+                                 not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
@@ -594,20 +594,20 @@ template <typename RhsT>
 boolean operator==(nullptr_t, not_null_observer_ptr<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+PHI_CONSTEXPR boolean operator==(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
 {
     return lhs.get() == rhs;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator==(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator==(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs == rhs.get();
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs,
-                             not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(not_null_observer_ptr<LhsT> lhs,
+                                 not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
@@ -619,13 +619,13 @@ template <typename RhsT>
 boolean operator!=(nullptr_t, not_null_observer_ptr<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(not_null_observer_ptr<LhsT> lhs, RhsT* rhs) noexcept
 {
     return lhs.get() != rhs;
 }
 
 template <typename LhsT, typename RhsT>
-constexpr boolean operator!=(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
+PHI_CONSTEXPR boolean operator!=(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcept
 {
     return lhs != rhs.get();
 }
@@ -633,14 +633,14 @@ constexpr boolean operator!=(LhsT* lhs, not_null_observer_ptr<RhsT> rhs) noexcep
 // make functions
 
 template <typename TypeT>
-PHI_NODISCARD constexpr observer_ptr<TypeT> make_observer(TypeT* ptr) noexcept
+PHI_NODISCARD PHI_CONSTEXPR observer_ptr<TypeT> make_observer(TypeT* ptr) noexcept
 {
     return observer_ptr<TypeT>(ptr);
 }
 
 template <typename TypeT>
-PHI_NODISCARD PHI_ATTRIBUTE_NONNULL constexpr not_null_observer_ptr<TypeT> make_not_null_observer(
-        TypeT* ptr) noexcept
+PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR not_null_observer_ptr<TypeT>
+                                                  make_not_null_observer(TypeT* ptr) noexcept
 {
     return not_null_observer_ptr<TypeT>(ptr);
 }

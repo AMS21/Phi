@@ -1,6 +1,7 @@
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/assert.hpp>
 
-constexpr int f(int value)
+PHI_CONSTEXPR int f(int value)
 {
     PHI_ASSERT(value != 0, "No division by zero");
 
@@ -9,6 +10,6 @@ constexpr int f(int value)
 
 int main()
 {
-    static constexpr int res = f(0);
+    static PHI_CONSTEXPR int res = f(0);
     return res;
 }

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_member_object_pointer.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,11 @@ struct is_not_member_object_pointer : public bool_constant<!PHI_IS_MEMBER_OBJECT
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v = PHI_IS_MEMBER_OBJECT_POINTER(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_member_object_pointer_v =
+        PHI_IS_MEMBER_OBJECT_POINTER(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_member_object_pointer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_member_object_pointer_v =
         !PHI_IS_MEMBER_OBJECT_POINTER(TypeT);
 
 #    endif
@@ -53,11 +55,11 @@ struct is_not_member_object_pointer : public bool_constant<!is_member_object_poi
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_member_object_pointer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_member_object_pointer_v =
         is_member_object_pointer<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_member_object_pointer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_member_object_pointer_v =
         is_not_member_object_pointer<TypeT>::value;
 
 #    endif

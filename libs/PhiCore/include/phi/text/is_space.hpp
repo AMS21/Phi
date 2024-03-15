@@ -7,12 +7,13 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_space(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_space(const char character) noexcept
 {
     // NOLINTNEXTLINE(readability-implicit-bool-conversion)
     return static_cast<bool>((character >= 9 && character <= 13) | (character == ' '));

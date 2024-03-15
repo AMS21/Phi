@@ -80,7 +80,7 @@ public:
 
     named_type() = default;
 
-    explicit constexpr named_type(const TypeT& value)
+    explicit PHI_CONSTEXPR named_type(const TypeT& value)
 #if PHI_HAS_WORKING_IS_NOTHROW_COPY_CONSTRUCTIBLE()
             noexcept(is_nothrow_copy_constructible<TypeT>::value)
 #endif
@@ -88,7 +88,7 @@ public:
     {}
 
     template <typename OtherT = TypeT, typename = enable_if_t<!is_reference<OtherT>::value, void>>
-    explicit constexpr named_type(TypeT&& value)
+    explicit PHI_CONSTEXPR named_type(TypeT&& value)
 #if PHI_HAS_WORKING_IS_NOTHROW_MOVE_CONSTRUCTIBLE()
             noexcept(is_nothrow_move_constructible<TypeT>::value)
 #endif
@@ -139,7 +139,7 @@ private:
 };
 
 template <template <typename TypeT> class StrongTypeT, typename TypeT>
-PHI_NODISCARD constexpr StrongTypeT<TypeT> make_named(const TypeT& value)
+PHI_NODISCARD PHI_CONSTEXPR StrongTypeT<TypeT> make_named(const TypeT& value)
 {
     return StrongTypeT<TypeT>(value);
 }
@@ -187,7 +187,7 @@ struct PHI_EBCO post_decrementable : public crtp<TypeT, post_decrementable>
 template <typename TypeT>
 struct PHI_EBCO binary_addable : public crtp<TypeT, binary_addable>
 {
-    PHI_NODISCARD constexpr TypeT operator+(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator+(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() + other.unsafe());
     }
@@ -202,7 +202,7 @@ struct PHI_EBCO binary_addable : public crtp<TypeT, binary_addable>
 template <typename TypeT>
 struct PHI_EBCO unary_addable : public crtp<TypeT, unary_addable>
 {
-    PHI_NODISCARD constexpr TypeT operator+() const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator+() const
     {
         return TypeT(+this->underlying().unsafe());
     }
@@ -218,7 +218,7 @@ struct PHI_EBCO addable : public binary_addable<TypeT>, unary_addable<TypeT>
 template <typename TypeT>
 struct PHI_EBCO binary_subtractable : public crtp<TypeT, binary_subtractable>
 {
-    PHI_NODISCARD constexpr TypeT operator-(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator-(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() - other.unsafe());
     }
@@ -233,7 +233,7 @@ struct PHI_EBCO binary_subtractable : public crtp<TypeT, binary_subtractable>
 template <typename TypeT>
 struct PHI_EBCO unary_subtractable : public crtp<TypeT, unary_subtractable>
 {
-    PHI_NODISCARD constexpr TypeT operator-() const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator-() const
     {
         return TypeT(-this->underlying().unsafe());
     }
@@ -249,7 +249,7 @@ struct PHI_EBCO subtractable : public binary_subtractable<TypeT>, unary_subtract
 template <typename TypeT>
 struct PHI_EBCO multiplicable : public crtp<TypeT, multiplicable>
 {
-    PHI_NODISCARD constexpr TypeT operator*(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator*(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() * other.unsafe());
     }
@@ -264,7 +264,7 @@ struct PHI_EBCO multiplicable : public crtp<TypeT, multiplicable>
 template <typename TypeT>
 struct PHI_EBCO divisible : public crtp<TypeT, divisible>
 {
-    PHI_NODISCARD constexpr TypeT operator/(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator/(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() / other.unsafe());
     }
@@ -279,7 +279,7 @@ struct PHI_EBCO divisible : public crtp<TypeT, divisible>
 template <typename TypeT>
 struct PHI_EBCO modulable : public crtp<TypeT, modulable>
 {
-    PHI_NODISCARD constexpr TypeT operator%(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator%(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() % other.unsafe());
     }
@@ -294,7 +294,7 @@ struct PHI_EBCO modulable : public crtp<TypeT, modulable>
 template <typename TypeT>
 struct PHI_EBCO bit_wise_invertible : public crtp<TypeT, bit_wise_invertible>
 {
-    PHI_NODISCARD constexpr TypeT operator~() const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator~() const
     {
         return TypeT(~this->underlying().unsafe());
     }
@@ -303,7 +303,7 @@ struct PHI_EBCO bit_wise_invertible : public crtp<TypeT, bit_wise_invertible>
 template <typename TypeT>
 struct PHI_EBCO bit_wise_andable : public crtp<TypeT, bit_wise_andable>
 {
-    PHI_NODISCARD constexpr TypeT operator&(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator&(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() & other.unsafe());
     }
@@ -318,7 +318,7 @@ struct PHI_EBCO bit_wise_andable : public crtp<TypeT, bit_wise_andable>
 template <typename TypeT>
 struct PHI_EBCO bit_wise_orable : public crtp<TypeT, bit_wise_orable>
 {
-    PHI_NODISCARD constexpr TypeT operator|(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator|(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() | other.unsafe());
     }
@@ -333,7 +333,7 @@ struct PHI_EBCO bit_wise_orable : public crtp<TypeT, bit_wise_orable>
 template <typename TypeT>
 struct PHI_EBCO bit_wise_xorable : public crtp<TypeT, bit_wise_xorable>
 {
-    PHI_NODISCARD constexpr TypeT operator^(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator^(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() ^ other.unsafe());
     }
@@ -348,7 +348,7 @@ struct PHI_EBCO bit_wise_xorable : public crtp<TypeT, bit_wise_xorable>
 template <typename TypeT>
 struct PHI_EBCO bit_wise_left_shiftable : public crtp<TypeT, bit_wise_left_shiftable>
 {
-    PHI_NODISCARD constexpr TypeT operator<<(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator<<(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() << other.unsafe());
     }
@@ -363,7 +363,7 @@ struct PHI_EBCO bit_wise_left_shiftable : public crtp<TypeT, bit_wise_left_shift
 template <typename TypeT>
 struct PHI_EBCO bit_wise_right_shiftable : public crtp<TypeT, bit_wise_right_shiftable>
 {
-    PHI_NODISCARD constexpr TypeT operator>>(const TypeT& other) const
+    PHI_NODISCARD PHI_CONSTEXPR TypeT operator>>(const TypeT& other) const
     {
         return TypeT(this->underlying().unsafe() >> other.unsafe());
     }
@@ -381,32 +381,32 @@ PHI_CLANG_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
 template <typename TypeT>
 struct PHI_EBCO comparable : public crtp<TypeT, comparable>
 {
-    PHI_NODISCARD constexpr bool operator<(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator<(const comparable<TypeT>& other) const
     {
         return this->underlying().unsafe() < other.underlying().unsafe();
     }
 
-    PHI_NODISCARD constexpr bool operator>(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator>(const comparable<TypeT>& other) const
     {
         return other.underlying().unsafe() < this->underlying().unsafe();
     }
 
-    PHI_NODISCARD constexpr bool operator<=(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator<=(const comparable<TypeT>& other) const
     {
         return !(other < *this);
     }
 
-    PHI_NODISCARD constexpr bool operator>=(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator>=(const comparable<TypeT>& other) const
     {
         return !(*this < other);
     }
 
-    PHI_NODISCARD constexpr bool operator==(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator==(const comparable<TypeT>& other) const
     {
         return !(*this < other) && !(other < *this);
     }
 
-    PHI_NODISCARD constexpr bool operator!=(const comparable<TypeT>& other) const
+    PHI_NODISCARD PHI_CONSTEXPR bool operator!=(const comparable<TypeT>& other) const
     {
         return !(*this == other);
     }
@@ -438,7 +438,7 @@ struct PHI_EBCO implicitly_convertible_to
     template <typename TypeT>
     struct templ : public crtp<TypeT, templ>
     {
-        PHI_NODISCARD constexpr operator DestinationT() const
+        PHI_NODISCARD PHI_CONSTEXPR operator DestinationT() const
         {
             return this->underlying().unsafe();
         }
@@ -448,7 +448,7 @@ struct PHI_EBCO implicitly_convertible_to
 template <typename TypeT>
 struct PHI_EBCO printable : public crtp<TypeT, printable>
 {
-    static constexpr bool is_printable = true;
+    static PHI_CONSTEXPR_AND_CONST bool is_printable = true;
 
     template <typename CharT, typename CharTraitsT>
     void print(std::basic_ostream<CharT, CharTraitsT>& stream) const
@@ -471,7 +471,7 @@ operator<<(std::basic_ostream<CharT, CharTraitsT>&          stream,
 template <typename TypeT>
 struct PHI_EBCO hashable
 {
-    static constexpr bool is_hashable = true;
+    static PHI_CONSTEXPR_AND_CONST bool is_hashable = true;
 };
 
 template <typename NamedTypeT>

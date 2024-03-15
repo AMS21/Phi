@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_destructible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_destructible : bool_constant<!PHI_IS_DESTRUCTIBLE(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_destructible_v = PHI_IS_DESTRUCTIBLE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_destructible_v = PHI_IS_DESTRUCTIBLE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_destructible_v = !PHI_IS_DESTRUCTIBLE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_destructible_v = !PHI_IS_DESTRUCTIBLE(TypeT);
 
 #    endif
 
@@ -62,7 +63,7 @@ namespace detail
         static no_type test(...);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        static constexpr const bool value = sizeof(test<TypeT>(12)) == sizeof_yes_type;
+        static PHI_CONSTEXPR_AND_CONST bool value = sizeof(test<TypeT>(12)) == sizeof_yes_type;
     };
 
     template <typename TypeT, bool>
@@ -110,10 +111,10 @@ struct is_not_destructible : public bool_constant<!is_destructible<TypeT>::value
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_destructible_v = is_destructible<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_destructible_v = is_destructible<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_destructible_v = is_not_destructible<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_destructible_v = is_not_destructible<TypeT>::value;
 
 #    endif
 

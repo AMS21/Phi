@@ -1,14 +1,15 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/type_traits/negation.hpp>
 
 struct True
 {
-    static constexpr bool value = true;
+    static PHI_CONSTEXPR_AND_CONST bool value = true;
 };
 struct False
 {
-    static constexpr bool value = false;
+    static PHI_CONSTEXPR_AND_CONST bool value = false;
 };
 
 TEST_CASE("negation")

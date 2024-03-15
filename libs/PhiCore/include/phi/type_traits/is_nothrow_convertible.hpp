@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
@@ -65,11 +66,11 @@ struct is_not_nothrow_convertible : public bool_constant<!is_nothrow_convertible
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_convertible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_convertible_v =
         is_nothrow_convertible<FromT, ToT>::value;
 
 template <typename FromT, typename ToT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_convertible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_convertible_v =
         is_not_nothrow_convertible<FromT, ToT>::value;
 
 #endif

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_compound.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_compound : public bool_constant<!PHI_IS_COMPOUND(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_compound_v = PHI_IS_COMPOUND(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_compound_v = PHI_IS_COMPOUND(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_compound_v = !PHI_IS_COMPOUND(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_compound_v = !PHI_IS_COMPOUND(TypeT);
 
 #    endif
 
@@ -50,10 +51,10 @@ struct is_not_compound : public bool_constant<is_unsafe_fundamental<TypeT>::valu
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_compound_v = is_compound<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_compound_v = is_compound<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_compound_v = is_not_compound<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_compound_v = is_not_compound<TypeT>::value;
 
 #    endif
 

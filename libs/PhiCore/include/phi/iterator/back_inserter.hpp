@@ -7,12 +7,13 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/iterator/back_insert_iterator.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename ContainerT>
-constexpr back_insert_iterator<ContainerT> back_inserter(ContainerT& container)
+PHI_CONSTEXPR back_insert_iterator<ContainerT> back_inserter(ContainerT& container)
 {
     return back_insert_iterator<ContainerT>(container);
 }

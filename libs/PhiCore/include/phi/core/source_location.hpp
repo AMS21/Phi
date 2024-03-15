@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/intrinsics/source_location.hpp"
 #include "phi/container/string_view.hpp"
 #include "phi/core/assert.hpp"
@@ -19,7 +20,7 @@ struct source_location
 {
     using this_type = source_location;
 
-    constexpr source_location() noexcept
+    PHI_CONSTEXPR source_location() noexcept
         : m_FileName{""}
         , m_FunctionName{m_FileName}
         , m_LineNumber{0}
@@ -27,8 +28,8 @@ struct source_location
     {}
 
     // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-    constexpr source_location(const char* file, const char* function, uint_least32_t line,
-                              uint_least32_t column) noexcept
+    PHI_CONSTEXPR source_location(const char* file, const char* function, uint_least32_t line,
+                                  uint_least32_t column) noexcept
         : m_FileName{file}
         , m_FunctionName{function}
         , m_LineNumber{line}
@@ -42,14 +43,14 @@ struct source_location
     }
 
 #if PHI_SUPPORTS_BUILTIN_LINE()
-    static constexpr source_location current(const char*    file     = __builtin_FILE(),
-                                             const char*    function = __builtin_FUNCTION(),
-                                             uint_least32_t line     = __builtin_LINE()
+    static PHI_CONSTEXPR source_location current(const char*    file     = __builtin_FILE(),
+                                                 const char*    function = __builtin_FUNCTION(),
+                                                 uint_least32_t line     = __builtin_LINE()
 #    if PHI_SUPPORTS_BUILTIN_COLUMN()
-                                                     ,
-                                             uint_least32_t column = __builtin_COLUMN()
+                                                         ,
+                                                 uint_least32_t column = __builtin_COLUMN()
 #    endif
-                                                     ) noexcept
+                                                         ) noexcept
     {
         return source_location{file, function, line,
 #    if PHI_SUPPORTS_BUILTIN_COLUMN()
@@ -61,7 +62,7 @@ struct source_location
     }
 #else
     template <typename TypeT = void>
-    static constexpr source_location current() noexcept
+    static PHI_CONSTEXPR source_location current() noexcept
     {
         static_assert(false_t<TypeT>::value,
                       "phi::source_location requires compiler support for current.");
@@ -70,17 +71,17 @@ struct source_location
     }
 #endif
 
-    PHI_NODISCARD constexpr uint_least32_t line() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR uint_least32_t line() const noexcept
     {
         return m_LineNumber;
     }
 
-    PHI_NODISCARD constexpr uint_least32_t column() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR uint_least32_t column() const noexcept
     {
         return m_Column;
     }
 
-    PHI_NODISCARD constexpr const char* file_name() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const char* file_name() const noexcept
     {
         return m_FileName;
     }
@@ -90,7 +91,7 @@ struct source_location
         return m_FileName;
     }
 
-    PHI_NODISCARD constexpr const char* function_name() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const char* function_name() const noexcept
     {
         return m_FunctionName;
     }

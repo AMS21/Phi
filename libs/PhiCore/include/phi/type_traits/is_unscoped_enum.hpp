@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_convertible.hpp"
@@ -44,10 +45,10 @@ struct is_not_unscoped_enum : public bool_constant<!is_unscoped_enum<TypeT>::val
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_unscoped_enum_v = is_unscoped_enum<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_unscoped_enum_v = is_unscoped_enum<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_unscoped_enum_v = is_not_unscoped_enum<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_unscoped_enum_v = is_not_unscoped_enum<TypeT>::value;
 
 #endif
 

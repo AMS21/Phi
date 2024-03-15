@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/boolean.hpp"
 
@@ -14,7 +15,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 // Implementation comparison: https://godbolt.org/z/3Yqsd8oTd
 
-PHI_NODISCARD constexpr phi::boolean is_hex_digit(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_hex_digit(const char character) noexcept
 {
     return static_cast<bool>(static_cast<int>(character >= '0' && character <= '9') |
                              static_cast<int>(character >= 'a' && character <= 'f') |

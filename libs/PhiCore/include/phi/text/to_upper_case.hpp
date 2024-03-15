@@ -7,13 +7,14 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 // Implementation comparison: https://godbolt.org/z/1bEsG5nrE
 
-PHI_NODISCARD constexpr char to_upper_case(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR char to_upper_case(const char character) noexcept
 {
     // NOLINTNEXTLINE(bugprone-narrowing-conversions,cppcoreguidelines-narrowing-conversions)
     return (character >= 'a' && character <= 'z') ? static_cast<char>(character - 32) : character;

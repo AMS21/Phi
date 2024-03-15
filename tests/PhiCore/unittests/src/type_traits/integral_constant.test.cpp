@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/type_traits/integral_constant.hpp>
 
 enum class MyEnum
@@ -22,7 +23,7 @@ TEST_CASE("type_traits.integral_constant")
     CHECK_NOEXCEPT(two_t());
     STATIC_REQUIRE(two_t{}() == 2);
 
-    constexpr two_t two = two_t{};
+    PHI_CONSTEXPR two_t two = two_t{};
     STATIC_REQUIRE(two == 2);
     STATIC_REQUIRE(two() == 2);
     CHECK_NOEXCEPT(two());
@@ -40,7 +41,7 @@ TEST_CASE("type_traits.integral_constant")
     CHECK_NOEXCEPT(four_t());
     STATIC_REQUIRE(four_t{}() == 4);
 
-    constexpr four_t four = four_t{};
+    PHI_CONSTEXPR four_t four = four_t{};
     STATIC_REQUIRE(four == 4);
     STATIC_REQUIRE(four() == 4);
     CHECK_NOEXCEPT(four());
@@ -72,8 +73,8 @@ TEST_CASE("type_traits.true_type")
 
     STATIC_REQUIRE(phi::true_type::value != false);
 
-    constexpr phi::true_type true1;
-    constexpr phi::true_type true2 = true1;
+    PHI_CONSTEXPR phi::true_type true1;
+    PHI_CONSTEXPR phi::true_type true2 = true1;
     STATIC_REQUIRE(true1);
     STATIC_REQUIRE(true2);
     STATIC_REQUIRE(static_cast<bool>(true1));
@@ -96,8 +97,8 @@ TEST_CASE("type_traits.false_type")
 
     STATIC_REQUIRE(phi::false_type::value != true);
 
-    constexpr phi::false_type false1;
-    constexpr phi::false_type false2 = false1;
+    PHI_CONSTEXPR phi::false_type false1;
+    PHI_CONSTEXPR phi::false_type false2 = false1;
     STATIC_REQUIRE_FALSE(false1);
     STATIC_REQUIRE_FALSE(false2);
     STATIC_REQUIRE_FALSE(static_cast<bool>(false1));

@@ -2,6 +2,7 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <array>
 #include <deque>
 #include <initializer_list>
@@ -9,7 +10,7 @@
 
 TEST_CASE("At c-array", "[Utility][At]")
 {
-    constexpr char arr[]{"Test String"};
+    PHI_CONSTEXPR char arr[]{"Test String"};
 
     EXT_STATIC_REQUIRE(phi::at(arr, 0) == 'T');
     EXT_STATIC_REQUIRE(phi::at(arr, 1) == 'e');

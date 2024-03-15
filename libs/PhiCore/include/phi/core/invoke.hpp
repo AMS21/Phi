@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/core/forward.hpp"
 #include "phi/type_traits/detail/invoke_impl.hpp"
 #include "phi/type_traits/invoke_result.hpp"
@@ -15,7 +16,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename FunctionT, typename... ArgsT>
-constexpr invoke_result_t<FunctionT, ArgsT...> invoke(
+PHI_CONSTEXPR invoke_result_t<FunctionT, ArgsT...> invoke(
         FunctionT&& function,
         ArgsT&&... args) noexcept(is_nothrow_invocable<FunctionT, ArgsT...>::value)
 {

@@ -42,7 +42,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("basic_string_view(CharT[])")
     {
-        constexpr phi::string_view view{"Hello World"};
+        PHI_CONSTEXPR phi::string_view view{"Hello World"};
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
         STATIC_REQUIRE(view.length() == 11u);
@@ -55,8 +55,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("basic_string_view(phi::array)")
     {
-        static constexpr phi::array<char, 2> array{{'H', 'i'}};
-        constexpr phi::string_view           view{array};
+        static PHI_CONSTEXPR phi::array<char, 2> array{{'H', 'i'}};
+        PHI_CONSTEXPR phi::string_view view{array};
 
         STATIC_REQUIRE_SAN(phi::string_equals(view.data(), "Hi", 2u));
         STATIC_REQUIRE(view.length() == 2u);
@@ -69,7 +69,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("BasicStringView(CharT*)")
     {
-        constexpr static const char* data{"Hello World"};
+        PHI_CONSTEXPR static const char* data{"Hello World"};
         PHI_EXTENDED_CONSTEXPR phi::string_view view(data);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
@@ -89,7 +89,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("BasicStringView(CharT*, length_type)")
     {
-        constexpr static const char* data{"Hello World"};
+        PHI_CONSTEXPR static const char* data{"Hello World"};
         PHI_EXTENDED_CONSTEXPR phi::string_view view(data, 11u);
 
         EXT_STATIC_REQUIRE(phi::string_equals(view.data(), "Hello World"));
@@ -281,8 +281,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("operator=(phi::array)")
     {
-        static constexpr phi::array<char, 2> array{{'H', 'i'}};
-        phi::string_view                     view;
+        static PHI_CONSTEXPR phi::array<char, 2> array{{'H', 'i'}};
+        phi::string_view                         view;
 
         view = array;
 
@@ -474,7 +474,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("max_length")
     {
-        constexpr phi::string_view view;
+        PHI_CONSTEXPR phi::string_view view;
         STATIC_REQUIRE(std::numeric_limits<phi::usize>::max() == view.max_length());
     }
 
@@ -498,9 +498,9 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("is_null_terminated")
     {
-        constexpr phi::string_view null_view;
-        constexpr phi::string_view test_view{"Hello World"};
-        constexpr phi::string_view null_terminated_view{"Hello", 6u};
+        PHI_CONSTEXPR phi::string_view null_view;
+        PHI_CONSTEXPR phi::string_view test_view{"Hello World"};
+        PHI_CONSTEXPR phi::string_view null_terminated_view{"Hello", 6u};
 
         STATIC_REQUIRE_FALSE(null_view.is_null_terminated());
         STATIC_REQUIRE_FALSE(test_view.is_null_terminated());
@@ -542,7 +542,7 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("data")
     {
-        constexpr static const char* str = "Hello World";
+        PHI_CONSTEXPR static const char* str = "Hello World";
 
         PHI_EXTENDED_CONSTEXPR phi::string_view null_view;
         PHI_EXTENDED_CONSTEXPR phi::string_view test_view(str);
@@ -576,8 +576,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("add_prefix")
     {
-        constexpr static const char* str = "Hello World";
-        phi::string_view             view(str + 6u);
+        PHI_CONSTEXPR static const char* str = "Hello World";
+        phi::string_view                 view(str + 6u);
 
         CHECK(phi::string_equals(view.data(), "World"));
         CHECK(view.length() == 5u);
@@ -600,8 +600,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("add_postfix")
     {
-        constexpr static const char* str = "Hello World";
-        phi::string_view             view(str, 5u);
+        PHI_CONSTEXPR static const char* str = "Hello World";
+        phi::string_view                 view(str, 5u);
 
         CHECK(view.length() == 5u);
         CHECK(view.data() == str);
@@ -623,8 +623,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("remove_prefix")
     {
-        constexpr static const char* str = "Hello World";
-        phi::string_view             view(str);
+        PHI_CONSTEXPR static const char* str = "Hello World";
+        phi::string_view                 view(str);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
         CHECK(view.length() == 11u);
@@ -637,8 +637,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("remove_suffix")
     {
-        constexpr static const char* str = "Hello World";
-        phi::string_view             view(str);
+        PHI_CONSTEXPR static const char* str = "Hello World";
+        phi::string_view                 view(str);
 
         CHECK(phi::string_equals(view.data(), "Hello World"));
         CHECK(view.length() == 11u);
@@ -651,8 +651,8 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
     SECTION("resize")
     {
-        constexpr static const char* str = "Hello World";
-        phi::string_view             view(str, 5u);
+        PHI_CONSTEXPR static const char* str = "Hello World";
+        phi::string_view                 view(str, 5u);
 
         view.resize(11u);
 
@@ -756,19 +756,19 @@ TEST_CASE("BasicStringView", "[Container][StringView]")
 
 TEST_CASE("string_view - bytes_length")
 {
-    constexpr static phi::string_view str = "Hello World";
+    PHI_CONSTEXPR static phi::string_view str = "Hello World";
     STATIC_REQUIRE(str.length() == 11u);
     STATIC_REQUIRE(str.bytes_length() == 11u);
 
-    constexpr static phi::wstring_view wstr = L"Hello World";
+    PHI_CONSTEXPR static phi::wstring_view wstr = L"Hello World";
     STATIC_REQUIRE(wstr.length() == 11u);
     STATIC_REQUIRE(wstr.bytes_length() == 11u * sizeof(wchar_t));
 
-    constexpr static phi::u16string_view u16str = u"Hello World";
+    PHI_CONSTEXPR static phi::u16string_view u16str = u"Hello World";
     STATIC_REQUIRE(u16str.length() == 11u);
     STATIC_REQUIRE(u16str.bytes_length() == 22u);
 
-    constexpr static phi::u32string_view u32str = U"Hello World";
+    PHI_CONSTEXPR static phi::u32string_view u32str = U"Hello World";
     STATIC_REQUIRE(u32str.length() == 11u);
     STATIC_REQUIRE(u32str.bytes_length() == 44u);
 }

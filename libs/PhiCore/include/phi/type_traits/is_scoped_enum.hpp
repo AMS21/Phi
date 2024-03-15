@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_scoped_enum.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -28,10 +29,10 @@ struct is_not_scoped_enum : public bool_constant<!PHI_IS_SCOPED_ENUM(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_scoped_enum_v = PHI_IS_SCOPED_ENUM(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_scoped_enum_v = PHI_IS_SCOPED_ENUM(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_scoped_enum_v = !PHI_IS_SCOPED_ENUM(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_scoped_enum_v = !PHI_IS_SCOPED_ENUM(TypeT);
 
 #    endif
 
@@ -72,10 +73,10 @@ struct is_not_scoped_enum : public bool_constant<!is_scoped_enum<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_scoped_enum_v = is_scoped_enum<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_scoped_enum_v = is_scoped_enum<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_scoped_enum_v = is_not_scoped_enum<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_scoped_enum_v = is_not_scoped_enum<TypeT>::value;
 
 #    endif
 

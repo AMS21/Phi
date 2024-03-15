@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_aggregate.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -30,10 +31,10 @@ struct is_not_aggregate : public bool_constant<!PHI_IS_AGGREGATE(remove_cv_t<Typ
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_aggregate_v = PHI_IS_AGGREGATE(remove_cv_t<TypeT>);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_aggregate_v = PHI_IS_AGGREGATE(remove_cv_t<TypeT>);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_aggregate_v = !PHI_IS_AGGREGATE(remove_cv_t<TypeT>);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_aggregate_v = !PHI_IS_AGGREGATE(remove_cv_t<TypeT>);
 
 #    endif
 
@@ -62,10 +63,10 @@ struct is_not_aggregate : public false_type
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_aggregate_v = is_aggregate<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_aggregate_v = is_aggregate<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_aggregate_v = is_not_aggregate<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_aggregate_v = is_not_aggregate<TypeT>::value;
 
 #    endif
 

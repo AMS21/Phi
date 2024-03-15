@@ -7,12 +7,13 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_punctuation(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_punctuation(const char character) noexcept
 {
     // NOLINTBEGIN
     return (character >= 33 && character <= 47) || (character >= 58 && character <= 64) ||

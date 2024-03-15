@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
+#include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/iterator/iterator_tags.hpp"
 #include "phi/iterator/iterator_traits.hpp"
@@ -31,7 +32,7 @@ namespace detail
     }
 
     template <typename RandomAccessIteratorT>
-    constexpr typename iterator_traits<RandomAccessIteratorT>::difference_type distance_impl(
+    PHI_CONSTEXPR typename iterator_traits<RandomAccessIteratorT>::difference_type distance_impl(
             RandomAccessIteratorT first, RandomAccessIteratorT last,
             random_access_iterator_tag /*tag*/) noexcept(noexcept(last - first))
     {
@@ -41,8 +42,9 @@ namespace detail
 /// \endcond
 
 template <typename InputIteratorT>
-PHI_NODISCARD inline constexpr typename iterator_traits<InputIteratorT>::difference_type distance(
-        InputIteratorT first, InputIteratorT last)
+PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR
+        typename iterator_traits<InputIteratorT>::difference_type
+        distance(InputIteratorT first, InputIteratorT last)
 {
     return detail::distance_impl(first, last,
                                  typename iterator_traits<InputIteratorT>::iterator_category());

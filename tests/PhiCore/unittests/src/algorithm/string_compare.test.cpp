@@ -2,9 +2,10 @@
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_compare.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/compare_result.hpp>
 
-static constexpr const char* char_nullptr = nullptr;
+static PHI_CONSTEXPR_AND_CONST char* char_nullptr = nullptr;
 
 TEST_CASE("string_compare - nullptr_t/nullptr_t")
 {

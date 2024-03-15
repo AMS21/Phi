@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/has_virtual_destructor.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -28,10 +29,11 @@ struct has_no_virtual_destructor : public bool_constant<!PHI_HAS_VIRTUAL_DESTRUC
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_virtual_destructor_v = PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_virtual_destructor_v = PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_no_virtual_destructor_v = !PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_no_virtual_destructor_v =
+        !PHI_HAS_VIRTUAL_DESTRUCTOR(TypeT);
 
 #    endif
 
@@ -62,10 +64,11 @@ struct has_no_virtual_destructor : public false_type
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_virtual_destructor_v = has_virtual_destructor<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_virtual_destructor_v =
+        has_virtual_destructor<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool has_no_virtual_destructor_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool has_no_virtual_destructor_v =
         has_no_virtual_destructor<TypeT>::value;
 
 #    endif

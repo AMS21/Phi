@@ -3,23 +3,42 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
 #include <phi/algorithm/find_if_not.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/container/array.hpp>
 #include <phi/iterator/begin.hpp>
 #include <phi/iterator/end.hpp>
 
-static constexpr const auto lambda_eq0   = [](const int& value) noexcept { return value == 0; };
-static constexpr const auto lambda_eq1   = [](const int& value) noexcept { return value == 1; };
-static constexpr const auto lambda_eq9   = [](const int& value) noexcept { return value == 9; };
-static constexpr const auto lambda_eq10  = [](const int& value) noexcept { return value == 10; };
-static constexpr const auto lambda_even  = [](const int& value) noexcept { return value % 2 == 0; };
-static constexpr const auto lambda_odd   = [](const int& value) noexcept { return value % 2 == 1; };
-static constexpr const auto lambda_true  = [](const int& /*value*/) noexcept { return true; };
-static constexpr const auto lambda_false = [](const int& /*value*/) noexcept { return false; };
-static constexpr const auto lambda_false_throw = [](const int& /*value*/) -> bool { throw ""; };
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq0 = [](const int& value) noexcept {
+    return value == 0;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq1 = [](const int& value) noexcept {
+    return value == 1;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq9 = [](const int& value) noexcept {
+    return value == 9;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_eq10 = [](const int& value) noexcept {
+    return value == 10;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_even = [](const int& value) noexcept {
+    return value % 2 == 0;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_odd = [](const int& value) noexcept {
+    return value % 2 == 1;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_true = [](const int& /*value*/) noexcept {
+    return true;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_false = [](const int& /*value*/) noexcept {
+    return false;
+};
+static PHI_CONSTEXPR_AND_CONST auto lambda_false_throw = [](const int& /*value*/) -> bool {
+    throw "";
+};
 
 TEST_CASE("algorithm.find_if_not - c-array")
 {
-    static constexpr const int array[10]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    static PHI_CONSTEXPR_AND_CONST int array[10]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     // Runtime
     CHECK(phi::find_if_not(phi::begin(array), phi::end(array), lambda_eq0) == &phi::at(array, 1u));
@@ -63,7 +82,7 @@ TEST_CASE("algorithm.find_if_not - c-array")
 
 TEST_CASE("algorithm.find_if_not - phi::array")
 {
-    static constexpr const phi::array<int, 10u> array{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
+    static PHI_CONSTEXPR_AND_CONST phi::array<int, 10u> array{{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}};
 
     // Runtime
     CHECK(phi::find_if_not(phi::begin(array), phi::end(array), lambda_eq0) == &phi::at(array, 1u));

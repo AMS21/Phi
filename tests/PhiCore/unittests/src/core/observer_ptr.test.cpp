@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/flat_ptr.hpp>
 #include <phi/core/move.hpp>
 #include <phi/core/observer_ptr.hpp>
@@ -36,7 +37,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
     SECTION("observer_ptr()")
     {
-        constexpr phi::observer_ptr<int> ptr;
+        PHI_CONSTEXPR phi::observer_ptr<int> ptr;
 
         STATIC_REQUIRE_FALSE(ptr);
         STATIC_REQUIRE(ptr.get() == nullptr);
@@ -54,7 +55,7 @@ TEST_CASE("observer_ptr", "[Core][observer_ptr]")
 
     SECTION("observer_ptr(nullptr_t)")
     {
-        constexpr phi::observer_ptr<int> ptr{nullptr};
+        PHI_CONSTEXPR phi::observer_ptr<int> ptr{nullptr};
 
         STATIC_REQUIRE_FALSE(ptr);
         STATIC_REQUIRE(ptr.get() == nullptr);

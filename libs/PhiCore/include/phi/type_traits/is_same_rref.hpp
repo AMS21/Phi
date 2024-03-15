@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_same.hpp"
@@ -25,10 +26,10 @@ struct is_not_same_rref : public bool_constant<!is_same_rref<LhsT, RhsT>::value>
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_same_rref_v = is_same_rref<LhsT, RhsT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_same_rref_v = is_same_rref<LhsT, RhsT>::value;
 
 template <typename LhsT, typename RhsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_same_rref_v = is_not_same_rref<LhsT, RhsT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_same_rref_v = is_not_same_rref<LhsT, RhsT>::value;
 
 #endif
 

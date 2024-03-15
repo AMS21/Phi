@@ -40,40 +40,40 @@ public:
                   "phi::bit_view: Cannot create a bit_view with type of size 0");
 
     template <typename = enable_if_t<is_default_constructible<TypeT>::value>>
-    constexpr bit_view() noexcept(is_nothrow_default_constructible<TypeT>::value)
+    PHI_CONSTEXPR bit_view() noexcept(is_nothrow_default_constructible<TypeT>::value)
         : m_Value{}
     {}
 
     ~bit_view() = default;
 
     template <typename = enable_if_t<is_copy_constructible<TypeT>::value>>
-    constexpr bit_view(const TypeT& other) noexcept(is_nothrow_copy_constructible<TypeT>::value)
+    PHI_CONSTEXPR bit_view(const TypeT& other) noexcept(is_nothrow_copy_constructible<TypeT>::value)
         : m_Value{other}
     {}
 
-    constexpr bit_view(const bit_type& other) noexcept
+    PHI_CONSTEXPR bit_view(const bit_type& other) noexcept
         : m_Bits{other}
     {}
 
-    constexpr bit_view(const bit_view& other) noexcept
+    PHI_CONSTEXPR bit_view(const bit_view& other) noexcept
         : m_Bits(other.m_Bits)
     {}
 
     template <typename = enable_if_t<is_move_constructible<TypeT>::value>>
-    constexpr bit_view(TypeT&& other) noexcept(is_nothrow_move_constructible<TypeT>::value)
+    PHI_CONSTEXPR bit_view(TypeT&& other) noexcept(is_nothrow_move_constructible<TypeT>::value)
         : m_Value{other}
     {}
 
-    constexpr bit_view(bit_type&& other) noexcept
+    PHI_CONSTEXPR bit_view(bit_type&& other) noexcept
         : m_Bits{other}
     {}
 
-    constexpr bit_view(bit_view&& other) noexcept
+    PHI_CONSTEXPR bit_view(bit_view&& other) noexcept
         : m_Bits{other.m_Bits}
     {}
 
     template <typename = enable_if_t<is_copy_assignable<TypeT>::value>>
-    constexpr bit_view& operator=(const TypeT& other) noexcept(
+    PHI_CONSTEXPR bit_view& operator=(const TypeT& other) noexcept(
             is_nothrow_copy_assignable<TypeT>::value)
     {
         m_Value = other;
@@ -81,7 +81,7 @@ public:
         return *this;
     }
 
-    constexpr bit_view& operator=(const bit_type& other) noexcept
+    PHI_CONSTEXPR bit_view& operator=(const bit_type& other) noexcept
     {
         m_Bits = other;
     }
@@ -89,21 +89,22 @@ public:
     bit_view& operator=(const bit_view& other) = default;
 
     template <typename = enable_if_t<is_move_assignable<TypeT>::value>>
-    constexpr bit_view& operator=(TypeT&& other) noexcept(is_nothrow_move_assignable<TypeT>::value)
+    PHI_CONSTEXPR bit_view& operator=(TypeT&& other) noexcept(
+            is_nothrow_move_assignable<TypeT>::value)
     {
         m_Value = other;
 
         return *this;
     }
 
-    constexpr bit_view& operator=(bit_type&& other) noexcept
+    PHI_CONSTEXPR bit_view& operator=(bit_type&& other) noexcept
     {
         m_Bits = other;
 
         return *this;
     }
 
-    constexpr bit_view& operator=(bit_view&& other) noexcept
+    PHI_CONSTEXPR bit_view& operator=(bit_view&& other) noexcept
     {
         m_Bits = other.m_Bits;
 
@@ -159,21 +160,21 @@ public:
         return m_Bits[pos];
     }
 
-    constexpr bit_view& set_all() noexcept
+    PHI_CONSTEXPR bit_view& set_all() noexcept
     {
         m_Bits.set();
 
         return *this;
     }
 
-    constexpr bit_view& reset_all() noexcept
+    PHI_CONSTEXPR bit_view& reset_all() noexcept
     {
         m_Bits.reset();
 
         return *this;
     }
 
-    constexpr bit_view& flip_all() noexcept
+    PHI_CONSTEXPR bit_view& flip_all() noexcept
     {
         m_Bits.flip();
 
@@ -207,22 +208,22 @@ public:
         return *this;
     }
 
-    PHI_NODISCARD constexpr bool all() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool all() const noexcept
     {
         return m_Bits.all();
     }
 
-    PHI_NODISCARD constexpr bool any() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool any() const noexcept
     {
         return m_Bits.any();
     }
 
-    PHI_NODISCARD constexpr bool none() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool none() const noexcept
     {
         return m_Bits.none();
     }
 
-    PHI_NODISCARD constexpr size_t count() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_t count() const noexcept
     {
         return m_Bits.count();
     }

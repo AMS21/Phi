@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/assert.hpp>
 #include <phi/core/to_address.hpp>
 #include <memory>
@@ -10,11 +11,11 @@ struct P1
 {
     using element_type = Irrelevant;
 
-    constexpr explicit P1(int* ptr)
+    PHI_CONSTEXPR explicit P1(int* ptr)
         : m_pointer(ptr)
     {}
 
-    constexpr int* operator->() const
+    PHI_CONSTEXPR int* operator->() const
     {
         return m_pointer;
     }
@@ -25,11 +26,11 @@ struct P2
 {
     using element_type = Irrelevant;
 
-    constexpr explicit P2(int* ptr)
+    PHI_CONSTEXPR explicit P2(int* ptr)
         : m_pointer(ptr)
     {}
 
-    constexpr P1 operator->() const
+    PHI_CONSTEXPR P1 operator->() const
     {
         return m_pointer;
     }
@@ -39,7 +40,7 @@ struct P2
 
 struct P3
 {
-    constexpr explicit P3(int* ptr)
+    PHI_CONSTEXPR explicit P3(int* ptr)
         : m_pointer(ptr)
     {}
 
@@ -49,7 +50,7 @@ struct P3
 template <>
 struct phi::pointer_traits<P3>
 {
-    static constexpr int* to_address(const P3& pointer)
+    static PHI_CONSTEXPR int* to_address(const P3& pointer)
     {
         return pointer.m_pointer;
     }
@@ -57,7 +58,7 @@ struct phi::pointer_traits<P3>
 
 struct P4
 {
-    constexpr explicit P4(int* pointer)
+    PHI_CONSTEXPR explicit P4(int* pointer)
         : m_pointer(pointer)
     {}
 
@@ -69,7 +70,7 @@ struct P4
 template <>
 struct phi::pointer_traits<P4>
 {
-    static constexpr int* to_address(const P4& pointer)
+    static PHI_CONSTEXPR int* to_address(const P4& pointer)
     {
         return pointer.m_pointer;
     }
@@ -122,13 +123,13 @@ namespace P8
     {
         using element_type = Irrelevant;
 
-        constexpr FancyPtrA(TypeT* pointer)
+        PHI_CONSTEXPR FancyPtrA(TypeT* pointer)
             : m_pointer(pointer)
         {}
 
         TypeT& operator*() const;
 
-        constexpr TypeT* operator->() const
+        PHI_CONSTEXPR TypeT* operator->() const
         {
             return m_pointer;
         }
@@ -138,7 +139,7 @@ namespace P8
     template <typename TypeT>
     struct FancyPtrB
     {
-        constexpr FancyPtrB(TypeT* pointer)
+        PHI_CONSTEXPR FancyPtrB(TypeT* pointer)
             : m_pointer(pointer)
         {}
 
@@ -151,7 +152,7 @@ namespace P8
 template <typename TypeT>
 struct phi::pointer_traits<P8::FancyPtrB<TypeT>>
 {
-    static constexpr TypeT* to_address(const P8::FancyPtrB<TypeT>& pointer)
+    static PHI_CONSTEXPR TypeT* to_address(const P8::FancyPtrB<TypeT>& pointer)
     {
         return pointer.m_pointer;
     }
@@ -165,7 +166,7 @@ struct Holder
     TypeT* t;
 };
 
-constexpr bool test_to_address()
+PHI_CONSTEXPR bool test_to_address()
 {
     int integer = 0;
     CHECK_NOEXCEPT(phi::to_address(&integer));

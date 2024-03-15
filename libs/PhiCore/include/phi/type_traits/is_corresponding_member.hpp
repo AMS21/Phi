@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/intrinsics/is_corresponding_member.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 
@@ -17,8 +18,8 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
-PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
-                                                     RhsMemberT RhsT::*rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool is_corresponding_member(LhsMemberT LhsT::*lhs,
+                                                         RhsMemberT RhsT::*rhs) noexcept
 {
     return PHI_IS_CORRESPONDING_MEMBER(lhs, rhs);
 }
@@ -33,8 +34,8 @@ PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename LhsT, typename RhsT, typename LhsMemberT, typename RhsMemberT>
-PHI_NODISCARD constexpr bool is_corresponding_member(LhsMemberT LhsT::*lhs,
-                                                     RhsMemberT RhsT::*rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR bool is_corresponding_member(LhsMemberT LhsT::*lhs,
+                                                         RhsMemberT RhsT::*rhs) noexcept
 {
     static_assert(false_t<LhsT>::value, "phi::is_corresponding_member requires compiler support");
     PHI_UNUSED_PARAMETER(lhs);

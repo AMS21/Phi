@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/platform.hpp>
 #include <phi/type_traits/alignment_of.hpp>
 #include <cstdint>
@@ -11,7 +12,7 @@
 template <typename TypeT, unsigned A>
 void test_alignment_of()
 {
-    constexpr static unsigned alignof_result = alignof(TypeT);
+    PHI_CONSTEXPR static unsigned alignof_result = alignof(TypeT);
 
     // Test that the golden value is correct
     STATIC_REQUIRE(alignof_result == A);
@@ -38,7 +39,7 @@ void test_alignment_of()
 
 TEST_CASE("alignment_of")
 {
-    constexpr unsigned ptr_size = sizeof(std::intptr_t);
+    PHI_CONSTEXPR unsigned ptr_size = sizeof(std::intptr_t);
 
     test_alignment_of<int&, 4>();
     test_alignment_of<int&&, 4>();

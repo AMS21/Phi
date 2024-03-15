@@ -216,12 +216,12 @@ public:
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr size_type size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type size() const noexcept
     {
         return m_Size;
     }
 
-    PHI_NODISCARD constexpr size_type max_size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type max_size() const noexcept
     {
         return size_type::max();
     }

@@ -29,6 +29,7 @@ SOFTWARE.
 #include "constexpr_helper.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/intrinsics/address_of.hpp>
 #include <phi/compiler_support/intrinsics/is_union.hpp>
 #include <phi/compiler_support/warning.hpp>
@@ -56,7 +57,7 @@ PHI_CLANG_SUPPRESS_WARNING("-Wreserved-identifier")
 
 using Meter =
         phi::named_type<unsigned long long, struct MeterParameter, phi::addable, phi::comparable>;
-constexpr Meter operator""_meter(unsigned long long value)
+PHI_CONSTEXPR Meter operator""_meter(unsigned long long value)
 {
     return Meter(value);
 }
@@ -220,8 +221,8 @@ TEST_CASE("Addable")
 TEST_CASE("Addable constexpr")
 {
     using AddableType = phi::named_type<int, struct AddableTag, phi::addable>;
-    constexpr AddableType lhs(12);
-    constexpr AddableType rhs(10);
+    PHI_CONSTEXPR AddableType lhs(12);
+    PHI_CONSTEXPR AddableType rhs(10);
     EXT_STATIC_REQUIRE((lhs + rhs).unsafe() == 22);
     EXT_STATIC_REQUIRE((+lhs).unsafe() == 12);
 }
@@ -238,11 +239,11 @@ TEST_CASE("BinaryAddable constexpr")
 {
     using BinaryAddableType = phi::named_type<int, struct BinaryAddableTag, phi::binary_addable>;
 
-    constexpr BinaryAddableType lhs(12);
-    constexpr BinaryAddableType rhs(10);
+    PHI_CONSTEXPR BinaryAddableType lhs(12);
+    PHI_CONSTEXPR BinaryAddableType rhs(10);
     EXT_STATIC_REQUIRE((lhs + rhs).unsafe() == 22);
 
-    constexpr BinaryAddableType strong_int(10);
+    PHI_CONSTEXPR BinaryAddableType strong_int(10);
     EXT_STATIC_REQUIRE(BinaryAddableType{12}.operator+=(strong_int).unsafe() == 22);
 }
 
@@ -256,7 +257,7 @@ TEST_CASE("UnaryAddable")
 TEST_CASE("UnaryAddable constexpr")
 {
     using UnaryAddableType = phi::named_type<int, struct UnaryAddableTag, phi::unary_addable>;
-    constexpr UnaryAddableType strong_int(12);
+    PHI_CONSTEXPR UnaryAddableType strong_int(12);
     EXT_STATIC_REQUIRE((+strong_int).unsafe() == 12);
 }
 
@@ -272,8 +273,8 @@ TEST_CASE("Subtractable")
 TEST_CASE("Subtractable constexpr")
 {
     using SubtractableType = phi::named_type<int, struct SubtractableTag, phi::subtractable>;
-    constexpr SubtractableType lhs(12);
-    constexpr SubtractableType rhs(10);
+    PHI_CONSTEXPR SubtractableType lhs(12);
+    PHI_CONSTEXPR SubtractableType rhs(10);
     EXT_STATIC_REQUIRE((lhs - rhs).unsafe() == 2);
     EXT_STATIC_REQUIRE((-lhs).unsafe() == -12);
 }
@@ -292,11 +293,11 @@ TEST_CASE("BinarySubtractable constexpr")
     using BinarySubtractableType =
             phi::named_type<int, struct BinarySubtractableTag, phi::binary_subtractable>;
 
-    constexpr BinarySubtractableType lhs(12);
-    constexpr BinarySubtractableType rhs(10);
+    PHI_CONSTEXPR BinarySubtractableType lhs(12);
+    PHI_CONSTEXPR BinarySubtractableType rhs(10);
     EXT_STATIC_REQUIRE((lhs - rhs).unsafe() == 2);
 
-    constexpr BinarySubtractableType strong_int(10);
+    PHI_CONSTEXPR BinarySubtractableType strong_int(10);
     EXT_STATIC_REQUIRE(BinarySubtractableType{12}.operator-=(strong_int).unsafe() == 2);
 }
 
@@ -312,7 +313,7 @@ TEST_CASE("UnarySubtractable constexpr")
 {
     using UnarySubtractableType =
             phi::named_type<int, struct UnarySubtractableTag, phi::unary_subtractable>;
-    constexpr UnarySubtractableType strong_int(12);
+    PHI_CONSTEXPR UnarySubtractableType strong_int(12);
     EXT_STATIC_REQUIRE((-strong_int).unsafe() == -12);
 }
 
@@ -330,11 +331,11 @@ TEST_CASE("Multiplicable constexpr")
 {
     using MultiplicableType = phi::named_type<int, struct MultiplicableTag, phi::multiplicable>;
 
-    constexpr MultiplicableType lhs(12);
-    constexpr MultiplicableType rhs(10);
+    PHI_CONSTEXPR MultiplicableType lhs(12);
+    PHI_CONSTEXPR MultiplicableType rhs(10);
     EXT_STATIC_REQUIRE((lhs * rhs).unsafe() == 120);
 
-    constexpr MultiplicableType strong_int(10);
+    PHI_CONSTEXPR MultiplicableType strong_int(10);
     EXT_STATIC_REQUIRE(MultiplicableType{12}.operator*=(strong_int).unsafe() == 120);
 }
 
@@ -352,11 +353,11 @@ TEST_CASE("Divisible constexpr")
 {
     using DivisibleType = phi::named_type<int, struct DivisibleTag, phi::divisible>;
 
-    constexpr DivisibleType lhs(120);
-    constexpr DivisibleType rhs(10);
+    PHI_CONSTEXPR DivisibleType lhs(120);
+    PHI_CONSTEXPR DivisibleType rhs(10);
     EXT_STATIC_REQUIRE((lhs / rhs).unsafe() == 12);
 
-    constexpr DivisibleType strong_int(10);
+    PHI_CONSTEXPR DivisibleType strong_int(10);
     EXT_STATIC_REQUIRE(DivisibleType{120}.operator/=(strong_int).unsafe() == 12);
 }
 
@@ -374,11 +375,11 @@ TEST_CASE("Modulable constexpr")
 {
     using ModulableType = phi::named_type<int, struct ModulableTag, phi::modulable>;
 
-    constexpr ModulableType lhs(5);
-    constexpr ModulableType rhs(2);
+    PHI_CONSTEXPR ModulableType lhs(5);
+    PHI_CONSTEXPR ModulableType rhs(2);
     EXT_STATIC_REQUIRE((lhs % rhs).unsafe() == 1);
 
-    constexpr ModulableType strong_int(2);
+    PHI_CONSTEXPR ModulableType strong_int(2);
     EXT_STATIC_REQUIRE(ModulableType{5}.operator%=(strong_int).unsafe() == 1);
 }
 
@@ -394,7 +395,7 @@ TEST_CASE("BitWiseInvertible constexpr")
 {
     using BitWiseInvertibleType =
             phi::named_type<int, struct BitWiseInvertibleTag, phi::bit_wise_invertible>;
-    constexpr BitWiseInvertibleType strong_int(13);
+    PHI_CONSTEXPR BitWiseInvertibleType strong_int(13);
     EXT_STATIC_REQUIRE((~strong_int).unsafe() == (~13));
 }
 
@@ -414,11 +415,11 @@ TEST_CASE("BitWiseAndable constexpr")
     using BitWiseAndableType =
             phi::named_type<int, struct BitWiseAndableTag, phi::bit_wise_andable>;
 
-    constexpr BitWiseAndableType lhs(2);
-    constexpr BitWiseAndableType rhs(64);
+    PHI_CONSTEXPR BitWiseAndableType lhs(2);
+    PHI_CONSTEXPR BitWiseAndableType rhs(64);
     EXT_STATIC_REQUIRE((lhs & rhs).unsafe() == (2 & 64));
 
-    constexpr BitWiseAndableType strong_int(64);
+    PHI_CONSTEXPR BitWiseAndableType strong_int(64);
     EXT_STATIC_REQUIRE(BitWiseAndableType{2}.operator&=(strong_int).unsafe() == (2 & 64));
 }
 
@@ -436,11 +437,11 @@ TEST_CASE("BitWiseOrable constexpr")
 {
     using BitWiseOrableType = phi::named_type<int, struct BitWiseOrableTag, phi::bit_wise_orable>;
 
-    constexpr BitWiseOrableType lhs(2);
-    constexpr BitWiseOrableType rhs(64);
+    PHI_CONSTEXPR BitWiseOrableType lhs(2);
+    PHI_CONSTEXPR BitWiseOrableType rhs(64);
     EXT_STATIC_REQUIRE((lhs | rhs).unsafe() == (2 | 64));
 
-    constexpr BitWiseOrableType strong_int(64);
+    PHI_CONSTEXPR BitWiseOrableType strong_int(64);
     EXT_STATIC_REQUIRE(BitWiseOrableType{2}.operator|=(strong_int).unsafe() == (2 | 64));
 }
 
@@ -459,11 +460,11 @@ TEST_CASE("BitWiseXorable constexpr")
 {
     using BitWiseXorableType =
             phi::named_type<int, struct BitWiseXorableTag, phi::bit_wise_xorable>;
-    constexpr BitWiseXorableType lhs(2);
-    constexpr BitWiseXorableType rhs(64);
+    PHI_CONSTEXPR BitWiseXorableType lhs(2);
+    PHI_CONSTEXPR BitWiseXorableType rhs(64);
     EXT_STATIC_REQUIRE((lhs ^ rhs).unsafe() == 66);
 
-    constexpr BitWiseXorableType strong_int(64);
+    PHI_CONSTEXPR BitWiseXorableType strong_int(64);
     EXT_STATIC_REQUIRE(BitWiseXorableType{2}.operator^=(strong_int).unsafe() == 66);
 }
 
@@ -482,11 +483,11 @@ TEST_CASE("BitWiseLeftShiftable constexpr")
 {
     using BitWiseLeftShiftableType =
             phi::named_type<int, struct BitWiseLeftShiftableTag, phi::bit_wise_left_shiftable>;
-    constexpr BitWiseLeftShiftableType lhs(2);
-    constexpr BitWiseLeftShiftableType rhs(3);
+    PHI_CONSTEXPR BitWiseLeftShiftableType lhs(2);
+    PHI_CONSTEXPR BitWiseLeftShiftableType rhs(3);
     EXT_STATIC_REQUIRE((lhs << rhs).unsafe() == (2 << 3));
 
-    constexpr BitWiseLeftShiftableType strong_int(3);
+    PHI_CONSTEXPR BitWiseLeftShiftableType strong_int(3);
     EXT_STATIC_REQUIRE(BitWiseLeftShiftableType{2}.operator<<=(strong_int).unsafe() == (2 << 3));
 }
 
@@ -505,11 +506,11 @@ TEST_CASE("BitWiseRightShiftable constexpr")
 {
     using BitWiseRightShiftableType =
             phi::named_type<int, struct BitWiseRightShiftableTag, phi::bit_wise_right_shiftable>;
-    constexpr BitWiseRightShiftableType lhs(2);
-    constexpr BitWiseRightShiftableType rhs(3);
+    PHI_CONSTEXPR BitWiseRightShiftableType lhs(2);
+    PHI_CONSTEXPR BitWiseRightShiftableType rhs(3);
     EXT_STATIC_REQUIRE((lhs >> rhs).unsafe() == (2 >> 3));
 
-    constexpr BitWiseRightShiftableType strong_int(3);
+    PHI_CONSTEXPR BitWiseRightShiftableType strong_int(3);
     EXT_STATIC_REQUIRE(BitWiseRightShiftableType{2}.operator>>=(strong_int).unsafe() == (2 >> 3));
 }
 
@@ -565,7 +566,7 @@ TEST_CASE("ConvertibleWithOperator constexpr")
 {
     struct B
     {
-        constexpr B(int val)
+        PHI_CONSTEXPR B(int val)
             : x(val)
         {}
         int x;
@@ -573,10 +574,10 @@ TEST_CASE("ConvertibleWithOperator constexpr")
 
     struct A
     {
-        constexpr A(int val)
+        PHI_CONSTEXPR A(int val)
             : x(val)
         {}
-        constexpr operator B() const
+        PHI_CONSTEXPR operator B() const
         {
             return {x};
         }
@@ -617,7 +618,7 @@ TEST_CASE("ConvertibleWithConstructor constexpr")
 {
     struct A
     {
-        constexpr A(int val)
+        PHI_CONSTEXPR A(int val)
             : x(val)
         {}
         int x;
@@ -625,7 +626,7 @@ TEST_CASE("ConvertibleWithConstructor constexpr")
 
     struct B
     {
-        constexpr B(A val)
+        PHI_CONSTEXPR B(A val)
             : x(val.x)
         {}
         int x;
@@ -709,7 +710,7 @@ TEST_CASE("Function callable")
 
 struct testFunctionCallable_B
 {
-    constexpr testFunctionCallable_B(int val)
+    PHI_CONSTEXPR testFunctionCallable_B(int val)
         : x(val)
     {}
     // ensures that passing the argument to a function doesn't make a copy
@@ -723,18 +724,18 @@ struct testFunctionCallable_B
     int x;
 };
 
-constexpr testFunctionCallable_B operator+(const testFunctionCallable_B& lhs,
-                                           const testFunctionCallable_B& rhs)
+PHI_CONSTEXPR testFunctionCallable_B operator+(const testFunctionCallable_B& lhs,
+                                               const testFunctionCallable_B& rhs)
 {
     return {lhs.x + rhs.x};
 }
 
-constexpr bool operator==(testFunctionCallable_B const& lhs, testFunctionCallable_B const& rhs)
+PHI_CONSTEXPR bool operator==(testFunctionCallable_B const& lhs, testFunctionCallable_B const& rhs)
 {
     return lhs.x == rhs.x;
 }
 
-constexpr int functionTakingB(testFunctionCallable_B const& value)
+PHI_CONSTEXPR int functionTakingB(testFunctionCallable_B const& value)
 {
     return value.x;
 }
@@ -744,7 +745,7 @@ TEST_CASE("Function callable constexpr")
     using B = testFunctionCallable_B;
 
     using StrongB = phi::named_type<B, struct StrongATag, phi::function_callable>;
-    constexpr StrongB const_strong_b(B(42));
+    PHI_CONSTEXPR StrongB const_strong_b(B(42));
     EXT_STATIC_REQUIRE(functionTakingB(StrongB(B(42))) == 42);
     EXT_STATIC_REQUIRE(functionTakingB(const_strong_b) == 42);
     EXT_STATIC_REQUIRE(StrongB(B(42)) + StrongB(B(42)) == 84);
@@ -787,14 +788,14 @@ TEST_CASE("Method callable constexpr")
 {
     struct A
     {
-        constexpr A(int val)
+        PHI_CONSTEXPR A(int val)
             : m_X(val)
         {}
         A(A const&) = delete; // ensures that invoking a method doesn't make a copy
         A(A&&)      = default;
 
         // NOLINTNEXTLINE(readability-make-member-function-const)
-        constexpr int method()
+        PHI_CONSTEXPR int method()
         {
             return m_X;
         }

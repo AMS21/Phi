@@ -848,12 +848,12 @@ class tracked
     };
 
 public:
-    constexpr tracked() noexcept
+    PHI_CONSTEXPR tracked() noexcept
         : m_Value{0}
         , m_State{State::Constructed}
     {}
 
-    constexpr explicit tracked(int val) noexcept
+    PHI_CONSTEXPR explicit tracked(int val) noexcept
         : m_Value{val}
         , m_State{State::Constructed}
     {}
@@ -941,7 +941,7 @@ struct trap_constructible
     trap_constructible& operator=(trap_constructible&&)      = default;
 
     template <typename... ArgsT>
-    constexpr trap_constructible(ArgsT&&... /*args*/) noexcept
+    PHI_CONSTEXPR trap_constructible(ArgsT&&... /*args*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_constructible constructor must not be used");
@@ -951,7 +951,7 @@ struct trap_constructible
 struct trap_implicit_conversion
 {
     template <typename TypeT>
-    constexpr operator TypeT() noexcept
+    PHI_CONSTEXPR operator TypeT() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_implicit_conversion::operator TypeT, must never be instantiated");
@@ -963,7 +963,7 @@ struct trap_implicit_conversion
 struct trap_comma
 {
     template <typename TypeT>
-    friend constexpr bool operator,(const trap_comma& /*unused*/, TypeT&& /*unused*/) noexcept
+    friend PHI_CONSTEXPR bool operator,(const trap_comma& /*unused*/, TypeT&& /*unused*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -972,7 +972,7 @@ struct trap_comma
     }
 
     template <typename TypeT>
-    friend constexpr bool operator,(TypeT&& /*unused*/, const trap_comma& /*unused*/) noexcept
+    friend PHI_CONSTEXPR bool operator,(TypeT&& /*unused*/, const trap_comma& /*unused*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_comma::operator, must never be instantiated");
@@ -984,7 +984,7 @@ struct trap_comma
 struct trap_call
 {
     template <typename... ArgsT>
-    constexpr bool operator()(ArgsT&&... /*unused*/) noexcept
+    PHI_CONSTEXPR bool operator()(ArgsT&&... /*unused*/) noexcept
     {
         static_assert(phi::false_t<ArgsT...>::value,
                       "trap_call::operator() must never be instantiated");
@@ -1021,7 +1021,7 @@ struct trap_self_assign
 struct trap_deref
 {
     template <typename TypeT>
-    constexpr TypeT operator*() noexcept
+    PHI_CONSTEXPR TypeT operator*() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_deref::operator*() must never be instantiated");
@@ -1029,7 +1029,7 @@ struct trap_deref
     }
 
     template <typename TypeT>
-    constexpr TypeT* operator->() noexcept
+    PHI_CONSTEXPR TypeT* operator->() noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_deref::operator->() must never be instantiated");
@@ -1040,7 +1040,7 @@ struct trap_deref
 struct trap_array_subscript
 {
     template <typename TypeT>
-    constexpr bool operator[](TypeT /*index*/) noexcept
+    PHI_CONSTEXPR bool operator[](TypeT /*index*/) noexcept
     {
         static_assert(phi::false_t<TypeT>::value,
                       "trap_array_subscript::operator[] must never be instantiated");

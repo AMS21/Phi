@@ -127,18 +127,18 @@ struct Ptr
     template <typename>
     using rebind = Ptr;
 
-    static constexpr Ptr pointer_to(bool& b) noexcept
+    static PHI_CONSTEXPR Ptr pointer_to(bool& b) noexcept
     {
         return Ptr{&b};
     }
 };
 
-constexpr bool operator==(const Ptr& lhs, const Ptr& rhs) noexcept
+PHI_CONSTEXPR bool operator==(const Ptr& lhs, const Ptr& rhs) noexcept
 {
     return lhs.value == rhs.value;
 }
 
-constexpr bool test_pointer_to()
+PHI_CONSTEXPR bool test_pointer_to()
 {
     {
         int i = 0;

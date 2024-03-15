@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/intrinsics/is_infinity.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
@@ -25,7 +26,7 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 template <typename FloatT>
-PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_infinity(
+PHI_NODISCARD PHI_CONSTEXPR enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_infinity(
         FloatT value) noexcept
 {
 #if PHI_SUPPORTS_IS_INFINITY()
@@ -37,7 +38,7 @@ PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, boo
 }
 
 template <typename FloatT>
-PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_infinity(
+PHI_NODISCARD PHI_CONSTEXPR enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_infinity(
         FloatT value) noexcept
 {
     return is_infinity<typename FloatT::value_type>(value.unsafe());

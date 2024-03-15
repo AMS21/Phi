@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_volatile.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_volatile : public bool_constant<!PHI_IS_VOLATILE(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_volatile_v = PHI_IS_VOLATILE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_volatile_v = PHI_IS_VOLATILE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_volatile_v = !PHI_IS_VOLATILE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_volatile_v = !PHI_IS_VOLATILE(TypeT);
 
 #    endif
 
@@ -50,10 +51,10 @@ struct is_not_volatile : public bool_constant<!is_volatile<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_volatile_v = is_volatile<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_volatile_v = is_volatile<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_volatile_v = is_not_volatile<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_volatile_v = is_not_volatile<TypeT>::value;
 
 #    endif
 

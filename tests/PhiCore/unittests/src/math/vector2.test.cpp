@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/type_traits/make_unsafe.hpp>
@@ -45,7 +46,7 @@ void test_vector2()
 
     SECTION("vector2(x, y)")
     {
-        constexpr phi::vector2<TypeT> vec(base_t(13), base_t(29));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec(base_t(13), base_t(29));
 
         STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(13));
         STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(29));
@@ -53,7 +54,7 @@ void test_vector2()
 
     SECTION("vector2(xy)")
     {
-        constexpr phi::vector2<TypeT> vec(base_t(42));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec(base_t(42));
 
         STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(42));
         STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(42));
@@ -61,8 +62,8 @@ void test_vector2()
 
     SECTION("vector2(const vector2&)")
     {
-        constexpr phi::vector2<TypeT> base(base_t(18), base_t(23));
-        constexpr phi::vector2<TypeT> vec(base);
+        PHI_CONSTEXPR phi::vector2<TypeT> base(base_t(18), base_t(23));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec(base);
 
         STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(18));
         STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(23));
@@ -70,7 +71,7 @@ void test_vector2()
 
     SECTION("vector2(vector2&&)")
     {
-        constexpr phi::vector2<TypeT> vec(phi::vector2<TypeT>(base_t(11), base_t(9)));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec(phi::vector2<TypeT>(base_t(11), base_t(9)));
 
         STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(11));
         STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(9));
@@ -101,9 +102,9 @@ void test_vector2()
 
     SECTION("operator+(const vector2&)")
     {
-        constexpr phi::vector2<TypeT> base(base_t(0), base_t(12));
+        PHI_CONSTEXPR phi::vector2<TypeT> base(base_t(0), base_t(12));
 
-        constexpr phi::vector2<TypeT> vec = +base;
+        PHI_CONSTEXPR phi::vector2<TypeT> vec = +base;
         STATIC_REQUIRE(phi::to_unsafe(vec.x) == base_t(0));
         STATIC_REQUIRE(phi::to_unsafe(vec.y) == base_t(12));
     }
@@ -208,10 +209,10 @@ void test_vector2_op()
 
     SECTION("operator==(const vector2&, const vector2&)")
     {
-        constexpr phi::vector2<TypeT> vec0(base_t(3), base_t(4));
-        constexpr phi::vector2<TypeT> vec1(base_t(4), base_t(3));
-        constexpr phi::vector2<TypeT> vec2(base_t(7), base_t(2));
-        constexpr phi::vector2<TypeT> vec3{base_t(3), base_t(3)};
+        PHI_CONSTEXPR phi::vector2<TypeT> vec0(base_t(3), base_t(4));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec1(base_t(4), base_t(3));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec2(base_t(7), base_t(2));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec3{base_t(3), base_t(3)};
 
         STATIC_REQUIRE(vec0 == vec0);
         STATIC_REQUIRE_FALSE(vec0 == vec1);
@@ -236,10 +237,10 @@ void test_vector2_op()
 
     SECTION("operator!=(const vector2&, const vector2&)")
     {
-        constexpr phi::vector2<TypeT> vec0(base_t(3), base_t(4));
-        constexpr phi::vector2<TypeT> vec1(base_t(4), base_t(3));
-        constexpr phi::vector2<TypeT> vec2(base_t(7), base_t(2));
-        constexpr phi::vector2<TypeT> vec3(base_t(3), base_t(3));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec0(base_t(3), base_t(4));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec1(base_t(4), base_t(3));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec2(base_t(7), base_t(2));
+        PHI_CONSTEXPR phi::vector2<TypeT> vec3(base_t(3), base_t(3));
 
         STATIC_REQUIRE_FALSE(vec0 != vec0);
         STATIC_REQUIRE(vec0 != vec1);
@@ -335,14 +336,14 @@ TEST_CASE("vector2")
     // Fixed types
     SECTION("vector2(const vector2<Other>&)")
     {
-        constexpr phi::vector2<phi::i8>  base1(phi::int8_t(3), phi::int8_t(1));
-        constexpr phi::vector2<phi::i16> copy1(base1);
+        PHI_CONSTEXPR phi::vector2<phi::i8> base1(phi::int8_t(3), phi::int8_t(1));
+        PHI_CONSTEXPR phi::vector2<phi::i16> copy1(base1);
 
         STATIC_REQUIRE(bool(copy1.x == phi::int16_t(3)));
         STATIC_REQUIRE(bool(copy1.y == phi::int16_t(1)));
 
-        constexpr phi::vector2<phi::u16> base2(phi::uint16_t(99u), phi::uint16_t(257u));
-        constexpr phi::vector2<phi::i32> copy2(base2);
+        PHI_CONSTEXPR phi::vector2<phi::u16> base2(phi::uint16_t(99u), phi::uint16_t(257u));
+        PHI_CONSTEXPR phi::vector2<phi::i32> copy2(base2);
 
         STATIC_REQUIRE(bool(copy2.x == phi::int32_t(99)));
         STATIC_REQUIRE(bool(copy2.y == phi::int32_t(257)));
@@ -350,13 +351,13 @@ TEST_CASE("vector2")
 
     SECTION("vector2(vector2<Other>&&)")
     {
-        constexpr phi::vector2<phi::i16> res1(
+        PHI_CONSTEXPR phi::vector2<phi::i16> res1(
                 phi::vector2<phi::i8>(phi::int8_t(11), phi::int8_t(17)));
 
         STATIC_REQUIRE(bool(res1.x == phi::int16_t(11)));
         STATIC_REQUIRE(bool(res1.y == phi::int16_t(17)));
 
-        constexpr phi::vector2<phi::i32> res2(
+        PHI_CONSTEXPR phi::vector2<phi::i32> res2(
                 phi::vector2<phi::u16>(phi::uint16_t(4u), phi::uint16_t(1u)));
 
         STATIC_REQUIRE(bool(res2.x == phi::int32_t(4)));
@@ -366,26 +367,26 @@ TEST_CASE("vector2")
     SECTION("operator-(const vector2&)")
     {
         /*
-        constexpr phi::vector2<phi::i32> b1(12, 32);
-        constexpr phi::vector2<phi::i32> r1 = -b1;
+        PHI_CONSTEXPR phi::vector2<phi::i32> b1(12, 32);
+        PHI_CONSTEXPR phi::vector2<phi::i32> r1 = -b1;
 
         STATIC_REQUIRE(bool(r1.x == -12));
         STATIC_REQUIRE(bool(r1.y == -32));
 
-        constexpr phi::vector2<phi::i32> b2(-11, -9);
-        constexpr phi::vector2<phi::i32> r2 = -b2;
+        PHI_CONSTEXPR phi::vector2<phi::i32> b2(-11, -9);
+        PHI_CONSTEXPR phi::vector2<phi::i32> r2 = -b2;
 
         STATIC_REQUIRE(bool(r2.x == 11));
         STATIC_REQUIRE(bool(r2.y == 9));
 
-        constexpr phi::vector2<phi::i32> b3(0, -19);
-        constexpr phi::vector2<phi::i32> r3 = -b3;
+        PHI_CONSTEXPR phi::vector2<phi::i32> b3(0, -19);
+        PHI_CONSTEXPR phi::vector2<phi::i32> r3 = -b3;
 
         STATIC_REQUIRE(bool(r3.x == 0));
         STATIC_REQUIRE(bool(r3.y == 19));
 
-        constexpr phi::vector2<phi::i32> b4(8, 0);
-        constexpr phi::vector2<phi::i32> r4 = -b4;
+        PHI_CONSTEXPR phi::vector2<phi::i32> b4(8, 0);
+        PHI_CONSTEXPR phi::vector2<phi::i32> r4 = -b4;
 
         STATIC_REQUIRE(bool(r4.x == -8));
         STATIC_REQUIRE(bool(r4.y == 0));

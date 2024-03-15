@@ -125,38 +125,38 @@ namespace detail
             conditional_t<is_signed<TypeT>::value, signed_integer_tag, unsigned_integer_tag>;
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_addition_error(signed_integer_tag /*tag*/, TypeT lhs,
+                                                             TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs > std::numeric_limits<TypeT>::max() - rhs :
                                 lhs < std::numeric_limits<TypeT>::min() - rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_addition_error(unsigned_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_addition_error(unsigned_integer_tag /*tag*/,
+                                                             TypeT lhs, TypeT rhs) noexcept
     {
         return std::numeric_limits<TypeT>::max() - rhs < lhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_subtraction_error(signed_integer_tag /*tag*/,
+                                                                TypeT lhs, TypeT rhs) noexcept
     {
         return rhs > TypeT(0) ? lhs < std::numeric_limits<TypeT>::min() + rhs :
                                 lhs > std::numeric_limits<TypeT>::max() + rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_subtraction_error(unsigned_integer_tag /*tag*/, TypeT lhs,
-                                                            TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_subtraction_error(unsigned_integer_tag /*tag*/,
+                                                                TypeT lhs, TypeT rhs) noexcept
     {
         return lhs < rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(signed_integer_tag /*tag*/,
-                                                               TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_multiplication_error(signed_integer_tag /*tag*/,
+                                                                   TypeT lhs, TypeT rhs) noexcept
     {
         return lhs > TypeT(0) ?
                        (rhs > TypeT(0) ?
@@ -170,28 +170,28 @@ namespace detail
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_multiplication_error(unsigned_integer_tag /*tag*/,
-                                                               TypeT lhs, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_multiplication_error(unsigned_integer_tag /*tag*/,
+                                                                   TypeT lhs, TypeT rhs) noexcept
     {
         return rhs != TypeT(0) && lhs > std::numeric_limits<TypeT>::max() / rhs;
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(signed_integer_tag /*tag*/, TypeT lhs,
-                                                         TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_division_error(signed_integer_tag /*tag*/, TypeT lhs,
+                                                             TypeT rhs) noexcept
     {
         return rhs == TypeT(0) || (rhs == TypeT(-1) && lhs == std::numeric_limits<TypeT>::min());
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_division_error(unsigned_integer_tag /*tag*/,
-                                                         TypeT /*lhs*/, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_division_error(unsigned_integer_tag /*tag*/,
+                                                             TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
 
     template <typename TypeT>
-    PHI_ALWAYS_INLINE constexpr bool will_modulo_error(TypeT /*lhs*/, TypeT rhs) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR bool will_modulo_error(TypeT /*lhs*/, TypeT rhs) noexcept
     {
         return rhs == TypeT(0);
     }
@@ -234,17 +234,17 @@ public:
     integer() = delete;
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    constexpr integer(const TypeT& val) noexcept
+    PHI_CONSTEXPR integer(const TypeT& val) noexcept
         : m_Value(val)
     {}
 
     template <typename TypeT, typename = detail::enable_safe_integer_conversion<TypeT, IntegerT>>
-    PHI_ALWAYS_INLINE constexpr integer(const integer<TypeT>& val) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR integer(const integer<TypeT>& val) noexcept
         : m_Value(static_cast<TypeT>(val))
     {}
 
     template <typename TypeT, typename = detail::fallback_safe_integer_conversion<TypeT, IntegerT>>
-    constexpr integer(TypeT) = delete;
+    PHI_CONSTEXPR integer(TypeT) = delete;
 
     //=== assignment ===//
 
@@ -264,22 +264,22 @@ public:
 
     //=== conversion back ===//
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE explicit constexpr operator IntegerT() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE explicit PHI_CONSTEXPR operator IntegerT() const noexcept
     {
         return m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr IntegerT unsafe() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR IntegerT unsafe() const noexcept
     {
         return m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr static integer<IntegerT> min() noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR static integer<IntegerT> min() noexcept
     {
         return limits_type::min();
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr static integer<IntegerT> max() noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR static integer<IntegerT> max() noexcept
     {
         return limits_type::max();
     }
@@ -290,7 +290,7 @@ public:
     }
 
     //=== unary operators ===//
-    PHI_ALWAYS_INLINE constexpr integer operator+() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR integer operator+() const noexcept
     {
         return *this;
     }
@@ -471,207 +471,219 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator==(const integer<LhsT>& lhs,
-                                               const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const integer<LhsT>& lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) == static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator==(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const LhsT&          lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) == rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator==(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const integer<LhsT>& lhs,
+                                                   const RhsT&          rhs) noexcept
 {
     return lhs == integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator==(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator==(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator==(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator==(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator==(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator==(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const integer<LhsT>& lhs,
-                                               const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const integer<LhsT>& lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) != static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const LhsT&          lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) != rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const integer<LhsT>& lhs,
+                                                   const RhsT&          rhs) noexcept
 {
     return lhs != integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator!=(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator!=(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator!=(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator!=(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator!=(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator!=(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const integer<LhsT>& lhs,
-                                              const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const integer<LhsT>& lhs,
+                                                  const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) < static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const LhsT&          lhs,
+                                                  const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) < rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const integer<LhsT>& lhs,
+                                                  const RhsT&          rhs) noexcept
 {
     return lhs < integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator<(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const integer<LhsT>& lhs,
-                                               const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const integer<LhsT>& lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) <= static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const LhsT&          lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) <= rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const integer<LhsT>& lhs,
+                                                   const RhsT&          rhs) noexcept
 {
     return lhs <= integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<=(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<=(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator<=(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const integer<LhsT>& lhs,
-                                              const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const integer<LhsT>& lhs,
+                                                  const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) > static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const LhsT&          lhs,
+                                                  const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) > rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const integer<LhsT>& lhs,
+                                                  const RhsT&          rhs) noexcept
 {
     return lhs > integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator>(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const integer<LhsT>& lhs,
-                                               const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const integer<LhsT>& lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) >= static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const LhsT&          lhs,
+                                                   const integer<RhsT>& rhs) noexcept
 {
     return integer<LhsT>(lhs) >= rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_integer_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const integer<LhsT>& lhs,
+                                                   const RhsT&          rhs) noexcept
 {
     return lhs >= integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>=(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>=(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_integer_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator>=(integer<LhsT>, RhsT) = delete;
 
 //=== binary operations ===//
 
@@ -690,27 +702,27 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator+(const integer<LhsT>& lhs
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator+(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return integer<LhsT>(lhs) + rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator+(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return lhs + integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator+(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator+(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator+(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator+(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator+(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR int operator+(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator-(const integer<LhsT>& lhs,
@@ -727,27 +739,27 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator-(const integer<LhsT>& lhs
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator-(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return integer<LhsT>(lhs) - rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator-(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return lhs - integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator-(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator-(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator-(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator-(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator-(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR int operator-(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator*(const integer<LhsT>& lhs,
@@ -764,27 +776,27 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator*(const integer<LhsT>& lhs
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator*(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return integer<LhsT>(lhs) * rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator*(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return lhs * integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator*(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator*(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator*(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator*(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator*(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR int operator*(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator/(const integer<LhsT>& lhs,
@@ -801,27 +813,27 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator/(const integer<LhsT>& lhs
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator/(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return integer<LhsT>(lhs) / rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator/(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return lhs / integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator/(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator/(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator/(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator/(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator/(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR int operator/(integer<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT>
 PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator%(const integer<LhsT>& lhs,
@@ -837,27 +849,27 @@ PHI_ALWAYS_INLINE PHI_EXTENDED_CONSTEXPR auto operator%(const integer<LhsT>& lhs
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator%(const LhsT& lhs, const integer<RhsT>& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return integer<LhsT>(lhs) % rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator%(const integer<LhsT>& lhs, const RhsT& rhs) noexcept
         -> integer<detail::integer_result_t<LhsT, RhsT>>
 {
     return lhs % integer<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator%(integer<LhsT>, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator%(integer<LhsT>, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator%(LhsT, integer<RhsT>) = delete;
+PHI_CONSTEXPR int operator%(LhsT, integer<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT, typename = detail::fallback_integer_result<LhsT, RhsT>>
-constexpr int operator%(integer<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR int operator%(integer<LhsT>, RhsT) = delete;
 
 //=== input/output ===/
 

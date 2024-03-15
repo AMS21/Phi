@@ -34,6 +34,7 @@ SOFTWARE.
 #endif
 
 #include "phi/algorithm/swap.hpp"
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/standard_library.hpp"
@@ -114,19 +115,19 @@ public:
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
-    PHI_ALWAYS_INLINE constexpr floating_point(const TypeT& val) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR floating_point(const TypeT& val) noexcept
         : m_Value(static_cast<FloatT>(val))
     {}
 
     template <typename TypeT,
               typename = detail::enable_safe_floating_point_conversion<TypeT, FloatT>>
-    PHI_ALWAYS_INLINE constexpr floating_point(const floating_point<TypeT>& val) noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR floating_point(const floating_point<TypeT>& val) noexcept
         : m_Value(static_cast<FloatT>(static_cast<TypeT>(val)))
     {}
 
     template <typename TypeT,
               typename = detail::fallback_safe_floating_point_conversion<TypeT, FloatT>>
-    constexpr floating_point(TypeT) = delete;
+    floating_point(TypeT) = delete;
 
     //=== assignment ===//
 
@@ -156,12 +157,12 @@ public:
 
     //=== conversion back ===//
 
-    PHI_ALWAYS_INLINE explicit constexpr operator FloatT() const noexcept
+    PHI_ALWAYS_INLINE explicit PHI_CONSTEXPR operator FloatT() const noexcept
     {
         return m_Value;
     }
 
-    PHI_NODISCARD PHI_ALWAYS_INLINE constexpr FloatT unsafe() const noexcept
+    PHI_NODISCARD PHI_ALWAYS_INLINE PHI_CONSTEXPR FloatT unsafe() const noexcept
     {
         return m_Value;
     }
@@ -173,12 +174,12 @@ public:
 
     //=== unary operators ===//
 
-    PHI_ALWAYS_INLINE constexpr floating_point operator+() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR floating_point operator+() const noexcept
     {
         return *this;
     }
 
-    PHI_ALWAYS_INLINE constexpr floating_point operator-() const noexcept
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR floating_point operator-() const noexcept
     {
         return -m_Value;
     }
@@ -308,83 +309,83 @@ private:
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const floating_point<LhsT>& lhs,
-                                              const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const floating_point<LhsT>& lhs,
+                                                  const floating_point<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) < static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const LhsT&                 lhs,
-                                              const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const LhsT&                 lhs,
+                                                  const floating_point<RhsT>& rhs) noexcept
 {
     return floating_point<LhsT>(lhs) < rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<(const floating_point<LhsT>& lhs,
-                                              const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<(const floating_point<LhsT>& lhs,
+                                                  const RhsT&                 rhs) noexcept
 {
     return lhs < floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<(floating_point<LhsT>, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<(floating_point<LhsT>, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<(LhsT, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<(LhsT, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<(floating_point<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator<(floating_point<LhsT>, RhsT) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const floating_point<LhsT>& lhs,
-                                               const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const floating_point<LhsT>& lhs,
+                                                   const floating_point<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) <= static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const LhsT&                 lhs,
-                                               const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const LhsT&                 lhs,
+                                                   const floating_point<RhsT>& rhs) noexcept
 {
     return floating_point<LhsT>(lhs) <= rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator<=(const floating_point<LhsT>& lhs,
-                                               const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator<=(const floating_point<LhsT>& lhs,
+                                                   const RhsT&                 rhs) noexcept
 {
     return lhs <= floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(floating_point<LhsT>, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<=(floating_point<LhsT>, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(LhsT, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator<=(LhsT, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator<=(floating_point<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator<=(floating_point<LhsT>, RhsT) = delete;
 
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wdouble-promotion")
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const floating_point<LhsT>& lhs,
-                                              const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const floating_point<LhsT>& lhs,
+                                                  const floating_point<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) > static_cast<RhsT>(rhs);
 }
@@ -393,38 +394,38 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const LhsT&                 lhs,
-                                              const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const LhsT&                 lhs,
+                                                  const floating_point<RhsT>& rhs) noexcept
 {
     return floating_point<LhsT>(lhs) > rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>(const floating_point<LhsT>& lhs,
-                                              const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>(const floating_point<LhsT>& lhs,
+                                                  const RhsT&                 rhs) noexcept
 {
     return lhs > floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>(floating_point<LhsT>, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>(floating_point<LhsT>, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>(LhsT, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>(LhsT, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>(floating_point<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator>(floating_point<LhsT>, RhsT) = delete;
 
 PHI_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wdouble-promotion")
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const floating_point<LhsT>& lhs,
-                                               const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const floating_point<LhsT>& lhs,
+                                                   const floating_point<RhsT>& rhs) noexcept
 {
     return static_cast<LhsT>(lhs) >= static_cast<RhsT>(rhs);
 }
@@ -433,149 +434,149 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_conversion<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const LhsT&                 lhs,
-                                               const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const LhsT&                 lhs,
+                                                   const floating_point<RhsT>& rhs) noexcept
 {
     return floating_point<LhsT>(lhs) >= rhs;
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::enable_safe_floating_point_comparison<LhsT, RhsT>>
-PHI_ALWAYS_INLINE constexpr boolean operator>=(const floating_point<LhsT>& lhs,
-                                               const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator>=(const floating_point<LhsT>& lhs,
+                                                   const RhsT&                 rhs) noexcept
 {
     return lhs >= floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(floating_point<LhsT>, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>=(floating_point<LhsT>, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(LhsT, floating_point<RhsT>) = delete;
+PHI_CONSTEXPR boolean operator>=(LhsT, floating_point<RhsT>) = delete;
 
 template <typename LhsT, typename RhsT,
           typename = detail::fallback_safe_floating_point_comparison<LhsT, RhsT>>
-constexpr boolean operator>=(floating_point<LhsT>, RhsT) = delete;
+PHI_CONSTEXPR boolean operator>=(floating_point<LhsT>, RhsT) = delete;
 
 //=== binary operations ===//
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const floating_point<LhsT>& lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator+(const floating_point<LhsT>& lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return static_cast<LhsT>(lhs) + static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const LhsT&                 lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator+(const LhsT&                 lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return floating_point<LhsT>(lhs) + rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator+(const floating_point<LhsT>& lhs,
-                                           const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator+(const floating_point<LhsT>& lhs,
+                                               const RhsT&                 rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return lhs + floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const floating_point<LhsT>& lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator-(const floating_point<LhsT>& lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return static_cast<LhsT>(lhs) - static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const LhsT&                 lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator-(const LhsT&                 lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return floating_point<LhsT>(lhs) - rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator-(const floating_point<LhsT>& lhs,
-                                           const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator-(const floating_point<LhsT>& lhs,
+                                               const RhsT&                 rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return lhs - floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const floating_point<LhsT>& lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator*(const floating_point<LhsT>& lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return static_cast<LhsT>(lhs) * static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const LhsT&                 lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator*(const LhsT&                 lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return floating_point<LhsT>(lhs) * rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator*(const floating_point<LhsT>& lhs,
-                                           const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator*(const floating_point<LhsT>& lhs,
+                                               const RhsT&                 rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return lhs * floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const floating_point<LhsT>& lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator/(const floating_point<LhsT>& lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return static_cast<LhsT>(lhs) / static_cast<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const LhsT&                 lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator/(const LhsT&                 lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return floating_point<LhsT>(lhs) / rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator/(const floating_point<LhsT>& lhs,
-                                           const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator/(const floating_point<LhsT>& lhs,
+                                               const RhsT&                 rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return lhs / floating_point<RhsT>(rhs);
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const floating_point<LhsT>& lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator%(const floating_point<LhsT>& lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return std::fmod(static_cast<LhsT>(lhs), static_cast<RhsT>(rhs));
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const LhsT&                 lhs,
-                                           const floating_point<RhsT>& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator%(const LhsT&                 lhs,
+                                               const floating_point<RhsT>& rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return floating_point<LhsT>(lhs) % rhs;
 }
 
 template <typename LhsT, typename RhsT>
-PHI_ALWAYS_INLINE constexpr auto operator%(const floating_point<LhsT>& lhs,
-                                           const RhsT&                 rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR auto operator%(const floating_point<LhsT>& lhs,
+                                               const RhsT&                 rhs) noexcept
         -> detail::floating_point_result_t<LhsT, RhsT>
 {
     return lhs % floating_point<RhsT>(rhs);

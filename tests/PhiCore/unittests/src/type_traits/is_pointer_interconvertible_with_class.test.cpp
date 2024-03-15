@@ -80,7 +80,7 @@ TEST_CASE("is_pointer_interconvertible_with_class")
     test_is_pointer_interconvertible_with_class(&A::i);
     test_is_pointer_interconvertible_with_class(&A::l);
 
-    constexpr int A::*a = nullptr;
+    PHI_CONSTEXPR int A::*a = nullptr;
     test_is_not_pointer_interconvertible_with_class(a);
 
     test_is_pointer_interconvertible_with_class(&B::i);
@@ -92,7 +92,7 @@ TEST_CASE("is_pointer_interconvertible_with_class")
     // This works because the type of &E::i is int A::* and A is standard-layout:
     test_is_pointer_interconvertible_with_class(&E::i);
 
-    constexpr int E::*e = a;
+    PHI_CONSTEXPR int E::*e = a;
     // This fails because E is not standard-layout:
     test_is_not_pointer_interconvertible_with_class(e);
     test_is_not_pointer_interconvertible_with_class(&E::j);

@@ -32,7 +32,7 @@ public:
     using this_type   = scope_guard<ActionT>;
     using action_type = ActionT;
 
-    constexpr explicit scope_guard(ActionT action) noexcept
+    PHI_CONSTEXPR explicit scope_guard(ActionT action) noexcept
         : m_Action(phi::move(action))
     {}
 
@@ -76,7 +76,7 @@ public:
     using this_type   = armed_scope_guard<ActionT>;
     using action_type = ActionT;
 
-    constexpr explicit armed_scope_guard(ActionT action) noexcept
+    PHI_CONSTEXPR explicit armed_scope_guard(ActionT action) noexcept
         : m_Action(phi::move(action))
         , m_Armed{true}
     {}
@@ -113,7 +113,7 @@ public:
         m_Armed = true;
     }
 
-    PHI_NODISCARD constexpr boolean is_armed() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR boolean is_armed() const noexcept
     {
         return m_Armed;
     }
@@ -129,14 +129,14 @@ armed_scope_guard(TypeT) -> armed_scope_guard<TypeT>;
 #endif
 
 template <typename ActionT>
-PHI_NODISCARD constexpr scope_guard<remove_cvref_t<ActionT>> make_scope_guard(
+PHI_NODISCARD PHI_CONSTEXPR scope_guard<remove_cvref_t<ActionT>> make_scope_guard(
         ActionT&& action) noexcept
 {
     return scope_guard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));
 }
 
 template <typename ActionT>
-PHI_NODISCARD constexpr armed_scope_guard<remove_cvref_t<ActionT>> make_armed_scope_guard(
+PHI_NODISCARD PHI_CONSTEXPR armed_scope_guard<remove_cvref_t<ActionT>> make_armed_scope_guard(
         ActionT&& action) noexcept
 {
     return armed_scope_guard<remove_cvref_t<ActionT>>(phi::forward<ActionT>(action));

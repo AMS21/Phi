@@ -26,10 +26,10 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 template <typename TargetT, typename SourceT>
 PHI_NODISCARD
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR() || !defined(PHI_DEBUG)
-        constexpr
+        PHI_CONSTEXPR
 #endif
-        TargetT
-        narrow_cast(SourceT&& source) noexcept
+                TargetT
+                narrow_cast(SourceT&& source) noexcept
 {
 #if defined(PHI_DEBUG)
     using unsafe_target_t = make_unsafe_t<phi::remove_reference_t<TargetT>>;

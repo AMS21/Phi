@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/sized_types.hpp"
 #include "phi/type_traits/is_floating_point.hpp"
@@ -17,7 +18,7 @@ template <typename FloatT>
 class floating_point;
 
 template <typename FloatT>
-PHI_NODISCARD constexpr int64_t floor(FloatT value) noexcept
+PHI_NODISCARD PHI_CONSTEXPR int64_t floor(FloatT value) noexcept
 {
     static_assert(is_floating_point<FloatT>::value, "phi::floor requires a floating point type");
 
@@ -27,7 +28,7 @@ PHI_NODISCARD constexpr int64_t floor(FloatT value) noexcept
 }
 
 template <typename FloatT>
-PHI_NODISCARD constexpr int64_t floor(floating_point<FloatT> value) noexcept
+PHI_NODISCARD PHI_CONSTEXPR int64_t floor(floating_point<FloatT> value) noexcept
 {
     return floor(value.unsafe());
 }

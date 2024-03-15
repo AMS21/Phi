@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_constructible.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -33,10 +34,11 @@ struct is_not_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE(TypeT, 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_constructible_v = PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 template <typename TypeT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_constructible_v = !PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_constructible_v =
+        !PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...);
 
 #    endif
 
@@ -89,7 +91,7 @@ namespace detail
     {
         using type = decltype(test<ToT, ArgT>(0));
 
-        static const constexpr bool value = type::value;
+        static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
 
     template <typename ToT, typename ArgT>
@@ -114,7 +116,7 @@ namespace detail
                                    is_base_of<source_t, destination_t>::value &&
                                    !is_constructible<destination_t, FromT>::value>;
 
-        static constexpr bool value = type::value;
+        static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
 
     template <typename FromT, typename ToT>
@@ -137,7 +139,7 @@ namespace detail
                                    (is_same<source_t, destination_t>::value ||
                                     is_base_of<destination_t, source_t>::value)>;
 
-        static constexpr bool value = type::value;
+        static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
 
     template <typename FromT, typename ToT>
@@ -235,10 +237,11 @@ struct is_not_constructible : public bool_constant<!is_constructible<TypeT, Args
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_constructible_v = is_constructible<TypeT, ArgsT...>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_constructible_v =
+        is_constructible<TypeT, ArgsT...>::value;
 
 template <typename TypeT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_constructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_constructible_v =
         is_not_constructible<TypeT, ArgsT...>::value;
 
 #    endif

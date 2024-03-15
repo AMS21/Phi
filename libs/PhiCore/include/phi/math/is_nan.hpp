@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/type_traits/enable_if.hpp"
@@ -21,7 +22,7 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 template <typename FloatT>
-PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_nan(
+PHI_NODISCARD PHI_CONSTEXPR enable_if_t<is_unsafe_floating_point<FloatT>::value, bool> is_nan(
         FloatT val) noexcept
 {
     // NOLINTNEXTLINE(misc-redundant-expression)
@@ -29,7 +30,7 @@ PHI_NODISCARD constexpr enable_if_t<is_unsafe_floating_point<FloatT>::value, boo
 }
 
 template <typename FloatT>
-PHI_NODISCARD constexpr enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_nan(
+PHI_NODISCARD PHI_CONSTEXPR enable_if_t<is_safe_floating_point<FloatT>::value, bool> is_nan(
         FloatT val) noexcept
 {
     return is_nan<typename FloatT::value_type>(val.unsafe());

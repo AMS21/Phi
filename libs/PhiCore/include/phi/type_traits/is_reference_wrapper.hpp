@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/forward/std/reference_wrapper.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -37,10 +38,10 @@ struct is_not_reference_wrapper : public bool_constant<!is_reference_wrapper<Typ
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_reference_wrapper_v = is_reference_wrapper<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_reference_wrapper_v = is_reference_wrapper<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_reference_wrapper_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_reference_wrapper_v =
         is_not_reference_wrapper<TypeT>::value;
 
 #endif

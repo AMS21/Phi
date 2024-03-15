@@ -8,6 +8,7 @@
 #endif
 
 #include "phi/algorithm/swap.hpp"
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
@@ -25,8 +26,9 @@ namespace detail
               bool IsSwappable = is_swappable_with<TypeT, OtherT>::value>
     struct is_nothrow_swappable_with_impl
     {
-        static constexpr const bool value = noexcept(swap(declval<TypeT>(), declval<OtherT>())) &&
-                                            noexcept(swap(declval<OtherT>(), declval<TypeT>()));
+        static PHI_CONSTEXPR_AND_CONST bool value =
+                noexcept(swap(declval<TypeT>(), declval<OtherT>())) &&
+                noexcept(swap(declval<OtherT>(), declval<TypeT>()));
     };
 
     template <typename TypeT, typename OtherT>
@@ -49,11 +51,11 @@ PHI_GCC_SUPPRESS_WARNING_POP()
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT, typename OtherT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_swappable_with_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_swappable_with_v =
         is_nothrow_swappable_with<TypeT, OtherT>::value;
 
 template <typename TypeT, typename OtherT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_swappable_with_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_swappable_with_v =
         is_not_nothrow_swappable_with<TypeT, OtherT>::value;
 
 #endif

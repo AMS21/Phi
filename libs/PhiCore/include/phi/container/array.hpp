@@ -161,27 +161,27 @@ public:
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr bool is_empty() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool is_empty() const noexcept
     {
         return begin() == end();
     }
 
-    PHI_NODISCARD constexpr size_type size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type size() const noexcept
     {
         return Size;
     }
 
-    PHI_NODISCARD constexpr isize ssize() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR isize ssize() const noexcept
     {
         return narrow_cast<isize>(Size);
     }
 
-    PHI_NODISCARD constexpr size_type max_size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type max_size() const noexcept
     {
         return Size;
     }
 
-    PHI_NODISCARD constexpr isize max_ssize() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR isize max_ssize() const noexcept
     {
         return narrow_cast<isize>(Size);
     }
@@ -517,36 +517,36 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr reference front() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reference front() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr const_reference front() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference front() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::front() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr reference back() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR reference back() noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr const_reference back() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reference back() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::back() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr pointer data() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR pointer data() noexcept
     {
         return nullptr;
     }
 
-    PHI_NODISCARD constexpr const_pointer data() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_pointer data() const noexcept
     {
         return nullptr;
     }
@@ -561,7 +561,7 @@ public:
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator cbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator cbegin() const noexcept
     {
         return const_iterator(data());
     }
@@ -576,7 +576,7 @@ public:
         return const_iterator(data());
     }
 
-    PHI_NODISCARD constexpr const_iterator cend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator cend() const noexcept
     {
         return const_iterator(data());
     }
@@ -591,7 +591,7 @@ public:
         return const_reverse_iterator(end());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crbegin() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crbegin() const noexcept
     {
         return const_reverse_iterator(end());
     }
@@ -606,53 +606,53 @@ public:
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr const_reverse_iterator crend() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_reverse_iterator crend() const noexcept
     {
         return const_reverse_iterator(begin());
     }
 
-    PHI_NODISCARD constexpr bool is_empty() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR bool is_empty() const noexcept
     {
         return true;
     }
 
-    PHI_NODISCARD constexpr size_type size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type size() const noexcept
     {
         return 0u;
     }
 
-    PHI_NODISCARD constexpr isize ssize() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR isize ssize() const noexcept
     {
         return 0;
     }
 
-    PHI_NODISCARD constexpr size_type max_size() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR size_type max_size() const noexcept
     {
         return 0u;
     }
 
-    PHI_NODISCARD constexpr isize max_ssize() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR isize max_ssize() const noexcept
     {
         return 0;
     }
 
-    constexpr void fill(const TypeT& /*value*/) noexcept
+    PHI_CONSTEXPR void fill(const TypeT& /*value*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot fill zero-sized array of type 'const T'");
     }
 
-    constexpr void swap(array& /*other*/) noexcept
+    PHI_CONSTEXPR void swap(array& /*other*/) noexcept
     {
         static_assert(!is_const<TypeT>::value, "Cannot swap zero-sized array of type 'const T'");
     }
 
-    PHI_NODISCARD constexpr TypeT max() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR TypeT max() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::max() on zero sized array");
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr TypeT min() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR TypeT min() const noexcept
     {
         PHI_ASSERT(false, "Cannot call array<T, 0>::min() on zero sized array");
         PHI_UNREACHABLE();
@@ -682,80 +682,81 @@ public:
         PHI_UNREACHABLE();
     }
 
-    PHI_NODISCARD constexpr iterator find(const TypeT& /*value*/) noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator find(const TypeT& /*value*/) noexcept
     {
         return end();
     }
 
-    PHI_NODISCARD constexpr const_iterator find(const TypeT& /*value*/) const noexcept
-    {
-        return end();
-    }
-
-    template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr iterator find_if(UnaryPredicateT /*predicate*/) noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator find(const TypeT& /*value*/) const noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr const_iterator find_if(UnaryPredicateT /*predicate*/) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator find_if(UnaryPredicateT /*predicate*/) noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr iterator find_if_not(UnaryPredicateT /*predicate*/) noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator find_if(UnaryPredicateT /*predicate*/) const noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr const_iterator find_if_not(UnaryPredicateT /*predicate*/) const noexcept
-    {
-        return end();
-    }
-
-    PHI_NODISCARD constexpr iterator find_last(const TypeT& /*value*/) noexcept
-    {
-        return end();
-    }
-
-    PHI_NODISCARD constexpr const_iterator find_last(const TypeT& /*value*/) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator find_if_not(UnaryPredicateT /*predicate*/) noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr iterator find_last_if(UnaryPredicateT /*predicate*/) noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator
+    find_if_not(UnaryPredicateT /*predicate*/) const noexcept
+    {
+        return end();
+    }
+
+    PHI_NODISCARD PHI_CONSTEXPR iterator find_last(const TypeT& /*value*/) noexcept
+    {
+        return end();
+    }
+
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator find_last(const TypeT& /*value*/) const noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr const_iterator find_last_if(
-            UnaryPredicateT /*predicate*/) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator find_last_if(UnaryPredicateT /*predicate*/) noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr iterator find_last_if_not(UnaryPredicateT /*predicate*/) noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator
+    find_last_if(UnaryPredicateT /*predicate*/) const noexcept
     {
         return end();
     }
 
     template <typename UnaryPredicateT>
-    PHI_NODISCARD constexpr const_iterator find_last_if_not(
-            UnaryPredicateT /*predicate*/) const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR iterator find_last_if_not(UnaryPredicateT /*predicate*/) noexcept
     {
         return end();
     }
 
-    constexpr void reverse() noexcept
+    template <typename UnaryPredicateT>
+    PHI_NODISCARD PHI_CONSTEXPR const_iterator
+    find_last_if_not(UnaryPredicateT /*predicate*/) const noexcept
+    {
+        return end();
+    }
+
+    PHI_CONSTEXPR void reverse() noexcept
     {}
 
-    PHI_NODISCARD constexpr array<TypeT, 0u> to_reversed() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR array<TypeT, 0u> to_reversed() const noexcept
     {
         return array<TypeT, 0u>{};
     }

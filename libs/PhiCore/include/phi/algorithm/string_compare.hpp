@@ -58,19 +58,19 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR CompareResult string_compare(const CharT* l
     return CompareResult::GreaterThan;
 }
 
-PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(nullptr_t, nullptr_t) noexcept
 {
     return CompareResult::Equal;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr CompareResult string_compare(const CharT* lhs, nullptr_t) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(const CharT* lhs, nullptr_t) noexcept
 {
     return lhs == nullptr ? CompareResult::Equal : CompareResult::GreaterThan;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, const CharT* rhs) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(nullptr_t, const CharT* rhs) noexcept
 {
     return rhs == nullptr ? CompareResult::Equal : CompareResult::LessThan;
 }
@@ -117,22 +117,22 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR CompareResult string_compare(const CharT* l
     return CompareResult::GreaterThan;
 }
 
-PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, nullptr_t,
-                                                     PHI_UNUSED usize size) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(nullptr_t, nullptr_t,
+                                                         PHI_UNUSED usize size) noexcept
 {
     return CompareResult::Equal;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr CompareResult string_compare(const CharT*     lhs, nullptr_t,
-                                                     PHI_UNUSED usize size) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(const CharT*     lhs, nullptr_t,
+                                                         PHI_UNUSED usize size) noexcept
 {
     return lhs == nullptr ? CompareResult::Equal : CompareResult::GreaterThan;
 }
 
 template <typename CharT>
-PHI_NODISCARD constexpr CompareResult string_compare(nullptr_t, const CharT* rhs,
-                                                     PHI_UNUSED usize size) noexcept
+PHI_NODISCARD PHI_CONSTEXPR CompareResult string_compare(nullptr_t, const CharT* rhs,
+                                                         PHI_UNUSED usize size) noexcept
 {
     return rhs == nullptr ? CompareResult::Equal : CompareResult::LessThan;
 }

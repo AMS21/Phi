@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/extended_attributes.hpp"
 #include "phi/compiler_support/inline.hpp"
 #include "phi/type_traits/is_lvalue_reference.hpp"
@@ -15,14 +16,14 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(
+PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT&& forward(
         PHI_ATTRIBUTE_LIFETIMEBOUND remove_reference_t<TypeT>& type) noexcept
 {
     return static_cast<TypeT&&>(type);
 }
 
 template <typename TypeT>
-PHI_ALWAYS_INLINE constexpr TypeT&& forward(
+PHI_ALWAYS_INLINE PHI_CONSTEXPR TypeT&& forward(
         PHI_ATTRIBUTE_LIFETIMEBOUND remove_reference_t<TypeT>&& type) noexcept
 {
     static_assert(!is_lvalue_reference<TypeT>::value,

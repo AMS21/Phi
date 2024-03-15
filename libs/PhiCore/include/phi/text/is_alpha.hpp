@@ -7,12 +7,13 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 #include "phi/core/boolean.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-PHI_NODISCARD constexpr phi::boolean is_alpha(const char character) noexcept
+PHI_NODISCARD PHI_CONSTEXPR phi::boolean is_alpha(const char character) noexcept
 {
     return static_cast<bool>(static_cast<int>(character >= 'a' && character <= 'z') |
                              static_cast<int>(character >= 'A' && character <= 'Z'));

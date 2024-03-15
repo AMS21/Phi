@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_unsafe_integer.hpp"
@@ -27,11 +28,11 @@ struct is_not_unsafe_unsigned_integer
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_unsafe_unsigned_integer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_unsafe_unsigned_integer_v =
         is_unsafe_unsigned_integer<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_unsafe_unsigned_integer_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_unsafe_unsigned_integer_v =
         is_not_unsafe_unsigned_integer<TypeT>::value;
 
 #endif

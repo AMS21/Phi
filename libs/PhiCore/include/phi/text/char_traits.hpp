@@ -29,17 +29,17 @@ public:
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
     {
         lhs = rhs;
     }
 
-    static constexpr bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
     {
         return lhs == rhs;
     }
 
-    static constexpr bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
     {
         return lhs < rhs;
     }
@@ -76,17 +76,17 @@ struct char_traits<wchar_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
     {
         lhs = rhs;
     }
 
-    static constexpr bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
     {
         return lhs == rhs;
     }
 
-    static constexpr bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
     {
         return lhs < rhs;
     }
@@ -123,17 +123,17 @@ struct char_traits<char8_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
     {
         lhs = rhs;
     }
 
-    static constexpr bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
     {
         return lhs == rhs;
     }
 
-    static constexpr bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
     {
         return lhs < rhs;
     }
@@ -170,17 +170,17 @@ struct char_traits<char16_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
     {
         lhs = rhs;
     }
 
-    static constexpr bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
     {
         return lhs == rhs;
     }
 
-    static constexpr bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
     {
         return lhs < rhs;
     }
@@ -217,17 +217,17 @@ struct char_traits<char32_t>
     using pos_type   = std::fpos<mbstate_t>;
     using state_type = mbstate_t;
 
-    static constexpr void assign(char_type& lhs, const char_type& rhs) noexcept
+    static PHI_CONSTEXPR void assign(char_type& lhs, const char_type& rhs) noexcept
     {
         lhs = rhs;
     }
 
-    static constexpr bool eq(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool eq(char_type lhs, char_type rhs) noexcept
     {
         return lhs == rhs;
     }
 
-    static constexpr bool lt(char_type lhs, char_type rhs) noexcept
+    static PHI_CONSTEXPR bool lt(char_type lhs, char_type rhs) noexcept
     {
         return lhs < rhs;
     }

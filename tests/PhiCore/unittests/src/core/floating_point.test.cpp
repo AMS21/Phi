@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/swap.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/type_traits/is_default_constructible.hpp>
@@ -138,13 +139,13 @@ TEST_CASE("floating_point")
 
         SECTION("constructor")
         {
-            constexpr FloatT test1(0.0);
+            PHI_CONSTEXPR FloatT test1(0.0);
             STATIC_REQUIRE(static_cast<double>(test1) == 0.0);
 
-            constexpr FloatT test2(3.14);
+            PHI_CONSTEXPR FloatT test2(3.14);
             STATIC_REQUIRE(static_cast<double>(test2) == 3.14);
 
-            constexpr FloatT test3(-42.5);
+            PHI_CONSTEXPR FloatT test3(-42.5);
             STATIC_REQUIRE(static_cast<double>(test3) == -42.5);
         }
 
@@ -159,7 +160,7 @@ TEST_CASE("floating_point")
 
         SECTION("unary")
         {
-            constexpr FloatT test(13.255);
+            PHI_CONSTEXPR FloatT test(13.255);
             STATIC_REQUIRE(static_cast<double>(+test) == static_cast<double>(test));
             STATIC_REQUIRE(static_cast<double>(-test) == -static_cast<double>(test));
         }
@@ -353,7 +354,7 @@ TEST_CASE("floating_point")
 
         SECTION("unsafe")
         {
-            constexpr FloatT test(0.0);
+            PHI_CONSTEXPR FloatT test(0.0);
             STATIC_REQUIRE(test.unsafe() == 0.0);
         }
 

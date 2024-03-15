@@ -15,19 +15,19 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-constexpr int memcmp(nullptr_t, nullptr_t, size_t /*count*/) noexcept
+PHI_CONSTEXPR int memcmp(nullptr_t, nullptr_t, size_t /*count*/) noexcept
 {
     return 0;
 }
 
 template <typename TypeT>
-constexpr int memcmp(const TypeT* lhs, nullptr_t, size_t /*count*/) noexcept
+PHI_CONSTEXPR int memcmp(const TypeT* lhs, nullptr_t, size_t /*count*/) noexcept
 {
     return lhs == nullptr ? 0 : 1;
 }
 
 template <typename TypeT>
-constexpr int memcmp(nullptr_t, const TypeT* rhs, size_t /*count*/) noexcept
+PHI_CONSTEXPR int memcmp(nullptr_t, const TypeT* rhs, size_t /*count*/) noexcept
 {
     return rhs == nullptr ? 0 : -1;
 }

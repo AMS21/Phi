@@ -25,16 +25,16 @@ public:
     using iterator_category = typename iterator_traits<IteratorT>::iterator_category;
     using iterator_type     = IteratorT;
 
-    constexpr reverse_iterator() noexcept
+    PHI_CONSTEXPR reverse_iterator() noexcept
         : m_Current()
     {}
 
-    constexpr explicit reverse_iterator(IteratorT value)
+    PHI_CONSTEXPR explicit reverse_iterator(IteratorT value)
         : m_Current(value)
     {}
 
     template <typename TypeT>
-    constexpr reverse_iterator(const reverse_iterator<TypeT>& other)
+    PHI_CONSTEXPR reverse_iterator(const reverse_iterator<TypeT>& other)
         : m_Current(other.base())
     {}
 
@@ -45,7 +45,7 @@ public:
         return *this;
     }
 
-    PHI_NODISCARD constexpr IteratorT base() const
+    PHI_NODISCARD PHI_CONSTEXPR IteratorT base() const
     {
         return m_Current;
     }
@@ -68,8 +68,6 @@ public:
         return *(*this + n);
     }
 
-    // Extended constexpr is required here, because before C++-14 constexpr
-    // implies const which will lead to an compile error here
     PHI_EXTENDED_CONSTEXPR
     reverse_iterator& operator++()
     {
@@ -77,8 +75,6 @@ public:
         return *this;
     }
 
-    // Extended constexpr is required here, because before C++-14 constexpr
-    // implies const which will lead to an compile error here
     PHI_EXTENDED_CONSTEXPR
     reverse_iterator& operator--()
     {
@@ -135,55 +131,55 @@ protected:
 };
 
 template <typename IteratorT>
-constexpr reverse_iterator<IteratorT> make_reverse_iterator(IteratorT iterator)
+PHI_CONSTEXPR reverse_iterator<IteratorT> make_reverse_iterator(IteratorT iterator)
 {
     return reverse_iterator<IteratorT>(iterator);
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator==(const reverse_iterator<LhsIteratorT>& lhs,
-                             const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator==(const reverse_iterator<LhsIteratorT>& lhs,
+                                 const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() == rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator!=(const reverse_iterator<LhsIteratorT>& lhs,
-                             const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator!=(const reverse_iterator<LhsIteratorT>& lhs,
+                                 const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() != rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator<(const reverse_iterator<LhsIteratorT>& lhs,
-                            const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator<(const reverse_iterator<LhsIteratorT>& lhs,
+                                const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() > rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator<=(const reverse_iterator<LhsIteratorT>& lhs,
-                             const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator<=(const reverse_iterator<LhsIteratorT>& lhs,
+                                 const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() >= rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator>(const reverse_iterator<LhsIteratorT>& lhs,
-                            const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator>(const reverse_iterator<LhsIteratorT>& lhs,
+                                const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() < rhs.base();
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr boolean operator>=(const reverse_iterator<LhsIteratorT>& lhs,
-                             const reverse_iterator<RhsIteratorT>& rhs)
+PHI_CONSTEXPR boolean operator>=(const reverse_iterator<LhsIteratorT>& lhs,
+                                 const reverse_iterator<RhsIteratorT>& rhs)
 {
     return lhs.base() <= rhs.base();
 }
 
 template <typename IteratorT>
-constexpr reverse_iterator<IteratorT> operator+(
+PHI_CONSTEXPR reverse_iterator<IteratorT> operator+(
         typename reverse_iterator<IteratorT>::difference_type n,
         const reverse_iterator<IteratorT>&                    iterator)
 {
@@ -191,9 +187,9 @@ constexpr reverse_iterator<IteratorT> operator+(
 }
 
 template <typename LhsIteratorT, typename RhsIteratorT>
-constexpr auto operator-(const reverse_iterator<LhsIteratorT>& lhs,
-                         const reverse_iterator<RhsIteratorT>& rhs) -> decltype(rhs.base() -
-                                                                                lhs.base())
+PHI_CONSTEXPR auto operator-(const reverse_iterator<LhsIteratorT>& lhs,
+                             const reverse_iterator<RhsIteratorT>& rhs) -> decltype(rhs.base() -
+                                                                                    lhs.base())
 {
     return rhs.base() - lhs.base();
 }

@@ -35,47 +35,47 @@ public:
     using not_null_type = not_null_flat_ptr;
     using value_type    = void*;
 
-    constexpr flat_ptr() noexcept
+    PHI_CONSTEXPR flat_ptr() noexcept
         : m_Pointer(nullptr)
     {}
 
-    constexpr flat_ptr(nullptr_t) noexcept
+    PHI_CONSTEXPR flat_ptr(nullptr_t) noexcept
         : m_Pointer(nullptr)
     {}
 
     template <typename PointerT, enable_if_t<is_pointer<PointerT>::value, bool> = true>
-    constexpr flat_ptr(PointerT pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(PointerT pointer) noexcept
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
         : m_Pointer(const_cast<void*>(static_cast<const void*>(pointer)))
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(observer_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(observer_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(not_null_observer_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(not_null_observer_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(ref_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(ref_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(not_null_ref_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(not_null_ref_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(scope_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(scope_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
     {}
 
     template <typename TypeT>
-    constexpr flat_ptr(not_null_scope_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR flat_ptr(not_null_scope_ptr<TypeT>& pointer) noexcept
         : m_Pointer{static_cast<void*>(pointer.get())}
 
     {}
@@ -84,9 +84,9 @@ public:
 
     flat_ptr(flat_ptr&& other) = default;
 
-    constexpr flat_ptr(const not_null_flat_ptr& other) noexcept;
+    PHI_CONSTEXPR flat_ptr(const not_null_flat_ptr& other) noexcept;
 
-    constexpr flat_ptr(not_null_flat_ptr&& other) noexcept;
+    PHI_CONSTEXPR flat_ptr(not_null_flat_ptr&& other) noexcept;
 
     PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(nullptr_t) noexcept
     {
@@ -161,13 +161,13 @@ public:
 
     PHI_EXTENDED_CONSTEXPR flat_ptr& operator=(not_null_flat_ptr&& other) noexcept;
 
-    PHI_NODISCARD constexpr void* get() noexcept
+    PHI_NODISCARD PHI_CONSTEXPR void* get() noexcept
     {
         return m_Pointer;
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    PHI_NODISCARD constexpr const void* get() const noexcept
+    PHI_NODISCARD PHI_CONSTEXPR const void* get() const noexcept
     {
         return m_Pointer;
     }
@@ -197,22 +197,22 @@ public:
         m_Pointer = static_cast<void*>(other);
     }
 
-    constexpr explicit operator bool() const noexcept
+    PHI_CONSTEXPR explicit operator bool() const noexcept
     {
         return get() != nullptr;
     }
 
-    constexpr explicit operator boolean() const noexcept
+    PHI_CONSTEXPR explicit operator boolean() const noexcept
     {
         return get() != nullptr;
     }
 
-    constexpr explicit operator const void*() const noexcept
+    PHI_CONSTEXPR explicit operator const void*() const noexcept
     {
         return get();
     }
 
-    constexpr explicit operator void*() noexcept
+    PHI_CONSTEXPR explicit operator void*() noexcept
     {
         return get();
     }
@@ -234,52 +234,54 @@ private:
     void* m_Pointer;
 };
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const flat_ptr& lhs,
+                                                   const flat_ptr& rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const flat_ptr& lhs, nullptr_t) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const flat_ptr& lhs, nullptr_t) noexcept
 {
     return lhs.get() == nullptr;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(nullptr_t, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(nullptr_t, const flat_ptr& rhs) noexcept
 {
     return rhs.get() == nullptr;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const flat_ptr& lhs, const void* rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const flat_ptr& lhs, const void* rhs) noexcept
 {
     return lhs.get() == rhs;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const void* lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const void* lhs, const flat_ptr& rhs) noexcept
 {
     return lhs == rhs.get();
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const flat_ptr& lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const flat_ptr& lhs,
+                                                   const flat_ptr& rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const flat_ptr& lhs, nullptr_t) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const flat_ptr& lhs, nullptr_t) noexcept
 {
     return lhs.get() != nullptr;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(nullptr_t, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(nullptr_t, const flat_ptr& rhs) noexcept
 {
     return rhs.get() != nullptr;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const flat_ptr& lhs, const void* rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const flat_ptr& lhs, const void* rhs) noexcept
 {
     return lhs.get() != rhs;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const void* lhs, const flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const void* lhs, const flat_ptr& rhs) noexcept
 {
     return lhs != rhs.get();
 }
@@ -308,19 +310,19 @@ public:
     }
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(const not_null_observer_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR not_null_flat_ptr(const not_null_observer_ptr<TypeT>& pointer) noexcept
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
         : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(const not_null_ref_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR not_null_flat_ptr(const not_null_ref_ptr<TypeT>& pointer) noexcept
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
         : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
 
     template <typename TypeT>
-    constexpr not_null_flat_ptr(const not_null_scope_ptr<TypeT>& pointer) noexcept
+    PHI_CONSTEXPR not_null_flat_ptr(const not_null_scope_ptr<TypeT>& pointer) noexcept
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
         : m_Pointer{const_cast<void*>(static_cast<const void*>(pointer.get()))}
     {}
@@ -373,7 +375,7 @@ public:
 
     not_null_flat_ptr& operator=(not_null_flat_ptr&&) = default;
 
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr void* get() noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR void* get() noexcept
     {
         PHI_ASSERT(m_Pointer != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
@@ -381,7 +383,7 @@ public:
     }
 
 #if PHI_HAS_FEATURE_EXTENDED_CONSTEXPR()
-    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const void* get() const noexcept
+    PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const void* get() const noexcept
     {
         PHI_ASSERT(m_Pointer != nullptr, "Trying to get nullptr from phi::not_null_flat_ptr");
 
@@ -389,12 +391,12 @@ public:
     }
 #endif
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator const void*() const noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator const void*() const noexcept
     {
         return get();
     }
 
-    PHI_ATTRIBUTE_RETURNS_NONNULL constexpr explicit operator void*() noexcept
+    PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR explicit operator void*() noexcept
     {
         return get();
     }
@@ -433,11 +435,11 @@ private:
 
 PHI_GCC_SUPPRESS_WARNING_POP()
 
-constexpr flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
+PHI_CONSTEXPR flat_ptr::flat_ptr(const not_null_flat_ptr& other) noexcept
     : m_Pointer(const_cast<void*>(other.get())) // NOLINT(cppcoreguidelines-pro-type-const-cast)
 {}
 
-constexpr flat_ptr::flat_ptr(not_null_flat_ptr&& other) noexcept
+PHI_CONSTEXPR flat_ptr::flat_ptr(not_null_flat_ptr&& other) noexcept
     : m_Pointer(other.get())
 {}
 
@@ -464,7 +466,8 @@ PHI_EXTENDED_CONSTEXPR not_null_flat_ptr flat_ptr::release_not_null() const noex
     return {m_Pointer};
 }
 
-constexpr boolean operator==(const not_null_flat_ptr& lhs, const not_null_flat_ptr& rhs) noexcept
+PHI_CONSTEXPR boolean operator==(const not_null_flat_ptr& lhs,
+                                 const not_null_flat_ptr& rhs) noexcept
 {
     return lhs.get() == rhs.get();
 }
@@ -473,20 +476,20 @@ boolean operator==(const not_null_flat_ptr&, nullptr_t) = delete;
 
 boolean operator==(nullptr_t, const not_null_flat_ptr&) = delete;
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const not_null_flat_ptr& lhs,
-                                               const void*              rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const not_null_flat_ptr& lhs,
+                                                   const void*              rhs) noexcept
 {
     return lhs.get() == rhs;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator==(const void*              lhs,
-                                               const not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator==(const void*              lhs,
+                                                   const not_null_flat_ptr& rhs) noexcept
 {
     return lhs == rhs.get();
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const not_null_flat_ptr& lhs,
-                                               const not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const not_null_flat_ptr& lhs,
+                                                   const not_null_flat_ptr& rhs) noexcept
 {
     return lhs.get() != rhs.get();
 }
@@ -495,14 +498,14 @@ boolean operator!=(const not_null_flat_ptr&, nullptr_t) = delete;
 
 boolean operator!=(nullptr_t, const not_null_flat_ptr&) = delete;
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const not_null_flat_ptr& lhs,
-                                               const void*              rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const not_null_flat_ptr& lhs,
+                                                   const void*              rhs) noexcept
 {
     return lhs.get() != rhs;
 }
 
-PHI_ALWAYS_INLINE constexpr boolean operator!=(const void*              lhs,
-                                               const not_null_flat_ptr& rhs) noexcept
+PHI_ALWAYS_INLINE PHI_CONSTEXPR boolean operator!=(const void*              lhs,
+                                                   const not_null_flat_ptr& rhs) noexcept
 {
     return lhs != rhs.get();
 }

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/array_rank.hpp"
 #include "phi/core/size_t.hpp"
@@ -23,7 +24,7 @@ struct rank : public integral_constant<size_t, PHI_ARRAY_RANK(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr size_t rank_v = PHI_ARRAY_RANK(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t rank_v = PHI_ARRAY_RANK(TypeT);
 
 #    endif
 
@@ -44,7 +45,7 @@ struct rank<TypeT[Dimension]> : public integral_constant<size_t, rank<TypeT>::va
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr size_t rank_v = rank<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR size_t rank_v = rank<TypeT>::value;
 
 #    endif
 

@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/is_nothrow_constructible.hpp"
@@ -28,11 +29,11 @@ struct is_not_nothrow_default_constructible
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_nothrow_default_constructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_default_constructible_v =
         is_nothrow_default_constructible<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_nothrow_default_constructible_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_default_constructible_v =
         is_not_nothrow_default_constructible<TypeT>::value;
 
 #endif

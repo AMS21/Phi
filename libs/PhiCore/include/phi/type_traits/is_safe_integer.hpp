@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/remove_cv.hpp"
@@ -38,10 +39,10 @@ struct is_not_safe_integer : public bool_constant<!is_safe_integer<TypeT>::value
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_safe_integer_v = is_safe_integer<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_safe_integer_v = is_safe_integer<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_safe_integer_v = is_not_safe_integer<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_safe_integer_v = is_not_safe_integer<TypeT>::value;
 
 #endif
 

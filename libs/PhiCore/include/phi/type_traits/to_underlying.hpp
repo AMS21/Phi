@@ -7,12 +7,13 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/type_traits/underlying_type.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename EnumT>
-constexpr underlying_type_t<EnumT> to_underlying(EnumT val) noexcept
+PHI_CONSTEXPR underlying_type_t<EnumT> to_underlying(EnumT val) noexcept
 {
     return static_cast<underlying_type_t<EnumT>>(val);
 }

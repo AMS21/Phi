@@ -36,28 +36,28 @@ string_length_unsafe(CharT* string) noexcept
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr usize string_length_unsafe(
-        basic_string_view<CharT, TraitsT> string) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize
+string_length_unsafe(basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr usize string_length_unsafe(
-        std::basic_string<CharT, TraitsT, AllocatorT> string) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize
+string_length_unsafe(std::basic_string<CharT, TraitsT, AllocatorT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr usize string_length_unsafe(
-        std::basic_string_view<CharT, TraitsT> string) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize
+string_length_unsafe(std::basic_string_view<CharT, TraitsT> string) noexcept
 {
     return string.length();
 }
 
 template <typename CharT = nullptr_t>
-PHI_NODISCARD constexpr usize string_length_unsafe(nullptr_t) noexcept = delete;
+PHI_NODISCARD PHI_CONSTEXPR usize string_length_unsafe(nullptr_t) noexcept = delete;
 
 template <typename CharT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_EXTENDED_CONSTEXPR usize
@@ -76,28 +76,28 @@ string_length_unsafe(CharT* string, usize length) noexcept
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr usize string_length_unsafe(basic_string_view<CharT, TraitsT> string,
-                                                   usize length) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize string_length_unsafe(basic_string_view<CharT, TraitsT> string,
+                                                       usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT, typename AllocatorT>
-PHI_NODISCARD constexpr usize string_length_unsafe(
-        std::basic_string<CharT, TraitsT, AllocatorT> string, usize length) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize
+string_length_unsafe(std::basic_string<CharT, TraitsT, AllocatorT> string, usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT, typename TraitsT>
-PHI_NODISCARD constexpr usize string_length_unsafe(std::basic_string_view<CharT, TraitsT> string,
-                                                   usize length) noexcept
+PHI_NODISCARD PHI_CONSTEXPR usize
+string_length_unsafe(std::basic_string_view<CharT, TraitsT> string, usize length) noexcept
 {
     return min(usize(string.length()), length);
 }
 
 template <typename CharT = nullptr_t>
-PHI_NODISCARD constexpr usize string_length_unsafe(nullptr_t, usize) noexcept = delete;
+PHI_NODISCARD PHI_CONSTEXPR usize string_length_unsafe(nullptr_t, usize) noexcept = delete;
 
 DETAIL_PHI_END_NAMESPACE()
 

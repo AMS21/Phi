@@ -34,17 +34,17 @@ class monitor final
 private:
     struct monitor_helper
     {
-        constexpr explicit monitor_helper(const monitor* monitor_arg) noexcept PHI_ATTRIBUTE_NONNULL
-            : monitor{monitor_arg},
-              lock{monitor->m_Mutex}
+        PHI_CONSTEXPR explicit monitor_helper(const monitor* monitor_arg) noexcept
+                PHI_ATTRIBUTE_NONNULL : monitor{monitor_arg},
+                                        lock{monitor->m_Mutex}
         {}
 
-        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr SharedDataT* operator->() noexcept
+        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR SharedDataT* operator->() noexcept
         {
             return &monitor->m_SharedData;
         }
 
-        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL constexpr const SharedDataT* operator->()
+        PHI_NODISCARD PHI_ATTRIBUTE_RETURNS_NONNULL PHI_CONSTEXPR const SharedDataT* operator->()
                 const noexcept
         {
             return &monitor->m_SharedData;
@@ -59,7 +59,7 @@ public:
     using element_type = SharedDataT;
 
     template <typename... ArgsT>
-    constexpr monitor(ArgsT&&... args) noexcept
+    PHI_CONSTEXPR monitor(ArgsT&&... args) noexcept
         : m_SharedData{forward<ArgsT>(args)...}
     {}
 
@@ -67,7 +67,7 @@ public:
     * \brief Creates a monitor.
     * \param shared_data the data to be protected by the monitor.
     **/
-    constexpr explicit monitor(SharedDataT shared_data) noexcept
+    PHI_CONSTEXPR explicit monitor(SharedDataT shared_data) noexcept
         : m_SharedData{move(shared_data)}
     {}
 

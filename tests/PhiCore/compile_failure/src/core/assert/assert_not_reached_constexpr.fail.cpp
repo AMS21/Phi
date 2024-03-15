@@ -1,6 +1,7 @@
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/core/assert.hpp>
 
-constexpr int f(int value)
+PHI_CONSTEXPR int f(int value)
 {
     if (value == 2)
     {
@@ -14,6 +15,6 @@ constexpr int f(int value)
 
 int main()
 {
-    static constexpr int val = f(0);
+    static PHI_CONSTEXPR int val = f(0);
     return val;
 }

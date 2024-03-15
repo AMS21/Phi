@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_complete.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_complete : public bool_constant<!PHI_IS_COMPLETE(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_complete_v = PHI_IS_COMPLETE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_complete_v = PHI_IS_COMPLETE(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_complete_v = !PHI_IS_COMPLETE(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_complete_v = !PHI_IS_COMPLETE(TypeT);
 
 #    endif
 
@@ -59,7 +60,8 @@ namespace detail
         static no_type check(...);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg)
-        static constexpr const bool value = sizeof(check<TypeT>(nullptr)) == sizeof_yes_type;
+        static PHI_CONSTEXPR_AND_CONST bool value =
+                sizeof(check<TypeT>(nullptr)) == sizeof_yes_type;
     };
 } // namespace detail
 
@@ -83,10 +85,10 @@ struct is_not_complete : public bool_constant<!is_complete<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_complete_v = is_complete<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_complete_v = is_complete<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_complete_v = is_not_complete<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_complete_v = is_not_complete<TypeT>::value;
 
 #    endif
 

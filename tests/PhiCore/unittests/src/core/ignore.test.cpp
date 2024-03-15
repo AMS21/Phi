@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/nodiscard.hpp>
 #include <phi/core/assert.hpp>
 #include <phi/core/boolean.hpp>
@@ -28,12 +29,12 @@ enum E
 {
 };
 
-PHI_NODISCARD constexpr int nodiscard_func()
+PHI_NODISCARD PHI_CONSTEXPR int nodiscard_func()
 {
     return 21;
 }
 
-constexpr bool test_ignore()
+PHI_CONSTEXPR bool test_ignore()
 {
     {
         const phi::ignore_t<unsigned char>& res = (phi::ignore = 42);
@@ -64,7 +65,7 @@ TEST_CASE("core.ignore")
 {
     using Type = decltype(phi::ignore);
 
-    constexpr Type& ignore_v = phi::ignore;
+    PHI_CONSTEXPR Type& ignore_v = phi::ignore;
     ((void)ignore_v);
 
     REQUIRE(test_ignore());

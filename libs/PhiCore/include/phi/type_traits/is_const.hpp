@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_const.hpp"
 #include "phi/type_traits/bool_constant.hpp"
@@ -26,10 +27,10 @@ struct is_not_const : public bool_constant<!PHI_IS_CONST(TypeT)>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_const_v = PHI_IS_CONST(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_const_v = PHI_IS_CONST(TypeT);
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_const_v = !PHI_IS_CONST(TypeT);
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_const_v = !PHI_IS_CONST(TypeT);
 
 #    endif
 
@@ -50,10 +51,10 @@ struct is_not_const : public bool_constant<!is_const<TypeT>::value>
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_const_v = is_const<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_const_v = is_const<TypeT>::value;
 
 template <typename TypeT>
-PHI_INLINE_VARIABLE constexpr bool is_not_const_v = is_not_const<TypeT>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_const_v = is_not_const<TypeT>::value;
 
 #    endif
 

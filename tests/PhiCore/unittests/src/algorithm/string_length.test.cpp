@@ -3,6 +3,7 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/string_length.hpp>
 #include <phi/compiler_support/compiler.hpp>
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/libraries.hpp>
 #include <phi/container/string_view.hpp>
 #include <phi/core/boolean.hpp>
@@ -18,7 +19,7 @@
 // TODO: Some tests don't work with MSVC
 TEST_CASE("string_length char")
 {
-    constexpr const char* nullp = nullptr;
+    PHI_CONSTEXPR_AND_CONST char* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length("") == 0u);
@@ -46,7 +47,7 @@ TEST_CASE("string_length char")
 TEST_CASE("string_length wchar_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    constexpr const wchar_t* nullp = nullptr;
+    PHI_CONSTEXPR_AND_CONST wchar_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const wchar_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(L"") == 0u);
@@ -79,7 +80,7 @@ TEST_CASE("string_length wchar_t")
 TEST_CASE("string_length char16_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    constexpr const char16_t* nullp = nullptr;
+    PHI_CONSTEXPR_AND_CONST char16_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char16_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(u"") == 0u);
@@ -108,7 +109,7 @@ TEST_CASE("string_length char16_t")
 TEST_CASE("string_length char32_t")
 {
 #if PHI_COMPILER_IS_NOT(MSVC)
-    constexpr const char32_t* nullp = nullptr;
+    PHI_CONSTEXPR_AND_CONST char32_t* nullp = nullptr;
     EXT_STATIC_REQUIRE(phi::string_length(nullp) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(static_cast<const char32_t*>(nullptr)) == 0u);
     EXT_STATIC_REQUIRE(phi::string_length(U"") == 0u);

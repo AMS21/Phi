@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/detail/invoke_impl.hpp"
@@ -24,10 +25,10 @@ struct is_not_invocable : public bool_constant<!is_invocable<FunctionT, ArgsT...
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
 
 template <typename FunctionT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_invocable_v = is_invocable<FunctionT, ArgsT...>::value;
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_invocable_v = is_invocable<FunctionT, ArgsT...>::value;
 
 template <typename FunctionT, typename... ArgsT>
-PHI_INLINE_VARIABLE constexpr bool is_not_invocable_v =
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_invocable_v =
         is_not_invocable<FunctionT, ArgsT...>::value;
 
 #endif

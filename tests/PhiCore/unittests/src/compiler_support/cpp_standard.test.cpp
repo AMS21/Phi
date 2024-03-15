@@ -1,5 +1,6 @@
 #include <phi/test/test_macros.hpp>
 
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/compiler_support/warning.hpp>
 
@@ -10,7 +11,7 @@ PHI_MSVC_SUPPRESS_WARNING(
 PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wunreachable-code")
 
-constexpr bool is_any_standard()
+PHI_CONSTEXPR bool is_any_standard()
 {
     return PHI_CPP_STANDARD() == PHI_CPLUSPLUS_98() || PHI_CPP_STANDARD() == PHI_CPLUSPLUS_11() ||
            PHI_CPP_STANDARD() == PHI_CPLUSPLUS_14() || PHI_CPP_STANDARD() == PHI_CPLUSPLUS_17() ||
@@ -18,7 +19,7 @@ constexpr bool is_any_standard()
            PHI_CPP_STANDARD() == PHI_CPLUSPLUS_26();
 }
 
-constexpr bool is_any_short_standard()
+PHI_CONSTEXPR bool is_any_short_standard()
 {
     return PHI_CPP_STANDARD_SHORT() == 98 || PHI_CPP_STANDARD_SHORT() == 11 ||
            PHI_CPP_STANDARD_SHORT() == 14 || PHI_CPP_STANDARD_SHORT() == 17 ||

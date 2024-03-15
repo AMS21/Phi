@@ -7,6 +7,7 @@
 #    pragma once
 #endif
 
+#include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/intrinsics/is_pointer_interconvertible_with_class.hpp"
 #include "phi/compiler_support/nodiscard.hpp"
 
@@ -17,7 +18,7 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename MemberT>
-PHI_NODISCARD constexpr bool is_pointer_interconvertible_with_class(
+PHI_NODISCARD PHI_CONSTEXPR bool is_pointer_interconvertible_with_class(
         MemberT TypeT::*member_pointer) noexcept
 {
     return PHI_IS_POINTER_INTERCONVERTIBLE_WITH_CLASS(member_pointer);
@@ -33,7 +34,7 @@ PHI_NODISCARD constexpr bool is_pointer_interconvertible_with_class(
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename MemberT>
-PHI_NODISCARD constexpr bool is_pointer_interconvertible_with_class(
+PHI_NODISCARD PHI_CONSTEXPR bool is_pointer_interconvertible_with_class(
         MemberT TypeT::*member_pointer) noexcept
 {
     static_assert(false_t<TypeT>::value,

@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include "constexpr_helper.hpp"
+#include <phi/compiler_support/constexpr.hpp>
 #include <phi/compiler_support/unused.hpp>
 #include <phi/compiler_support/warning.hpp>
 #include <phi/core/forward.hpp>
@@ -69,12 +70,12 @@ TEST_CASE("forward")
     CHECK_NOEXCEPT(phi::forward<const A>(const_a));
     CHECK_NOEXCEPT(phi::forward<const A>(csource()));
 
-    constexpr int integer_2 = phi::forward<int>(42);
+    PHI_CONSTEXPR int integer_2 = phi::forward<int>(42);
     STATIC_REQUIRE(phi::forward<int>(42) == 42);
     STATIC_REQUIRE(phi::forward<const int&>(integer_2) == 42);
     EXT_STATIC_REQUIRE(test_constexpr_forward());
 
-    constexpr int integer_3 = phi::forward<int>(42);
+    PHI_CONSTEXPR int integer_3 = phi::forward<int>(42);
     STATIC_REQUIRE(phi::forward<int>(42) == 42);
     STATIC_REQUIRE(phi::forward<const int&>(integer_3) == 42);
 
