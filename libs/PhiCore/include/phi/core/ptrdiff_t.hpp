@@ -9,7 +9,17 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+// Some compilers like gcc and clang support '__PTRDIFF_TYPE__' which should be the exact type we
+// need without a call to decltype.
+#if defined(__PTRDIFF_TYPE__)
+
+using ptrdiff_t = __PTRDIFF_TYPE__;
+
+#else
+
 using ptrdiff_t = decltype(static_cast<int*>(nullptr) - static_cast<int*>(nullptr));
+
+#endif
 
 DETAIL_PHI_END_NAMESPACE()
 
