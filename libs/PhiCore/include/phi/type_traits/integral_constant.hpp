@@ -38,7 +38,7 @@ struct integral_constant
 #if PHI_CPP_STANDARD_IS_BELOW(17)
 
 template <typename TypeT, TypeT Value>
-PHI_CONSTEXPR TypeT
+PHI_CONSTEXPR_AND_CONST TypeT
         integral_constant<TypeT, Value>::value; // NOLINT(readability-redundant-declaration)
 
 #endif
