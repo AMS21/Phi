@@ -89,6 +89,16 @@ void test_is_not_literal_type()
 }
 
 template <typename TypeT>
+void test_is_literal_type_cxx23()
+{
+#if PHI_CPP_STANDARD_IS_ATLEAST(23)
+    test_is_literal_type<TypeT>();
+#else
+    test_is_not_literal_type<TypeT>();
+#endif
+}
+
+template <typename TypeT>
 void test_is_literal_type_cxx20()
 {
 #if PHI_CPP_STANDARD_IS_ATLEAST(20)
@@ -276,7 +286,9 @@ TEST_CASE("is_literal_type")
     test_is_not_literal_type<virtual_derived_from<class_type>>();
     test_is_literal_type<union_type>();
     test_is_literal_type<non_empty_union>();
-#if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0) || PHI_COMPILER_IS(MINGW)
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 19, 0, 0) || PHI_COMPILER_IS_ATLEAST(EMCC, 3, 1, 56)
+    test_is_literal_type_cxx23<non_trivial_union>();
+#elif PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0) || PHI_COMPILER_IS(MINGW)
     test_is_literal_type_cxx20<non_trivial_union>();
 #elif PHI_COMPILER_IS(MSVC)
     test_is_literal_type_cxx17<non_trivial_union>();
