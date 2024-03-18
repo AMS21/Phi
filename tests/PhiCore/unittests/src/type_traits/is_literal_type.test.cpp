@@ -278,8 +278,8 @@ TEST_CASE("is_literal_type")
     test_is_literal_type<non_empty_union>();
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0) || PHI_COMPILER_IS(MINGW)
     test_is_literal_type_cxx20<non_trivial_union>();
-#elif PHI_COMPILER_IS(MSVC) && PHI_CPP_STANDARD_IS_ATLEAST(17)
-    test_is_literal_type<non_trivial_union>();
+#elif PHI_COMPILER_IS(MSVC)
+    test_is_literal_type_cxx17<non_trivial_union>();
 #else
     test_is_not_literal_type<non_trivial_union>();
 #endif
