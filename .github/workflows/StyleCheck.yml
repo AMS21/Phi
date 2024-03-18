@@ -192,7 +192,7 @@ jobs:
           if_false: 'github-check'
 
       - name: Run yamllint with reviewdog
-        uses: reviewdog/action-yamllint@v1.11
+        uses: reviewdog/action-yamllint@v1.12
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ steps.reporter.outputs.value }}
