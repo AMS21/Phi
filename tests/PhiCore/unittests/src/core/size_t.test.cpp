@@ -13,6 +13,9 @@ TEST_CASE("size_t")
     CHECK_SAME_TYPE(phi::size_t, decltype(sizeof(int)));
     CHECK_SAME_TYPE(phi::size_t, decltype(sizeof(long long)));
     CHECK_SAME_TYPE(phi::size_t, decltype(alignof(int)));
+#if defined(__SIZE_TYPE__)
+    CHECK_SAME_TYPE(phi::size_t, __SIZE_TYPE__);
+#endif
 
     STATIC_REQUIRE(sizeof(phi::size_t) == sizeof(std::size_t));
     STATIC_REQUIRE(sizeof(phi::size_t) == sizeof(void*));
