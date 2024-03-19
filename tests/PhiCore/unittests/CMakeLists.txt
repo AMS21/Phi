@@ -83,6 +83,7 @@ file(
   "src/core/named_type.test.cpp"
   "src/core/narrow_cast.test.cpp"
   "src/core/non_copyable.test.cpp"
+  "src/core/nullptr_t.test.cpp"
   "src/core/observer_ptr.test.cpp"
   "src/core/optional.test.cpp"
   "src/core/pointer_traits.test.cpp"
