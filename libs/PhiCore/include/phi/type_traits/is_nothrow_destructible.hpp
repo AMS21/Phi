@@ -36,9 +36,8 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v =
 
 #    endif
 
-#else
+#elif PHI_HAS_FEATURE_NOEXCEPT()
 
-#    include "phi/compiler_support/noexcept.hpp"
 #    include "phi/core/declval.hpp"
 #    include "phi/core/size_t.hpp"
 #    include "phi/type_traits/is_destructible.hpp"
@@ -47,6 +46,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 namespace detail
 {
+
     template <bool, typename TypeT>
     struct is_nothrow_destructible_impl;
 
@@ -56,8 +56,9 @@ namespace detail
 
     template <typename TypeT>
     struct is_nothrow_destructible_impl<true, TypeT>
-        : public bool_constant<PHI_NOEXCEPT_EXPR(declval<TypeT>().~TypeT())>
+        : public bool_constant<noexcept(declval<TypeT>().~TypeT())>
     {};
+
 } // namespace detail
 
 template <typename TypeT>
@@ -90,6 +91,32 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_destructible_v =
 template <typename TypeT>
 PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v =
         is_not_nothrow_destructible<TypeT>::value;
+
+#    endif
+
+#else
+
+// No noexcept so always return true
+
+#    include "phi/type_traits/integral_constant.hpp"
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT>
+struct is_nothrow_destructible : public true_type
+{};
+
+template <typename TypeT>
+struct is_not_nothrow_destructible : false_type
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_destructible_v = true;
+
+template <typename TypeT>
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_destructible_v = false;
 
 #    endif
 

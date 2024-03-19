@@ -10,7 +10,6 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_assignable.hpp"
-#include "phi/compiler_support/noexcept.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_ASSIGNABLE()
@@ -37,7 +36,7 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_assignable_v =
 
 #    endif
 
-#else
+#elif PHI_HAS_FEATURE_NOEXCEPT()
 
 #    include "phi/compiler_support/warning.hpp"
 #    include "phi/core/declval.hpp"
@@ -60,7 +59,7 @@ namespace detail
 
     template <typename TypeT, typename ArgT>
     struct is_nothrow_assignable_impl<true, TypeT, ArgT>
-        : public bool_constant<PHI_NOEXCEPT_EXPR(declval<TypeT>() = declval<ArgT>())>
+        : public bool_constant<noexcept(declval<TypeT>() = declval<ArgT>())>
     {};
 } // namespace detail
 
@@ -84,6 +83,32 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_assignable_v =
 template <typename TypeT, typename ArgT>
 PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_assignable_v =
         is_not_nothrow_assignable<TypeT, ArgT>::value;
+
+#    endif
+
+#else
+
+#    include "phi/type_traits/integral_constant.hpp"
+
+// No noexcept so always return true
+
+DETAIL_PHI_BEGIN_NAMESPACE()
+
+template <typename TypeT, typename ArgT>
+struct is_nothrow_assignable : public true_type
+{};
+
+template <typename TypeT, typename ArgT>
+struct is_not_nothrow_assignable : public false_type
+{};
+
+#    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_nothrow_assignable_v = true;
+
+template <typename TypeT, typename ArgT>
+PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_nothrow_assignable_v = false;
 
 #    endif
 

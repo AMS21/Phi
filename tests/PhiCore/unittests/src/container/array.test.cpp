@@ -2228,7 +2228,7 @@ TEST_CASE("array find")
         CHECK(arr.find(0) == arr.end());
         CHECK(arr.find(4) == arr.end());
         CHECK_SAME_TYPE(decltype(arr.find(1)), array::const_iterator);
-#if PHI_HAS_FEATURE_NOEXCEPT_EXPR()
+#if PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR()
         CHECK_NOEXCEPT(arr.find(1));
 #endif
     }

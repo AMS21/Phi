@@ -64,30 +64,36 @@
 #    endif
 
 // noexcept
+// https://en.cppreference.com/w/cpp/language/noexcept
 // https://en.cppreference.com/w/cpp/language/noexcept_spec
 // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3050.html
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 6, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 3, 0, 0) ||        \
             PHI_COMPILER_IS(APPLECLANG) || PHI_COMPILER_IS(EMCC) ||                                \
             PHI_COMPILER_IS_ATLEAST(MSVC, 19, 0, 0)
 #        define PHI_HAS_FEATURE_NOEXCEPT() 1
-#        if PHI_COMPILER_IS_NOT(GCC) || PHI_COMPILER_IS_ATLEAST(GCC, 9, 0, 0)
-#            define PHI_HAS_FEATURE_NOEXCEPT_EXPR() 1
+
+// Special feature to check for a problem with gcc prior to version 9 in which you could not use a noexcept expression
+// which called a object member function
+#        if PHI_COMPILER_WORKAROUND(GCC, 9, 0, 0)
+#            define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 1
 #        else
-#            define PHI_HAS_FEATURE_NOEXCEPT_EXPR() 0
+#            define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #        endif
+
 #    else
-#        define PHI_HAS_FEATURE_NOEXCEPT()      0
-#        define PHI_HAS_FEATURE_NOEXCEPT_EXPR() 0
+#        define PHI_HAS_FEATURE_NOEXCEPT()            0
+#        define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #    endif
 
 #else
-#    define PHI_HAS_FEATURE_CONSTEXPR()          0
-#    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN() 0
-#    define PHI_HAS_FEATURE_EXTERN_TEMPLATE()    0
-#    define PHI_HAS_FEATURE_STATIC_ASSERT()      0
-#    define PHI_HAS_FEATURE_AUTO()               0
-#    define PHI_HAS_FEATURE_NOEXCEPT()           0
-#    define PHI_HAS_FEATURE_NOEXCEPT_EXPR()      0
+#    define PHI_HAS_FEATURE_CONSTEXPR()           0
+#    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()  0
+#    define PHI_HAS_FEATURE_EXTERN_TEMPLATE()     0
+#    define PHI_HAS_FEATURE_STATIC_ASSERT()       0
+#    define PHI_HAS_FEATURE_AUTO()                0
+#    define PHI_HAS_FEATURE_NOEXCEPT()            0
+#    define PHI_HAS_FEATURE_NOEXCEPT_EXPR()       0
+#    define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #endif
 
 // C++-14 features

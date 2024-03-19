@@ -11,21 +11,20 @@
 
 #if PHI_HAS_FEATURE_NOEXCEPT()
 
-#    define PHI_NOEXCEPT noexcept
-
-#else
-
-#    define PHI_NOEXCEPT /* Nothing */
-
-#endif
-
-#if PHI_HAS_FEATURE_NOEXCEPT_EXPR()
-
+#    define PHI_NOEXCEPT           noexcept
 #    define PHI_NOEXCEPT_EXPR(...) noexcept(__VA_ARGS__)
 
+#    if PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR()
+#        define PHI_NOEXCEPT_CLASS_EXPR(...) noexcept(__VA_ARGS__)
+#    else
+#        define PHI_NOEXCEPT_CLASS_EXPR(...) /* Nothing */
+#    endif
+
 #else
 
-#    define PHI_NOEXCEPT_EXPR(...) /* Nothing */
+#    define PHI_NOEXCEPT                 /* Nothing */
+#    define PHI_NOEXCEPT_EXPR(...)       /* Nothing */
+#    define PHI_NOEXCEPT_CLASS_EXPR(...) /* Nothing */
 
 #endif
 

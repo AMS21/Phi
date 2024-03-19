@@ -14,11 +14,24 @@ TEST_CASE("PHI_NOEXCEPT")
 
 TEST_CASE("PHI_NOEXCEPT_EXPR")
 {
-#if PHI_HAS_FEATURE_NOEXCEPT_EXPR()
+#if PHI_HAS_FEATURE_NOEXCEPT()
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT_EXPR(true)), "noexcept(true)"));
     STATIC_REQUIRE(phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT_EXPR(false)), "noexcept(false)"));
 #else
     STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT_EXPR(true)), ""));
     STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT_EXPR(false)), ""));
+#endif
+}
+
+TEST_CASE("PHI_NOEXCEPT_CLASS_EXPR")
+{
+#if PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR()
+    STATIC_REQUIRE(
+            phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT_CLASS_EXPR(true)), "noexcept(true)"));
+    STATIC_REQUIRE(
+            phi::string_equals(PHI_STRINGIFY(PHI_NOEXCEPT_CLASS_EXPR(false)), "noexcept(false)"));
+#else
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT_CLASS_EXPR(true)), ""));
+    STATIC_REQUIRE(phi::string_equals("" PHI_STRINGIFY(PHI_NOEXCEPT_CLASS_EXPR(false)), ""));
 #endif
 }
