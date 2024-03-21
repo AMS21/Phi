@@ -12,7 +12,7 @@
 #include "phi/compiler_support/intrinsics/is_referenceable.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-#if PHI_SUPPORTS_IS_REFERENCEABLE()
+#if PHI_SUPPORTS_IS_REFERENCEABLE() && 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 

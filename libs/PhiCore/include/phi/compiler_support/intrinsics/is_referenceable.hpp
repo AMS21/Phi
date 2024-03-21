@@ -11,7 +11,7 @@
 
 #if !defined(PHI_IS_REFERENCEABLE) && !defined(PHI_SUPPORTS_IS_REFERENCEABLE)
 
-#    if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0) && __has_builtin(__is_referenceable)
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
 #        define PHI_IS_REFERENCEABLE(type)      __is_referenceable(type)
 #        define PHI_SUPPORTS_IS_REFERENCEABLE() 1
 #    else
