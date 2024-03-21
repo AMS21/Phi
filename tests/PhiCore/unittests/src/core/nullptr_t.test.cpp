@@ -117,7 +117,7 @@ TEST_CASE("core.nullptr_t")
 
     // Test for http://wg21.link/CWG583
     // GCC implements this starting with version 12
-#if PHI_COMPILER_WORKAROUND(GCC, 12, 0, 0)
+#if PHI_COMPILER_WORKAROUND(GCC, 12, 0, 0) && PHI_COMPILER_WORKAROUND(MSVC, 19, 20, 0)
     STATIC_REQUIRE_FALSE(has_less<phi::nullptr_t>::value);
 #endif
 

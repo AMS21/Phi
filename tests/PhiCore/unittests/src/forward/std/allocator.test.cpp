@@ -14,6 +14,11 @@ TEST_CASE("forward.std.allocator.forward")
 #endif
 }
 
+// Required for MSVC to not complain about 'std::allocator<void>'
+#if PHI_COMPILER_IS(MSVC)
+#    define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+#endif
+
 #include <memory>
 
 TEST_CASE("forward.std.allocator")
