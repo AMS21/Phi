@@ -24,6 +24,7 @@
 #include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/common_type.hpp"
 #include "phi/type_traits/conditional.hpp"
+#include "phi/type_traits/conjunction.hpp"
 #include "phi/type_traits/copy_const.hpp"
 #include "phi/type_traits/copy_cv.hpp"
 #include "phi/type_traits/copy_volatile.hpp"
