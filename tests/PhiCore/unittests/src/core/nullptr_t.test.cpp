@@ -11,6 +11,7 @@
 #include <cstddef> // std::nullptr_t
 
 PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
+PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wzero-as-null-pointer-constant")
 
 struct A
 {
@@ -18,20 +19,27 @@ struct A
     {}
 };
 
-PHI_CLANG_AND_GCC_SUPPRESS_WARNING_WITH_PUSH("-Wzero-as-null-pointer-constant")
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-but-set-variable")
+#endif
 
 template <typename TypeT>
 void test_conversions_impl()
 {
     TypeT pointer_zero = 0;
-    PHI_RELEASE_ASSERT(pointer_zero == nullptr);
+    PHI_RELEASE_ASSERT(pointer_zero == nullptr, "pointer_zero == nullptr");
 
     TypeT pointer_nullptr = nullptr;
-    PHI_RELEASE_ASSERT(pointer_nullptr == nullptr);
-    PHI_RELEASE_ASSERT(nullptr == pointer_nullptr);
-    PHI_RELEASE_ASSERT(!(pointer_nullptr != nullptr));
-    PHI_RELEASE_ASSERT(!(nullptr != pointer_nullptr));
+    PHI_RELEASE_ASSERT(pointer_nullptr == nullptr, "pointer_nullptr == nullptr");
+    PHI_RELEASE_ASSERT(nullptr == pointer_nullptr, "nullptr == pointer_nullptr");
+    PHI_RELEASE_ASSERT(!(pointer_nullptr != nullptr), "pointer_nullptr != nullptr");
+    PHI_RELEASE_ASSERT(!(nullptr != pointer_nullptr), "nullptr != pointer_nullptr");
 }
+
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_POP()
+#endif
 
 template <typename TypeT>
 void test_conversions()
@@ -42,8 +50,6 @@ void test_conversions()
     test_conversions_impl<const volatile TypeT>();
 }
 
-PHI_CLANG_SUPPRESS_WARNING_POP()
-
 template <typename TypeT, typename = void>
 struct has_less : public phi::false_type
 {};
@@ -53,16 +59,25 @@ struct has_less<TypeT, typename phi::void_t<decltype(phi::declval<TypeT>() < nul
     : public phi::true_type
 {};
 
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_PUSH()
+PHI_GCC_SUPPRESS_WARNING("-Wunused-but-set-variable")
+#endif
+
 template <typename TypeT>
 void test_comparisons_impl()
 {
     TypeT pointer = nullptr;
 
-    PHI_RELEASE_ASSERT(pointer == nullptr);
-    PHI_RELEASE_ASSERT(!(pointer != nullptr));
-    PHI_RELEASE_ASSERT(nullptr == pointer);
-    PHI_RELEASE_ASSERT(!(nullptr != pointer));
+    PHI_RELEASE_ASSERT(pointer == nullptr, "pointer == nullptr");
+    PHI_RELEASE_ASSERT(!(pointer != nullptr), "pointer != nullptr");
+    PHI_RELEASE_ASSERT(nullptr == pointer, "nullptr == pointer");
+    PHI_RELEASE_ASSERT(!(nullptr != pointer), "nullptr != pointer");
 }
+
+#if PHI_COMPILER_IS_BELOW(GCC, 8, 0, 0)
+PHI_GCC_SUPPRESS_WARNING_POP()
+#endif
 
 template <typename TypeT>
 void test_comparisons()
@@ -78,7 +93,7 @@ PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wnull-conversion")
 void test_nullptr_conversions()
 {
     bool boolean(nullptr); // NOLINT(readability-implicit-bool-conversion)
-    PHI_RELEASE_ASSERT(!boolean);
+    PHI_RELEASE_ASSERT(!boolean, "!boolean");
 }
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
