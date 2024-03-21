@@ -12,7 +12,8 @@
 #include "phi/compiler_support/intrinsics/is_referenceable.hpp"
 #include "phi/type_traits/bool_constant.hpp"
 
-#if PHI_SUPPORTS_IS_REFERENCEABLE()
+// NOTE: Enabling this fails CI builds but I can't replicate them locally
+#if PHI_SUPPORTS_IS_REFERENCEABLE() && 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
