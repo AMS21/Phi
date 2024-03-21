@@ -10,6 +10,8 @@
 #include <phi/type_traits/void_t.hpp>
 #include <cstddef> // std::nullptr_t
 
+PHI_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
+
 struct A
 {
     A(phi::nullptr_t)
