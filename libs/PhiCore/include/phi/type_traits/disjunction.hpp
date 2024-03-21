@@ -10,6 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
+#include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/integral_constant.hpp"
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
