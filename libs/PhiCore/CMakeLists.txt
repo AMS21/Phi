@@ -206,6 +206,7 @@ file(
   "include/phi/core/size_t.hpp"
   "include/phi/core/sized_types.hpp"
   "include/phi/core/source_location.hpp"
+  "include/phi/core/ssize_t.hpp"
   "include/phi/core/stop_watch.hpp"
   "include/phi/core/to_address.hpp"
   "include/phi/core/types.hpp"

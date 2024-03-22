@@ -94,6 +94,7 @@ file(
   "src/core/scoped_value_guard.test.cpp"
   "src/core/size_t.test.cpp"
   "src/core/sized_types.test.cpp"
+  "src/core/ssize_t.test.cpp"
   "src/core/stop_watch.test.cpp"
   "src/core/to_address.test.cpp"
   "src/core/types.test.cpp"
