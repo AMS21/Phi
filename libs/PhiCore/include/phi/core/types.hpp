@@ -44,9 +44,9 @@ SOFTWARE.
 #include "phi/core/ptrdiff_t.hpp"
 #include "phi/core/size_t.hpp"
 #include "phi/core/sized_types.hpp"
+#include "phi/core/ssize_t.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_signed.hpp"
-#include "phi/type_traits/make_signed.hpp"
 #include <limits>
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -79,7 +79,7 @@ using u32_least = integer<uint_least32_t>;
 using i64_least = integer<int_least64_t>;
 using u64_least = integer<uint_least64_t>;
 
-using isize = integer<make_signed<size_t>::type>;
+using isize = integer<ssize_t>;
 using usize = integer<size_t>;
 
 using intptr  = integer<intptr_t>;
@@ -353,7 +353,7 @@ inline namespace literals
     template <char... DigitsT>
     PHI_CONSTEVAL_OR_CONSTEXPR isize operator""_isize()
     {
-        return {detail::parse_signed<typename make_signed<size_t>::type, DigitsT...>()};
+        return {detail::parse_signed<ssize_t, DigitsT...>()};
     }
 
     template <char... DigitsT>
