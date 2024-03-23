@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_scalar.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if 0
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_scalar : public bool_constant<PHI_IS_SCALAR(TypeT)>
+struct is_scalar : public integral_constant<bool, PHI_IS_SCALAR(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_scalar : public bool_constant<!PHI_IS_SCALAR(TypeT)>
+struct is_not_scalar : public integral_constant<bool, !PHI_IS_SCALAR(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -54,13 +54,14 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_scalar
-    : public bool_constant<is_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
-                           is_pointer<TypeT>::value || is_member_pointer<TypeT>::value ||
-                           is_null_pointer<TypeT>::value>
+    : public integral_constant<bool, is_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
+                                             is_pointer<TypeT>::value ||
+                                             is_member_pointer<TypeT>::value ||
+                                             is_null_pointer<TypeT>::value>
 {};
 
 template <typename TypeT>
-struct is_not_scalar : public bool_constant<!is_scalar<TypeT>::value>
+struct is_not_scalar : public integral_constant<bool, !is_scalar<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

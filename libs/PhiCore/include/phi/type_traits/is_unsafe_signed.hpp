@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_unsafe_arithmetic.hpp"
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
@@ -20,7 +20,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
     template <typename TypeT, bool = is_unsafe_arithmetic<TypeT>::value>
-    struct is_unsafe_signed_impl : public bool_constant<TypeT(-1) < TypeT(0)>
+    struct is_unsafe_signed_impl : public integral_constant<bool, TypeT(-1) < TypeT(0)>
     {};
 
     template <typename TypeT>
@@ -33,7 +33,7 @@ struct is_unsafe_signed : public detail::is_unsafe_signed_impl<remove_cv_t<TypeT
 {};
 
 template <typename TypeT>
-struct is_not_unsafe_signed : public bool_constant<!is_unsafe_signed<TypeT>::value>
+struct is_not_unsafe_signed : public integral_constant<bool, !is_unsafe_signed<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -10,8 +10,8 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/has_unique_object_representations.hpp"
-#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/false_t.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/remove_all_extents.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 
@@ -23,14 +23,14 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct has_unique_object_representations
-    : public bool_constant<PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
-              remove_cv_t<remove_all_extents_t<TypeT>>)>
+    : public integral_constant<bool, PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
+                                             remove_cv_t<remove_all_extents_t<TypeT>>)>
 {};
 
 template <typename TypeT>
 struct has_no_unique_object_representations
-    : public bool_constant<!PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
-              remove_cv_t<remove_all_extents_t<TypeT>>)>
+    : public integral_constant<bool, !PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(
+                                             remove_cv_t<remove_all_extents_t<TypeT>>)>
 {};
 
 #else

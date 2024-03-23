@@ -10,18 +10,20 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_assignable.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_ASSIGNABLE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename ArgT>
-struct is_nothrow_assignable : public bool_constant<PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT)>
+struct is_nothrow_assignable
+    : public integral_constant<bool, PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT)>
 {};
 
 template <typename TypeT, typename ArgT>
-struct is_not_nothrow_assignable : public bool_constant<!PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT)>
+struct is_not_nothrow_assignable
+    : public integral_constant<bool, !PHI_IS_NOTHROW_ASSIGNABLE(TypeT, ArgT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -59,7 +61,7 @@ namespace detail
 
     template <typename TypeT, typename ArgT>
     struct is_nothrow_assignable_impl<true, TypeT, ArgT>
-        : public bool_constant<noexcept(declval<TypeT>() = declval<ArgT>())>
+        : public integral_constant<bool, noexcept(declval<TypeT>() = declval<ArgT>())>
     {};
 } // namespace detail
 
@@ -71,7 +73,8 @@ struct is_nothrow_assignable
 {};
 
 template <typename TypeT, typename ArgT>
-struct is_not_nothrow_assignable : public bool_constant<!is_nothrow_assignable<TypeT, ArgT>::value>
+struct is_not_nothrow_assignable
+    : public integral_constant<bool, !is_nothrow_assignable<TypeT, ArgT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

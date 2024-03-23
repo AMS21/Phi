@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_constructible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
 
@@ -24,11 +24,11 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
 template <typename TypeT>
-struct is_default_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT)>
+struct is_default_constructible : public integral_constant<bool, PHI_IS_CONSTRUCTIBLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_default_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE(TypeT)>
+struct is_not_default_constructible : public integral_constant<bool, !PHI_IS_CONSTRUCTIBLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -89,8 +89,8 @@ namespace detail
 
 template <typename TypeT>
 struct is_default_constructible
-    : public bool_constant<detail::is_default_constructible_abstract_filter<
-              TypeT, is_abstract<TypeT>::value>::value>
+    : public integral_constant<bool, detail::is_default_constructible_abstract_filter<
+                                             TypeT, is_abstract<TypeT>::value>::value>
 {
     static_assert(is_complete<TypeT>::value,
                   "Arguments to is_default_constructible must be complete types");
@@ -110,8 +110,8 @@ struct is_default_constructible<TypeT&> : public false_type
 
 template <typename TypeT, typename OtherT>
 struct is_default_constructible<std::pair<TypeT, OtherT>>
-    : public bool_constant<is_default_constructible<TypeT>::value &&
-                           is_default_constructible<OtherT>::value>
+    : public integral_constant<bool, is_default_constructible<TypeT>::value &&
+                                             is_default_constructible<OtherT>::value>
 {};
 
 template <typename TypeT>
@@ -135,7 +135,8 @@ struct is_default_constructible<void const volatile> : public false_type
 {};
 
 template <typename TypeT>
-struct is_not_default_constructible : public bool_constant<!is_default_constructible<TypeT>::value>
+struct is_not_default_constructible
+    : public integral_constant<bool, !is_default_constructible<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

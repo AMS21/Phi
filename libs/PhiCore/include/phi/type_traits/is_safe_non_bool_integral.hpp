@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_safe_type.hpp"
 #include "phi/type_traits/is_unsafe_non_bool_integral.hpp"
 
@@ -34,7 +34,7 @@ struct is_safe_non_bool_integral
 
 template <typename TypeT>
 struct is_not_safe_non_bool_integral
-    : public bool_constant<!is_safe_non_bool_integral<TypeT>::value>
+    : public integral_constant<bool, !is_safe_non_bool_integral<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

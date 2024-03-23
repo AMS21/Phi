@@ -23,8 +23,9 @@ struct is_none_of<CheckT, FirstT> : public is_not_same<CheckT, FirstT>
 
 template <typename CheckT, typename FirstT, typename SecondT, typename... RestT>
 struct is_none_of<CheckT, FirstT, SecondT, RestT...>
-    : public bool_constant<
-              is_same<CheckT, FirstT>::value ? false : is_none_of<CheckT, SecondT, RestT...>::value>
+    : public integral_constant<bool, is_same<CheckT, FirstT>::value ?
+                                             false :
+                                             is_none_of<CheckT, SecondT, RestT...>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

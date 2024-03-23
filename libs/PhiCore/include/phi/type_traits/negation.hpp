@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 PHI_MSVC_SUPPRESS_WARNING_PUSH()
 PHI_MSVC_SUPPRESS_WARNING(4800) // Implicit conversion from 'x' to bool. Possible information loss
@@ -18,7 +18,7 @@ PHI_MSVC_SUPPRESS_WARNING(4800) // Implicit conversion from 'x' to bool. Possibl
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BoolT>
-struct negation : public bool_constant<!bool(BoolT::value)>
+struct negation : public integral_constant<bool, !bool(BoolT::value)>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

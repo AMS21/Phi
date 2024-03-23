@@ -11,8 +11,8 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/false_t.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -25,12 +25,12 @@ PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
 template <typename TypeT, typename... ArgsT>
 struct is_trivially_constructible
-    : public bool_constant<PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
+    : public integral_constant<bool, PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 template <typename TypeT, typename... ArgsT>
 struct is_not_trivially_constructible
-    : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
+    : public integral_constant<bool, !PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

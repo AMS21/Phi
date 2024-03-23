@@ -131,10 +131,11 @@ namespace detail
 
     template <char CharT>
     using digit_category =
-            conditional<bool_constant<CharT >= '0' && CharT <= '9'>, decimal_digit,
-                        bool_constant<CharT >= 'a' && CharT <= 'f'>, lower_hexadecimal_digit,
-                        bool_constant<CharT >= 'A' && CharT <= 'F'>, upper_hexadecimal_digit,
-                        no_digit>;
+            conditional<integral_constant<bool, CharT >= '0' && CharT <= '9'>, decimal_digit,
+                        integral_constant<bool, CharT >= 'a' && CharT <= 'f'>,
+                        lower_hexadecimal_digit,
+                        integral_constant<bool, CharT >= 'A' && CharT <= 'F'>,
+                        upper_hexadecimal_digit, no_digit>;
 
     template <char CharT, typename CatT>
     struct to_digit_impl

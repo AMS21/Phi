@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/size_t.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 // NOTE: We're no longer implementing `is_array` using the intrinsic `PHI_IS_ARRAY` due to its inconsistent and unwanted behavior regard zero sized arrays. Keep in mind that zero sized arrays themselves are an extension and according to the standard are malformed.
 // See this LLVM issue for some more info: https://github.com/llvm/llvm-project/issues/54705
@@ -30,7 +30,7 @@ struct is_array<TypeT[Size]> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_array : public bool_constant<!is_array<TypeT>::value>
+struct is_not_array : public integral_constant<bool, !is_array<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

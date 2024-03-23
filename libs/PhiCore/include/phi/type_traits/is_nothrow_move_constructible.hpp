@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/type_traits/add_rvalue_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_nothrow_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -27,7 +27,7 @@ struct is_nothrow_move_constructible
 
 template <typename TypeT>
 struct is_not_nothrow_move_constructible
-    : public bool_constant<!is_nothrow_move_constructible<TypeT>::value>
+    : public integral_constant<bool, !is_nothrow_move_constructible<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

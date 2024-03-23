@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_convertible.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/to_underlying.hpp"
@@ -30,7 +30,7 @@ namespace detail
 
     template <typename TypeT>
     struct is_unscoped_enum_impl<TypeT, true>
-        : public bool_constant<is_convertible<TypeT, underlying_type_t<TypeT>>::value>
+        : public integral_constant<bool, is_convertible<TypeT, underlying_type_t<TypeT>>::value>
     {};
 } // namespace detail
 
@@ -39,7 +39,7 @@ struct is_unscoped_enum : public detail::is_unscoped_enum_impl<TypeT, is_enum<Ty
 {};
 
 template <typename TypeT>
-struct is_not_unscoped_enum : public bool_constant<!is_unscoped_enum<TypeT>::value>
+struct is_not_unscoped_enum : public integral_constant<bool, !is_unscoped_enum<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

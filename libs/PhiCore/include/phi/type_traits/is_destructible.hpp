@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_destructible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_DESTRUCTIBLE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_destructible : bool_constant<PHI_IS_DESTRUCTIBLE(TypeT)>
+struct is_destructible : integral_constant<bool, PHI_IS_DESTRUCTIBLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_destructible : bool_constant<!PHI_IS_DESTRUCTIBLE(TypeT)>
+struct is_not_destructible : integral_constant<bool, !PHI_IS_DESTRUCTIBLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -71,8 +71,8 @@ namespace detail
 
     template <typename TypeT>
     struct destructible_impl<TypeT, false>
-        : public bool_constant<
-                  is_destructor_wellformed<typename remove_all_extents<TypeT>::type>::value>
+        : public integral_constant<
+                  bool, is_destructor_wellformed<typename remove_all_extents<TypeT>::type>::value>
     {};
 
     template <typename TypeT>
@@ -105,7 +105,7 @@ struct is_destructible<void> : public false_type
 {};
 
 template <typename TypeT>
-struct is_not_destructible : public bool_constant<!is_destructible<TypeT>::value>
+struct is_not_destructible : public integral_constant<bool, !is_destructible<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

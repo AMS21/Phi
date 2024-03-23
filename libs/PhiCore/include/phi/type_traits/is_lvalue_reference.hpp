@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_lvalue_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_LVALUE_REFERENCE()
 
 template <typename TypeT>
-struct is_lvalue_reference : public bool_constant<PHI_IS_LVALUE_REFERENCE(TypeT)>
+struct is_lvalue_reference : public integral_constant<bool, PHI_IS_LVALUE_REFERENCE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_lvalue_reference : public bool_constant<!PHI_IS_LVALUE_REFERENCE(TypeT)>
+struct is_not_lvalue_reference : public integral_constant<bool, !PHI_IS_LVALUE_REFERENCE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -45,7 +45,7 @@ struct is_lvalue_reference<TypeT&> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_lvalue_reference : public bool_constant<!is_lvalue_reference<TypeT>::value>
+struct is_not_lvalue_reference : public integral_constant<bool, !is_lvalue_reference<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

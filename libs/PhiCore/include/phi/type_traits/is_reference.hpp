@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_REFERENCE()
 
 template <typename TypeT>
-struct is_reference : public bool_constant<PHI_IS_REFERENCE(TypeT)>
+struct is_reference : public integral_constant<bool, PHI_IS_REFERENCE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_reference : public bool_constant<!PHI_IS_REFERENCE(TypeT)>
+struct is_not_reference : public integral_constant<bool, !PHI_IS_REFERENCE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -51,7 +51,7 @@ struct is_reference<TypeT&&> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_reference : public bool_constant<!is_reference<TypeT>::value>
+struct is_not_reference : public integral_constant<bool, !is_reference<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

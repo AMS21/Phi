@@ -8,7 +8,7 @@
 #endif
 
 #include "phi/compiler_support/constexpr.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_complete.hpp"
 #include "phi/type_traits/is_unbounded_array.hpp"
 #include "phi/type_traits/is_void.hpp"
@@ -17,13 +17,13 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_complete_or_unbounded_void
-    : public bool_constant<is_complete<TypeT>::value || is_void<TypeT>::value ||
-                           is_unbounded_array<TypeT>::value>
+    : public integral_constant<bool, is_complete<TypeT>::value || is_void<TypeT>::value ||
+                                             is_unbounded_array<TypeT>::value>
 {};
 
 template <typename TypeT>
 struct is_not_complete_or_unbounded_void
-    : public bool_constant<!is_complete_or_unbounded_void<TypeT>::value>
+    : public integral_constant<bool, !is_complete_or_unbounded_void<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

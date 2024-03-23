@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_standard_layout.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_STANDARD_LAYOUT()
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_standard_layout : public bool_constant<PHI_IS_STANDARD_LAYOUT(TypeT)>
+struct is_standard_layout : public integral_constant<bool, PHI_IS_STANDARD_LAYOUT(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_standard_layout : public bool_constant<!PHI_IS_STANDARD_LAYOUT(TypeT)>
+struct is_not_standard_layout : public integral_constant<bool, !PHI_IS_STANDARD_LAYOUT(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -50,11 +50,12 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_standard_layout_v = !PHI_IS_STANDA
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_standard_layout : public bool_constant<is_scalar<remove_all_extents_t<TypeT>>::value>
+struct is_standard_layout
+    : public integral_constant<bool, is_scalar<remove_all_extents_t<TypeT>>::value>
 {};
 
 template <typename TypeT>
-struct is_not_standard_layout : public bool_constant<!is_standard_layout<TypeT>::value>
+struct is_not_standard_layout : public integral_constant<bool, !is_standard_layout<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

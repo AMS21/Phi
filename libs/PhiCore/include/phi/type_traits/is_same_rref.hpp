@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/remove_reference.hpp"
 
@@ -20,7 +20,7 @@ struct is_same_rref : public is_same<remove_reference_t<LhsT>, remove_reference_
 {};
 
 template <typename LhsT, typename RhsT>
-struct is_not_same_rref : public bool_constant<!is_same_rref<LhsT, RhsT>::value>
+struct is_not_same_rref : public integral_constant<bool, !is_same_rref<LhsT, RhsT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

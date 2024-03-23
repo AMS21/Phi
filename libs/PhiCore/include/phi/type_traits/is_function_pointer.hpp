@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_function.hpp"
 #include "phi/type_traits/remove_pointer.hpp"
 
@@ -17,12 +17,13 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_function_pointer
-    : public bool_constant<is_not_function<TypeT>::value &&
-                           is_function<typename remove_pointer<TypeT>::type>::value>
+    : public integral_constant<bool,
+                               is_not_function<TypeT>::value &&
+                                       is_function<typename remove_pointer<TypeT>::type>::value>
 {};
 
 template <typename TypeT>
-struct is_not_function_pointer : public bool_constant<!is_function_pointer<TypeT>::value>
+struct is_not_function_pointer : public integral_constant<bool, !is_function_pointer<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

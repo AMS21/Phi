@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_same.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_SAME()
 
 template <typename LhsT, typename RhsT>
-struct is_same : public bool_constant<PHI_IS_SAME(LhsT, RhsT)>
+struct is_same : public integral_constant<bool, PHI_IS_SAME(LhsT, RhsT)>
 {};
 
 template <typename LhsT, typename RhsT>
-struct is_not_same : public bool_constant<!PHI_IS_SAME(LhsT, RhsT)>
+struct is_not_same : public integral_constant<bool, !PHI_IS_SAME(LhsT, RhsT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

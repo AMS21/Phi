@@ -43,9 +43,9 @@ SOFTWARE.
 #include "phi/core/assert.hpp"
 #include "phi/core/boolean.hpp"
 #include "phi/forward/std/hash.hpp"
-#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_signed.hpp"
 #include "phi/type_traits/is_unsafe_integer.hpp"
 #include "phi/type_traits/is_unsigned.hpp"
@@ -63,11 +63,12 @@ namespace detail
     // integer conversion
     template <typename FromT, typename ToT>
     struct is_safe_integer_conversion
-        : public bool_constant<is_unsafe_integer<FromT>::value && is_unsafe_integer<ToT>::value &&
-                               ((sizeof(FromT) <= sizeof(ToT) &&
-                                 is_signed<FromT>::value == is_signed<ToT>::value) ||
-                                (sizeof(FromT) < sizeof(ToT) && is_unsigned<FromT>::value &&
-                                 is_signed<ToT>::value))>
+        : public integral_constant<
+                  bool, is_unsafe_integer<FromT>::value && is_unsafe_integer<ToT>::value &&
+                                ((sizeof(FromT) <= sizeof(ToT) &&
+                                  is_signed<FromT>::value == is_signed<ToT>::value) ||
+                                 (sizeof(FromT) < sizeof(ToT) && is_unsigned<FromT>::value &&
+                                  is_signed<ToT>::value))>
     {};
 
     template <typename FromT, typename ToT>
@@ -81,8 +82,8 @@ namespace detail
     // integer comparison
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_comparison
-        : public bool_constant<is_safe_integer_conversion<LhsT, RhsT>::value ||
-                               is_safe_integer_conversion<RhsT, LhsT>::value>
+        : public integral_constant<bool, is_safe_integer_conversion<LhsT, RhsT>::value ||
+                                                 is_safe_integer_conversion<RhsT, LhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
@@ -96,8 +97,9 @@ namespace detail
     // integer operation
     template <typename LhsT, typename RhsT>
     struct is_safe_integer_operation
-        : public bool_constant<is_unsafe_integer<LhsT>::value && is_unsafe_integer<RhsT>::value &&
-                               is_signed<LhsT>::value == is_signed<RhsT>::value>
+        : public integral_constant<bool, is_unsafe_integer<LhsT>::value &&
+                                                 is_unsafe_integer<RhsT>::value &&
+                                                 is_signed<LhsT>::value == is_signed<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>

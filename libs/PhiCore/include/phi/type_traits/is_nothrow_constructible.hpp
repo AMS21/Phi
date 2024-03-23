@@ -11,7 +11,7 @@
 #include "phi/compiler_support/features.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_nothrow_constructible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_NOTHROW_CONSTRUCTIBLE()
 
@@ -26,12 +26,12 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename... ArgsT>
 struct is_nothrow_constructible
-    : public bool_constant<PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...)>
+    : public integral_constant<bool, PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 template <typename TypeT, typename... ArgsT>
 struct is_not_nothrow_constructible
-    : public bool_constant<!PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...)>
+    : public integral_constant<bool, !PHI_IS_NOTHROW_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -79,13 +79,13 @@ namespace detail
     template <typename TypeT, typename... ArgsT>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false, TypeT,
                                          ArgsT...>
-        : public bool_constant<noexcept(TypeT(declval<ArgsT>()...))>
+        : public integral_constant<bool, noexcept(TypeT(declval<ArgsT>()...))>
     {};
 
     template <typename TypeT, size_t Dimension>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ false,
                                          TypeT[Dimension]>
-        : public bool_constant<noexcept(typename remove_all_extents<TypeT>::type())>
+        : public integral_constant<bool, noexcept(typename remove_all_extents<TypeT>::type())>
     {};
 
     template <typename TypeT, size_t Dimension, typename ArgT>
@@ -109,7 +109,7 @@ namespace detail
     template <typename TypeT, typename ArgT>
     struct is_nothrow_constructible_impl</*is constructible*/ true, /*is reference*/ true, TypeT,
                                          ArgT>
-        : public bool_constant<noexcept(implicit_conversion_to<TypeT>(declval<ArgT>()))>
+        : public integral_constant<bool, noexcept(implicit_conversion_to<TypeT>(declval<ArgT>()))>
     {};
 
     template <typename TypeT, bool IsReference, typename... ArgsT>
@@ -132,7 +132,7 @@ struct is_nothrow_constructible<TypeT[Dimension]>
 
 template <typename TypeT, typename... ArgsT>
 struct is_not_nothrow_constructible
-    : public bool_constant<!is_nothrow_constructible<TypeT, ArgsT...>::value>
+    : public integral_constant<bool, !is_nothrow_constructible<TypeT, ArgsT...>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_constructible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_CONSTRUCTIBLE()
 
@@ -24,11 +24,11 @@ PHI_GCC_SUPPRESS_WARNING_PUSH()
 PHI_GCC_SUPPRESS_WARNING("-Wignored-qualifiers")
 
 template <typename TypeT, typename... ArgsT>
-struct is_constructible : public bool_constant<PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
+struct is_constructible : public integral_constant<bool, PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 template <typename TypeT, typename... ArgsT>
-struct is_not_constructible : public bool_constant<!PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
+struct is_not_constructible : public integral_constant<bool, !PHI_IS_CONSTRUCTIBLE(TypeT, ArgsT...)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -96,8 +96,8 @@ namespace detail
 
     template <typename ToT, typename ArgT>
     struct is_direct_constructible_new_safe
-        : public bool_constant<is_destructible<ToT>::value &&
-                               is_direct_constructible_impl<ToT, ArgT>::value>
+        : public integral_constant<bool, is_destructible<ToT>::value &&
+                                                 is_direct_constructible_impl<ToT, ArgT>::value>
     {};
 
     template <typename FromT, typename ToT,
@@ -112,9 +112,10 @@ namespace detail
         using source_t      = typename remove_cv<typename remove_reference<FromT>::type>::type;
         using destination_t = typename remove_cv<typename remove_reference<ToT>::type>::type;
 
-        using type = bool_constant<is_not_same<source_t, destination_t>::value &&
-                                   is_base_of<source_t, destination_t>::value &&
-                                   !is_constructible<destination_t, FromT>::value>;
+        using type =
+                integral_constant<bool, is_not_same<source_t, destination_t>::value &&
+                                                is_base_of<source_t, destination_t>::value &&
+                                                !is_constructible<destination_t, FromT>::value>;
 
         static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
@@ -135,9 +136,9 @@ namespace detail
         using source_t      = typename remove_cv<typename remove_reference<FromT>::type>::type;
         using destination_t = typename remove_cv<typename remove_reference<ToT>::type>::type;
 
-        using type = bool_constant<is_not_function<source_t>::value &&
-                                   (is_same<source_t, destination_t>::value ||
-                                    is_base_of<destination_t, source_t>::value)>;
+        using type = integral_constant<bool, is_not_function<source_t>::value &&
+                                                     (is_same<source_t, destination_t>::value ||
+                                                      is_base_of<destination_t, source_t>::value)>;
 
         static PHI_CONSTEXPR_AND_CONST bool value = type::value;
     };
@@ -154,9 +155,9 @@ namespace detail
     //       types that are not functions
     template <typename TypeT, typename ArgT>
     struct is_direct_constructible_ref_cast
-        : public bool_constant<is_static_castable_to<ArgT, TypeT>::value &&
-                               !(is_base_to_derived_ref<ArgT, TypeT>::value ||
-                                 is_lvalue_to_rvalue_ref<ArgT, TypeT>::value)>
+        : public integral_constant<bool, is_static_castable_to<ArgT, TypeT>::value &&
+                                                 !(is_base_to_derived_ref<ArgT, TypeT>::value ||
+                                                   is_lvalue_to_rvalue_ref<ArgT, TypeT>::value)>
     {};
 
     template <typename TypeT, typename ArgT>
@@ -231,7 +232,8 @@ struct is_constructible : public detail::is_constructible_impl<TypeT, ArgsT...>:
 {};
 
 template <typename TypeT, typename... ArgsT>
-struct is_not_constructible : public bool_constant<!is_constructible<TypeT, ArgsT...>::value>
+struct is_not_constructible
+    : public integral_constant<bool, !is_constructible<TypeT, ArgsT...>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

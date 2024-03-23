@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_polymorphic.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_POLYMORPHIC()
 
 template <typename TypeT>
-struct is_polymorphic : public bool_constant<PHI_IS_POLYMORPHIC(TypeT)>
+struct is_polymorphic : public integral_constant<bool, PHI_IS_POLYMORPHIC(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_polymorphic : public bool_constant<!PHI_IS_POLYMORPHIC(TypeT)>
+struct is_not_polymorphic : public integral_constant<bool, !PHI_IS_POLYMORPHIC(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -52,7 +52,7 @@ struct is_polymorphic : public decltype(detail::detect_is_polymorphic<TypeT>(nul
 {};
 
 template <typename TypeT>
-struct is_not_polymorphic : public bool_constant<!is_polymorphic<TypeT>::value>
+struct is_not_polymorphic : public integral_constant<bool, !is_polymorphic<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

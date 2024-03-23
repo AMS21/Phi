@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_null_pointer.hpp"
 #include "phi/type_traits/is_pointer.hpp"
 
@@ -17,12 +17,12 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_null_pointer_or_pointer
-    : public bool_constant<is_null_pointer<TypeT>::value || is_pointer<TypeT>::value>
+    : public integral_constant<bool, is_null_pointer<TypeT>::value || is_pointer<TypeT>::value>
 {};
 
 template <typename TypeT>
 struct is_not_null_pointer_or_pointer
-    : public bool_constant<!is_null_pointer_or_pointer<TypeT>::value>
+    : public integral_constant<bool, !is_null_pointer_or_pointer<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

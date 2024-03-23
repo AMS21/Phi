@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_integral.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_INTEGRAL()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_unsafe_integral : public bool_constant<PHI_IS_INTEGRAL(TypeT)>
+struct is_unsafe_integral : public integral_constant<bool, PHI_IS_INTEGRAL(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_unsafe_integral : public bool_constant<!PHI_IS_INTEGRAL(TypeT)>
+struct is_not_unsafe_integral : public integral_constant<bool, !PHI_IS_INTEGRAL(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -43,19 +43,23 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_unsafe_integral
-    : public bool_constant<
+    : public integral_constant<
+              bool,
               is_same_rcv<TypeT, bool>::value || is_same_rcv<TypeT, char>::value ||
-              is_same_rcv<TypeT, signed char>::value || is_same_rcv<TypeT, unsigned char>::value ||
-              is_same_rcv<TypeT, char8_t>::value || is_same_rcv<TypeT, char16_t>::value ||
-              is_same_rcv<TypeT, char32_t>::value || is_same_rcv<TypeT, wchar_t>::value ||
-              is_same_rcv<TypeT, short>::value || is_same_rcv<TypeT, unsigned short>::value ||
-              is_same_rcv<TypeT, int>::value || is_same_rcv<TypeT, unsigned>::value ||
-              is_same_rcv<TypeT, long>::value || is_same_rcv<TypeT, unsigned long>::value ||
-              is_same_rcv<TypeT, long long>::value || is_same_rcv<TypeT, unsigned long long>::value>
+                      is_same_rcv<TypeT, signed char>::value ||
+                      is_same_rcv<TypeT, unsigned char>::value ||
+                      is_same_rcv<TypeT, char8_t>::value || is_same_rcv<TypeT, char16_t>::value ||
+                      is_same_rcv<TypeT, char32_t>::value || is_same_rcv<TypeT, wchar_t>::value ||
+                      is_same_rcv<TypeT, short>::value ||
+                      is_same_rcv<TypeT, unsigned short>::value || is_same_rcv<TypeT, int>::value ||
+                      is_same_rcv<TypeT, unsigned>::value || is_same_rcv<TypeT, long>::value ||
+                      is_same_rcv<TypeT, unsigned long>::value ||
+                      is_same_rcv<TypeT, long long>::value ||
+                      is_same_rcv<TypeT, unsigned long long>::value>
 {};
 
 template <typename TypeT>
-struct is_not_unsafe_integral : public bool_constant<!is_unsafe_integral<TypeT>::value>
+struct is_not_unsafe_integral : public integral_constant<bool, !is_unsafe_integral<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

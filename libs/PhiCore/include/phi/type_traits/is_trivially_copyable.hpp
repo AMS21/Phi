@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_copyable.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_TRIVIALLY_COPYABLE()
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_trivially_copyable : public bool_constant<PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+struct is_trivially_copyable : public integral_constant<bool, PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_trivially_copyable : public bool_constant<!PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+struct is_not_trivially_copyable : public integral_constant<bool, !PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -68,18 +68,19 @@ namespace detail
 {
     template <typename TypeT>
     struct is_trivially_copyable_impl
-        : public bool_constant<
-                  (is_trivially_copy_assignable<TypeT>::value ||
-                   !is_copy_assignable<TypeT>::value) &&
-                  (is_trivially_copy_constructible<TypeT>::value ||
-                   !is_copy_constructible<TypeT>::value) &&
-                  (is_trivially_move_assignable<TypeT>::value ||
-                   !is_move_assignable<TypeT>::value) &&
-                  (is_trivially_move_constructible<TypeT>::value ||
-                   !is_move_constructible<TypeT>::value) &&
-                  (is_copy_assignable<TypeT>::value || is_copy_constructible<TypeT>::value ||
-                   is_move_assignable<TypeT>::value || is_move_constructible<TypeT>::value) &&
-                  (is_trivially_destructible<TypeT>::value)>
+        : public integral_constant<bool, (is_trivially_copy_assignable<TypeT>::value ||
+                                          !is_copy_assignable<TypeT>::value) &&
+                                                 (is_trivially_copy_constructible<TypeT>::value ||
+                                                  !is_copy_constructible<TypeT>::value) &&
+                                                 (is_trivially_move_assignable<TypeT>::value ||
+                                                  !is_move_assignable<TypeT>::value) &&
+                                                 (is_trivially_move_constructible<TypeT>::value ||
+                                                  !is_move_constructible<TypeT>::value) &&
+                                                 (is_copy_assignable<TypeT>::value ||
+                                                  is_copy_constructible<TypeT>::value ||
+                                                  is_move_assignable<TypeT>::value ||
+                                                  is_move_constructible<TypeT>::value) &&
+                                                 (is_trivially_destructible<TypeT>::value)>
     {};
 } // namespace detail
 
@@ -89,7 +90,8 @@ struct is_trivially_copyable
 {};
 
 template <typename TypeT>
-struct is_not_trivially_copyable : public bool_constant<!is_trivially_copyable<TypeT>::value>
+struct is_not_trivially_copyable
+    : public integral_constant<bool, !is_trivially_copyable<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

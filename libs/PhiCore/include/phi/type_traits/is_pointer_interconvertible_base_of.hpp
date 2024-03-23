@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_pointer_interconvertible_base_of.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_POINTER_INTERCONVERTIBLE_BASE_OF()
 
@@ -20,12 +20,12 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BaseT, typename DerivedT>
 struct is_pointer_interconvertible_base_of
-    : public bool_constant<PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
+    : public integral_constant<bool, PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
 {};
 
 template <typename BaseT, typename DerivedT>
 struct is_not_pointer_interconvertible_base_of
-    : public bool_constant<!PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
+    : public integral_constant<bool, !PHI_IS_POINTER_INTERCONVERTIBLE_BASE_OF(BaseT, DerivedT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -57,7 +57,7 @@ struct is_pointer_interconvertible_base_of : public false_type
 
 template <typename BaseT, typename DerivedT>
 struct is_not_pointer_interconvertible_base_of
-    : public bool_constant<!is_pointer_interconvertible_base_of<BaseT, DerivedT>::value>
+    : public integral_constant<bool, !is_pointer_interconvertible_base_of<BaseT, DerivedT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_enum.hpp"
 #include "phi/type_traits/is_member_pointer.hpp"
 #include "phi/type_traits/is_null_pointer.hpp"
@@ -26,13 +26,14 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_unsafe_scalar
-    : public bool_constant<is_unsafe_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
-                           is_pointer<TypeT>::value || is_member_pointer<TypeT>::value ||
-                           is_null_pointer<TypeT>::value>
+    : public integral_constant<bool, is_unsafe_arithmetic<TypeT>::value || is_enum<TypeT>::value ||
+                                             is_pointer<TypeT>::value ||
+                                             is_member_pointer<TypeT>::value ||
+                                             is_null_pointer<TypeT>::value>
 {};
 
 template <typename TypeT>
-struct is_not_unsafe_scalar : public bool_constant<!is_unsafe_scalar<TypeT>::value>
+struct is_not_unsafe_scalar : public integral_constant<bool, !is_unsafe_scalar<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

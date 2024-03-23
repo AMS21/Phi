@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_destructible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_TRIVIALLY_DESTRUCTIBLE()
 
@@ -19,11 +19,13 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_trivially_destructible : public bool_constant<PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT)>
+struct is_trivially_destructible
+    : public integral_constant<bool, PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_trivially_destructible : public bool_constant<!PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT)>
+struct is_not_trivially_destructible
+    : public integral_constant<bool, !PHI_IS_TRIVIALLY_DESTRUCTIBLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -48,12 +50,13 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_trivially_destructible
-    : public bool_constant<is_destructible<TypeT>::value&& __has_trivial_destructor(TypeT)>
+    : public integral_constant<bool,
+                               is_destructible<TypeT>::value&& __has_trivial_destructor(TypeT)>
 {};
 
 template <typename TypeT>
 struct is_not_trivially_destructible
-    : public bool_constant<!is_trivially_destructible<TypeT>::value>
+    : public integral_constant<bool, !is_trivially_destructible<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -82,7 +85,7 @@ namespace detail
 {
     template <typename TypeT>
     struct is_trivially_destructible_impl
-        : bool_constant<is_scalar<TypeT>::value || is_reference<TypeT>::value>
+        : integral_constant<bool, is_scalar<TypeT>::value || is_reference<TypeT>::value>
     {};
 } // namespace detail
 
@@ -97,7 +100,7 @@ struct is_trivially_destructible<TypeT[]> : public false_type
 
 template <typename TypeT>
 struct is_not_trivially_destructible
-    : public bool_constant<!is_trivially_destructible<TypeT>::value>
+    : public integral_constant<bool, !is_trivially_destructible<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_pod.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_POD()
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_pod : public phi::bool_constant<PHI_IS_POD(TypeT)>
+struct is_pod : public phi::integral_constant<bool, PHI_IS_POD(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_pod : public phi::bool_constant<!PHI_IS_POD(TypeT)>
+struct is_not_pod : public phi::integral_constant<bool, !PHI_IS_POD(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -50,14 +50,15 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_pod_v = !PHI_IS_POD(TypeT);
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_pod : public bool_constant<is_trivially_default_constructible<TypeT>::value &&
-                                     is_trivially_copy_constructible<TypeT>::value &&
-                                     is_trivially_copy_assignable<TypeT>::value &&
-                                     is_trivially_destructible<TypeT>::value>
+struct is_pod
+    : public integral_constant<bool, is_trivially_default_constructible<TypeT>::value &&
+                                             is_trivially_copy_constructible<TypeT>::value &&
+                                             is_trivially_copy_assignable<TypeT>::value &&
+                                             is_trivially_destructible<TypeT>::value>
 {};
 
 template <typename TypeT>
-struct is_not_pod : public bool_constant<!is_pod<TypeT>::value>
+struct is_not_pod : public integral_constant<bool, !is_pod<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

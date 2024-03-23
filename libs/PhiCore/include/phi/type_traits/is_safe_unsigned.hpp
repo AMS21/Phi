@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/warning.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_safe_arithmetic.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 
@@ -22,7 +22,8 @@ namespace detail
 {
     template <typename TypeT, bool = is_safe_arithmetic<TypeT>::value>
     struct is_safe_unsigned_impl
-        : public bool_constant<typename TypeT::value_type(0) < typename TypeT::value_type(-1)>
+        : public integral_constant<bool,
+                                   typename TypeT::value_type(0) < typename TypeT::value_type(-1)>
     {};
 
     template <typename TypeT>
@@ -35,7 +36,7 @@ struct is_safe_unsigned : public detail::is_safe_unsigned_impl<remove_cv_t<TypeT
 {};
 
 template <typename TypeT>
-struct is_not_safe_unsigned : public bool_constant<!is_safe_unsigned<TypeT>::value>
+struct is_not_safe_unsigned : public integral_constant<bool, !is_safe_unsigned<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

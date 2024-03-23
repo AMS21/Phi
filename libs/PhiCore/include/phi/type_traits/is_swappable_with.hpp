@@ -11,7 +11,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/void_t.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -32,18 +32,19 @@ namespace detail
 
     template <typename TypeT, typename OtherT>
     struct is_swappable_with_impl
-        : public bool_constant<is_swappable_with_helper<TypeT, OtherT>::value &&
-                               is_swappable_with_helper<OtherT, TypeT>::value>
+        : public integral_constant<bool, is_swappable_with_helper<TypeT, OtherT>::value &&
+                                                 is_swappable_with_helper<OtherT, TypeT>::value>
     {};
 } // namespace detail
 
 template <typename TypeT, typename OtherT>
 struct is_swappable_with
-    : public bool_constant<detail::is_swappable_with_impl<TypeT, OtherT>::value>
+    : public integral_constant<bool, detail::is_swappable_with_impl<TypeT, OtherT>::value>
 {};
 
 template <typename TypeT, typename OtherT>
-struct is_not_swappable_with : public bool_constant<!is_swappable_with<TypeT, OtherT>::value>
+struct is_not_swappable_with
+    : public integral_constant<bool, !is_swappable_with<TypeT, OtherT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

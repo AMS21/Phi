@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_convertible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_CONVERTIBLE()
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename FromT, typename ToT>
-struct is_convertible : public bool_constant<PHI_IS_CONVERTIBLE(FromT, ToT)>
+struct is_convertible : public integral_constant<bool, PHI_IS_CONVERTIBLE(FromT, ToT)>
 {};
 
 template <typename FromT, typename ToT>
-struct is_not_convertible : public bool_constant<!PHI_IS_CONVERTIBLE(FromT, ToT)>
+struct is_not_convertible : public integral_constant<bool, !PHI_IS_CONVERTIBLE(FromT, ToT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -68,13 +68,14 @@ namespace detail
 
 template <typename FromT, typename ToT>
 struct is_convertible
-    : public bool_constant<(decltype(detail::test_returnable<ToT>(0))::value &&
-                            decltype(detail::test_implicitly_convertible<FromT, ToT>(0))::value) ||
-                           (is_void<FromT>::value && is_void<ToT>::value)>
+    : public integral_constant<bool, (decltype(detail::test_returnable<ToT>(0))::value &&
+                                      decltype(detail::test_implicitly_convertible<FromT, ToT>(
+                                              0))::value) ||
+                                             (is_void<FromT>::value && is_void<ToT>::value)>
 {};
 
 template <typename FromT, typename ToT>
-struct is_not_convertible : public bool_constant<!is_convertible<FromT, ToT>::value>
+struct is_not_convertible : public integral_constant<bool, !is_convertible<FromT, ToT>::value>
 {};
 
 PHI_CLANG_SUPPRESS_WARNING_POP()
@@ -223,7 +224,7 @@ private:
 };
 
 template <typename FromT, typename ToT>
-struct is_not_convertible : public bool_constant<!is_convertible<FromT, ToT>::value>
+struct is_not_convertible : public integral_constant<bool, !is_convertible<FromT, ToT>::value>
 {};
 
 PHI_CLANG_SUPPRESS_WARNING_POP()

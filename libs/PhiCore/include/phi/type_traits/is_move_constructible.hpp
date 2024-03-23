@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_rvalue_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -23,7 +23,8 @@ struct is_move_constructible
 {};
 
 template <typename TypeT>
-struct is_not_move_constructible : public bool_constant<!is_move_constructible<TypeT>::value>
+struct is_not_move_constructible
+    : public integral_constant<bool, !is_move_constructible<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

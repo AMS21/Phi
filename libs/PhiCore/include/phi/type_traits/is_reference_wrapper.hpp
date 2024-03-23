@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/forward/std/reference_wrapper.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/remove_cv.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -32,7 +32,8 @@ struct is_reference_wrapper
 {};
 
 template <typename TypeT>
-struct is_not_reference_wrapper : public bool_constant<!is_reference_wrapper<TypeT>::value>
+struct is_not_reference_wrapper
+    : public integral_constant<bool, !is_reference_wrapper<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

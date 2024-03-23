@@ -1,6 +1,7 @@
 #include <phi/test/test_macros.hpp>
 
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/type_traits/bool_constant.hpp>
 #include <phi/type_traits/integral_constant.hpp>
 
 enum class MyEnum
@@ -61,10 +62,14 @@ TEST_CASE("type_traits.true_type")
 {
     STATIC_REQUIRE(phi::true_type::value == true);
     CHECK_SAME_TYPE(phi::true_type::type, phi::true_type);
+#if PHI_HAS_FEATURE_ALIAS_TEMPLATES()
     CHECK_SAME_TYPE(phi::true_type::type, phi::bool_constant<true>);
+#endif
     CHECK_SAME_TYPE(phi::true_type::type, phi::integral_constant<bool, true>);
     CHECK_SAME_TYPE(phi::true_type::this_type, phi::true_type);
+#if PHI_HAS_FEATURE_ALIAS_TEMPLATES()
     CHECK_SAME_TYPE(phi::true_type::this_type, phi::bool_constant<true>);
+#endif
     CHECK_SAME_TYPE(phi::true_type::this_type, phi::integral_constant<bool, true>);
     CHECK_SAME_TYPE(phi::true_type::value_type, bool);
     STATIC_REQUIRE(phi::true_type() == true);
@@ -85,10 +90,14 @@ TEST_CASE("type_traits.false_type")
 {
     STATIC_REQUIRE(phi::false_type::value == false);
     CHECK_SAME_TYPE(phi::false_type::type, phi::false_type);
+#if PHI_HAS_FEATURE_ALIAS_TEMPLATES()
     CHECK_SAME_TYPE(phi::false_type::type, phi::bool_constant<false>);
+#endif
     CHECK_SAME_TYPE(phi::false_type::type, phi::integral_constant<bool, false>);
     CHECK_SAME_TYPE(phi::false_type::this_type, phi::false_type);
+#if PHI_HAS_FEATURE_ALIAS_TEMPLATES()
     CHECK_SAME_TYPE(phi::false_type::this_type, phi::bool_constant<false>);
+#endif
     CHECK_SAME_TYPE(phi::false_type::this_type, phi::integral_constant<bool, false>);
     CHECK_SAME_TYPE(phi::false_type::value_type, bool);
     STATIC_REQUIRE(phi::false_type() == false);

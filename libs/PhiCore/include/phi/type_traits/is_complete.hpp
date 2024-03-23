@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_complete.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_COMPLETE() && 0
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_complete : public bool_constant<PHI_IS_COMPLETE(TypeT)>
+struct is_complete : public integral_constant<bool, PHI_IS_COMPLETE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_complete : public bool_constant<!PHI_IS_COMPLETE(TypeT)>
+struct is_not_complete : public integral_constant<bool, !PHI_IS_COMPLETE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -69,9 +69,9 @@ PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
 struct is_complete
-    : public bool_constant<is_function<typename remove_reference<TypeT>::type>::value ||
-                           is_rvalue_reference<TypeT>::value ||
-                           detail::is_complete_imp<TypeT>::value>
+    : public integral_constant<bool, is_function<typename remove_reference<TypeT>::type>::value ||
+                                             is_rvalue_reference<TypeT>::value ||
+                                             detail::is_complete_imp<TypeT>::value>
 {};
 
 template <typename TypeT>
@@ -79,7 +79,7 @@ struct is_complete<TypeT&> : public is_complete<TypeT>
 {};
 
 template <typename TypeT>
-struct is_not_complete : public bool_constant<!is_complete<TypeT>::value>
+struct is_not_complete : public integral_constant<bool, !is_complete<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

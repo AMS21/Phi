@@ -41,9 +41,9 @@ SOFTWARE.
 #include "phi/compiler_support/standard_library.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/boolean.hpp"
-#include "phi/type_traits/bool_constant.hpp"
 #include "phi/type_traits/conditional.hpp"
 #include "phi/type_traits/enable_if.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_unsafe_floating_point.hpp"
 #include <cmath>
 #include <iosfwd>
@@ -60,8 +60,9 @@ namespace detail
     // Floating point conversion
     template <typename FromT, typename ToT>
     struct is_safe_floating_point_conversion
-        : public bool_constant<is_unsafe_floating_point<FromT>::value &&
-                               is_unsafe_floating_point<ToT>::value && sizeof(FromT) <= sizeof(ToT)>
+        : public integral_constant<bool, is_unsafe_floating_point<FromT>::value &&
+                                                 is_unsafe_floating_point<ToT>::value &&
+                                                 sizeof(FromT) <= sizeof(ToT)>
     {};
 
     template <typename FromT, typename ToT>
@@ -75,8 +76,9 @@ namespace detail
     // Floating point comparison
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_comparison
-        : public bool_constant<is_safe_floating_point_conversion<LhsT, RhsT>::value ||
-                               is_safe_floating_point_conversion<RhsT, LhsT>::value>
+        : public integral_constant<bool,
+                                   is_safe_floating_point_conversion<LhsT, RhsT>::value ||
+                                           is_safe_floating_point_conversion<RhsT, LhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>
@@ -90,8 +92,8 @@ namespace detail
     // Floating point operation
     template <typename LhsT, typename RhsT>
     struct is_safe_floating_point_operation
-        : public bool_constant<is_unsafe_floating_point<LhsT>::value &&
-                               is_unsafe_floating_point<RhsT>::value>
+        : public integral_constant<bool, is_unsafe_floating_point<LhsT>::value &&
+                                                 is_unsafe_floating_point<RhsT>::value>
     {};
 
     template <typename LhsT, typename RhsT>

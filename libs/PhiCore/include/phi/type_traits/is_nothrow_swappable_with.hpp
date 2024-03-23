@@ -13,7 +13,7 @@
 #include "phi/compiler_support/noexcept.hpp"
 #include "phi/compiler_support/warning.hpp"
 #include "phi/core/declval.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_swappable_with.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -39,12 +39,12 @@ namespace detail
 
 template <typename TypeT, typename OtherT>
 struct is_nothrow_swappable_with
-    : public bool_constant<detail::is_nothrow_swappable_with_impl<TypeT, OtherT>::value>
+    : public integral_constant<bool, detail::is_nothrow_swappable_with_impl<TypeT, OtherT>::value>
 {};
 
 template <typename TypeT, typename OtherT>
 struct is_not_nothrow_swappable_with
-    : public bool_constant<!is_nothrow_swappable_with<TypeT, OtherT>::value>
+    : public integral_constant<bool, !is_nothrow_swappable_with<TypeT, OtherT>::value>
 {};
 
 PHI_GCC_SUPPRESS_WARNING_POP()

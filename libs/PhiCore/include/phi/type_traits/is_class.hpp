@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_class.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_CLASS()
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_class : public bool_constant<PHI_IS_CLASS(TypeT)>
+struct is_class : public integral_constant<bool, PHI_IS_CLASS(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_class : public bool_constant<!PHI_IS_CLASS(TypeT)>
+struct is_not_class : public integral_constant<bool, !PHI_IS_CLASS(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -67,16 +67,16 @@ PHI_MSVC_SUPPRESS_WARNING(
         5243) // 'x': using incomplete class 'y' can cause potential one definition rule violation due to ABI limitation
 
 template <typename TypeT>
-struct is_class
-    : public bool_constant<sizeof(detail::is_class_test<TypeT>(0)) == detail::sizeof_yes_type &&
-                           is_not_union<TypeT>::value>
+struct is_class : public integral_constant<bool, sizeof(detail::is_class_test<TypeT>(0)) ==
+                                                                 detail::sizeof_yes_type &&
+                                                         is_not_union<TypeT>::value>
 {};
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_CLANG_SUPPRESS_WARNING_POP()
 
 template <typename TypeT>
-struct is_not_class : public bool_constant<!is_class<TypeT>::value>
+struct is_not_class : public integral_constant<bool, !is_class<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

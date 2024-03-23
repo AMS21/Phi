@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_trivially_constructible.hpp"
 
 #if PHI_HAS_WORKING_IS_TRIVIALLY_CONSTRUCTIBLE()
@@ -26,7 +26,7 @@ struct is_trivially_default_constructible : public is_trivially_constructible<Ty
 
 template <typename TypeT>
 struct is_not_trivially_default_constructible
-    : public bool_constant<!is_trivially_default_constructible<TypeT>::value>
+    : public integral_constant<bool, !is_trivially_default_constructible<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

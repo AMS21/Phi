@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_empty.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_EMPTY()
 
@@ -19,11 +19,11 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 #    define PHI_HAS_WORKING_IS_EMPTY() 1
 
 template <typename TypeT>
-struct is_empty : public bool_constant<PHI_IS_EMPTY(TypeT)>
+struct is_empty : public integral_constant<bool, PHI_IS_EMPTY(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_empty : public bool_constant<!PHI_IS_EMPTY(TypeT)>
+struct is_not_empty : public integral_constant<bool, !PHI_IS_EMPTY(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -65,7 +65,7 @@ namespace detail
 
     template <typename TypeT, bool = is_class<TypeT>::value>
     struct is_empty_impl
-        : public bool_constant<sizeof(is_empty_test1<TypeT>) == sizeof(is_empty_test2)>
+        : public integral_constant<bool, sizeof(is_empty_test1<TypeT>) == sizeof(is_empty_test2)>
     {};
 
     template <typename TypeT>
@@ -84,7 +84,7 @@ struct is_empty : public detail::is_empty_impl<TypeT>
 };
 
 template <typename TypeT>
-struct is_not_empty : public bool_constant<!is_empty<TypeT>::value>
+struct is_not_empty : public integral_constant<bool, !is_empty<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

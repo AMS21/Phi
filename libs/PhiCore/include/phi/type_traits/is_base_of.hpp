@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_base_of.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_BASE_OF()
 
@@ -19,11 +19,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename BaseT, typename DerivedT>
-struct is_base_of : public bool_constant<PHI_IS_BASE_OF(BaseT, DerivedT)>
+struct is_base_of : public integral_constant<bool, PHI_IS_BASE_OF(BaseT, DerivedT)>
 {};
 
 template <typename BaseT, typename DerivedT>
-struct is_not_base_of : public bool_constant<!PHI_IS_BASE_OF(BaseT, DerivedT)>
+struct is_not_base_of : public integral_constant<bool, !PHI_IS_BASE_OF(BaseT, DerivedT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -72,13 +72,14 @@ namespace detail
 
 template <typename BaseT, typename DerivedT>
 struct is_base_of
-    : public bool_constant<is_class<BaseT>::value &&
-                           is_class<DerivedT>::value&& decltype(detail::test_pre_is_base_of<
-                                                                BaseT, DerivedT>(0))::value>
+    : public integral_constant<
+              bool, is_class<BaseT>::value &&
+                            is_class<DerivedT>::value&& decltype(detail::test_pre_is_base_of<
+                                                                 BaseT, DerivedT>(0))::value>
 {};
 
 template <typename BaseT, typename DerivedT>
-struct is_not_base_of : public bool_constant<!is_base_of<BaseT, DerivedT>::value>
+struct is_not_base_of : public integral_constant<bool, !is_base_of<BaseT, DerivedT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

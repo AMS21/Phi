@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_referenceable.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 // NOTE: Enabling this fails CI builds but I can't replicate them locally
 #if PHI_SUPPORTS_IS_REFERENCEABLE() && 0
@@ -18,11 +18,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_referenceable : public bool_constant<PHI_IS_REFERENCEABLE(TypeT)>
+struct is_referenceable : public integral_constant<bool, PHI_IS_REFERENCEABLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_referenceable : public bool_constant<!PHI_IS_REFERENCEABLE(TypeT)>
+struct is_not_referenceable : public integral_constant<bool, !PHI_IS_REFERENCEABLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -56,12 +56,13 @@ namespace detail
 
 template <typename TypeT>
 struct is_referenceable
-    : public bool_constant<is_not_same<decltype(detail::is_referenceable_impl::test<TypeT>(0)),
-                                       detail::no_type>::value>
+    : public integral_constant<bool,
+                               is_not_same<decltype(detail::is_referenceable_impl::test<TypeT>(0)),
+                                           detail::no_type>::value>
 {};
 
 template <typename TypeT>
-struct is_not_referenceable : public bool_constant<!is_referenceable<TypeT>::value>
+struct is_not_referenceable : public integral_constant<bool, !is_referenceable<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_layout_compatible.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 #if PHI_SUPPORTS_IS_LAYOUT_COMPATIBLE()
 
@@ -19,11 +19,12 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT, typename WithT>
-struct is_layout_compatible : public bool_constant<PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT)>
+struct is_layout_compatible : public integral_constant<bool, PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT)>
 {};
 
 template <typename TypeT, typename WithT>
-struct is_not_layout_compatible : public bool_constant<!PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT)>
+struct is_not_layout_compatible
+    : public integral_constant<bool, !PHI_IS_LAYOUT_COMPATIBLE(TypeT, WithT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -54,7 +55,8 @@ struct is_layout_compatible : public false_type
 };
 
 template <typename TypeT, typename WithT>
-struct is_not_layout_compatible : public bool_constant<!is_layout_compatible<TypeT, WithT>::value>
+struct is_not_layout_compatible
+    : public integral_constant<bool, !is_layout_compatible<TypeT, WithT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

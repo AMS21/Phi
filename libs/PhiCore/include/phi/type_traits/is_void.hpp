@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -34,7 +34,7 @@ struct is_void<const volatile void> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_void : public bool_constant<!is_void<TypeT>::value>
+struct is_not_void : public integral_constant<bool, !is_void<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

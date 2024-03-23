@@ -10,7 +10,7 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/core/declval.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
@@ -38,7 +38,8 @@ struct is_static_castable_to : public detail::is_static_castable_to_impl<FromT, 
 {};
 
 template <typename FromT, typename ToT>
-struct is_not_static_castable_to : public bool_constant<!is_static_castable_to<FromT, ToT>::value>
+struct is_not_static_castable_to
+    : public integral_constant<bool, !is_static_castable_to<FromT, ToT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

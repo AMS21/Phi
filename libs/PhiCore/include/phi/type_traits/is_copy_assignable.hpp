@@ -11,7 +11,7 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_const.hpp"
 #include "phi/type_traits/add_lvalue_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_assignable.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -22,7 +22,7 @@ struct is_copy_assignable : public is_assignable<add_lvalue_reference_t<TypeT>,
 {};
 
 template <typename TypeT>
-struct is_not_copy_assignable : public bool_constant<!is_copy_assignable<TypeT>::value>
+struct is_not_copy_assignable : public integral_constant<bool, !is_copy_assignable<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

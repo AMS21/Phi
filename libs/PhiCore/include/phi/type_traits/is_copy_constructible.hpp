@@ -11,7 +11,7 @@
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/type_traits/add_const.hpp"
 #include "phi/type_traits/add_lvalue_reference.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_constructible.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
@@ -24,7 +24,8 @@ struct is_copy_constructible
 {};
 
 template <typename TypeT>
-struct is_not_copy_constructible : public bool_constant<!is_copy_constructible<TypeT>::value>
+struct is_not_copy_constructible
+    : public integral_constant<bool, !is_copy_constructible<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

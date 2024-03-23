@@ -9,7 +9,7 @@
 
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 #include "phi/type_traits/is_arithmetic.hpp"
 #include "phi/type_traits/is_null_pointer.hpp"
 #include "phi/type_traits/is_void.hpp"
@@ -18,12 +18,12 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
 struct is_fundamental
-    : public bool_constant<is_void<TypeT>::value || is_null_pointer<TypeT>::value ||
-                           is_arithmetic<TypeT>::value>
+    : public integral_constant<bool, is_void<TypeT>::value || is_null_pointer<TypeT>::value ||
+                                             is_arithmetic<TypeT>::value>
 {};
 
 template <typename TypeT>
-struct is_not_fundamental : public bool_constant<!is_fundamental<TypeT>::value>
+struct is_not_fundamental : public integral_constant<bool, !is_fundamental<TypeT>::value>
 {};
 
 #if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

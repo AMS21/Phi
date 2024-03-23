@@ -158,7 +158,7 @@ PHI_CONSTEXPR bool no_common_type_imp(long /*unused*/)
 }
 
 template <typename... ArgsT>
-using no_common_type = phi::bool_constant<no_common_type_imp<ArgsT...>(0)>;
+using no_common_type = phi::integral_constant<bool, no_common_type_imp<ArgsT...>(0)>;
 #endif
 
 template <typename... ArgsT>

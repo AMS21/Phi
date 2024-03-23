@@ -13,7 +13,7 @@
 #include "phi/compiler_support/intrinsics/is_trivial.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_constructible.hpp"
 #include "phi/compiler_support/intrinsics/is_trivially_copyable.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 // MSVC's implementation of is_trivial seems broken
 #if PHI_SUPPORTS_IS_TRIVIAL() && PHI_COMPILER_IS_NOT(MSVC)
@@ -23,11 +23,11 @@
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_trivial : public bool_constant<PHI_IS_TRIVIAL(TypeT)>
+struct is_trivial : public integral_constant<bool, PHI_IS_TRIVIAL(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIAL(TypeT)>
+struct is_not_trivial : public integral_constant<bool, !PHI_IS_TRIVIAL(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -47,13 +47,13 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_trivial_v = !PHI_IS_TRIVIAL(TypeT)
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_trivial : public bool_constant<PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) &&
-                                         PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+struct is_trivial : public integral_constant<bool, PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) &&
+                                                           PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_trivial : public bool_constant<!PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) ||
-                                             !PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
+struct is_not_trivial : public integral_constant<bool, !PHI_IS_TRIVIALLY_CONSTRUCTIBLE(TypeT) ||
+                                                               !PHI_IS_TRIVIALLY_COPYABLE(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -83,12 +83,13 @@ PHI_INLINE_VARIABLE PHI_CONSTEXPR bool is_not_trivial_v =
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 template <typename TypeT>
-struct is_trivial : public bool_constant<is_trivially_copyable<TypeT>::value &&
-                                         is_trivially_default_constructible<TypeT>::value>
+struct is_trivial
+    : public integral_constant<bool, is_trivially_copyable<TypeT>::value &&
+                                             is_trivially_default_constructible<TypeT>::value>
 {};
 
 template <typename TypeT>
-struct is_not_trivial : public bool_constant<is_trivial<TypeT>::value>
+struct is_not_trivial : public integral_constant<bool, is_trivial<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()

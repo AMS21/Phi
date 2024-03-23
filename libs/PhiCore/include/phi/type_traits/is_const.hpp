@@ -10,18 +10,18 @@
 #include "phi/compiler_support/constexpr.hpp"
 #include "phi/compiler_support/inline_variables.hpp"
 #include "phi/compiler_support/intrinsics/is_const.hpp"
-#include "phi/type_traits/bool_constant.hpp"
+#include "phi/type_traits/integral_constant.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
 #if PHI_SUPPORTS_IS_CONST()
 
 template <typename TypeT>
-struct is_const : public bool_constant<PHI_IS_CONST(TypeT)>
+struct is_const : public integral_constant<bool, PHI_IS_CONST(TypeT)>
 {};
 
 template <typename TypeT>
-struct is_not_const : public bool_constant<!PHI_IS_CONST(TypeT)>
+struct is_not_const : public integral_constant<bool, !PHI_IS_CONST(TypeT)>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
@@ -45,7 +45,7 @@ struct is_const<const TypeT> : public true_type
 {};
 
 template <typename TypeT>
-struct is_not_const : public bool_constant<!is_const<TypeT>::value>
+struct is_not_const : public integral_constant<bool, !is_const<TypeT>::value>
 {};
 
 #    if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
