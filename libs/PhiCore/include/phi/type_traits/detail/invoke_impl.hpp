@@ -20,6 +20,7 @@
 #include "phi/type_traits/is_member_function_pointer.hpp"
 #include "phi/type_traits/is_member_object_pointer.hpp"
 #include "phi/type_traits/is_reference_wrapper.hpp"
+#include "phi/type_traits/is_same.hpp"
 #include "phi/type_traits/is_void.hpp"
 
 DETAIL_PHI_BEGIN_NAMESPACE()
