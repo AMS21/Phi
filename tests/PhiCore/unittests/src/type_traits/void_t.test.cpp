@@ -93,9 +93,16 @@ TEST_CASE("is_void")
     test_void_t<void*, int&>();
     test_void_t<void*, int&&>();
 
+    CHECK_SAME_TYPE(void, phi::void_t<int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int>);
     CHECK_SAME_TYPE(void, phi::void_t<int, int, int>);
     CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int>);
     CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int, int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int, int, int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int, int, int, int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int, int, int, int, int>);
+    CHECK_SAME_TYPE(void, phi::void_t<int, int, int, int, int, int, int, int, int, int>);
     CHECK_SAME_TYPE(void, phi::void_t<int, double const&, class_type, volatile int[], void>);
     CHECK_SAME_TYPE(void, phi::void_t<int, double const&, class_type, volatile int[], void,
                                       int (*)(double, float)>);
