@@ -85,6 +85,19 @@
 #        define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #    endif
 
+// Lambda expression
+// https://en.cppreference.com/w/cpp/language/lambda
+// https://wg21.link/N2550
+// https://wg21.link/N2658
+// https://wg21.link/N2927
+#    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 5, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 3, 1, 0) ||        \
+            PHI_COMPILER_IS_ATLEAST(MSVC, 17, 0, 0) || PHI_COMPILER_IS(APPLECLANG) ||              \
+            PHI_COMPILER_IS(EMCC)
+#        define PHI_HAS_FEATURE_LAMBDA() 1
+#    else
+#        define PHI_HAS_FEATURE_LAMBDA() 0
+#    endif
+
 #else
 #    define PHI_HAS_FEATURE_CONSTEXPR()           0
 #    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()  0
@@ -94,6 +107,7 @@
 #    define PHI_HAS_FEATURE_NOEXCEPT()            0
 #    define PHI_HAS_FEATURE_NOEXCEPT_EXPR()       0
 #    define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
+#    define PHI_HAS_FEATURE_LAMBDA()              0
 #endif
 
 // C++-14 features
