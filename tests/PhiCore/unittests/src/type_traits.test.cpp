@@ -65,8 +65,10 @@ TEST_CASE("type_traits")
 #endif
 
     // bool_constant
+#if PHI_HAS_FEATURE_ALIAS_TEMPLATES()
     STATIC_REQUIRE(phi::bool_constant<true>::value);
     STATIC_REQUIRE_FALSE(phi::bool_constant<false>::value);
+#endif
 
     // common_type
     //CHECK_SAME_TYPE(typename phi::common_type<int, int>::type, int);
