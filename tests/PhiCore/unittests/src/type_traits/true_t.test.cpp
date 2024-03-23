@@ -25,6 +25,10 @@ template <typename TypeT>
 static void func()
 {
     static_assert(!phi::true_t<TypeT>::value, "Failure");
+
+#if PHI_HAS_FEATURE_VARIABLE_TEMPLATE()
+    static_assert(!phi::true_v<TypeT>, "Failure");
+#endif
 }
 
 template <>
@@ -46,6 +50,11 @@ TEST_CASE("true_t")
     test_true_t<int, int, int>();
     test_true_t<int, int, int, int>();
     test_true_t<int, int, int, int, int>();
+    test_true_t<int, int, int, int, int, int>();
+    test_true_t<int, int, int, int, int, int, int>();
+    test_true_t<int, int, int, int, int, int, int, int>();
+    test_true_t<int, int, int, int, int, int, int, int, int>();
+    test_true_t<int, int, int, int, int, int, int, int, int, int>();
 
     func<int>();
 }
