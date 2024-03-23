@@ -24,14 +24,29 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR TypeT& at(TypeT (&arr)[Size], size_t index)
     return arr[index];
 }
 
+#if PHI_HAS_FEATURE_AUTO() && PHI_HAS_FEATURE_DECLTYPE()
+
 template <typename ContainerT>
 PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index)
-#if defined(PHI_DEBUG)
+#    if defined(PHI_DEBUG)
         PHI_NOEXCEPT_EXPR(noexcept(container.at(index)))
-#else
+#    else
         PHI_NOEXCEPT_EXPR(noexcept(container[index]))
-#endif
+#    endif
                 -> decltype(container[container.size()])
+
+#else
+
+template <typename ContainerT>
+PHI_NODISCARD PHI_EXTENDED_CONSTEXPR typename ContainerT::value_type at(ContainerT& container,
+                                                                        size_t      index)
+#    if defined(PHI_DEBUG)
+        PHI_NOEXCEPT_EXPR(noexcept(container.at(index)))
+#    else
+        PHI_NOEXCEPT_EXPR(noexcept(container[index]))
+#    endif
+
+#endif
 {
     PHI_ASSERT(index < container.size(), "Index {} is out of bounds! Max value: {}", index,
                container.size() - 1);
