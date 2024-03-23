@@ -98,6 +98,18 @@
 #        define PHI_HAS_FEATURE_LAMBDA() 0
 #    endif
 
+// variadic templates
+// https://en.cppreference.com/w/cpp/language/parameter_pack
+// https://wg21.link/N2242
+// https://wg21.link/N2555
+#    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 4, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 2, 9, 0) ||        \
+            PHI_COMPILER_IS_ATLEAST(MSVC, 18, 0, 0) || PHI_COMPILER_IS(APPLECLANG) ||              \
+            PHI_COMPILER_IS(EMCC)
+#        define PHI_HAS_FEATURE_VARIADIC_TEMPLATES() 1
+#    else
+#        define PHI_HAS_FEATURE_VARIADIC_TEMPLATES() 0
+#    endif
+
 #else
 #    define PHI_HAS_FEATURE_CONSTEXPR()           0
 #    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()  0
@@ -108,6 +120,7 @@
 #    define PHI_HAS_FEATURE_NOEXCEPT_EXPR()       0
 #    define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #    define PHI_HAS_FEATURE_LAMBDA()              0
+#    define PHI_HAS_FEATURE_VARIADIC_TEMPLATES()  0
 #endif
 
 // C++-14 features
