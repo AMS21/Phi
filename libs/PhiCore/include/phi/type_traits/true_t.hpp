@@ -14,7 +14,7 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
-#if PHI_HAS_FEATURE_VARIADIC_TEMPLATES()
+#if PHI_HAS_FEATURE_VARIADIC_TEMPLATE()
 
 template <typename... TypesT>
 struct true_t : public bool_constant<true>

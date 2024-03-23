@@ -14,7 +14,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 namespace detail
 {
 
-#if PHI_HAS_FEATURE_VARIADIC_TEMPLATES()
+#if PHI_HAS_FEATURE_VARIADIC_TEMPLATE()
 
     template <typename... TypesT>
     struct make_void
@@ -35,7 +35,7 @@ namespace detail
 
 } // namespace detail
 
-#if PHI_HAS_FEATURE_VARIADIC_TEMPLATES()
+#if PHI_HAS_FEATURE_VARIADIC_TEMPLATE()
 
 template <typename... TypesT>
 using void_t = typename detail::make_void<TypesT...>::type;
