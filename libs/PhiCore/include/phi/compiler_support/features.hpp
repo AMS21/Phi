@@ -110,6 +110,17 @@
 #        define PHI_HAS_FEATURE_VARIADIC_TEMPLATE() 0
 #    endif
 
+// alias templates (using declarations)
+// https://en.cppreference.com/w/cpp/language/type_alias
+// https://wg21.link/N2258
+#    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 7, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 2, 9, 0) ||        \
+            PHI_COMPILER_IS_ATLEAST(MSVC, 19, 0, 0) || PHI_COMPILER_IS(APPLECLANG) ||              \
+            PHI_COMPILER_IS(EMCC)
+#        define PHI_HAS_FEATURE_ALIAS_TEMPLATES() 1
+#    else
+#        define PHI_HAS_FEATURE_ALIAS_TEMPLATES() 0
+#    endif
+
 #else
 #    define PHI_HAS_FEATURE_CONSTEXPR()           0
 #    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()  0
@@ -121,6 +132,7 @@
 #    define PHI_HAS_FEATURE_NOEXCEPT_CLASS_EXPR() 0
 #    define PHI_HAS_FEATURE_LAMBDA()              0
 #    define PHI_HAS_FEATURE_VARIADIC_TEMPLATE()   0
+#    define PHI_HAS_FEATURE_ALIAS_TEMPLATES()     0
 #endif
 
 // C++-14 features
