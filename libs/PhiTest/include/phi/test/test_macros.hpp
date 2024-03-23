@@ -19,14 +19,12 @@ namespace test
 {
     namespace detail
     {
-        using TestSignature = void (*)();
-
         void CheckImpl(bool value, const char* expression, const char* file,
                        unsigned long long line_number, bool required, bool expected);
 
         struct register_test_case
         {
-            explicit register_test_case(TestSignature func) PHI_NOEXCEPT;
+            explicit register_test_case(void (*func)()) PHI_NOEXCEPT;
         };
 
         void IncreaseSkipCount() PHI_NOEXCEPT;

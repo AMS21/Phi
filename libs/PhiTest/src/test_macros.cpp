@@ -13,9 +13,9 @@ PHI_CLANG_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_SUPPRESS_WARNING("-Wglobal-constructors")
 PHI_CLANG_SUPPRESS_WARNING("-Wexit-time-destructors")
 
-static std::forward_list<phi::test::detail::TestSignature>& GetFunctionRegister() PHI_NOEXCEPT
+static std::forward_list<void (*)()>& GetFunctionRegister() PHI_NOEXCEPT
 {
-    static std::forward_list<phi::test::detail::TestSignature> function_register;
+    static std::forward_list<void (*)()> function_register;
 
     return function_register;
 }
@@ -61,7 +61,7 @@ namespace test
             }
         }
 
-        register_test_case::register_test_case(TestSignature func) PHI_NOEXCEPT
+        register_test_case::register_test_case(void (*func)()) PHI_NOEXCEPT
         {
             GetFunctionRegister().emplace_front(func);
         }
@@ -80,9 +80,8 @@ int main()
     phi::u64 test_case_count{0u};
 
     // Run all registered tests
-    const std::forward_list<phi::test::detail::TestSignature>& function_register =
-            GetFunctionRegister();
-    for (phi::test::detail::TestSignature test_func_pointer : function_register)
+    const std::forward_list<void (*)()>& function_register = GetFunctionRegister();
+    for (void (*test_func_pointer)() : function_register)
     {
         test_func_pointer();
         test_case_count += 1u;
