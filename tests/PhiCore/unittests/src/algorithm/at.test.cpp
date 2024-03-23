@@ -3,8 +3,12 @@
 #include "constexpr_helper.hpp"
 #include <phi/algorithm/at.hpp>
 #include <phi/compiler_support/constexpr.hpp>
+#include <phi/compiler_support/cpp_standard.hpp>
 #include <phi/container/array.hpp>
-#include <initializer_list>
+
+#if PHI_CPP_STANDARD_IS_ATLEAST(11)
+#    include <initializer_list>
+#endif
 
 TEST_CASE("At c-array", "[Utility][At]")
 {
@@ -48,6 +52,8 @@ TEST_CASE("At container", "[Utility][At]")
     CHECK(phi::at(arr, 4) == 21);
 }
 
+#if PHI_CPP_STANDARD_IS_ATLEAST(11)
+
 TEST_CASE("At initializer_list", "[Utility][At]")
 {
     std::initializer_list<int> list{0, 1, 2, 3, 4};
@@ -58,3 +64,5 @@ TEST_CASE("At initializer_list", "[Utility][At]")
     CHECK(phi::at(list, 3) == 3);
     CHECK(phi::at(list, 4) == 4);
 }
+
+#endif
