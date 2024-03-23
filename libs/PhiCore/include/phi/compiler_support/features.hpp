@@ -133,6 +133,19 @@
 #        define PHI_HAS_FEATURE_DECLTYPE() 0
 #    endif
 
+// Rvalue references
+// https://en.cppreference.com/w/cpp/language/reference#Rvalue_references
+// https://wg21.link/N2118
+// https://wg21.link/N2844
+// https://cplusplus.github.io/CWG/issues/1138.html
+#    if PHI_COMPILER_IS_ATLEAST(GCC, 4, 5, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 2, 9, 0) ||        \
+            PHI_COMPILER_IS_ATLEAST(MSVC, 17, 0, 0) || PHI_COMPILER_IS(APPLECLANG) ||              \
+            PHI_COMPILER_IS(EMCC)
+#        define PHI_HAS_FEATURE_RVALUE_REFERENCES() 1
+#    else
+#        define PHI_HAS_FEATURE_RVALUE_REFERENCES() 0
+#    endif
+
 #else
 #    define PHI_HAS_FEATURE_CONSTEXPR()           0
 #    define PHI_HAS_FEATURE_ATTRIBUTE_NORETURN()  0
@@ -146,6 +159,7 @@
 #    define PHI_HAS_FEATURE_VARIADIC_TEMPLATE()   0
 #    define PHI_HAS_FEATURE_ALIAS_TEMPLATES()     0
 #    define PHI_HAS_FEATURE_DECLTYPE()            0
+#    define PHI_HAS_FEATURE_RVALUE_REFERENCES()   0
 #endif
 
 // C++-14 features
