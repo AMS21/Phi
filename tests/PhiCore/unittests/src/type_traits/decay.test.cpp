@@ -17,7 +17,7 @@ void test_decay()
     CHECK_SAME_TYPE(typename phi::decay<TypeT>::type, ExpectedT);
     CHECK_SAME_TYPE(phi::decay_t<TypeT>, ExpectedT);
 
-    // Standard compatbility
+    // Standard compatiblity
     CHECK_SAME_TYPE(typename std::decay<TypeT>::type, typename phi::decay<TypeT>::type);
     CHECK_SAME_TYPE(typename std::decay<TypeT>::type, ExpectedT);
 }
