@@ -14,8 +14,6 @@ on:
       # Script files
       - '**.sh'
     tags:
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
     branches:
       - main
@@ -31,6 +29,9 @@ concurrency:
 jobs:
   xcode:
     runs-on: ${{ matrix.cfg.os }}
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false
@@ -92,6 +93,9 @@ jobs:
 
   gcc:
     runs-on: macos-12
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false

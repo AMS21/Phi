@@ -10,8 +10,6 @@ on:
       - '**.txt'
       # Script files
       - '**.sh'
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
     branches:
       - main
@@ -26,6 +24,9 @@ jobs:
   configure:
     runs-on: 'ubuntu-22.04'
     container: 'ams21/cmake:${{ matrix.version }}'
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false

@@ -3,8 +3,6 @@ name: StaticAnalysis
 on:
   push:
     tags:
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
     branches:
       - main
@@ -22,6 +20,9 @@ concurrency:
 jobs:
   cppcheck:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     env:
       LLVM_VERSION: 18
@@ -79,6 +80,9 @@ jobs:
 
   clang-tidy:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     env:
       LLVM_VERSION: 18
@@ -143,6 +147,9 @@ jobs:
   include-what-you-use:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     env:
       LLVM_VERSION: 18
 
@@ -201,6 +208,9 @@ jobs:
   cmake-lint:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -242,7 +252,9 @@ jobs:
 
   pvs-studio:
     runs-on: ubuntu-22.04
-    if: false
+
+    # Don't run on dependabot PRs
+    if: false && github.actor != 'dependabot[bot]'
 
     env:
       LLVM_VERSION: 18
@@ -307,6 +319,9 @@ jobs:
   code-ql:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     env:
       CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"run-queries": ["--off-heap-ram=0"]}}'
       LLVM_VERSION: 18
@@ -363,6 +378,9 @@ jobs:
 
   mull:
     runs-on: ubuntu-20.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     env:
       LLVM_VERSION: 12
@@ -440,6 +458,9 @@ jobs:
   msvc-code-analysis:
     runs-on: windows-2022
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
@@ -495,6 +516,9 @@ jobs:
     name: DevSkim
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     permissions:
       actions: read
       contents: read
@@ -517,6 +541,9 @@ jobs:
   codacy-security-scan:
     name: Codacy Security Scan
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -553,6 +580,9 @@ jobs:
   shellcheck:
     name: ShellCheck
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout

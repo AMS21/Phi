@@ -3,11 +3,7 @@ name: StyleCheck
 on:
   push:
     tags:
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
-    branches-ignore:
-      - 'dependabot/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -19,6 +15,9 @@ concurrency:
 jobs:
   clang-format:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     env:
       LLVM_VERSION: 18
@@ -47,6 +46,9 @@ jobs:
 
   cmake-format:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -81,6 +83,9 @@ jobs:
 
   spacing:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -119,6 +124,9 @@ jobs:
   encoding:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -152,6 +160,9 @@ jobs:
   misspell:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -176,6 +187,9 @@ jobs:
 
   yamllint:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -202,6 +216,9 @@ jobs:
   markdownlint:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -225,6 +242,9 @@ jobs:
 
   remark-lint:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -250,6 +270,9 @@ jobs:
   languagetool:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -273,6 +296,9 @@ jobs:
 
   alex:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout
@@ -298,6 +324,9 @@ jobs:
   redpen:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -322,6 +351,9 @@ jobs:
   shfmt:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -336,6 +368,9 @@ jobs:
 
   actionlint:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     steps:
       - name: Checkout

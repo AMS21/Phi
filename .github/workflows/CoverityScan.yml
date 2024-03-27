@@ -17,6 +17,9 @@ jobs:
   trunk:
     runs-on: ubuntu-20.04
 
+    # Don't run on dependabot PRs
+    if: github.actor == 'dependabot[bot]'
+
     env:
       GCC_VERSION: "8"
 

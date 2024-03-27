@@ -14,8 +14,6 @@ on:
       # Script files
       - '**.sh'
     tags:
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
     branches:
       - main
@@ -36,6 +34,9 @@ concurrency:
 jobs:
   msvc:
     runs-on: ${{ matrix.os }}
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false
@@ -91,6 +92,9 @@ jobs:
   clang:
     runs-on: windows-2022
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     strategy:
       fail-fast: false
 
@@ -141,6 +145,9 @@ jobs:
 
   gcc:
     runs-on: windows-2022
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false

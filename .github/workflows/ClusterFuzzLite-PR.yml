@@ -18,6 +18,9 @@ jobs:
   PR:
     runs-on: ubuntu-22.04
 
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
+
     concurrency:
       group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
       cancel-in-progress: true

@@ -14,8 +14,6 @@ on:
       # Script files
       - '**.sh'
     tags:
-    branches-ignore:
-      - 'dependabot/**'
   pull_request:
     branches:
       - main
@@ -31,6 +29,9 @@ concurrency:
 jobs:
   Build:
     runs-on: ubuntu-22.04
+
+    # Don't run on dependabot PRs
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       fail-fast: false
