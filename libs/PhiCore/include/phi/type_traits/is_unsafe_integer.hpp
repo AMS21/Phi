@@ -17,7 +17,7 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 // clang-format off
 template <typename TypeT>
 struct is_unsafe_integer
-    : public integral_constant<bool, 
+    : public integral_constant<bool,
               is_same_rcv<TypeT, signed char>::value    ||
               is_same_rcv<TypeT, unsigned char>::value  ||
               is_same_rcv<TypeT, short>::value          ||
