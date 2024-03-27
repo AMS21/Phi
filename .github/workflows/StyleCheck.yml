@@ -69,17 +69,13 @@ jobs:
       - name: Run cmake-format
         run: cmake-format -c ".cmake-format.yaml" -i $(find -iregex "./.*\.cmake" -or -iregex "./.*\CMakeLists\.txt")
 
-      - name: Display diff
-        run: git diff
-
       - name: Report result
         run: |
-          git_dirty=$(git status -s)
-          if [ -z "$git_dirty" ]; then
+          if [ -z "$(git status -s)" ]; then
             echo Everything seems to be in order
           else
             echo Formatting problems found!
-            echo Check 'Display diff' for further information
+            git diff --color=always --minimal
             exit 1
           fi
 
@@ -109,17 +105,13 @@ jobs:
           # Ensure files end with a new line
           find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'tail -c1 < "$0" | read -r _ || echo >> "$0"' {} \;
 
-      - name: Display diff
-        run: git diff
-
       - name: Report result
         run: |
-          git_dirty=$(git status -s)
-          if [ -z "$git_dirty" ]; then
+          if [ -z "$(git status -s)" ]; then
             echo Everything seems to be in order
           else
             echo Formatting problems found!
-            echo Check 'Display diff' for further information
+            git diff --color=always --minimal
             exit 1
           fi
 
@@ -145,17 +137,13 @@ jobs:
           # Ensure that files have LF line endings and do not contain a BOM.
           find . -iregex '.*\.\(hpp\|cpp\|yaml\|yml\|md\|txt\|cmake\|sh\)' -type f -exec bash -c 'dos2unix "$0" 2> /dev/null' {} \;
 
-      - name: Display diff
-        run: git diff
-
       - name: Report result
         run: |
-          git_dirty=$(git status -s)
-          if [ -z "$git_dirty" ]; then
+          if [ -z "$(git status -s)" ]; then
             echo Everything seems to be in order
           else
             echo Formatting problems found!
-            echo Check 'Display diff' for further information
+            git diff --color=always --minimal
             exit 1
           fi
 
