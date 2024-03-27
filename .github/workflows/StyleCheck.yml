@@ -2,8 +2,10 @@ name: StyleCheck
 
 on:
   push:
-    tags:
   pull_request:
+    branches:
+      - main
+      - develop
   release:
     types: [published]
   workflow_dispatch:

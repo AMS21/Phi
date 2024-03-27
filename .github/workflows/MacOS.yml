@@ -13,11 +13,21 @@ on:
       - '**.txt'
       # Script files
       - '**.sh'
-    tags:
   pull_request:
     branches:
       - main
       - develop
+    paths:
+      # Workflow file itself
+      - '.github/workflows/MacOS.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
   release:
     types: [published]
   workflow_dispatch:

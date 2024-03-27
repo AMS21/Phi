@@ -2,16 +2,35 @@ name: StaticAnalysis
 
 on:
   push:
-    tags:
+    paths:
+      # Workflow file itself
+      - '.github/workflows/StaticAnalysis.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
   pull_request:
     branches:
       - main
       - develop
+    paths:
+      # Workflow file itself
+      - '.github/workflows/StaticAnalysis.yml'
+      # C++ files
+      - '**.cpp'
+      - '**.hpp'
+      # CMake files
+      - '**.cmake'
+      - '**.txt'
+      # Script files
+      - '**.sh'
   release:
     types: [published]
   workflow_dispatch:
-  schedule:
-    - cron: '0 4 * * 1'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

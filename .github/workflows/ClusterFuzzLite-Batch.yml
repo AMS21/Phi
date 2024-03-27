@@ -11,8 +11,6 @@ on:
       - '.github/workflows/ClusterFuzzLite-Batch.yml'
       # .clusterfuzzlite
       - '.clusterfuzzlite/**'
-  release:
-    types: [published]
   workflow_dispatch:
 
 permissions: read-all
