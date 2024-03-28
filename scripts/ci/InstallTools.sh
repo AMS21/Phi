@@ -137,6 +137,11 @@ install_clang() {
     echo "-- Installing clang-$1..."
     apt_install "clang-$1" "clang++-$1" "libc++-$1-dev" "libc++abi-$1-dev" "libfuzzer-$1-dev" "llvm-$1" "g++-multilib"
 
+    # Starting with llvm-12 there is the llvm-linker-tools package which is needed for lto support to work
+    if [[ $1 -ge 12 ]]; then
+        apt_install "llvm-$1-linker-tools"
+    fi
+
     # Starting with llvm-14 there is a separate package for the compiler runtime (rt) which is needed for things like sanitizers and fuzzers
     if [[ $1 -ge 14 ]]; then
         apt_install "libclang-rt-$1-dev"
