@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -11,6 +12,9 @@
 #include <phi/type_traits/is_trivial.hpp>
 #include <type_traits>
 #include <vector>
+
+// NOTE: std::is_trivial is deprecated since C++-26
+// See: https://en.cppreference.com/w/cpp/types/is_trivial.html
 
 template <typename TypeT>
 void test_is_trivial_impl()
@@ -28,7 +32,9 @@ void test_is_trivial_impl()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
     STATIC_REQUIRE(std::is_trivial<TypeT>::value);
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 #endif
 }
 
@@ -48,7 +54,9 @@ void test_is_not_trivial_impl()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
     STATIC_REQUIRE_FALSE(std::is_trivial<TypeT>::value);
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 #endif
 }
 

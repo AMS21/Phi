@@ -11,7 +11,11 @@
 
 #if !defined(PHI_IS_NULL_POINTER) && !defined(PHI_SUPPORTS_IS_NULL_POINTER)
 
-#    if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0)
+// NOTE: __is_nullptr was introduced in Clang 16.0.0, but deprecated in Clang 19.1.0 and removed with Clang 20.1.0.
+// See release notes
+// Clang: 19.1.0: https://releases.llvm.org/19.1.0/tools/clang/docs/ReleaseNotes.html#non-comprehensive-list-of-changes-in-this-release
+// Clang: 20.1.0: https://releases.llvm.org/20.1.0/tools/clang/docs/ReleaseNotes.html#c-specific-potentially-breaking-changes
+#    if PHI_COMPILER_IS_ATLEAST(CLANG, 16, 0, 0) && PHI_COMPILER_IS_BELOW(CLANG, 20, 0, 0)
 #        define PHI_IS_NULL_POINTER(type)      __is_nullptr(type)
 #        define PHI_SUPPORTS_IS_NULL_POINTER() 1
 #    else
