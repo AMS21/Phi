@@ -183,22 +183,22 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<char[]>();
     test_is_aggregate<char* [3]>();
     test_is_aggregate<char*[]>();
-    test_is_not_aggregate<int(*)[3]>();
-    test_is_not_aggregate<int(*)[]>();
-    test_is_not_aggregate<int(&)[3]>();
-    test_is_not_aggregate<int(&)[]>();
-    test_is_not_aggregate<int(&&)[3]>();
-    test_is_not_aggregate<int(&&)[]>();
+    test_is_not_aggregate<int (*)[3]>();
+    test_is_not_aggregate<int (*)[]>();
+    test_is_not_aggregate<int (&)[3]>();
+    test_is_not_aggregate<int (&)[]>();
+    test_is_not_aggregate<int (&&)[3]>();
+    test_is_not_aggregate<int (&&)[]>();
     test_is_aggregate<char[3][2]>();
     test_is_aggregate<char[][2]>();
     test_is_aggregate<char* [3][2]>();
     test_is_aggregate<char*[][2]>();
-    test_is_not_aggregate<int(*)[3][2]>();
-    test_is_not_aggregate<int(*)[][2]>();
-    test_is_not_aggregate<int(&)[3][2]>();
-    test_is_not_aggregate<int(&)[][2]>();
-    test_is_not_aggregate<int(&&)[3][2]>();
-    test_is_not_aggregate<int(&&)[][2]>();
+    test_is_not_aggregate<int (*)[3][2]>();
+    test_is_not_aggregate<int (*)[][2]>();
+    test_is_not_aggregate<int (&)[3][2]>();
+    test_is_not_aggregate<int (&)[][2]>();
+    test_is_not_aggregate<int (&&)[3][2]>();
+    test_is_not_aggregate<int (&&)[][2]>();
     test_is_aggregate<class_type>();
     test_is_aggregate<class_type[]>();
     test_is_aggregate<class_type[2]>();
@@ -342,7 +342,7 @@ TEST_CASE("is_aggregate")
     test_is_aggregate<trap_array_subscript>();
 
     test_is_not_aggregate<void()>();
-    test_is_not_aggregate<void()&>();
+    test_is_not_aggregate<void() &>();
     test_is_not_aggregate<void() &&>();
     test_is_not_aggregate<void() const>();
     test_is_not_aggregate<void() const&>();
@@ -367,7 +367,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void() const volatile && noexcept>();
 
     test_is_not_aggregate<void(int)>();
-    test_is_not_aggregate<void(int)&>();
+    test_is_not_aggregate<void(int) &>();
     test_is_not_aggregate<void(int) &&>();
     test_is_not_aggregate<void(int) const>();
     test_is_not_aggregate<void(int) const&>();
@@ -392,7 +392,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void(int) const volatile && noexcept>();
 
     test_is_not_aggregate<void(...)>();
-    test_is_not_aggregate<void(...)&>();
+    test_is_not_aggregate<void(...) &>();
     test_is_not_aggregate<void(...) &&>();
     test_is_not_aggregate<void(...) const>();
     test_is_not_aggregate<void(...) const&>();
@@ -417,7 +417,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void(...) const volatile && noexcept>();
 
     test_is_not_aggregate<void(int, ...)>();
-    test_is_not_aggregate<void(int, ...)&>();
+    test_is_not_aggregate<void(int, ...) &>();
     test_is_not_aggregate<void(int, ...) &&>();
     test_is_not_aggregate<void(int, ...) const>();
     test_is_not_aggregate<void(int, ...) const&>();
@@ -442,7 +442,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void(int, ...) const volatile && noexcept>();
 
     test_is_not_aggregate<int()>();
-    test_is_not_aggregate<int()&>();
+    test_is_not_aggregate<int() &>();
     test_is_not_aggregate<int() &&>();
     test_is_not_aggregate<int() const>();
     test_is_not_aggregate<int() const&>();
@@ -467,7 +467,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int() const volatile && noexcept>();
 
     test_is_not_aggregate<int(int)>();
-    test_is_not_aggregate<int(int)&>();
+    test_is_not_aggregate<int(int) &>();
     test_is_not_aggregate<int(int) &&>();
     test_is_not_aggregate<int(int) const>();
     test_is_not_aggregate<int(int) const&>();
@@ -492,7 +492,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int(int) const volatile && noexcept>();
 
     test_is_not_aggregate<int(...)>();
-    test_is_not_aggregate<int(...)&>();
+    test_is_not_aggregate<int(...) &>();
     test_is_not_aggregate<int(...) &&>();
     test_is_not_aggregate<int(...) const>();
     test_is_not_aggregate<int(...) const&>();
@@ -517,7 +517,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int(...) const volatile && noexcept>();
 
     test_is_not_aggregate<int(int, ...)>();
-    test_is_not_aggregate<int(int, ...)&>();
+    test_is_not_aggregate<int(int, ...) &>();
     test_is_not_aggregate<int(int, ...) &&>();
     test_is_not_aggregate<int(int, ...) const>();
     test_is_not_aggregate<int(int, ...) const&>();
@@ -614,7 +614,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int (&&)(int, ...) noexcept>();
 
     test_is_not_aggregate<void (class_type::*)()>();
-    test_is_not_aggregate<void (class_type::*)()&>();
+    test_is_not_aggregate<void (class_type::*)() &>();
     test_is_not_aggregate<void (class_type::*)() &&>();
     test_is_not_aggregate<void (class_type::*)() const>();
     test_is_not_aggregate<void (class_type::*)() const&>();
@@ -627,7 +627,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void (class_type::*)() const && noexcept>();
 
     test_is_not_aggregate<void (class_type::*)(int)>();
-    test_is_not_aggregate<void (class_type::*)(int)&>();
+    test_is_not_aggregate<void (class_type::*)(int) &>();
     test_is_not_aggregate<void (class_type::*)(int) &&>();
     test_is_not_aggregate<void (class_type::*)(int) const>();
     test_is_not_aggregate<void (class_type::*)(int) const&>();
@@ -640,7 +640,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_aggregate<void (class_type::*)(...)>();
-    test_is_not_aggregate<void (class_type::*)(...)&>();
+    test_is_not_aggregate<void (class_type::*)(...) &>();
     test_is_not_aggregate<void (class_type::*)(...) &&>();
     test_is_not_aggregate<void (class_type::*)(...) const>();
     test_is_not_aggregate<void (class_type::*)(...) const&>();
@@ -653,7 +653,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_aggregate<void (class_type::*)(int, ...)>();
-    test_is_not_aggregate<void (class_type::*)(int, ...)&>();
+    test_is_not_aggregate<void (class_type::*)(int, ...) &>();
     test_is_not_aggregate<void (class_type::*)(int, ...) &&>();
     test_is_not_aggregate<void (class_type::*)(int, ...) const>();
     test_is_not_aggregate<void (class_type::*)(int, ...) const&>();
@@ -666,7 +666,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_aggregate<int (class_type::*)()>();
-    test_is_not_aggregate<int (class_type::*)()&>();
+    test_is_not_aggregate<int (class_type::*)() &>();
     test_is_not_aggregate<int (class_type::*)() &&>();
     test_is_not_aggregate<int (class_type::*)() const>();
     test_is_not_aggregate<int (class_type::*)() const&>();
@@ -679,7 +679,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int (class_type::*)() const && noexcept>();
 
     test_is_not_aggregate<int (class_type::*)(int)>();
-    test_is_not_aggregate<int (class_type::*)(int)&>();
+    test_is_not_aggregate<int (class_type::*)(int) &>();
     test_is_not_aggregate<int (class_type::*)(int) &&>();
     test_is_not_aggregate<int (class_type::*)(int) const>();
     test_is_not_aggregate<int (class_type::*)(int) const&>();
@@ -692,7 +692,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_aggregate<int (class_type::*)(...)>();
-    test_is_not_aggregate<int (class_type::*)(...)&>();
+    test_is_not_aggregate<int (class_type::*)(...) &>();
     test_is_not_aggregate<int (class_type::*)(...) &&>();
     test_is_not_aggregate<int (class_type::*)(...) const>();
     test_is_not_aggregate<int (class_type::*)(...) const&>();
@@ -705,7 +705,7 @@ TEST_CASE("is_aggregate")
     test_is_not_aggregate<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_aggregate<int (class_type::*)(int, ...)>();
-    test_is_not_aggregate<int (class_type::*)(int, ...)&>();
+    test_is_not_aggregate<int (class_type::*)(int, ...) &>();
     test_is_not_aggregate<int (class_type::*)(int, ...) &&>();
     test_is_not_aggregate<int (class_type::*)(int, ...) const>();
     test_is_not_aggregate<int (class_type::*)(int, ...) const&>();

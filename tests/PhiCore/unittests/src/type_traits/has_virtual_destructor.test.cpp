@@ -141,22 +141,22 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<char[]>();
     test_has_no_virtual_destructor<char* [3]>();
     test_has_no_virtual_destructor<char*[]>();
-    test_has_no_virtual_destructor<int(*)[3]>();
-    test_has_no_virtual_destructor<int(*)[]>();
-    test_has_no_virtual_destructor<int(&)[3]>();
-    test_has_no_virtual_destructor<int(&)[]>();
-    test_has_no_virtual_destructor<int(&&)[3]>();
-    test_has_no_virtual_destructor<int(&&)[]>();
+    test_has_no_virtual_destructor<int (*)[3]>();
+    test_has_no_virtual_destructor<int (*)[]>();
+    test_has_no_virtual_destructor<int (&)[3]>();
+    test_has_no_virtual_destructor<int (&)[]>();
+    test_has_no_virtual_destructor<int (&&)[3]>();
+    test_has_no_virtual_destructor<int (&&)[]>();
     test_has_no_virtual_destructor<char[3][2]>();
     test_has_no_virtual_destructor<char[][2]>();
     test_has_no_virtual_destructor<char* [3][2]>();
     test_has_no_virtual_destructor<char*[][2]>();
-    test_has_no_virtual_destructor<int(*)[3][2]>();
-    test_has_no_virtual_destructor<int(*)[][2]>();
-    test_has_no_virtual_destructor<int(&)[3][2]>();
-    test_has_no_virtual_destructor<int(&)[][2]>();
-    test_has_no_virtual_destructor<int(&&)[3][2]>();
-    test_has_no_virtual_destructor<int(&&)[][2]>();
+    test_has_no_virtual_destructor<int (*)[3][2]>();
+    test_has_no_virtual_destructor<int (*)[][2]>();
+    test_has_no_virtual_destructor<int (&)[3][2]>();
+    test_has_no_virtual_destructor<int (&)[][2]>();
+    test_has_no_virtual_destructor<int (&&)[3][2]>();
+    test_has_no_virtual_destructor<int (&&)[][2]>();
     test_has_no_virtual_destructor<class_type>();
     test_has_no_virtual_destructor<class_type[]>();
     test_has_no_virtual_destructor<class_type[2]>();
@@ -272,7 +272,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<trap_array_subscript>();
 
     test_has_no_virtual_destructor<void()>();
-    test_has_no_virtual_destructor<void()&>();
+    test_has_no_virtual_destructor<void() &>();
     test_has_no_virtual_destructor<void() &&>();
     test_has_no_virtual_destructor<void() const>();
     test_has_no_virtual_destructor<void() const&>();
@@ -297,7 +297,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void() const volatile && noexcept>();
 
     test_has_no_virtual_destructor<void(int)>();
-    test_has_no_virtual_destructor<void(int)&>();
+    test_has_no_virtual_destructor<void(int) &>();
     test_has_no_virtual_destructor<void(int) &&>();
     test_has_no_virtual_destructor<void(int) const>();
     test_has_no_virtual_destructor<void(int) const&>();
@@ -322,7 +322,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void(int) const volatile && noexcept>();
 
     test_has_no_virtual_destructor<void(...)>();
-    test_has_no_virtual_destructor<void(...)&>();
+    test_has_no_virtual_destructor<void(...) &>();
     test_has_no_virtual_destructor<void(...) &&>();
     test_has_no_virtual_destructor<void(...) const>();
     test_has_no_virtual_destructor<void(...) const&>();
@@ -347,7 +347,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void(...) const volatile && noexcept>();
 
     test_has_no_virtual_destructor<void(int, ...)>();
-    test_has_no_virtual_destructor<void(int, ...)&>();
+    test_has_no_virtual_destructor<void(int, ...) &>();
     test_has_no_virtual_destructor<void(int, ...) &&>();
     test_has_no_virtual_destructor<void(int, ...) const>();
     test_has_no_virtual_destructor<void(int, ...) const&>();
@@ -372,7 +372,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void(int, ...) const volatile && noexcept>();
 
     test_has_no_virtual_destructor<int()>();
-    test_has_no_virtual_destructor<int()&>();
+    test_has_no_virtual_destructor<int() &>();
     test_has_no_virtual_destructor<int() &&>();
     test_has_no_virtual_destructor<int() const>();
     test_has_no_virtual_destructor<int() const&>();
@@ -397,7 +397,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int() const volatile && noexcept>();
 
     test_has_no_virtual_destructor<int(int)>();
-    test_has_no_virtual_destructor<int(int)&>();
+    test_has_no_virtual_destructor<int(int) &>();
     test_has_no_virtual_destructor<int(int) &&>();
     test_has_no_virtual_destructor<int(int) const>();
     test_has_no_virtual_destructor<int(int) const&>();
@@ -422,7 +422,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int(int) const volatile && noexcept>();
 
     test_has_no_virtual_destructor<int(...)>();
-    test_has_no_virtual_destructor<int(...)&>();
+    test_has_no_virtual_destructor<int(...) &>();
     test_has_no_virtual_destructor<int(...) &&>();
     test_has_no_virtual_destructor<int(...) const>();
     test_has_no_virtual_destructor<int(...) const&>();
@@ -447,7 +447,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int(...) const volatile && noexcept>();
 
     test_has_no_virtual_destructor<int(int, ...)>();
-    test_has_no_virtual_destructor<int(int, ...)&>();
+    test_has_no_virtual_destructor<int(int, ...) &>();
     test_has_no_virtual_destructor<int(int, ...) &&>();
     test_has_no_virtual_destructor<int(int, ...) const>();
     test_has_no_virtual_destructor<int(int, ...) const&>();
@@ -544,7 +544,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int (&&)(int, ...) noexcept>();
 
     test_has_no_virtual_destructor<void (class_type::*)()>();
-    test_has_no_virtual_destructor<void (class_type::*)()&>();
+    test_has_no_virtual_destructor<void (class_type::*)() &>();
     test_has_no_virtual_destructor<void (class_type::*)() &&>();
     test_has_no_virtual_destructor<void (class_type::*)() const>();
     test_has_no_virtual_destructor<void (class_type::*)() const&>();
@@ -557,7 +557,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void (class_type::*)() const && noexcept>();
 
     test_has_no_virtual_destructor<void (class_type::*)(int)>();
-    test_has_no_virtual_destructor<void (class_type::*)(int)&>();
+    test_has_no_virtual_destructor<void (class_type::*)(int) &>();
     test_has_no_virtual_destructor<void (class_type::*)(int) &&>();
     test_has_no_virtual_destructor<void (class_type::*)(int) const>();
     test_has_no_virtual_destructor<void (class_type::*)(int) const&>();
@@ -570,7 +570,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void (class_type::*)(int) const && noexcept>();
 
     test_has_no_virtual_destructor<void (class_type::*)(...)>();
-    test_has_no_virtual_destructor<void (class_type::*)(...)&>();
+    test_has_no_virtual_destructor<void (class_type::*)(...) &>();
     test_has_no_virtual_destructor<void (class_type::*)(...) &&>();
     test_has_no_virtual_destructor<void (class_type::*)(...) const>();
     test_has_no_virtual_destructor<void (class_type::*)(...) const&>();
@@ -583,7 +583,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void (class_type::*)(...) const && noexcept>();
 
     test_has_no_virtual_destructor<void (class_type::*)(int, ...)>();
-    test_has_no_virtual_destructor<void (class_type::*)(int, ...)&>();
+    test_has_no_virtual_destructor<void (class_type::*)(int, ...) &>();
     test_has_no_virtual_destructor<void (class_type::*)(int, ...) &&>();
     test_has_no_virtual_destructor<void (class_type::*)(int, ...) const>();
     test_has_no_virtual_destructor<void (class_type::*)(int, ...) const&>();
@@ -596,7 +596,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<void (class_type::*)(int, ...) const && noexcept>();
 
     test_has_no_virtual_destructor<int (class_type::*)()>();
-    test_has_no_virtual_destructor<int (class_type::*)()&>();
+    test_has_no_virtual_destructor<int (class_type::*)() &>();
     test_has_no_virtual_destructor<int (class_type::*)() &&>();
     test_has_no_virtual_destructor<int (class_type::*)() const>();
     test_has_no_virtual_destructor<int (class_type::*)() const&>();
@@ -609,7 +609,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int (class_type::*)() const && noexcept>();
 
     test_has_no_virtual_destructor<int (class_type::*)(int)>();
-    test_has_no_virtual_destructor<int (class_type::*)(int)&>();
+    test_has_no_virtual_destructor<int (class_type::*)(int) &>();
     test_has_no_virtual_destructor<int (class_type::*)(int) &&>();
     test_has_no_virtual_destructor<int (class_type::*)(int) const>();
     test_has_no_virtual_destructor<int (class_type::*)(int) const&>();
@@ -622,7 +622,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int (class_type::*)(int) const && noexcept>();
 
     test_has_no_virtual_destructor<int (class_type::*)(...)>();
-    test_has_no_virtual_destructor<int (class_type::*)(...)&>();
+    test_has_no_virtual_destructor<int (class_type::*)(...) &>();
     test_has_no_virtual_destructor<int (class_type::*)(...) &&>();
     test_has_no_virtual_destructor<int (class_type::*)(...) const>();
     test_has_no_virtual_destructor<int (class_type::*)(...) const&>();
@@ -635,7 +635,7 @@ TEST_CASE("has_virtual_destructor")
     test_has_no_virtual_destructor<int (class_type::*)(...) const && noexcept>();
 
     test_has_no_virtual_destructor<int (class_type::*)(int, ...)>();
-    test_has_no_virtual_destructor<int (class_type::*)(int, ...)&>();
+    test_has_no_virtual_destructor<int (class_type::*)(int, ...) &>();
     test_has_no_virtual_destructor<int (class_type::*)(int, ...) &&>();
     test_has_no_virtual_destructor<int (class_type::*)(int, ...) const>();
     test_has_no_virtual_destructor<int (class_type::*)(int, ...) const&>();

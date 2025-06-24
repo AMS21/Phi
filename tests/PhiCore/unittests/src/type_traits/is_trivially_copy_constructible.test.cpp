@@ -215,25 +215,25 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<char* [3]>();
     test_is_not_trivially_copy_constructible<char*[]>();
 #endif
-    test_is_trivially_copy_constructible_cv<int(*)[3]>();
-    test_is_trivially_copy_constructible_cv<int(*)[]>();
-    test_is_trivially_copy_constructible_cv<int(&)[3]>();
-    test_is_trivially_copy_constructible_cv<int(&)[]>();
+    test_is_trivially_copy_constructible_cv<int (*)[3]>();
+    test_is_trivially_copy_constructible_cv<int (*)[]>();
+    test_is_trivially_copy_constructible_cv<int (&)[3]>();
+    test_is_trivially_copy_constructible_cv<int (&)[]>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_copy_constructible<int(&&)[3]>();
-    test_is_not_trivially_copy_constructible<int(&&)[]>();
+    test_is_not_trivially_copy_constructible<int (&&)[3]>();
+    test_is_not_trivially_copy_constructible<int (&&)[]>();
     test_is_not_trivially_copy_constructible<char[3][2]>();
     test_is_not_trivially_copy_constructible<char[][2]>();
     test_is_not_trivially_copy_constructible<char* [3][2]>();
     test_is_not_trivially_copy_constructible<char*[][2]>();
 #endif
-    test_is_trivially_copy_constructible_cv<int(*)[3][2]>();
-    test_is_trivially_copy_constructible_cv<int(*)[][2]>();
-    test_is_trivially_copy_constructible_cv<int(&)[3][2]>();
-    test_is_trivially_copy_constructible_cv<int(&)[][2]>();
+    test_is_trivially_copy_constructible_cv<int (*)[3][2]>();
+    test_is_trivially_copy_constructible_cv<int (*)[][2]>();
+    test_is_trivially_copy_constructible_cv<int (&)[3][2]>();
+    test_is_trivially_copy_constructible_cv<int (&)[][2]>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_copy_constructible<int(&&)[3][2]>();
-    test_is_not_trivially_copy_constructible<int(&&)[][2]>();
+    test_is_not_trivially_copy_constructible<int (&&)[3][2]>();
+    test_is_not_trivially_copy_constructible<int (&&)[][2]>();
 #endif
     test_is_not_trivially_copy_constructible<class_type>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
@@ -366,7 +366,7 @@ TEST_CASE("is_trivially_copy_constructible")
 
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
     test_is_not_trivially_copy_constructible<void()>();
-    test_is_not_trivially_copy_constructible<void()&>();
+    test_is_not_trivially_copy_constructible<void() &>();
     test_is_not_trivially_copy_constructible<void() &&>();
     test_is_not_trivially_copy_constructible<void() const>();
     test_is_not_trivially_copy_constructible<void() const&>();
@@ -391,7 +391,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<void() const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<void(int)>();
-    test_is_not_trivially_copy_constructible<void(int)&>();
+    test_is_not_trivially_copy_constructible<void(int) &>();
     test_is_not_trivially_copy_constructible<void(int) &&>();
     test_is_not_trivially_copy_constructible<void(int) const>();
     test_is_not_trivially_copy_constructible<void(int) const&>();
@@ -416,7 +416,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<void(int) const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<void(...)>();
-    test_is_not_trivially_copy_constructible<void(...)&>();
+    test_is_not_trivially_copy_constructible<void(...) &>();
     test_is_not_trivially_copy_constructible<void(...) &&>();
     test_is_not_trivially_copy_constructible<void(...) const>();
     test_is_not_trivially_copy_constructible<void(...) const&>();
@@ -441,7 +441,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<void(...) const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<void(int, ...)>();
-    test_is_not_trivially_copy_constructible<void(int, ...)&>();
+    test_is_not_trivially_copy_constructible<void(int, ...) &>();
     test_is_not_trivially_copy_constructible<void(int, ...) &&>();
     test_is_not_trivially_copy_constructible<void(int, ...) const>();
     test_is_not_trivially_copy_constructible<void(int, ...) const&>();
@@ -466,7 +466,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<void(int, ...) const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<int()>();
-    test_is_not_trivially_copy_constructible<int()&>();
+    test_is_not_trivially_copy_constructible<int() &>();
     test_is_not_trivially_copy_constructible<int() &&>();
     test_is_not_trivially_copy_constructible<int() const>();
     test_is_not_trivially_copy_constructible<int() const&>();
@@ -491,7 +491,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<int() const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<int(int)>();
-    test_is_not_trivially_copy_constructible<int(int)&>();
+    test_is_not_trivially_copy_constructible<int(int) &>();
     test_is_not_trivially_copy_constructible<int(int) &&>();
     test_is_not_trivially_copy_constructible<int(int) const>();
     test_is_not_trivially_copy_constructible<int(int) const&>();
@@ -516,7 +516,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<int(int) const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<int(...)>();
-    test_is_not_trivially_copy_constructible<int(...)&>();
+    test_is_not_trivially_copy_constructible<int(...) &>();
     test_is_not_trivially_copy_constructible<int(...) &&>();
     test_is_not_trivially_copy_constructible<int(...) const>();
     test_is_not_trivially_copy_constructible<int(...) const&>();
@@ -541,7 +541,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_not_trivially_copy_constructible<int(...) const volatile && noexcept>();
 
     test_is_not_trivially_copy_constructible<int(int, ...)>();
-    test_is_not_trivially_copy_constructible<int(int, ...)&>();
+    test_is_not_trivially_copy_constructible<int(int, ...) &>();
     test_is_not_trivially_copy_constructible<int(int, ...) &&>();
     test_is_not_trivially_copy_constructible<int(int, ...) const>();
     test_is_not_trivially_copy_constructible<int(int, ...) const&>();
@@ -639,7 +639,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_copy_constructible_cv<void (class_type::*)()>();
-    test_is_trivially_copy_constructible_cv<void (class_type::*)()&>();
+    test_is_trivially_copy_constructible_cv<void (class_type::*)() &>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)() &&>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)() const>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)() const&>();
@@ -652,7 +652,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<void (class_type::*)() const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int)>();
-    test_is_trivially_copy_constructible_cv<void (class_type::*)(int)&>();
+    test_is_trivially_copy_constructible_cv<void (class_type::*)(int) &>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int) &&>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int) const>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int) const&>();
@@ -665,7 +665,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<void (class_type::*)(...)>();
-    test_is_trivially_copy_constructible_cv<void (class_type::*)(...)&>();
+    test_is_trivially_copy_constructible_cv<void (class_type::*)(...) &>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(...) &&>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(...) const>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(...) const&>();
@@ -678,7 +678,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<void (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...)>();
-    test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...)&>();
+    test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...) &>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...) &&>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...) const>();
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...) const&>();
@@ -691,7 +691,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<int (class_type::*)()>();
-    test_is_trivially_copy_constructible_cv<int (class_type::*)()&>();
+    test_is_trivially_copy_constructible_cv<int (class_type::*)() &>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)() &&>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)() const>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)() const&>();
@@ -704,7 +704,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<int (class_type::*)() const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int)>();
-    test_is_trivially_copy_constructible_cv<int (class_type::*)(int)&>();
+    test_is_trivially_copy_constructible_cv<int (class_type::*)(int) &>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int) &&>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int) const>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int) const&>();
@@ -717,7 +717,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<int (class_type::*)(...)>();
-    test_is_trivially_copy_constructible_cv<int (class_type::*)(...)&>();
+    test_is_trivially_copy_constructible_cv<int (class_type::*)(...) &>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(...) &&>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(...) const>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(...) const&>();
@@ -730,7 +730,7 @@ TEST_CASE("is_trivially_copy_constructible")
     test_is_trivially_copy_constructible_cv<int (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...)>();
-    test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...)&>();
+    test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...) &>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...) &&>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...) const>();
     test_is_trivially_copy_constructible_cv<int (class_type::*)(int, ...) const&>();

@@ -240,7 +240,7 @@ TEST_CASE("is_swappable_with")
         test_is_swappable_with<int**&, int**&>();
 
         // TODO: The commented out tests currently crash
-        test_is_swappable_with<int(&)[1], int(&)[1]>();
+        test_is_swappable_with<int (&)[1], int (&)[1]>();
         //test_is_swappable_with<int(&)[1][2], int(&)[1][2]>();
         //test_is_swappable_with<int(&)[1][2][3], int(&)[1][2][3]>();
 

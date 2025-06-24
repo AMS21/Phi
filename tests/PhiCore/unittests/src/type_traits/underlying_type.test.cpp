@@ -446,22 +446,22 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<char[]>();
     test_no_underlying_type<char* [3]>();
     test_no_underlying_type<char*[]>();
-    test_no_underlying_type<int(*)[3]>();
-    test_no_underlying_type<int(*)[]>();
-    test_no_underlying_type<int(&)[3]>();
-    test_no_underlying_type<int(&)[]>();
-    test_no_underlying_type<int(&&)[3]>();
-    test_no_underlying_type<int(&&)[]>();
+    test_no_underlying_type<int (*)[3]>();
+    test_no_underlying_type<int (*)[]>();
+    test_no_underlying_type<int (&)[3]>();
+    test_no_underlying_type<int (&)[]>();
+    test_no_underlying_type<int (&&)[3]>();
+    test_no_underlying_type<int (&&)[]>();
     test_no_underlying_type<char[3][2]>();
     test_no_underlying_type<char[][2]>();
     test_no_underlying_type<char* [3][2]>();
     test_no_underlying_type<char*[][2]>();
-    test_no_underlying_type<int(*)[3][2]>();
-    test_no_underlying_type<int(*)[][2]>();
-    test_no_underlying_type<int(&)[3][2]>();
-    test_no_underlying_type<int(&)[][2]>();
-    test_no_underlying_type<int(&&)[3][2]>();
-    test_no_underlying_type<int(&&)[][2]>();
+    test_no_underlying_type<int (*)[3][2]>();
+    test_no_underlying_type<int (*)[][2]>();
+    test_no_underlying_type<int (&)[3][2]>();
+    test_no_underlying_type<int (&)[][2]>();
+    test_no_underlying_type<int (&&)[3][2]>();
+    test_no_underlying_type<int (&&)[][2]>();
     test_no_underlying_type<class_type>();
     test_no_underlying_type<class_type[]>();
     test_no_underlying_type<class_type[2]>();
@@ -680,7 +680,7 @@ TEST_CASE("underlying_type")
 #endif
 
     test_no_underlying_type<void()>();
-    test_no_underlying_type<void()&>();
+    test_no_underlying_type<void() &>();
     test_no_underlying_type<void() &&>();
     test_no_underlying_type<void() const>();
     test_no_underlying_type<void() const&>();
@@ -705,7 +705,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void() const volatile && noexcept>();
 
     test_no_underlying_type<void(int)>();
-    test_no_underlying_type<void(int)&>();
+    test_no_underlying_type<void(int) &>();
     test_no_underlying_type<void(int) &&>();
     test_no_underlying_type<void(int) const>();
     test_no_underlying_type<void(int) const&>();
@@ -730,7 +730,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void(int) const volatile && noexcept>();
 
     test_no_underlying_type<void(...)>();
-    test_no_underlying_type<void(...)&>();
+    test_no_underlying_type<void(...) &>();
     test_no_underlying_type<void(...) &&>();
     test_no_underlying_type<void(...) const>();
     test_no_underlying_type<void(...) const&>();
@@ -755,7 +755,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void(...) const volatile && noexcept>();
 
     test_no_underlying_type<void(int, ...)>();
-    test_no_underlying_type<void(int, ...)&>();
+    test_no_underlying_type<void(int, ...) &>();
     test_no_underlying_type<void(int, ...) &&>();
     test_no_underlying_type<void(int, ...) const>();
     test_no_underlying_type<void(int, ...) const&>();
@@ -780,7 +780,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void(int, ...) const volatile && noexcept>();
 
     test_no_underlying_type<int()>();
-    test_no_underlying_type<int()&>();
+    test_no_underlying_type<int() &>();
     test_no_underlying_type<int() &&>();
     test_no_underlying_type<int() const>();
     test_no_underlying_type<int() const&>();
@@ -805,7 +805,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int() const volatile && noexcept>();
 
     test_no_underlying_type<int(int)>();
-    test_no_underlying_type<int(int)&>();
+    test_no_underlying_type<int(int) &>();
     test_no_underlying_type<int(int) &&>();
     test_no_underlying_type<int(int) const>();
     test_no_underlying_type<int(int) const&>();
@@ -830,7 +830,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int(int) const volatile && noexcept>();
 
     test_no_underlying_type<int(...)>();
-    test_no_underlying_type<int(...)&>();
+    test_no_underlying_type<int(...) &>();
     test_no_underlying_type<int(...) &&>();
     test_no_underlying_type<int(...) const>();
     test_no_underlying_type<int(...) const&>();
@@ -855,7 +855,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int(...) const volatile && noexcept>();
 
     test_no_underlying_type<int(int, ...)>();
-    test_no_underlying_type<int(int, ...)&>();
+    test_no_underlying_type<int(int, ...) &>();
     test_no_underlying_type<int(int, ...) &&>();
     test_no_underlying_type<int(int, ...) const>();
     test_no_underlying_type<int(int, ...) const&>();
@@ -952,7 +952,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int (&&)(int, ...) noexcept>();
 
     test_no_underlying_type<void (class_type::*)()>();
-    test_no_underlying_type<void (class_type::*)()&>();
+    test_no_underlying_type<void (class_type::*)() &>();
     test_no_underlying_type<void (class_type::*)() &&>();
     test_no_underlying_type<void (class_type::*)() const>();
     test_no_underlying_type<void (class_type::*)() const&>();
@@ -965,7 +965,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void (class_type::*)() const && noexcept>();
 
     test_no_underlying_type<void (class_type::*)(int)>();
-    test_no_underlying_type<void (class_type::*)(int)&>();
+    test_no_underlying_type<void (class_type::*)(int) &>();
     test_no_underlying_type<void (class_type::*)(int) &&>();
     test_no_underlying_type<void (class_type::*)(int) const>();
     test_no_underlying_type<void (class_type::*)(int) const&>();
@@ -978,7 +978,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void (class_type::*)(int) const && noexcept>();
 
     test_no_underlying_type<void (class_type::*)(...)>();
-    test_no_underlying_type<void (class_type::*)(...)&>();
+    test_no_underlying_type<void (class_type::*)(...) &>();
     test_no_underlying_type<void (class_type::*)(...) &&>();
     test_no_underlying_type<void (class_type::*)(...) const>();
     test_no_underlying_type<void (class_type::*)(...) const&>();
@@ -991,7 +991,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void (class_type::*)(...) const && noexcept>();
 
     test_no_underlying_type<void (class_type::*)(int, ...)>();
-    test_no_underlying_type<void (class_type::*)(int, ...)&>();
+    test_no_underlying_type<void (class_type::*)(int, ...) &>();
     test_no_underlying_type<void (class_type::*)(int, ...) &&>();
     test_no_underlying_type<void (class_type::*)(int, ...) const>();
     test_no_underlying_type<void (class_type::*)(int, ...) const&>();
@@ -1004,7 +1004,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<void (class_type::*)(int, ...) const && noexcept>();
 
     test_no_underlying_type<int (class_type::*)()>();
-    test_no_underlying_type<int (class_type::*)()&>();
+    test_no_underlying_type<int (class_type::*)() &>();
     test_no_underlying_type<int (class_type::*)() &&>();
     test_no_underlying_type<int (class_type::*)() const>();
     test_no_underlying_type<int (class_type::*)() const&>();
@@ -1017,7 +1017,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int (class_type::*)() const && noexcept>();
 
     test_no_underlying_type<int (class_type::*)(int)>();
-    test_no_underlying_type<int (class_type::*)(int)&>();
+    test_no_underlying_type<int (class_type::*)(int) &>();
     test_no_underlying_type<int (class_type::*)(int) &&>();
     test_no_underlying_type<int (class_type::*)(int) const>();
     test_no_underlying_type<int (class_type::*)(int) const&>();
@@ -1030,7 +1030,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int (class_type::*)(int) const && noexcept>();
 
     test_no_underlying_type<int (class_type::*)(...)>();
-    test_no_underlying_type<int (class_type::*)(...)&>();
+    test_no_underlying_type<int (class_type::*)(...) &>();
     test_no_underlying_type<int (class_type::*)(...) &&>();
     test_no_underlying_type<int (class_type::*)(...) const>();
     test_no_underlying_type<int (class_type::*)(...) const&>();
@@ -1043,7 +1043,7 @@ TEST_CASE("underlying_type")
     test_no_underlying_type<int (class_type::*)(...) const && noexcept>();
 
     test_no_underlying_type<int (class_type::*)(int, ...)>();
-    test_no_underlying_type<int (class_type::*)(int, ...)&>();
+    test_no_underlying_type<int (class_type::*)(int, ...) &>();
     test_no_underlying_type<int (class_type::*)(int, ...) &&>();
     test_no_underlying_type<int (class_type::*)(int, ...) const>();
     test_no_underlying_type<int (class_type::*)(int, ...) const&>();

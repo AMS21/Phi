@@ -225,22 +225,22 @@ TEST_CASE("is_reference")
     test_is_not_reference<char[]>();
     test_is_not_reference<char* [3]>();
     test_is_not_reference<char*[]>();
-    test_is_not_reference<int(*)[3]>();
-    test_is_not_reference<int(*)[]>();
-    test_is_reference<int(&)[3]>();
-    test_is_reference<int(&)[]>();
-    test_is_reference<int(&&)[3]>();
-    test_is_reference<int(&&)[]>();
+    test_is_not_reference<int (*)[3]>();
+    test_is_not_reference<int (*)[]>();
+    test_is_reference<int (&)[3]>();
+    test_is_reference<int (&)[]>();
+    test_is_reference<int (&&)[3]>();
+    test_is_reference<int (&&)[]>();
     test_is_not_reference<char[3][2]>();
     test_is_not_reference<char[][2]>();
     test_is_not_reference<char* [3][2]>();
     test_is_not_reference<char*[][2]>();
-    test_is_not_reference<int(*)[3][2]>();
-    test_is_not_reference<int(*)[][2]>();
-    test_is_reference<int(&)[3][2]>();
-    test_is_reference<int(&)[][2]>();
-    test_is_reference<int(&&)[3][2]>();
-    test_is_reference<int(&&)[][2]>();
+    test_is_not_reference<int (*)[3][2]>();
+    test_is_not_reference<int (*)[][2]>();
+    test_is_reference<int (&)[3][2]>();
+    test_is_reference<int (&)[][2]>();
+    test_is_reference<int (&&)[3][2]>();
+    test_is_reference<int (&&)[][2]>();
     test_is_not_reference<class_type>();
     test_is_not_reference<class_type[]>();
     test_is_not_reference<class_type[2]>();
@@ -367,7 +367,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<trap_array_subscript>();
 
     test_is_not_reference<void()>();
-    test_is_not_reference<void()&>();
+    test_is_not_reference<void() &>();
     test_is_not_reference<void() &&>();
     test_is_not_reference<void() const>();
     test_is_not_reference<void() const&>();
@@ -392,7 +392,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void() const volatile && noexcept>();
 
     test_is_not_reference<void(int)>();
-    test_is_not_reference<void(int)&>();
+    test_is_not_reference<void(int) &>();
     test_is_not_reference<void(int) &&>();
     test_is_not_reference<void(int) const>();
     test_is_not_reference<void(int) const&>();
@@ -417,7 +417,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void(int) const volatile && noexcept>();
 
     test_is_not_reference<void(...)>();
-    test_is_not_reference<void(...)&>();
+    test_is_not_reference<void(...) &>();
     test_is_not_reference<void(...) &&>();
     test_is_not_reference<void(...) const>();
     test_is_not_reference<void(...) const&>();
@@ -442,7 +442,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void(...) const volatile && noexcept>();
 
     test_is_not_reference<void(int, ...)>();
-    test_is_not_reference<void(int, ...)&>();
+    test_is_not_reference<void(int, ...) &>();
     test_is_not_reference<void(int, ...) &&>();
     test_is_not_reference<void(int, ...) const>();
     test_is_not_reference<void(int, ...) const&>();
@@ -467,7 +467,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void(int, ...) const volatile && noexcept>();
 
     test_is_not_reference<int()>();
-    test_is_not_reference<int()&>();
+    test_is_not_reference<int() &>();
     test_is_not_reference<int() &&>();
     test_is_not_reference<int() const>();
     test_is_not_reference<int() const&>();
@@ -492,7 +492,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int() const volatile && noexcept>();
 
     test_is_not_reference<int(int)>();
-    test_is_not_reference<int(int)&>();
+    test_is_not_reference<int(int) &>();
     test_is_not_reference<int(int) &&>();
     test_is_not_reference<int(int) const>();
     test_is_not_reference<int(int) const&>();
@@ -517,7 +517,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int(int) const volatile && noexcept>();
 
     test_is_not_reference<int(...)>();
-    test_is_not_reference<int(...)&>();
+    test_is_not_reference<int(...) &>();
     test_is_not_reference<int(...) &&>();
     test_is_not_reference<int(...) const>();
     test_is_not_reference<int(...) const&>();
@@ -542,7 +542,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int(...) const volatile && noexcept>();
 
     test_is_not_reference<int(int, ...)>();
-    test_is_not_reference<int(int, ...)&>();
+    test_is_not_reference<int(int, ...) &>();
     test_is_not_reference<int(int, ...) &&>();
     test_is_not_reference<int(int, ...) const>();
     test_is_not_reference<int(int, ...) const&>();
@@ -639,7 +639,7 @@ TEST_CASE("is_reference")
     test_is_reference<int (&&)(int, ...) noexcept>();
 
     test_is_not_reference<void (class_type::*)()>();
-    test_is_not_reference<void (class_type::*)()&>();
+    test_is_not_reference<void (class_type::*)() &>();
     test_is_not_reference<void (class_type::*)() &&>();
     test_is_not_reference<void (class_type::*)() const>();
     test_is_not_reference<void (class_type::*)() const&>();
@@ -652,7 +652,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void (class_type::*)() const && noexcept>();
 
     test_is_not_reference<void (class_type::*)(int)>();
-    test_is_not_reference<void (class_type::*)(int)&>();
+    test_is_not_reference<void (class_type::*)(int) &>();
     test_is_not_reference<void (class_type::*)(int) &&>();
     test_is_not_reference<void (class_type::*)(int) const>();
     test_is_not_reference<void (class_type::*)(int) const&>();
@@ -665,7 +665,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_reference<void (class_type::*)(...)>();
-    test_is_not_reference<void (class_type::*)(...)&>();
+    test_is_not_reference<void (class_type::*)(...) &>();
     test_is_not_reference<void (class_type::*)(...) &&>();
     test_is_not_reference<void (class_type::*)(...) const>();
     test_is_not_reference<void (class_type::*)(...) const&>();
@@ -678,7 +678,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_reference<void (class_type::*)(int, ...)>();
-    test_is_not_reference<void (class_type::*)(int, ...)&>();
+    test_is_not_reference<void (class_type::*)(int, ...) &>();
     test_is_not_reference<void (class_type::*)(int, ...) &&>();
     test_is_not_reference<void (class_type::*)(int, ...) const>();
     test_is_not_reference<void (class_type::*)(int, ...) const&>();
@@ -691,7 +691,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_reference<int (class_type::*)()>();
-    test_is_not_reference<int (class_type::*)()&>();
+    test_is_not_reference<int (class_type::*)() &>();
     test_is_not_reference<int (class_type::*)() &&>();
     test_is_not_reference<int (class_type::*)() const>();
     test_is_not_reference<int (class_type::*)() const&>();
@@ -704,7 +704,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int (class_type::*)() const && noexcept>();
 
     test_is_not_reference<int (class_type::*)(int)>();
-    test_is_not_reference<int (class_type::*)(int)&>();
+    test_is_not_reference<int (class_type::*)(int) &>();
     test_is_not_reference<int (class_type::*)(int) &&>();
     test_is_not_reference<int (class_type::*)(int) const>();
     test_is_not_reference<int (class_type::*)(int) const&>();
@@ -717,7 +717,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_reference<int (class_type::*)(...)>();
-    test_is_not_reference<int (class_type::*)(...)&>();
+    test_is_not_reference<int (class_type::*)(...) &>();
     test_is_not_reference<int (class_type::*)(...) &&>();
     test_is_not_reference<int (class_type::*)(...) const>();
     test_is_not_reference<int (class_type::*)(...) const&>();
@@ -730,7 +730,7 @@ TEST_CASE("is_reference")
     test_is_not_reference<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_reference<int (class_type::*)(int, ...)>();
-    test_is_not_reference<int (class_type::*)(int, ...)&>();
+    test_is_not_reference<int (class_type::*)(int, ...) &>();
     test_is_not_reference<int (class_type::*)(int, ...) &&>();
     test_is_not_reference<int (class_type::*)(int, ...) const>();
     test_is_not_reference<int (class_type::*)(int, ...) const&>();

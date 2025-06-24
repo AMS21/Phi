@@ -103,22 +103,22 @@ TEST_CASE("type_identity")
     test_type_identity<char[]>();
     test_type_identity<char* [3]>();
     test_type_identity<char*[]>();
-    test_type_identity<int(*)[3]>();
-    test_type_identity<int(*)[]>();
-    test_type_identity<int(&)[3]>();
-    test_type_identity<int(&)[]>();
-    test_type_identity<int(&&)[3]>();
-    test_type_identity<int(&&)[]>();
+    test_type_identity<int (*)[3]>();
+    test_type_identity<int (*)[]>();
+    test_type_identity<int (&)[3]>();
+    test_type_identity<int (&)[]>();
+    test_type_identity<int (&&)[3]>();
+    test_type_identity<int (&&)[]>();
     test_type_identity<char[3][2]>();
     test_type_identity<char[][2]>();
     test_type_identity<char* [3][2]>();
     test_type_identity<char*[][2]>();
-    test_type_identity<int(*)[3][2]>();
-    test_type_identity<int(*)[][2]>();
-    test_type_identity<int(&)[3][2]>();
-    test_type_identity<int(&)[][2]>();
-    test_type_identity<int(&&)[3][2]>();
-    test_type_identity<int(&&)[][2]>();
+    test_type_identity<int (*)[3][2]>();
+    test_type_identity<int (*)[][2]>();
+    test_type_identity<int (&)[3][2]>();
+    test_type_identity<int (&)[][2]>();
+    test_type_identity<int (&&)[3][2]>();
+    test_type_identity<int (&&)[][2]>();
     test_type_identity<class_type>();
     test_type_identity<class_type[]>();
     test_type_identity<class_type[2]>();
@@ -245,7 +245,7 @@ TEST_CASE("type_identity")
     test_type_identity<trap_array_subscript>();
 
     test_type_identity<void()>();
-    test_type_identity<void()&>();
+    test_type_identity<void() &>();
     test_type_identity<void() &&>();
     test_type_identity<void() const>();
     test_type_identity<void() const&>();
@@ -270,7 +270,7 @@ TEST_CASE("type_identity")
     test_type_identity<void() const volatile && noexcept>();
 
     test_type_identity<void(int)>();
-    test_type_identity<void(int)&>();
+    test_type_identity<void(int) &>();
     test_type_identity<void(int) &&>();
     test_type_identity<void(int) const>();
     test_type_identity<void(int) const&>();
@@ -295,7 +295,7 @@ TEST_CASE("type_identity")
     test_type_identity<void(int) const volatile && noexcept>();
 
     test_type_identity<void(...)>();
-    test_type_identity<void(...)&>();
+    test_type_identity<void(...) &>();
     test_type_identity<void(...) &&>();
     test_type_identity<void(...) const>();
     test_type_identity<void(...) const&>();
@@ -320,7 +320,7 @@ TEST_CASE("type_identity")
     test_type_identity<void(...) const volatile && noexcept>();
 
     test_type_identity<void(int, ...)>();
-    test_type_identity<void(int, ...)&>();
+    test_type_identity<void(int, ...) &>();
     test_type_identity<void(int, ...) &&>();
     test_type_identity<void(int, ...) const>();
     test_type_identity<void(int, ...) const&>();
@@ -345,7 +345,7 @@ TEST_CASE("type_identity")
     test_type_identity<void(int, ...) const volatile && noexcept>();
 
     test_type_identity<int()>();
-    test_type_identity<int()&>();
+    test_type_identity<int() &>();
     test_type_identity<int() &&>();
     test_type_identity<int() const>();
     test_type_identity<int() const&>();
@@ -370,7 +370,7 @@ TEST_CASE("type_identity")
     test_type_identity<int() const volatile && noexcept>();
 
     test_type_identity<int(int)>();
-    test_type_identity<int(int)&>();
+    test_type_identity<int(int) &>();
     test_type_identity<int(int) &&>();
     test_type_identity<int(int) const>();
     test_type_identity<int(int) const&>();
@@ -395,7 +395,7 @@ TEST_CASE("type_identity")
     test_type_identity<int(int) const volatile && noexcept>();
 
     test_type_identity<int(...)>();
-    test_type_identity<int(...)&>();
+    test_type_identity<int(...) &>();
     test_type_identity<int(...) &&>();
     test_type_identity<int(...) const>();
     test_type_identity<int(...) const&>();
@@ -420,7 +420,7 @@ TEST_CASE("type_identity")
     test_type_identity<int(...) const volatile && noexcept>();
 
     test_type_identity<int(int, ...)>();
-    test_type_identity<int(int, ...)&>();
+    test_type_identity<int(int, ...) &>();
     test_type_identity<int(int, ...) &&>();
     test_type_identity<int(int, ...) const>();
     test_type_identity<int(int, ...) const&>();
@@ -517,7 +517,7 @@ TEST_CASE("type_identity")
     test_type_identity<int (&&)(int, ...) noexcept>();
 
     test_type_identity<void (class_type::*)()>();
-    test_type_identity<void (class_type::*)()&>();
+    test_type_identity<void (class_type::*)() &>();
     test_type_identity<void (class_type::*)() &&>();
     test_type_identity<void (class_type::*)() const>();
     test_type_identity<void (class_type::*)() const&>();
@@ -530,7 +530,7 @@ TEST_CASE("type_identity")
     test_type_identity<void (class_type::*)() const && noexcept>();
 
     test_type_identity<void (class_type::*)(int)>();
-    test_type_identity<void (class_type::*)(int)&>();
+    test_type_identity<void (class_type::*)(int) &>();
     test_type_identity<void (class_type::*)(int) &&>();
     test_type_identity<void (class_type::*)(int) const>();
     test_type_identity<void (class_type::*)(int) const&>();
@@ -543,7 +543,7 @@ TEST_CASE("type_identity")
     test_type_identity<void (class_type::*)(int) const && noexcept>();
 
     test_type_identity<void (class_type::*)(...)>();
-    test_type_identity<void (class_type::*)(...)&>();
+    test_type_identity<void (class_type::*)(...) &>();
     test_type_identity<void (class_type::*)(...) &&>();
     test_type_identity<void (class_type::*)(...) const>();
     test_type_identity<void (class_type::*)(...) const&>();
@@ -556,7 +556,7 @@ TEST_CASE("type_identity")
     test_type_identity<void (class_type::*)(...) const && noexcept>();
 
     test_type_identity<void (class_type::*)(int, ...)>();
-    test_type_identity<void (class_type::*)(int, ...)&>();
+    test_type_identity<void (class_type::*)(int, ...) &>();
     test_type_identity<void (class_type::*)(int, ...) &&>();
     test_type_identity<void (class_type::*)(int, ...) const>();
     test_type_identity<void (class_type::*)(int, ...) const&>();
@@ -569,7 +569,7 @@ TEST_CASE("type_identity")
     test_type_identity<void (class_type::*)(int, ...) const && noexcept>();
 
     test_type_identity<int (class_type::*)()>();
-    test_type_identity<int (class_type::*)()&>();
+    test_type_identity<int (class_type::*)() &>();
     test_type_identity<int (class_type::*)() &&>();
     test_type_identity<int (class_type::*)() const>();
     test_type_identity<int (class_type::*)() const&>();
@@ -582,7 +582,7 @@ TEST_CASE("type_identity")
     test_type_identity<int (class_type::*)() const && noexcept>();
 
     test_type_identity<int (class_type::*)(int)>();
-    test_type_identity<int (class_type::*)(int)&>();
+    test_type_identity<int (class_type::*)(int) &>();
     test_type_identity<int (class_type::*)(int) &&>();
     test_type_identity<int (class_type::*)(int) const>();
     test_type_identity<int (class_type::*)(int) const&>();
@@ -595,7 +595,7 @@ TEST_CASE("type_identity")
     test_type_identity<int (class_type::*)(int) const && noexcept>();
 
     test_type_identity<int (class_type::*)(...)>();
-    test_type_identity<int (class_type::*)(...)&>();
+    test_type_identity<int (class_type::*)(...) &>();
     test_type_identity<int (class_type::*)(...) &&>();
     test_type_identity<int (class_type::*)(...) const>();
     test_type_identity<int (class_type::*)(...) const&>();
@@ -608,7 +608,7 @@ TEST_CASE("type_identity")
     test_type_identity<int (class_type::*)(...) const && noexcept>();
 
     test_type_identity<int (class_type::*)(int, ...)>();
-    test_type_identity<int (class_type::*)(int, ...)&>();
+    test_type_identity<int (class_type::*)(int, ...) &>();
     test_type_identity<int (class_type::*)(int, ...) &&>();
     test_type_identity<int (class_type::*)(int, ...) const>();
     test_type_identity<int (class_type::*)(int, ...) const&>();

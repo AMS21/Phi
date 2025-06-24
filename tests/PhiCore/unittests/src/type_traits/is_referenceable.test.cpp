@@ -130,22 +130,22 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<char[]>();
     test_is_referenceable<char* [3]>();
     test_is_referenceable<char*[]>();
-    test_is_referenceable<int(*)[3]>();
-    test_is_referenceable<int(*)[]>();
-    test_is_referenceable<int(&)[3]>();
-    test_is_referenceable<int(&)[]>();
-    test_is_referenceable<int(&&)[3]>();
-    test_is_referenceable<int(&&)[]>();
+    test_is_referenceable<int (*)[3]>();
+    test_is_referenceable<int (*)[]>();
+    test_is_referenceable<int (&)[3]>();
+    test_is_referenceable<int (&)[]>();
+    test_is_referenceable<int (&&)[3]>();
+    test_is_referenceable<int (&&)[]>();
     test_is_referenceable<char[3][2]>();
     test_is_referenceable<char[][2]>();
     test_is_referenceable<char* [3][2]>();
     test_is_referenceable<char*[][2]>();
-    test_is_referenceable<int(*)[3][2]>();
-    test_is_referenceable<int(*)[][2]>();
-    test_is_referenceable<int(&)[3][2]>();
-    test_is_referenceable<int(&)[][2]>();
-    test_is_referenceable<int(&&)[3][2]>();
-    test_is_referenceable<int(&&)[][2]>();
+    test_is_referenceable<int (*)[3][2]>();
+    test_is_referenceable<int (*)[][2]>();
+    test_is_referenceable<int (&)[3][2]>();
+    test_is_referenceable<int (&)[][2]>();
+    test_is_referenceable<int (&&)[3][2]>();
+    test_is_referenceable<int (&&)[][2]>();
     test_is_referenceable<class_type>();
     test_is_referenceable<class_type[]>();
     test_is_referenceable<class_type[2]>();
@@ -370,7 +370,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<trap_array_subscript>();
 
     test_is_referenceable<void()>();
-    test_is_not_referenceable<void()&>();
+    test_is_not_referenceable<void() &>();
     test_is_not_referenceable<void() &&>();
     test_is_not_referenceable<void() const>();
     test_is_not_referenceable<void() const&>();
@@ -395,7 +395,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<void() const volatile && noexcept>();
 
     test_is_referenceable<void(int)>();
-    test_is_not_referenceable<void(int)&>();
+    test_is_not_referenceable<void(int) &>();
     test_is_not_referenceable<void(int) &&>();
     test_is_not_referenceable<void(int) const>();
     test_is_not_referenceable<void(int) const&>();
@@ -420,7 +420,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<void(int) const volatile && noexcept>();
 
     test_is_referenceable<void(...)>();
-    test_is_not_referenceable<void(...)&>();
+    test_is_not_referenceable<void(...) &>();
     test_is_not_referenceable<void(...) &&>();
     test_is_not_referenceable<void(...) const>();
     test_is_not_referenceable<void(...) const&>();
@@ -445,7 +445,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<void(...) const volatile && noexcept>();
 
     test_is_referenceable<void(int, ...)>();
-    test_is_not_referenceable<void(int, ...)&>();
+    test_is_not_referenceable<void(int, ...) &>();
     test_is_not_referenceable<void(int, ...) &&>();
     test_is_not_referenceable<void(int, ...) const>();
     test_is_not_referenceable<void(int, ...) const&>();
@@ -470,7 +470,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<void(int, ...) const volatile && noexcept>();
 
     test_is_referenceable<int()>();
-    test_is_not_referenceable<int()&>();
+    test_is_not_referenceable<int() &>();
     test_is_not_referenceable<int() &&>();
     test_is_not_referenceable<int() const>();
     test_is_not_referenceable<int() const&>();
@@ -495,7 +495,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<int() const volatile && noexcept>();
 
     test_is_referenceable<int(int)>();
-    test_is_not_referenceable<int(int)&>();
+    test_is_not_referenceable<int(int) &>();
     test_is_not_referenceable<int(int) &&>();
     test_is_not_referenceable<int(int) const>();
     test_is_not_referenceable<int(int) const&>();
@@ -520,7 +520,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<int(int) const volatile && noexcept>();
 
     test_is_referenceable<int(...)>();
-    test_is_not_referenceable<int(...)&>();
+    test_is_not_referenceable<int(...) &>();
     test_is_not_referenceable<int(...) &&>();
     test_is_not_referenceable<int(...) const>();
     test_is_not_referenceable<int(...) const&>();
@@ -545,7 +545,7 @@ TEST_CASE("is_referenceable")
     test_is_not_referenceable<int(...) const volatile && noexcept>();
 
     test_is_referenceable<int(int, ...)>();
-    test_is_not_referenceable<int(int, ...)&>();
+    test_is_not_referenceable<int(int, ...) &>();
     test_is_not_referenceable<int(int, ...) &&>();
     test_is_not_referenceable<int(int, ...) const>();
     test_is_not_referenceable<int(int, ...) const&>();
@@ -642,7 +642,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<int (&&)(int, ...) noexcept>();
 
     test_is_referenceable<void (class_type::*)()>();
-    test_is_referenceable<void (class_type::*)()&>();
+    test_is_referenceable<void (class_type::*)() &>();
     test_is_referenceable<void (class_type::*)() &&>();
     test_is_referenceable<void (class_type::*)() const>();
     test_is_referenceable<void (class_type::*)() const&>();
@@ -655,7 +655,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<void (class_type::*)() const && noexcept>();
 
     test_is_referenceable<void (class_type::*)(int)>();
-    test_is_referenceable<void (class_type::*)(int)&>();
+    test_is_referenceable<void (class_type::*)(int) &>();
     test_is_referenceable<void (class_type::*)(int) &&>();
     test_is_referenceable<void (class_type::*)(int) const>();
     test_is_referenceable<void (class_type::*)(int) const&>();
@@ -668,7 +668,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<void (class_type::*)(int) const && noexcept>();
 
     test_is_referenceable<void (class_type::*)(...)>();
-    test_is_referenceable<void (class_type::*)(...)&>();
+    test_is_referenceable<void (class_type::*)(...) &>();
     test_is_referenceable<void (class_type::*)(...) &&>();
     test_is_referenceable<void (class_type::*)(...) const>();
     test_is_referenceable<void (class_type::*)(...) const&>();
@@ -681,7 +681,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<void (class_type::*)(...) const && noexcept>();
 
     test_is_referenceable<void (class_type::*)(int, ...)>();
-    test_is_referenceable<void (class_type::*)(int, ...)&>();
+    test_is_referenceable<void (class_type::*)(int, ...) &>();
     test_is_referenceable<void (class_type::*)(int, ...) &&>();
     test_is_referenceable<void (class_type::*)(int, ...) const>();
     test_is_referenceable<void (class_type::*)(int, ...) const&>();
@@ -694,7 +694,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_referenceable<int (class_type::*)()>();
-    test_is_referenceable<int (class_type::*)()&>();
+    test_is_referenceable<int (class_type::*)() &>();
     test_is_referenceable<int (class_type::*)() &&>();
     test_is_referenceable<int (class_type::*)() const>();
     test_is_referenceable<int (class_type::*)() const&>();
@@ -707,7 +707,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<int (class_type::*)() const && noexcept>();
 
     test_is_referenceable<int (class_type::*)(int)>();
-    test_is_referenceable<int (class_type::*)(int)&>();
+    test_is_referenceable<int (class_type::*)(int) &>();
     test_is_referenceable<int (class_type::*)(int) &&>();
     test_is_referenceable<int (class_type::*)(int) const>();
     test_is_referenceable<int (class_type::*)(int) const&>();
@@ -720,7 +720,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<int (class_type::*)(int) const && noexcept>();
 
     test_is_referenceable<int (class_type::*)(...)>();
-    test_is_referenceable<int (class_type::*)(...)&>();
+    test_is_referenceable<int (class_type::*)(...) &>();
     test_is_referenceable<int (class_type::*)(...) &&>();
     test_is_referenceable<int (class_type::*)(...) const>();
     test_is_referenceable<int (class_type::*)(...) const&>();
@@ -733,7 +733,7 @@ TEST_CASE("is_referenceable")
     test_is_referenceable<int (class_type::*)(...) const && noexcept>();
 
     test_is_referenceable<int (class_type::*)(int, ...)>();
-    test_is_referenceable<int (class_type::*)(int, ...)&>();
+    test_is_referenceable<int (class_type::*)(int, ...) &>();
     test_is_referenceable<int (class_type::*)(int, ...) &&>();
     test_is_referenceable<int (class_type::*)(int, ...) const>();
     test_is_referenceable<int (class_type::*)(int, ...) const&>();

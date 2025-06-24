@@ -153,22 +153,22 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<char[]>();
     test_is_not_reference_wrapper<char* [3]>();
     test_is_not_reference_wrapper<char*[]>();
-    test_is_not_reference_wrapper<int(*)[3]>();
-    test_is_not_reference_wrapper<int(*)[]>();
-    test_is_not_reference_wrapper<int(&)[3]>();
-    test_is_not_reference_wrapper<int(&)[]>();
-    test_is_not_reference_wrapper<int(&&)[3]>();
-    test_is_not_reference_wrapper<int(&&)[]>();
+    test_is_not_reference_wrapper<int (*)[3]>();
+    test_is_not_reference_wrapper<int (*)[]>();
+    test_is_not_reference_wrapper<int (&)[3]>();
+    test_is_not_reference_wrapper<int (&)[]>();
+    test_is_not_reference_wrapper<int (&&)[3]>();
+    test_is_not_reference_wrapper<int (&&)[]>();
     test_is_not_reference_wrapper<char[3][2]>();
     test_is_not_reference_wrapper<char[][2]>();
     test_is_not_reference_wrapper<char* [3][2]>();
     test_is_not_reference_wrapper<char*[][2]>();
-    test_is_not_reference_wrapper<int(*)[3][2]>();
-    test_is_not_reference_wrapper<int(*)[][2]>();
-    test_is_not_reference_wrapper<int(&)[3][2]>();
-    test_is_not_reference_wrapper<int(&)[][2]>();
-    test_is_not_reference_wrapper<int(&&)[3][2]>();
-    test_is_not_reference_wrapper<int(&&)[][2]>();
+    test_is_not_reference_wrapper<int (*)[3][2]>();
+    test_is_not_reference_wrapper<int (*)[][2]>();
+    test_is_not_reference_wrapper<int (&)[3][2]>();
+    test_is_not_reference_wrapper<int (&)[][2]>();
+    test_is_not_reference_wrapper<int (&&)[3][2]>();
+    test_is_not_reference_wrapper<int (&&)[][2]>();
     test_is_not_reference_wrapper<class_type>();
     test_is_not_reference_wrapper<class_type[]>();
     test_is_not_reference_wrapper<class_type[2]>();
@@ -296,7 +296,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<trap_array_subscript>();
 
     test_is_not_reference_wrapper<void()>();
-    test_is_not_reference_wrapper<void()&>();
+    test_is_not_reference_wrapper<void() &>();
     test_is_not_reference_wrapper<void() &&>();
     test_is_not_reference_wrapper<void() const>();
     test_is_not_reference_wrapper<void() const&>();
@@ -321,7 +321,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void() const volatile && noexcept>();
 
     test_is_not_reference_wrapper<void(int)>();
-    test_is_not_reference_wrapper<void(int)&>();
+    test_is_not_reference_wrapper<void(int) &>();
     test_is_not_reference_wrapper<void(int) &&>();
     test_is_not_reference_wrapper<void(int) const>();
     test_is_not_reference_wrapper<void(int) const&>();
@@ -346,7 +346,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void(int) const volatile && noexcept>();
 
     test_is_not_reference_wrapper<void(...)>();
-    test_is_not_reference_wrapper<void(...)&>();
+    test_is_not_reference_wrapper<void(...) &>();
     test_is_not_reference_wrapper<void(...) &&>();
     test_is_not_reference_wrapper<void(...) const>();
     test_is_not_reference_wrapper<void(...) const&>();
@@ -371,7 +371,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void(...) const volatile && noexcept>();
 
     test_is_not_reference_wrapper<void(int, ...)>();
-    test_is_not_reference_wrapper<void(int, ...)&>();
+    test_is_not_reference_wrapper<void(int, ...) &>();
     test_is_not_reference_wrapper<void(int, ...) &&>();
     test_is_not_reference_wrapper<void(int, ...) const>();
     test_is_not_reference_wrapper<void(int, ...) const&>();
@@ -396,7 +396,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void(int, ...) const volatile && noexcept>();
 
     test_is_not_reference_wrapper<int()>();
-    test_is_not_reference_wrapper<int()&>();
+    test_is_not_reference_wrapper<int() &>();
     test_is_not_reference_wrapper<int() &&>();
     test_is_not_reference_wrapper<int() const>();
     test_is_not_reference_wrapper<int() const&>();
@@ -421,7 +421,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int() const volatile && noexcept>();
 
     test_is_not_reference_wrapper<int(int)>();
-    test_is_not_reference_wrapper<int(int)&>();
+    test_is_not_reference_wrapper<int(int) &>();
     test_is_not_reference_wrapper<int(int) &&>();
     test_is_not_reference_wrapper<int(int) const>();
     test_is_not_reference_wrapper<int(int) const&>();
@@ -446,7 +446,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int(int) const volatile && noexcept>();
 
     test_is_not_reference_wrapper<int(...)>();
-    test_is_not_reference_wrapper<int(...)&>();
+    test_is_not_reference_wrapper<int(...) &>();
     test_is_not_reference_wrapper<int(...) &&>();
     test_is_not_reference_wrapper<int(...) const>();
     test_is_not_reference_wrapper<int(...) const&>();
@@ -471,7 +471,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int(...) const volatile && noexcept>();
 
     test_is_not_reference_wrapper<int(int, ...)>();
-    test_is_not_reference_wrapper<int(int, ...)&>();
+    test_is_not_reference_wrapper<int(int, ...) &>();
     test_is_not_reference_wrapper<int(int, ...) &&>();
     test_is_not_reference_wrapper<int(int, ...) const>();
     test_is_not_reference_wrapper<int(int, ...) const&>();
@@ -568,7 +568,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int (&&)(int, ...) noexcept>();
 
     test_is_not_reference_wrapper<void (class_type::*)()>();
-    test_is_not_reference_wrapper<void (class_type::*)()&>();
+    test_is_not_reference_wrapper<void (class_type::*)() &>();
     test_is_not_reference_wrapper<void (class_type::*)() &&>();
     test_is_not_reference_wrapper<void (class_type::*)() const>();
     test_is_not_reference_wrapper<void (class_type::*)() const&>();
@@ -581,7 +581,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void (class_type::*)() const && noexcept>();
 
     test_is_not_reference_wrapper<void (class_type::*)(int)>();
-    test_is_not_reference_wrapper<void (class_type::*)(int)&>();
+    test_is_not_reference_wrapper<void (class_type::*)(int) &>();
     test_is_not_reference_wrapper<void (class_type::*)(int) &&>();
     test_is_not_reference_wrapper<void (class_type::*)(int) const>();
     test_is_not_reference_wrapper<void (class_type::*)(int) const&>();
@@ -594,7 +594,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_reference_wrapper<void (class_type::*)(...)>();
-    test_is_not_reference_wrapper<void (class_type::*)(...)&>();
+    test_is_not_reference_wrapper<void (class_type::*)(...) &>();
     test_is_not_reference_wrapper<void (class_type::*)(...) &&>();
     test_is_not_reference_wrapper<void (class_type::*)(...) const>();
     test_is_not_reference_wrapper<void (class_type::*)(...) const&>();
@@ -607,7 +607,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_reference_wrapper<void (class_type::*)(int, ...)>();
-    test_is_not_reference_wrapper<void (class_type::*)(int, ...)&>();
+    test_is_not_reference_wrapper<void (class_type::*)(int, ...) &>();
     test_is_not_reference_wrapper<void (class_type::*)(int, ...) &&>();
     test_is_not_reference_wrapper<void (class_type::*)(int, ...) const>();
     test_is_not_reference_wrapper<void (class_type::*)(int, ...) const&>();
@@ -620,7 +620,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_reference_wrapper<int (class_type::*)()>();
-    test_is_not_reference_wrapper<int (class_type::*)()&>();
+    test_is_not_reference_wrapper<int (class_type::*)() &>();
     test_is_not_reference_wrapper<int (class_type::*)() &&>();
     test_is_not_reference_wrapper<int (class_type::*)() const>();
     test_is_not_reference_wrapper<int (class_type::*)() const&>();
@@ -633,7 +633,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int (class_type::*)() const && noexcept>();
 
     test_is_not_reference_wrapper<int (class_type::*)(int)>();
-    test_is_not_reference_wrapper<int (class_type::*)(int)&>();
+    test_is_not_reference_wrapper<int (class_type::*)(int) &>();
     test_is_not_reference_wrapper<int (class_type::*)(int) &&>();
     test_is_not_reference_wrapper<int (class_type::*)(int) const>();
     test_is_not_reference_wrapper<int (class_type::*)(int) const&>();
@@ -646,7 +646,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_reference_wrapper<int (class_type::*)(...)>();
-    test_is_not_reference_wrapper<int (class_type::*)(...)&>();
+    test_is_not_reference_wrapper<int (class_type::*)(...) &>();
     test_is_not_reference_wrapper<int (class_type::*)(...) &&>();
     test_is_not_reference_wrapper<int (class_type::*)(...) const>();
     test_is_not_reference_wrapper<int (class_type::*)(...) const&>();
@@ -659,7 +659,7 @@ TEST_CASE("is_refenrece_wrapper")
     test_is_not_reference_wrapper<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_reference_wrapper<int (class_type::*)(int, ...)>();
-    test_is_not_reference_wrapper<int (class_type::*)(int, ...)&>();
+    test_is_not_reference_wrapper<int (class_type::*)(int, ...) &>();
     test_is_not_reference_wrapper<int (class_type::*)(int, ...) &&>();
     test_is_not_reference_wrapper<int (class_type::*)(int, ...) const>();
     test_is_not_reference_wrapper<int (class_type::*)(int, ...) const&>();

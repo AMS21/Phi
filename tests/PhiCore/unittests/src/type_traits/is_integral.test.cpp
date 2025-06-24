@@ -130,22 +130,22 @@ TEST_CASE("is_integral")
     test_is_not_integral<char[]>();
     test_is_not_integral<char* [3]>();
     test_is_not_integral<char*[]>();
-    test_is_not_integral<int(*)[3]>();
-    test_is_not_integral<int(*)[]>();
-    test_is_not_integral<int(&)[3]>();
-    test_is_not_integral<int(&)[]>();
-    test_is_not_integral<int(&&)[3]>();
-    test_is_not_integral<int(&&)[]>();
+    test_is_not_integral<int (*)[3]>();
+    test_is_not_integral<int (*)[]>();
+    test_is_not_integral<int (&)[3]>();
+    test_is_not_integral<int (&)[]>();
+    test_is_not_integral<int (&&)[3]>();
+    test_is_not_integral<int (&&)[]>();
     test_is_not_integral<char[3][2]>();
     test_is_not_integral<char[][2]>();
     test_is_not_integral<char* [3][2]>();
     test_is_not_integral<char*[][2]>();
-    test_is_not_integral<int(*)[3][2]>();
-    test_is_not_integral<int(*)[][2]>();
-    test_is_not_integral<int(&)[3][2]>();
-    test_is_not_integral<int(&)[][2]>();
-    test_is_not_integral<int(&&)[3][2]>();
-    test_is_not_integral<int(&&)[][2]>();
+    test_is_not_integral<int (*)[3][2]>();
+    test_is_not_integral<int (*)[][2]>();
+    test_is_not_integral<int (&)[3][2]>();
+    test_is_not_integral<int (&)[][2]>();
+    test_is_not_integral<int (&&)[3][2]>();
+    test_is_not_integral<int (&&)[][2]>();
     test_is_not_integral<class_type>();
     test_is_not_integral<class_type[]>();
     test_is_not_integral<class_type[2]>();
@@ -273,7 +273,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<trap_array_subscript>();
 
     test_is_not_integral<void()>();
-    test_is_not_integral<void()&>();
+    test_is_not_integral<void() &>();
     test_is_not_integral<void() &&>();
     test_is_not_integral<void() const>();
     test_is_not_integral<void() const&>();
@@ -298,7 +298,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void() const volatile && noexcept>();
 
     test_is_not_integral<void(int)>();
-    test_is_not_integral<void(int)&>();
+    test_is_not_integral<void(int) &>();
     test_is_not_integral<void(int) &&>();
     test_is_not_integral<void(int) const>();
     test_is_not_integral<void(int) const&>();
@@ -323,7 +323,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void(int) const volatile && noexcept>();
 
     test_is_not_integral<void(...)>();
-    test_is_not_integral<void(...)&>();
+    test_is_not_integral<void(...) &>();
     test_is_not_integral<void(...) &&>();
     test_is_not_integral<void(...) const>();
     test_is_not_integral<void(...) const&>();
@@ -348,7 +348,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void(...) const volatile && noexcept>();
 
     test_is_not_integral<void(int, ...)>();
-    test_is_not_integral<void(int, ...)&>();
+    test_is_not_integral<void(int, ...) &>();
     test_is_not_integral<void(int, ...) &&>();
     test_is_not_integral<void(int, ...) const>();
     test_is_not_integral<void(int, ...) const&>();
@@ -373,7 +373,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void(int, ...) const volatile && noexcept>();
 
     test_is_not_integral<int()>();
-    test_is_not_integral<int()&>();
+    test_is_not_integral<int() &>();
     test_is_not_integral<int() &&>();
     test_is_not_integral<int() const>();
     test_is_not_integral<int() const&>();
@@ -398,7 +398,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int() const volatile && noexcept>();
 
     test_is_not_integral<int(int)>();
-    test_is_not_integral<int(int)&>();
+    test_is_not_integral<int(int) &>();
     test_is_not_integral<int(int) &&>();
     test_is_not_integral<int(int) const>();
     test_is_not_integral<int(int) const&>();
@@ -423,7 +423,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int(int) const volatile && noexcept>();
 
     test_is_not_integral<int(...)>();
-    test_is_not_integral<int(...)&>();
+    test_is_not_integral<int(...) &>();
     test_is_not_integral<int(...) &&>();
     test_is_not_integral<int(...) const>();
     test_is_not_integral<int(...) const&>();
@@ -448,7 +448,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int(...) const volatile && noexcept>();
 
     test_is_not_integral<int(int, ...)>();
-    test_is_not_integral<int(int, ...)&>();
+    test_is_not_integral<int(int, ...) &>();
     test_is_not_integral<int(int, ...) &&>();
     test_is_not_integral<int(int, ...) const>();
     test_is_not_integral<int(int, ...) const&>();
@@ -545,7 +545,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int (&&)(int, ...) noexcept>();
 
     test_is_not_integral<void (class_type::*)()>();
-    test_is_not_integral<void (class_type::*)()&>();
+    test_is_not_integral<void (class_type::*)() &>();
     test_is_not_integral<void (class_type::*)() &&>();
     test_is_not_integral<void (class_type::*)() const>();
     test_is_not_integral<void (class_type::*)() const&>();
@@ -558,7 +558,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void (class_type::*)() const && noexcept>();
 
     test_is_not_integral<void (class_type::*)(int)>();
-    test_is_not_integral<void (class_type::*)(int)&>();
+    test_is_not_integral<void (class_type::*)(int) &>();
     test_is_not_integral<void (class_type::*)(int) &&>();
     test_is_not_integral<void (class_type::*)(int) const>();
     test_is_not_integral<void (class_type::*)(int) const&>();
@@ -571,7 +571,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_integral<void (class_type::*)(...)>();
-    test_is_not_integral<void (class_type::*)(...)&>();
+    test_is_not_integral<void (class_type::*)(...) &>();
     test_is_not_integral<void (class_type::*)(...) &&>();
     test_is_not_integral<void (class_type::*)(...) const>();
     test_is_not_integral<void (class_type::*)(...) const&>();
@@ -584,7 +584,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_integral<void (class_type::*)(int, ...)>();
-    test_is_not_integral<void (class_type::*)(int, ...)&>();
+    test_is_not_integral<void (class_type::*)(int, ...) &>();
     test_is_not_integral<void (class_type::*)(int, ...) &&>();
     test_is_not_integral<void (class_type::*)(int, ...) const>();
     test_is_not_integral<void (class_type::*)(int, ...) const&>();
@@ -597,7 +597,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_integral<int (class_type::*)()>();
-    test_is_not_integral<int (class_type::*)()&>();
+    test_is_not_integral<int (class_type::*)() &>();
     test_is_not_integral<int (class_type::*)() &&>();
     test_is_not_integral<int (class_type::*)() const>();
     test_is_not_integral<int (class_type::*)() const&>();
@@ -610,7 +610,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int (class_type::*)() const && noexcept>();
 
     test_is_not_integral<int (class_type::*)(int)>();
-    test_is_not_integral<int (class_type::*)(int)&>();
+    test_is_not_integral<int (class_type::*)(int) &>();
     test_is_not_integral<int (class_type::*)(int) &&>();
     test_is_not_integral<int (class_type::*)(int) const>();
     test_is_not_integral<int (class_type::*)(int) const&>();
@@ -623,7 +623,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_integral<int (class_type::*)(...)>();
-    test_is_not_integral<int (class_type::*)(...)&>();
+    test_is_not_integral<int (class_type::*)(...) &>();
     test_is_not_integral<int (class_type::*)(...) &&>();
     test_is_not_integral<int (class_type::*)(...) const>();
     test_is_not_integral<int (class_type::*)(...) const&>();
@@ -636,7 +636,7 @@ TEST_CASE("is_integral")
     test_is_not_integral<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_integral<int (class_type::*)(int, ...)>();
-    test_is_not_integral<int (class_type::*)(int, ...)&>();
+    test_is_not_integral<int (class_type::*)(int, ...) &>();
     test_is_not_integral<int (class_type::*)(int, ...) &&>();
     test_is_not_integral<int (class_type::*)(int, ...) const>();
     test_is_not_integral<int (class_type::*)(int, ...) const&>();

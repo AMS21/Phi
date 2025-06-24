@@ -93,8 +93,8 @@ template <typename SignatureT, typename ExpectT, typename FunctorT>
 void test_b12(FunctorT&& function)
 {
     // Create the callable object.
-    using ClassFunc                       = SignatureT TestClass::*;
-    ClassFunc                    func_ptr = &TestClass::operator();
+    using ClassFunc    = SignatureT TestClass::*;
+    ClassFunc func_ptr = &TestClass::operator();
 
     // Create the dummy arg.
     NonCopyable arg;
@@ -175,7 +175,7 @@ TEST_CASE("invoke bullet one and two")
         test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable&&)&&, int&&>(phi::move(test_class));
+        test_b12<int && (NonCopyable&&) &&, int&&>(phi::move(test_class));
         test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
         test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
         test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(
@@ -189,7 +189,7 @@ TEST_CASE("invoke bullet one and two")
         test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable&&)&&, int&&>(phi::move(test_class));
+        test_b12<int && (NonCopyable&&) &&, int&&>(phi::move(test_class));
         test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
         test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
         test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(

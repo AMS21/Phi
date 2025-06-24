@@ -205,22 +205,22 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<char[]>();
     test_is_trivially_copyable_gcc_compat<char* [3]>();
     test_is_trivially_copyable_gcc_compat<char*[]>();
-    test_is_trivially_copyable_gcc_compat<int(*)[3]>();
-    test_is_trivially_copyable_gcc_compat<int(*)[]>();
-    test_is_not_trivially_copyable<int(&)[3]>();
-    test_is_not_trivially_copyable<int(&)[]>();
-    test_is_not_trivially_copyable<int(&&)[3]>();
-    test_is_not_trivially_copyable<int(&&)[]>();
+    test_is_trivially_copyable_gcc_compat<int (*)[3]>();
+    test_is_trivially_copyable_gcc_compat<int (*)[]>();
+    test_is_not_trivially_copyable<int (&)[3]>();
+    test_is_not_trivially_copyable<int (&)[]>();
+    test_is_not_trivially_copyable<int (&&)[3]>();
+    test_is_not_trivially_copyable<int (&&)[]>();
     test_is_trivially_copyable_gcc_compat<char[3][2]>();
     test_is_trivially_copyable_gcc_compat<char[][2]>();
     test_is_trivially_copyable_gcc_compat<char* [3][2]>();
     test_is_trivially_copyable_gcc_compat<char*[][2]>();
-    test_is_trivially_copyable_gcc_compat<int(*)[3][2]>();
-    test_is_trivially_copyable_gcc_compat<int(*)[][2]>();
-    test_is_not_trivially_copyable<int(&)[3][2]>();
-    test_is_not_trivially_copyable<int(&)[][2]>();
-    test_is_not_trivially_copyable<int(&&)[3][2]>();
-    test_is_not_trivially_copyable<int(&&)[][2]>();
+    test_is_trivially_copyable_gcc_compat<int (*)[3][2]>();
+    test_is_trivially_copyable_gcc_compat<int (*)[][2]>();
+    test_is_not_trivially_copyable<int (&)[3][2]>();
+    test_is_not_trivially_copyable<int (&)[][2]>();
+    test_is_not_trivially_copyable<int (&&)[3][2]>();
+    test_is_not_trivially_copyable<int (&&)[][2]>();
     test_is_not_trivially_copyable<class_type>();
     test_is_not_trivially_copyable<class_type[]>();
     test_is_not_trivially_copyable<class_type[2]>();
@@ -346,7 +346,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable<trap_array_subscript>();
 
     test_is_not_trivially_copyable<void()>();
-    test_is_not_trivially_copyable<void()&>();
+    test_is_not_trivially_copyable<void() &>();
     test_is_not_trivially_copyable<void() &&>();
     test_is_not_trivially_copyable<void() const>();
     test_is_not_trivially_copyable<void() const&>();
@@ -371,7 +371,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<void() const volatile && noexcept>();
 
     test_is_not_trivially_copyable<void(int)>();
-    test_is_not_trivially_copyable<void(int)&>();
+    test_is_not_trivially_copyable<void(int) &>();
     test_is_not_trivially_copyable<void(int) &&>();
     test_is_not_trivially_copyable<void(int) const>();
     test_is_not_trivially_copyable<void(int) const&>();
@@ -396,7 +396,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<void(int) const volatile && noexcept>();
 
     test_is_not_trivially_copyable<void(...)>();
-    test_is_not_trivially_copyable<void(...)&>();
+    test_is_not_trivially_copyable<void(...) &>();
     test_is_not_trivially_copyable<void(...) &&>();
     test_is_not_trivially_copyable<void(...) const>();
     test_is_not_trivially_copyable<void(...) const&>();
@@ -421,7 +421,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<void(...) const volatile && noexcept>();
 
     test_is_not_trivially_copyable<void(int, ...)>();
-    test_is_not_trivially_copyable<void(int, ...)&>();
+    test_is_not_trivially_copyable<void(int, ...) &>();
     test_is_not_trivially_copyable<void(int, ...) &&>();
     test_is_not_trivially_copyable<void(int, ...) const>();
     test_is_not_trivially_copyable<void(int, ...) const&>();
@@ -446,7 +446,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<void(int, ...) const volatile && noexcept>();
 
     test_is_not_trivially_copyable<int()>();
-    test_is_not_trivially_copyable<int()&>();
+    test_is_not_trivially_copyable<int() &>();
     test_is_not_trivially_copyable<int() &&>();
     test_is_not_trivially_copyable<int() const>();
     test_is_not_trivially_copyable<int() const&>();
@@ -471,7 +471,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<int() const volatile && noexcept>();
 
     test_is_not_trivially_copyable<int(int)>();
-    test_is_not_trivially_copyable<int(int)&>();
+    test_is_not_trivially_copyable<int(int) &>();
     test_is_not_trivially_copyable<int(int) &&>();
     test_is_not_trivially_copyable<int(int) const>();
     test_is_not_trivially_copyable<int(int) const&>();
@@ -496,7 +496,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<int(int) const volatile && noexcept>();
 
     test_is_not_trivially_copyable<int(...)>();
-    test_is_not_trivially_copyable<int(...)&>();
+    test_is_not_trivially_copyable<int(...) &>();
     test_is_not_trivially_copyable<int(...) &&>();
     test_is_not_trivially_copyable<int(...) const>();
     test_is_not_trivially_copyable<int(...) const&>();
@@ -521,7 +521,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<int(...) const volatile && noexcept>();
 
     test_is_not_trivially_copyable<int(int, ...)>();
-    test_is_not_trivially_copyable<int(int, ...)&>();
+    test_is_not_trivially_copyable<int(int, ...) &>();
     test_is_not_trivially_copyable<int(int, ...) &&>();
     test_is_not_trivially_copyable<int(int, ...) const>();
     test_is_not_trivially_copyable<int(int, ...) const&>();
@@ -618,7 +618,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_not_trivially_copyable<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_copyable_gcc_compat<void (class_type::*)()>();
-    test_is_trivially_copyable_gcc_compat<void (class_type::*)()&>();
+    test_is_trivially_copyable_gcc_compat<void (class_type::*)() &>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)() &&>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)() const>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)() const&>();
@@ -631,7 +631,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<void (class_type::*)() const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int)>();
-    test_is_trivially_copyable_gcc_compat<void (class_type::*)(int)&>();
+    test_is_trivially_copyable_gcc_compat<void (class_type::*)(int) &>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int) &&>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int) const>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int) const&>();
@@ -644,7 +644,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(...)>();
-    test_is_trivially_copyable_gcc_compat<void (class_type::*)(...)&>();
+    test_is_trivially_copyable_gcc_compat<void (class_type::*)(...) &>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(...) &&>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(...) const>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(...) const&>();
@@ -657,7 +657,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...)>();
-    test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...)&>();
+    test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...) &>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...) &&>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...) const>();
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...) const&>();
@@ -670,7 +670,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<int (class_type::*)()>();
-    test_is_trivially_copyable_gcc_compat<int (class_type::*)()&>();
+    test_is_trivially_copyable_gcc_compat<int (class_type::*)() &>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)() &&>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)() const>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)() const&>();
@@ -683,7 +683,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<int (class_type::*)() const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int)>();
-    test_is_trivially_copyable_gcc_compat<int (class_type::*)(int)&>();
+    test_is_trivially_copyable_gcc_compat<int (class_type::*)(int) &>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int) &&>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int) const>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int) const&>();
@@ -696,7 +696,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(...)>();
-    test_is_trivially_copyable_gcc_compat<int (class_type::*)(...)&>();
+    test_is_trivially_copyable_gcc_compat<int (class_type::*)(...) &>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(...) &&>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(...) const>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(...) const&>();
@@ -709,7 +709,7 @@ TEST_CASE("is_trivially_copyable")
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...)>();
-    test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...)&>();
+    test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...) &>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...) &&>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...) const>();
     test_is_trivially_copyable_gcc_compat<int (class_type::*)(int, ...) const&>();

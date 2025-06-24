@@ -132,22 +132,22 @@ TEST_CASE("is_complete")
     test_is_not_complete<char[]>();
     test_is_complete<char* [3]>();
     test_is_not_complete<char*[]>();
-    test_is_complete<int(*)[3]>();
-    test_is_complete<int(*)[]>();
-    test_is_complete<int(&)[3]>();
-    test_is_not_complete<int(&)[]>();
-    test_is_complete<int(&&)[3]>();
-    test_is_complete<int(&&)[]>();
+    test_is_complete<int (*)[3]>();
+    test_is_complete<int (*)[]>();
+    test_is_complete<int (&)[3]>();
+    test_is_not_complete<int (&)[]>();
+    test_is_complete<int (&&)[3]>();
+    test_is_complete<int (&&)[]>();
     test_is_complete<char[3][2]>();
     test_is_not_complete<char[][2]>();
     test_is_complete<char* [3][2]>();
     test_is_not_complete<char*[][2]>();
-    test_is_complete<int(*)[3][2]>();
-    test_is_complete<int(*)[][2]>();
-    test_is_complete<int(&)[3][2]>();
-    test_is_not_complete<int(&)[][2]>();
-    test_is_complete<int(&&)[3][2]>();
-    test_is_complete<int(&&)[][2]>();
+    test_is_complete<int (*)[3][2]>();
+    test_is_complete<int (*)[][2]>();
+    test_is_complete<int (&)[3][2]>();
+    test_is_not_complete<int (&)[][2]>();
+    test_is_complete<int (&&)[3][2]>();
+    test_is_complete<int (&&)[][2]>();
     test_is_complete<class_type>();
     test_is_not_complete<class_type[]>();
     test_is_complete<class_type[2]>();
@@ -274,7 +274,7 @@ TEST_CASE("is_complete")
     test_is_complete<trap_array_subscript>();
 
     test_is_complete<void()>();
-    test_is_complete<void()&>();
+    test_is_complete<void() &>();
     test_is_complete<void() &&>();
     test_is_complete<void() const>();
     test_is_complete<void() const&>();
@@ -299,7 +299,7 @@ TEST_CASE("is_complete")
     test_is_complete<void() const volatile && noexcept>();
 
     test_is_complete<void(int)>();
-    test_is_complete<void(int)&>();
+    test_is_complete<void(int) &>();
     test_is_complete<void(int) &&>();
     test_is_complete<void(int) const>();
     test_is_complete<void(int) const&>();
@@ -324,7 +324,7 @@ TEST_CASE("is_complete")
     test_is_complete<void(int) const volatile && noexcept>();
 
     test_is_complete<void(...)>();
-    test_is_complete<void(...)&>();
+    test_is_complete<void(...) &>();
     test_is_complete<void(...) &&>();
     test_is_complete<void(...) const>();
     test_is_complete<void(...) const&>();
@@ -349,7 +349,7 @@ TEST_CASE("is_complete")
     test_is_complete<void(...) const volatile && noexcept>();
 
     test_is_complete<void(int, ...)>();
-    test_is_complete<void(int, ...)&>();
+    test_is_complete<void(int, ...) &>();
     test_is_complete<void(int, ...) &&>();
     test_is_complete<void(int, ...) const>();
     test_is_complete<void(int, ...) const&>();
@@ -374,7 +374,7 @@ TEST_CASE("is_complete")
     test_is_complete<void(int, ...) const volatile && noexcept>();
 
     test_is_complete<int()>();
-    test_is_complete<int()&>();
+    test_is_complete<int() &>();
     test_is_complete<int() &&>();
     test_is_complete<int() const>();
     test_is_complete<int() const&>();
@@ -399,7 +399,7 @@ TEST_CASE("is_complete")
     test_is_complete<int() const volatile && noexcept>();
 
     test_is_complete<int(int)>();
-    test_is_complete<int(int)&>();
+    test_is_complete<int(int) &>();
     test_is_complete<int(int) &&>();
     test_is_complete<int(int) const>();
     test_is_complete<int(int) const&>();
@@ -424,7 +424,7 @@ TEST_CASE("is_complete")
     test_is_complete<int(int) const volatile && noexcept>();
 
     test_is_complete<int(...)>();
-    test_is_complete<int(...)&>();
+    test_is_complete<int(...) &>();
     test_is_complete<int(...) &&>();
     test_is_complete<int(...) const>();
     test_is_complete<int(...) const&>();
@@ -449,7 +449,7 @@ TEST_CASE("is_complete")
     test_is_complete<int(...) const volatile && noexcept>();
 
     test_is_complete<int(int, ...)>();
-    test_is_complete<int(int, ...)&>();
+    test_is_complete<int(int, ...) &>();
     test_is_complete<int(int, ...) &&>();
     test_is_complete<int(int, ...) const>();
     test_is_complete<int(int, ...) const&>();
@@ -546,7 +546,7 @@ TEST_CASE("is_complete")
     test_is_complete<int (&&)(int, ...) noexcept>();
 
     test_is_complete<void (class_type::*)()>();
-    test_is_complete<void (class_type::*)()&>();
+    test_is_complete<void (class_type::*)() &>();
     test_is_complete<void (class_type::*)() &&>();
     test_is_complete<void (class_type::*)() const>();
     test_is_complete<void (class_type::*)() const&>();
@@ -559,7 +559,7 @@ TEST_CASE("is_complete")
     test_is_complete<void (class_type::*)() const && noexcept>();
 
     test_is_complete<void (class_type::*)(int)>();
-    test_is_complete<void (class_type::*)(int)&>();
+    test_is_complete<void (class_type::*)(int) &>();
     test_is_complete<void (class_type::*)(int) &&>();
     test_is_complete<void (class_type::*)(int) const>();
     test_is_complete<void (class_type::*)(int) const&>();
@@ -572,7 +572,7 @@ TEST_CASE("is_complete")
     test_is_complete<void (class_type::*)(int) const && noexcept>();
 
     test_is_complete<void (class_type::*)(...)>();
-    test_is_complete<void (class_type::*)(...)&>();
+    test_is_complete<void (class_type::*)(...) &>();
     test_is_complete<void (class_type::*)(...) &&>();
     test_is_complete<void (class_type::*)(...) const>();
     test_is_complete<void (class_type::*)(...) const&>();
@@ -585,7 +585,7 @@ TEST_CASE("is_complete")
     test_is_complete<void (class_type::*)(...) const && noexcept>();
 
     test_is_complete<void (class_type::*)(int, ...)>();
-    test_is_complete<void (class_type::*)(int, ...)&>();
+    test_is_complete<void (class_type::*)(int, ...) &>();
     test_is_complete<void (class_type::*)(int, ...) &&>();
     test_is_complete<void (class_type::*)(int, ...) const>();
     test_is_complete<void (class_type::*)(int, ...) const&>();
@@ -598,7 +598,7 @@ TEST_CASE("is_complete")
     test_is_complete<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_complete<int (class_type::*)()>();
-    test_is_complete<int (class_type::*)()&>();
+    test_is_complete<int (class_type::*)() &>();
     test_is_complete<int (class_type::*)() &&>();
     test_is_complete<int (class_type::*)() const>();
     test_is_complete<int (class_type::*)() const&>();
@@ -611,7 +611,7 @@ TEST_CASE("is_complete")
     test_is_complete<int (class_type::*)() const && noexcept>();
 
     test_is_complete<int (class_type::*)(int)>();
-    test_is_complete<int (class_type::*)(int)&>();
+    test_is_complete<int (class_type::*)(int) &>();
     test_is_complete<int (class_type::*)(int) &&>();
     test_is_complete<int (class_type::*)(int) const>();
     test_is_complete<int (class_type::*)(int) const&>();
@@ -624,7 +624,7 @@ TEST_CASE("is_complete")
     test_is_complete<int (class_type::*)(int) const && noexcept>();
 
     test_is_complete<int (class_type::*)(...)>();
-    test_is_complete<int (class_type::*)(...)&>();
+    test_is_complete<int (class_type::*)(...) &>();
     test_is_complete<int (class_type::*)(...) &&>();
     test_is_complete<int (class_type::*)(...) const>();
     test_is_complete<int (class_type::*)(...) const&>();
@@ -637,7 +637,7 @@ TEST_CASE("is_complete")
     test_is_complete<int (class_type::*)(...) const && noexcept>();
 
     test_is_complete<int (class_type::*)(int, ...)>();
-    test_is_complete<int (class_type::*)(int, ...)&>();
+    test_is_complete<int (class_type::*)(int, ...) &>();
     test_is_complete<int (class_type::*)(int, ...) &&>();
     test_is_complete<int (class_type::*)(int, ...) const>();
     test_is_complete<int (class_type::*)(int, ...) const&>();

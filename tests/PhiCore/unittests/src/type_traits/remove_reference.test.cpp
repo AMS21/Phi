@@ -109,22 +109,22 @@ TEST_CASE("remove_reference")
     test_remove_reference<char[]>();
     test_remove_reference<char* [3]>();
     test_remove_reference<char*[]>();
-    test_remove_reference<int(*)[3]>();
-    test_remove_reference<int(*)[]>();
-    test_remove_reference_ref<int(&)[3], int[3]>();
-    test_remove_reference_ref<int(&)[], int[]>();
-    test_remove_reference_ref<int(&&)[3], int[3]>();
-    test_remove_reference_ref<int(&&)[], int[]>();
+    test_remove_reference<int (*)[3]>();
+    test_remove_reference<int (*)[]>();
+    test_remove_reference_ref<int (&)[3], int[3]>();
+    test_remove_reference_ref<int (&)[], int[]>();
+    test_remove_reference_ref<int (&&)[3], int[3]>();
+    test_remove_reference_ref<int (&&)[], int[]>();
     test_remove_reference<char[3][2]>();
     test_remove_reference<char[][2]>();
     test_remove_reference<char* [3][2]>();
     test_remove_reference<char*[][2]>();
-    test_remove_reference<int(*)[3][2]>();
-    test_remove_reference<int(*)[][2]>();
-    test_remove_reference_ref<int(&)[3][2], int[3][2]>();
-    test_remove_reference_ref<int(&)[][2], int[][2]>();
-    test_remove_reference_ref<int(&&)[3][2], int[3][2]>();
-    test_remove_reference_ref<int(&&)[][2], int[][2]>();
+    test_remove_reference<int (*)[3][2]>();
+    test_remove_reference<int (*)[][2]>();
+    test_remove_reference_ref<int (&)[3][2], int[3][2]>();
+    test_remove_reference_ref<int (&)[][2], int[][2]>();
+    test_remove_reference_ref<int (&&)[3][2], int[3][2]>();
+    test_remove_reference_ref<int (&&)[][2], int[][2]>();
     test_remove_reference<class_type>();
     test_remove_reference<class_type[]>();
     test_remove_reference<class_type[2]>();
@@ -257,7 +257,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<trap_array_subscript>();
 
     test_remove_reference<void()>();
-    test_remove_reference<void()&>();
+    test_remove_reference<void() &>();
     test_remove_reference<void() &&>();
     test_remove_reference<void() const>();
     test_remove_reference<void() const&>();
@@ -282,7 +282,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void() const volatile && noexcept>();
 
     test_remove_reference<void(int)>();
-    test_remove_reference<void(int)&>();
+    test_remove_reference<void(int) &>();
     test_remove_reference<void(int) &&>();
     test_remove_reference<void(int) const>();
     test_remove_reference<void(int) const&>();
@@ -307,7 +307,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void(int) const volatile && noexcept>();
 
     test_remove_reference<void(...)>();
-    test_remove_reference<void(...)&>();
+    test_remove_reference<void(...) &>();
     test_remove_reference<void(...) &&>();
     test_remove_reference<void(...) const>();
     test_remove_reference<void(...) const&>();
@@ -332,7 +332,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void(...) const volatile && noexcept>();
 
     test_remove_reference<void(int, ...)>();
-    test_remove_reference<void(int, ...)&>();
+    test_remove_reference<void(int, ...) &>();
     test_remove_reference<void(int, ...) &&>();
     test_remove_reference<void(int, ...) const>();
     test_remove_reference<void(int, ...) const&>();
@@ -357,7 +357,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void(int, ...) const volatile && noexcept>();
 
     test_remove_reference<int()>();
-    test_remove_reference<int()&>();
+    test_remove_reference<int() &>();
     test_remove_reference<int() &&>();
     test_remove_reference<int() const>();
     test_remove_reference<int() const&>();
@@ -382,7 +382,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int() const volatile && noexcept>();
 
     test_remove_reference<int(int)>();
-    test_remove_reference<int(int)&>();
+    test_remove_reference<int(int) &>();
     test_remove_reference<int(int) &&>();
     test_remove_reference<int(int) const>();
     test_remove_reference<int(int) const&>();
@@ -407,7 +407,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int(int) const volatile && noexcept>();
 
     test_remove_reference<int(...)>();
-    test_remove_reference<int(...)&>();
+    test_remove_reference<int(...) &>();
     test_remove_reference<int(...) &&>();
     test_remove_reference<int(...) const>();
     test_remove_reference<int(...) const&>();
@@ -432,7 +432,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int(...) const volatile && noexcept>();
 
     test_remove_reference<int(int, ...)>();
-    test_remove_reference<int(int, ...)&>();
+    test_remove_reference<int(int, ...) &>();
     test_remove_reference<int(int, ...) &&>();
     test_remove_reference<int(int, ...) const>();
     test_remove_reference<int(int, ...) const&>();
@@ -529,7 +529,7 @@ TEST_CASE("remove_reference")
     test_remove_reference_ref<int (&&)(int, ...) noexcept, int(int, ...) noexcept>();
 
     test_remove_reference<void (class_type::*)()>();
-    test_remove_reference<void (class_type::*)()&>();
+    test_remove_reference<void (class_type::*)() &>();
     test_remove_reference<void (class_type::*)() &&>();
     test_remove_reference<void (class_type::*)() const>();
     test_remove_reference<void (class_type::*)() const&>();
@@ -542,7 +542,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void (class_type::*)() const && noexcept>();
 
     test_remove_reference<void (class_type::*)(int)>();
-    test_remove_reference<void (class_type::*)(int)&>();
+    test_remove_reference<void (class_type::*)(int) &>();
     test_remove_reference<void (class_type::*)(int) &&>();
     test_remove_reference<void (class_type::*)(int) const>();
     test_remove_reference<void (class_type::*)(int) const&>();
@@ -555,7 +555,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void (class_type::*)(int) const && noexcept>();
 
     test_remove_reference<void (class_type::*)(...)>();
-    test_remove_reference<void (class_type::*)(...)&>();
+    test_remove_reference<void (class_type::*)(...) &>();
     test_remove_reference<void (class_type::*)(...) &&>();
     test_remove_reference<void (class_type::*)(...) const>();
     test_remove_reference<void (class_type::*)(...) const&>();
@@ -568,7 +568,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void (class_type::*)(...) const && noexcept>();
 
     test_remove_reference<void (class_type::*)(int, ...)>();
-    test_remove_reference<void (class_type::*)(int, ...)&>();
+    test_remove_reference<void (class_type::*)(int, ...) &>();
     test_remove_reference<void (class_type::*)(int, ...) &&>();
     test_remove_reference<void (class_type::*)(int, ...) const>();
     test_remove_reference<void (class_type::*)(int, ...) const&>();
@@ -581,7 +581,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<void (class_type::*)(int, ...) const && noexcept>();
 
     test_remove_reference<int (class_type::*)()>();
-    test_remove_reference<int (class_type::*)()&>();
+    test_remove_reference<int (class_type::*)() &>();
     test_remove_reference<int (class_type::*)() &&>();
     test_remove_reference<int (class_type::*)() const>();
     test_remove_reference<int (class_type::*)() const&>();
@@ -594,7 +594,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int (class_type::*)() const && noexcept>();
 
     test_remove_reference<int (class_type::*)(int)>();
-    test_remove_reference<int (class_type::*)(int)&>();
+    test_remove_reference<int (class_type::*)(int) &>();
     test_remove_reference<int (class_type::*)(int) &&>();
     test_remove_reference<int (class_type::*)(int) const>();
     test_remove_reference<int (class_type::*)(int) const&>();
@@ -607,7 +607,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int (class_type::*)(int) const && noexcept>();
 
     test_remove_reference<int (class_type::*)(...)>();
-    test_remove_reference<int (class_type::*)(...)&>();
+    test_remove_reference<int (class_type::*)(...) &>();
     test_remove_reference<int (class_type::*)(...) &&>();
     test_remove_reference<int (class_type::*)(...) const>();
     test_remove_reference<int (class_type::*)(...) const&>();
@@ -620,7 +620,7 @@ TEST_CASE("remove_reference")
     test_remove_reference<int (class_type::*)(...) const && noexcept>();
 
     test_remove_reference<int (class_type::*)(int, ...)>();
-    test_remove_reference<int (class_type::*)(int, ...)&>();
+    test_remove_reference<int (class_type::*)(int, ...) &>();
     test_remove_reference<int (class_type::*)(int, ...) &&>();
     test_remove_reference<int (class_type::*)(int, ...) const>();
     test_remove_reference<int (class_type::*)(int, ...) const&>();

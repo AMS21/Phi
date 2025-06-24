@@ -129,22 +129,22 @@ TEST_CASE("is_bool")
     test_is_not_bool<char[]>();
     test_is_not_bool<char* [3]>();
     test_is_not_bool<char*[]>();
-    test_is_not_bool<int(*)[3]>();
-    test_is_not_bool<int(*)[]>();
-    test_is_not_bool<int(&)[3]>();
-    test_is_not_bool<int(&)[]>();
-    test_is_not_bool<int(&&)[3]>();
-    test_is_not_bool<int(&&)[]>();
+    test_is_not_bool<int (*)[3]>();
+    test_is_not_bool<int (*)[]>();
+    test_is_not_bool<int (&)[3]>();
+    test_is_not_bool<int (&)[]>();
+    test_is_not_bool<int (&&)[3]>();
+    test_is_not_bool<int (&&)[]>();
     test_is_not_bool<char[3][2]>();
     test_is_not_bool<char[][2]>();
     test_is_not_bool<char* [3][2]>();
     test_is_not_bool<char*[][2]>();
-    test_is_not_bool<int(*)[3][2]>();
-    test_is_not_bool<int(*)[][2]>();
-    test_is_not_bool<int(&)[3][2]>();
-    test_is_not_bool<int(&)[][2]>();
-    test_is_not_bool<int(&&)[3][2]>();
-    test_is_not_bool<int(&&)[][2]>();
+    test_is_not_bool<int (*)[3][2]>();
+    test_is_not_bool<int (*)[][2]>();
+    test_is_not_bool<int (&)[3][2]>();
+    test_is_not_bool<int (&)[][2]>();
+    test_is_not_bool<int (&&)[3][2]>();
+    test_is_not_bool<int (&&)[][2]>();
     test_is_not_bool<class_type>();
     test_is_not_bool<class_type[]>();
     test_is_not_bool<class_type[2]>();
@@ -271,7 +271,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<trap_array_subscript>();
 
     test_is_not_bool<void()>();
-    test_is_not_bool<void()&>();
+    test_is_not_bool<void() &>();
     test_is_not_bool<void() &&>();
     test_is_not_bool<void() const>();
     test_is_not_bool<void() const&>();
@@ -296,7 +296,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void() const volatile && noexcept>();
 
     test_is_not_bool<void(int)>();
-    test_is_not_bool<void(int)&>();
+    test_is_not_bool<void(int) &>();
     test_is_not_bool<void(int) &&>();
     test_is_not_bool<void(int) const>();
     test_is_not_bool<void(int) const&>();
@@ -321,7 +321,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void(int) const volatile && noexcept>();
 
     test_is_not_bool<void(...)>();
-    test_is_not_bool<void(...)&>();
+    test_is_not_bool<void(...) &>();
     test_is_not_bool<void(...) &&>();
     test_is_not_bool<void(...) const>();
     test_is_not_bool<void(...) const&>();
@@ -346,7 +346,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void(...) const volatile && noexcept>();
 
     test_is_not_bool<void(int, ...)>();
-    test_is_not_bool<void(int, ...)&>();
+    test_is_not_bool<void(int, ...) &>();
     test_is_not_bool<void(int, ...) &&>();
     test_is_not_bool<void(int, ...) const>();
     test_is_not_bool<void(int, ...) const&>();
@@ -371,7 +371,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void(int, ...) const volatile && noexcept>();
 
     test_is_not_bool<int()>();
-    test_is_not_bool<int()&>();
+    test_is_not_bool<int() &>();
     test_is_not_bool<int() &&>();
     test_is_not_bool<int() const>();
     test_is_not_bool<int() const&>();
@@ -396,7 +396,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int() const volatile && noexcept>();
 
     test_is_not_bool<int(int)>();
-    test_is_not_bool<int(int)&>();
+    test_is_not_bool<int(int) &>();
     test_is_not_bool<int(int) &&>();
     test_is_not_bool<int(int) const>();
     test_is_not_bool<int(int) const&>();
@@ -421,7 +421,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int(int) const volatile && noexcept>();
 
     test_is_not_bool<int(...)>();
-    test_is_not_bool<int(...)&>();
+    test_is_not_bool<int(...) &>();
     test_is_not_bool<int(...) &&>();
     test_is_not_bool<int(...) const>();
     test_is_not_bool<int(...) const&>();
@@ -446,7 +446,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int(...) const volatile && noexcept>();
 
     test_is_not_bool<int(int, ...)>();
-    test_is_not_bool<int(int, ...)&>();
+    test_is_not_bool<int(int, ...) &>();
     test_is_not_bool<int(int, ...) &&>();
     test_is_not_bool<int(int, ...) const>();
     test_is_not_bool<int(int, ...) const&>();
@@ -543,7 +543,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int (&&)(int, ...) noexcept>();
 
     test_is_not_bool<void (class_type::*)()>();
-    test_is_not_bool<void (class_type::*)()&>();
+    test_is_not_bool<void (class_type::*)() &>();
     test_is_not_bool<void (class_type::*)() &&>();
     test_is_not_bool<void (class_type::*)() const>();
     test_is_not_bool<void (class_type::*)() const&>();
@@ -556,7 +556,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void (class_type::*)() const && noexcept>();
 
     test_is_not_bool<void (class_type::*)(int)>();
-    test_is_not_bool<void (class_type::*)(int)&>();
+    test_is_not_bool<void (class_type::*)(int) &>();
     test_is_not_bool<void (class_type::*)(int) &&>();
     test_is_not_bool<void (class_type::*)(int) const>();
     test_is_not_bool<void (class_type::*)(int) const&>();
@@ -569,7 +569,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_bool<void (class_type::*)(...)>();
-    test_is_not_bool<void (class_type::*)(...)&>();
+    test_is_not_bool<void (class_type::*)(...) &>();
     test_is_not_bool<void (class_type::*)(...) &&>();
     test_is_not_bool<void (class_type::*)(...) const>();
     test_is_not_bool<void (class_type::*)(...) const&>();
@@ -582,7 +582,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_bool<void (class_type::*)(int, ...)>();
-    test_is_not_bool<void (class_type::*)(int, ...)&>();
+    test_is_not_bool<void (class_type::*)(int, ...) &>();
     test_is_not_bool<void (class_type::*)(int, ...) &&>();
     test_is_not_bool<void (class_type::*)(int, ...) const>();
     test_is_not_bool<void (class_type::*)(int, ...) const&>();
@@ -595,7 +595,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_bool<int (class_type::*)()>();
-    test_is_not_bool<int (class_type::*)()&>();
+    test_is_not_bool<int (class_type::*)() &>();
     test_is_not_bool<int (class_type::*)() &&>();
     test_is_not_bool<int (class_type::*)() const>();
     test_is_not_bool<int (class_type::*)() const&>();
@@ -608,7 +608,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int (class_type::*)() const && noexcept>();
 
     test_is_not_bool<int (class_type::*)(int)>();
-    test_is_not_bool<int (class_type::*)(int)&>();
+    test_is_not_bool<int (class_type::*)(int) &>();
     test_is_not_bool<int (class_type::*)(int) &&>();
     test_is_not_bool<int (class_type::*)(int) const>();
     test_is_not_bool<int (class_type::*)(int) const&>();
@@ -621,7 +621,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_bool<int (class_type::*)(...)>();
-    test_is_not_bool<int (class_type::*)(...)&>();
+    test_is_not_bool<int (class_type::*)(...) &>();
     test_is_not_bool<int (class_type::*)(...) &&>();
     test_is_not_bool<int (class_type::*)(...) const>();
     test_is_not_bool<int (class_type::*)(...) const&>();
@@ -634,7 +634,7 @@ TEST_CASE("is_bool")
     test_is_not_bool<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_bool<int (class_type::*)(int, ...)>();
-    test_is_not_bool<int (class_type::*)(int, ...)&>();
+    test_is_not_bool<int (class_type::*)(int, ...) &>();
     test_is_not_bool<int (class_type::*)(int, ...) &&>();
     test_is_not_bool<int (class_type::*)(int, ...) const>();
     test_is_not_bool<int (class_type::*)(int, ...) const&>();

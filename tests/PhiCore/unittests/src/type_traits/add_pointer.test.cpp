@@ -131,22 +131,22 @@ TEST_CASE("add_pointer")
     test_add_pointer<char[]>();
     test_add_pointer<char* [3]>();
     test_add_pointer<char*[]>();
-    test_add_pointer<int(*)[3]>();
-    test_add_pointer<int(*)[]>();
-    test_add_pointer<int(&)[3], int(*)[3]>();
-    test_add_pointer<int(&)[], int(*)[]>();
-    test_add_pointer<int(&&)[3], int(*)[3]>();
-    test_add_pointer<int(&&)[], int(*)[]>();
+    test_add_pointer<int (*)[3]>();
+    test_add_pointer<int (*)[]>();
+    test_add_pointer<int (&)[3], int (*)[3]>();
+    test_add_pointer<int (&)[], int (*)[]>();
+    test_add_pointer<int (&&)[3], int (*)[3]>();
+    test_add_pointer<int (&&)[], int (*)[]>();
     test_add_pointer<char[3][2]>();
     test_add_pointer<char[][2]>();
     test_add_pointer<char* [3][2]>();
     test_add_pointer<char*[][2]>();
-    test_add_pointer<int(*)[3][2]>();
-    test_add_pointer<int(*)[][2]>();
-    test_add_pointer<int(&)[3][2], int(*)[3][2]>();
-    test_add_pointer<int(&)[][2], int(*)[][2]>();
-    test_add_pointer<int(&&)[3][2], int(*)[3][2]>();
-    test_add_pointer<int(&&)[][2], int(*)[][2]>();
+    test_add_pointer<int (*)[3][2]>();
+    test_add_pointer<int (*)[][2]>();
+    test_add_pointer<int (&)[3][2], int (*)[3][2]>();
+    test_add_pointer<int (&)[][2], int (*)[][2]>();
+    test_add_pointer<int (&&)[3][2], int (*)[3][2]>();
+    test_add_pointer<int (&&)[][2], int (*)[][2]>();
     test_add_pointer<class_type>();
     test_add_pointer<class_type[]>();
     test_add_pointer<class_type[2]>();
@@ -273,8 +273,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<trap_array_subscript>();
 
     test_add_pointer<void(), void (*)()>();
-    test_add_pointer<void()&, void()&>();
-    test_add_pointer<void()&&, void() &&>();
+    test_add_pointer<void() &, void() &>();
+    test_add_pointer<void() &&, void() &&>();
     test_add_pointer<void() const, void() const>();
     test_add_pointer<void() const&, void() const&>();
     test_add_pointer<void() const&&, void() const&&>();
@@ -298,8 +298,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<void() const volatile && noexcept, void() const volatile && noexcept>();
 
     test_add_pointer<void(int), void (*)(int)>();
-    test_add_pointer<void(int)&, void(int)&>();
-    test_add_pointer<void(int)&&, void(int) &&>();
+    test_add_pointer<void(int) &, void(int) &>();
+    test_add_pointer<void(int) &&, void(int) &&>();
     test_add_pointer<void(int) const, void(int) const>();
     test_add_pointer<void(int) const&, void(int) const&>();
     test_add_pointer<void(int) const&&, void(int) const&&>();
@@ -323,8 +323,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<void(int) const volatile && noexcept, void(int) const volatile && noexcept>();
 
     test_add_pointer<void(...), void (*)(...)>();
-    test_add_pointer<void(...)&, void(...)&>();
-    test_add_pointer<void(...)&&, void(...) &&>();
+    test_add_pointer<void(...) &, void(...) &>();
+    test_add_pointer<void(...) &&, void(...) &&>();
     test_add_pointer<void(...) const, void(...) const>();
     test_add_pointer<void(...) const&, void(...) const&>();
     test_add_pointer<void(...) const&&, void(...) const&&>();
@@ -348,8 +348,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<void(...) const volatile && noexcept, void(...) const volatile && noexcept>();
 
     test_add_pointer<void(int, ...), void (*)(int, ...)>();
-    test_add_pointer<void(int, ...)&, void(int, ...)&>();
-    test_add_pointer<void(int, ...)&&, void(int, ...) &&>();
+    test_add_pointer<void(int, ...) &, void(int, ...) &>();
+    test_add_pointer<void(int, ...) &&, void(int, ...) &&>();
     test_add_pointer<void(int, ...) const, void(int, ...) const>();
     test_add_pointer<void(int, ...) const&, void(int, ...) const&>();
     test_add_pointer<void(int, ...) const&&, void(int, ...) const&&>();
@@ -376,8 +376,8 @@ TEST_CASE("add_pointer")
                      void(int, ...) const volatile && noexcept>();
 
     test_add_pointer<int(), int (*)()>();
-    test_add_pointer<int()&, int()&>();
-    test_add_pointer<int()&&, int() &&>();
+    test_add_pointer<int() &, int() &>();
+    test_add_pointer<int() &&, int() &&>();
     test_add_pointer<int() const, int() const>();
     test_add_pointer<int() const&, int() const&>();
     test_add_pointer<int() const&&, int() const&&>();
@@ -401,8 +401,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<int() const volatile && noexcept, int() const volatile && noexcept>();
 
     test_add_pointer<int(int), int (*)(int)>();
-    test_add_pointer<int(int)&, int(int)&>();
-    test_add_pointer<int(int)&&, int(int) &&>();
+    test_add_pointer<int(int) &, int(int) &>();
+    test_add_pointer<int(int) &&, int(int) &&>();
     test_add_pointer<int(int) const, int(int) const>();
     test_add_pointer<int(int) const&, int(int) const&>();
     test_add_pointer<int(int) const&&, int(int) const&&>();
@@ -426,8 +426,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<int(int) const volatile && noexcept, int(int) const volatile && noexcept>();
 
     test_add_pointer<int(...), int (*)(...)>();
-    test_add_pointer<int(...)&, int(...)&>();
-    test_add_pointer<int(...)&&, int(...) &&>();
+    test_add_pointer<int(...) &, int(...) &>();
+    test_add_pointer<int(...) &&, int(...) &&>();
     test_add_pointer<int(...) const, int(...) const>();
     test_add_pointer<int(...) const&, int(...) const&>();
     test_add_pointer<int(...) const&&, int(...) const&&>();
@@ -451,8 +451,8 @@ TEST_CASE("add_pointer")
     test_add_pointer<int(...) const volatile && noexcept, int(...) const volatile && noexcept>();
 
     test_add_pointer<int(int, ...), int (*)(int, ...)>();
-    test_add_pointer<int(int, ...)&, int(int, ...)&>();
-    test_add_pointer<int(int, ...)&&, int(int, ...) &&>();
+    test_add_pointer<int(int, ...) &, int(int, ...) &>();
+    test_add_pointer<int(int, ...) &&, int(int, ...) &&>();
     test_add_pointer<int(int, ...) const, int(int, ...) const>();
     test_add_pointer<int(int, ...) const&, int(int, ...) const&>();
     test_add_pointer<int(int, ...) const&&, int(int, ...) const&&>();
@@ -551,7 +551,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
     test_add_pointer<void (class_type::*)()>();
-    test_add_pointer<void (class_type::*)()&>();
+    test_add_pointer<void (class_type::*)() &>();
     test_add_pointer<void (class_type::*)() &&>();
     test_add_pointer<void (class_type::*)() const>();
     test_add_pointer<void (class_type::*)() const&>();
@@ -564,7 +564,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)() const && noexcept>();
 
     test_add_pointer<void (class_type::*)(int)>();
-    test_add_pointer<void (class_type::*)(int)&>();
+    test_add_pointer<void (class_type::*)(int) &>();
     test_add_pointer<void (class_type::*)(int) &&>();
     test_add_pointer<void (class_type::*)(int) const>();
     test_add_pointer<void (class_type::*)(int) const&>();
@@ -577,7 +577,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(int) const && noexcept>();
 
     test_add_pointer<void (class_type::*)(...)>();
-    test_add_pointer<void (class_type::*)(...)&>();
+    test_add_pointer<void (class_type::*)(...) &>();
     test_add_pointer<void (class_type::*)(...) &&>();
     test_add_pointer<void (class_type::*)(...) const>();
     test_add_pointer<void (class_type::*)(...) const&>();
@@ -590,7 +590,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(...) const && noexcept>();
 
     test_add_pointer<void (class_type::*)(int, ...)>();
-    test_add_pointer<void (class_type::*)(int, ...)&>();
+    test_add_pointer<void (class_type::*)(int, ...) &>();
     test_add_pointer<void (class_type::*)(int, ...) &&>();
     test_add_pointer<void (class_type::*)(int, ...) const>();
     test_add_pointer<void (class_type::*)(int, ...) const&>();
@@ -603,7 +603,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_pointer<int (class_type::*)()>();
-    test_add_pointer<int (class_type::*)()&>();
+    test_add_pointer<int (class_type::*)() &>();
     test_add_pointer<int (class_type::*)() &&>();
     test_add_pointer<int (class_type::*)() const>();
     test_add_pointer<int (class_type::*)() const&>();
@@ -616,7 +616,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)() const && noexcept>();
 
     test_add_pointer<int (class_type::*)(int)>();
-    test_add_pointer<int (class_type::*)(int)&>();
+    test_add_pointer<int (class_type::*)(int) &>();
     test_add_pointer<int (class_type::*)(int) &&>();
     test_add_pointer<int (class_type::*)(int) const>();
     test_add_pointer<int (class_type::*)(int) const&>();
@@ -629,7 +629,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)(int) const && noexcept>();
 
     test_add_pointer<int (class_type::*)(...)>();
-    test_add_pointer<int (class_type::*)(...)&>();
+    test_add_pointer<int (class_type::*)(...) &>();
     test_add_pointer<int (class_type::*)(...) &&>();
     test_add_pointer<int (class_type::*)(...) const>();
     test_add_pointer<int (class_type::*)(...) const&>();
@@ -642,7 +642,7 @@ TEST_CASE("add_pointer")
     test_add_pointer<int (class_type::*)(...) const && noexcept>();
 
     test_add_pointer<int (class_type::*)(int, ...)>();
-    test_add_pointer<int (class_type::*)(int, ...)&>();
+    test_add_pointer<int (class_type::*)(int, ...) &>();
     test_add_pointer<int (class_type::*)(int, ...) &&>();
     test_add_pointer<int (class_type::*)(int, ...) const>();
     test_add_pointer<int (class_type::*)(int, ...) const&>();
@@ -659,7 +659,7 @@ TEST_CASE("add_pointer")
     test_function0<function_ptr>();
     test_function0<void()>();
     test_function1<void() const>();
-    test_function1<void()&>();
+    test_function1<void() &>();
     test_function1<void() &&>();
     test_function1<void() const&>();
     test_function1<void() const&&>();
@@ -675,7 +675,7 @@ TEST_CASE("add_pointer")
     test_function0<member_function_ptr>();
     test_function0<void (Foo::*)()>();
     test_function0<void (Foo::*)() const>();
-    test_function0<void (Foo::*)()&>();
+    test_function0<void (Foo::*)() &>();
     test_function0<void (Foo::*)() &&>();
     test_function0<void (Foo::*)() const&>();
     test_function0<void (Foo::*)() const&&>();

@@ -54,10 +54,10 @@ TEST_CASE("decay")
     test_decay<const int**, const int**>();
     test_decay<volatile int**, volatile int**>();
     test_decay<const volatile int**, const volatile int**>();
-    test_decay<int[3][2], int(*)[2]>();
+    test_decay<int[3][2], int (*)[2]>();
     test_decay<const int[3][2], int const(*)[2]>();
-    test_decay<volatile int[3][2], volatile int(*)[2]>();
-    test_decay<const volatile int[3][2], const volatile int(*)[2]>();
+    test_decay<volatile int[3][2], volatile int (*)[2]>();
+    test_decay<const volatile int[3][2], const volatile int (*)[2]>();
 
     test_decay<int&, int>();
     test_decay<const int&, int>();
@@ -73,8 +73,8 @@ TEST_CASE("decay")
     test_decay<int(int), int (*)(int)>();
     test_decay<int(int) const, int(int) const>();
     test_decay<int(int) volatile, int(int) volatile>();
-    test_decay<int(int)&, int(int)&>();
-    test_decay<int(int)&&, int(int) &&>();
+    test_decay<int(int) &, int(int) &>();
+    test_decay<int(int) &&, int(int) &&>();
 
     test_decay<void>();
     test_decay<phi::nullptr_t>();
@@ -145,22 +145,22 @@ TEST_CASE("decay")
     test_decay<char[], char*>();
     test_decay<char* [3], char**>();
     test_decay<char*[], char**>();
-    test_decay<int(*)[3]>();
-    test_decay<int(*)[]>();
-    test_decay<int(&)[3], int*>();
-    test_decay<int(&)[], int*>();
-    test_decay<int(&&)[3], int*>();
-    test_decay<int(&&)[], int*>();
-    test_decay<char[3][2], char(*)[2]>();
-    test_decay<char[][2], char(*)[2]>();
+    test_decay<int (*)[3]>();
+    test_decay<int (*)[]>();
+    test_decay<int (&)[3], int*>();
+    test_decay<int (&)[], int*>();
+    test_decay<int (&&)[3], int*>();
+    test_decay<int (&&)[], int*>();
+    test_decay<char[3][2], char (*)[2]>();
+    test_decay<char[][2], char (*)[2]>();
     test_decay<char* [3][2], char*(*)[2]>();
     test_decay<char*[][2], char*(*)[2]>();
-    test_decay<int(*)[3][2]>();
-    test_decay<int(*)[][2]>();
-    test_decay<int(&)[3][2], int(*)[2]>();
-    test_decay<int(&)[][2], int(*)[2]>();
-    test_decay<int(&&)[3][2], int(*)[2]>();
-    test_decay<int(&&)[][2], int(*)[2]>();
+    test_decay<int (*)[3][2]>();
+    test_decay<int (*)[][2]>();
+    test_decay<int (&)[3][2], int (*)[2]>();
+    test_decay<int (&)[][2], int (*)[2]>();
+    test_decay<int (&&)[3][2], int (*)[2]>();
+    test_decay<int (&&)[][2], int (*)[2]>();
     test_decay<class_type>();
     test_decay<class_type[], class_type*>();
     test_decay<class_type[2], class_type*>();
@@ -287,7 +287,7 @@ TEST_CASE("decay")
     test_decay<trap_array_subscript>();
 
     test_decay<void(), void (*)()>();
-    test_decay<void()&>();
+    test_decay<void() &>();
     test_decay<void() &&>();
     test_decay<void() const>();
     test_decay<void() const&>();
@@ -312,7 +312,7 @@ TEST_CASE("decay")
     test_decay<void() const volatile && noexcept>();
 
     test_decay<void(int), void (*)(int)>();
-    test_decay<void(int)&>();
+    test_decay<void(int) &>();
     test_decay<void(int) &&>();
     test_decay<void(int) const>();
     test_decay<void(int) const&>();
@@ -337,7 +337,7 @@ TEST_CASE("decay")
     test_decay<void(int) const volatile && noexcept>();
 
     test_decay<void(...), void (*)(...)>();
-    test_decay<void(...)&>();
+    test_decay<void(...) &>();
     test_decay<void(...) &&>();
     test_decay<void(...) const>();
     test_decay<void(...) const&>();
@@ -362,7 +362,7 @@ TEST_CASE("decay")
     test_decay<void(...) const volatile && noexcept>();
 
     test_decay<void(int, ...), void (*)(int, ...)>();
-    test_decay<void(int, ...)&>();
+    test_decay<void(int, ...) &>();
     test_decay<void(int, ...) &&>();
     test_decay<void(int, ...) const>();
     test_decay<void(int, ...) const&>();
@@ -387,7 +387,7 @@ TEST_CASE("decay")
     test_decay<void(int, ...) const volatile && noexcept>();
 
     test_decay<int(), int (*)()>();
-    test_decay<int()&>();
+    test_decay<int() &>();
     test_decay<int() &&>();
     test_decay<int() const>();
     test_decay<int() const&>();
@@ -412,7 +412,7 @@ TEST_CASE("decay")
     test_decay<int() const volatile && noexcept>();
 
     test_decay<int(int), int (*)(int)>();
-    test_decay<int(int)&>();
+    test_decay<int(int) &>();
     test_decay<int(int) &&>();
     test_decay<int(int) const>();
     test_decay<int(int) const&>();
@@ -437,7 +437,7 @@ TEST_CASE("decay")
     test_decay<int(int) const volatile && noexcept>();
 
     test_decay<int(...), int (*)(...)>();
-    test_decay<int(...)&>();
+    test_decay<int(...) &>();
     test_decay<int(...) &&>();
     test_decay<int(...) const>();
     test_decay<int(...) const&>();
@@ -462,7 +462,7 @@ TEST_CASE("decay")
     test_decay<int(...) const volatile && noexcept>();
 
     test_decay<int(int, ...), int (*)(int, ...)>();
-    test_decay<int(int, ...)&>();
+    test_decay<int(int, ...) &>();
     test_decay<int(int, ...) &&>();
     test_decay<int(int, ...) const>();
     test_decay<int(int, ...) const&>();
@@ -559,7 +559,7 @@ TEST_CASE("decay")
     test_decay<int (&&)(int, ...) noexcept, int (*)(int, ...) noexcept>();
 
     test_decay<void (class_type::*)()>();
-    test_decay<void (class_type::*)()&>();
+    test_decay<void (class_type::*)() &>();
     test_decay<void (class_type::*)() &&>();
     test_decay<void (class_type::*)() const>();
     test_decay<void (class_type::*)() const&>();
@@ -572,7 +572,7 @@ TEST_CASE("decay")
     test_decay<void (class_type::*)() const && noexcept>();
 
     test_decay<void (class_type::*)(int)>();
-    test_decay<void (class_type::*)(int)&>();
+    test_decay<void (class_type::*)(int) &>();
     test_decay<void (class_type::*)(int) &&>();
     test_decay<void (class_type::*)(int) const>();
     test_decay<void (class_type::*)(int) const&>();
@@ -585,7 +585,7 @@ TEST_CASE("decay")
     test_decay<void (class_type::*)(int) const && noexcept>();
 
     test_decay<void (class_type::*)(...)>();
-    test_decay<void (class_type::*)(...)&>();
+    test_decay<void (class_type::*)(...) &>();
     test_decay<void (class_type::*)(...) &&>();
     test_decay<void (class_type::*)(...) const>();
     test_decay<void (class_type::*)(...) const&>();
@@ -598,7 +598,7 @@ TEST_CASE("decay")
     test_decay<void (class_type::*)(...) const && noexcept>();
 
     test_decay<void (class_type::*)(int, ...)>();
-    test_decay<void (class_type::*)(int, ...)&>();
+    test_decay<void (class_type::*)(int, ...) &>();
     test_decay<void (class_type::*)(int, ...) &&>();
     test_decay<void (class_type::*)(int, ...) const>();
     test_decay<void (class_type::*)(int, ...) const&>();
@@ -611,7 +611,7 @@ TEST_CASE("decay")
     test_decay<void (class_type::*)(int, ...) const && noexcept>();
 
     test_decay<int (class_type::*)()>();
-    test_decay<int (class_type::*)()&>();
+    test_decay<int (class_type::*)() &>();
     test_decay<int (class_type::*)() &&>();
     test_decay<int (class_type::*)() const>();
     test_decay<int (class_type::*)() const&>();
@@ -624,7 +624,7 @@ TEST_CASE("decay")
     test_decay<int (class_type::*)() const && noexcept>();
 
     test_decay<int (class_type::*)(int)>();
-    test_decay<int (class_type::*)(int)&>();
+    test_decay<int (class_type::*)(int) &>();
     test_decay<int (class_type::*)(int) &&>();
     test_decay<int (class_type::*)(int) const>();
     test_decay<int (class_type::*)(int) const&>();
@@ -637,7 +637,7 @@ TEST_CASE("decay")
     test_decay<int (class_type::*)(int) const && noexcept>();
 
     test_decay<int (class_type::*)(...)>();
-    test_decay<int (class_type::*)(...)&>();
+    test_decay<int (class_type::*)(...) &>();
     test_decay<int (class_type::*)(...) &&>();
     test_decay<int (class_type::*)(...) const>();
     test_decay<int (class_type::*)(...) const&>();
@@ -650,7 +650,7 @@ TEST_CASE("decay")
     test_decay<int (class_type::*)(...) const && noexcept>();
 
     test_decay<int (class_type::*)(int, ...)>();
-    test_decay<int (class_type::*)(int, ...)&>();
+    test_decay<int (class_type::*)(int, ...) &>();
     test_decay<int (class_type::*)(int, ...) &&>();
     test_decay<int (class_type::*)(int, ...) const>();
     test_decay<int (class_type::*)(int, ...) const&>();

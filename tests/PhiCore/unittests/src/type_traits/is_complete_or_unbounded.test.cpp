@@ -132,22 +132,22 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<char[]>();
     test_is_complete_or_unbounded<char* [3]>();
     test_is_complete_or_unbounded<char*[]>();
-    test_is_complete_or_unbounded<int(*)[3]>();
-    test_is_complete_or_unbounded<int(*)[]>();
-    test_is_complete_or_unbounded<int(&)[3]>();
-    test_is_not_complete_or_unbounded<int(&)[]>();
-    test_is_complete_or_unbounded<int(&&)[3]>();
-    test_is_complete_or_unbounded<int(&&)[]>();
+    test_is_complete_or_unbounded<int (*)[3]>();
+    test_is_complete_or_unbounded<int (*)[]>();
+    test_is_complete_or_unbounded<int (&)[3]>();
+    test_is_not_complete_or_unbounded<int (&)[]>();
+    test_is_complete_or_unbounded<int (&&)[3]>();
+    test_is_complete_or_unbounded<int (&&)[]>();
     test_is_complete_or_unbounded<char[3][2]>();
     test_is_complete_or_unbounded<char[][2]>();
     test_is_complete_or_unbounded<char* [3][2]>();
     test_is_complete_or_unbounded<char*[][2]>();
-    test_is_complete_or_unbounded<int(*)[3][2]>();
-    test_is_complete_or_unbounded<int(*)[][2]>();
-    test_is_complete_or_unbounded<int(&)[3][2]>();
-    test_is_not_complete_or_unbounded<int(&)[][2]>();
-    test_is_complete_or_unbounded<int(&&)[3][2]>();
-    test_is_complete_or_unbounded<int(&&)[][2]>();
+    test_is_complete_or_unbounded<int (*)[3][2]>();
+    test_is_complete_or_unbounded<int (*)[][2]>();
+    test_is_complete_or_unbounded<int (&)[3][2]>();
+    test_is_not_complete_or_unbounded<int (&)[][2]>();
+    test_is_complete_or_unbounded<int (&&)[3][2]>();
+    test_is_complete_or_unbounded<int (&&)[][2]>();
     test_is_complete_or_unbounded<class_type>();
     test_is_complete_or_unbounded<class_type[]>();
     test_is_complete_or_unbounded<class_type[2]>();
@@ -275,7 +275,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<trap_array_subscript>();
 
     test_is_complete_or_unbounded<void()>();
-    test_is_complete_or_unbounded<void()&>();
+    test_is_complete_or_unbounded<void() &>();
     test_is_complete_or_unbounded<void() &&>();
     test_is_complete_or_unbounded<void() const>();
     test_is_complete_or_unbounded<void() const&>();
@@ -300,7 +300,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void() const volatile && noexcept>();
 
     test_is_complete_or_unbounded<void(int)>();
-    test_is_complete_or_unbounded<void(int)&>();
+    test_is_complete_or_unbounded<void(int) &>();
     test_is_complete_or_unbounded<void(int) &&>();
     test_is_complete_or_unbounded<void(int) const>();
     test_is_complete_or_unbounded<void(int) const&>();
@@ -325,7 +325,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void(int) const volatile && noexcept>();
 
     test_is_complete_or_unbounded<void(...)>();
-    test_is_complete_or_unbounded<void(...)&>();
+    test_is_complete_or_unbounded<void(...) &>();
     test_is_complete_or_unbounded<void(...) &&>();
     test_is_complete_or_unbounded<void(...) const>();
     test_is_complete_or_unbounded<void(...) const&>();
@@ -350,7 +350,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void(...) const volatile && noexcept>();
 
     test_is_complete_or_unbounded<void(int, ...)>();
-    test_is_complete_or_unbounded<void(int, ...)&>();
+    test_is_complete_or_unbounded<void(int, ...) &>();
     test_is_complete_or_unbounded<void(int, ...) &&>();
     test_is_complete_or_unbounded<void(int, ...) const>();
     test_is_complete_or_unbounded<void(int, ...) const&>();
@@ -375,7 +375,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void(int, ...) const volatile && noexcept>();
 
     test_is_complete_or_unbounded<int()>();
-    test_is_complete_or_unbounded<int()&>();
+    test_is_complete_or_unbounded<int() &>();
     test_is_complete_or_unbounded<int() &&>();
     test_is_complete_or_unbounded<int() const>();
     test_is_complete_or_unbounded<int() const&>();
@@ -400,7 +400,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int() const volatile && noexcept>();
 
     test_is_complete_or_unbounded<int(int)>();
-    test_is_complete_or_unbounded<int(int)&>();
+    test_is_complete_or_unbounded<int(int) &>();
     test_is_complete_or_unbounded<int(int) &&>();
     test_is_complete_or_unbounded<int(int) const>();
     test_is_complete_or_unbounded<int(int) const&>();
@@ -425,7 +425,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int(int) const volatile && noexcept>();
 
     test_is_complete_or_unbounded<int(...)>();
-    test_is_complete_or_unbounded<int(...)&>();
+    test_is_complete_or_unbounded<int(...) &>();
     test_is_complete_or_unbounded<int(...) &&>();
     test_is_complete_or_unbounded<int(...) const>();
     test_is_complete_or_unbounded<int(...) const&>();
@@ -450,7 +450,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int(...) const volatile && noexcept>();
 
     test_is_complete_or_unbounded<int(int, ...)>();
-    test_is_complete_or_unbounded<int(int, ...)&>();
+    test_is_complete_or_unbounded<int(int, ...) &>();
     test_is_complete_or_unbounded<int(int, ...) &&>();
     test_is_complete_or_unbounded<int(int, ...) const>();
     test_is_complete_or_unbounded<int(int, ...) const&>();
@@ -547,7 +547,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int (&&)(int, ...) noexcept>();
 
     test_is_complete_or_unbounded<void (class_type::*)()>();
-    test_is_complete_or_unbounded<void (class_type::*)()&>();
+    test_is_complete_or_unbounded<void (class_type::*)() &>();
     test_is_complete_or_unbounded<void (class_type::*)() &&>();
     test_is_complete_or_unbounded<void (class_type::*)() const>();
     test_is_complete_or_unbounded<void (class_type::*)() const&>();
@@ -560,7 +560,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void (class_type::*)() const && noexcept>();
 
     test_is_complete_or_unbounded<void (class_type::*)(int)>();
-    test_is_complete_or_unbounded<void (class_type::*)(int)&>();
+    test_is_complete_or_unbounded<void (class_type::*)(int) &>();
     test_is_complete_or_unbounded<void (class_type::*)(int) &&>();
     test_is_complete_or_unbounded<void (class_type::*)(int) const>();
     test_is_complete_or_unbounded<void (class_type::*)(int) const&>();
@@ -573,7 +573,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void (class_type::*)(int) const && noexcept>();
 
     test_is_complete_or_unbounded<void (class_type::*)(...)>();
-    test_is_complete_or_unbounded<void (class_type::*)(...)&>();
+    test_is_complete_or_unbounded<void (class_type::*)(...) &>();
     test_is_complete_or_unbounded<void (class_type::*)(...) &&>();
     test_is_complete_or_unbounded<void (class_type::*)(...) const>();
     test_is_complete_or_unbounded<void (class_type::*)(...) const&>();
@@ -586,7 +586,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void (class_type::*)(...) const && noexcept>();
 
     test_is_complete_or_unbounded<void (class_type::*)(int, ...)>();
-    test_is_complete_or_unbounded<void (class_type::*)(int, ...)&>();
+    test_is_complete_or_unbounded<void (class_type::*)(int, ...) &>();
     test_is_complete_or_unbounded<void (class_type::*)(int, ...) &&>();
     test_is_complete_or_unbounded<void (class_type::*)(int, ...) const>();
     test_is_complete_or_unbounded<void (class_type::*)(int, ...) const&>();
@@ -599,7 +599,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_complete_or_unbounded<int (class_type::*)()>();
-    test_is_complete_or_unbounded<int (class_type::*)()&>();
+    test_is_complete_or_unbounded<int (class_type::*)() &>();
     test_is_complete_or_unbounded<int (class_type::*)() &&>();
     test_is_complete_or_unbounded<int (class_type::*)() const>();
     test_is_complete_or_unbounded<int (class_type::*)() const&>();
@@ -612,7 +612,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int (class_type::*)() const && noexcept>();
 
     test_is_complete_or_unbounded<int (class_type::*)(int)>();
-    test_is_complete_or_unbounded<int (class_type::*)(int)&>();
+    test_is_complete_or_unbounded<int (class_type::*)(int) &>();
     test_is_complete_or_unbounded<int (class_type::*)(int) &&>();
     test_is_complete_or_unbounded<int (class_type::*)(int) const>();
     test_is_complete_or_unbounded<int (class_type::*)(int) const&>();
@@ -625,7 +625,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int (class_type::*)(int) const && noexcept>();
 
     test_is_complete_or_unbounded<int (class_type::*)(...)>();
-    test_is_complete_or_unbounded<int (class_type::*)(...)&>();
+    test_is_complete_or_unbounded<int (class_type::*)(...) &>();
     test_is_complete_or_unbounded<int (class_type::*)(...) &&>();
     test_is_complete_or_unbounded<int (class_type::*)(...) const>();
     test_is_complete_or_unbounded<int (class_type::*)(...) const&>();
@@ -638,7 +638,7 @@ TEST_CASE("is_complete_or_unbounded")
     test_is_complete_or_unbounded<int (class_type::*)(...) const && noexcept>();
 
     test_is_complete_or_unbounded<int (class_type::*)(int, ...)>();
-    test_is_complete_or_unbounded<int (class_type::*)(int, ...)&>();
+    test_is_complete_or_unbounded<int (class_type::*)(int, ...) &>();
     test_is_complete_or_unbounded<int (class_type::*)(int, ...) &&>();
     test_is_complete_or_unbounded<int (class_type::*)(int, ...) const>();
     test_is_complete_or_unbounded<int (class_type::*)(int, ...) const&>();

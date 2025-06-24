@@ -55,8 +55,8 @@ TEST_CASE("max_align_t")
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(const void*));
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(volatile void*));
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(const volatile void*));
-    STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(int(*)[3]));
-    STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(int(*)[]));
+    STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(int (*)[3]));
+    STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(int (*)[]));
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(void (*)()));
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(Enum));
     STATIC_REQUIRE(alignof(phi::max_align_t) >= alignof(EnumSigned));

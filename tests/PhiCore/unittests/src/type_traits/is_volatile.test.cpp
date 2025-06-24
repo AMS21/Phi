@@ -145,22 +145,22 @@ TEST_CASE("is_volatile")
     test_is_volatile<char[]>();
     test_is_volatile<char* [3]>();
     test_is_volatile<char*[]>();
-    test_is_volatile<int(*)[3]>();
-    test_is_volatile<int(*)[]>();
-    test_is_not_volatile<int(&)[3]>();
-    test_is_not_volatile<int(&)[]>();
-    test_is_not_volatile<int(&&)[3]>();
-    test_is_not_volatile<int(&&)[]>();
+    test_is_volatile<int (*)[3]>();
+    test_is_volatile<int (*)[]>();
+    test_is_not_volatile<int (&)[3]>();
+    test_is_not_volatile<int (&)[]>();
+    test_is_not_volatile<int (&&)[3]>();
+    test_is_not_volatile<int (&&)[]>();
     test_is_volatile<char[3][2]>();
     test_is_volatile<char[][2]>();
     test_is_volatile<char* [3][2]>();
     test_is_volatile<char*[][2]>();
-    test_is_volatile<int(*)[3][2]>();
-    test_is_volatile<int(*)[][2]>();
-    test_is_not_volatile<int(&)[3][2]>();
-    test_is_not_volatile<int(&)[][2]>();
-    test_is_not_volatile<int(&&)[3][2]>();
-    test_is_not_volatile<int(&&)[][2]>();
+    test_is_volatile<int (*)[3][2]>();
+    test_is_volatile<int (*)[][2]>();
+    test_is_not_volatile<int (&)[3][2]>();
+    test_is_not_volatile<int (&)[][2]>();
+    test_is_not_volatile<int (&&)[3][2]>();
+    test_is_not_volatile<int (&&)[][2]>();
     test_is_volatile<class_type>();
     test_is_volatile<class_type[]>();
     test_is_volatile<class_type[2]>();
@@ -287,7 +287,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<trap_array_subscript>();
 
     test_is_not_volatile<void()>();
-    test_is_not_volatile<void()&>();
+    test_is_not_volatile<void() &>();
     test_is_not_volatile<void() &&>();
     test_is_not_volatile<void() const>();
     test_is_not_volatile<void() const&>();
@@ -312,7 +312,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<void() const volatile && noexcept>();
 
     test_is_not_volatile<void(int)>();
-    test_is_not_volatile<void(int)&>();
+    test_is_not_volatile<void(int) &>();
     test_is_not_volatile<void(int) &&>();
     test_is_not_volatile<void(int) const>();
     test_is_not_volatile<void(int) const&>();
@@ -337,7 +337,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<void(int) const volatile && noexcept>();
 
     test_is_not_volatile<void(...)>();
-    test_is_not_volatile<void(...)&>();
+    test_is_not_volatile<void(...) &>();
     test_is_not_volatile<void(...) &&>();
     test_is_not_volatile<void(...) const>();
     test_is_not_volatile<void(...) const&>();
@@ -362,7 +362,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<void(...) const volatile && noexcept>();
 
     test_is_not_volatile<void(int, ...)>();
-    test_is_not_volatile<void(int, ...)&>();
+    test_is_not_volatile<void(int, ...) &>();
     test_is_not_volatile<void(int, ...) &&>();
     test_is_not_volatile<void(int, ...) const>();
     test_is_not_volatile<void(int, ...) const&>();
@@ -387,7 +387,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<void(int, ...) const volatile && noexcept>();
 
     test_is_not_volatile<int()>();
-    test_is_not_volatile<int()&>();
+    test_is_not_volatile<int() &>();
     test_is_not_volatile<int() &&>();
     test_is_not_volatile<int() const>();
     test_is_not_volatile<int() const&>();
@@ -412,7 +412,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<int() const volatile && noexcept>();
 
     test_is_not_volatile<int(int)>();
-    test_is_not_volatile<int(int)&>();
+    test_is_not_volatile<int(int) &>();
     test_is_not_volatile<int(int) &&>();
     test_is_not_volatile<int(int) const>();
     test_is_not_volatile<int(int) const&>();
@@ -437,7 +437,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<int(int) const volatile && noexcept>();
 
     test_is_not_volatile<int(...)>();
-    test_is_not_volatile<int(...)&>();
+    test_is_not_volatile<int(...) &>();
     test_is_not_volatile<int(...) &&>();
     test_is_not_volatile<int(...) const>();
     test_is_not_volatile<int(...) const&>();
@@ -462,7 +462,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<int(...) const volatile && noexcept>();
 
     test_is_not_volatile<int(int, ...)>();
-    test_is_not_volatile<int(int, ...)&>();
+    test_is_not_volatile<int(int, ...) &>();
     test_is_not_volatile<int(int, ...) &&>();
     test_is_not_volatile<int(int, ...) const>();
     test_is_not_volatile<int(int, ...) const&>();
@@ -559,7 +559,7 @@ TEST_CASE("is_volatile")
     test_is_not_volatile<int (&&)(int, ...) noexcept>();
 
     test_is_volatile<void (class_type::*)()>();
-    test_is_volatile<void (class_type::*)()&>();
+    test_is_volatile<void (class_type::*)() &>();
     test_is_volatile<void (class_type::*)() &&>();
     test_is_volatile<void (class_type::*)() const>();
     test_is_volatile<void (class_type::*)() const&>();
@@ -572,7 +572,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<void (class_type::*)() const && noexcept>();
 
     test_is_volatile<void (class_type::*)(int)>();
-    test_is_volatile<void (class_type::*)(int)&>();
+    test_is_volatile<void (class_type::*)(int) &>();
     test_is_volatile<void (class_type::*)(int) &&>();
     test_is_volatile<void (class_type::*)(int) const>();
     test_is_volatile<void (class_type::*)(int) const&>();
@@ -585,7 +585,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<void (class_type::*)(int) const && noexcept>();
 
     test_is_volatile<void (class_type::*)(...)>();
-    test_is_volatile<void (class_type::*)(...)&>();
+    test_is_volatile<void (class_type::*)(...) &>();
     test_is_volatile<void (class_type::*)(...) &&>();
     test_is_volatile<void (class_type::*)(...) const>();
     test_is_volatile<void (class_type::*)(...) const&>();
@@ -598,7 +598,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<void (class_type::*)(...) const && noexcept>();
 
     test_is_volatile<void (class_type::*)(int, ...)>();
-    test_is_volatile<void (class_type::*)(int, ...)&>();
+    test_is_volatile<void (class_type::*)(int, ...) &>();
     test_is_volatile<void (class_type::*)(int, ...) &&>();
     test_is_volatile<void (class_type::*)(int, ...) const>();
     test_is_volatile<void (class_type::*)(int, ...) const&>();
@@ -611,7 +611,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_volatile<int (class_type::*)()>();
-    test_is_volatile<int (class_type::*)()&>();
+    test_is_volatile<int (class_type::*)() &>();
     test_is_volatile<int (class_type::*)() &&>();
     test_is_volatile<int (class_type::*)() const>();
     test_is_volatile<int (class_type::*)() const&>();
@@ -624,7 +624,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<int (class_type::*)() const && noexcept>();
 
     test_is_volatile<int (class_type::*)(int)>();
-    test_is_volatile<int (class_type::*)(int)&>();
+    test_is_volatile<int (class_type::*)(int) &>();
     test_is_volatile<int (class_type::*)(int) &&>();
     test_is_volatile<int (class_type::*)(int) const>();
     test_is_volatile<int (class_type::*)(int) const&>();
@@ -637,7 +637,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<int (class_type::*)(int) const && noexcept>();
 
     test_is_volatile<int (class_type::*)(...)>();
-    test_is_volatile<int (class_type::*)(...)&>();
+    test_is_volatile<int (class_type::*)(...) &>();
     test_is_volatile<int (class_type::*)(...) &&>();
     test_is_volatile<int (class_type::*)(...) const>();
     test_is_volatile<int (class_type::*)(...) const&>();
@@ -650,7 +650,7 @@ TEST_CASE("is_volatile")
     test_is_volatile<int (class_type::*)(...) const && noexcept>();
 
     test_is_volatile<int (class_type::*)(int, ...)>();
-    test_is_volatile<int (class_type::*)(int, ...)&>();
+    test_is_volatile<int (class_type::*)(int, ...) &>();
     test_is_volatile<int (class_type::*)(int, ...) &&>();
     test_is_volatile<int (class_type::*)(int, ...) const>();
     test_is_volatile<int (class_type::*)(int, ...) const&>();

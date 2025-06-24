@@ -198,22 +198,22 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<char[]>();
     test_is_standard_layout<char* [3]>();
     test_is_standard_layout<char*[]>();
-    test_is_standard_layout<int(*)[3]>();
-    test_is_standard_layout<int(*)[]>();
-    test_is_not_standard_layout<int(&)[3]>();
-    test_is_not_standard_layout<int(&)[]>();
-    test_is_not_standard_layout<int(&&)[3]>();
-    test_is_not_standard_layout<int(&&)[]>();
+    test_is_standard_layout<int (*)[3]>();
+    test_is_standard_layout<int (*)[]>();
+    test_is_not_standard_layout<int (&)[3]>();
+    test_is_not_standard_layout<int (&)[]>();
+    test_is_not_standard_layout<int (&&)[3]>();
+    test_is_not_standard_layout<int (&&)[]>();
     test_is_standard_layout<char[3][2]>();
     test_is_standard_layout<char[][2]>();
     test_is_standard_layout<char* [3][2]>();
     test_is_standard_layout<char*[][2]>();
-    test_is_standard_layout<int(*)[3][2]>();
-    test_is_standard_layout<int(*)[][2]>();
-    test_is_not_standard_layout<int(&)[3][2]>();
-    test_is_not_standard_layout<int(&)[][2]>();
-    test_is_not_standard_layout<int(&&)[3][2]>();
-    test_is_not_standard_layout<int(&&)[][2]>();
+    test_is_standard_layout<int (*)[3][2]>();
+    test_is_standard_layout<int (*)[][2]>();
+    test_is_not_standard_layout<int (&)[3][2]>();
+    test_is_not_standard_layout<int (&)[][2]>();
+    test_is_not_standard_layout<int (&&)[3][2]>();
+    test_is_not_standard_layout<int (&&)[][2]>();
     test_is_standard_layout<class_type>();
     test_is_standard_layout<class_type[]>();
     test_is_standard_layout<class_type[2]>();
@@ -329,7 +329,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<trap_array_subscript>();
 
     test_is_standard_layout_function<void()>();
-    test_is_standard_layout_function<void()&>();
+    test_is_standard_layout_function<void() &>();
     test_is_standard_layout_function<void() &&>();
     test_is_standard_layout_function<void() const>();
     test_is_standard_layout_function<void() const&>();
@@ -354,7 +354,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<void() const volatile && noexcept>();
 
     test_is_standard_layout_function<void(int)>();
-    test_is_standard_layout_function<void(int)&>();
+    test_is_standard_layout_function<void(int) &>();
     test_is_standard_layout_function<void(int) &&>();
     test_is_standard_layout_function<void(int) const>();
     test_is_standard_layout_function<void(int) const&>();
@@ -379,7 +379,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<void(int) const volatile && noexcept>();
 
     test_is_standard_layout_function<void(...)>();
-    test_is_standard_layout_function<void(...)&>();
+    test_is_standard_layout_function<void(...) &>();
     test_is_standard_layout_function<void(...) &&>();
     test_is_standard_layout_function<void(...) const>();
     test_is_standard_layout_function<void(...) const&>();
@@ -404,7 +404,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<void(...) const volatile && noexcept>();
 
     test_is_standard_layout_function<void(int, ...)>();
-    test_is_standard_layout_function<void(int, ...)&>();
+    test_is_standard_layout_function<void(int, ...) &>();
     test_is_standard_layout_function<void(int, ...) &&>();
     test_is_standard_layout_function<void(int, ...) const>();
     test_is_standard_layout_function<void(int, ...) const&>();
@@ -429,7 +429,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<void(int, ...) const volatile && noexcept>();
 
     test_is_standard_layout_function<int()>();
-    test_is_standard_layout_function<int()&>();
+    test_is_standard_layout_function<int() &>();
     test_is_standard_layout_function<int() &&>();
     test_is_standard_layout_function<int() const>();
     test_is_standard_layout_function<int() const&>();
@@ -454,7 +454,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<int() const volatile && noexcept>();
 
     test_is_standard_layout_function<int(int)>();
-    test_is_standard_layout_function<int(int)&>();
+    test_is_standard_layout_function<int(int) &>();
     test_is_standard_layout_function<int(int) &&>();
     test_is_standard_layout_function<int(int) const>();
     test_is_standard_layout_function<int(int) const&>();
@@ -479,7 +479,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<int(int) const volatile && noexcept>();
 
     test_is_standard_layout_function<int(...)>();
-    test_is_standard_layout_function<int(...)&>();
+    test_is_standard_layout_function<int(...) &>();
     test_is_standard_layout_function<int(...) &&>();
     test_is_standard_layout_function<int(...) const>();
     test_is_standard_layout_function<int(...) const&>();
@@ -504,7 +504,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout_function<int(...) const volatile && noexcept>();
 
     test_is_standard_layout_function<int(int, ...)>();
-    test_is_standard_layout_function<int(int, ...)&>();
+    test_is_standard_layout_function<int(int, ...) &>();
     test_is_standard_layout_function<int(int, ...) &&>();
     test_is_standard_layout_function<int(int, ...) const>();
     test_is_standard_layout_function<int(int, ...) const&>();
@@ -601,7 +601,7 @@ TEST_CASE("is_standard_layout")
     test_is_not_standard_layout<int (&&)(int, ...) noexcept>();
 
     test_is_standard_layout<void (class_type::*)()>();
-    test_is_standard_layout<void (class_type::*)()&>();
+    test_is_standard_layout<void (class_type::*)() &>();
     test_is_standard_layout<void (class_type::*)() &&>();
     test_is_standard_layout<void (class_type::*)() const>();
     test_is_standard_layout<void (class_type::*)() const&>();
@@ -614,7 +614,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<void (class_type::*)() const && noexcept>();
 
     test_is_standard_layout<void (class_type::*)(int)>();
-    test_is_standard_layout<void (class_type::*)(int)&>();
+    test_is_standard_layout<void (class_type::*)(int) &>();
     test_is_standard_layout<void (class_type::*)(int) &&>();
     test_is_standard_layout<void (class_type::*)(int) const>();
     test_is_standard_layout<void (class_type::*)(int) const&>();
@@ -627,7 +627,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<void (class_type::*)(int) const && noexcept>();
 
     test_is_standard_layout<void (class_type::*)(...)>();
-    test_is_standard_layout<void (class_type::*)(...)&>();
+    test_is_standard_layout<void (class_type::*)(...) &>();
     test_is_standard_layout<void (class_type::*)(...) &&>();
     test_is_standard_layout<void (class_type::*)(...) const>();
     test_is_standard_layout<void (class_type::*)(...) const&>();
@@ -640,7 +640,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<void (class_type::*)(...) const && noexcept>();
 
     test_is_standard_layout<void (class_type::*)(int, ...)>();
-    test_is_standard_layout<void (class_type::*)(int, ...)&>();
+    test_is_standard_layout<void (class_type::*)(int, ...) &>();
     test_is_standard_layout<void (class_type::*)(int, ...) &&>();
     test_is_standard_layout<void (class_type::*)(int, ...) const>();
     test_is_standard_layout<void (class_type::*)(int, ...) const&>();
@@ -653,7 +653,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_standard_layout<int (class_type::*)()>();
-    test_is_standard_layout<int (class_type::*)()&>();
+    test_is_standard_layout<int (class_type::*)() &>();
     test_is_standard_layout<int (class_type::*)() &&>();
     test_is_standard_layout<int (class_type::*)() const>();
     test_is_standard_layout<int (class_type::*)() const&>();
@@ -666,7 +666,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<int (class_type::*)() const && noexcept>();
 
     test_is_standard_layout<int (class_type::*)(int)>();
-    test_is_standard_layout<int (class_type::*)(int)&>();
+    test_is_standard_layout<int (class_type::*)(int) &>();
     test_is_standard_layout<int (class_type::*)(int) &&>();
     test_is_standard_layout<int (class_type::*)(int) const>();
     test_is_standard_layout<int (class_type::*)(int) const&>();
@@ -679,7 +679,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<int (class_type::*)(int) const && noexcept>();
 
     test_is_standard_layout<int (class_type::*)(...)>();
-    test_is_standard_layout<int (class_type::*)(...)&>();
+    test_is_standard_layout<int (class_type::*)(...) &>();
     test_is_standard_layout<int (class_type::*)(...) &&>();
     test_is_standard_layout<int (class_type::*)(...) const>();
     test_is_standard_layout<int (class_type::*)(...) const&>();
@@ -692,7 +692,7 @@ TEST_CASE("is_standard_layout")
     test_is_standard_layout<int (class_type::*)(...) const && noexcept>();
 
     test_is_standard_layout<int (class_type::*)(int, ...)>();
-    test_is_standard_layout<int (class_type::*)(int, ...)&>();
+    test_is_standard_layout<int (class_type::*)(int, ...) &>();
     test_is_standard_layout<int (class_type::*)(int, ...) &&>();
     test_is_standard_layout<int (class_type::*)(int, ...) const>();
     test_is_standard_layout<int (class_type::*)(int, ...) const&>();

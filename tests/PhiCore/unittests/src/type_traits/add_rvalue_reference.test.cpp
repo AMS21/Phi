@@ -137,22 +137,22 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<char[]>();
     test_add_rvalue_reference<char* [3]>();
     test_add_rvalue_reference<char*[]>();
-    test_add_rvalue_reference<int(*)[3]>();
-    test_add_rvalue_reference<int(*)[]>();
-    test_add_rvalue_reference<int(&)[3]>();
-    test_add_rvalue_reference<int(&)[]>();
-    test_add_rvalue_reference<int(&&)[3]>();
-    test_add_rvalue_reference<int(&&)[]>();
+    test_add_rvalue_reference<int (*)[3]>();
+    test_add_rvalue_reference<int (*)[]>();
+    test_add_rvalue_reference<int (&)[3]>();
+    test_add_rvalue_reference<int (&)[]>();
+    test_add_rvalue_reference<int (&&)[3]>();
+    test_add_rvalue_reference<int (&&)[]>();
     test_add_rvalue_reference<char[3][2]>();
     test_add_rvalue_reference<char[][2]>();
     test_add_rvalue_reference<char* [3][2]>();
     test_add_rvalue_reference<char*[][2]>();
-    test_add_rvalue_reference<int(*)[3][2]>();
-    test_add_rvalue_reference<int(*)[][2]>();
-    test_add_rvalue_reference<int(&)[3][2]>();
-    test_add_rvalue_reference<int(&)[][2]>();
-    test_add_rvalue_reference<int(&&)[3][2]>();
-    test_add_rvalue_reference<int(&&)[][2]>();
+    test_add_rvalue_reference<int (*)[3][2]>();
+    test_add_rvalue_reference<int (*)[][2]>();
+    test_add_rvalue_reference<int (&)[3][2]>();
+    test_add_rvalue_reference<int (&)[][2]>();
+    test_add_rvalue_reference<int (&&)[3][2]>();
+    test_add_rvalue_reference<int (&&)[][2]>();
     test_add_rvalue_reference<class_type>();
     test_add_rvalue_reference<class_type[]>();
     test_add_rvalue_reference<class_type[2]>();
@@ -280,7 +280,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<trap_array_subscript>();
 
     test_function0<void()>();
-    test_function1<void()&>();
+    test_function1<void() &>();
     test_function1<void() &&>();
     test_function1<void() const>();
     test_function1<void() const&>();
@@ -305,7 +305,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void() const volatile && noexcept>();
 
     test_function0<void(int)>();
-    test_function1<void(int)&>();
+    test_function1<void(int) &>();
     test_function1<void(int) &&>();
     test_function1<void(int) const>();
     test_function1<void(int) const&>();
@@ -330,7 +330,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(int) const volatile && noexcept>();
 
     test_function0<void(...)>();
-    test_function1<void(...)&>();
+    test_function1<void(...) &>();
     test_function1<void(...) &&>();
     test_function1<void(...) const>();
     test_function1<void(...) const&>();
@@ -355,7 +355,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(...) const volatile && noexcept>();
 
     test_function0<void(int, ...)>();
-    test_function1<void(int, ...)&>();
+    test_function1<void(int, ...) &>();
     test_function1<void(int, ...) &&>();
     test_function1<void(int, ...) const>();
     test_function1<void(int, ...) const&>();
@@ -380,7 +380,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<void(int, ...) const volatile && noexcept>();
 
     test_function0<int()>();
-    test_function1<int()&>();
+    test_function1<int() &>();
     test_function1<int() &&>();
     test_function1<int() const>();
     test_function1<int() const&>();
@@ -405,7 +405,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int() const volatile && noexcept>();
 
     test_function0<int(int)>();
-    test_function1<int(int)&>();
+    test_function1<int(int) &>();
     test_function1<int(int) &&>();
     test_function1<int(int) const>();
     test_function1<int(int) const&>();
@@ -430,7 +430,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int(int) const volatile && noexcept>();
 
     test_function0<int(...)>();
-    test_function1<int(...)&>();
+    test_function1<int(...) &>();
     test_function1<int(...) &&>();
     test_function1<int(...) const>();
     test_function1<int(...) const&>();
@@ -455,7 +455,7 @@ TEST_CASE("add_rvalue_reference")
     test_function1<int(...) const volatile && noexcept>();
 
     test_function0<int(int, ...)>();
-    test_function1<int(int, ...)&>();
+    test_function1<int(int, ...) &>();
     test_function1<int(int, ...) &&>();
     test_function1<int(int, ...) const>();
     test_function1<int(int, ...) const&>();
@@ -552,7 +552,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (&&)(int, ...) noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)()>();
-    test_add_rvalue_reference<void (class_type::*)()&>();
+    test_add_rvalue_reference<void (class_type::*)() &>();
     test_add_rvalue_reference<void (class_type::*)() &&>();
     test_add_rvalue_reference<void (class_type::*)() const>();
     test_add_rvalue_reference<void (class_type::*)() const&>();
@@ -565,7 +565,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)() const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(int)>();
-    test_add_rvalue_reference<void (class_type::*)(int)&>();
+    test_add_rvalue_reference<void (class_type::*)(int) &>();
     test_add_rvalue_reference<void (class_type::*)(int) &&>();
     test_add_rvalue_reference<void (class_type::*)(int) const>();
     test_add_rvalue_reference<void (class_type::*)(int) const&>();
@@ -578,7 +578,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(int) const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(...)>();
-    test_add_rvalue_reference<void (class_type::*)(...)&>();
+    test_add_rvalue_reference<void (class_type::*)(...) &>();
     test_add_rvalue_reference<void (class_type::*)(...) &&>();
     test_add_rvalue_reference<void (class_type::*)(...) const>();
     test_add_rvalue_reference<void (class_type::*)(...) const&>();
@@ -591,7 +591,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(...) const && noexcept>();
 
     test_add_rvalue_reference<void (class_type::*)(int, ...)>();
-    test_add_rvalue_reference<void (class_type::*)(int, ...)&>();
+    test_add_rvalue_reference<void (class_type::*)(int, ...) &>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) &&>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) const>();
     test_add_rvalue_reference<void (class_type::*)(int, ...) const&>();
@@ -604,7 +604,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)()>();
-    test_add_rvalue_reference<int (class_type::*)()&>();
+    test_add_rvalue_reference<int (class_type::*)() &>();
     test_add_rvalue_reference<int (class_type::*)() &&>();
     test_add_rvalue_reference<int (class_type::*)() const>();
     test_add_rvalue_reference<int (class_type::*)() const&>();
@@ -617,7 +617,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)() const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(int)>();
-    test_add_rvalue_reference<int (class_type::*)(int)&>();
+    test_add_rvalue_reference<int (class_type::*)(int) &>();
     test_add_rvalue_reference<int (class_type::*)(int) &&>();
     test_add_rvalue_reference<int (class_type::*)(int) const>();
     test_add_rvalue_reference<int (class_type::*)(int) const&>();
@@ -630,7 +630,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)(int) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(...)>();
-    test_add_rvalue_reference<int (class_type::*)(...)&>();
+    test_add_rvalue_reference<int (class_type::*)(...) &>();
     test_add_rvalue_reference<int (class_type::*)(...) &&>();
     test_add_rvalue_reference<int (class_type::*)(...) const>();
     test_add_rvalue_reference<int (class_type::*)(...) const&>();
@@ -643,7 +643,7 @@ TEST_CASE("add_rvalue_reference")
     test_add_rvalue_reference<int (class_type::*)(...) const && noexcept>();
 
     test_add_rvalue_reference<int (class_type::*)(int, ...)>();
-    test_add_rvalue_reference<int (class_type::*)(int, ...)&>();
+    test_add_rvalue_reference<int (class_type::*)(int, ...) &>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) &&>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) const>();
     test_add_rvalue_reference<int (class_type::*)(int, ...) const&>();
@@ -660,7 +660,7 @@ TEST_CASE("add_rvalue_reference")
     test_function0<function_ptr>();
     test_function0<void()>();
     test_function1<void() const>();
-    test_function1<void()&>();
+    test_function1<void() &>();
     test_function1<void() &&>();
     test_function1<void() const&>();
     test_function1<void() const&&>();
@@ -676,7 +676,7 @@ TEST_CASE("add_rvalue_reference")
     test_function0<member_function_ptr>();
     test_function0<void (Foo::*)()>();
     test_function0<void (Foo::*)() const>();
-    test_function0<void (Foo::*)()&>();
+    test_function0<void (Foo::*)() &>();
     test_function0<void (Foo::*)() &&>();
     test_function0<void (Foo::*)() const&>();
     test_function0<void (Foo::*)() const&&>();

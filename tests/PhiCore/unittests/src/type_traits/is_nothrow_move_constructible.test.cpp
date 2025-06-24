@@ -217,22 +217,22 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<char[]>();
     test_is_not_nothrow_move_constructible<char* [3]>();
     test_is_not_nothrow_move_constructible<char*[]>();
-    test_is_nothrow_move_constructible_cv<int(*)[3]>();
-    test_is_nothrow_move_constructible_cv<int(*)[]>();
-    test_is_nothrow_move_constructible_cv<int(&)[3]>();
-    test_is_nothrow_move_constructible_cv<int(&)[]>();
-    test_is_nothrow_move_constructible_cv<int(&&)[3]>();
-    test_is_nothrow_move_constructible_cv<int(&&)[]>();
+    test_is_nothrow_move_constructible_cv<int (*)[3]>();
+    test_is_nothrow_move_constructible_cv<int (*)[]>();
+    test_is_nothrow_move_constructible_cv<int (&)[3]>();
+    test_is_nothrow_move_constructible_cv<int (&)[]>();
+    test_is_nothrow_move_constructible_cv<int (&&)[3]>();
+    test_is_nothrow_move_constructible_cv<int (&&)[]>();
     test_is_not_nothrow_move_constructible<char[3][2]>();
     test_is_not_nothrow_move_constructible<char[][2]>();
     test_is_not_nothrow_move_constructible<char* [3][2]>();
     test_is_not_nothrow_move_constructible<char*[][2]>();
-    test_is_nothrow_move_constructible_cv<int(*)[3][2]>();
-    test_is_nothrow_move_constructible_cv<int(*)[][2]>();
-    test_is_nothrow_move_constructible_cv<int(&)[3][2]>();
-    test_is_nothrow_move_constructible_cv<int(&)[][2]>();
-    test_is_nothrow_move_constructible_cv<int(&&)[3][2]>();
-    test_is_nothrow_move_constructible_cv<int(&&)[][2]>();
+    test_is_nothrow_move_constructible_cv<int (*)[3][2]>();
+    test_is_nothrow_move_constructible_cv<int (*)[][2]>();
+    test_is_nothrow_move_constructible_cv<int (&)[3][2]>();
+    test_is_nothrow_move_constructible_cv<int (&)[][2]>();
+    test_is_nothrow_move_constructible_cv<int (&&)[3][2]>();
+    test_is_nothrow_move_constructible_cv<int (&&)[][2]>();
     test_is_nothrow_move_constructible_c<class_type>();
     test_is_not_nothrow_move_constructible<class_type[]>();
     test_is_not_nothrow_move_constructible<class_type[2]>();
@@ -354,7 +354,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_c<trap_array_subscript>();
 
     test_is_not_nothrow_move_constructible<void()>();
-    test_is_not_nothrow_move_constructible<void()&>();
+    test_is_not_nothrow_move_constructible<void() &>();
     test_is_not_nothrow_move_constructible<void() &&>();
     test_is_not_nothrow_move_constructible<void() const>();
     test_is_not_nothrow_move_constructible<void() const&>();
@@ -379,7 +379,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<void() const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<void(int)>();
-    test_is_not_nothrow_move_constructible<void(int)&>();
+    test_is_not_nothrow_move_constructible<void(int) &>();
     test_is_not_nothrow_move_constructible<void(int) &&>();
     test_is_not_nothrow_move_constructible<void(int) const>();
     test_is_not_nothrow_move_constructible<void(int) const&>();
@@ -404,7 +404,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<void(int) const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<void(...)>();
-    test_is_not_nothrow_move_constructible<void(...)&>();
+    test_is_not_nothrow_move_constructible<void(...) &>();
     test_is_not_nothrow_move_constructible<void(...) &&>();
     test_is_not_nothrow_move_constructible<void(...) const>();
     test_is_not_nothrow_move_constructible<void(...) const&>();
@@ -429,7 +429,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<void(...) const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<void(int, ...)>();
-    test_is_not_nothrow_move_constructible<void(int, ...)&>();
+    test_is_not_nothrow_move_constructible<void(int, ...) &>();
     test_is_not_nothrow_move_constructible<void(int, ...) &&>();
     test_is_not_nothrow_move_constructible<void(int, ...) const>();
     test_is_not_nothrow_move_constructible<void(int, ...) const&>();
@@ -454,7 +454,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<void(int, ...) const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<int()>();
-    test_is_not_nothrow_move_constructible<int()&>();
+    test_is_not_nothrow_move_constructible<int() &>();
     test_is_not_nothrow_move_constructible<int() &&>();
     test_is_not_nothrow_move_constructible<int() const>();
     test_is_not_nothrow_move_constructible<int() const&>();
@@ -479,7 +479,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<int() const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<int(int)>();
-    test_is_not_nothrow_move_constructible<int(int)&>();
+    test_is_not_nothrow_move_constructible<int(int) &>();
     test_is_not_nothrow_move_constructible<int(int) &&>();
     test_is_not_nothrow_move_constructible<int(int) const>();
     test_is_not_nothrow_move_constructible<int(int) const&>();
@@ -504,7 +504,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<int(int) const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<int(...)>();
-    test_is_not_nothrow_move_constructible<int(...)&>();
+    test_is_not_nothrow_move_constructible<int(...) &>();
     test_is_not_nothrow_move_constructible<int(...) &&>();
     test_is_not_nothrow_move_constructible<int(...) const>();
     test_is_not_nothrow_move_constructible<int(...) const&>();
@@ -529,7 +529,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_not_nothrow_move_constructible<int(...) const volatile && noexcept>();
 
     test_is_not_nothrow_move_constructible<int(int, ...)>();
-    test_is_not_nothrow_move_constructible<int(int, ...)&>();
+    test_is_not_nothrow_move_constructible<int(int, ...) &>();
     test_is_not_nothrow_move_constructible<int(int, ...) &&>();
     test_is_not_nothrow_move_constructible<int(int, ...) const>();
     test_is_not_nothrow_move_constructible<int(int, ...) const&>();
@@ -626,7 +626,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<int (&&)(int, ...) noexcept>();
 
     test_is_nothrow_move_constructible_cv<void (class_type::*)()>();
-    test_is_nothrow_move_constructible_cv<void (class_type::*)()&>();
+    test_is_nothrow_move_constructible_cv<void (class_type::*)() &>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)() &&>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)() const>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)() const&>();
@@ -639,7 +639,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<void (class_type::*)() const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int)>();
-    test_is_nothrow_move_constructible_cv<void (class_type::*)(int)&>();
+    test_is_nothrow_move_constructible_cv<void (class_type::*)(int) &>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int) &&>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int) const>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int) const&>();
@@ -652,7 +652,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int) const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<void (class_type::*)(...)>();
-    test_is_nothrow_move_constructible_cv<void (class_type::*)(...)&>();
+    test_is_nothrow_move_constructible_cv<void (class_type::*)(...) &>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(...) &&>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(...) const>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(...) const&>();
@@ -665,7 +665,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<void (class_type::*)(...) const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...)>();
-    test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...)&>();
+    test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...) &>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...) &&>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...) const>();
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...) const&>();
@@ -678,7 +678,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<int (class_type::*)()>();
-    test_is_nothrow_move_constructible_cv<int (class_type::*)()&>();
+    test_is_nothrow_move_constructible_cv<int (class_type::*)() &>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)() &&>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)() const>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)() const&>();
@@ -691,7 +691,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<int (class_type::*)() const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int)>();
-    test_is_nothrow_move_constructible_cv<int (class_type::*)(int)&>();
+    test_is_nothrow_move_constructible_cv<int (class_type::*)(int) &>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int) &&>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int) const>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int) const&>();
@@ -704,7 +704,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int) const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<int (class_type::*)(...)>();
-    test_is_nothrow_move_constructible_cv<int (class_type::*)(...)&>();
+    test_is_nothrow_move_constructible_cv<int (class_type::*)(...) &>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(...) &&>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(...) const>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(...) const&>();
@@ -717,7 +717,7 @@ TEST_CASE("is_nothrow_move_constructible")
     test_is_nothrow_move_constructible_cv<int (class_type::*)(...) const && noexcept>();
 
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...)>();
-    test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...)&>();
+    test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...) &>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...) &&>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...) const>();
     test_is_nothrow_move_constructible_cv<int (class_type::*)(int, ...) const&>();

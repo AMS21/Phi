@@ -95,22 +95,22 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<char[]>();
     test_make_unsafe<char* [3]>();
     test_make_unsafe<char*[]>();
-    test_make_unsafe<int(*)[3]>();
-    test_make_unsafe<int(*)[]>();
-    test_make_unsafe<int(&)[3]>();
-    test_make_unsafe<int(&)[]>();
-    test_make_unsafe<int(&&)[3]>();
-    test_make_unsafe<int(&&)[]>();
+    test_make_unsafe<int (*)[3]>();
+    test_make_unsafe<int (*)[]>();
+    test_make_unsafe<int (&)[3]>();
+    test_make_unsafe<int (&)[]>();
+    test_make_unsafe<int (&&)[3]>();
+    test_make_unsafe<int (&&)[]>();
     test_make_unsafe<char[3][2]>();
     test_make_unsafe<char[][2]>();
     test_make_unsafe<char* [3][2]>();
     test_make_unsafe<char*[][2]>();
-    test_make_unsafe<int(*)[3][2]>();
-    test_make_unsafe<int(*)[][2]>();
-    test_make_unsafe<int(&)[3][2]>();
-    test_make_unsafe<int(&)[][2]>();
-    test_make_unsafe<int(&&)[3][2]>();
-    test_make_unsafe<int(&&)[][2]>();
+    test_make_unsafe<int (*)[3][2]>();
+    test_make_unsafe<int (*)[][2]>();
+    test_make_unsafe<int (&)[3][2]>();
+    test_make_unsafe<int (&)[][2]>();
+    test_make_unsafe<int (&&)[3][2]>();
+    test_make_unsafe<int (&&)[][2]>();
     test_make_unsafe<class_type>();
     test_make_unsafe<class_type[]>();
     test_make_unsafe<class_type[2]>();
@@ -237,7 +237,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<trap_array_subscript>();
 
     test_make_unsafe<void()>();
-    test_make_unsafe<void()&>();
+    test_make_unsafe<void() &>();
     test_make_unsafe<void() &&>();
     test_make_unsafe<void() const>();
     test_make_unsafe<void() const&>();
@@ -262,7 +262,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void() const volatile && noexcept>();
 
     test_make_unsafe<void(int)>();
-    test_make_unsafe<void(int)&>();
+    test_make_unsafe<void(int) &>();
     test_make_unsafe<void(int) &&>();
     test_make_unsafe<void(int) const>();
     test_make_unsafe<void(int) const&>();
@@ -287,7 +287,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void(int) const volatile && noexcept>();
 
     test_make_unsafe<void(...)>();
-    test_make_unsafe<void(...)&>();
+    test_make_unsafe<void(...) &>();
     test_make_unsafe<void(...) &&>();
     test_make_unsafe<void(...) const>();
     test_make_unsafe<void(...) const&>();
@@ -312,7 +312,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void(...) const volatile && noexcept>();
 
     test_make_unsafe<void(int, ...)>();
-    test_make_unsafe<void(int, ...)&>();
+    test_make_unsafe<void(int, ...) &>();
     test_make_unsafe<void(int, ...) &&>();
     test_make_unsafe<void(int, ...) const>();
     test_make_unsafe<void(int, ...) const&>();
@@ -337,7 +337,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void(int, ...) const volatile && noexcept>();
 
     test_make_unsafe<int()>();
-    test_make_unsafe<int()&>();
+    test_make_unsafe<int() &>();
     test_make_unsafe<int() &&>();
     test_make_unsafe<int() const>();
     test_make_unsafe<int() const&>();
@@ -362,7 +362,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int() const volatile && noexcept>();
 
     test_make_unsafe<int(int)>();
-    test_make_unsafe<int(int)&>();
+    test_make_unsafe<int(int) &>();
     test_make_unsafe<int(int) &&>();
     test_make_unsafe<int(int) const>();
     test_make_unsafe<int(int) const&>();
@@ -387,7 +387,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int(int) const volatile && noexcept>();
 
     test_make_unsafe<int(...)>();
-    test_make_unsafe<int(...)&>();
+    test_make_unsafe<int(...) &>();
     test_make_unsafe<int(...) &&>();
     test_make_unsafe<int(...) const>();
     test_make_unsafe<int(...) const&>();
@@ -412,7 +412,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int(...) const volatile && noexcept>();
 
     test_make_unsafe<int(int, ...)>();
-    test_make_unsafe<int(int, ...)&>();
+    test_make_unsafe<int(int, ...) &>();
     test_make_unsafe<int(int, ...) &&>();
     test_make_unsafe<int(int, ...) const>();
     test_make_unsafe<int(int, ...) const&>();
@@ -509,7 +509,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int (&&)(int, ...) noexcept>();
 
     test_make_unsafe<void (class_type::*)()>();
-    test_make_unsafe<void (class_type::*)()&>();
+    test_make_unsafe<void (class_type::*)() &>();
     test_make_unsafe<void (class_type::*)() &&>();
     test_make_unsafe<void (class_type::*)() const>();
     test_make_unsafe<void (class_type::*)() const&>();
@@ -522,7 +522,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void (class_type::*)() const && noexcept>();
 
     test_make_unsafe<void (class_type::*)(int)>();
-    test_make_unsafe<void (class_type::*)(int)&>();
+    test_make_unsafe<void (class_type::*)(int) &>();
     test_make_unsafe<void (class_type::*)(int) &&>();
     test_make_unsafe<void (class_type::*)(int) const>();
     test_make_unsafe<void (class_type::*)(int) const&>();
@@ -535,7 +535,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void (class_type::*)(int) const && noexcept>();
 
     test_make_unsafe<void (class_type::*)(...)>();
-    test_make_unsafe<void (class_type::*)(...)&>();
+    test_make_unsafe<void (class_type::*)(...) &>();
     test_make_unsafe<void (class_type::*)(...) &&>();
     test_make_unsafe<void (class_type::*)(...) const>();
     test_make_unsafe<void (class_type::*)(...) const&>();
@@ -548,7 +548,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void (class_type::*)(...) const && noexcept>();
 
     test_make_unsafe<void (class_type::*)(int, ...)>();
-    test_make_unsafe<void (class_type::*)(int, ...)&>();
+    test_make_unsafe<void (class_type::*)(int, ...) &>();
     test_make_unsafe<void (class_type::*)(int, ...) &&>();
     test_make_unsafe<void (class_type::*)(int, ...) const>();
     test_make_unsafe<void (class_type::*)(int, ...) const&>();
@@ -561,7 +561,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<void (class_type::*)(int, ...) const && noexcept>();
 
     test_make_unsafe<int (class_type::*)()>();
-    test_make_unsafe<int (class_type::*)()&>();
+    test_make_unsafe<int (class_type::*)() &>();
     test_make_unsafe<int (class_type::*)() &&>();
     test_make_unsafe<int (class_type::*)() const>();
     test_make_unsafe<int (class_type::*)() const&>();
@@ -574,7 +574,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int (class_type::*)() const && noexcept>();
 
     test_make_unsafe<int (class_type::*)(int)>();
-    test_make_unsafe<int (class_type::*)(int)&>();
+    test_make_unsafe<int (class_type::*)(int) &>();
     test_make_unsafe<int (class_type::*)(int) &&>();
     test_make_unsafe<int (class_type::*)(int) const>();
     test_make_unsafe<int (class_type::*)(int) const&>();
@@ -587,7 +587,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int (class_type::*)(int) const && noexcept>();
 
     test_make_unsafe<int (class_type::*)(...)>();
-    test_make_unsafe<int (class_type::*)(...)&>();
+    test_make_unsafe<int (class_type::*)(...) &>();
     test_make_unsafe<int (class_type::*)(...) &&>();
     test_make_unsafe<int (class_type::*)(...) const>();
     test_make_unsafe<int (class_type::*)(...) const&>();
@@ -600,7 +600,7 @@ TEST_CASE("make_unsafe")
     test_make_unsafe<int (class_type::*)(...) const && noexcept>();
 
     test_make_unsafe<int (class_type::*)(int, ...)>();
-    test_make_unsafe<int (class_type::*)(int, ...)&>();
+    test_make_unsafe<int (class_type::*)(int, ...) &>();
     test_make_unsafe<int (class_type::*)(int, ...) &&>();
     test_make_unsafe<int (class_type::*)(int, ...) const>();
     test_make_unsafe<int (class_type::*)(int, ...) const&>();

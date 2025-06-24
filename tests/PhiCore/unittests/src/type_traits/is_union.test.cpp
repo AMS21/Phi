@@ -147,22 +147,22 @@ TEST_CASE("is_union")
     test_is_not_union<char[]>();
     test_is_not_union<char* [3]>();
     test_is_not_union<char*[]>();
-    test_is_not_union<int(*)[3]>();
-    test_is_not_union<int(*)[]>();
-    test_is_not_union<int(&)[3]>();
-    test_is_not_union<int(&)[]>();
-    test_is_not_union<int(&&)[3]>();
-    test_is_not_union<int(&&)[]>();
+    test_is_not_union<int (*)[3]>();
+    test_is_not_union<int (*)[]>();
+    test_is_not_union<int (&)[3]>();
+    test_is_not_union<int (&)[]>();
+    test_is_not_union<int (&&)[3]>();
+    test_is_not_union<int (&&)[]>();
     test_is_not_union<char[3][2]>();
     test_is_not_union<char[][2]>();
     test_is_not_union<char* [3][2]>();
     test_is_not_union<char*[][2]>();
-    test_is_not_union<int(*)[3][2]>();
-    test_is_not_union<int(*)[][2]>();
-    test_is_not_union<int(&)[3][2]>();
-    test_is_not_union<int(&)[][2]>();
-    test_is_not_union<int(&&)[3][2]>();
-    test_is_not_union<int(&&)[][2]>();
+    test_is_not_union<int (*)[3][2]>();
+    test_is_not_union<int (*)[][2]>();
+    test_is_not_union<int (&)[3][2]>();
+    test_is_not_union<int (&)[][2]>();
+    test_is_not_union<int (&&)[3][2]>();
+    test_is_not_union<int (&&)[][2]>();
     test_is_not_union<class_type>();
     test_is_not_union<class_type[]>();
     test_is_not_union<class_type[2]>();
@@ -290,7 +290,7 @@ TEST_CASE("is_union")
     test_is_not_union<trap_array_subscript>();
 
     test_is_not_union<void()>();
-    test_is_not_union<void()&>();
+    test_is_not_union<void() &>();
     test_is_not_union<void() &&>();
     test_is_not_union<void() const>();
     test_is_not_union<void() const&>();
@@ -315,7 +315,7 @@ TEST_CASE("is_union")
     test_is_not_union<void() const volatile && noexcept>();
 
     test_is_not_union<void(int)>();
-    test_is_not_union<void(int)&>();
+    test_is_not_union<void(int) &>();
     test_is_not_union<void(int) &&>();
     test_is_not_union<void(int) const>();
     test_is_not_union<void(int) const&>();
@@ -340,7 +340,7 @@ TEST_CASE("is_union")
     test_is_not_union<void(int) const volatile && noexcept>();
 
     test_is_not_union<void(...)>();
-    test_is_not_union<void(...)&>();
+    test_is_not_union<void(...) &>();
     test_is_not_union<void(...) &&>();
     test_is_not_union<void(...) const>();
     test_is_not_union<void(...) const&>();
@@ -365,7 +365,7 @@ TEST_CASE("is_union")
     test_is_not_union<void(...) const volatile && noexcept>();
 
     test_is_not_union<void(int, ...)>();
-    test_is_not_union<void(int, ...)&>();
+    test_is_not_union<void(int, ...) &>();
     test_is_not_union<void(int, ...) &&>();
     test_is_not_union<void(int, ...) const>();
     test_is_not_union<void(int, ...) const&>();
@@ -390,7 +390,7 @@ TEST_CASE("is_union")
     test_is_not_union<void(int, ...) const volatile && noexcept>();
 
     test_is_not_union<int()>();
-    test_is_not_union<int()&>();
+    test_is_not_union<int() &>();
     test_is_not_union<int() &&>();
     test_is_not_union<int() const>();
     test_is_not_union<int() const&>();
@@ -415,7 +415,7 @@ TEST_CASE("is_union")
     test_is_not_union<int() const volatile && noexcept>();
 
     test_is_not_union<int(int)>();
-    test_is_not_union<int(int)&>();
+    test_is_not_union<int(int) &>();
     test_is_not_union<int(int) &&>();
     test_is_not_union<int(int) const>();
     test_is_not_union<int(int) const&>();
@@ -440,7 +440,7 @@ TEST_CASE("is_union")
     test_is_not_union<int(int) const volatile && noexcept>();
 
     test_is_not_union<int(...)>();
-    test_is_not_union<int(...)&>();
+    test_is_not_union<int(...) &>();
     test_is_not_union<int(...) &&>();
     test_is_not_union<int(...) const>();
     test_is_not_union<int(...) const&>();
@@ -465,7 +465,7 @@ TEST_CASE("is_union")
     test_is_not_union<int(...) const volatile && noexcept>();
 
     test_is_not_union<int(int, ...)>();
-    test_is_not_union<int(int, ...)&>();
+    test_is_not_union<int(int, ...) &>();
     test_is_not_union<int(int, ...) &&>();
     test_is_not_union<int(int, ...) const>();
     test_is_not_union<int(int, ...) const&>();
@@ -562,7 +562,7 @@ TEST_CASE("is_union")
     test_is_not_union<int (&&)(int, ...) noexcept>();
 
     test_is_not_union<void (class_type::*)()>();
-    test_is_not_union<void (class_type::*)()&>();
+    test_is_not_union<void (class_type::*)() &>();
     test_is_not_union<void (class_type::*)() &&>();
     test_is_not_union<void (class_type::*)() const>();
     test_is_not_union<void (class_type::*)() const&>();
@@ -575,7 +575,7 @@ TEST_CASE("is_union")
     test_is_not_union<void (class_type::*)() const && noexcept>();
 
     test_is_not_union<void (class_type::*)(int)>();
-    test_is_not_union<void (class_type::*)(int)&>();
+    test_is_not_union<void (class_type::*)(int) &>();
     test_is_not_union<void (class_type::*)(int) &&>();
     test_is_not_union<void (class_type::*)(int) const>();
     test_is_not_union<void (class_type::*)(int) const&>();
@@ -588,7 +588,7 @@ TEST_CASE("is_union")
     test_is_not_union<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_union<void (class_type::*)(...)>();
-    test_is_not_union<void (class_type::*)(...)&>();
+    test_is_not_union<void (class_type::*)(...) &>();
     test_is_not_union<void (class_type::*)(...) &&>();
     test_is_not_union<void (class_type::*)(...) const>();
     test_is_not_union<void (class_type::*)(...) const&>();
@@ -601,7 +601,7 @@ TEST_CASE("is_union")
     test_is_not_union<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_union<void (class_type::*)(int, ...)>();
-    test_is_not_union<void (class_type::*)(int, ...)&>();
+    test_is_not_union<void (class_type::*)(int, ...) &>();
     test_is_not_union<void (class_type::*)(int, ...) &&>();
     test_is_not_union<void (class_type::*)(int, ...) const>();
     test_is_not_union<void (class_type::*)(int, ...) const&>();
@@ -614,7 +614,7 @@ TEST_CASE("is_union")
     test_is_not_union<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_union<int (class_type::*)()>();
-    test_is_not_union<int (class_type::*)()&>();
+    test_is_not_union<int (class_type::*)() &>();
     test_is_not_union<int (class_type::*)() &&>();
     test_is_not_union<int (class_type::*)() const>();
     test_is_not_union<int (class_type::*)() const&>();
@@ -627,7 +627,7 @@ TEST_CASE("is_union")
     test_is_not_union<int (class_type::*)() const && noexcept>();
 
     test_is_not_union<int (class_type::*)(int)>();
-    test_is_not_union<int (class_type::*)(int)&>();
+    test_is_not_union<int (class_type::*)(int) &>();
     test_is_not_union<int (class_type::*)(int) &&>();
     test_is_not_union<int (class_type::*)(int) const>();
     test_is_not_union<int (class_type::*)(int) const&>();
@@ -640,7 +640,7 @@ TEST_CASE("is_union")
     test_is_not_union<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_union<int (class_type::*)(...)>();
-    test_is_not_union<int (class_type::*)(...)&>();
+    test_is_not_union<int (class_type::*)(...) &>();
     test_is_not_union<int (class_type::*)(...) &&>();
     test_is_not_union<int (class_type::*)(...) const>();
     test_is_not_union<int (class_type::*)(...) const&>();
@@ -653,7 +653,7 @@ TEST_CASE("is_union")
     test_is_not_union<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_union<int (class_type::*)(int, ...)>();
-    test_is_not_union<int (class_type::*)(int, ...)&>();
+    test_is_not_union<int (class_type::*)(int, ...) &>();
     test_is_not_union<int (class_type::*)(int, ...) &&>();
     test_is_not_union<int (class_type::*)(int, ...) const>();
     test_is_not_union<int (class_type::*)(int, ...) const&>();

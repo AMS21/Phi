@@ -227,22 +227,22 @@ TEST_CASE("is_void")
     test_is_not_void<char[]>();
     test_is_not_void<char* [3]>();
     test_is_not_void<char*[]>();
-    test_is_not_void<int(*)[3]>();
-    test_is_not_void<int(*)[]>();
-    test_is_not_void<int(&)[3]>();
-    test_is_not_void<int(&)[]>();
-    test_is_not_void<int(&&)[3]>();
-    test_is_not_void<int(&&)[]>();
+    test_is_not_void<int (*)[3]>();
+    test_is_not_void<int (*)[]>();
+    test_is_not_void<int (&)[3]>();
+    test_is_not_void<int (&)[]>();
+    test_is_not_void<int (&&)[3]>();
+    test_is_not_void<int (&&)[]>();
     test_is_not_void<char[3][2]>();
     test_is_not_void<char[][2]>();
     test_is_not_void<char* [3][2]>();
     test_is_not_void<char*[][2]>();
-    test_is_not_void<int(*)[3][2]>();
-    test_is_not_void<int(*)[][2]>();
-    test_is_not_void<int(&)[3][2]>();
-    test_is_not_void<int(&)[][2]>();
-    test_is_not_void<int(&&)[3][2]>();
-    test_is_not_void<int(&&)[][2]>();
+    test_is_not_void<int (*)[3][2]>();
+    test_is_not_void<int (*)[][2]>();
+    test_is_not_void<int (&)[3][2]>();
+    test_is_not_void<int (&)[][2]>();
+    test_is_not_void<int (&&)[3][2]>();
+    test_is_not_void<int (&&)[][2]>();
     test_is_not_void<class_type>();
     test_is_not_void<class_type[]>();
     test_is_not_void<class_type[2]>();
@@ -458,7 +458,7 @@ TEST_CASE("is_void")
 #endif
 
     test_is_not_void<void()>();
-    test_is_not_void<void()&>();
+    test_is_not_void<void() &>();
     test_is_not_void<void() &&>();
     test_is_not_void<void() const>();
     test_is_not_void<void() const&>();
@@ -483,7 +483,7 @@ TEST_CASE("is_void")
     test_is_not_void<void() const volatile && noexcept>();
 
     test_is_not_void<void(int)>();
-    test_is_not_void<void(int)&>();
+    test_is_not_void<void(int) &>();
     test_is_not_void<void(int) &&>();
     test_is_not_void<void(int) const>();
     test_is_not_void<void(int) const&>();
@@ -508,7 +508,7 @@ TEST_CASE("is_void")
     test_is_not_void<void(int) const volatile && noexcept>();
 
     test_is_not_void<void(...)>();
-    test_is_not_void<void(...)&>();
+    test_is_not_void<void(...) &>();
     test_is_not_void<void(...) &&>();
     test_is_not_void<void(...) const>();
     test_is_not_void<void(...) const&>();
@@ -533,7 +533,7 @@ TEST_CASE("is_void")
     test_is_not_void<void(...) const volatile && noexcept>();
 
     test_is_not_void<void(int, ...)>();
-    test_is_not_void<void(int, ...)&>();
+    test_is_not_void<void(int, ...) &>();
     test_is_not_void<void(int, ...) &&>();
     test_is_not_void<void(int, ...) const>();
     test_is_not_void<void(int, ...) const&>();
@@ -558,7 +558,7 @@ TEST_CASE("is_void")
     test_is_not_void<void(int, ...) const volatile && noexcept>();
 
     test_is_not_void<int()>();
-    test_is_not_void<int()&>();
+    test_is_not_void<int() &>();
     test_is_not_void<int() &&>();
     test_is_not_void<int() const>();
     test_is_not_void<int() const&>();
@@ -583,7 +583,7 @@ TEST_CASE("is_void")
     test_is_not_void<int() const volatile && noexcept>();
 
     test_is_not_void<int(int)>();
-    test_is_not_void<int(int)&>();
+    test_is_not_void<int(int) &>();
     test_is_not_void<int(int) &&>();
     test_is_not_void<int(int) const>();
     test_is_not_void<int(int) const&>();
@@ -608,7 +608,7 @@ TEST_CASE("is_void")
     test_is_not_void<int(int) const volatile && noexcept>();
 
     test_is_not_void<int(...)>();
-    test_is_not_void<int(...)&>();
+    test_is_not_void<int(...) &>();
     test_is_not_void<int(...) &&>();
     test_is_not_void<int(...) const>();
     test_is_not_void<int(...) const&>();
@@ -633,7 +633,7 @@ TEST_CASE("is_void")
     test_is_not_void<int(...) const volatile && noexcept>();
 
     test_is_not_void<int(int, ...)>();
-    test_is_not_void<int(int, ...)&>();
+    test_is_not_void<int(int, ...) &>();
     test_is_not_void<int(int, ...) &&>();
     test_is_not_void<int(int, ...) const>();
     test_is_not_void<int(int, ...) const&>();
@@ -730,7 +730,7 @@ TEST_CASE("is_void")
     test_is_not_void<int (&&)(int, ...) noexcept>();
 
     test_is_not_void<void (class_type::*)()>();
-    test_is_not_void<void (class_type::*)()&>();
+    test_is_not_void<void (class_type::*)() &>();
     test_is_not_void<void (class_type::*)() &&>();
     test_is_not_void<void (class_type::*)() const>();
     test_is_not_void<void (class_type::*)() const&>();
@@ -743,7 +743,7 @@ TEST_CASE("is_void")
     test_is_not_void<void (class_type::*)() const && noexcept>();
 
     test_is_not_void<void (class_type::*)(int)>();
-    test_is_not_void<void (class_type::*)(int)&>();
+    test_is_not_void<void (class_type::*)(int) &>();
     test_is_not_void<void (class_type::*)(int) &&>();
     test_is_not_void<void (class_type::*)(int) const>();
     test_is_not_void<void (class_type::*)(int) const&>();
@@ -756,7 +756,7 @@ TEST_CASE("is_void")
     test_is_not_void<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_void<void (class_type::*)(...)>();
-    test_is_not_void<void (class_type::*)(...)&>();
+    test_is_not_void<void (class_type::*)(...) &>();
     test_is_not_void<void (class_type::*)(...) &&>();
     test_is_not_void<void (class_type::*)(...) const>();
     test_is_not_void<void (class_type::*)(...) const&>();
@@ -769,7 +769,7 @@ TEST_CASE("is_void")
     test_is_not_void<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_void<void (class_type::*)(int, ...)>();
-    test_is_not_void<void (class_type::*)(int, ...)&>();
+    test_is_not_void<void (class_type::*)(int, ...) &>();
     test_is_not_void<void (class_type::*)(int, ...) &&>();
     test_is_not_void<void (class_type::*)(int, ...) const>();
     test_is_not_void<void (class_type::*)(int, ...) const&>();
@@ -782,7 +782,7 @@ TEST_CASE("is_void")
     test_is_not_void<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_void<int (class_type::*)()>();
-    test_is_not_void<int (class_type::*)()&>();
+    test_is_not_void<int (class_type::*)() &>();
     test_is_not_void<int (class_type::*)() &&>();
     test_is_not_void<int (class_type::*)() const>();
     test_is_not_void<int (class_type::*)() const&>();
@@ -795,7 +795,7 @@ TEST_CASE("is_void")
     test_is_not_void<int (class_type::*)() const && noexcept>();
 
     test_is_not_void<int (class_type::*)(int)>();
-    test_is_not_void<int (class_type::*)(int)&>();
+    test_is_not_void<int (class_type::*)(int) &>();
     test_is_not_void<int (class_type::*)(int) &&>();
     test_is_not_void<int (class_type::*)(int) const>();
     test_is_not_void<int (class_type::*)(int) const&>();
@@ -808,7 +808,7 @@ TEST_CASE("is_void")
     test_is_not_void<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_void<int (class_type::*)(...)>();
-    test_is_not_void<int (class_type::*)(...)&>();
+    test_is_not_void<int (class_type::*)(...) &>();
     test_is_not_void<int (class_type::*)(...) &&>();
     test_is_not_void<int (class_type::*)(...) const>();
     test_is_not_void<int (class_type::*)(...) const&>();
@@ -821,7 +821,7 @@ TEST_CASE("is_void")
     test_is_not_void<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_void<int (class_type::*)(int, ...)>();
-    test_is_not_void<int (class_type::*)(int, ...)&>();
+    test_is_not_void<int (class_type::*)(int, ...) &>();
     test_is_not_void<int (class_type::*)(int, ...) &&>();
     test_is_not_void<int (class_type::*)(int, ...) const>();
     test_is_not_void<int (class_type::*)(int, ...) const&>();

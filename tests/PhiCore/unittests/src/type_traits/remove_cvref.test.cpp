@@ -102,22 +102,22 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<char[]>();
     test_remove_cvref<char* [3]>();
     test_remove_cvref<char*[]>();
-    test_remove_cvref<int(*)[3]>();
-    test_remove_cvref<int(*)[]>();
-    test_remove_cvref<int(&)[3], int[3]>();
-    test_remove_cvref<int(&)[], int[]>();
-    test_remove_cvref<int(&&)[3], int[3]>();
-    test_remove_cvref<int(&&)[], int[]>();
+    test_remove_cvref<int (*)[3]>();
+    test_remove_cvref<int (*)[]>();
+    test_remove_cvref<int (&)[3], int[3]>();
+    test_remove_cvref<int (&)[], int[]>();
+    test_remove_cvref<int (&&)[3], int[3]>();
+    test_remove_cvref<int (&&)[], int[]>();
     test_remove_cvref<char[3][2]>();
     test_remove_cvref<char[][2]>();
     test_remove_cvref<char* [3][2]>();
     test_remove_cvref<char*[][2]>();
-    test_remove_cvref<int(*)[3][2]>();
-    test_remove_cvref<int(*)[][2]>();
-    test_remove_cvref<int(&)[3][2], int[3][2]>();
-    test_remove_cvref<int(&)[][2], int[][2]>();
-    test_remove_cvref<int(&&)[3][2], int[3][2]>();
-    test_remove_cvref<int(&&)[][2], int[][2]>();
+    test_remove_cvref<int (*)[3][2]>();
+    test_remove_cvref<int (*)[][2]>();
+    test_remove_cvref<int (&)[3][2], int[3][2]>();
+    test_remove_cvref<int (&)[][2], int[][2]>();
+    test_remove_cvref<int (&&)[3][2], int[3][2]>();
+    test_remove_cvref<int (&&)[][2], int[][2]>();
     test_remove_cvref<class_type>();
     test_remove_cvref<class_type[]>();
     test_remove_cvref<class_type[2]>();
@@ -244,7 +244,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<trap_array_subscript>();
 
     test_remove_cvref<void()>();
-    test_remove_cvref<void()&>();
+    test_remove_cvref<void() &>();
     test_remove_cvref<void() &&>();
     test_remove_cvref<void() const>();
     test_remove_cvref<void() const&>();
@@ -269,7 +269,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void() const volatile && noexcept>();
 
     test_remove_cvref<void(int)>();
-    test_remove_cvref<void(int)&>();
+    test_remove_cvref<void(int) &>();
     test_remove_cvref<void(int) &&>();
     test_remove_cvref<void(int) const>();
     test_remove_cvref<void(int) const&>();
@@ -294,7 +294,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void(int) const volatile && noexcept>();
 
     test_remove_cvref<void(...)>();
-    test_remove_cvref<void(...)&>();
+    test_remove_cvref<void(...) &>();
     test_remove_cvref<void(...) &&>();
     test_remove_cvref<void(...) const>();
     test_remove_cvref<void(...) const&>();
@@ -319,7 +319,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void(...) const volatile && noexcept>();
 
     test_remove_cvref<void(int, ...)>();
-    test_remove_cvref<void(int, ...)&>();
+    test_remove_cvref<void(int, ...) &>();
     test_remove_cvref<void(int, ...) &&>();
     test_remove_cvref<void(int, ...) const>();
     test_remove_cvref<void(int, ...) const&>();
@@ -344,7 +344,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void(int, ...) const volatile && noexcept>();
 
     test_remove_cvref<int()>();
-    test_remove_cvref<int()&>();
+    test_remove_cvref<int() &>();
     test_remove_cvref<int() &&>();
     test_remove_cvref<int() const>();
     test_remove_cvref<int() const&>();
@@ -369,7 +369,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int() const volatile && noexcept>();
 
     test_remove_cvref<int(int)>();
-    test_remove_cvref<int(int)&>();
+    test_remove_cvref<int(int) &>();
     test_remove_cvref<int(int) &&>();
     test_remove_cvref<int(int) const>();
     test_remove_cvref<int(int) const&>();
@@ -394,7 +394,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int(int) const volatile && noexcept>();
 
     test_remove_cvref<int(...)>();
-    test_remove_cvref<int(...)&>();
+    test_remove_cvref<int(...) &>();
     test_remove_cvref<int(...) &&>();
     test_remove_cvref<int(...) const>();
     test_remove_cvref<int(...) const&>();
@@ -419,7 +419,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int(...) const volatile && noexcept>();
 
     test_remove_cvref<int(int, ...)>();
-    test_remove_cvref<int(int, ...)&>();
+    test_remove_cvref<int(int, ...) &>();
     test_remove_cvref<int(int, ...) &&>();
     test_remove_cvref<int(int, ...) const>();
     test_remove_cvref<int(int, ...) const&>();
@@ -516,7 +516,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int (&&)(int, ...) noexcept, int(int, ...) noexcept>();
 
     test_remove_cvref<void (class_type::*)()>();
-    test_remove_cvref<void (class_type::*)()&>();
+    test_remove_cvref<void (class_type::*)() &>();
     test_remove_cvref<void (class_type::*)() &&>();
     test_remove_cvref<void (class_type::*)() const>();
     test_remove_cvref<void (class_type::*)() const&>();
@@ -529,7 +529,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void (class_type::*)() const && noexcept>();
 
     test_remove_cvref<void (class_type::*)(int)>();
-    test_remove_cvref<void (class_type::*)(int)&>();
+    test_remove_cvref<void (class_type::*)(int) &>();
     test_remove_cvref<void (class_type::*)(int) &&>();
     test_remove_cvref<void (class_type::*)(int) const>();
     test_remove_cvref<void (class_type::*)(int) const&>();
@@ -542,7 +542,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void (class_type::*)(int) const && noexcept>();
 
     test_remove_cvref<void (class_type::*)(...)>();
-    test_remove_cvref<void (class_type::*)(...)&>();
+    test_remove_cvref<void (class_type::*)(...) &>();
     test_remove_cvref<void (class_type::*)(...) &&>();
     test_remove_cvref<void (class_type::*)(...) const>();
     test_remove_cvref<void (class_type::*)(...) const&>();
@@ -555,7 +555,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void (class_type::*)(...) const && noexcept>();
 
     test_remove_cvref<void (class_type::*)(int, ...)>();
-    test_remove_cvref<void (class_type::*)(int, ...)&>();
+    test_remove_cvref<void (class_type::*)(int, ...) &>();
     test_remove_cvref<void (class_type::*)(int, ...) &&>();
     test_remove_cvref<void (class_type::*)(int, ...) const>();
     test_remove_cvref<void (class_type::*)(int, ...) const&>();
@@ -568,7 +568,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<void (class_type::*)(int, ...) const && noexcept>();
 
     test_remove_cvref<int (class_type::*)()>();
-    test_remove_cvref<int (class_type::*)()&>();
+    test_remove_cvref<int (class_type::*)() &>();
     test_remove_cvref<int (class_type::*)() &&>();
     test_remove_cvref<int (class_type::*)() const>();
     test_remove_cvref<int (class_type::*)() const&>();
@@ -581,7 +581,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int (class_type::*)() const && noexcept>();
 
     test_remove_cvref<int (class_type::*)(int)>();
-    test_remove_cvref<int (class_type::*)(int)&>();
+    test_remove_cvref<int (class_type::*)(int) &>();
     test_remove_cvref<int (class_type::*)(int) &&>();
     test_remove_cvref<int (class_type::*)(int) const>();
     test_remove_cvref<int (class_type::*)(int) const&>();
@@ -594,7 +594,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int (class_type::*)(int) const && noexcept>();
 
     test_remove_cvref<int (class_type::*)(...)>();
-    test_remove_cvref<int (class_type::*)(...)&>();
+    test_remove_cvref<int (class_type::*)(...) &>();
     test_remove_cvref<int (class_type::*)(...) &&>();
     test_remove_cvref<int (class_type::*)(...) const>();
     test_remove_cvref<int (class_type::*)(...) const&>();
@@ -607,7 +607,7 @@ TEST_CASE("remove_cvref")
     test_remove_cvref<int (class_type::*)(...) const && noexcept>();
 
     test_remove_cvref<int (class_type::*)(int, ...)>();
-    test_remove_cvref<int (class_type::*)(int, ...)&>();
+    test_remove_cvref<int (class_type::*)(int, ...) &>();
     test_remove_cvref<int (class_type::*)(int, ...) &&>();
     test_remove_cvref<int (class_type::*)(int, ...) const>();
     test_remove_cvref<int (class_type::*)(int, ...) const&>();

@@ -143,22 +143,22 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<char[]>();
     test_is_not_abstract<char* [3]>();
     test_is_not_abstract<char*[]>();
-    test_is_not_abstract<int(*)[3]>();
-    test_is_not_abstract<int(*)[]>();
-    test_is_not_abstract<int(&)[3]>();
-    test_is_not_abstract<int(&)[]>();
-    test_is_not_abstract<int(&&)[3]>();
-    test_is_not_abstract<int(&&)[]>();
+    test_is_not_abstract<int (*)[3]>();
+    test_is_not_abstract<int (*)[]>();
+    test_is_not_abstract<int (&)[3]>();
+    test_is_not_abstract<int (&)[]>();
+    test_is_not_abstract<int (&&)[3]>();
+    test_is_not_abstract<int (&&)[]>();
     test_is_not_abstract<char[3][2]>();
     test_is_not_abstract<char[][2]>();
     test_is_not_abstract<char* [3][2]>();
     test_is_not_abstract<char*[][2]>();
-    test_is_not_abstract<int(*)[3][2]>();
-    test_is_not_abstract<int(*)[][2]>();
-    test_is_not_abstract<int(&)[3][2]>();
-    test_is_not_abstract<int(&)[][2]>();
-    test_is_not_abstract<int(&&)[3][2]>();
-    test_is_not_abstract<int(&&)[][2]>();
+    test_is_not_abstract<int (*)[3][2]>();
+    test_is_not_abstract<int (*)[][2]>();
+    test_is_not_abstract<int (&)[3][2]>();
+    test_is_not_abstract<int (&)[][2]>();
+    test_is_not_abstract<int (&&)[3][2]>();
+    test_is_not_abstract<int (&&)[][2]>();
     test_is_not_abstract<class_type>();
     test_is_not_abstract<class_type[]>();
     test_is_not_abstract<class_type[2]>();
@@ -274,7 +274,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<trap_array_subscript>();
 
     test_is_not_abstract<void()>();
-    test_is_not_abstract<void()&>();
+    test_is_not_abstract<void() &>();
     test_is_not_abstract<void() &&>();
     test_is_not_abstract<void() const>();
     test_is_not_abstract<void() const&>();
@@ -299,7 +299,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void() const volatile && noexcept>();
 
     test_is_not_abstract<void(int)>();
-    test_is_not_abstract<void(int)&>();
+    test_is_not_abstract<void(int) &>();
     test_is_not_abstract<void(int) &&>();
     test_is_not_abstract<void(int) const>();
     test_is_not_abstract<void(int) const&>();
@@ -324,7 +324,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void(int) const volatile && noexcept>();
 
     test_is_not_abstract<void(...)>();
-    test_is_not_abstract<void(...)&>();
+    test_is_not_abstract<void(...) &>();
     test_is_not_abstract<void(...) &&>();
     test_is_not_abstract<void(...) const>();
     test_is_not_abstract<void(...) const&>();
@@ -349,7 +349,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void(...) const volatile && noexcept>();
 
     test_is_not_abstract<void(int, ...)>();
-    test_is_not_abstract<void(int, ...)&>();
+    test_is_not_abstract<void(int, ...) &>();
     test_is_not_abstract<void(int, ...) &&>();
     test_is_not_abstract<void(int, ...) const>();
     test_is_not_abstract<void(int, ...) const&>();
@@ -374,7 +374,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void(int, ...) const volatile && noexcept>();
 
     test_is_not_abstract<int()>();
-    test_is_not_abstract<int()&>();
+    test_is_not_abstract<int() &>();
     test_is_not_abstract<int() &&>();
     test_is_not_abstract<int() const>();
     test_is_not_abstract<int() const&>();
@@ -399,7 +399,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int() const volatile && noexcept>();
 
     test_is_not_abstract<int(int)>();
-    test_is_not_abstract<int(int)&>();
+    test_is_not_abstract<int(int) &>();
     test_is_not_abstract<int(int) &&>();
     test_is_not_abstract<int(int) const>();
     test_is_not_abstract<int(int) const&>();
@@ -424,7 +424,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int(int) const volatile && noexcept>();
 
     test_is_not_abstract<int(...)>();
-    test_is_not_abstract<int(...)&>();
+    test_is_not_abstract<int(...) &>();
     test_is_not_abstract<int(...) &&>();
     test_is_not_abstract<int(...) const>();
     test_is_not_abstract<int(...) const&>();
@@ -449,7 +449,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int(...) const volatile && noexcept>();
 
     test_is_not_abstract<int(int, ...)>();
-    test_is_not_abstract<int(int, ...)&>();
+    test_is_not_abstract<int(int, ...) &>();
     test_is_not_abstract<int(int, ...) &&>();
     test_is_not_abstract<int(int, ...) const>();
     test_is_not_abstract<int(int, ...) const&>();
@@ -546,7 +546,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int (&&)(int, ...) noexcept>();
 
     test_is_not_abstract<void (class_type::*)()>();
-    test_is_not_abstract<void (class_type::*)()&>();
+    test_is_not_abstract<void (class_type::*)() &>();
     test_is_not_abstract<void (class_type::*)() &&>();
     test_is_not_abstract<void (class_type::*)() const>();
     test_is_not_abstract<void (class_type::*)() const&>();
@@ -559,7 +559,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void (class_type::*)() const && noexcept>();
 
     test_is_not_abstract<void (class_type::*)(int)>();
-    test_is_not_abstract<void (class_type::*)(int)&>();
+    test_is_not_abstract<void (class_type::*)(int) &>();
     test_is_not_abstract<void (class_type::*)(int) &&>();
     test_is_not_abstract<void (class_type::*)(int) const>();
     test_is_not_abstract<void (class_type::*)(int) const&>();
@@ -572,7 +572,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_abstract<void (class_type::*)(...)>();
-    test_is_not_abstract<void (class_type::*)(...)&>();
+    test_is_not_abstract<void (class_type::*)(...) &>();
     test_is_not_abstract<void (class_type::*)(...) &&>();
     test_is_not_abstract<void (class_type::*)(...) const>();
     test_is_not_abstract<void (class_type::*)(...) const&>();
@@ -585,7 +585,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_abstract<void (class_type::*)(int, ...)>();
-    test_is_not_abstract<void (class_type::*)(int, ...)&>();
+    test_is_not_abstract<void (class_type::*)(int, ...) &>();
     test_is_not_abstract<void (class_type::*)(int, ...) &&>();
     test_is_not_abstract<void (class_type::*)(int, ...) const>();
     test_is_not_abstract<void (class_type::*)(int, ...) const&>();
@@ -598,7 +598,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_abstract<int (class_type::*)()>();
-    test_is_not_abstract<int (class_type::*)()&>();
+    test_is_not_abstract<int (class_type::*)() &>();
     test_is_not_abstract<int (class_type::*)() &&>();
     test_is_not_abstract<int (class_type::*)() const>();
     test_is_not_abstract<int (class_type::*)() const&>();
@@ -611,7 +611,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int (class_type::*)() const && noexcept>();
 
     test_is_not_abstract<int (class_type::*)(int)>();
-    test_is_not_abstract<int (class_type::*)(int)&>();
+    test_is_not_abstract<int (class_type::*)(int) &>();
     test_is_not_abstract<int (class_type::*)(int) &&>();
     test_is_not_abstract<int (class_type::*)(int) const>();
     test_is_not_abstract<int (class_type::*)(int) const&>();
@@ -624,7 +624,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_abstract<int (class_type::*)(...)>();
-    test_is_not_abstract<int (class_type::*)(...)&>();
+    test_is_not_abstract<int (class_type::*)(...) &>();
     test_is_not_abstract<int (class_type::*)(...) &&>();
     test_is_not_abstract<int (class_type::*)(...) const>();
     test_is_not_abstract<int (class_type::*)(...) const&>();
@@ -637,7 +637,7 @@ TEST_CASE("is_abstract")
     test_is_not_abstract<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_abstract<int (class_type::*)(int, ...)>();
-    test_is_not_abstract<int (class_type::*)(int, ...)&>();
+    test_is_not_abstract<int (class_type::*)(int, ...) &>();
     test_is_not_abstract<int (class_type::*)(int, ...) &&>();
     test_is_not_abstract<int (class_type::*)(int, ...) const>();
     test_is_not_abstract<int (class_type::*)(int, ...) const&>();

@@ -158,22 +158,22 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<char[]>();
     test_is_trivially_default_constructible<char* [3]>();
     test_is_not_trivially_default_constructible<char*[]>();
-    test_is_trivially_default_constructible<int(*)[3]>();
-    test_is_trivially_default_constructible<int(*)[]>();
-    test_is_not_trivially_default_constructible<int(&)[3]>();
-    test_is_not_trivially_default_constructible<int(&)[]>();
-    test_is_not_trivially_default_constructible<int(&&)[3]>();
-    test_is_not_trivially_default_constructible<int(&&)[]>();
+    test_is_trivially_default_constructible<int (*)[3]>();
+    test_is_trivially_default_constructible<int (*)[]>();
+    test_is_not_trivially_default_constructible<int (&)[3]>();
+    test_is_not_trivially_default_constructible<int (&)[]>();
+    test_is_not_trivially_default_constructible<int (&&)[3]>();
+    test_is_not_trivially_default_constructible<int (&&)[]>();
     test_is_trivially_default_constructible<char[3][2]>();
     test_is_not_trivially_default_constructible<char[][2]>();
     test_is_trivially_default_constructible<char* [3][2]>();
     test_is_not_trivially_default_constructible<char*[][2]>();
-    test_is_trivially_default_constructible<int(*)[3][2]>();
-    test_is_trivially_default_constructible<int(*)[][2]>();
-    test_is_not_trivially_default_constructible<int(&)[3][2]>();
-    test_is_not_trivially_default_constructible<int(&)[][2]>();
-    test_is_not_trivially_default_constructible<int(&&)[3][2]>();
-    test_is_not_trivially_default_constructible<int(&&)[][2]>();
+    test_is_trivially_default_constructible<int (*)[3][2]>();
+    test_is_trivially_default_constructible<int (*)[][2]>();
+    test_is_not_trivially_default_constructible<int (&)[3][2]>();
+    test_is_not_trivially_default_constructible<int (&)[][2]>();
+    test_is_not_trivially_default_constructible<int (&&)[3][2]>();
+    test_is_not_trivially_default_constructible<int (&&)[][2]>();
     test_is_not_trivially_default_constructible<class_type>();
     test_is_not_trivially_default_constructible<class_type[]>();
 #if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
@@ -294,7 +294,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<trap_array_subscript>();
 
     test_is_not_trivially_default_constructible<void()>();
-    test_is_not_trivially_default_constructible<void()&>();
+    test_is_not_trivially_default_constructible<void() &>();
     test_is_not_trivially_default_constructible<void() &&>();
     test_is_not_trivially_default_constructible<void() const>();
     test_is_not_trivially_default_constructible<void() const&>();
@@ -319,7 +319,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<void() const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<void(int)>();
-    test_is_not_trivially_default_constructible<void(int)&>();
+    test_is_not_trivially_default_constructible<void(int) &>();
     test_is_not_trivially_default_constructible<void(int) &&>();
     test_is_not_trivially_default_constructible<void(int) const>();
     test_is_not_trivially_default_constructible<void(int) const&>();
@@ -344,7 +344,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<void(int) const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<void(...)>();
-    test_is_not_trivially_default_constructible<void(...)&>();
+    test_is_not_trivially_default_constructible<void(...) &>();
     test_is_not_trivially_default_constructible<void(...) &&>();
     test_is_not_trivially_default_constructible<void(...) const>();
     test_is_not_trivially_default_constructible<void(...) const&>();
@@ -369,7 +369,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<void(...) const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<void(int, ...)>();
-    test_is_not_trivially_default_constructible<void(int, ...)&>();
+    test_is_not_trivially_default_constructible<void(int, ...) &>();
     test_is_not_trivially_default_constructible<void(int, ...) &&>();
     test_is_not_trivially_default_constructible<void(int, ...) const>();
     test_is_not_trivially_default_constructible<void(int, ...) const&>();
@@ -394,7 +394,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<void(int, ...) const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<int()>();
-    test_is_not_trivially_default_constructible<int()&>();
+    test_is_not_trivially_default_constructible<int() &>();
     test_is_not_trivially_default_constructible<int() &&>();
     test_is_not_trivially_default_constructible<int() const>();
     test_is_not_trivially_default_constructible<int() const&>();
@@ -419,7 +419,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int() const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<int(int)>();
-    test_is_not_trivially_default_constructible<int(int)&>();
+    test_is_not_trivially_default_constructible<int(int) &>();
     test_is_not_trivially_default_constructible<int(int) &&>();
     test_is_not_trivially_default_constructible<int(int) const>();
     test_is_not_trivially_default_constructible<int(int) const&>();
@@ -444,7 +444,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int(int) const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<int(...)>();
-    test_is_not_trivially_default_constructible<int(...)&>();
+    test_is_not_trivially_default_constructible<int(...) &>();
     test_is_not_trivially_default_constructible<int(...) &&>();
     test_is_not_trivially_default_constructible<int(...) const>();
     test_is_not_trivially_default_constructible<int(...) const&>();
@@ -469,7 +469,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int(...) const volatile && noexcept>();
 
     test_is_not_trivially_default_constructible<int(int, ...)>();
-    test_is_not_trivially_default_constructible<int(int, ...)&>();
+    test_is_not_trivially_default_constructible<int(int, ...) &>();
     test_is_not_trivially_default_constructible<int(int, ...) &&>();
     test_is_not_trivially_default_constructible<int(int, ...) const>();
     test_is_not_trivially_default_constructible<int(int, ...) const&>();
@@ -566,7 +566,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_not_trivially_default_constructible<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_default_constructible<void (class_type::*)()>();
-    test_is_trivially_default_constructible<void (class_type::*)()&>();
+    test_is_trivially_default_constructible<void (class_type::*)() &>();
     test_is_trivially_default_constructible<void (class_type::*)() &&>();
     test_is_trivially_default_constructible<void (class_type::*)() const>();
     test_is_trivially_default_constructible<void (class_type::*)() const&>();
@@ -579,7 +579,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<void (class_type::*)() const && noexcept>();
 
     test_is_trivially_default_constructible<void (class_type::*)(int)>();
-    test_is_trivially_default_constructible<void (class_type::*)(int)&>();
+    test_is_trivially_default_constructible<void (class_type::*)(int) &>();
     test_is_trivially_default_constructible<void (class_type::*)(int) &&>();
     test_is_trivially_default_constructible<void (class_type::*)(int) const>();
     test_is_trivially_default_constructible<void (class_type::*)(int) const&>();
@@ -592,7 +592,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<void (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_default_constructible<void (class_type::*)(...)>();
-    test_is_trivially_default_constructible<void (class_type::*)(...)&>();
+    test_is_trivially_default_constructible<void (class_type::*)(...) &>();
     test_is_trivially_default_constructible<void (class_type::*)(...) &&>();
     test_is_trivially_default_constructible<void (class_type::*)(...) const>();
     test_is_trivially_default_constructible<void (class_type::*)(...) const&>();
@@ -605,7 +605,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<void (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_default_constructible<void (class_type::*)(int, ...)>();
-    test_is_trivially_default_constructible<void (class_type::*)(int, ...)&>();
+    test_is_trivially_default_constructible<void (class_type::*)(int, ...) &>();
     test_is_trivially_default_constructible<void (class_type::*)(int, ...) &&>();
     test_is_trivially_default_constructible<void (class_type::*)(int, ...) const>();
     test_is_trivially_default_constructible<void (class_type::*)(int, ...) const&>();
@@ -618,7 +618,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_trivially_default_constructible<int (class_type::*)()>();
-    test_is_trivially_default_constructible<int (class_type::*)()&>();
+    test_is_trivially_default_constructible<int (class_type::*)() &>();
     test_is_trivially_default_constructible<int (class_type::*)() &&>();
     test_is_trivially_default_constructible<int (class_type::*)() const>();
     test_is_trivially_default_constructible<int (class_type::*)() const&>();
@@ -631,7 +631,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<int (class_type::*)() const && noexcept>();
 
     test_is_trivially_default_constructible<int (class_type::*)(int)>();
-    test_is_trivially_default_constructible<int (class_type::*)(int)&>();
+    test_is_trivially_default_constructible<int (class_type::*)(int) &>();
     test_is_trivially_default_constructible<int (class_type::*)(int) &&>();
     test_is_trivially_default_constructible<int (class_type::*)(int) const>();
     test_is_trivially_default_constructible<int (class_type::*)(int) const&>();
@@ -644,7 +644,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<int (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_default_constructible<int (class_type::*)(...)>();
-    test_is_trivially_default_constructible<int (class_type::*)(...)&>();
+    test_is_trivially_default_constructible<int (class_type::*)(...) &>();
     test_is_trivially_default_constructible<int (class_type::*)(...) &&>();
     test_is_trivially_default_constructible<int (class_type::*)(...) const>();
     test_is_trivially_default_constructible<int (class_type::*)(...) const&>();
@@ -657,7 +657,7 @@ TEST_CASE("is_trivially_default_constructible")
     test_is_trivially_default_constructible<int (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_default_constructible<int (class_type::*)(int, ...)>();
-    test_is_trivially_default_constructible<int (class_type::*)(int, ...)&>();
+    test_is_trivially_default_constructible<int (class_type::*)(int, ...) &>();
     test_is_trivially_default_constructible<int (class_type::*)(int, ...) &&>();
     test_is_trivially_default_constructible<int (class_type::*)(int, ...) const>();
     test_is_trivially_default_constructible<int (class_type::*)(int, ...) const&>();

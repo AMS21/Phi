@@ -111,22 +111,22 @@ TEST_CASE("add_volatile")
     test_add_volatile<char[]>();
     test_add_volatile<char* [3]>();
     test_add_volatile<char*[]>();
-    test_add_volatile<int(*)[3]>();
-    test_add_volatile<int(*)[]>();
-    test_add_volatile<int(&)[3]>();
-    test_add_volatile<int(&)[]>();
-    test_add_volatile<int(&&)[3]>();
-    test_add_volatile<int(&&)[]>();
+    test_add_volatile<int (*)[3]>();
+    test_add_volatile<int (*)[]>();
+    test_add_volatile<int (&)[3]>();
+    test_add_volatile<int (&)[]>();
+    test_add_volatile<int (&&)[3]>();
+    test_add_volatile<int (&&)[]>();
     test_add_volatile<char[3][2]>();
     test_add_volatile<char[][2]>();
     test_add_volatile<char* [3][2]>();
     test_add_volatile<char*[][2]>();
-    test_add_volatile<int(*)[3][2]>();
-    test_add_volatile<int(*)[][2]>();
-    test_add_volatile<int(&)[3][2]>();
-    test_add_volatile<int(&)[][2]>();
-    test_add_volatile<int(&&)[3][2]>();
-    test_add_volatile<int(&&)[][2]>();
+    test_add_volatile<int (*)[3][2]>();
+    test_add_volatile<int (*)[][2]>();
+    test_add_volatile<int (&)[3][2]>();
+    test_add_volatile<int (&)[][2]>();
+    test_add_volatile<int (&&)[3][2]>();
+    test_add_volatile<int (&&)[][2]>();
     test_add_volatile<class_type>();
     test_add_volatile<class_type[]>();
     test_add_volatile<class_type[2]>();
@@ -253,7 +253,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<trap_array_subscript>();
 
     test_add_volatile<void()>();
-    test_add_volatile<void()&>();
+    test_add_volatile<void() &>();
     test_add_volatile<void() &&>();
     test_add_volatile<void() const>();
     test_add_volatile<void() const&>();
@@ -278,7 +278,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void() const volatile && noexcept>();
 
     test_add_volatile<void(int)>();
-    test_add_volatile<void(int)&>();
+    test_add_volatile<void(int) &>();
     test_add_volatile<void(int) &&>();
     test_add_volatile<void(int) const>();
     test_add_volatile<void(int) const&>();
@@ -303,7 +303,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(int) const volatile && noexcept>();
 
     test_add_volatile<void(...)>();
-    test_add_volatile<void(...)&>();
+    test_add_volatile<void(...) &>();
     test_add_volatile<void(...) &&>();
     test_add_volatile<void(...) const>();
     test_add_volatile<void(...) const&>();
@@ -328,7 +328,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(...) const volatile && noexcept>();
 
     test_add_volatile<void(int, ...)>();
-    test_add_volatile<void(int, ...)&>();
+    test_add_volatile<void(int, ...) &>();
     test_add_volatile<void(int, ...) &&>();
     test_add_volatile<void(int, ...) const>();
     test_add_volatile<void(int, ...) const&>();
@@ -353,7 +353,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void(int, ...) const volatile && noexcept>();
 
     test_add_volatile<int()>();
-    test_add_volatile<int()&>();
+    test_add_volatile<int() &>();
     test_add_volatile<int() &&>();
     test_add_volatile<int() const>();
     test_add_volatile<int() const&>();
@@ -378,7 +378,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int() const volatile && noexcept>();
 
     test_add_volatile<int(int)>();
-    test_add_volatile<int(int)&>();
+    test_add_volatile<int(int) &>();
     test_add_volatile<int(int) &&>();
     test_add_volatile<int(int) const>();
     test_add_volatile<int(int) const&>();
@@ -403,7 +403,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int(int) const volatile && noexcept>();
 
     test_add_volatile<int(...)>();
-    test_add_volatile<int(...)&>();
+    test_add_volatile<int(...) &>();
     test_add_volatile<int(...) &&>();
     test_add_volatile<int(...) const>();
     test_add_volatile<int(...) const&>();
@@ -428,7 +428,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int(...) const volatile && noexcept>();
 
     test_add_volatile<int(int, ...)>();
-    test_add_volatile<int(int, ...)&>();
+    test_add_volatile<int(int, ...) &>();
     test_add_volatile<int(int, ...) &&>();
     test_add_volatile<int(int, ...) const>();
     test_add_volatile<int(int, ...) const&>();
@@ -525,7 +525,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int (&&)(int, ...) noexcept>();
 
     test_add_volatile<void (class_type::*)()>();
-    test_add_volatile<void (class_type::*)()&>();
+    test_add_volatile<void (class_type::*)() &>();
     test_add_volatile<void (class_type::*)() &&>();
     test_add_volatile<void (class_type::*)() const>();
     test_add_volatile<void (class_type::*)() const&>();
@@ -538,7 +538,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void (class_type::*)() const && noexcept>();
 
     test_add_volatile<void (class_type::*)(int)>();
-    test_add_volatile<void (class_type::*)(int)&>();
+    test_add_volatile<void (class_type::*)(int) &>();
     test_add_volatile<void (class_type::*)(int) &&>();
     test_add_volatile<void (class_type::*)(int) const>();
     test_add_volatile<void (class_type::*)(int) const&>();
@@ -551,7 +551,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void (class_type::*)(int) const && noexcept>();
 
     test_add_volatile<void (class_type::*)(...)>();
-    test_add_volatile<void (class_type::*)(...)&>();
+    test_add_volatile<void (class_type::*)(...) &>();
     test_add_volatile<void (class_type::*)(...) &&>();
     test_add_volatile<void (class_type::*)(...) const>();
     test_add_volatile<void (class_type::*)(...) const&>();
@@ -564,7 +564,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void (class_type::*)(...) const && noexcept>();
 
     test_add_volatile<void (class_type::*)(int, ...)>();
-    test_add_volatile<void (class_type::*)(int, ...)&>();
+    test_add_volatile<void (class_type::*)(int, ...) &>();
     test_add_volatile<void (class_type::*)(int, ...) &&>();
     test_add_volatile<void (class_type::*)(int, ...) const>();
     test_add_volatile<void (class_type::*)(int, ...) const&>();
@@ -577,7 +577,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_volatile<int (class_type::*)()>();
-    test_add_volatile<int (class_type::*)()&>();
+    test_add_volatile<int (class_type::*)() &>();
     test_add_volatile<int (class_type::*)() &&>();
     test_add_volatile<int (class_type::*)() const>();
     test_add_volatile<int (class_type::*)() const&>();
@@ -590,7 +590,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int (class_type::*)() const && noexcept>();
 
     test_add_volatile<int (class_type::*)(int)>();
-    test_add_volatile<int (class_type::*)(int)&>();
+    test_add_volatile<int (class_type::*)(int) &>();
     test_add_volatile<int (class_type::*)(int) &&>();
     test_add_volatile<int (class_type::*)(int) const>();
     test_add_volatile<int (class_type::*)(int) const&>();
@@ -603,7 +603,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int (class_type::*)(int) const && noexcept>();
 
     test_add_volatile<int (class_type::*)(...)>();
-    test_add_volatile<int (class_type::*)(...)&>();
+    test_add_volatile<int (class_type::*)(...) &>();
     test_add_volatile<int (class_type::*)(...) &&>();
     test_add_volatile<int (class_type::*)(...) const>();
     test_add_volatile<int (class_type::*)(...) const&>();
@@ -616,7 +616,7 @@ TEST_CASE("add_volatile")
     test_add_volatile<int (class_type::*)(...) const && noexcept>();
 
     test_add_volatile<int (class_type::*)(int, ...)>();
-    test_add_volatile<int (class_type::*)(int, ...)&>();
+    test_add_volatile<int (class_type::*)(int, ...) &>();
     test_add_volatile<int (class_type::*)(int, ...) &&>();
     test_add_volatile<int (class_type::*)(int, ...) const>();
     test_add_volatile<int (class_type::*)(int, ...) const&>();

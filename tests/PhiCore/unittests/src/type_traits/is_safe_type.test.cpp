@@ -175,22 +175,22 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<char[]>();
     test_is_not_safe_type<char* [3]>();
     test_is_not_safe_type<char*[]>();
-    test_is_not_safe_type<int(*)[3]>();
-    test_is_not_safe_type<int(*)[]>();
-    test_is_not_safe_type<int(&)[3]>();
-    test_is_not_safe_type<int(&)[]>();
-    test_is_not_safe_type<int(&&)[3]>();
-    test_is_not_safe_type<int(&&)[]>();
+    test_is_not_safe_type<int (*)[3]>();
+    test_is_not_safe_type<int (*)[]>();
+    test_is_not_safe_type<int (&)[3]>();
+    test_is_not_safe_type<int (&)[]>();
+    test_is_not_safe_type<int (&&)[3]>();
+    test_is_not_safe_type<int (&&)[]>();
     test_is_not_safe_type<char[3][2]>();
     test_is_not_safe_type<char[][2]>();
     test_is_not_safe_type<char* [3][2]>();
     test_is_not_safe_type<char*[][2]>();
-    test_is_not_safe_type<int(*)[3][2]>();
-    test_is_not_safe_type<int(*)[][2]>();
-    test_is_not_safe_type<int(&)[3][2]>();
-    test_is_not_safe_type<int(&)[][2]>();
-    test_is_not_safe_type<int(&&)[3][2]>();
-    test_is_not_safe_type<int(&&)[][2]>();
+    test_is_not_safe_type<int (*)[3][2]>();
+    test_is_not_safe_type<int (*)[][2]>();
+    test_is_not_safe_type<int (&)[3][2]>();
+    test_is_not_safe_type<int (&)[][2]>();
+    test_is_not_safe_type<int (&&)[3][2]>();
+    test_is_not_safe_type<int (&&)[][2]>();
     test_is_not_safe_type<class_type>();
     test_is_not_safe_type<class_type[]>();
     test_is_not_safe_type<class_type[2]>();
@@ -317,7 +317,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<trap_array_subscript>();
 
     test_is_not_safe_type<void()>();
-    test_is_not_safe_type<void()&>();
+    test_is_not_safe_type<void() &>();
     test_is_not_safe_type<void() &&>();
     test_is_not_safe_type<void() const>();
     test_is_not_safe_type<void() const&>();
@@ -342,7 +342,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void() const volatile && noexcept>();
 
     test_is_not_safe_type<void(int)>();
-    test_is_not_safe_type<void(int)&>();
+    test_is_not_safe_type<void(int) &>();
     test_is_not_safe_type<void(int) &&>();
     test_is_not_safe_type<void(int) const>();
     test_is_not_safe_type<void(int) const&>();
@@ -367,7 +367,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void(int) const volatile && noexcept>();
 
     test_is_not_safe_type<void(...)>();
-    test_is_not_safe_type<void(...)&>();
+    test_is_not_safe_type<void(...) &>();
     test_is_not_safe_type<void(...) &&>();
     test_is_not_safe_type<void(...) const>();
     test_is_not_safe_type<void(...) const&>();
@@ -392,7 +392,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void(...) const volatile && noexcept>();
 
     test_is_not_safe_type<void(int, ...)>();
-    test_is_not_safe_type<void(int, ...)&>();
+    test_is_not_safe_type<void(int, ...) &>();
     test_is_not_safe_type<void(int, ...) &&>();
     test_is_not_safe_type<void(int, ...) const>();
     test_is_not_safe_type<void(int, ...) const&>();
@@ -417,7 +417,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void(int, ...) const volatile && noexcept>();
 
     test_is_not_safe_type<int()>();
-    test_is_not_safe_type<int()&>();
+    test_is_not_safe_type<int() &>();
     test_is_not_safe_type<int() &&>();
     test_is_not_safe_type<int() const>();
     test_is_not_safe_type<int() const&>();
@@ -442,7 +442,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int() const volatile && noexcept>();
 
     test_is_not_safe_type<int(int)>();
-    test_is_not_safe_type<int(int)&>();
+    test_is_not_safe_type<int(int) &>();
     test_is_not_safe_type<int(int) &&>();
     test_is_not_safe_type<int(int) const>();
     test_is_not_safe_type<int(int) const&>();
@@ -467,7 +467,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int(int) const volatile && noexcept>();
 
     test_is_not_safe_type<int(...)>();
-    test_is_not_safe_type<int(...)&>();
+    test_is_not_safe_type<int(...) &>();
     test_is_not_safe_type<int(...) &&>();
     test_is_not_safe_type<int(...) const>();
     test_is_not_safe_type<int(...) const&>();
@@ -492,7 +492,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int(...) const volatile && noexcept>();
 
     test_is_not_safe_type<int(int, ...)>();
-    test_is_not_safe_type<int(int, ...)&>();
+    test_is_not_safe_type<int(int, ...) &>();
     test_is_not_safe_type<int(int, ...) &&>();
     test_is_not_safe_type<int(int, ...) const>();
     test_is_not_safe_type<int(int, ...) const&>();
@@ -589,7 +589,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_type<void (class_type::*)()>();
-    test_is_not_safe_type<void (class_type::*)()&>();
+    test_is_not_safe_type<void (class_type::*)() &>();
     test_is_not_safe_type<void (class_type::*)() &&>();
     test_is_not_safe_type<void (class_type::*)() const>();
     test_is_not_safe_type<void (class_type::*)() const&>();
@@ -602,7 +602,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void (class_type::*)() const && noexcept>();
 
     test_is_not_safe_type<void (class_type::*)(int)>();
-    test_is_not_safe_type<void (class_type::*)(int)&>();
+    test_is_not_safe_type<void (class_type::*)(int) &>();
     test_is_not_safe_type<void (class_type::*)(int) &&>();
     test_is_not_safe_type<void (class_type::*)(int) const>();
     test_is_not_safe_type<void (class_type::*)(int) const&>();
@@ -615,7 +615,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_type<void (class_type::*)(...)>();
-    test_is_not_safe_type<void (class_type::*)(...)&>();
+    test_is_not_safe_type<void (class_type::*)(...) &>();
     test_is_not_safe_type<void (class_type::*)(...) &&>();
     test_is_not_safe_type<void (class_type::*)(...) const>();
     test_is_not_safe_type<void (class_type::*)(...) const&>();
@@ -628,7 +628,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_type<void (class_type::*)(int, ...)>();
-    test_is_not_safe_type<void (class_type::*)(int, ...)&>();
+    test_is_not_safe_type<void (class_type::*)(int, ...) &>();
     test_is_not_safe_type<void (class_type::*)(int, ...) &&>();
     test_is_not_safe_type<void (class_type::*)(int, ...) const>();
     test_is_not_safe_type<void (class_type::*)(int, ...) const&>();
@@ -641,7 +641,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_safe_type<int (class_type::*)()>();
-    test_is_not_safe_type<int (class_type::*)()&>();
+    test_is_not_safe_type<int (class_type::*)() &>();
     test_is_not_safe_type<int (class_type::*)() &&>();
     test_is_not_safe_type<int (class_type::*)() const>();
     test_is_not_safe_type<int (class_type::*)() const&>();
@@ -654,7 +654,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int (class_type::*)() const && noexcept>();
 
     test_is_not_safe_type<int (class_type::*)(int)>();
-    test_is_not_safe_type<int (class_type::*)(int)&>();
+    test_is_not_safe_type<int (class_type::*)(int) &>();
     test_is_not_safe_type<int (class_type::*)(int) &&>();
     test_is_not_safe_type<int (class_type::*)(int) const>();
     test_is_not_safe_type<int (class_type::*)(int) const&>();
@@ -667,7 +667,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_type<int (class_type::*)(...)>();
-    test_is_not_safe_type<int (class_type::*)(...)&>();
+    test_is_not_safe_type<int (class_type::*)(...) &>();
     test_is_not_safe_type<int (class_type::*)(...) &&>();
     test_is_not_safe_type<int (class_type::*)(...) const>();
     test_is_not_safe_type<int (class_type::*)(...) const&>();
@@ -680,7 +680,7 @@ TEST_CASE("is_safe_type")
     test_is_not_safe_type<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_type<int (class_type::*)(int, ...)>();
-    test_is_not_safe_type<int (class_type::*)(int, ...)&>();
+    test_is_not_safe_type<int (class_type::*)(int, ...) &>();
     test_is_not_safe_type<int (class_type::*)(int, ...) &&>();
     test_is_not_safe_type<int (class_type::*)(int, ...) const>();
     test_is_not_safe_type<int (class_type::*)(int, ...) const&>();
