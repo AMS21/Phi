@@ -149,22 +149,22 @@ TEST_CASE("is_signed")
     test_is_not_signed<char[]>();
     test_is_not_signed<char* [3]>();
     test_is_not_signed<char*[]>();
-    test_is_not_signed<int(*)[3]>();
-    test_is_not_signed<int(*)[]>();
-    test_is_not_signed<int(&)[3]>();
-    test_is_not_signed<int(&)[]>();
-    test_is_not_signed<int(&&)[3]>();
-    test_is_not_signed<int(&&)[]>();
+    test_is_not_signed<int (*)[3]>();
+    test_is_not_signed<int (*)[]>();
+    test_is_not_signed<int (&)[3]>();
+    test_is_not_signed<int (&)[]>();
+    test_is_not_signed<int (&&)[3]>();
+    test_is_not_signed<int (&&)[]>();
     test_is_not_signed<char[3][2]>();
     test_is_not_signed<char[][2]>();
     test_is_not_signed<char* [3][2]>();
     test_is_not_signed<char*[][2]>();
-    test_is_not_signed<int(*)[3][2]>();
-    test_is_not_signed<int(*)[][2]>();
-    test_is_not_signed<int(&)[3][2]>();
-    test_is_not_signed<int(&)[][2]>();
-    test_is_not_signed<int(&&)[3][2]>();
-    test_is_not_signed<int(&&)[][2]>();
+    test_is_not_signed<int (*)[3][2]>();
+    test_is_not_signed<int (*)[][2]>();
+    test_is_not_signed<int (&)[3][2]>();
+    test_is_not_signed<int (&)[][2]>();
+    test_is_not_signed<int (&&)[3][2]>();
+    test_is_not_signed<int (&&)[][2]>();
     test_is_not_signed<class_type>();
     test_is_not_signed<class_type[]>();
     test_is_not_signed<class_type[2]>();
@@ -291,7 +291,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<trap_array_subscript>();
 
     test_is_not_signed<void()>();
-    test_is_not_signed<void()&>();
+    test_is_not_signed<void() &>();
     test_is_not_signed<void() &&>();
     test_is_not_signed<void() const>();
     test_is_not_signed<void() const&>();
@@ -316,7 +316,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void() const volatile && noexcept>();
 
     test_is_not_signed<void(int)>();
-    test_is_not_signed<void(int)&>();
+    test_is_not_signed<void(int) &>();
     test_is_not_signed<void(int) &&>();
     test_is_not_signed<void(int) const>();
     test_is_not_signed<void(int) const&>();
@@ -341,7 +341,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void(int) const volatile && noexcept>();
 
     test_is_not_signed<void(...)>();
-    test_is_not_signed<void(...)&>();
+    test_is_not_signed<void(...) &>();
     test_is_not_signed<void(...) &&>();
     test_is_not_signed<void(...) const>();
     test_is_not_signed<void(...) const&>();
@@ -366,7 +366,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void(...) const volatile && noexcept>();
 
     test_is_not_signed<void(int, ...)>();
-    test_is_not_signed<void(int, ...)&>();
+    test_is_not_signed<void(int, ...) &>();
     test_is_not_signed<void(int, ...) &&>();
     test_is_not_signed<void(int, ...) const>();
     test_is_not_signed<void(int, ...) const&>();
@@ -391,7 +391,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void(int, ...) const volatile && noexcept>();
 
     test_is_not_signed<int()>();
-    test_is_not_signed<int()&>();
+    test_is_not_signed<int() &>();
     test_is_not_signed<int() &&>();
     test_is_not_signed<int() const>();
     test_is_not_signed<int() const&>();
@@ -416,7 +416,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int() const volatile && noexcept>();
 
     test_is_not_signed<int(int)>();
-    test_is_not_signed<int(int)&>();
+    test_is_not_signed<int(int) &>();
     test_is_not_signed<int(int) &&>();
     test_is_not_signed<int(int) const>();
     test_is_not_signed<int(int) const&>();
@@ -441,7 +441,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int(int) const volatile && noexcept>();
 
     test_is_not_signed<int(...)>();
-    test_is_not_signed<int(...)&>();
+    test_is_not_signed<int(...) &>();
     test_is_not_signed<int(...) &&>();
     test_is_not_signed<int(...) const>();
     test_is_not_signed<int(...) const&>();
@@ -466,7 +466,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int(...) const volatile && noexcept>();
 
     test_is_not_signed<int(int, ...)>();
-    test_is_not_signed<int(int, ...)&>();
+    test_is_not_signed<int(int, ...) &>();
     test_is_not_signed<int(int, ...) &&>();
     test_is_not_signed<int(int, ...) const>();
     test_is_not_signed<int(int, ...) const&>();
@@ -563,7 +563,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int (&&)(int, ...) noexcept>();
 
     test_is_not_signed<void (class_type::*)()>();
-    test_is_not_signed<void (class_type::*)()&>();
+    test_is_not_signed<void (class_type::*)() &>();
     test_is_not_signed<void (class_type::*)() &&>();
     test_is_not_signed<void (class_type::*)() const>();
     test_is_not_signed<void (class_type::*)() const&>();
@@ -576,7 +576,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void (class_type::*)() const && noexcept>();
 
     test_is_not_signed<void (class_type::*)(int)>();
-    test_is_not_signed<void (class_type::*)(int)&>();
+    test_is_not_signed<void (class_type::*)(int) &>();
     test_is_not_signed<void (class_type::*)(int) &&>();
     test_is_not_signed<void (class_type::*)(int) const>();
     test_is_not_signed<void (class_type::*)(int) const&>();
@@ -589,7 +589,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_signed<void (class_type::*)(...)>();
-    test_is_not_signed<void (class_type::*)(...)&>();
+    test_is_not_signed<void (class_type::*)(...) &>();
     test_is_not_signed<void (class_type::*)(...) &&>();
     test_is_not_signed<void (class_type::*)(...) const>();
     test_is_not_signed<void (class_type::*)(...) const&>();
@@ -602,7 +602,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_signed<void (class_type::*)(int, ...)>();
-    test_is_not_signed<void (class_type::*)(int, ...)&>();
+    test_is_not_signed<void (class_type::*)(int, ...) &>();
     test_is_not_signed<void (class_type::*)(int, ...) &&>();
     test_is_not_signed<void (class_type::*)(int, ...) const>();
     test_is_not_signed<void (class_type::*)(int, ...) const&>();
@@ -615,7 +615,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_signed<int (class_type::*)()>();
-    test_is_not_signed<int (class_type::*)()&>();
+    test_is_not_signed<int (class_type::*)() &>();
     test_is_not_signed<int (class_type::*)() &&>();
     test_is_not_signed<int (class_type::*)() const>();
     test_is_not_signed<int (class_type::*)() const&>();
@@ -628,7 +628,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int (class_type::*)() const && noexcept>();
 
     test_is_not_signed<int (class_type::*)(int)>();
-    test_is_not_signed<int (class_type::*)(int)&>();
+    test_is_not_signed<int (class_type::*)(int) &>();
     test_is_not_signed<int (class_type::*)(int) &&>();
     test_is_not_signed<int (class_type::*)(int) const>();
     test_is_not_signed<int (class_type::*)(int) const&>();
@@ -641,7 +641,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_signed<int (class_type::*)(...)>();
-    test_is_not_signed<int (class_type::*)(...)&>();
+    test_is_not_signed<int (class_type::*)(...) &>();
     test_is_not_signed<int (class_type::*)(...) &&>();
     test_is_not_signed<int (class_type::*)(...) const>();
     test_is_not_signed<int (class_type::*)(...) const&>();
@@ -654,7 +654,7 @@ TEST_CASE("is_signed")
     test_is_not_signed<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_signed<int (class_type::*)(int, ...)>();
-    test_is_not_signed<int (class_type::*)(int, ...)&>();
+    test_is_not_signed<int (class_type::*)(int, ...) &>();
     test_is_not_signed<int (class_type::*)(int, ...) &&>();
     test_is_not_signed<int (class_type::*)(int, ...) const>();
     test_is_not_signed<int (class_type::*)(int, ...) const&>();

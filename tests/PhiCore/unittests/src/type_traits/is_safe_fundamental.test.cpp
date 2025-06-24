@@ -131,22 +131,22 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<char[]>();
     test_is_not_safe_fundamental<char* [3]>();
     test_is_not_safe_fundamental<char*[]>();
-    test_is_not_safe_fundamental<int(*)[3]>();
-    test_is_not_safe_fundamental<int(*)[]>();
-    test_is_not_safe_fundamental<int(&)[3]>();
-    test_is_not_safe_fundamental<int(&)[]>();
-    test_is_not_safe_fundamental<int(&&)[3]>();
-    test_is_not_safe_fundamental<int(&&)[]>();
+    test_is_not_safe_fundamental<int (*)[3]>();
+    test_is_not_safe_fundamental<int (*)[]>();
+    test_is_not_safe_fundamental<int (&)[3]>();
+    test_is_not_safe_fundamental<int (&)[]>();
+    test_is_not_safe_fundamental<int (&&)[3]>();
+    test_is_not_safe_fundamental<int (&&)[]>();
     test_is_not_safe_fundamental<char[3][2]>();
     test_is_not_safe_fundamental<char[][2]>();
     test_is_not_safe_fundamental<char* [3][2]>();
     test_is_not_safe_fundamental<char*[][2]>();
-    test_is_not_safe_fundamental<int(*)[3][2]>();
-    test_is_not_safe_fundamental<int(*)[][2]>();
-    test_is_not_safe_fundamental<int(&)[3][2]>();
-    test_is_not_safe_fundamental<int(&)[][2]>();
-    test_is_not_safe_fundamental<int(&&)[3][2]>();
-    test_is_not_safe_fundamental<int(&&)[][2]>();
+    test_is_not_safe_fundamental<int (*)[3][2]>();
+    test_is_not_safe_fundamental<int (*)[][2]>();
+    test_is_not_safe_fundamental<int (&)[3][2]>();
+    test_is_not_safe_fundamental<int (&)[][2]>();
+    test_is_not_safe_fundamental<int (&&)[3][2]>();
+    test_is_not_safe_fundamental<int (&&)[][2]>();
     test_is_not_safe_fundamental<class_type>();
     test_is_not_safe_fundamental<class_type[]>();
     test_is_not_safe_fundamental<class_type[2]>();
@@ -359,7 +359,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<trap_array_subscript>();
 
     test_is_not_safe_fundamental<void()>();
-    test_is_not_safe_fundamental<void()&>();
+    test_is_not_safe_fundamental<void() &>();
     test_is_not_safe_fundamental<void() &&>();
     test_is_not_safe_fundamental<void() const>();
     test_is_not_safe_fundamental<void() const&>();
@@ -384,7 +384,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void() const volatile && noexcept>();
 
     test_is_not_safe_fundamental<void(int)>();
-    test_is_not_safe_fundamental<void(int)&>();
+    test_is_not_safe_fundamental<void(int) &>();
     test_is_not_safe_fundamental<void(int) &&>();
     test_is_not_safe_fundamental<void(int) const>();
     test_is_not_safe_fundamental<void(int) const&>();
@@ -409,7 +409,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void(int) const volatile && noexcept>();
 
     test_is_not_safe_fundamental<void(...)>();
-    test_is_not_safe_fundamental<void(...)&>();
+    test_is_not_safe_fundamental<void(...) &>();
     test_is_not_safe_fundamental<void(...) &&>();
     test_is_not_safe_fundamental<void(...) const>();
     test_is_not_safe_fundamental<void(...) const&>();
@@ -434,7 +434,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void(...) const volatile && noexcept>();
 
     test_is_not_safe_fundamental<void(int, ...)>();
-    test_is_not_safe_fundamental<void(int, ...)&>();
+    test_is_not_safe_fundamental<void(int, ...) &>();
     test_is_not_safe_fundamental<void(int, ...) &&>();
     test_is_not_safe_fundamental<void(int, ...) const>();
     test_is_not_safe_fundamental<void(int, ...) const&>();
@@ -459,7 +459,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void(int, ...) const volatile && noexcept>();
 
     test_is_not_safe_fundamental<int()>();
-    test_is_not_safe_fundamental<int()&>();
+    test_is_not_safe_fundamental<int() &>();
     test_is_not_safe_fundamental<int() &&>();
     test_is_not_safe_fundamental<int() const>();
     test_is_not_safe_fundamental<int() const&>();
@@ -484,7 +484,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int() const volatile && noexcept>();
 
     test_is_not_safe_fundamental<int(int)>();
-    test_is_not_safe_fundamental<int(int)&>();
+    test_is_not_safe_fundamental<int(int) &>();
     test_is_not_safe_fundamental<int(int) &&>();
     test_is_not_safe_fundamental<int(int) const>();
     test_is_not_safe_fundamental<int(int) const&>();
@@ -509,7 +509,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int(int) const volatile && noexcept>();
 
     test_is_not_safe_fundamental<int(...)>();
-    test_is_not_safe_fundamental<int(...)&>();
+    test_is_not_safe_fundamental<int(...) &>();
     test_is_not_safe_fundamental<int(...) &&>();
     test_is_not_safe_fundamental<int(...) const>();
     test_is_not_safe_fundamental<int(...) const&>();
@@ -534,7 +534,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int(...) const volatile && noexcept>();
 
     test_is_not_safe_fundamental<int(int, ...)>();
-    test_is_not_safe_fundamental<int(int, ...)&>();
+    test_is_not_safe_fundamental<int(int, ...) &>();
     test_is_not_safe_fundamental<int(int, ...) &&>();
     test_is_not_safe_fundamental<int(int, ...) const>();
     test_is_not_safe_fundamental<int(int, ...) const&>();
@@ -631,7 +631,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_fundamental<void (class_type::*)()>();
-    test_is_not_safe_fundamental<void (class_type::*)()&>();
+    test_is_not_safe_fundamental<void (class_type::*)() &>();
     test_is_not_safe_fundamental<void (class_type::*)() &&>();
     test_is_not_safe_fundamental<void (class_type::*)() const>();
     test_is_not_safe_fundamental<void (class_type::*)() const&>();
@@ -644,7 +644,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void (class_type::*)() const && noexcept>();
 
     test_is_not_safe_fundamental<void (class_type::*)(int)>();
-    test_is_not_safe_fundamental<void (class_type::*)(int)&>();
+    test_is_not_safe_fundamental<void (class_type::*)(int) &>();
     test_is_not_safe_fundamental<void (class_type::*)(int) &&>();
     test_is_not_safe_fundamental<void (class_type::*)(int) const>();
     test_is_not_safe_fundamental<void (class_type::*)(int) const&>();
@@ -657,7 +657,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_fundamental<void (class_type::*)(...)>();
-    test_is_not_safe_fundamental<void (class_type::*)(...)&>();
+    test_is_not_safe_fundamental<void (class_type::*)(...) &>();
     test_is_not_safe_fundamental<void (class_type::*)(...) &&>();
     test_is_not_safe_fundamental<void (class_type::*)(...) const>();
     test_is_not_safe_fundamental<void (class_type::*)(...) const&>();
@@ -670,7 +670,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_fundamental<void (class_type::*)(int, ...)>();
-    test_is_not_safe_fundamental<void (class_type::*)(int, ...)&>();
+    test_is_not_safe_fundamental<void (class_type::*)(int, ...) &>();
     test_is_not_safe_fundamental<void (class_type::*)(int, ...) &&>();
     test_is_not_safe_fundamental<void (class_type::*)(int, ...) const>();
     test_is_not_safe_fundamental<void (class_type::*)(int, ...) const&>();
@@ -683,7 +683,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_safe_fundamental<int (class_type::*)()>();
-    test_is_not_safe_fundamental<int (class_type::*)()&>();
+    test_is_not_safe_fundamental<int (class_type::*)() &>();
     test_is_not_safe_fundamental<int (class_type::*)() &&>();
     test_is_not_safe_fundamental<int (class_type::*)() const>();
     test_is_not_safe_fundamental<int (class_type::*)() const&>();
@@ -696,7 +696,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int (class_type::*)() const && noexcept>();
 
     test_is_not_safe_fundamental<int (class_type::*)(int)>();
-    test_is_not_safe_fundamental<int (class_type::*)(int)&>();
+    test_is_not_safe_fundamental<int (class_type::*)(int) &>();
     test_is_not_safe_fundamental<int (class_type::*)(int) &&>();
     test_is_not_safe_fundamental<int (class_type::*)(int) const>();
     test_is_not_safe_fundamental<int (class_type::*)(int) const&>();
@@ -709,7 +709,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_fundamental<int (class_type::*)(...)>();
-    test_is_not_safe_fundamental<int (class_type::*)(...)&>();
+    test_is_not_safe_fundamental<int (class_type::*)(...) &>();
     test_is_not_safe_fundamental<int (class_type::*)(...) &&>();
     test_is_not_safe_fundamental<int (class_type::*)(...) const>();
     test_is_not_safe_fundamental<int (class_type::*)(...) const&>();
@@ -722,7 +722,7 @@ TEST_CASE("is_safe_fundamental")
     test_is_not_safe_fundamental<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_fundamental<int (class_type::*)(int, ...)>();
-    test_is_not_safe_fundamental<int (class_type::*)(int, ...)&>();
+    test_is_not_safe_fundamental<int (class_type::*)(int, ...) &>();
     test_is_not_safe_fundamental<int (class_type::*)(int, ...) &&>();
     test_is_not_safe_fundamental<int (class_type::*)(int, ...) const>();
     test_is_not_safe_fundamental<int (class_type::*)(int, ...) const&>();

@@ -138,22 +138,22 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<char[]>();
     test_is_not_unsafe_arithmetic<char* [3]>();
     test_is_not_unsafe_arithmetic<char*[]>();
-    test_is_not_unsafe_arithmetic<int(*)[3]>();
-    test_is_not_unsafe_arithmetic<int(*)[]>();
-    test_is_not_unsafe_arithmetic<int(&)[3]>();
-    test_is_not_unsafe_arithmetic<int(&)[]>();
-    test_is_not_unsafe_arithmetic<int(&&)[3]>();
-    test_is_not_unsafe_arithmetic<int(&&)[]>();
+    test_is_not_unsafe_arithmetic<int (*)[3]>();
+    test_is_not_unsafe_arithmetic<int (*)[]>();
+    test_is_not_unsafe_arithmetic<int (&)[3]>();
+    test_is_not_unsafe_arithmetic<int (&)[]>();
+    test_is_not_unsafe_arithmetic<int (&&)[3]>();
+    test_is_not_unsafe_arithmetic<int (&&)[]>();
     test_is_not_unsafe_arithmetic<char[3][2]>();
     test_is_not_unsafe_arithmetic<char[][2]>();
     test_is_not_unsafe_arithmetic<char* [3][2]>();
     test_is_not_unsafe_arithmetic<char*[][2]>();
-    test_is_not_unsafe_arithmetic<int(*)[3][2]>();
-    test_is_not_unsafe_arithmetic<int(*)[][2]>();
-    test_is_not_unsafe_arithmetic<int(&)[3][2]>();
-    test_is_not_unsafe_arithmetic<int(&)[][2]>();
-    test_is_not_unsafe_arithmetic<int(&&)[3][2]>();
-    test_is_not_unsafe_arithmetic<int(&&)[][2]>();
+    test_is_not_unsafe_arithmetic<int (*)[3][2]>();
+    test_is_not_unsafe_arithmetic<int (*)[][2]>();
+    test_is_not_unsafe_arithmetic<int (&)[3][2]>();
+    test_is_not_unsafe_arithmetic<int (&)[][2]>();
+    test_is_not_unsafe_arithmetic<int (&&)[3][2]>();
+    test_is_not_unsafe_arithmetic<int (&&)[][2]>();
     test_is_not_unsafe_arithmetic<class_type>();
     test_is_not_unsafe_arithmetic<class_type[]>();
     test_is_not_unsafe_arithmetic<class_type[2]>();
@@ -281,7 +281,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<trap_array_subscript>();
 
     test_is_not_unsafe_arithmetic<void()>();
-    test_is_not_unsafe_arithmetic<void()&>();
+    test_is_not_unsafe_arithmetic<void() &>();
     test_is_not_unsafe_arithmetic<void() &&>();
     test_is_not_unsafe_arithmetic<void() const>();
     test_is_not_unsafe_arithmetic<void() const&>();
@@ -306,7 +306,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void() const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<void(int)>();
-    test_is_not_unsafe_arithmetic<void(int)&>();
+    test_is_not_unsafe_arithmetic<void(int) &>();
     test_is_not_unsafe_arithmetic<void(int) &&>();
     test_is_not_unsafe_arithmetic<void(int) const>();
     test_is_not_unsafe_arithmetic<void(int) const&>();
@@ -331,7 +331,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void(int) const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<void(...)>();
-    test_is_not_unsafe_arithmetic<void(...)&>();
+    test_is_not_unsafe_arithmetic<void(...) &>();
     test_is_not_unsafe_arithmetic<void(...) &&>();
     test_is_not_unsafe_arithmetic<void(...) const>();
     test_is_not_unsafe_arithmetic<void(...) const&>();
@@ -356,7 +356,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void(...) const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<void(int, ...)>();
-    test_is_not_unsafe_arithmetic<void(int, ...)&>();
+    test_is_not_unsafe_arithmetic<void(int, ...) &>();
     test_is_not_unsafe_arithmetic<void(int, ...) &&>();
     test_is_not_unsafe_arithmetic<void(int, ...) const>();
     test_is_not_unsafe_arithmetic<void(int, ...) const&>();
@@ -381,7 +381,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void(int, ...) const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<int()>();
-    test_is_not_unsafe_arithmetic<int()&>();
+    test_is_not_unsafe_arithmetic<int() &>();
     test_is_not_unsafe_arithmetic<int() &&>();
     test_is_not_unsafe_arithmetic<int() const>();
     test_is_not_unsafe_arithmetic<int() const&>();
@@ -406,7 +406,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int() const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<int(int)>();
-    test_is_not_unsafe_arithmetic<int(int)&>();
+    test_is_not_unsafe_arithmetic<int(int) &>();
     test_is_not_unsafe_arithmetic<int(int) &&>();
     test_is_not_unsafe_arithmetic<int(int) const>();
     test_is_not_unsafe_arithmetic<int(int) const&>();
@@ -431,7 +431,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int(int) const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<int(...)>();
-    test_is_not_unsafe_arithmetic<int(...)&>();
+    test_is_not_unsafe_arithmetic<int(...) &>();
     test_is_not_unsafe_arithmetic<int(...) &&>();
     test_is_not_unsafe_arithmetic<int(...) const>();
     test_is_not_unsafe_arithmetic<int(...) const&>();
@@ -456,7 +456,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int(...) const volatile && noexcept>();
 
     test_is_not_unsafe_arithmetic<int(int, ...)>();
-    test_is_not_unsafe_arithmetic<int(int, ...)&>();
+    test_is_not_unsafe_arithmetic<int(int, ...) &>();
     test_is_not_unsafe_arithmetic<int(int, ...) &&>();
     test_is_not_unsafe_arithmetic<int(int, ...) const>();
     test_is_not_unsafe_arithmetic<int(int, ...) const&>();
@@ -553,7 +553,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int (&&)(int, ...) noexcept>();
 
     test_is_not_unsafe_arithmetic<void (class_type::*)()>();
-    test_is_not_unsafe_arithmetic<void (class_type::*)()&>();
+    test_is_not_unsafe_arithmetic<void (class_type::*)() &>();
     test_is_not_unsafe_arithmetic<void (class_type::*)() &&>();
     test_is_not_unsafe_arithmetic<void (class_type::*)() const>();
     test_is_not_unsafe_arithmetic<void (class_type::*)() const&>();
@@ -566,7 +566,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void (class_type::*)() const && noexcept>();
 
     test_is_not_unsafe_arithmetic<void (class_type::*)(int)>();
-    test_is_not_unsafe_arithmetic<void (class_type::*)(int)&>();
+    test_is_not_unsafe_arithmetic<void (class_type::*)(int) &>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int) &&>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int) const>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int) const&>();
@@ -579,7 +579,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_unsafe_arithmetic<void (class_type::*)(...)>();
-    test_is_not_unsafe_arithmetic<void (class_type::*)(...)&>();
+    test_is_not_unsafe_arithmetic<void (class_type::*)(...) &>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(...) &&>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(...) const>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(...) const&>();
@@ -592,7 +592,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...)>();
-    test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...)&>();
+    test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...) &>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...) &&>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...) const>();
     test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...) const&>();
@@ -605,7 +605,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_unsafe_arithmetic<int (class_type::*)()>();
-    test_is_not_unsafe_arithmetic<int (class_type::*)()&>();
+    test_is_not_unsafe_arithmetic<int (class_type::*)() &>();
     test_is_not_unsafe_arithmetic<int (class_type::*)() &&>();
     test_is_not_unsafe_arithmetic<int (class_type::*)() const>();
     test_is_not_unsafe_arithmetic<int (class_type::*)() const&>();
@@ -618,7 +618,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int (class_type::*)() const && noexcept>();
 
     test_is_not_unsafe_arithmetic<int (class_type::*)(int)>();
-    test_is_not_unsafe_arithmetic<int (class_type::*)(int)&>();
+    test_is_not_unsafe_arithmetic<int (class_type::*)(int) &>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int) &&>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int) const>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int) const&>();
@@ -631,7 +631,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_unsafe_arithmetic<int (class_type::*)(...)>();
-    test_is_not_unsafe_arithmetic<int (class_type::*)(...)&>();
+    test_is_not_unsafe_arithmetic<int (class_type::*)(...) &>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(...) &&>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(...) const>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(...) const&>();
@@ -644,7 +644,7 @@ TEST_CASE("is_unsafe_arithmetic")
     test_is_not_unsafe_arithmetic<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...)>();
-    test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...)&>();
+    test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...) &>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...) &&>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...) const>();
     test_is_not_unsafe_arithmetic<int (class_type::*)(int, ...) const&>();

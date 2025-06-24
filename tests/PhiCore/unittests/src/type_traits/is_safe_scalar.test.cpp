@@ -135,22 +135,22 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<char[]>();
     test_is_not_safe_scalar<char* [3]>();
     test_is_not_safe_scalar<char*[]>();
-    test_is_safe_scalar<int(*)[3]>();
-    test_is_safe_scalar<int(*)[]>();
-    test_is_not_safe_scalar<int(&)[3]>();
-    test_is_not_safe_scalar<int(&)[]>();
-    test_is_not_safe_scalar<int(&&)[3]>();
-    test_is_not_safe_scalar<int(&&)[]>();
+    test_is_safe_scalar<int (*)[3]>();
+    test_is_safe_scalar<int (*)[]>();
+    test_is_not_safe_scalar<int (&)[3]>();
+    test_is_not_safe_scalar<int (&)[]>();
+    test_is_not_safe_scalar<int (&&)[3]>();
+    test_is_not_safe_scalar<int (&&)[]>();
     test_is_not_safe_scalar<char[3][2]>();
     test_is_not_safe_scalar<char[][2]>();
     test_is_not_safe_scalar<char* [3][2]>();
     test_is_not_safe_scalar<char*[][2]>();
-    test_is_safe_scalar<int(*)[3][2]>();
-    test_is_safe_scalar<int(*)[][2]>();
-    test_is_not_safe_scalar<int(&)[3][2]>();
-    test_is_not_safe_scalar<int(&)[][2]>();
-    test_is_not_safe_scalar<int(&&)[3][2]>();
-    test_is_not_safe_scalar<int(&&)[][2]>();
+    test_is_safe_scalar<int (*)[3][2]>();
+    test_is_safe_scalar<int (*)[][2]>();
+    test_is_not_safe_scalar<int (&)[3][2]>();
+    test_is_not_safe_scalar<int (&)[][2]>();
+    test_is_not_safe_scalar<int (&&)[3][2]>();
+    test_is_not_safe_scalar<int (&&)[][2]>();
     test_is_not_safe_scalar<class_type>();
     test_is_not_safe_scalar<class_type[]>();
     test_is_not_safe_scalar<class_type[2]>();
@@ -362,7 +362,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<trap_array_subscript>();
 
     test_is_not_safe_scalar<void()>();
-    test_is_not_safe_scalar<void()&>();
+    test_is_not_safe_scalar<void() &>();
     test_is_not_safe_scalar<void() &&>();
     test_is_not_safe_scalar<void() const>();
     test_is_not_safe_scalar<void() const&>();
@@ -387,7 +387,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<void() const volatile && noexcept>();
 
     test_is_not_safe_scalar<void(int)>();
-    test_is_not_safe_scalar<void(int)&>();
+    test_is_not_safe_scalar<void(int) &>();
     test_is_not_safe_scalar<void(int) &&>();
     test_is_not_safe_scalar<void(int) const>();
     test_is_not_safe_scalar<void(int) const&>();
@@ -412,7 +412,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<void(int) const volatile && noexcept>();
 
     test_is_not_safe_scalar<void(...)>();
-    test_is_not_safe_scalar<void(...)&>();
+    test_is_not_safe_scalar<void(...) &>();
     test_is_not_safe_scalar<void(...) &&>();
     test_is_not_safe_scalar<void(...) const>();
     test_is_not_safe_scalar<void(...) const&>();
@@ -437,7 +437,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<void(...) const volatile && noexcept>();
 
     test_is_not_safe_scalar<void(int, ...)>();
-    test_is_not_safe_scalar<void(int, ...)&>();
+    test_is_not_safe_scalar<void(int, ...) &>();
     test_is_not_safe_scalar<void(int, ...) &&>();
     test_is_not_safe_scalar<void(int, ...) const>();
     test_is_not_safe_scalar<void(int, ...) const&>();
@@ -462,7 +462,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<void(int, ...) const volatile && noexcept>();
 
     test_is_not_safe_scalar<int()>();
-    test_is_not_safe_scalar<int()&>();
+    test_is_not_safe_scalar<int() &>();
     test_is_not_safe_scalar<int() &&>();
     test_is_not_safe_scalar<int() const>();
     test_is_not_safe_scalar<int() const&>();
@@ -487,7 +487,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<int() const volatile && noexcept>();
 
     test_is_not_safe_scalar<int(int)>();
-    test_is_not_safe_scalar<int(int)&>();
+    test_is_not_safe_scalar<int(int) &>();
     test_is_not_safe_scalar<int(int) &&>();
     test_is_not_safe_scalar<int(int) const>();
     test_is_not_safe_scalar<int(int) const&>();
@@ -512,7 +512,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<int(int) const volatile && noexcept>();
 
     test_is_not_safe_scalar<int(...)>();
-    test_is_not_safe_scalar<int(...)&>();
+    test_is_not_safe_scalar<int(...) &>();
     test_is_not_safe_scalar<int(...) &&>();
     test_is_not_safe_scalar<int(...) const>();
     test_is_not_safe_scalar<int(...) const&>();
@@ -537,7 +537,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<int(...) const volatile && noexcept>();
 
     test_is_not_safe_scalar<int(int, ...)>();
-    test_is_not_safe_scalar<int(int, ...)&>();
+    test_is_not_safe_scalar<int(int, ...) &>();
     test_is_not_safe_scalar<int(int, ...) &&>();
     test_is_not_safe_scalar<int(int, ...) const>();
     test_is_not_safe_scalar<int(int, ...) const&>();
@@ -634,7 +634,7 @@ TEST_CASE("is_safe_scalar")
     test_is_not_safe_scalar<int (&&)(int, ...) noexcept>();
 
     test_is_safe_scalar<void (class_type::*)()>();
-    test_is_safe_scalar<void (class_type::*)()&>();
+    test_is_safe_scalar<void (class_type::*)() &>();
     test_is_safe_scalar<void (class_type::*)() &&>();
     test_is_safe_scalar<void (class_type::*)() const>();
     test_is_safe_scalar<void (class_type::*)() const&>();
@@ -647,7 +647,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<void (class_type::*)() const && noexcept>();
 
     test_is_safe_scalar<void (class_type::*)(int)>();
-    test_is_safe_scalar<void (class_type::*)(int)&>();
+    test_is_safe_scalar<void (class_type::*)(int) &>();
     test_is_safe_scalar<void (class_type::*)(int) &&>();
     test_is_safe_scalar<void (class_type::*)(int) const>();
     test_is_safe_scalar<void (class_type::*)(int) const&>();
@@ -660,7 +660,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<void (class_type::*)(int) const && noexcept>();
 
     test_is_safe_scalar<void (class_type::*)(...)>();
-    test_is_safe_scalar<void (class_type::*)(...)&>();
+    test_is_safe_scalar<void (class_type::*)(...) &>();
     test_is_safe_scalar<void (class_type::*)(...) &&>();
     test_is_safe_scalar<void (class_type::*)(...) const>();
     test_is_safe_scalar<void (class_type::*)(...) const&>();
@@ -673,7 +673,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<void (class_type::*)(...) const && noexcept>();
 
     test_is_safe_scalar<void (class_type::*)(int, ...)>();
-    test_is_safe_scalar<void (class_type::*)(int, ...)&>();
+    test_is_safe_scalar<void (class_type::*)(int, ...) &>();
     test_is_safe_scalar<void (class_type::*)(int, ...) &&>();
     test_is_safe_scalar<void (class_type::*)(int, ...) const>();
     test_is_safe_scalar<void (class_type::*)(int, ...) const&>();
@@ -686,7 +686,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_safe_scalar<int (class_type::*)()>();
-    test_is_safe_scalar<int (class_type::*)()&>();
+    test_is_safe_scalar<int (class_type::*)() &>();
     test_is_safe_scalar<int (class_type::*)() &&>();
     test_is_safe_scalar<int (class_type::*)() const>();
     test_is_safe_scalar<int (class_type::*)() const&>();
@@ -699,7 +699,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<int (class_type::*)() const && noexcept>();
 
     test_is_safe_scalar<int (class_type::*)(int)>();
-    test_is_safe_scalar<int (class_type::*)(int)&>();
+    test_is_safe_scalar<int (class_type::*)(int) &>();
     test_is_safe_scalar<int (class_type::*)(int) &&>();
     test_is_safe_scalar<int (class_type::*)(int) const>();
     test_is_safe_scalar<int (class_type::*)(int) const&>();
@@ -712,7 +712,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<int (class_type::*)(int) const && noexcept>();
 
     test_is_safe_scalar<int (class_type::*)(...)>();
-    test_is_safe_scalar<int (class_type::*)(...)&>();
+    test_is_safe_scalar<int (class_type::*)(...) &>();
     test_is_safe_scalar<int (class_type::*)(...) &&>();
     test_is_safe_scalar<int (class_type::*)(...) const>();
     test_is_safe_scalar<int (class_type::*)(...) const&>();
@@ -725,7 +725,7 @@ TEST_CASE("is_safe_scalar")
     test_is_safe_scalar<int (class_type::*)(...) const && noexcept>();
 
     test_is_safe_scalar<int (class_type::*)(int, ...)>();
-    test_is_safe_scalar<int (class_type::*)(int, ...)&>();
+    test_is_safe_scalar<int (class_type::*)(int, ...) &>();
     test_is_safe_scalar<int (class_type::*)(int, ...) &&>();
     test_is_safe_scalar<int (class_type::*)(int, ...) const>();
     test_is_safe_scalar<int (class_type::*)(int, ...) const&>();

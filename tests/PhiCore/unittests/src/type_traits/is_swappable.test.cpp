@@ -188,7 +188,7 @@ TEST_CASE("is_swappable")
     // test non-referencable types
     test_is_not_swappable<void>();
     test_is_not_swappable<int() const>();
-    test_is_not_swappable<int()&>();
+    test_is_not_swappable<int() &>();
 
 #if !PHI_COMPILER_IS_BELOW(GCC, 5, 0, 0)
     // test that a deleted swap is correctly handled.
@@ -288,12 +288,12 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<void*>();
     test_is_swappable_v<char[3]>();
     test_is_swappable_v<char* [3]>();
-    test_is_swappable_v<int(*)[3]>();
-    test_is_swappable_cv<int(&)[3]>();
-    test_is_swappable_cv<int(&&)[3]>();
+    test_is_swappable_v<int (*)[3]>();
+    test_is_swappable_cv<int (&)[3]>();
+    test_is_swappable_cv<int (&&)[3]>();
     //test_is_swappable<char[3][2]>();
     //test_is_swappable<char* [3][2]>();
-    test_is_swappable_v<int(*)[3][2]>();
+    test_is_swappable_v<int (*)[3][2]>();
     //test_is_swappable<int(&)[3][2]>();
     //test_is_swappable<int(&&)[3][2]>();
     test_is_swappable<class_type>();
@@ -407,7 +407,7 @@ TEST_CASE("is_swappable")
     test_is_swappable<trap_array_subscript>();
 
     test_is_not_swappable<void()>();
-    test_is_not_swappable<void()&>();
+    test_is_not_swappable<void() &>();
     test_is_not_swappable<void() &&>();
     test_is_not_swappable<void() const>();
     test_is_not_swappable<void() const&>();
@@ -432,7 +432,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<void() const volatile && noexcept>();
 
     test_is_not_swappable<void(int)>();
-    test_is_not_swappable<void(int)&>();
+    test_is_not_swappable<void(int) &>();
     test_is_not_swappable<void(int) &&>();
     test_is_not_swappable<void(int) const>();
     test_is_not_swappable<void(int) const&>();
@@ -457,7 +457,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<void(int) const volatile && noexcept>();
 
     test_is_not_swappable<void(...)>();
-    test_is_not_swappable<void(...)&>();
+    test_is_not_swappable<void(...) &>();
     test_is_not_swappable<void(...) &&>();
     test_is_not_swappable<void(...) const>();
     test_is_not_swappable<void(...) const&>();
@@ -482,7 +482,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<void(...) const volatile && noexcept>();
 
     test_is_not_swappable<void(int, ...)>();
-    test_is_not_swappable<void(int, ...)&>();
+    test_is_not_swappable<void(int, ...) &>();
     test_is_not_swappable<void(int, ...) &&>();
     test_is_not_swappable<void(int, ...) const>();
     test_is_not_swappable<void(int, ...) const&>();
@@ -507,7 +507,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<void(int, ...) const volatile && noexcept>();
 
     test_is_not_swappable<int()>();
-    test_is_not_swappable<int()&>();
+    test_is_not_swappable<int() &>();
     test_is_not_swappable<int() &&>();
     test_is_not_swappable<int() const>();
     test_is_not_swappable<int() const&>();
@@ -532,7 +532,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int() const volatile && noexcept>();
 
     test_is_not_swappable<int(int)>();
-    test_is_not_swappable<int(int)&>();
+    test_is_not_swappable<int(int) &>();
     test_is_not_swappable<int(int) &&>();
     test_is_not_swappable<int(int) const>();
     test_is_not_swappable<int(int) const&>();
@@ -557,7 +557,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int(int) const volatile && noexcept>();
 
     test_is_not_swappable<int(...)>();
-    test_is_not_swappable<int(...)&>();
+    test_is_not_swappable<int(...) &>();
     test_is_not_swappable<int(...) &&>();
     test_is_not_swappable<int(...) const>();
     test_is_not_swappable<int(...) const&>();
@@ -582,7 +582,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int(...) const volatile && noexcept>();
 
     test_is_not_swappable<int(int, ...)>();
-    test_is_not_swappable<int(int, ...)&>();
+    test_is_not_swappable<int(int, ...) &>();
     test_is_not_swappable<int(int, ...) &&>();
     test_is_not_swappable<int(int, ...) const>();
     test_is_not_swappable<int(int, ...) const&>();
@@ -679,7 +679,7 @@ TEST_CASE("is_swappable")
     test_is_not_swappable<int (&&)(int, ...) noexcept>();
 
     test_is_swappable_v<void (class_type::*)()>();
-    test_is_swappable_v<void (class_type::*)()&>();
+    test_is_swappable_v<void (class_type::*)() &>();
     test_is_swappable_v<void (class_type::*)() &&>();
     test_is_swappable_v<void (class_type::*)() const>();
     test_is_swappable_v<void (class_type::*)() const&>();
@@ -692,7 +692,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<void (class_type::*)() const && noexcept>();
 
     test_is_swappable_v<void (class_type::*)(int)>();
-    test_is_swappable_v<void (class_type::*)(int)&>();
+    test_is_swappable_v<void (class_type::*)(int) &>();
     test_is_swappable_v<void (class_type::*)(int) &&>();
     test_is_swappable_v<void (class_type::*)(int) const>();
     test_is_swappable_v<void (class_type::*)(int) const&>();
@@ -705,7 +705,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<void (class_type::*)(int) const && noexcept>();
 
     test_is_swappable_v<void (class_type::*)(...)>();
-    test_is_swappable_v<void (class_type::*)(...)&>();
+    test_is_swappable_v<void (class_type::*)(...) &>();
     test_is_swappable_v<void (class_type::*)(...) &&>();
     test_is_swappable_v<void (class_type::*)(...) const>();
     test_is_swappable_v<void (class_type::*)(...) const&>();
@@ -718,7 +718,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<void (class_type::*)(...) const && noexcept>();
 
     test_is_swappable_v<void (class_type::*)(int, ...)>();
-    test_is_swappable_v<void (class_type::*)(int, ...)&>();
+    test_is_swappable_v<void (class_type::*)(int, ...) &>();
     test_is_swappable_v<void (class_type::*)(int, ...) &&>();
     test_is_swappable_v<void (class_type::*)(int, ...) const>();
     test_is_swappable_v<void (class_type::*)(int, ...) const&>();
@@ -731,7 +731,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_swappable_v<int (class_type::*)()>();
-    test_is_swappable_v<int (class_type::*)()&>();
+    test_is_swappable_v<int (class_type::*)() &>();
     test_is_swappable_v<int (class_type::*)() &&>();
     test_is_swappable_v<int (class_type::*)() const>();
     test_is_swappable_v<int (class_type::*)() const&>();
@@ -744,7 +744,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<int (class_type::*)() const && noexcept>();
 
     test_is_swappable_v<int (class_type::*)(int)>();
-    test_is_swappable_v<int (class_type::*)(int)&>();
+    test_is_swappable_v<int (class_type::*)(int) &>();
     test_is_swappable_v<int (class_type::*)(int) &&>();
     test_is_swappable_v<int (class_type::*)(int) const>();
     test_is_swappable_v<int (class_type::*)(int) const&>();
@@ -757,7 +757,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<int (class_type::*)(int) const && noexcept>();
 
     test_is_swappable_v<int (class_type::*)(...)>();
-    test_is_swappable_v<int (class_type::*)(...)&>();
+    test_is_swappable_v<int (class_type::*)(...) &>();
     test_is_swappable_v<int (class_type::*)(...) &&>();
     test_is_swappable_v<int (class_type::*)(...) const>();
     test_is_swappable_v<int (class_type::*)(...) const&>();
@@ -770,7 +770,7 @@ TEST_CASE("is_swappable")
     test_is_swappable_v<int (class_type::*)(...) const && noexcept>();
 
     test_is_swappable_v<int (class_type::*)(int, ...)>();
-    test_is_swappable_v<int (class_type::*)(int, ...)&>();
+    test_is_swappable_v<int (class_type::*)(int, ...) &>();
     test_is_swappable_v<int (class_type::*)(int, ...) &&>();
     test_is_swappable_v<int (class_type::*)(int, ...) const>();
     test_is_swappable_v<int (class_type::*)(int, ...) const&>();

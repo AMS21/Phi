@@ -305,7 +305,7 @@ TEST_CASE("is_convertible")
     test_is_convertible<const Array&, const char*>();
 
     test_is_convertible_impl<Array, StringType>();
-    test_is_convertible_impl<char(&)[], StringType>();
+    test_is_convertible_impl<char (&)[], StringType>();
 
     // Array&&
     test_is_not_convertible<Array&&, void>();
@@ -329,7 +329,7 @@ TEST_CASE("is_convertible")
     test_is_convertible<const Array&, const char*>();
 
     test_is_convertible_impl<Array, StringType>();
-    test_is_convertible_impl<char(&)[], StringType>();
+    test_is_convertible_impl<char (&)[], StringType>();
 
     // char
     test_is_not_convertible<char, void>();

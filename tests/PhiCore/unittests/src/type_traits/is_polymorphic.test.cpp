@@ -148,22 +148,22 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<char[]>();
     test_is_not_polymorphic<char* [3]>();
     test_is_not_polymorphic<char*[]>();
-    test_is_not_polymorphic<int(*)[3]>();
-    test_is_not_polymorphic<int(*)[]>();
-    test_is_not_polymorphic<int(&)[3]>();
-    test_is_not_polymorphic<int(&)[]>();
-    test_is_not_polymorphic<int(&&)[3]>();
-    test_is_not_polymorphic<int(&&)[]>();
+    test_is_not_polymorphic<int (*)[3]>();
+    test_is_not_polymorphic<int (*)[]>();
+    test_is_not_polymorphic<int (&)[3]>();
+    test_is_not_polymorphic<int (&)[]>();
+    test_is_not_polymorphic<int (&&)[3]>();
+    test_is_not_polymorphic<int (&&)[]>();
     test_is_not_polymorphic<char[3][2]>();
     test_is_not_polymorphic<char[][2]>();
     test_is_not_polymorphic<char* [3][2]>();
     test_is_not_polymorphic<char*[][2]>();
-    test_is_not_polymorphic<int(*)[3][2]>();
-    test_is_not_polymorphic<int(*)[][2]>();
-    test_is_not_polymorphic<int(&)[3][2]>();
-    test_is_not_polymorphic<int(&)[][2]>();
-    test_is_not_polymorphic<int(&&)[3][2]>();
-    test_is_not_polymorphic<int(&&)[][2]>();
+    test_is_not_polymorphic<int (*)[3][2]>();
+    test_is_not_polymorphic<int (*)[][2]>();
+    test_is_not_polymorphic<int (&)[3][2]>();
+    test_is_not_polymorphic<int (&)[][2]>();
+    test_is_not_polymorphic<int (&&)[3][2]>();
+    test_is_not_polymorphic<int (&&)[][2]>();
     test_is_not_polymorphic<class_type>();
     test_is_not_polymorphic<class_type[]>();
     test_is_not_polymorphic<class_type[2]>();
@@ -279,7 +279,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<trap_array_subscript>();
 
     test_is_not_polymorphic<void()>();
-    test_is_not_polymorphic<void()&>();
+    test_is_not_polymorphic<void() &>();
     test_is_not_polymorphic<void() &&>();
     test_is_not_polymorphic<void() const>();
     test_is_not_polymorphic<void() const&>();
@@ -304,7 +304,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void() const volatile && noexcept>();
 
     test_is_not_polymorphic<void(int)>();
-    test_is_not_polymorphic<void(int)&>();
+    test_is_not_polymorphic<void(int) &>();
     test_is_not_polymorphic<void(int) &&>();
     test_is_not_polymorphic<void(int) const>();
     test_is_not_polymorphic<void(int) const&>();
@@ -329,7 +329,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void(int) const volatile && noexcept>();
 
     test_is_not_polymorphic<void(...)>();
-    test_is_not_polymorphic<void(...)&>();
+    test_is_not_polymorphic<void(...) &>();
     test_is_not_polymorphic<void(...) &&>();
     test_is_not_polymorphic<void(...) const>();
     test_is_not_polymorphic<void(...) const&>();
@@ -354,7 +354,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void(...) const volatile && noexcept>();
 
     test_is_not_polymorphic<void(int, ...)>();
-    test_is_not_polymorphic<void(int, ...)&>();
+    test_is_not_polymorphic<void(int, ...) &>();
     test_is_not_polymorphic<void(int, ...) &&>();
     test_is_not_polymorphic<void(int, ...) const>();
     test_is_not_polymorphic<void(int, ...) const&>();
@@ -379,7 +379,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void(int, ...) const volatile && noexcept>();
 
     test_is_not_polymorphic<int()>();
-    test_is_not_polymorphic<int()&>();
+    test_is_not_polymorphic<int() &>();
     test_is_not_polymorphic<int() &&>();
     test_is_not_polymorphic<int() const>();
     test_is_not_polymorphic<int() const&>();
@@ -404,7 +404,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int() const volatile && noexcept>();
 
     test_is_not_polymorphic<int(int)>();
-    test_is_not_polymorphic<int(int)&>();
+    test_is_not_polymorphic<int(int) &>();
     test_is_not_polymorphic<int(int) &&>();
     test_is_not_polymorphic<int(int) const>();
     test_is_not_polymorphic<int(int) const&>();
@@ -429,7 +429,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int(int) const volatile && noexcept>();
 
     test_is_not_polymorphic<int(...)>();
-    test_is_not_polymorphic<int(...)&>();
+    test_is_not_polymorphic<int(...) &>();
     test_is_not_polymorphic<int(...) &&>();
     test_is_not_polymorphic<int(...) const>();
     test_is_not_polymorphic<int(...) const&>();
@@ -454,7 +454,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int(...) const volatile && noexcept>();
 
     test_is_not_polymorphic<int(int, ...)>();
-    test_is_not_polymorphic<int(int, ...)&>();
+    test_is_not_polymorphic<int(int, ...) &>();
     test_is_not_polymorphic<int(int, ...) &&>();
     test_is_not_polymorphic<int(int, ...) const>();
     test_is_not_polymorphic<int(int, ...) const&>();
@@ -551,7 +551,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int (&&)(int, ...) noexcept>();
 
     test_is_not_polymorphic<void (class_type::*)()>();
-    test_is_not_polymorphic<void (class_type::*)()&>();
+    test_is_not_polymorphic<void (class_type::*)() &>();
     test_is_not_polymorphic<void (class_type::*)() &&>();
     test_is_not_polymorphic<void (class_type::*)() const>();
     test_is_not_polymorphic<void (class_type::*)() const&>();
@@ -564,7 +564,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void (class_type::*)() const && noexcept>();
 
     test_is_not_polymorphic<void (class_type::*)(int)>();
-    test_is_not_polymorphic<void (class_type::*)(int)&>();
+    test_is_not_polymorphic<void (class_type::*)(int) &>();
     test_is_not_polymorphic<void (class_type::*)(int) &&>();
     test_is_not_polymorphic<void (class_type::*)(int) const>();
     test_is_not_polymorphic<void (class_type::*)(int) const&>();
@@ -577,7 +577,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_polymorphic<void (class_type::*)(...)>();
-    test_is_not_polymorphic<void (class_type::*)(...)&>();
+    test_is_not_polymorphic<void (class_type::*)(...) &>();
     test_is_not_polymorphic<void (class_type::*)(...) &&>();
     test_is_not_polymorphic<void (class_type::*)(...) const>();
     test_is_not_polymorphic<void (class_type::*)(...) const&>();
@@ -590,7 +590,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_polymorphic<void (class_type::*)(int, ...)>();
-    test_is_not_polymorphic<void (class_type::*)(int, ...)&>();
+    test_is_not_polymorphic<void (class_type::*)(int, ...) &>();
     test_is_not_polymorphic<void (class_type::*)(int, ...) &&>();
     test_is_not_polymorphic<void (class_type::*)(int, ...) const>();
     test_is_not_polymorphic<void (class_type::*)(int, ...) const&>();
@@ -603,7 +603,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_polymorphic<int (class_type::*)()>();
-    test_is_not_polymorphic<int (class_type::*)()&>();
+    test_is_not_polymorphic<int (class_type::*)() &>();
     test_is_not_polymorphic<int (class_type::*)() &&>();
     test_is_not_polymorphic<int (class_type::*)() const>();
     test_is_not_polymorphic<int (class_type::*)() const&>();
@@ -616,7 +616,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int (class_type::*)() const && noexcept>();
 
     test_is_not_polymorphic<int (class_type::*)(int)>();
-    test_is_not_polymorphic<int (class_type::*)(int)&>();
+    test_is_not_polymorphic<int (class_type::*)(int) &>();
     test_is_not_polymorphic<int (class_type::*)(int) &&>();
     test_is_not_polymorphic<int (class_type::*)(int) const>();
     test_is_not_polymorphic<int (class_type::*)(int) const&>();
@@ -629,7 +629,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_polymorphic<int (class_type::*)(...)>();
-    test_is_not_polymorphic<int (class_type::*)(...)&>();
+    test_is_not_polymorphic<int (class_type::*)(...) &>();
     test_is_not_polymorphic<int (class_type::*)(...) &&>();
     test_is_not_polymorphic<int (class_type::*)(...) const>();
     test_is_not_polymorphic<int (class_type::*)(...) const&>();
@@ -642,7 +642,7 @@ TEST_CASE("is_polymorphic")
     test_is_not_polymorphic<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_polymorphic<int (class_type::*)(int, ...)>();
-    test_is_not_polymorphic<int (class_type::*)(int, ...)&>();
+    test_is_not_polymorphic<int (class_type::*)(int, ...) &>();
     test_is_not_polymorphic<int (class_type::*)(int, ...) &&>();
     test_is_not_polymorphic<int (class_type::*)(int, ...) const>();
     test_is_not_polymorphic<int (class_type::*)(int, ...) const&>();

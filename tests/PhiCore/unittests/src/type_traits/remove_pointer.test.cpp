@@ -120,22 +120,22 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<char[]>();
     test_remove_pointer<char* [3]>();
     test_remove_pointer<char*[]>();
-    test_remove_pointer_ptr<int(*)[3], int[3]>();
-    test_remove_pointer_ptr<int(*)[], int[]>();
-    test_remove_pointer<int(&)[3]>();
-    test_remove_pointer<int(&)[]>();
-    test_remove_pointer<int(&&)[3]>();
-    test_remove_pointer<int(&&)[]>();
+    test_remove_pointer_ptr<int (*)[3], int[3]>();
+    test_remove_pointer_ptr<int (*)[], int[]>();
+    test_remove_pointer<int (&)[3]>();
+    test_remove_pointer<int (&)[]>();
+    test_remove_pointer<int (&&)[3]>();
+    test_remove_pointer<int (&&)[]>();
     test_remove_pointer<char[3][2]>();
     test_remove_pointer<char[][2]>();
     test_remove_pointer<char* [3][2]>();
     test_remove_pointer<char*[][2]>();
-    test_remove_pointer_ptr<int(*)[3][2], int[3][2]>();
-    test_remove_pointer_ptr<int(*)[][2], int[][2]>();
-    test_remove_pointer<int(&)[3][2]>();
-    test_remove_pointer<int(&)[][2]>();
-    test_remove_pointer<int(&&)[3][2]>();
-    test_remove_pointer<int(&&)[][2]>();
+    test_remove_pointer_ptr<int (*)[3][2], int[3][2]>();
+    test_remove_pointer_ptr<int (*)[][2], int[][2]>();
+    test_remove_pointer<int (&)[3][2]>();
+    test_remove_pointer<int (&)[][2]>();
+    test_remove_pointer<int (&&)[3][2]>();
+    test_remove_pointer<int (&&)[][2]>();
     test_remove_pointer<class_type>();
     test_remove_pointer<class_type[]>();
     test_remove_pointer<class_type[2]>();
@@ -262,7 +262,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<trap_array_subscript>();
 
     test_remove_pointer<void()>();
-    test_remove_pointer<void()&>();
+    test_remove_pointer<void() &>();
     test_remove_pointer<void() &&>();
     test_remove_pointer<void() const>();
     test_remove_pointer<void() const&>();
@@ -287,7 +287,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void() const volatile && noexcept>();
 
     test_remove_pointer<void(int)>();
-    test_remove_pointer<void(int)&>();
+    test_remove_pointer<void(int) &>();
     test_remove_pointer<void(int) &&>();
     test_remove_pointer<void(int) const>();
     test_remove_pointer<void(int) const&>();
@@ -312,7 +312,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void(int) const volatile && noexcept>();
 
     test_remove_pointer<void(...)>();
-    test_remove_pointer<void(...)&>();
+    test_remove_pointer<void(...) &>();
     test_remove_pointer<void(...) &&>();
     test_remove_pointer<void(...) const>();
     test_remove_pointer<void(...) const&>();
@@ -337,7 +337,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void(...) const volatile && noexcept>();
 
     test_remove_pointer<void(int, ...)>();
-    test_remove_pointer<void(int, ...)&>();
+    test_remove_pointer<void(int, ...) &>();
     test_remove_pointer<void(int, ...) &&>();
     test_remove_pointer<void(int, ...) const>();
     test_remove_pointer<void(int, ...) const&>();
@@ -362,7 +362,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void(int, ...) const volatile && noexcept>();
 
     test_remove_pointer<int()>();
-    test_remove_pointer<int()&>();
+    test_remove_pointer<int() &>();
     test_remove_pointer<int() &&>();
     test_remove_pointer<int() const>();
     test_remove_pointer<int() const&>();
@@ -387,7 +387,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int() const volatile && noexcept>();
 
     test_remove_pointer<int(int)>();
-    test_remove_pointer<int(int)&>();
+    test_remove_pointer<int(int) &>();
     test_remove_pointer<int(int) &&>();
     test_remove_pointer<int(int) const>();
     test_remove_pointer<int(int) const&>();
@@ -412,7 +412,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int(int) const volatile && noexcept>();
 
     test_remove_pointer<int(...)>();
-    test_remove_pointer<int(...)&>();
+    test_remove_pointer<int(...) &>();
     test_remove_pointer<int(...) &&>();
     test_remove_pointer<int(...) const>();
     test_remove_pointer<int(...) const&>();
@@ -437,7 +437,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int(...) const volatile && noexcept>();
 
     test_remove_pointer<int(int, ...)>();
-    test_remove_pointer<int(int, ...)&>();
+    test_remove_pointer<int(int, ...) &>();
     test_remove_pointer<int(int, ...) &&>();
     test_remove_pointer<int(int, ...) const>();
     test_remove_pointer<int(int, ...) const&>();
@@ -534,7 +534,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int (&&)(int, ...) noexcept>();
 
     test_remove_pointer<void (class_type::*)()>();
-    test_remove_pointer<void (class_type::*)()&>();
+    test_remove_pointer<void (class_type::*)() &>();
     test_remove_pointer<void (class_type::*)() &&>();
     test_remove_pointer<void (class_type::*)() const>();
     test_remove_pointer<void (class_type::*)() const&>();
@@ -547,7 +547,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void (class_type::*)() const && noexcept>();
 
     test_remove_pointer<void (class_type::*)(int)>();
-    test_remove_pointer<void (class_type::*)(int)&>();
+    test_remove_pointer<void (class_type::*)(int) &>();
     test_remove_pointer<void (class_type::*)(int) &&>();
     test_remove_pointer<void (class_type::*)(int) const>();
     test_remove_pointer<void (class_type::*)(int) const&>();
@@ -560,7 +560,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void (class_type::*)(int) const && noexcept>();
 
     test_remove_pointer<void (class_type::*)(...)>();
-    test_remove_pointer<void (class_type::*)(...)&>();
+    test_remove_pointer<void (class_type::*)(...) &>();
     test_remove_pointer<void (class_type::*)(...) &&>();
     test_remove_pointer<void (class_type::*)(...) const>();
     test_remove_pointer<void (class_type::*)(...) const&>();
@@ -573,7 +573,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void (class_type::*)(...) const && noexcept>();
 
     test_remove_pointer<void (class_type::*)(int, ...)>();
-    test_remove_pointer<void (class_type::*)(int, ...)&>();
+    test_remove_pointer<void (class_type::*)(int, ...) &>();
     test_remove_pointer<void (class_type::*)(int, ...) &&>();
     test_remove_pointer<void (class_type::*)(int, ...) const>();
     test_remove_pointer<void (class_type::*)(int, ...) const&>();
@@ -586,7 +586,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<void (class_type::*)(int, ...) const && noexcept>();
 
     test_remove_pointer<int (class_type::*)()>();
-    test_remove_pointer<int (class_type::*)()&>();
+    test_remove_pointer<int (class_type::*)() &>();
     test_remove_pointer<int (class_type::*)() &&>();
     test_remove_pointer<int (class_type::*)() const>();
     test_remove_pointer<int (class_type::*)() const&>();
@@ -599,7 +599,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int (class_type::*)() const && noexcept>();
 
     test_remove_pointer<int (class_type::*)(int)>();
-    test_remove_pointer<int (class_type::*)(int)&>();
+    test_remove_pointer<int (class_type::*)(int) &>();
     test_remove_pointer<int (class_type::*)(int) &&>();
     test_remove_pointer<int (class_type::*)(int) const>();
     test_remove_pointer<int (class_type::*)(int) const&>();
@@ -612,7 +612,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int (class_type::*)(int) const && noexcept>();
 
     test_remove_pointer<int (class_type::*)(...)>();
-    test_remove_pointer<int (class_type::*)(...)&>();
+    test_remove_pointer<int (class_type::*)(...) &>();
     test_remove_pointer<int (class_type::*)(...) &&>();
     test_remove_pointer<int (class_type::*)(...) const>();
     test_remove_pointer<int (class_type::*)(...) const&>();
@@ -625,7 +625,7 @@ TEST_CASE("remove_pointer")
     test_remove_pointer<int (class_type::*)(...) const && noexcept>();
 
     test_remove_pointer<int (class_type::*)(int, ...)>();
-    test_remove_pointer<int (class_type::*)(int, ...)&>();
+    test_remove_pointer<int (class_type::*)(int, ...) &>();
     test_remove_pointer<int (class_type::*)(int, ...) &&>();
     test_remove_pointer<int (class_type::*)(int, ...) const>();
     test_remove_pointer<int (class_type::*)(int, ...) const&>();

@@ -153,22 +153,22 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<char[]>();
     test_is_not_null_pointer_or_pointer<char* [3]>();
     test_is_not_null_pointer_or_pointer<char*[]>();
-    test_is_null_pointer_or_pointer<int(*)[3]>();
-    test_is_null_pointer_or_pointer<int(*)[]>();
-    test_is_not_null_pointer_or_pointer<int(&)[3]>();
-    test_is_not_null_pointer_or_pointer<int(&)[]>();
-    test_is_not_null_pointer_or_pointer<int(&&)[3]>();
-    test_is_not_null_pointer_or_pointer<int(&&)[]>();
+    test_is_null_pointer_or_pointer<int (*)[3]>();
+    test_is_null_pointer_or_pointer<int (*)[]>();
+    test_is_not_null_pointer_or_pointer<int (&)[3]>();
+    test_is_not_null_pointer_or_pointer<int (&)[]>();
+    test_is_not_null_pointer_or_pointer<int (&&)[3]>();
+    test_is_not_null_pointer_or_pointer<int (&&)[]>();
     test_is_not_null_pointer_or_pointer<char[3][2]>();
     test_is_not_null_pointer_or_pointer<char[][2]>();
     test_is_not_null_pointer_or_pointer<char* [3][2]>();
     test_is_not_null_pointer_or_pointer<char*[][2]>();
-    test_is_null_pointer_or_pointer<int(*)[3][2]>();
-    test_is_null_pointer_or_pointer<int(*)[][2]>();
-    test_is_not_null_pointer_or_pointer<int(&)[3][2]>();
-    test_is_not_null_pointer_or_pointer<int(&)[][2]>();
-    test_is_not_null_pointer_or_pointer<int(&&)[3][2]>();
-    test_is_not_null_pointer_or_pointer<int(&&)[][2]>();
+    test_is_null_pointer_or_pointer<int (*)[3][2]>();
+    test_is_null_pointer_or_pointer<int (*)[][2]>();
+    test_is_not_null_pointer_or_pointer<int (&)[3][2]>();
+    test_is_not_null_pointer_or_pointer<int (&)[][2]>();
+    test_is_not_null_pointer_or_pointer<int (&&)[3][2]>();
+    test_is_not_null_pointer_or_pointer<int (&&)[][2]>();
     test_is_not_null_pointer_or_pointer<class_type>();
     test_is_not_null_pointer_or_pointer<class_type[]>();
     test_is_not_null_pointer_or_pointer<class_type[2]>();
@@ -298,7 +298,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<trap_array_subscript>();
 
     test_is_not_null_pointer_or_pointer<void()>();
-    test_is_not_null_pointer_or_pointer<void()&>();
+    test_is_not_null_pointer_or_pointer<void() &>();
     test_is_not_null_pointer_or_pointer<void() &&>();
     test_is_not_null_pointer_or_pointer<void() const>();
     test_is_not_null_pointer_or_pointer<void() const&>();
@@ -323,7 +323,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void() const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void(int)>();
-    test_is_not_null_pointer_or_pointer<void(int)&>();
+    test_is_not_null_pointer_or_pointer<void(int) &>();
     test_is_not_null_pointer_or_pointer<void(int) &&>();
     test_is_not_null_pointer_or_pointer<void(int) const>();
     test_is_not_null_pointer_or_pointer<void(int) const&>();
@@ -348,7 +348,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void(int) const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void(...)>();
-    test_is_not_null_pointer_or_pointer<void(...)&>();
+    test_is_not_null_pointer_or_pointer<void(...) &>();
     test_is_not_null_pointer_or_pointer<void(...) &&>();
     test_is_not_null_pointer_or_pointer<void(...) const>();
     test_is_not_null_pointer_or_pointer<void(...) const&>();
@@ -373,7 +373,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void(...) const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void(int, ...)>();
-    test_is_not_null_pointer_or_pointer<void(int, ...)&>();
+    test_is_not_null_pointer_or_pointer<void(int, ...) &>();
     test_is_not_null_pointer_or_pointer<void(int, ...) &&>();
     test_is_not_null_pointer_or_pointer<void(int, ...) const>();
     test_is_not_null_pointer_or_pointer<void(int, ...) const&>();
@@ -398,7 +398,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void(int, ...) const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int()>();
-    test_is_not_null_pointer_or_pointer<int()&>();
+    test_is_not_null_pointer_or_pointer<int() &>();
     test_is_not_null_pointer_or_pointer<int() &&>();
     test_is_not_null_pointer_or_pointer<int() const>();
     test_is_not_null_pointer_or_pointer<int() const&>();
@@ -423,7 +423,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int() const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int(int)>();
-    test_is_not_null_pointer_or_pointer<int(int)&>();
+    test_is_not_null_pointer_or_pointer<int(int) &>();
     test_is_not_null_pointer_or_pointer<int(int) &&>();
     test_is_not_null_pointer_or_pointer<int(int) const>();
     test_is_not_null_pointer_or_pointer<int(int) const&>();
@@ -448,7 +448,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int(int) const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int(...)>();
-    test_is_not_null_pointer_or_pointer<int(...)&>();
+    test_is_not_null_pointer_or_pointer<int(...) &>();
     test_is_not_null_pointer_or_pointer<int(...) &&>();
     test_is_not_null_pointer_or_pointer<int(...) const>();
     test_is_not_null_pointer_or_pointer<int(...) const&>();
@@ -473,7 +473,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int(...) const volatile && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int(int, ...)>();
-    test_is_not_null_pointer_or_pointer<int(int, ...)&>();
+    test_is_not_null_pointer_or_pointer<int(int, ...) &>();
     test_is_not_null_pointer_or_pointer<int(int, ...) &&>();
     test_is_not_null_pointer_or_pointer<int(int, ...) const>();
     test_is_not_null_pointer_or_pointer<int(int, ...) const&>();
@@ -570,7 +570,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int (&&)(int, ...) noexcept>();
 
     test_is_not_null_pointer_or_pointer<void (class_type::*)()>();
-    test_is_not_null_pointer_or_pointer<void (class_type::*)()&>();
+    test_is_not_null_pointer_or_pointer<void (class_type::*)() &>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)() &&>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)() const>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)() const&>();
@@ -583,7 +583,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void (class_type::*)() const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int)>();
-    test_is_not_null_pointer_or_pointer<void (class_type::*)(int)&>();
+    test_is_not_null_pointer_or_pointer<void (class_type::*)(int) &>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int) &&>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int) const>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int) const&>();
@@ -596,7 +596,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void (class_type::*)(...)>();
-    test_is_not_null_pointer_or_pointer<void (class_type::*)(...)&>();
+    test_is_not_null_pointer_or_pointer<void (class_type::*)(...) &>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(...) &&>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(...) const>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(...) const&>();
@@ -609,7 +609,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...)>();
-    test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...)&>();
+    test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...) &>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...) &&>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...) const>();
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...) const&>();
@@ -622,7 +622,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int (class_type::*)()>();
-    test_is_not_null_pointer_or_pointer<int (class_type::*)()&>();
+    test_is_not_null_pointer_or_pointer<int (class_type::*)() &>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)() &&>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)() const>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)() const&>();
@@ -635,7 +635,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int (class_type::*)() const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int)>();
-    test_is_not_null_pointer_or_pointer<int (class_type::*)(int)&>();
+    test_is_not_null_pointer_or_pointer<int (class_type::*)(int) &>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int) &&>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int) const>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int) const&>();
@@ -648,7 +648,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int (class_type::*)(...)>();
-    test_is_not_null_pointer_or_pointer<int (class_type::*)(...)&>();
+    test_is_not_null_pointer_or_pointer<int (class_type::*)(...) &>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(...) &&>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(...) const>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(...) const&>();
@@ -661,7 +661,7 @@ TEST_CASE("is_null_pointer_or_pointer")
     test_is_not_null_pointer_or_pointer<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...)>();
-    test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...)&>();
+    test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...) &>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...) &&>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...) const>();
     test_is_not_null_pointer_or_pointer<int (class_type::*)(int, ...) const&>();

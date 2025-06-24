@@ -3,6 +3,7 @@
 #include "test_types.hpp"
 #include "type_traits_helper.hpp"
 #include <phi/compiler_support/char8_t.hpp>
+#include <phi/compiler_support/warning.hpp>
 #include <phi/core/boolean.hpp>
 #include <phi/core/floating_point.hpp>
 #include <phi/core/integer.hpp>
@@ -11,6 +12,9 @@
 #include <phi/type_traits/is_trivial.hpp>
 #include <type_traits>
 #include <vector>
+
+// NOTE: std::is_trivial is deprecated since C++-26
+// See: https://en.cppreference.com/w/cpp/types/is_trivial.html
 
 template <typename TypeT>
 void test_is_trivial_impl()
@@ -28,7 +32,9 @@ void test_is_trivial_impl()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
     STATIC_REQUIRE(std::is_trivial<TypeT>::value);
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 #endif
 }
 
@@ -48,7 +54,9 @@ void test_is_not_trivial_impl()
     TEST_TYPE_TRAITS_TYPE_DEFS(phi::is_not_trivial<TypeT>);
 
     // Standard compatibility
+    PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
     STATIC_REQUIRE_FALSE(std::is_trivial<TypeT>::value);
+    PHI_CLANG_SUPPRESS_WARNING_POP()
 #endif
 }
 
@@ -193,12 +201,12 @@ TEST_CASE("is_trivial")
 #else
     test_is_trivial<char*[]>();
 #endif
-    test_is_trivial<int(*)[3]>();
-    test_is_trivial<int(*)[]>();
-    test_is_not_trivial<int(&)[3]>();
-    test_is_not_trivial<int(&)[]>();
-    test_is_not_trivial<int(&&)[3]>();
-    test_is_not_trivial<int(&&)[]>();
+    test_is_trivial<int (*)[3]>();
+    test_is_trivial<int (*)[]>();
+    test_is_not_trivial<int (&)[3]>();
+    test_is_not_trivial<int (&)[]>();
+    test_is_not_trivial<int (&&)[3]>();
+    test_is_not_trivial<int (&&)[]>();
     test_is_trivial<char[3][2]>();
 #if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK();
@@ -211,12 +219,12 @@ TEST_CASE("is_trivial")
 #else
     test_is_trivial<char*[][2]>();
 #endif
-    test_is_trivial<int(*)[3][2]>();
-    test_is_trivial<int(*)[][2]>();
-    test_is_not_trivial<int(&)[3][2]>();
-    test_is_not_trivial<int(&)[][2]>();
-    test_is_not_trivial<int(&&)[3][2]>();
-    test_is_not_trivial<int(&&)[][2]>();
+    test_is_trivial<int (*)[3][2]>();
+    test_is_trivial<int (*)[][2]>();
+    test_is_not_trivial<int (&)[3][2]>();
+    test_is_not_trivial<int (&)[][2]>();
+    test_is_not_trivial<int (&&)[3][2]>();
+    test_is_not_trivial<int (&&)[][2]>();
     test_is_not_trivial<class_type>();
     test_is_not_trivial<class_type[]>();
     test_is_not_trivial<class_type[2]>();
@@ -361,7 +369,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<trap_array_subscript>();
 
     test_is_not_trivial<void()>();
-    test_is_not_trivial<void()&>();
+    test_is_not_trivial<void() &>();
     test_is_not_trivial<void() &&>();
     test_is_not_trivial<void() const>();
     test_is_not_trivial<void() const&>();
@@ -386,7 +394,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<void() const volatile && noexcept>();
 
     test_is_not_trivial<void(int)>();
-    test_is_not_trivial<void(int)&>();
+    test_is_not_trivial<void(int) &>();
     test_is_not_trivial<void(int) &&>();
     test_is_not_trivial<void(int) const>();
     test_is_not_trivial<void(int) const&>();
@@ -411,7 +419,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<void(int) const volatile && noexcept>();
 
     test_is_not_trivial<void(...)>();
-    test_is_not_trivial<void(...)&>();
+    test_is_not_trivial<void(...) &>();
     test_is_not_trivial<void(...) &&>();
     test_is_not_trivial<void(...) const>();
     test_is_not_trivial<void(...) const&>();
@@ -436,7 +444,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<void(...) const volatile && noexcept>();
 
     test_is_not_trivial<void(int, ...)>();
-    test_is_not_trivial<void(int, ...)&>();
+    test_is_not_trivial<void(int, ...) &>();
     test_is_not_trivial<void(int, ...) &&>();
     test_is_not_trivial<void(int, ...) const>();
     test_is_not_trivial<void(int, ...) const&>();
@@ -461,7 +469,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<void(int, ...) const volatile && noexcept>();
 
     test_is_not_trivial<int()>();
-    test_is_not_trivial<int()&>();
+    test_is_not_trivial<int() &>();
     test_is_not_trivial<int() &&>();
     test_is_not_trivial<int() const>();
     test_is_not_trivial<int() const&>();
@@ -486,7 +494,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int() const volatile && noexcept>();
 
     test_is_not_trivial<int(int)>();
-    test_is_not_trivial<int(int)&>();
+    test_is_not_trivial<int(int) &>();
     test_is_not_trivial<int(int) &&>();
     test_is_not_trivial<int(int) const>();
     test_is_not_trivial<int(int) const&>();
@@ -511,7 +519,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int(int) const volatile && noexcept>();
 
     test_is_not_trivial<int(...)>();
-    test_is_not_trivial<int(...)&>();
+    test_is_not_trivial<int(...) &>();
     test_is_not_trivial<int(...) &&>();
     test_is_not_trivial<int(...) const>();
     test_is_not_trivial<int(...) const&>();
@@ -536,7 +544,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int(...) const volatile && noexcept>();
 
     test_is_not_trivial<int(int, ...)>();
-    test_is_not_trivial<int(int, ...)&>();
+    test_is_not_trivial<int(int, ...) &>();
     test_is_not_trivial<int(int, ...) &&>();
     test_is_not_trivial<int(int, ...) const>();
     test_is_not_trivial<int(int, ...) const&>();
@@ -633,7 +641,7 @@ TEST_CASE("is_trivial")
     test_is_not_trivial<int (&&)(int, ...) noexcept>();
 
     test_is_trivial<void (class_type::*)()>();
-    test_is_trivial<void (class_type::*)()&>();
+    test_is_trivial<void (class_type::*)() &>();
     test_is_trivial<void (class_type::*)() &&>();
     test_is_trivial<void (class_type::*)() const>();
     test_is_trivial<void (class_type::*)() const&>();
@@ -646,7 +654,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (class_type::*)() const && noexcept>();
 
     test_is_trivial<void (class_type::*)(int)>();
-    test_is_trivial<void (class_type::*)(int)&>();
+    test_is_trivial<void (class_type::*)(int) &>();
     test_is_trivial<void (class_type::*)(int) &&>();
     test_is_trivial<void (class_type::*)(int) const>();
     test_is_trivial<void (class_type::*)(int) const&>();
@@ -659,7 +667,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (class_type::*)(int) const && noexcept>();
 
     test_is_trivial<void (class_type::*)(...)>();
-    test_is_trivial<void (class_type::*)(...)&>();
+    test_is_trivial<void (class_type::*)(...) &>();
     test_is_trivial<void (class_type::*)(...) &&>();
     test_is_trivial<void (class_type::*)(...) const>();
     test_is_trivial<void (class_type::*)(...) const&>();
@@ -672,7 +680,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (class_type::*)(...) const && noexcept>();
 
     test_is_trivial<void (class_type::*)(int, ...)>();
-    test_is_trivial<void (class_type::*)(int, ...)&>();
+    test_is_trivial<void (class_type::*)(int, ...) &>();
     test_is_trivial<void (class_type::*)(int, ...) &&>();
     test_is_trivial<void (class_type::*)(int, ...) const>();
     test_is_trivial<void (class_type::*)(int, ...) const&>();
@@ -685,7 +693,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_trivial<int (class_type::*)()>();
-    test_is_trivial<int (class_type::*)()&>();
+    test_is_trivial<int (class_type::*)() &>();
     test_is_trivial<int (class_type::*)() &&>();
     test_is_trivial<int (class_type::*)() const>();
     test_is_trivial<int (class_type::*)() const&>();
@@ -698,7 +706,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<int (class_type::*)() const && noexcept>();
 
     test_is_trivial<int (class_type::*)(int)>();
-    test_is_trivial<int (class_type::*)(int)&>();
+    test_is_trivial<int (class_type::*)(int) &>();
     test_is_trivial<int (class_type::*)(int) &&>();
     test_is_trivial<int (class_type::*)(int) const>();
     test_is_trivial<int (class_type::*)(int) const&>();
@@ -711,7 +719,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<int (class_type::*)(int) const && noexcept>();
 
     test_is_trivial<int (class_type::*)(...)>();
-    test_is_trivial<int (class_type::*)(...)&>();
+    test_is_trivial<int (class_type::*)(...) &>();
     test_is_trivial<int (class_type::*)(...) &&>();
     test_is_trivial<int (class_type::*)(...) const>();
     test_is_trivial<int (class_type::*)(...) const&>();
@@ -724,7 +732,7 @@ TEST_CASE("is_trivial")
     test_is_trivial<int (class_type::*)(...) const && noexcept>();
 
     test_is_trivial<int (class_type::*)(int, ...)>();
-    test_is_trivial<int (class_type::*)(int, ...)&>();
+    test_is_trivial<int (class_type::*)(int, ...) &>();
     test_is_trivial<int (class_type::*)(int, ...) &&>();
     test_is_trivial<int (class_type::*)(int, ...) const>();
     test_is_trivial<int (class_type::*)(int, ...) const&>();

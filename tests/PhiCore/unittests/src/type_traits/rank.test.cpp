@@ -134,22 +134,22 @@ TEST_CASE("rank")
     test_rank<char[], 1>();
     test_rank<char* [3], 1>();
     test_rank<char*[], 1>();
-    test_rank<int(*)[3]>();
-    test_rank<int(*)[]>();
-    test_rank<int(&)[3]>();
-    test_rank<int(&)[]>();
-    test_rank<int(&&)[3]>();
-    test_rank<int(&&)[]>();
+    test_rank<int (*)[3]>();
+    test_rank<int (*)[]>();
+    test_rank<int (&)[3]>();
+    test_rank<int (&)[]>();
+    test_rank<int (&&)[3]>();
+    test_rank<int (&&)[]>();
     test_rank<char[3][2], 2>();
     test_rank<char[][2], 2>();
     test_rank<char* [3][2], 2>();
     test_rank<char*[][2], 2>();
-    test_rank<int(*)[3][2]>();
-    test_rank<int(*)[][2]>();
-    test_rank<int(&)[3][2]>();
-    test_rank<int(&)[][2]>();
-    test_rank<int(&&)[3][2]>();
-    test_rank<int(&&)[][2]>();
+    test_rank<int (*)[3][2]>();
+    test_rank<int (*)[][2]>();
+    test_rank<int (&)[3][2]>();
+    test_rank<int (&)[][2]>();
+    test_rank<int (&&)[3][2]>();
+    test_rank<int (&&)[][2]>();
     test_rank<class_type>();
     test_rank<class_type[], 1>();
     test_rank<class_type[2], 1>();
@@ -276,7 +276,7 @@ TEST_CASE("rank")
     test_rank<trap_array_subscript>();
 
     test_rank<void()>();
-    test_rank<void()&>();
+    test_rank<void() &>();
     test_rank<void() &&>();
     test_rank<void() const>();
     test_rank<void() const&>();
@@ -301,7 +301,7 @@ TEST_CASE("rank")
     test_rank<void() const volatile && noexcept>();
 
     test_rank<void(int)>();
-    test_rank<void(int)&>();
+    test_rank<void(int) &>();
     test_rank<void(int) &&>();
     test_rank<void(int) const>();
     test_rank<void(int) const&>();
@@ -326,7 +326,7 @@ TEST_CASE("rank")
     test_rank<void(int) const volatile && noexcept>();
 
     test_rank<void(...)>();
-    test_rank<void(...)&>();
+    test_rank<void(...) &>();
     test_rank<void(...) &&>();
     test_rank<void(...) const>();
     test_rank<void(...) const&>();
@@ -351,7 +351,7 @@ TEST_CASE("rank")
     test_rank<void(...) const volatile && noexcept>();
 
     test_rank<void(int, ...)>();
-    test_rank<void(int, ...)&>();
+    test_rank<void(int, ...) &>();
     test_rank<void(int, ...) &&>();
     test_rank<void(int, ...) const>();
     test_rank<void(int, ...) const&>();
@@ -376,7 +376,7 @@ TEST_CASE("rank")
     test_rank<void(int, ...) const volatile && noexcept>();
 
     test_rank<int()>();
-    test_rank<int()&>();
+    test_rank<int() &>();
     test_rank<int() &&>();
     test_rank<int() const>();
     test_rank<int() const&>();
@@ -401,7 +401,7 @@ TEST_CASE("rank")
     test_rank<int() const volatile && noexcept>();
 
     test_rank<int(int)>();
-    test_rank<int(int)&>();
+    test_rank<int(int) &>();
     test_rank<int(int) &&>();
     test_rank<int(int) const>();
     test_rank<int(int) const&>();
@@ -426,7 +426,7 @@ TEST_CASE("rank")
     test_rank<int(int) const volatile && noexcept>();
 
     test_rank<int(...)>();
-    test_rank<int(...)&>();
+    test_rank<int(...) &>();
     test_rank<int(...) &&>();
     test_rank<int(...) const>();
     test_rank<int(...) const&>();
@@ -451,7 +451,7 @@ TEST_CASE("rank")
     test_rank<int(...) const volatile && noexcept>();
 
     test_rank<int(int, ...)>();
-    test_rank<int(int, ...)&>();
+    test_rank<int(int, ...) &>();
     test_rank<int(int, ...) &&>();
     test_rank<int(int, ...) const>();
     test_rank<int(int, ...) const&>();
@@ -548,7 +548,7 @@ TEST_CASE("rank")
     test_rank<int (&&)(int, ...) noexcept>();
 
     test_rank<void (class_type::*)()>();
-    test_rank<void (class_type::*)()&>();
+    test_rank<void (class_type::*)() &>();
     test_rank<void (class_type::*)() &&>();
     test_rank<void (class_type::*)() const>();
     test_rank<void (class_type::*)() const&>();
@@ -561,7 +561,7 @@ TEST_CASE("rank")
     test_rank<void (class_type::*)() const && noexcept>();
 
     test_rank<void (class_type::*)(int)>();
-    test_rank<void (class_type::*)(int)&>();
+    test_rank<void (class_type::*)(int) &>();
     test_rank<void (class_type::*)(int) &&>();
     test_rank<void (class_type::*)(int) const>();
     test_rank<void (class_type::*)(int) const&>();
@@ -574,7 +574,7 @@ TEST_CASE("rank")
     test_rank<void (class_type::*)(int) const && noexcept>();
 
     test_rank<void (class_type::*)(...)>();
-    test_rank<void (class_type::*)(...)&>();
+    test_rank<void (class_type::*)(...) &>();
     test_rank<void (class_type::*)(...) &&>();
     test_rank<void (class_type::*)(...) const>();
     test_rank<void (class_type::*)(...) const&>();
@@ -587,7 +587,7 @@ TEST_CASE("rank")
     test_rank<void (class_type::*)(...) const && noexcept>();
 
     test_rank<void (class_type::*)(int, ...)>();
-    test_rank<void (class_type::*)(int, ...)&>();
+    test_rank<void (class_type::*)(int, ...) &>();
     test_rank<void (class_type::*)(int, ...) &&>();
     test_rank<void (class_type::*)(int, ...) const>();
     test_rank<void (class_type::*)(int, ...) const&>();
@@ -600,7 +600,7 @@ TEST_CASE("rank")
     test_rank<void (class_type::*)(int, ...) const && noexcept>();
 
     test_rank<int (class_type::*)()>();
-    test_rank<int (class_type::*)()&>();
+    test_rank<int (class_type::*)() &>();
     test_rank<int (class_type::*)() &&>();
     test_rank<int (class_type::*)() const>();
     test_rank<int (class_type::*)() const&>();
@@ -613,7 +613,7 @@ TEST_CASE("rank")
     test_rank<int (class_type::*)() const && noexcept>();
 
     test_rank<int (class_type::*)(int)>();
-    test_rank<int (class_type::*)(int)&>();
+    test_rank<int (class_type::*)(int) &>();
     test_rank<int (class_type::*)(int) &&>();
     test_rank<int (class_type::*)(int) const>();
     test_rank<int (class_type::*)(int) const&>();
@@ -626,7 +626,7 @@ TEST_CASE("rank")
     test_rank<int (class_type::*)(int) const && noexcept>();
 
     test_rank<int (class_type::*)(...)>();
-    test_rank<int (class_type::*)(...)&>();
+    test_rank<int (class_type::*)(...) &>();
     test_rank<int (class_type::*)(...) &&>();
     test_rank<int (class_type::*)(...) const>();
     test_rank<int (class_type::*)(...) const&>();
@@ -639,7 +639,7 @@ TEST_CASE("rank")
     test_rank<int (class_type::*)(...) const && noexcept>();
 
     test_rank<int (class_type::*)(int, ...)>();
-    test_rank<int (class_type::*)(int, ...)&>();
+    test_rank<int (class_type::*)(int, ...) &>();
     test_rank<int (class_type::*)(int, ...) &&>();
     test_rank<int (class_type::*)(int, ...) const>();
     test_rank<int (class_type::*)(int, ...) const&>();

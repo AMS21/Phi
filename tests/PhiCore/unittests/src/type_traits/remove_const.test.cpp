@@ -101,22 +101,22 @@ TEST_CASE("remove_const")
     test_remove_const<char[]>();
     test_remove_const<char* [3]>();
     test_remove_const<char*[]>();
-    test_remove_const<int(*)[3]>();
-    test_remove_const<int(*)[]>();
-    test_remove_const<int(&)[3]>();
-    test_remove_const<int(&)[]>();
-    test_remove_const<int(&&)[3]>();
-    test_remove_const<int(&&)[]>();
+    test_remove_const<int (*)[3]>();
+    test_remove_const<int (*)[]>();
+    test_remove_const<int (&)[3]>();
+    test_remove_const<int (&)[]>();
+    test_remove_const<int (&&)[3]>();
+    test_remove_const<int (&&)[]>();
     test_remove_const<char[3][2]>();
     test_remove_const<char[][2]>();
     test_remove_const<char* [3][2]>();
     test_remove_const<char*[][2]>();
-    test_remove_const<int(*)[3][2]>();
-    test_remove_const<int(*)[][2]>();
-    test_remove_const<int(&)[3][2]>();
-    test_remove_const<int(&)[][2]>();
-    test_remove_const<int(&&)[3][2]>();
-    test_remove_const<int(&&)[][2]>();
+    test_remove_const<int (*)[3][2]>();
+    test_remove_const<int (*)[][2]>();
+    test_remove_const<int (&)[3][2]>();
+    test_remove_const<int (&)[][2]>();
+    test_remove_const<int (&&)[3][2]>();
+    test_remove_const<int (&&)[][2]>();
     test_remove_const<class_type>();
     test_remove_const<class_type[]>();
     test_remove_const<class_type[2]>();
@@ -243,7 +243,7 @@ TEST_CASE("remove_const")
     test_remove_const<trap_array_subscript>();
 
     test_remove_const<void()>();
-    test_remove_const<void()&>();
+    test_remove_const<void() &>();
     test_remove_const<void() &&>();
     test_remove_const<void() const>();
     test_remove_const<void() const&>();
@@ -268,7 +268,7 @@ TEST_CASE("remove_const")
     test_remove_const<void() const volatile && noexcept>();
 
     test_remove_const<void(int)>();
-    test_remove_const<void(int)&>();
+    test_remove_const<void(int) &>();
     test_remove_const<void(int) &&>();
     test_remove_const<void(int) const>();
     test_remove_const<void(int) const&>();
@@ -293,7 +293,7 @@ TEST_CASE("remove_const")
     test_remove_const<void(int) const volatile && noexcept>();
 
     test_remove_const<void(...)>();
-    test_remove_const<void(...)&>();
+    test_remove_const<void(...) &>();
     test_remove_const<void(...) &&>();
     test_remove_const<void(...) const>();
     test_remove_const<void(...) const&>();
@@ -318,7 +318,7 @@ TEST_CASE("remove_const")
     test_remove_const<void(...) const volatile && noexcept>();
 
     test_remove_const<void(int, ...)>();
-    test_remove_const<void(int, ...)&>();
+    test_remove_const<void(int, ...) &>();
     test_remove_const<void(int, ...) &&>();
     test_remove_const<void(int, ...) const>();
     test_remove_const<void(int, ...) const&>();
@@ -343,7 +343,7 @@ TEST_CASE("remove_const")
     test_remove_const<void(int, ...) const volatile && noexcept>();
 
     test_remove_const<int()>();
-    test_remove_const<int()&>();
+    test_remove_const<int() &>();
     test_remove_const<int() &&>();
     test_remove_const<int() const>();
     test_remove_const<int() const&>();
@@ -368,7 +368,7 @@ TEST_CASE("remove_const")
     test_remove_const<int() const volatile && noexcept>();
 
     test_remove_const<int(int)>();
-    test_remove_const<int(int)&>();
+    test_remove_const<int(int) &>();
     test_remove_const<int(int) &&>();
     test_remove_const<int(int) const>();
     test_remove_const<int(int) const&>();
@@ -393,7 +393,7 @@ TEST_CASE("remove_const")
     test_remove_const<int(int) const volatile && noexcept>();
 
     test_remove_const<int(...)>();
-    test_remove_const<int(...)&>();
+    test_remove_const<int(...) &>();
     test_remove_const<int(...) &&>();
     test_remove_const<int(...) const>();
     test_remove_const<int(...) const&>();
@@ -418,7 +418,7 @@ TEST_CASE("remove_const")
     test_remove_const<int(...) const volatile && noexcept>();
 
     test_remove_const<int(int, ...)>();
-    test_remove_const<int(int, ...)&>();
+    test_remove_const<int(int, ...) &>();
     test_remove_const<int(int, ...) &&>();
     test_remove_const<int(int, ...) const>();
     test_remove_const<int(int, ...) const&>();
@@ -515,7 +515,7 @@ TEST_CASE("remove_const")
     test_remove_const<int (&&)(int, ...) noexcept>();
 
     test_remove_const<void (class_type::*)()>();
-    test_remove_const<void (class_type::*)()&>();
+    test_remove_const<void (class_type::*)() &>();
     test_remove_const<void (class_type::*)() &&>();
     test_remove_const<void (class_type::*)() const>();
     test_remove_const<void (class_type::*)() const&>();
@@ -528,7 +528,7 @@ TEST_CASE("remove_const")
     test_remove_const<void (class_type::*)() const && noexcept>();
 
     test_remove_const<void (class_type::*)(int)>();
-    test_remove_const<void (class_type::*)(int)&>();
+    test_remove_const<void (class_type::*)(int) &>();
     test_remove_const<void (class_type::*)(int) &&>();
     test_remove_const<void (class_type::*)(int) const>();
     test_remove_const<void (class_type::*)(int) const&>();
@@ -541,7 +541,7 @@ TEST_CASE("remove_const")
     test_remove_const<void (class_type::*)(int) const && noexcept>();
 
     test_remove_const<void (class_type::*)(...)>();
-    test_remove_const<void (class_type::*)(...)&>();
+    test_remove_const<void (class_type::*)(...) &>();
     test_remove_const<void (class_type::*)(...) &&>();
     test_remove_const<void (class_type::*)(...) const>();
     test_remove_const<void (class_type::*)(...) const&>();
@@ -554,7 +554,7 @@ TEST_CASE("remove_const")
     test_remove_const<void (class_type::*)(...) const && noexcept>();
 
     test_remove_const<void (class_type::*)(int, ...)>();
-    test_remove_const<void (class_type::*)(int, ...)&>();
+    test_remove_const<void (class_type::*)(int, ...) &>();
     test_remove_const<void (class_type::*)(int, ...) &&>();
     test_remove_const<void (class_type::*)(int, ...) const>();
     test_remove_const<void (class_type::*)(int, ...) const&>();
@@ -567,7 +567,7 @@ TEST_CASE("remove_const")
     test_remove_const<void (class_type::*)(int, ...) const && noexcept>();
 
     test_remove_const<int (class_type::*)()>();
-    test_remove_const<int (class_type::*)()&>();
+    test_remove_const<int (class_type::*)() &>();
     test_remove_const<int (class_type::*)() &&>();
     test_remove_const<int (class_type::*)() const>();
     test_remove_const<int (class_type::*)() const&>();
@@ -580,7 +580,7 @@ TEST_CASE("remove_const")
     test_remove_const<int (class_type::*)() const && noexcept>();
 
     test_remove_const<int (class_type::*)(int)>();
-    test_remove_const<int (class_type::*)(int)&>();
+    test_remove_const<int (class_type::*)(int) &>();
     test_remove_const<int (class_type::*)(int) &&>();
     test_remove_const<int (class_type::*)(int) const>();
     test_remove_const<int (class_type::*)(int) const&>();
@@ -593,7 +593,7 @@ TEST_CASE("remove_const")
     test_remove_const<int (class_type::*)(int) const && noexcept>();
 
     test_remove_const<int (class_type::*)(...)>();
-    test_remove_const<int (class_type::*)(...)&>();
+    test_remove_const<int (class_type::*)(...) &>();
     test_remove_const<int (class_type::*)(...) &&>();
     test_remove_const<int (class_type::*)(...) const>();
     test_remove_const<int (class_type::*)(...) const&>();
@@ -606,7 +606,7 @@ TEST_CASE("remove_const")
     test_remove_const<int (class_type::*)(...) const && noexcept>();
 
     test_remove_const<int (class_type::*)(int, ...)>();
-    test_remove_const<int (class_type::*)(int, ...)&>();
+    test_remove_const<int (class_type::*)(int, ...) &>();
     test_remove_const<int (class_type::*)(int, ...) &&>();
     test_remove_const<int (class_type::*)(int, ...) const>();
     test_remove_const<int (class_type::*)(int, ...) const&>();

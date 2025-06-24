@@ -104,22 +104,22 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<char[]>();
     test_add_cv<char* [3]>();
     test_add_cv<char*[]>();
-    test_add_cv<int(*)[3]>();
-    test_add_cv<int(*)[]>();
-    test_add_cv<int(&)[3]>();
-    test_add_cv<int(&)[]>();
-    test_add_cv<int(&&)[3]>();
-    test_add_cv<int(&&)[]>();
+    test_add_cv<int (*)[3]>();
+    test_add_cv<int (*)[]>();
+    test_add_cv<int (&)[3]>();
+    test_add_cv<int (&)[]>();
+    test_add_cv<int (&&)[3]>();
+    test_add_cv<int (&&)[]>();
     test_add_cv<char[3][2]>();
     test_add_cv<char[][2]>();
     test_add_cv<char* [3][2]>();
     test_add_cv<char*[][2]>();
-    test_add_cv<int(*)[3][2]>();
-    test_add_cv<int(*)[][2]>();
-    test_add_cv<int(&)[3][2]>();
-    test_add_cv<int(&)[][2]>();
-    test_add_cv<int(&&)[3][2]>();
-    test_add_cv<int(&&)[][2]>();
+    test_add_cv<int (*)[3][2]>();
+    test_add_cv<int (*)[][2]>();
+    test_add_cv<int (&)[3][2]>();
+    test_add_cv<int (&)[][2]>();
+    test_add_cv<int (&&)[3][2]>();
+    test_add_cv<int (&&)[][2]>();
     test_add_cv<class_type>();
     test_add_cv<class_type[]>();
     test_add_cv<class_type[2]>();
@@ -324,7 +324,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<trap_array_subscript>();
 
     test_add_cv<void()>();
-    test_add_cv<void()&>();
+    test_add_cv<void() &>();
     test_add_cv<void() &&>();
     test_add_cv<void() const>();
     test_add_cv<void() const&>();
@@ -349,7 +349,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void() const volatile && noexcept>();
 
     test_add_cv<void(int)>();
-    test_add_cv<void(int)&>();
+    test_add_cv<void(int) &>();
     test_add_cv<void(int) &&>();
     test_add_cv<void(int) const>();
     test_add_cv<void(int) const&>();
@@ -374,7 +374,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void(int) const volatile && noexcept>();
 
     test_add_cv<void(...)>();
-    test_add_cv<void(...)&>();
+    test_add_cv<void(...) &>();
     test_add_cv<void(...) &&>();
     test_add_cv<void(...) const>();
     test_add_cv<void(...) const&>();
@@ -399,7 +399,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void(...) const volatile && noexcept>();
 
     test_add_cv<void(int, ...)>();
-    test_add_cv<void(int, ...)&>();
+    test_add_cv<void(int, ...) &>();
     test_add_cv<void(int, ...) &&>();
     test_add_cv<void(int, ...) const>();
     test_add_cv<void(int, ...) const&>();
@@ -424,7 +424,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void(int, ...) const volatile && noexcept>();
 
     test_add_cv<int()>();
-    test_add_cv<int()&>();
+    test_add_cv<int() &>();
     test_add_cv<int() &&>();
     test_add_cv<int() const>();
     test_add_cv<int() const&>();
@@ -449,7 +449,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int() const volatile && noexcept>();
 
     test_add_cv<int(int)>();
-    test_add_cv<int(int)&>();
+    test_add_cv<int(int) &>();
     test_add_cv<int(int) &&>();
     test_add_cv<int(int) const>();
     test_add_cv<int(int) const&>();
@@ -474,7 +474,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int(int) const volatile && noexcept>();
 
     test_add_cv<int(...)>();
-    test_add_cv<int(...)&>();
+    test_add_cv<int(...) &>();
     test_add_cv<int(...) &&>();
     test_add_cv<int(...) const>();
     test_add_cv<int(...) const&>();
@@ -499,7 +499,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int(...) const volatile && noexcept>();
 
     test_add_cv<int(int, ...)>();
-    test_add_cv<int(int, ...)&>();
+    test_add_cv<int(int, ...) &>();
     test_add_cv<int(int, ...) &&>();
     test_add_cv<int(int, ...) const>();
     test_add_cv<int(int, ...) const&>();
@@ -596,7 +596,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int (&&)(int, ...) noexcept>();
 
     test_add_cv<void (class_type::*)()>();
-    test_add_cv<void (class_type::*)()&>();
+    test_add_cv<void (class_type::*)() &>();
     test_add_cv<void (class_type::*)() &&>();
     test_add_cv<void (class_type::*)() const>();
     test_add_cv<void (class_type::*)() const&>();
@@ -609,7 +609,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void (class_type::*)() const && noexcept>();
 
     test_add_cv<void (class_type::*)(int)>();
-    test_add_cv<void (class_type::*)(int)&>();
+    test_add_cv<void (class_type::*)(int) &>();
     test_add_cv<void (class_type::*)(int) &&>();
     test_add_cv<void (class_type::*)(int) const>();
     test_add_cv<void (class_type::*)(int) const&>();
@@ -622,7 +622,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void (class_type::*)(int) const && noexcept>();
 
     test_add_cv<void (class_type::*)(...)>();
-    test_add_cv<void (class_type::*)(...)&>();
+    test_add_cv<void (class_type::*)(...) &>();
     test_add_cv<void (class_type::*)(...) &&>();
     test_add_cv<void (class_type::*)(...) const>();
     test_add_cv<void (class_type::*)(...) const&>();
@@ -635,7 +635,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void (class_type::*)(...) const && noexcept>();
 
     test_add_cv<void (class_type::*)(int, ...)>();
-    test_add_cv<void (class_type::*)(int, ...)&>();
+    test_add_cv<void (class_type::*)(int, ...) &>();
     test_add_cv<void (class_type::*)(int, ...) &&>();
     test_add_cv<void (class_type::*)(int, ...) const>();
     test_add_cv<void (class_type::*)(int, ...) const&>();
@@ -648,7 +648,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<void (class_type::*)(int, ...) const && noexcept>();
 
     test_add_cv<int (class_type::*)()>();
-    test_add_cv<int (class_type::*)()&>();
+    test_add_cv<int (class_type::*)() &>();
     test_add_cv<int (class_type::*)() &&>();
     test_add_cv<int (class_type::*)() const>();
     test_add_cv<int (class_type::*)() const&>();
@@ -661,7 +661,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int (class_type::*)() const && noexcept>();
 
     test_add_cv<int (class_type::*)(int)>();
-    test_add_cv<int (class_type::*)(int)&>();
+    test_add_cv<int (class_type::*)(int) &>();
     test_add_cv<int (class_type::*)(int) &&>();
     test_add_cv<int (class_type::*)(int) const>();
     test_add_cv<int (class_type::*)(int) const&>();
@@ -674,7 +674,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int (class_type::*)(int) const && noexcept>();
 
     test_add_cv<int (class_type::*)(...)>();
-    test_add_cv<int (class_type::*)(...)&>();
+    test_add_cv<int (class_type::*)(...) &>();
     test_add_cv<int (class_type::*)(...) &&>();
     test_add_cv<int (class_type::*)(...) const>();
     test_add_cv<int (class_type::*)(...) const&>();
@@ -687,7 +687,7 @@ TEST_CASE("type_traits.add_cv")
     test_add_cv<int (class_type::*)(...) const && noexcept>();
 
     test_add_cv<int (class_type::*)(int, ...)>();
-    test_add_cv<int (class_type::*)(int, ...)&>();
+    test_add_cv<int (class_type::*)(int, ...) &>();
     test_add_cv<int (class_type::*)(int, ...) &&>();
     test_add_cv<int (class_type::*)(int, ...) const>();
     test_add_cv<int (class_type::*)(int, ...) const&>();

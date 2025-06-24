@@ -16,13 +16,13 @@ concurrency:
 
 jobs:
   clang-format:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
 
     env:
-      LLVM_VERSION: 19
+      LLVM_VERSION: 20
 
     steps:
       - name: Checkout
@@ -45,7 +45,7 @@ jobs:
           fi
 
   cmake-format:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -76,7 +76,7 @@ jobs:
           fi
 
   spacing:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -110,7 +110,7 @@ jobs:
           fi
 
   encoding:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -140,7 +140,7 @@ jobs:
           fi
 
   misspell:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -166,7 +166,7 @@ jobs:
           level: warning
 
   yamllint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -192,7 +192,7 @@ jobs:
           level: warning
 
   markdownlint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -217,7 +217,7 @@ jobs:
           level: warning
 
   remark-lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -242,7 +242,7 @@ jobs:
           level: warning
 
   languagetool:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -267,7 +267,7 @@ jobs:
           level: warning
 
   alex:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -292,7 +292,7 @@ jobs:
           level: warning
 
   redpen:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -317,7 +317,7 @@ jobs:
           level: warning
 
   shfmt:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -333,7 +333,7 @@ jobs:
           level: warning
 
   actionlint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'

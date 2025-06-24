@@ -180,22 +180,22 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<char[]>();
     test_is_same_rcv<char* [3]>();
     test_is_same_rcv<char*[]>();
-    test_is_same_rcv<int(*)[3]>();
-    test_is_same_rcv<int(*)[]>();
-    test_is_same_rcv<int(&)[3]>();
-    test_is_same_rcv<int(&)[]>();
-    test_is_same_rcv<int(&&)[3]>();
-    test_is_same_rcv<int(&&)[]>();
+    test_is_same_rcv<int (*)[3]>();
+    test_is_same_rcv<int (*)[]>();
+    test_is_same_rcv<int (&)[3]>();
+    test_is_same_rcv<int (&)[]>();
+    test_is_same_rcv<int (&&)[3]>();
+    test_is_same_rcv<int (&&)[]>();
     test_is_same_rcv<char[3][2]>();
     test_is_same_rcv<char[][2]>();
     test_is_same_rcv<char* [3][2]>();
     test_is_same_rcv<char*[][2]>();
-    test_is_same_rcv<int(*)[3][2]>();
-    test_is_same_rcv<int(*)[][2]>();
-    test_is_same_rcv<int(&)[3][2]>();
-    test_is_same_rcv<int(&)[][2]>();
-    test_is_same_rcv<int(&&)[3][2]>();
-    test_is_same_rcv<int(&&)[][2]>();
+    test_is_same_rcv<int (*)[3][2]>();
+    test_is_same_rcv<int (*)[][2]>();
+    test_is_same_rcv<int (&)[3][2]>();
+    test_is_same_rcv<int (&)[][2]>();
+    test_is_same_rcv<int (&&)[3][2]>();
+    test_is_same_rcv<int (&&)[][2]>();
     test_is_same_rcv<class_type>();
     test_is_same_rcv<class_type[]>();
     test_is_same_rcv<class_type[2]>();
@@ -410,7 +410,7 @@ TEST_CASE("is_same_rcv")
 #endif
 
     test_is_same_rcv<void()>();
-    test_is_same_rcv<void()&>();
+    test_is_same_rcv<void() &>();
     test_is_same_rcv<void() &&>();
     test_is_same_rcv<void() const>();
     test_is_same_rcv<void() const&>();
@@ -435,7 +435,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void() const volatile && noexcept>();
 
     test_is_same_rcv<void(int)>();
-    test_is_same_rcv<void(int)&>();
+    test_is_same_rcv<void(int) &>();
     test_is_same_rcv<void(int) &&>();
     test_is_same_rcv<void(int) const>();
     test_is_same_rcv<void(int) const&>();
@@ -460,7 +460,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void(int) const volatile && noexcept>();
 
     test_is_same_rcv<void(...)>();
-    test_is_same_rcv<void(...)&>();
+    test_is_same_rcv<void(...) &>();
     test_is_same_rcv<void(...) &&>();
     test_is_same_rcv<void(...) const>();
     test_is_same_rcv<void(...) const&>();
@@ -485,7 +485,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void(...) const volatile && noexcept>();
 
     test_is_same_rcv<void(int, ...)>();
-    test_is_same_rcv<void(int, ...)&>();
+    test_is_same_rcv<void(int, ...) &>();
     test_is_same_rcv<void(int, ...) &&>();
     test_is_same_rcv<void(int, ...) const>();
     test_is_same_rcv<void(int, ...) const&>();
@@ -510,7 +510,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void(int, ...) const volatile && noexcept>();
 
     test_is_same_rcv<int()>();
-    test_is_same_rcv<int()&>();
+    test_is_same_rcv<int() &>();
     test_is_same_rcv<int() &&>();
     test_is_same_rcv<int() const>();
     test_is_same_rcv<int() const&>();
@@ -535,7 +535,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int() const volatile && noexcept>();
 
     test_is_same_rcv<int(int)>();
-    test_is_same_rcv<int(int)&>();
+    test_is_same_rcv<int(int) &>();
     test_is_same_rcv<int(int) &&>();
     test_is_same_rcv<int(int) const>();
     test_is_same_rcv<int(int) const&>();
@@ -560,7 +560,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int(int) const volatile && noexcept>();
 
     test_is_same_rcv<int(...)>();
-    test_is_same_rcv<int(...)&>();
+    test_is_same_rcv<int(...) &>();
     test_is_same_rcv<int(...) &&>();
     test_is_same_rcv<int(...) const>();
     test_is_same_rcv<int(...) const&>();
@@ -585,7 +585,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int(...) const volatile && noexcept>();
 
     test_is_same_rcv<int(int, ...)>();
-    test_is_same_rcv<int(int, ...)&>();
+    test_is_same_rcv<int(int, ...) &>();
     test_is_same_rcv<int(int, ...) &&>();
     test_is_same_rcv<int(int, ...) const>();
     test_is_same_rcv<int(int, ...) const&>();
@@ -682,7 +682,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (&&)(int, ...) noexcept>();
 
     test_is_same_rcv<void (class_type::*)()>();
-    test_is_same_rcv<void (class_type::*)()&>();
+    test_is_same_rcv<void (class_type::*)() &>();
     test_is_same_rcv<void (class_type::*)() &&>();
     test_is_same_rcv<void (class_type::*)() const>();
     test_is_same_rcv<void (class_type::*)() const&>();
@@ -695,7 +695,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void (class_type::*)() const && noexcept>();
 
     test_is_same_rcv<void (class_type::*)(int)>();
-    test_is_same_rcv<void (class_type::*)(int)&>();
+    test_is_same_rcv<void (class_type::*)(int) &>();
     test_is_same_rcv<void (class_type::*)(int) &&>();
     test_is_same_rcv<void (class_type::*)(int) const>();
     test_is_same_rcv<void (class_type::*)(int) const&>();
@@ -708,7 +708,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void (class_type::*)(int) const && noexcept>();
 
     test_is_same_rcv<void (class_type::*)(...)>();
-    test_is_same_rcv<void (class_type::*)(...)&>();
+    test_is_same_rcv<void (class_type::*)(...) &>();
     test_is_same_rcv<void (class_type::*)(...) &&>();
     test_is_same_rcv<void (class_type::*)(...) const>();
     test_is_same_rcv<void (class_type::*)(...) const&>();
@@ -721,7 +721,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void (class_type::*)(...) const && noexcept>();
 
     test_is_same_rcv<void (class_type::*)(int, ...)>();
-    test_is_same_rcv<void (class_type::*)(int, ...)&>();
+    test_is_same_rcv<void (class_type::*)(int, ...) &>();
     test_is_same_rcv<void (class_type::*)(int, ...) &&>();
     test_is_same_rcv<void (class_type::*)(int, ...) const>();
     test_is_same_rcv<void (class_type::*)(int, ...) const&>();
@@ -734,7 +734,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_same_rcv<int (class_type::*)()>();
-    test_is_same_rcv<int (class_type::*)()&>();
+    test_is_same_rcv<int (class_type::*)() &>();
     test_is_same_rcv<int (class_type::*)() &&>();
     test_is_same_rcv<int (class_type::*)() const>();
     test_is_same_rcv<int (class_type::*)() const&>();
@@ -747,7 +747,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (class_type::*)() const && noexcept>();
 
     test_is_same_rcv<int (class_type::*)(int)>();
-    test_is_same_rcv<int (class_type::*)(int)&>();
+    test_is_same_rcv<int (class_type::*)(int) &>();
     test_is_same_rcv<int (class_type::*)(int) &&>();
     test_is_same_rcv<int (class_type::*)(int) const>();
     test_is_same_rcv<int (class_type::*)(int) const&>();
@@ -760,7 +760,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (class_type::*)(int) const && noexcept>();
 
     test_is_same_rcv<int (class_type::*)(...)>();
-    test_is_same_rcv<int (class_type::*)(...)&>();
+    test_is_same_rcv<int (class_type::*)(...) &>();
     test_is_same_rcv<int (class_type::*)(...) &&>();
     test_is_same_rcv<int (class_type::*)(...) const>();
     test_is_same_rcv<int (class_type::*)(...) const&>();
@@ -773,7 +773,7 @@ TEST_CASE("is_same_rcv")
     test_is_same_rcv<int (class_type::*)(...) const && noexcept>();
 
     test_is_same_rcv<int (class_type::*)(int, ...)>();
-    test_is_same_rcv<int (class_type::*)(int, ...)&>();
+    test_is_same_rcv<int (class_type::*)(int, ...) &>();
     test_is_same_rcv<int (class_type::*)(int, ...) &&>();
     test_is_same_rcv<int (class_type::*)(int, ...) const>();
     test_is_same_rcv<int (class_type::*)(int, ...) const&>();

@@ -15,13 +15,13 @@ concurrency:
 
 jobs:
   trunk:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
 
     env:
-      GCC_VERSION: "8"
+      GCC_VERSION: "9"
 
     steps:
       - name: Checkout

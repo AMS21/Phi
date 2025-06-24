@@ -211,22 +211,22 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<char[]>();
     test_is_not_trivially_move_assignable<char* [3]>();
     test_is_not_trivially_move_assignable<char*[]>();
-    test_is_trivially_move_assignable_v<int(*)[3]>();
-    test_is_trivially_move_assignable_v<int(*)[]>();
-    test_is_not_trivially_move_assignable<int(&)[3]>();
-    test_is_not_trivially_move_assignable<int(&)[]>();
-    test_is_not_trivially_move_assignable<int(&&)[3]>();
-    test_is_not_trivially_move_assignable<int(&&)[]>();
+    test_is_trivially_move_assignable_v<int (*)[3]>();
+    test_is_trivially_move_assignable_v<int (*)[]>();
+    test_is_not_trivially_move_assignable<int (&)[3]>();
+    test_is_not_trivially_move_assignable<int (&)[]>();
+    test_is_not_trivially_move_assignable<int (&&)[3]>();
+    test_is_not_trivially_move_assignable<int (&&)[]>();
     test_is_not_trivially_move_assignable<char[3][2]>();
     test_is_not_trivially_move_assignable<char[][2]>();
     test_is_not_trivially_move_assignable<char* [3][2]>();
     test_is_not_trivially_move_assignable<char*[][2]>();
-    test_is_trivially_move_assignable_v<int(*)[3][2]>();
-    test_is_trivially_move_assignable_v<int(*)[][2]>();
-    test_is_not_trivially_move_assignable<int(&)[3][2]>();
-    test_is_not_trivially_move_assignable<int(&)[][2]>();
-    test_is_not_trivially_move_assignable<int(&&)[3][2]>();
-    test_is_not_trivially_move_assignable<int(&&)[][2]>();
+    test_is_trivially_move_assignable_v<int (*)[3][2]>();
+    test_is_trivially_move_assignable_v<int (*)[][2]>();
+    test_is_not_trivially_move_assignable<int (&)[3][2]>();
+    test_is_not_trivially_move_assignable<int (&)[][2]>();
+    test_is_not_trivially_move_assignable<int (&&)[3][2]>();
+    test_is_not_trivially_move_assignable<int (&&)[][2]>();
     test_is_trivially_move_assignable<class_type>();
     test_is_not_trivially_move_assignable<class_type[]>();
     test_is_not_trivially_move_assignable<class_type[2]>();
@@ -343,7 +343,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<void()>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<void()&>();
+    test_is_not_trivially_move_assignable<void() &>();
     test_is_not_trivially_move_assignable<void() &&>();
     test_is_not_trivially_move_assignable<void() const>();
     test_is_not_trivially_move_assignable<void() const&>();
@@ -355,7 +355,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void() const volatile&>();
     test_is_not_trivially_move_assignable<void() const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<void()&>();
+    test_is_not_trivially_move_assignable_no_std<void() &>();
     test_is_not_trivially_move_assignable_no_std<void() &&>();
     test_is_not_trivially_move_assignable_no_std<void() const>();
     test_is_not_trivially_move_assignable_no_std<void() const&>();
@@ -396,7 +396,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<void(int)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<void(int)&>();
+    test_is_not_trivially_move_assignable<void(int) &>();
     test_is_not_trivially_move_assignable<void(int) &&>();
     test_is_not_trivially_move_assignable<void(int) const>();
     test_is_not_trivially_move_assignable<void(int) const&>();
@@ -408,7 +408,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int) const volatile&>();
     test_is_not_trivially_move_assignable<void(int) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<void(int)&>();
+    test_is_not_trivially_move_assignable_no_std<void(int) &>();
     test_is_not_trivially_move_assignable_no_std<void(int) &&>();
     test_is_not_trivially_move_assignable_no_std<void(int) const>();
     test_is_not_trivially_move_assignable_no_std<void(int) const&>();
@@ -449,7 +449,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<void(...)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<void(...)&>();
+    test_is_not_trivially_move_assignable<void(...) &>();
     test_is_not_trivially_move_assignable<void(...) &&>();
     test_is_not_trivially_move_assignable<void(...) const>();
     test_is_not_trivially_move_assignable<void(...) const&>();
@@ -461,7 +461,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(...) const volatile&>();
     test_is_not_trivially_move_assignable<void(...) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<void(...)&>();
+    test_is_not_trivially_move_assignable_no_std<void(...) &>();
     test_is_not_trivially_move_assignable_no_std<void(...) &&>();
     test_is_not_trivially_move_assignable_no_std<void(...) const>();
     test_is_not_trivially_move_assignable_no_std<void(...) const&>();
@@ -502,7 +502,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<void(int, ...)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<void(int, ...)&>();
+    test_is_not_trivially_move_assignable<void(int, ...) &>();
     test_is_not_trivially_move_assignable<void(int, ...) &&>();
     test_is_not_trivially_move_assignable<void(int, ...) const>();
     test_is_not_trivially_move_assignable<void(int, ...) const&>();
@@ -514,7 +514,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<void(int, ...) const volatile&>();
     test_is_not_trivially_move_assignable<void(int, ...) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<void(int, ...)&>();
+    test_is_not_trivially_move_assignable_no_std<void(int, ...) &>();
     test_is_not_trivially_move_assignable_no_std<void(int, ...) &&>();
     test_is_not_trivially_move_assignable_no_std<void(int, ...) const>();
     test_is_not_trivially_move_assignable_no_std<void(int, ...) const&>();
@@ -555,7 +555,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<int()>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<int()&>();
+    test_is_not_trivially_move_assignable<int() &>();
     test_is_not_trivially_move_assignable<int() &&>();
     test_is_not_trivially_move_assignable<int() const>();
     test_is_not_trivially_move_assignable<int() const&>();
@@ -567,7 +567,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int() const volatile&>();
     test_is_not_trivially_move_assignable<int() const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<int()&>();
+    test_is_not_trivially_move_assignable_no_std<int() &>();
     test_is_not_trivially_move_assignable_no_std<int() &&>();
     test_is_not_trivially_move_assignable_no_std<int() const>();
     test_is_not_trivially_move_assignable_no_std<int() const&>();
@@ -608,7 +608,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<int(int)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<int(int)&>();
+    test_is_not_trivially_move_assignable<int(int) &>();
     test_is_not_trivially_move_assignable<int(int) &&>();
     test_is_not_trivially_move_assignable<int(int) const>();
     test_is_not_trivially_move_assignable<int(int) const&>();
@@ -620,7 +620,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int) const volatile&>();
     test_is_not_trivially_move_assignable<int(int) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<int(int)&>();
+    test_is_not_trivially_move_assignable_no_std<int(int) &>();
     test_is_not_trivially_move_assignable_no_std<int(int) &&>();
     test_is_not_trivially_move_assignable_no_std<int(int) const>();
     test_is_not_trivially_move_assignable_no_std<int(int) const&>();
@@ -661,7 +661,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<int(...)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<int(...)&>();
+    test_is_not_trivially_move_assignable<int(...) &>();
     test_is_not_trivially_move_assignable<int(...) &&>();
     test_is_not_trivially_move_assignable<int(...) const>();
     test_is_not_trivially_move_assignable<int(...) const&>();
@@ -673,7 +673,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(...) const volatile&>();
     test_is_not_trivially_move_assignable<int(...) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<int(...)&>();
+    test_is_not_trivially_move_assignable_no_std<int(...) &>();
     test_is_not_trivially_move_assignable_no_std<int(...) &&>();
     test_is_not_trivially_move_assignable_no_std<int(...) const>();
     test_is_not_trivially_move_assignable_no_std<int(...) const&>();
@@ -714,7 +714,7 @@ TEST_CASE("is_trivially_move_assignable")
 
     test_is_not_trivially_move_assignable<int(int, ...)>();
 #if PHI_COMPILER_WORKAROUND(GCC, 8, 0, 0)
-    test_is_not_trivially_move_assignable<int(int, ...)&>();
+    test_is_not_trivially_move_assignable<int(int, ...) &>();
     test_is_not_trivially_move_assignable<int(int, ...) &&>();
     test_is_not_trivially_move_assignable<int(int, ...) const>();
     test_is_not_trivially_move_assignable<int(int, ...) const&>();
@@ -726,7 +726,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int(int, ...) const volatile&>();
     test_is_not_trivially_move_assignable<int(int, ...) const volatile&&>();
 #else
-    test_is_not_trivially_move_assignable_no_std<int(int, ...)&>();
+    test_is_not_trivially_move_assignable_no_std<int(int, ...) &>();
     test_is_not_trivially_move_assignable_no_std<int(int, ...) &&>();
     test_is_not_trivially_move_assignable_no_std<int(int, ...) const>();
     test_is_not_trivially_move_assignable_no_std<int(int, ...) const&>();
@@ -838,7 +838,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_not_trivially_move_assignable<int (&&)(int, ...) noexcept>();
 
     test_is_trivially_move_assignable_v<void (class_type::*)()>();
-    test_is_trivially_move_assignable_v<void (class_type::*)()&>();
+    test_is_trivially_move_assignable_v<void (class_type::*)() &>();
     test_is_trivially_move_assignable_v<void (class_type::*)() &&>();
     test_is_trivially_move_assignable_v<void (class_type::*)() const>();
     test_is_trivially_move_assignable_v<void (class_type::*)() const&>();
@@ -851,7 +851,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<void (class_type::*)() const && noexcept>();
 
     test_is_trivially_move_assignable_v<void (class_type::*)(int)>();
-    test_is_trivially_move_assignable_v<void (class_type::*)(int)&>();
+    test_is_trivially_move_assignable_v<void (class_type::*)(int) &>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int) &&>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int) const>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int) const&>();
@@ -864,7 +864,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<void (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_move_assignable_v<void (class_type::*)(...)>();
-    test_is_trivially_move_assignable_v<void (class_type::*)(...)&>();
+    test_is_trivially_move_assignable_v<void (class_type::*)(...) &>();
     test_is_trivially_move_assignable_v<void (class_type::*)(...) &&>();
     test_is_trivially_move_assignable_v<void (class_type::*)(...) const>();
     test_is_trivially_move_assignable_v<void (class_type::*)(...) const&>();
@@ -877,7 +877,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<void (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_move_assignable_v<void (class_type::*)(int, ...)>();
-    test_is_trivially_move_assignable_v<void (class_type::*)(int, ...)&>();
+    test_is_trivially_move_assignable_v<void (class_type::*)(int, ...) &>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int, ...) &&>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int, ...) const>();
     test_is_trivially_move_assignable_v<void (class_type::*)(int, ...) const&>();
@@ -890,7 +890,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_trivially_move_assignable_v<int (class_type::*)()>();
-    test_is_trivially_move_assignable_v<int (class_type::*)()&>();
+    test_is_trivially_move_assignable_v<int (class_type::*)() &>();
     test_is_trivially_move_assignable_v<int (class_type::*)() &&>();
     test_is_trivially_move_assignable_v<int (class_type::*)() const>();
     test_is_trivially_move_assignable_v<int (class_type::*)() const&>();
@@ -903,7 +903,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<int (class_type::*)() const && noexcept>();
 
     test_is_trivially_move_assignable_v<int (class_type::*)(int)>();
-    test_is_trivially_move_assignable_v<int (class_type::*)(int)&>();
+    test_is_trivially_move_assignable_v<int (class_type::*)(int) &>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int) &&>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int) const>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int) const&>();
@@ -916,7 +916,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<int (class_type::*)(int) const && noexcept>();
 
     test_is_trivially_move_assignable_v<int (class_type::*)(...)>();
-    test_is_trivially_move_assignable_v<int (class_type::*)(...)&>();
+    test_is_trivially_move_assignable_v<int (class_type::*)(...) &>();
     test_is_trivially_move_assignable_v<int (class_type::*)(...) &&>();
     test_is_trivially_move_assignable_v<int (class_type::*)(...) const>();
     test_is_trivially_move_assignable_v<int (class_type::*)(...) const&>();
@@ -929,7 +929,7 @@ TEST_CASE("is_trivially_move_assignable")
     test_is_trivially_move_assignable_v<int (class_type::*)(...) const && noexcept>();
 
     test_is_trivially_move_assignable_v<int (class_type::*)(int, ...)>();
-    test_is_trivially_move_assignable_v<int (class_type::*)(int, ...)&>();
+    test_is_trivially_move_assignable_v<int (class_type::*)(int, ...) &>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int, ...) &&>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int, ...) const>();
     test_is_trivially_move_assignable_v<int (class_type::*)(int, ...) const&>();

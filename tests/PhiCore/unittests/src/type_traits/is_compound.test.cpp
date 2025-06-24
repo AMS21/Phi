@@ -138,22 +138,22 @@ TEST_CASE("is_compound")
     test_is_compound<char[]>();
     test_is_compound<char* [3]>();
     test_is_compound<char*[]>();
-    test_is_compound<int(*)[3]>();
-    test_is_compound<int(*)[]>();
-    test_is_compound<int(&)[3]>();
-    test_is_compound<int(&)[]>();
-    test_is_compound<int(&&)[3]>();
-    test_is_compound<int(&&)[]>();
+    test_is_compound<int (*)[3]>();
+    test_is_compound<int (*)[]>();
+    test_is_compound<int (&)[3]>();
+    test_is_compound<int (&)[]>();
+    test_is_compound<int (&&)[3]>();
+    test_is_compound<int (&&)[]>();
     test_is_compound<char[3][2]>();
     test_is_compound<char[][2]>();
     test_is_compound<char* [3][2]>();
     test_is_compound<char*[][2]>();
-    test_is_compound<int(*)[3][2]>();
-    test_is_compound<int(*)[][2]>();
-    test_is_compound<int(&)[3][2]>();
-    test_is_compound<int(&)[][2]>();
-    test_is_compound<int(&&)[3][2]>();
-    test_is_compound<int(&&)[][2]>();
+    test_is_compound<int (*)[3][2]>();
+    test_is_compound<int (*)[][2]>();
+    test_is_compound<int (&)[3][2]>();
+    test_is_compound<int (&)[][2]>();
+    test_is_compound<int (&&)[3][2]>();
+    test_is_compound<int (&&)[][2]>();
     test_is_compound<class_type>();
     test_is_compound<class_type[]>();
     test_is_compound<class_type[2]>();
@@ -280,7 +280,7 @@ TEST_CASE("is_compound")
     test_is_compound<trap_array_subscript>();
 
     test_is_compound<void()>();
-    test_is_compound<void()&>();
+    test_is_compound<void() &>();
     test_is_compound<void() &&>();
     test_is_compound<void() const>();
     test_is_compound<void() const&>();
@@ -305,7 +305,7 @@ TEST_CASE("is_compound")
     test_is_compound<void() const volatile && noexcept>();
 
     test_is_compound<void(int)>();
-    test_is_compound<void(int)&>();
+    test_is_compound<void(int) &>();
     test_is_compound<void(int) &&>();
     test_is_compound<void(int) const>();
     test_is_compound<void(int) const&>();
@@ -330,7 +330,7 @@ TEST_CASE("is_compound")
     test_is_compound<void(int) const volatile && noexcept>();
 
     test_is_compound<void(...)>();
-    test_is_compound<void(...)&>();
+    test_is_compound<void(...) &>();
     test_is_compound<void(...) &&>();
     test_is_compound<void(...) const>();
     test_is_compound<void(...) const&>();
@@ -355,7 +355,7 @@ TEST_CASE("is_compound")
     test_is_compound<void(...) const volatile && noexcept>();
 
     test_is_compound<void(int, ...)>();
-    test_is_compound<void(int, ...)&>();
+    test_is_compound<void(int, ...) &>();
     test_is_compound<void(int, ...) &&>();
     test_is_compound<void(int, ...) const>();
     test_is_compound<void(int, ...) const&>();
@@ -380,7 +380,7 @@ TEST_CASE("is_compound")
     test_is_compound<void(int, ...) const volatile && noexcept>();
 
     test_is_compound<int()>();
-    test_is_compound<int()&>();
+    test_is_compound<int() &>();
     test_is_compound<int() &&>();
     test_is_compound<int() const>();
     test_is_compound<int() const&>();
@@ -405,7 +405,7 @@ TEST_CASE("is_compound")
     test_is_compound<int() const volatile && noexcept>();
 
     test_is_compound<int(int)>();
-    test_is_compound<int(int)&>();
+    test_is_compound<int(int) &>();
     test_is_compound<int(int) &&>();
     test_is_compound<int(int) const>();
     test_is_compound<int(int) const&>();
@@ -430,7 +430,7 @@ TEST_CASE("is_compound")
     test_is_compound<int(int) const volatile && noexcept>();
 
     test_is_compound<int(...)>();
-    test_is_compound<int(...)&>();
+    test_is_compound<int(...) &>();
     test_is_compound<int(...) &&>();
     test_is_compound<int(...) const>();
     test_is_compound<int(...) const&>();
@@ -455,7 +455,7 @@ TEST_CASE("is_compound")
     test_is_compound<int(...) const volatile && noexcept>();
 
     test_is_compound<int(int, ...)>();
-    test_is_compound<int(int, ...)&>();
+    test_is_compound<int(int, ...) &>();
     test_is_compound<int(int, ...) &&>();
     test_is_compound<int(int, ...) const>();
     test_is_compound<int(int, ...) const&>();
@@ -552,7 +552,7 @@ TEST_CASE("is_compound")
     test_is_compound<int (&&)(int, ...) noexcept>();
 
     test_is_compound<void (class_type::*)()>();
-    test_is_compound<void (class_type::*)()&>();
+    test_is_compound<void (class_type::*)() &>();
     test_is_compound<void (class_type::*)() &&>();
     test_is_compound<void (class_type::*)() const>();
     test_is_compound<void (class_type::*)() const&>();
@@ -565,7 +565,7 @@ TEST_CASE("is_compound")
     test_is_compound<void (class_type::*)() const && noexcept>();
 
     test_is_compound<void (class_type::*)(int)>();
-    test_is_compound<void (class_type::*)(int)&>();
+    test_is_compound<void (class_type::*)(int) &>();
     test_is_compound<void (class_type::*)(int) &&>();
     test_is_compound<void (class_type::*)(int) const>();
     test_is_compound<void (class_type::*)(int) const&>();
@@ -578,7 +578,7 @@ TEST_CASE("is_compound")
     test_is_compound<void (class_type::*)(int) const && noexcept>();
 
     test_is_compound<void (class_type::*)(...)>();
-    test_is_compound<void (class_type::*)(...)&>();
+    test_is_compound<void (class_type::*)(...) &>();
     test_is_compound<void (class_type::*)(...) &&>();
     test_is_compound<void (class_type::*)(...) const>();
     test_is_compound<void (class_type::*)(...) const&>();
@@ -591,7 +591,7 @@ TEST_CASE("is_compound")
     test_is_compound<void (class_type::*)(...) const && noexcept>();
 
     test_is_compound<void (class_type::*)(int, ...)>();
-    test_is_compound<void (class_type::*)(int, ...)&>();
+    test_is_compound<void (class_type::*)(int, ...) &>();
     test_is_compound<void (class_type::*)(int, ...) &&>();
     test_is_compound<void (class_type::*)(int, ...) const>();
     test_is_compound<void (class_type::*)(int, ...) const&>();
@@ -604,7 +604,7 @@ TEST_CASE("is_compound")
     test_is_compound<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_compound<int (class_type::*)()>();
-    test_is_compound<int (class_type::*)()&>();
+    test_is_compound<int (class_type::*)() &>();
     test_is_compound<int (class_type::*)() &&>();
     test_is_compound<int (class_type::*)() const>();
     test_is_compound<int (class_type::*)() const&>();
@@ -617,7 +617,7 @@ TEST_CASE("is_compound")
     test_is_compound<int (class_type::*)() const && noexcept>();
 
     test_is_compound<int (class_type::*)(int)>();
-    test_is_compound<int (class_type::*)(int)&>();
+    test_is_compound<int (class_type::*)(int) &>();
     test_is_compound<int (class_type::*)(int) &&>();
     test_is_compound<int (class_type::*)(int) const>();
     test_is_compound<int (class_type::*)(int) const&>();
@@ -630,7 +630,7 @@ TEST_CASE("is_compound")
     test_is_compound<int (class_type::*)(int) const && noexcept>();
 
     test_is_compound<int (class_type::*)(...)>();
-    test_is_compound<int (class_type::*)(...)&>();
+    test_is_compound<int (class_type::*)(...) &>();
     test_is_compound<int (class_type::*)(...) &&>();
     test_is_compound<int (class_type::*)(...) const>();
     test_is_compound<int (class_type::*)(...) const&>();
@@ -643,7 +643,7 @@ TEST_CASE("is_compound")
     test_is_compound<int (class_type::*)(...) const && noexcept>();
 
     test_is_compound<int (class_type::*)(int, ...)>();
-    test_is_compound<int (class_type::*)(int, ...)&>();
+    test_is_compound<int (class_type::*)(int, ...) &>();
     test_is_compound<int (class_type::*)(int, ...) &&>();
     test_is_compound<int (class_type::*)(int, ...) const>();
     test_is_compound<int (class_type::*)(int, ...) const&>();

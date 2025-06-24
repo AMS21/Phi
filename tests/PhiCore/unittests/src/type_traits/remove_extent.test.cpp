@@ -120,22 +120,22 @@ TEST_CASE("remove_extent")
     test_remove_extent<char[], char>();
     test_remove_extent<char* [3], char*>();
     test_remove_extent<char*[], char*>();
-    test_remove_extent<int(*)[3]>();
-    test_remove_extent<int(*)[]>();
-    test_remove_extent<int(&)[3]>();
-    test_remove_extent<int(&)[]>();
-    test_remove_extent<int(&&)[3]>();
-    test_remove_extent<int(&&)[]>();
+    test_remove_extent<int (*)[3]>();
+    test_remove_extent<int (*)[]>();
+    test_remove_extent<int (&)[3]>();
+    test_remove_extent<int (&)[]>();
+    test_remove_extent<int (&&)[3]>();
+    test_remove_extent<int (&&)[]>();
     test_remove_extent<char[3][2], char[2]>();
     test_remove_extent<char[][2], char[2]>();
     test_remove_extent<char* [3][2], char* [2]>();
     test_remove_extent<char*[][2], char* [2]>();
-    test_remove_extent<int(*)[3][2]>();
-    test_remove_extent<int(*)[][2]>();
-    test_remove_extent<int(&)[3][2]>();
-    test_remove_extent<int(&)[][2]>();
-    test_remove_extent<int(&&)[3][2]>();
-    test_remove_extent<int(&&)[][2]>();
+    test_remove_extent<int (*)[3][2]>();
+    test_remove_extent<int (*)[][2]>();
+    test_remove_extent<int (&)[3][2]>();
+    test_remove_extent<int (&)[][2]>();
+    test_remove_extent<int (&&)[3][2]>();
+    test_remove_extent<int (&&)[][2]>();
     test_remove_extent<class_type>();
     test_remove_extent<class_type[], class_type>();
     test_remove_extent<class_type[2], class_type>();
@@ -262,7 +262,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<trap_array_subscript>();
 
     test_remove_extent<void()>();
-    test_remove_extent<void()&>();
+    test_remove_extent<void() &>();
     test_remove_extent<void() &&>();
     test_remove_extent<void() const>();
     test_remove_extent<void() const&>();
@@ -287,7 +287,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void() const volatile && noexcept>();
 
     test_remove_extent<void(int)>();
-    test_remove_extent<void(int)&>();
+    test_remove_extent<void(int) &>();
     test_remove_extent<void(int) &&>();
     test_remove_extent<void(int) const>();
     test_remove_extent<void(int) const&>();
@@ -312,7 +312,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void(int) const volatile && noexcept>();
 
     test_remove_extent<void(...)>();
-    test_remove_extent<void(...)&>();
+    test_remove_extent<void(...) &>();
     test_remove_extent<void(...) &&>();
     test_remove_extent<void(...) const>();
     test_remove_extent<void(...) const&>();
@@ -337,7 +337,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void(...) const volatile && noexcept>();
 
     test_remove_extent<void(int, ...)>();
-    test_remove_extent<void(int, ...)&>();
+    test_remove_extent<void(int, ...) &>();
     test_remove_extent<void(int, ...) &&>();
     test_remove_extent<void(int, ...) const>();
     test_remove_extent<void(int, ...) const&>();
@@ -362,7 +362,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void(int, ...) const volatile && noexcept>();
 
     test_remove_extent<int()>();
-    test_remove_extent<int()&>();
+    test_remove_extent<int() &>();
     test_remove_extent<int() &&>();
     test_remove_extent<int() const>();
     test_remove_extent<int() const&>();
@@ -387,7 +387,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int() const volatile && noexcept>();
 
     test_remove_extent<int(int)>();
-    test_remove_extent<int(int)&>();
+    test_remove_extent<int(int) &>();
     test_remove_extent<int(int) &&>();
     test_remove_extent<int(int) const>();
     test_remove_extent<int(int) const&>();
@@ -412,7 +412,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int(int) const volatile && noexcept>();
 
     test_remove_extent<int(...)>();
-    test_remove_extent<int(...)&>();
+    test_remove_extent<int(...) &>();
     test_remove_extent<int(...) &&>();
     test_remove_extent<int(...) const>();
     test_remove_extent<int(...) const&>();
@@ -437,7 +437,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int(...) const volatile && noexcept>();
 
     test_remove_extent<int(int, ...)>();
-    test_remove_extent<int(int, ...)&>();
+    test_remove_extent<int(int, ...) &>();
     test_remove_extent<int(int, ...) &&>();
     test_remove_extent<int(int, ...) const>();
     test_remove_extent<int(int, ...) const&>();
@@ -534,7 +534,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int (&&)(int, ...) noexcept>();
 
     test_remove_extent<void (class_type::*)()>();
-    test_remove_extent<void (class_type::*)()&>();
+    test_remove_extent<void (class_type::*)() &>();
     test_remove_extent<void (class_type::*)() &&>();
     test_remove_extent<void (class_type::*)() const>();
     test_remove_extent<void (class_type::*)() const&>();
@@ -547,7 +547,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void (class_type::*)() const && noexcept>();
 
     test_remove_extent<void (class_type::*)(int)>();
-    test_remove_extent<void (class_type::*)(int)&>();
+    test_remove_extent<void (class_type::*)(int) &>();
     test_remove_extent<void (class_type::*)(int) &&>();
     test_remove_extent<void (class_type::*)(int) const>();
     test_remove_extent<void (class_type::*)(int) const&>();
@@ -560,7 +560,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void (class_type::*)(int) const && noexcept>();
 
     test_remove_extent<void (class_type::*)(...)>();
-    test_remove_extent<void (class_type::*)(...)&>();
+    test_remove_extent<void (class_type::*)(...) &>();
     test_remove_extent<void (class_type::*)(...) &&>();
     test_remove_extent<void (class_type::*)(...) const>();
     test_remove_extent<void (class_type::*)(...) const&>();
@@ -573,7 +573,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void (class_type::*)(...) const && noexcept>();
 
     test_remove_extent<void (class_type::*)(int, ...)>();
-    test_remove_extent<void (class_type::*)(int, ...)&>();
+    test_remove_extent<void (class_type::*)(int, ...) &>();
     test_remove_extent<void (class_type::*)(int, ...) &&>();
     test_remove_extent<void (class_type::*)(int, ...) const>();
     test_remove_extent<void (class_type::*)(int, ...) const&>();
@@ -586,7 +586,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<void (class_type::*)(int, ...) const && noexcept>();
 
     test_remove_extent<int (class_type::*)()>();
-    test_remove_extent<int (class_type::*)()&>();
+    test_remove_extent<int (class_type::*)() &>();
     test_remove_extent<int (class_type::*)() &&>();
     test_remove_extent<int (class_type::*)() const>();
     test_remove_extent<int (class_type::*)() const&>();
@@ -599,7 +599,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int (class_type::*)() const && noexcept>();
 
     test_remove_extent<int (class_type::*)(int)>();
-    test_remove_extent<int (class_type::*)(int)&>();
+    test_remove_extent<int (class_type::*)(int) &>();
     test_remove_extent<int (class_type::*)(int) &&>();
     test_remove_extent<int (class_type::*)(int) const>();
     test_remove_extent<int (class_type::*)(int) const&>();
@@ -612,7 +612,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int (class_type::*)(int) const && noexcept>();
 
     test_remove_extent<int (class_type::*)(...)>();
-    test_remove_extent<int (class_type::*)(...)&>();
+    test_remove_extent<int (class_type::*)(...) &>();
     test_remove_extent<int (class_type::*)(...) &&>();
     test_remove_extent<int (class_type::*)(...) const>();
     test_remove_extent<int (class_type::*)(...) const&>();
@@ -625,7 +625,7 @@ TEST_CASE("remove_extent")
     test_remove_extent<int (class_type::*)(...) const && noexcept>();
 
     test_remove_extent<int (class_type::*)(int, ...)>();
-    test_remove_extent<int (class_type::*)(int, ...)&>();
+    test_remove_extent<int (class_type::*)(int, ...) &>();
     test_remove_extent<int (class_type::*)(int, ...) &&>();
     test_remove_extent<int (class_type::*)(int, ...) const>();
     test_remove_extent<int (class_type::*)(int, ...) const&>();

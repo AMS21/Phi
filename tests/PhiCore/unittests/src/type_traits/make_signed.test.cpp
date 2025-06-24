@@ -108,22 +108,22 @@ TEST_CASE("make_signed")
     test_make_signed<char[]>();
     test_make_signed<char* [3]>();
     test_make_signed<char*[]>();
-    test_make_signed<int(*)[3]>();
-    test_make_signed<int(*)[]>();
-    test_make_signed<int(&)[3]>();
-    test_make_signed<int(&)[]>();
-    test_make_signed<int(&&)[3]>();
-    test_make_signed<int(&&)[]>();
+    test_make_signed<int (*)[3]>();
+    test_make_signed<int (*)[]>();
+    test_make_signed<int (&)[3]>();
+    test_make_signed<int (&)[]>();
+    test_make_signed<int (&&)[3]>();
+    test_make_signed<int (&&)[]>();
     test_make_signed<char[3][2]>();
     test_make_signed<char[][2]>();
     test_make_signed<char* [3][2]>();
     test_make_signed<char*[][2]>();
-    test_make_signed<int(*)[3][2]>();
-    test_make_signed<int(*)[][2]>();
-    test_make_signed<int(&)[3][2]>();
-    test_make_signed<int(&)[][2]>();
-    test_make_signed<int(&&)[3][2]>();
-    test_make_signed<int(&&)[][2]>();
+    test_make_signed<int (*)[3][2]>();
+    test_make_signed<int (*)[][2]>();
+    test_make_signed<int (&)[3][2]>();
+    test_make_signed<int (&)[][2]>();
+    test_make_signed<int (&&)[3][2]>();
+    test_make_signed<int (&&)[][2]>();
     test_make_signed<class_type>();
     test_make_signed<class_type[]>();
     test_make_signed<class_type[2]>();
@@ -250,7 +250,7 @@ TEST_CASE("make_signed")
     test_make_signed<trap_array_subscript>();
 
     test_make_signed<void()>();
-    test_make_signed<void()&>();
+    test_make_signed<void() &>();
     test_make_signed<void() &&>();
     test_make_signed<void() const>();
     test_make_signed<void() const&>();
@@ -275,7 +275,7 @@ TEST_CASE("make_signed")
     test_make_signed<void() const volatile && noexcept>();
 
     test_make_signed<void(int)>();
-    test_make_signed<void(int)&>();
+    test_make_signed<void(int) &>();
     test_make_signed<void(int) &&>();
     test_make_signed<void(int) const>();
     test_make_signed<void(int) const&>();
@@ -300,7 +300,7 @@ TEST_CASE("make_signed")
     test_make_signed<void(int) const volatile && noexcept>();
 
     test_make_signed<void(...)>();
-    test_make_signed<void(...)&>();
+    test_make_signed<void(...) &>();
     test_make_signed<void(...) &&>();
     test_make_signed<void(...) const>();
     test_make_signed<void(...) const&>();
@@ -325,7 +325,7 @@ TEST_CASE("make_signed")
     test_make_signed<void(...) const volatile && noexcept>();
 
     test_make_signed<void(int, ...)>();
-    test_make_signed<void(int, ...)&>();
+    test_make_signed<void(int, ...) &>();
     test_make_signed<void(int, ...) &&>();
     test_make_signed<void(int, ...) const>();
     test_make_signed<void(int, ...) const&>();
@@ -350,7 +350,7 @@ TEST_CASE("make_signed")
     test_make_signed<void(int, ...) const volatile && noexcept>();
 
     test_make_signed<int()>();
-    test_make_signed<int()&>();
+    test_make_signed<int() &>();
     test_make_signed<int() &&>();
     test_make_signed<int() const>();
     test_make_signed<int() const&>();
@@ -375,7 +375,7 @@ TEST_CASE("make_signed")
     test_make_signed<int() const volatile && noexcept>();
 
     test_make_signed<int(int)>();
-    test_make_signed<int(int)&>();
+    test_make_signed<int(int) &>();
     test_make_signed<int(int) &&>();
     test_make_signed<int(int) const>();
     test_make_signed<int(int) const&>();
@@ -400,7 +400,7 @@ TEST_CASE("make_signed")
     test_make_signed<int(int) const volatile && noexcept>();
 
     test_make_signed<int(...)>();
-    test_make_signed<int(...)&>();
+    test_make_signed<int(...) &>();
     test_make_signed<int(...) &&>();
     test_make_signed<int(...) const>();
     test_make_signed<int(...) const&>();
@@ -425,7 +425,7 @@ TEST_CASE("make_signed")
     test_make_signed<int(...) const volatile && noexcept>();
 
     test_make_signed<int(int, ...)>();
-    test_make_signed<int(int, ...)&>();
+    test_make_signed<int(int, ...) &>();
     test_make_signed<int(int, ...) &&>();
     test_make_signed<int(int, ...) const>();
     test_make_signed<int(int, ...) const&>();
@@ -522,7 +522,7 @@ TEST_CASE("make_signed")
     test_make_signed<int (&&)(int, ...) noexcept>();
 
     test_make_signed<void (class_type::*)()>();
-    test_make_signed<void (class_type::*)()&>();
+    test_make_signed<void (class_type::*)() &>();
     test_make_signed<void (class_type::*)() &&>();
     test_make_signed<void (class_type::*)() const>();
     test_make_signed<void (class_type::*)() const&>();
@@ -535,7 +535,7 @@ TEST_CASE("make_signed")
     test_make_signed<void (class_type::*)() const && noexcept>();
 
     test_make_signed<void (class_type::*)(int)>();
-    test_make_signed<void (class_type::*)(int)&>();
+    test_make_signed<void (class_type::*)(int) &>();
     test_make_signed<void (class_type::*)(int) &&>();
     test_make_signed<void (class_type::*)(int) const>();
     test_make_signed<void (class_type::*)(int) const&>();
@@ -548,7 +548,7 @@ TEST_CASE("make_signed")
     test_make_signed<void (class_type::*)(int) const && noexcept>();
 
     test_make_signed<void (class_type::*)(...)>();
-    test_make_signed<void (class_type::*)(...)&>();
+    test_make_signed<void (class_type::*)(...) &>();
     test_make_signed<void (class_type::*)(...) &&>();
     test_make_signed<void (class_type::*)(...) const>();
     test_make_signed<void (class_type::*)(...) const&>();
@@ -561,7 +561,7 @@ TEST_CASE("make_signed")
     test_make_signed<void (class_type::*)(...) const && noexcept>();
 
     test_make_signed<void (class_type::*)(int, ...)>();
-    test_make_signed<void (class_type::*)(int, ...)&>();
+    test_make_signed<void (class_type::*)(int, ...) &>();
     test_make_signed<void (class_type::*)(int, ...) &&>();
     test_make_signed<void (class_type::*)(int, ...) const>();
     test_make_signed<void (class_type::*)(int, ...) const&>();
@@ -574,7 +574,7 @@ TEST_CASE("make_signed")
     test_make_signed<void (class_type::*)(int, ...) const && noexcept>();
 
     test_make_signed<int (class_type::*)()>();
-    test_make_signed<int (class_type::*)()&>();
+    test_make_signed<int (class_type::*)() &>();
     test_make_signed<int (class_type::*)() &&>();
     test_make_signed<int (class_type::*)() const>();
     test_make_signed<int (class_type::*)() const&>();
@@ -587,7 +587,7 @@ TEST_CASE("make_signed")
     test_make_signed<int (class_type::*)() const && noexcept>();
 
     test_make_signed<int (class_type::*)(int)>();
-    test_make_signed<int (class_type::*)(int)&>();
+    test_make_signed<int (class_type::*)(int) &>();
     test_make_signed<int (class_type::*)(int) &&>();
     test_make_signed<int (class_type::*)(int) const>();
     test_make_signed<int (class_type::*)(int) const&>();
@@ -600,7 +600,7 @@ TEST_CASE("make_signed")
     test_make_signed<int (class_type::*)(int) const && noexcept>();
 
     test_make_signed<int (class_type::*)(...)>();
-    test_make_signed<int (class_type::*)(...)&>();
+    test_make_signed<int (class_type::*)(...) &>();
     test_make_signed<int (class_type::*)(...) &&>();
     test_make_signed<int (class_type::*)(...) const>();
     test_make_signed<int (class_type::*)(...) const&>();
@@ -613,7 +613,7 @@ TEST_CASE("make_signed")
     test_make_signed<int (class_type::*)(...) const && noexcept>();
 
     test_make_signed<int (class_type::*)(int, ...)>();
-    test_make_signed<int (class_type::*)(int, ...)&>();
+    test_make_signed<int (class_type::*)(int, ...) &>();
     test_make_signed<int (class_type::*)(int, ...) &&>();
     test_make_signed<int (class_type::*)(int, ...) const>();
     test_make_signed<int (class_type::*)(int, ...) const&>();

@@ -171,22 +171,22 @@ TEST_CASE("is_final")
     test_is_not_final<char[]>();
     test_is_not_final<char* [3]>();
     test_is_not_final<char*[]>();
-    test_is_not_final<int(*)[3]>();
-    test_is_not_final<int(*)[]>();
-    test_is_not_final<int(&)[3]>();
-    test_is_not_final<int(&)[]>();
-    test_is_not_final<int(&&)[3]>();
-    test_is_not_final<int(&&)[]>();
+    test_is_not_final<int (*)[3]>();
+    test_is_not_final<int (*)[]>();
+    test_is_not_final<int (&)[3]>();
+    test_is_not_final<int (&)[]>();
+    test_is_not_final<int (&&)[3]>();
+    test_is_not_final<int (&&)[]>();
     test_is_not_final<char[3][2]>();
     test_is_not_final<char[][2]>();
     test_is_not_final<char* [3][2]>();
     test_is_not_final<char*[][2]>();
-    test_is_not_final<int(*)[3][2]>();
-    test_is_not_final<int(*)[][2]>();
-    test_is_not_final<int(&)[3][2]>();
-    test_is_not_final<int(&)[][2]>();
-    test_is_not_final<int(&&)[3][2]>();
-    test_is_not_final<int(&&)[][2]>();
+    test_is_not_final<int (*)[3][2]>();
+    test_is_not_final<int (*)[][2]>();
+    test_is_not_final<int (&)[3][2]>();
+    test_is_not_final<int (&)[][2]>();
+    test_is_not_final<int (&&)[3][2]>();
+    test_is_not_final<int (&&)[][2]>();
     test_is_not_final<class_type>();
     test_is_not_final<class_type[]>();
     test_is_not_final<class_type[2]>();
@@ -302,7 +302,7 @@ TEST_CASE("is_final")
     test_is_not_final<trap_array_subscript>();
 
     test_is_not_final<void()>();
-    test_is_not_final<void()&>();
+    test_is_not_final<void() &>();
     test_is_not_final<void() &&>();
     test_is_not_final<void() const>();
     test_is_not_final<void() const&>();
@@ -327,7 +327,7 @@ TEST_CASE("is_final")
     test_is_not_final<void() const volatile && noexcept>();
 
     test_is_not_final<void(int)>();
-    test_is_not_final<void(int)&>();
+    test_is_not_final<void(int) &>();
     test_is_not_final<void(int) &&>();
     test_is_not_final<void(int) const>();
     test_is_not_final<void(int) const&>();
@@ -352,7 +352,7 @@ TEST_CASE("is_final")
     test_is_not_final<void(int) const volatile && noexcept>();
 
     test_is_not_final<void(...)>();
-    test_is_not_final<void(...)&>();
+    test_is_not_final<void(...) &>();
     test_is_not_final<void(...) &&>();
     test_is_not_final<void(...) const>();
     test_is_not_final<void(...) const&>();
@@ -377,7 +377,7 @@ TEST_CASE("is_final")
     test_is_not_final<void(...) const volatile && noexcept>();
 
     test_is_not_final<void(int, ...)>();
-    test_is_not_final<void(int, ...)&>();
+    test_is_not_final<void(int, ...) &>();
     test_is_not_final<void(int, ...) &&>();
     test_is_not_final<void(int, ...) const>();
     test_is_not_final<void(int, ...) const&>();
@@ -402,7 +402,7 @@ TEST_CASE("is_final")
     test_is_not_final<void(int, ...) const volatile && noexcept>();
 
     test_is_not_final<int()>();
-    test_is_not_final<int()&>();
+    test_is_not_final<int() &>();
     test_is_not_final<int() &&>();
     test_is_not_final<int() const>();
     test_is_not_final<int() const&>();
@@ -427,7 +427,7 @@ TEST_CASE("is_final")
     test_is_not_final<int() const volatile && noexcept>();
 
     test_is_not_final<int(int)>();
-    test_is_not_final<int(int)&>();
+    test_is_not_final<int(int) &>();
     test_is_not_final<int(int) &&>();
     test_is_not_final<int(int) const>();
     test_is_not_final<int(int) const&>();
@@ -452,7 +452,7 @@ TEST_CASE("is_final")
     test_is_not_final<int(int) const volatile && noexcept>();
 
     test_is_not_final<int(...)>();
-    test_is_not_final<int(...)&>();
+    test_is_not_final<int(...) &>();
     test_is_not_final<int(...) &&>();
     test_is_not_final<int(...) const>();
     test_is_not_final<int(...) const&>();
@@ -477,7 +477,7 @@ TEST_CASE("is_final")
     test_is_not_final<int(...) const volatile && noexcept>();
 
     test_is_not_final<int(int, ...)>();
-    test_is_not_final<int(int, ...)&>();
+    test_is_not_final<int(int, ...) &>();
     test_is_not_final<int(int, ...) &&>();
     test_is_not_final<int(int, ...) const>();
     test_is_not_final<int(int, ...) const&>();
@@ -574,7 +574,7 @@ TEST_CASE("is_final")
     test_is_not_final<int (&&)(int, ...) noexcept>();
 
     test_is_not_final<void (class_type::*)()>();
-    test_is_not_final<void (class_type::*)()&>();
+    test_is_not_final<void (class_type::*)() &>();
     test_is_not_final<void (class_type::*)() &&>();
     test_is_not_final<void (class_type::*)() const>();
     test_is_not_final<void (class_type::*)() const&>();
@@ -587,7 +587,7 @@ TEST_CASE("is_final")
     test_is_not_final<void (class_type::*)() const && noexcept>();
 
     test_is_not_final<void (class_type::*)(int)>();
-    test_is_not_final<void (class_type::*)(int)&>();
+    test_is_not_final<void (class_type::*)(int) &>();
     test_is_not_final<void (class_type::*)(int) &&>();
     test_is_not_final<void (class_type::*)(int) const>();
     test_is_not_final<void (class_type::*)(int) const&>();
@@ -600,7 +600,7 @@ TEST_CASE("is_final")
     test_is_not_final<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_final<void (class_type::*)(...)>();
-    test_is_not_final<void (class_type::*)(...)&>();
+    test_is_not_final<void (class_type::*)(...) &>();
     test_is_not_final<void (class_type::*)(...) &&>();
     test_is_not_final<void (class_type::*)(...) const>();
     test_is_not_final<void (class_type::*)(...) const&>();
@@ -613,7 +613,7 @@ TEST_CASE("is_final")
     test_is_not_final<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_final<void (class_type::*)(int, ...)>();
-    test_is_not_final<void (class_type::*)(int, ...)&>();
+    test_is_not_final<void (class_type::*)(int, ...) &>();
     test_is_not_final<void (class_type::*)(int, ...) &&>();
     test_is_not_final<void (class_type::*)(int, ...) const>();
     test_is_not_final<void (class_type::*)(int, ...) const&>();
@@ -626,7 +626,7 @@ TEST_CASE("is_final")
     test_is_not_final<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_final<int (class_type::*)()>();
-    test_is_not_final<int (class_type::*)()&>();
+    test_is_not_final<int (class_type::*)() &>();
     test_is_not_final<int (class_type::*)() &&>();
     test_is_not_final<int (class_type::*)() const>();
     test_is_not_final<int (class_type::*)() const&>();
@@ -639,7 +639,7 @@ TEST_CASE("is_final")
     test_is_not_final<int (class_type::*)() const && noexcept>();
 
     test_is_not_final<int (class_type::*)(int)>();
-    test_is_not_final<int (class_type::*)(int)&>();
+    test_is_not_final<int (class_type::*)(int) &>();
     test_is_not_final<int (class_type::*)(int) &&>();
     test_is_not_final<int (class_type::*)(int) const>();
     test_is_not_final<int (class_type::*)(int) const&>();
@@ -652,7 +652,7 @@ TEST_CASE("is_final")
     test_is_not_final<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_final<int (class_type::*)(...)>();
-    test_is_not_final<int (class_type::*)(...)&>();
+    test_is_not_final<int (class_type::*)(...) &>();
     test_is_not_final<int (class_type::*)(...) &&>();
     test_is_not_final<int (class_type::*)(...) const>();
     test_is_not_final<int (class_type::*)(...) const&>();
@@ -665,7 +665,7 @@ TEST_CASE("is_final")
     test_is_not_final<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_final<int (class_type::*)(int, ...)>();
-    test_is_not_final<int (class_type::*)(int, ...)&>();
+    test_is_not_final<int (class_type::*)(int, ...) &>();
     test_is_not_final<int (class_type::*)(int, ...) &&>();
     test_is_not_final<int (class_type::*)(int, ...) const>();
     test_is_not_final<int (class_type::*)(int, ...) const&>();

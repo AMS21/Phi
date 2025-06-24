@@ -139,22 +139,22 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<char[]>();
     test_has_no_value_type<char* [3]>();
     test_has_no_value_type<char*[]>();
-    test_has_no_value_type<int(*)[3]>();
-    test_has_no_value_type<int(*)[]>();
-    test_has_no_value_type<int(&)[3]>();
-    test_has_no_value_type<int(&)[]>();
-    test_has_no_value_type<int(&&)[3]>();
-    test_has_no_value_type<int(&&)[]>();
+    test_has_no_value_type<int (*)[3]>();
+    test_has_no_value_type<int (*)[]>();
+    test_has_no_value_type<int (&)[3]>();
+    test_has_no_value_type<int (&)[]>();
+    test_has_no_value_type<int (&&)[3]>();
+    test_has_no_value_type<int (&&)[]>();
     test_has_no_value_type<char[3][2]>();
     test_has_no_value_type<char[][2]>();
     test_has_no_value_type<char* [3][2]>();
     test_has_no_value_type<char*[][2]>();
-    test_has_no_value_type<int(*)[3][2]>();
-    test_has_no_value_type<int(*)[][2]>();
-    test_has_no_value_type<int(&)[3][2]>();
-    test_has_no_value_type<int(&)[][2]>();
-    test_has_no_value_type<int(&&)[3][2]>();
-    test_has_no_value_type<int(&&)[][2]>();
+    test_has_no_value_type<int (*)[3][2]>();
+    test_has_no_value_type<int (*)[][2]>();
+    test_has_no_value_type<int (&)[3][2]>();
+    test_has_no_value_type<int (&)[][2]>();
+    test_has_no_value_type<int (&&)[3][2]>();
+    test_has_no_value_type<int (&&)[][2]>();
     test_has_no_value_type<class_type>();
     test_has_no_value_type<class_type[]>();
     test_has_no_value_type<class_type[2]>();
@@ -367,7 +367,7 @@ TEST_CASE("type_traits.has_value_type")
 #endif
 
     test_has_no_value_type<void()>();
-    test_has_no_value_type<void()&>();
+    test_has_no_value_type<void() &>();
     test_has_no_value_type<void() &&>();
     test_has_no_value_type<void() const>();
     test_has_no_value_type<void() const&>();
@@ -392,7 +392,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void() const volatile && noexcept>();
 
     test_has_no_value_type<void(int)>();
-    test_has_no_value_type<void(int)&>();
+    test_has_no_value_type<void(int) &>();
     test_has_no_value_type<void(int) &&>();
     test_has_no_value_type<void(int) const>();
     test_has_no_value_type<void(int) const&>();
@@ -417,7 +417,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void(int) const volatile && noexcept>();
 
     test_has_no_value_type<void(...)>();
-    test_has_no_value_type<void(...)&>();
+    test_has_no_value_type<void(...) &>();
     test_has_no_value_type<void(...) &&>();
     test_has_no_value_type<void(...) const>();
     test_has_no_value_type<void(...) const&>();
@@ -442,7 +442,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void(...) const volatile && noexcept>();
 
     test_has_no_value_type<void(int, ...)>();
-    test_has_no_value_type<void(int, ...)&>();
+    test_has_no_value_type<void(int, ...) &>();
     test_has_no_value_type<void(int, ...) &&>();
     test_has_no_value_type<void(int, ...) const>();
     test_has_no_value_type<void(int, ...) const&>();
@@ -467,7 +467,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void(int, ...) const volatile && noexcept>();
 
     test_has_no_value_type<int()>();
-    test_has_no_value_type<int()&>();
+    test_has_no_value_type<int() &>();
     test_has_no_value_type<int() &&>();
     test_has_no_value_type<int() const>();
     test_has_no_value_type<int() const&>();
@@ -492,7 +492,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int() const volatile && noexcept>();
 
     test_has_no_value_type<int(int)>();
-    test_has_no_value_type<int(int)&>();
+    test_has_no_value_type<int(int) &>();
     test_has_no_value_type<int(int) &&>();
     test_has_no_value_type<int(int) const>();
     test_has_no_value_type<int(int) const&>();
@@ -517,7 +517,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int(int) const volatile && noexcept>();
 
     test_has_no_value_type<int(...)>();
-    test_has_no_value_type<int(...)&>();
+    test_has_no_value_type<int(...) &>();
     test_has_no_value_type<int(...) &&>();
     test_has_no_value_type<int(...) const>();
     test_has_no_value_type<int(...) const&>();
@@ -542,7 +542,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int(...) const volatile && noexcept>();
 
     test_has_no_value_type<int(int, ...)>();
-    test_has_no_value_type<int(int, ...)&>();
+    test_has_no_value_type<int(int, ...) &>();
     test_has_no_value_type<int(int, ...) &&>();
     test_has_no_value_type<int(int, ...) const>();
     test_has_no_value_type<int(int, ...) const&>();
@@ -639,7 +639,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int (&&)(int, ...) noexcept>();
 
     test_has_no_value_type<void (class_type::*)()>();
-    test_has_no_value_type<void (class_type::*)()&>();
+    test_has_no_value_type<void (class_type::*)() &>();
     test_has_no_value_type<void (class_type::*)() &&>();
     test_has_no_value_type<void (class_type::*)() const>();
     test_has_no_value_type<void (class_type::*)() const&>();
@@ -652,7 +652,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void (class_type::*)() const && noexcept>();
 
     test_has_no_value_type<void (class_type::*)(int)>();
-    test_has_no_value_type<void (class_type::*)(int)&>();
+    test_has_no_value_type<void (class_type::*)(int) &>();
     test_has_no_value_type<void (class_type::*)(int) &&>();
     test_has_no_value_type<void (class_type::*)(int) const>();
     test_has_no_value_type<void (class_type::*)(int) const&>();
@@ -665,7 +665,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void (class_type::*)(int) const && noexcept>();
 
     test_has_no_value_type<void (class_type::*)(...)>();
-    test_has_no_value_type<void (class_type::*)(...)&>();
+    test_has_no_value_type<void (class_type::*)(...) &>();
     test_has_no_value_type<void (class_type::*)(...) &&>();
     test_has_no_value_type<void (class_type::*)(...) const>();
     test_has_no_value_type<void (class_type::*)(...) const&>();
@@ -678,7 +678,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void (class_type::*)(...) const && noexcept>();
 
     test_has_no_value_type<void (class_type::*)(int, ...)>();
-    test_has_no_value_type<void (class_type::*)(int, ...)&>();
+    test_has_no_value_type<void (class_type::*)(int, ...) &>();
     test_has_no_value_type<void (class_type::*)(int, ...) &&>();
     test_has_no_value_type<void (class_type::*)(int, ...) const>();
     test_has_no_value_type<void (class_type::*)(int, ...) const&>();
@@ -691,7 +691,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<void (class_type::*)(int, ...) const && noexcept>();
 
     test_has_no_value_type<int (class_type::*)()>();
-    test_has_no_value_type<int (class_type::*)()&>();
+    test_has_no_value_type<int (class_type::*)() &>();
     test_has_no_value_type<int (class_type::*)() &&>();
     test_has_no_value_type<int (class_type::*)() const>();
     test_has_no_value_type<int (class_type::*)() const&>();
@@ -704,7 +704,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int (class_type::*)() const && noexcept>();
 
     test_has_no_value_type<int (class_type::*)(int)>();
-    test_has_no_value_type<int (class_type::*)(int)&>();
+    test_has_no_value_type<int (class_type::*)(int) &>();
     test_has_no_value_type<int (class_type::*)(int) &&>();
     test_has_no_value_type<int (class_type::*)(int) const>();
     test_has_no_value_type<int (class_type::*)(int) const&>();
@@ -717,7 +717,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int (class_type::*)(int) const && noexcept>();
 
     test_has_no_value_type<int (class_type::*)(...)>();
-    test_has_no_value_type<int (class_type::*)(...)&>();
+    test_has_no_value_type<int (class_type::*)(...) &>();
     test_has_no_value_type<int (class_type::*)(...) &&>();
     test_has_no_value_type<int (class_type::*)(...) const>();
     test_has_no_value_type<int (class_type::*)(...) const&>();
@@ -730,7 +730,7 @@ TEST_CASE("type_traits.has_value_type")
     test_has_no_value_type<int (class_type::*)(...) const && noexcept>();
 
     test_has_no_value_type<int (class_type::*)(int, ...)>();
-    test_has_no_value_type<int (class_type::*)(int, ...)&>();
+    test_has_no_value_type<int (class_type::*)(int, ...) &>();
     test_has_no_value_type<int (class_type::*)(int, ...) &&>();
     test_has_no_value_type<int (class_type::*)(int, ...) const>();
     test_has_no_value_type<int (class_type::*)(int, ...) const&>();

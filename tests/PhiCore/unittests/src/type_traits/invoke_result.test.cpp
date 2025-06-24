@@ -475,7 +475,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<PMD(std::reference_wrapper<FD const>), const char&>();
     }
     {
-        test_invoke_result<int (F::*(F&))()&, int>();
+        test_invoke_result<int (F::*(F&))() &, int>();
         test_invoke_result<int (F::*(F&))() const&, int>();
         test_invoke_result<int (F::*(F&))() volatile&, int>();
         test_invoke_result<int (F::*(F&))() const volatile&, int>();
@@ -485,7 +485,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(F volatile&))() const volatile&, int>();
         test_invoke_result<int (F::*(F const volatile&))() const volatile&, int>();
 
-        test_invoke_result<int (F::*(F&&))()&&, int>();
+        test_invoke_result<int (F::*(F&&))() &&, int>();
         test_invoke_result<int (F::*(F&&))() const&&, int>();
         test_invoke_result<int (F::*(F&&))() volatile&&, int>();
         test_invoke_result<int (F::*(F&&))() const volatile&&, int>();
@@ -495,7 +495,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(F volatile&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(F const volatile&&))() const volatile&&, int>();
 
-        test_invoke_result<int (F::*(F))()&&, int>();
+        test_invoke_result<int (F::*(F))() &&, int>();
         test_invoke_result<int (F::*(F))() const&&, int>();
         test_invoke_result<int (F::*(F))() volatile&&, int>();
         test_invoke_result<int (F::*(F))() const volatile&&, int>();
@@ -506,7 +506,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(F const volatile))() const volatile&&, int>();
     }
     {
-        test_invoke_result<int (F::*(FD&))()&, int>();
+        test_invoke_result<int (F::*(FD&))() &, int>();
         test_invoke_result<int (F::*(FD&))() const&, int>();
         test_invoke_result<int (F::*(FD&))() volatile&, int>();
         test_invoke_result<int (F::*(FD&))() const volatile&, int>();
@@ -516,7 +516,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(FD volatile&))() const volatile&, int>();
         test_invoke_result<int (F::*(FD const volatile&))() const volatile&, int>();
 
-        test_invoke_result<int (F::*(FD&&))()&&, int>();
+        test_invoke_result<int (F::*(FD&&))() &&, int>();
         test_invoke_result<int (F::*(FD&&))() const&&, int>();
         test_invoke_result<int (F::*(FD&&))() volatile&&, int>();
         test_invoke_result<int (F::*(FD&&))() const volatile&&, int>();
@@ -526,7 +526,7 @@ TEST_CASE("invoke_result")
         test_invoke_result<int (F::*(FD volatile&&))() const volatile&&, int>();
         test_invoke_result<int (F::*(FD const volatile&&))() const volatile&&, int>();
 
-        test_invoke_result<int (F::*(FD))()&&, int>();
+        test_invoke_result<int (F::*(FD))() &&, int>();
         test_invoke_result<int (F::*(FD))() const&&, int>();
         test_invoke_result<int (F::*(FD))() volatile&&, int>();
         test_invoke_result<int (F::*(FD))() const volatile&&, int>();

@@ -130,22 +130,22 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<char[]>();
     test_is_not_safe_unsigned<char* [3]>();
     test_is_not_safe_unsigned<char*[]>();
-    test_is_not_safe_unsigned<int(*)[3]>();
-    test_is_not_safe_unsigned<int(*)[]>();
-    test_is_not_safe_unsigned<int(&)[3]>();
-    test_is_not_safe_unsigned<int(&)[]>();
-    test_is_not_safe_unsigned<int(&&)[3]>();
-    test_is_not_safe_unsigned<int(&&)[]>();
+    test_is_not_safe_unsigned<int (*)[3]>();
+    test_is_not_safe_unsigned<int (*)[]>();
+    test_is_not_safe_unsigned<int (&)[3]>();
+    test_is_not_safe_unsigned<int (&)[]>();
+    test_is_not_safe_unsigned<int (&&)[3]>();
+    test_is_not_safe_unsigned<int (&&)[]>();
     test_is_not_safe_unsigned<char[3][2]>();
     test_is_not_safe_unsigned<char[][2]>();
     test_is_not_safe_unsigned<char* [3][2]>();
     test_is_not_safe_unsigned<char*[][2]>();
-    test_is_not_safe_unsigned<int(*)[3][2]>();
-    test_is_not_safe_unsigned<int(*)[][2]>();
-    test_is_not_safe_unsigned<int(&)[3][2]>();
-    test_is_not_safe_unsigned<int(&)[][2]>();
-    test_is_not_safe_unsigned<int(&&)[3][2]>();
-    test_is_not_safe_unsigned<int(&&)[][2]>();
+    test_is_not_safe_unsigned<int (*)[3][2]>();
+    test_is_not_safe_unsigned<int (*)[][2]>();
+    test_is_not_safe_unsigned<int (&)[3][2]>();
+    test_is_not_safe_unsigned<int (&)[][2]>();
+    test_is_not_safe_unsigned<int (&&)[3][2]>();
+    test_is_not_safe_unsigned<int (&&)[][2]>();
     test_is_not_safe_unsigned<class_type>();
     test_is_not_safe_unsigned<class_type[]>();
     test_is_not_safe_unsigned<class_type[2]>();
@@ -358,7 +358,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<trap_array_subscript>();
 
     test_is_not_safe_unsigned<void()>();
-    test_is_not_safe_unsigned<void()&>();
+    test_is_not_safe_unsigned<void() &>();
     test_is_not_safe_unsigned<void() &&>();
     test_is_not_safe_unsigned<void() const>();
     test_is_not_safe_unsigned<void() const&>();
@@ -383,7 +383,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void() const volatile && noexcept>();
 
     test_is_not_safe_unsigned<void(int)>();
-    test_is_not_safe_unsigned<void(int)&>();
+    test_is_not_safe_unsigned<void(int) &>();
     test_is_not_safe_unsigned<void(int) &&>();
     test_is_not_safe_unsigned<void(int) const>();
     test_is_not_safe_unsigned<void(int) const&>();
@@ -408,7 +408,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void(int) const volatile && noexcept>();
 
     test_is_not_safe_unsigned<void(...)>();
-    test_is_not_safe_unsigned<void(...)&>();
+    test_is_not_safe_unsigned<void(...) &>();
     test_is_not_safe_unsigned<void(...) &&>();
     test_is_not_safe_unsigned<void(...) const>();
     test_is_not_safe_unsigned<void(...) const&>();
@@ -433,7 +433,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void(...) const volatile && noexcept>();
 
     test_is_not_safe_unsigned<void(int, ...)>();
-    test_is_not_safe_unsigned<void(int, ...)&>();
+    test_is_not_safe_unsigned<void(int, ...) &>();
     test_is_not_safe_unsigned<void(int, ...) &&>();
     test_is_not_safe_unsigned<void(int, ...) const>();
     test_is_not_safe_unsigned<void(int, ...) const&>();
@@ -458,7 +458,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void(int, ...) const volatile && noexcept>();
 
     test_is_not_safe_unsigned<int()>();
-    test_is_not_safe_unsigned<int()&>();
+    test_is_not_safe_unsigned<int() &>();
     test_is_not_safe_unsigned<int() &&>();
     test_is_not_safe_unsigned<int() const>();
     test_is_not_safe_unsigned<int() const&>();
@@ -483,7 +483,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int() const volatile && noexcept>();
 
     test_is_not_safe_unsigned<int(int)>();
-    test_is_not_safe_unsigned<int(int)&>();
+    test_is_not_safe_unsigned<int(int) &>();
     test_is_not_safe_unsigned<int(int) &&>();
     test_is_not_safe_unsigned<int(int) const>();
     test_is_not_safe_unsigned<int(int) const&>();
@@ -508,7 +508,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int(int) const volatile && noexcept>();
 
     test_is_not_safe_unsigned<int(...)>();
-    test_is_not_safe_unsigned<int(...)&>();
+    test_is_not_safe_unsigned<int(...) &>();
     test_is_not_safe_unsigned<int(...) &&>();
     test_is_not_safe_unsigned<int(...) const>();
     test_is_not_safe_unsigned<int(...) const&>();
@@ -533,7 +533,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int(...) const volatile && noexcept>();
 
     test_is_not_safe_unsigned<int(int, ...)>();
-    test_is_not_safe_unsigned<int(int, ...)&>();
+    test_is_not_safe_unsigned<int(int, ...) &>();
     test_is_not_safe_unsigned<int(int, ...) &&>();
     test_is_not_safe_unsigned<int(int, ...) const>();
     test_is_not_safe_unsigned<int(int, ...) const&>();
@@ -630,7 +630,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int (&&)(int, ...) noexcept>();
 
     test_is_not_safe_unsigned<void (class_type::*)()>();
-    test_is_not_safe_unsigned<void (class_type::*)()&>();
+    test_is_not_safe_unsigned<void (class_type::*)() &>();
     test_is_not_safe_unsigned<void (class_type::*)() &&>();
     test_is_not_safe_unsigned<void (class_type::*)() const>();
     test_is_not_safe_unsigned<void (class_type::*)() const&>();
@@ -643,7 +643,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void (class_type::*)() const && noexcept>();
 
     test_is_not_safe_unsigned<void (class_type::*)(int)>();
-    test_is_not_safe_unsigned<void (class_type::*)(int)&>();
+    test_is_not_safe_unsigned<void (class_type::*)(int) &>();
     test_is_not_safe_unsigned<void (class_type::*)(int) &&>();
     test_is_not_safe_unsigned<void (class_type::*)(int) const>();
     test_is_not_safe_unsigned<void (class_type::*)(int) const&>();
@@ -656,7 +656,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_unsigned<void (class_type::*)(...)>();
-    test_is_not_safe_unsigned<void (class_type::*)(...)&>();
+    test_is_not_safe_unsigned<void (class_type::*)(...) &>();
     test_is_not_safe_unsigned<void (class_type::*)(...) &&>();
     test_is_not_safe_unsigned<void (class_type::*)(...) const>();
     test_is_not_safe_unsigned<void (class_type::*)(...) const&>();
@@ -669,7 +669,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_unsigned<void (class_type::*)(int, ...)>();
-    test_is_not_safe_unsigned<void (class_type::*)(int, ...)&>();
+    test_is_not_safe_unsigned<void (class_type::*)(int, ...) &>();
     test_is_not_safe_unsigned<void (class_type::*)(int, ...) &&>();
     test_is_not_safe_unsigned<void (class_type::*)(int, ...) const>();
     test_is_not_safe_unsigned<void (class_type::*)(int, ...) const&>();
@@ -682,7 +682,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_safe_unsigned<int (class_type::*)()>();
-    test_is_not_safe_unsigned<int (class_type::*)()&>();
+    test_is_not_safe_unsigned<int (class_type::*)() &>();
     test_is_not_safe_unsigned<int (class_type::*)() &&>();
     test_is_not_safe_unsigned<int (class_type::*)() const>();
     test_is_not_safe_unsigned<int (class_type::*)() const&>();
@@ -695,7 +695,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int (class_type::*)() const && noexcept>();
 
     test_is_not_safe_unsigned<int (class_type::*)(int)>();
-    test_is_not_safe_unsigned<int (class_type::*)(int)&>();
+    test_is_not_safe_unsigned<int (class_type::*)(int) &>();
     test_is_not_safe_unsigned<int (class_type::*)(int) &&>();
     test_is_not_safe_unsigned<int (class_type::*)(int) const>();
     test_is_not_safe_unsigned<int (class_type::*)(int) const&>();
@@ -708,7 +708,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_safe_unsigned<int (class_type::*)(...)>();
-    test_is_not_safe_unsigned<int (class_type::*)(...)&>();
+    test_is_not_safe_unsigned<int (class_type::*)(...) &>();
     test_is_not_safe_unsigned<int (class_type::*)(...) &&>();
     test_is_not_safe_unsigned<int (class_type::*)(...) const>();
     test_is_not_safe_unsigned<int (class_type::*)(...) const&>();
@@ -721,7 +721,7 @@ TEST_CASE("is_safe_unsigned")
     test_is_not_safe_unsigned<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_safe_unsigned<int (class_type::*)(int, ...)>();
-    test_is_not_safe_unsigned<int (class_type::*)(int, ...)&>();
+    test_is_not_safe_unsigned<int (class_type::*)(int, ...) &>();
     test_is_not_safe_unsigned<int (class_type::*)(int, ...) &&>();
     test_is_not_safe_unsigned<int (class_type::*)(int, ...) const>();
     test_is_not_safe_unsigned<int (class_type::*)(int, ...) const&>();

@@ -41,6 +41,7 @@ extern int main();
     /* NOLINTBEGIN */                                                                              \
     static void name();                                                                            \
     PHI_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wglobal-constructors")                                  \
+    PHI_CLANG_SUPPRESS_WARNING("-Wmissing-noreturn")                                               \
     static const ::phi::test::detail::register_test_case PHI_GLUE(name, _register){&(name)};       \
     PHI_CLANG_SUPPRESS_WARNING_POP()                                                               \
     static void name() /* NOLINTEND */

@@ -242,22 +242,22 @@ TEST_CASE("is_enum")
     test_is_not_enum<char[]>();
     test_is_not_enum<char* [3]>();
     test_is_not_enum<char*[]>();
-    test_is_not_enum<int(*)[3]>();
-    test_is_not_enum<int(*)[]>();
-    test_is_not_enum<int(&)[3]>();
-    test_is_not_enum<int(&)[]>();
-    test_is_not_enum<int(&&)[3]>();
-    test_is_not_enum<int(&&)[]>();
+    test_is_not_enum<int (*)[3]>();
+    test_is_not_enum<int (*)[]>();
+    test_is_not_enum<int (&)[3]>();
+    test_is_not_enum<int (&)[]>();
+    test_is_not_enum<int (&&)[3]>();
+    test_is_not_enum<int (&&)[]>();
     test_is_not_enum<char[3][2]>();
     test_is_not_enum<char[][2]>();
     test_is_not_enum<char* [3][2]>();
     test_is_not_enum<char*[][2]>();
-    test_is_not_enum<int(*)[3][2]>();
-    test_is_not_enum<int(*)[][2]>();
-    test_is_not_enum<int(&)[3][2]>();
-    test_is_not_enum<int(&)[][2]>();
-    test_is_not_enum<int(&&)[3][2]>();
-    test_is_not_enum<int(&&)[][2]>();
+    test_is_not_enum<int (*)[3][2]>();
+    test_is_not_enum<int (*)[][2]>();
+    test_is_not_enum<int (&)[3][2]>();
+    test_is_not_enum<int (&)[][2]>();
+    test_is_not_enum<int (&&)[3][2]>();
+    test_is_not_enum<int (&&)[][2]>();
     test_is_not_enum<class_type>();
     test_is_not_enum<class_type[]>();
     test_is_not_enum<class_type[2]>();
@@ -472,7 +472,7 @@ TEST_CASE("is_enum")
 #endif
 
     test_is_not_enum<void()>();
-    test_is_not_enum<void()&>();
+    test_is_not_enum<void() &>();
     test_is_not_enum<void() &&>();
     test_is_not_enum<void() const>();
     test_is_not_enum<void() const&>();
@@ -497,7 +497,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void() const volatile && noexcept>();
 
     test_is_not_enum<void(int)>();
-    test_is_not_enum<void(int)&>();
+    test_is_not_enum<void(int) &>();
     test_is_not_enum<void(int) &&>();
     test_is_not_enum<void(int) const>();
     test_is_not_enum<void(int) const&>();
@@ -522,7 +522,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(int) const volatile && noexcept>();
 
     test_is_not_enum<void(...)>();
-    test_is_not_enum<void(...)&>();
+    test_is_not_enum<void(...) &>();
     test_is_not_enum<void(...) &&>();
     test_is_not_enum<void(...) const>();
     test_is_not_enum<void(...) const&>();
@@ -547,7 +547,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(...) const volatile && noexcept>();
 
     test_is_not_enum<void(int, ...)>();
-    test_is_not_enum<void(int, ...)&>();
+    test_is_not_enum<void(int, ...) &>();
     test_is_not_enum<void(int, ...) &&>();
     test_is_not_enum<void(int, ...) const>();
     test_is_not_enum<void(int, ...) const&>();
@@ -572,7 +572,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void(int, ...) const volatile && noexcept>();
 
     test_is_not_enum<int()>();
-    test_is_not_enum<int()&>();
+    test_is_not_enum<int() &>();
     test_is_not_enum<int() &&>();
     test_is_not_enum<int() const>();
     test_is_not_enum<int() const&>();
@@ -597,7 +597,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int() const volatile && noexcept>();
 
     test_is_not_enum<int(int)>();
-    test_is_not_enum<int(int)&>();
+    test_is_not_enum<int(int) &>();
     test_is_not_enum<int(int) &&>();
     test_is_not_enum<int(int) const>();
     test_is_not_enum<int(int) const&>();
@@ -622,7 +622,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int(int) const volatile && noexcept>();
 
     test_is_not_enum<int(...)>();
-    test_is_not_enum<int(...)&>();
+    test_is_not_enum<int(...) &>();
     test_is_not_enum<int(...) &&>();
     test_is_not_enum<int(...) const>();
     test_is_not_enum<int(...) const&>();
@@ -647,7 +647,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int(...) const volatile && noexcept>();
 
     test_is_not_enum<int(int, ...)>();
-    test_is_not_enum<int(int, ...)&>();
+    test_is_not_enum<int(int, ...) &>();
     test_is_not_enum<int(int, ...) &&>();
     test_is_not_enum<int(int, ...) const>();
     test_is_not_enum<int(int, ...) const&>();
@@ -744,7 +744,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int (&&)(int, ...) noexcept>();
 
     test_is_not_enum<void (class_type::*)()>();
-    test_is_not_enum<void (class_type::*)()&>();
+    test_is_not_enum<void (class_type::*)() &>();
     test_is_not_enum<void (class_type::*)() &&>();
     test_is_not_enum<void (class_type::*)() const>();
     test_is_not_enum<void (class_type::*)() const&>();
@@ -757,7 +757,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void (class_type::*)() const && noexcept>();
 
     test_is_not_enum<void (class_type::*)(int)>();
-    test_is_not_enum<void (class_type::*)(int)&>();
+    test_is_not_enum<void (class_type::*)(int) &>();
     test_is_not_enum<void (class_type::*)(int) &&>();
     test_is_not_enum<void (class_type::*)(int) const>();
     test_is_not_enum<void (class_type::*)(int) const&>();
@@ -770,7 +770,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void (class_type::*)(int) const && noexcept>();
 
     test_is_not_enum<void (class_type::*)(...)>();
-    test_is_not_enum<void (class_type::*)(...)&>();
+    test_is_not_enum<void (class_type::*)(...) &>();
     test_is_not_enum<void (class_type::*)(...) &&>();
     test_is_not_enum<void (class_type::*)(...) const>();
     test_is_not_enum<void (class_type::*)(...) const&>();
@@ -783,7 +783,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void (class_type::*)(...) const && noexcept>();
 
     test_is_not_enum<void (class_type::*)(int, ...)>();
-    test_is_not_enum<void (class_type::*)(int, ...)&>();
+    test_is_not_enum<void (class_type::*)(int, ...) &>();
     test_is_not_enum<void (class_type::*)(int, ...) &&>();
     test_is_not_enum<void (class_type::*)(int, ...) const>();
     test_is_not_enum<void (class_type::*)(int, ...) const&>();
@@ -796,7 +796,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<void (class_type::*)(int, ...) const && noexcept>();
 
     test_is_not_enum<int (class_type::*)()>();
-    test_is_not_enum<int (class_type::*)()&>();
+    test_is_not_enum<int (class_type::*)() &>();
     test_is_not_enum<int (class_type::*)() &&>();
     test_is_not_enum<int (class_type::*)() const>();
     test_is_not_enum<int (class_type::*)() const&>();
@@ -809,7 +809,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int (class_type::*)() const && noexcept>();
 
     test_is_not_enum<int (class_type::*)(int)>();
-    test_is_not_enum<int (class_type::*)(int)&>();
+    test_is_not_enum<int (class_type::*)(int) &>();
     test_is_not_enum<int (class_type::*)(int) &&>();
     test_is_not_enum<int (class_type::*)(int) const>();
     test_is_not_enum<int (class_type::*)(int) const&>();
@@ -822,7 +822,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int (class_type::*)(int) const && noexcept>();
 
     test_is_not_enum<int (class_type::*)(...)>();
-    test_is_not_enum<int (class_type::*)(...)&>();
+    test_is_not_enum<int (class_type::*)(...) &>();
     test_is_not_enum<int (class_type::*)(...) &&>();
     test_is_not_enum<int (class_type::*)(...) const>();
     test_is_not_enum<int (class_type::*)(...) const&>();
@@ -835,7 +835,7 @@ TEST_CASE("is_enum")
     test_is_not_enum<int (class_type::*)(...) const && noexcept>();
 
     test_is_not_enum<int (class_type::*)(int, ...)>();
-    test_is_not_enum<int (class_type::*)(int, ...)&>();
+    test_is_not_enum<int (class_type::*)(int, ...) &>();
     test_is_not_enum<int (class_type::*)(int, ...) &&>();
     test_is_not_enum<int (class_type::*)(int, ...) const>();
     test_is_not_enum<int (class_type::*)(int, ...) const&>();
