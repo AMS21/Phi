@@ -38,7 +38,7 @@ concurrency:
 
 jobs:
   Build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -48,6 +48,21 @@ jobs:
 
       matrix:
         em_version:
+          - "4.0.10"
+          - "4.0.9"
+          - "4.0.8"
+          - "4.0.7"
+          - "4.0.6"
+          - "4.0.5"
+          - "4.0.4"
+          - "4.0.3"
+          - "4.0.2"
+          - "4.0.1"
+          - "4.0.0"
+          - "3.1.74"
+          - "3.1.73"
+          - "3.1.72"
+          - "3.1.71"
           - "3.1.70"
           - "3.1.69"
           - "3.1.68"

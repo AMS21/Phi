@@ -38,7 +38,7 @@ concurrency:
 
 jobs:
   clang:
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
 
     # Don't run on dependabot PRs
     if: github.actor != 'dependabot[bot]'
@@ -48,10 +48,6 @@ jobs:
 
       matrix:
         compiler_version:
-          - "9"
-          - "10"
-          - "11"
-          - "12"
           - "13"
           - "14"
           - "15"
@@ -109,13 +105,11 @@ jobs:
       matrix:
         # Pair of os version and gcc version
         cfg:
-          - { os: ubuntu-20.04, compiler_version: "7" }
-          - { os: ubuntu-20.04, compiler_version: "8" }
-          - { os: ubuntu-20.04, compiler_version: "9" }
-          - { os: ubuntu-20.04, compiler_version: "10" }
-          - { os: ubuntu-20.04, compiler_version: "11" }
-          - { os: ubuntu-22.04, compiler_version: "12" }
-          - { os: ubuntu-22.04, compiler_version: "13" }
+          - { os: ubuntu-24.04, compiler_version: "9" }
+          - { os: ubuntu-24.04, compiler_version: "10" }
+          - { os: ubuntu-24.04, compiler_version: "11" }
+          - { os: ubuntu-24.04, compiler_version: "12" }
+          - { os: ubuntu-24.04, compiler_version: "13" }
           - { os: ubuntu-24.04, compiler_version: "14" }
 
         build_type:

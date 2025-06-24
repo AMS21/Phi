@@ -30,7 +30,7 @@ concurrency:
 
 jobs:
   configure:
-    runs-on: 'ubuntu-22.04'
+    runs-on: 'ubuntu-24.04'
     container: 'ams21/cmake:${{ matrix.version }}'
 
     # Don't run on dependabot PRs
@@ -41,6 +41,7 @@ jobs:
 
       matrix:
         version:
+          - "4.0"
           - "3.31"
           - "3.30"
           - "3.29"
