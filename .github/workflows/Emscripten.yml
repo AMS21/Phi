@@ -182,7 +182,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Emscripten
-        uses: mymindstorm/setup-emsdk@v15
+        uses: mymindstorm/setup-emsdk@v16
         # Continue on error to ignore problems with caching
         continue-on-error: true
         with:
