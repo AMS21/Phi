@@ -435,6 +435,11 @@ elseif(PHI_COMPILER_CLANG)
     set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c++23-extensions)
   endif()
 
+  # Clang-19 flags
+  if(PHI_CLANG_VERSION VERSION_GREATER_EQUAL 19)
+    set(phi_disabled_warnings_flags ${phi_disabled_warnings_flags} -Wno-c2y-extensions)
+  endif()
+
 elseif(PHI_COMPILER_GCC)
 
   # https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html
@@ -459,7 +464,7 @@ elseif(PHI_COMPILER_GCC)
       -Wformat=2 # warn on security issues around functions that format output (ie printf)
       -Winvalid-pch
       -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
-      -Wmisleading-indentation # warn if identation implies blocks where blocks do not exist
+      -Wmisleading-indentation # warn if indentation implies blocks where blocks do not exist
       -Wmissing-field-initializers
       -Wmissing-format-attribute
       -Wmissing-noreturn

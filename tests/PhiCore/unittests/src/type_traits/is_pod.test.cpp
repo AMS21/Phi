@@ -366,7 +366,7 @@ TEST_CASE("is_pod")
     test_is_pod<deleted_explicit_to<float>>();
     test_is_pod<deleted_explicit_to<class_type>>();
     test_is_not_pod<ellipsis>();
-#if PHI_COMPILER_IS(GCC) || PHI_COMPILER_IS(MINGW)
+#if PHI_COMPILER_IS_BELOW(GCC, 16, 0, 0) || PHI_COMPILER_IS(MINGW)
     test_is_pod<deleted_ellipsis>();
 #else
     test_is_not_pod<deleted_ellipsis>();
@@ -423,44 +423,44 @@ TEST_CASE("is_pod")
     test_is_pod<IncompleteEnumStruct>();
     test_is_pod<int class_type::*>();
     test_is_pod<float class_type::*>();
-    test_is_pod<void * class_type::*>();
-    test_is_pod<int * class_type::*>();
+    test_is_pod<void* class_type::*>();
+    test_is_pod<int* class_type::*>();
     test_is_not_pod<int class_type::*&>();
     test_is_not_pod<float class_type::*&>();
-    test_is_not_pod<void * class_type::*&>();
-    test_is_not_pod<int * class_type::*&>();
+    test_is_not_pod<void* class_type::*&>();
+    test_is_not_pod<int* class_type::*&>();
     test_is_not_pod<int class_type::*&&>();
     test_is_not_pod<float class_type::*&&>();
-    test_is_not_pod<void * class_type::*&&>();
-    test_is_not_pod<int * class_type::*&&>();
+    test_is_not_pod<void* class_type::*&&>();
+    test_is_not_pod<int* class_type::*&&>();
     test_is_pod<int class_type::* const>();
     test_is_pod<float class_type::* const>();
-    test_is_pod<void * class_type::* const>();
+    test_is_pod<void* class_type::* const>();
     test_is_not_pod<int class_type::* const&>();
     test_is_not_pod<float class_type::* const&>();
-    test_is_not_pod<void * class_type::* const&>();
+    test_is_not_pod<void* class_type::* const&>();
     test_is_not_pod<int class_type::* const&&>();
     test_is_not_pod<float class_type::* const&&>();
-    test_is_not_pod<void * class_type::* const&&>();
+    test_is_not_pod<void* class_type::* const&&>();
     test_is_pod<int class_type::* volatile>();
     test_is_pod<float class_type::* volatile>();
-    test_is_pod<void * class_type::* volatile>();
+    test_is_pod<void* class_type::* volatile>();
     test_is_not_pod<int class_type::* volatile&>();
     test_is_not_pod<float class_type::* volatile&>();
-    test_is_not_pod<void * class_type::* volatile&>();
+    test_is_not_pod<void* class_type::* volatile&>();
     test_is_not_pod<int class_type::* volatile&&>();
     test_is_not_pod<float class_type::* volatile&&>();
-    test_is_not_pod<void * class_type::* volatile&&>();
+    test_is_not_pod<void* class_type::* volatile&&>();
     test_is_pod<int class_type::* const volatile>();
     test_is_pod<float class_type::* const volatile>();
-    test_is_pod<void * class_type::* const volatile>();
+    test_is_pod<void* class_type::* const volatile>();
     test_is_not_pod<int class_type::* const volatile&>();
     test_is_not_pod<float class_type::* const volatile&>();
-    test_is_not_pod<void * class_type::* const volatile&>();
+    test_is_not_pod<void* class_type::* const volatile&>();
     test_is_not_pod<int class_type::* const volatile&&>();
     test_is_not_pod<float class_type::* const volatile&&>();
-    test_is_not_pod<void * class_type::* const volatile&&>();
-#if PHI_COMPILER_IS(MSVC)
+    test_is_not_pod<void* class_type::* const volatile&&>();
+#if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_ATLEAST(GCC, 16, 0, 0)
     test_is_not_pod<non_default_constructible>();
 #else
     test_is_pod<non_default_constructible>();
@@ -475,6 +475,9 @@ TEST_CASE("is_pod")
 #if PHI_COMPILER_IS(MSVC)
     test_is_not_pod<non_constructible>();
     test_is_not_pod<non_destructible>();
+#elif PHI_COMPILER_IS_ATLEAST(GCC, 16, 0, 0)
+    test_is_not_pod<non_constructible>();
+    test_is_pod<non_destructible>();
 #else
     test_is_pod<non_constructible>();
     test_is_pod<non_destructible>();

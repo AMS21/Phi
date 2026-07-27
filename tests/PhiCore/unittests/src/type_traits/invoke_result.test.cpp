@@ -35,7 +35,7 @@ struct S
 {
     using FreeFunc = short (*)(long);
 
-    operator FreeFunc() const;
+                           operator FreeFunc() const;
     double                 operator()(char, int&);
     double const&          operator()(char, int&) const;
     double volatile&       operator()(char, int&) volatile;

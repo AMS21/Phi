@@ -15,7 +15,7 @@
 #    if PHI_COMPILER_IS_ATLEAST(GCC, 7, 0, 0) || PHI_COMPILER_IS_ATLEAST(CLANG, 6, 0, 0) ||        \
             PHI_COMPILER_IS(APPLECLANG) || PHI_COMPILER_IS(EMCC) ||                                \
             PHI_COMPILER_IS_ATLEAST(MSVC, 19, 16, 0)
-#        define PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(obj)       __has_unique_object_representations(obj)
+#        define PHI_HAS_UNIQUE_OBJECT_REPRESENTATIONS(obj) __has_unique_object_representations(obj)
 #        define PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 1
 #    else
 #        define PHI_SUPPORTS_HAS_UNIQUE_OBJECT_REPRESENTATIONS() 0

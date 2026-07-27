@@ -93,8 +93,8 @@ template <typename SignatureT, typename ExpectT, typename FunctorT>
 void test_b12(FunctorT&& function)
 {
     // Create the callable object.
-    using ClassFunc    = SignatureT TestClass::*;
-    ClassFunc func_ptr = &TestClass::operator();
+    using ClassFunc                       = SignatureT TestClass::*;
+    ClassFunc                    func_ptr = &TestClass::operator();
 
     // Create the dummy arg.
     NonCopyable arg;
@@ -107,9 +107,17 @@ void test_b12(FunctorT&& function)
 #    if PHI_STANDARD_LIBRARY_LIBCXX() || PHI_COMPILER_IS(WINCLANG)
     SKIP_CHECK(); // Emcc stdlib and winclang doesn't seem to have std::result_of
 #    else
+
+    PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
+    PHI_CLANG_AND_GCC_SUPPRESS_WARNING(
+            "-Wdeprecated-declarations") // std::result_of is deprecated in C++-20
+
     // Check that result_of_t matches Expect.
     using ResultOfReturnType =
             typename std::result_of<ClassFunc && (FunctorT&&, NonCopyable&&)>::type;
+
+    PHI_CLANG_AND_GCC_SUPPRESS_WARNING_POP()
+
     CHECK_SAME_TYPE(ResultOfReturnType, ExpectT);
 #    endif
 
@@ -175,7 +183,7 @@ TEST_CASE("invoke bullet one and two")
         test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable&&) &&, int&&>(phi::move(test_class));
+        test_b12<int&&(NonCopyable&&) &&, int&&>(phi::move(test_class));
         test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
         test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
         test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(
@@ -189,7 +197,7 @@ TEST_CASE("invoke bullet one and two")
         test_b12<int const volatile&(NonCopyable&&) const volatile&, int const volatile&>(
                 test_class);
 
-        test_b12<int && (NonCopyable&&) &&, int&&>(phi::move(test_class));
+        test_b12<int&&(NonCopyable&&) &&, int&&>(phi::move(test_class));
         test_b12<int const && (NonCopyable&&) const&&, int const&&>(phi::move(test_class));
         test_b12<int volatile && (NonCopyable&&) volatile&&, int volatile&&>(phi::move(test_class));
         test_b12<int const volatile && (NonCopyable&&) const volatile&&, int const volatile&&>(

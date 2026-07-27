@@ -20,8 +20,9 @@ DETAIL_PHI_BEGIN_NAMESPACE()
 #if PHI_HAS_WORKING_IS_OBJECT()
 
 template <typename TypeT>
-PHI_NODISCARD PHI_CONSTEXPR typename enable_if<is_object<TypeT>::value, TypeT*>::type address_of(
-        TypeT& arg) PHI_NOEXCEPT
+PHI_NODISCARD                                                     PHI_CONSTEXPR
+        typename enable_if<is_object<TypeT>::value, TypeT*>::type address_of(TypeT& arg)
+                PHI_NOEXCEPT
 {
 #    if PHI_SUPPORTS_ADDRESS_OF()
     return PHI_ADDRESS_OF(arg);

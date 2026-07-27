@@ -38,12 +38,12 @@ PHI_NODISCARD PHI_EXTENDED_CONSTEXPR auto at(ContainerT& container, size_t index
 #else
 
 template <typename ContainerT>
-PHI_NODISCARD PHI_EXTENDED_CONSTEXPR typename ContainerT::value_type at(ContainerT& container,
-                                                                        size_t      index)
+PHI_NODISCARD                           PHI_EXTENDED_CONSTEXPR
+        typename ContainerT::value_type at(ContainerT& container, size_t index)
 #    if defined(PHI_DEBUG)
-        PHI_NOEXCEPT_EXPR(noexcept(container.at(index)))
+                PHI_NOEXCEPT_EXPR(noexcept(container.at(index)))
 #    else
-        PHI_NOEXCEPT_EXPR(noexcept(container[index]))
+                PHI_NOEXCEPT_EXPR(noexcept(container[index]))
 #    endif
 
 #endif

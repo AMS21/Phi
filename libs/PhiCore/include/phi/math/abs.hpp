@@ -22,6 +22,11 @@
 
 DETAIL_PHI_BEGIN_NAMESPACE()
 
+PHI_CLANG_SUPPRESS_WARNING_PUSH()
+#if PHI_COMPILER_IS_ATLEAST(CLANG, 21, 0, 0)
+PHI_CLANG_SUPPRESS_WARNING("-Wimplicit-int-conversion-on-negation")
+#endif
+
 PHI_GCC_SUPPRESS_WARNING_PUSH()
 #if PHI_COMPILER_IS_ATLEAST(GCC, 10, 0, 0)
 PHI_GCC_SUPPRESS_WARNING("-Warith-conversion")
@@ -94,6 +99,7 @@ namespace detail
 
 PHI_MSVC_SUPPRESS_WARNING_POP()
 PHI_GCC_SUPPRESS_WARNING_POP()
+PHI_CLANG_SUPPRESS_WARNING_POP()
 
 /*!
  * \brief Calculates the absolute value of a given number

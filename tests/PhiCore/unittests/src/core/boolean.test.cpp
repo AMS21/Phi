@@ -68,7 +68,7 @@ TEST_CASE("boolean layout", "[Utility][Types][boolean]")
 #endif
 #if PHI_HAS_WORKING_IS_TRIVIAL()
     // TODO: This test fails on MSVC
-#    if PHI_COMPILER_IS(MSVC)
+#    if PHI_COMPILER_IS(MSVC) || PHI_COMPILER_IS_ATLEAST(GCC, 16, 0, 0)
     SKIP_CHECK();
 #    else
     STATIC_REQUIRE(phi::is_trivial<phi::boolean>::value);

@@ -19,8 +19,8 @@ struct ignore_t
 {
     template <typename OtherT>
     // NOLINTNEXTLINE(misc-unconventional-assign-operator,cppcoreguidelines-missing-std-forward)
-    PHI_ALWAYS_INLINE PHI_CONSTEXPR_AND_CONST ignore_t<TypeT>& operator=(OtherT&& /*other*/) const
-            PHI_NOEXCEPT
+    PHI_ALWAYS_INLINE PHI_CONSTEXPR_AND_CONST
+            ignore_t<TypeT>& operator=(OtherT&& /*other*/) const PHI_NOEXCEPT
     {
         return *this;
     }

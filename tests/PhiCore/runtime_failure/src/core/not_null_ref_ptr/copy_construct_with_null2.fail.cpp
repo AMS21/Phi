@@ -4,6 +4,10 @@
 
 // NOTE: Very evil macro hack to create an invalid not_null_ref_ptr
 PHI_CLANG_SUPPRESS_WARNING("-Wkeyword-macro")
+#if PHI_COMPILER_IS_ATLEAST(GCC, 16, 0, 0)
+PHI_GCC_SUPPRESS_WARNING("-Wkeyword-macro")
+#endif
+
 #define private public
 
 #include <phi/core/ref_ptr.hpp>

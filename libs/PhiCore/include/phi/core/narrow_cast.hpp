@@ -32,16 +32,12 @@ PHI_CLANG_AND_GCC_SUPPRESS_WARNING_PUSH()
 PHI_CLANG_AND_GCC_SUPPRESS_WARNING("-Wfloat-equal")
 
 template <typename TargetT, typename SourceT>
-PHI_NODISCARD
-#if PHI_NARROW_CAST_CONSTEXPR()
-        PHI_CONSTEXPR
-#endif
-                TargetT
-                narrow_cast(SourceT&& source) PHI_NOEXCEPT
+PHI_NODISCARD PHI_CONSTEXPR_IF(PHI_NARROW_CAST_CONSTEXPR()) TargetT
+        narrow_cast(SourceT&& source) PHI_NOEXCEPT
 {
 #if PHI_CONFIG_NARROW_CAST_CHECKED
-    using unsafe_target_t = make_unsafe_t<phi::remove_reference_t<TargetT>>;
-    using unsafe_source_t = make_unsafe_t<phi::remove_reference_t<SourceT>>;
+    using unsafe_target_t = make_unsafe_t<remove_reference_t<TargetT>>;
+    using unsafe_source_t = make_unsafe_t<remove_reference_t<SourceT>>;
 
     PHI_CONSTEXPR_AND_CONST bool is_different_signedness =
             (is_signed<TargetT>::value != is_signed<SourceT>::value);

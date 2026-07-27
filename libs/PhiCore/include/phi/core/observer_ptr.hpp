@@ -641,7 +641,7 @@ PHI_NODISCARD PHI_CONSTEXPR observer_ptr<TypeT> make_observer(TypeT* ptr) PHI_NO
 
 template <typename TypeT>
 PHI_NODISCARD PHI_ATTRIBUTE_NONNULL PHI_CONSTEXPR not_null_observer_ptr<TypeT>
-                                                  make_not_null_observer(TypeT* ptr) PHI_NOEXCEPT
+make_not_null_observer(TypeT* ptr) PHI_NOEXCEPT
 {
     return not_null_observer_ptr<TypeT>(ptr);
 }
